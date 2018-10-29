@@ -5,7 +5,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <select name="days" id="days" class="form-control">
-                                    <option value="">select day</option>
+                                    <option value="">Select Day</option>
                                     <option value="">Monday</option>
                                     <option value="">Tuesday</option>
                                     <option value="">Wednessday</option>
@@ -32,9 +32,14 @@
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="enter ailment">
                     </div>
-                    <div class="text-left">       
-                        <button type="submit" class="btn btn-primary btn-lg" href="#" role="button">Search for doctor</button>
-                        <a class="btn btn-primary btn-lg" href="#" role="button">I am a doctor</a>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="enter speciality">
+                    </div>
+                    <div class="container">       
+                        <div class="text-left row">       
+                            <button type="submit" class="btn btn-primary btn-lg col m-1" href="#" role="button">Search for doctor</button>
+                            <a class="btn btn-primary btn-lg col m-1" href="#" role="button">I am a doctor</a>
+                        </div>
                     </div>
                 </form>
     </div>
