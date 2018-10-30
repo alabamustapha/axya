@@ -16,6 +16,7 @@ mix.js('resources/js/app.js', 'public/js')
    .styles([
     'public/css/vendor/font-awesome.min.css',
     'public/css/custom/dashboard.css',
+    'public/css/custom/aesthetics.css',
     'public/css/custom/override.css'
    ], 'public/css/all.css');
 

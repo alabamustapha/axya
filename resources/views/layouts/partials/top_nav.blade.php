@@ -24,21 +24,19 @@
                         <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                     </li>
                 @else
-                    
-                    <li class="nav-item dropdown">
-                        
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                            <span class="fa fa-bell"></span>
+                    <li class="nav-item">
+                        <a id="navbarDropdown" class="nav-link {{auth()->user()->notifications->count() ? 'text-danger':'text-secondary'}}" role="button" v-pre 
+                            href="{{ route('notifications.display', auth()->user()) }}" 
+                            title="{{ auth()->user()->notifications->count() }} notifications"
+                        >
+                            <i class="fa fa-bell"></i>
                         </a>
-
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            
-                        </div>
                     </li>
+
                     <li class="nav-item dropdown">
                         
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                            <img class="rounded-circle" src="{{ asset('img/doc.jpg') }}" width="30"> {{ Auth::user()->name }} <span class="caret"></span>
+                            <img class="rounded-circle" src="{{ auth()->user()->avatar }}" width="30"> {{ Auth::user()->name }} <span class="caret"></span>
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">

@@ -53,6 +53,15 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
 
+
+    public function getAvatarAttribute($value)
+    {
+        return (is_null($value) || $value == 'images/doc.jpg') 
+                ? config('app.url') . '/images/doc.jpg' 
+                : $value
+                ;
+    }
+
     /**
      * Check if logged in user is the present resource owner.
      * 
@@ -61,6 +70,16 @@ class User extends Authenticatable implements MustVerifyEmail
     public function isAccountOwner()
     {
         return $this->id === auth()->id();
+    }
+
+    /**
+     * Check if logged in user is the present resource owner.
+     * 
+     * @return boolean
+     */
+    public function isVerified()
+    {
+        return !is_null($this->verified_at);
     }
 
     /**

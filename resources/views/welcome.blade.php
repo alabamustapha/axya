@@ -13,7 +13,7 @@
     <div class="row justify-content-center">
             <div class="card-deck">
                 <div class="card">
-                    <img class="card-img-top" src="{{ asset('img/doc.jpg') }}" alt="Card image cap">
+                    <img class="card-img-top" src="{{ asset('images/doc.jpg') }}" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title"><a href="#">Alaba Mustapha</a></h5>
                         <h6 class="card-subtitle mb-2 text-muted">Dentist&nbsp;(MBBS)</h6>
@@ -30,7 +30,7 @@
                     </div>
                 </div>
                 <div class="card">
-                    <img class="card-img-top" src="{{ asset('img/doc.jpg') }}" alt="Card image cap">
+                    <img class="card-img-top" src="{{ asset('images/doc.jpg') }}" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title"><a href="#">Alaba Mustapha olalekan</a></h5>
                         <h6 class="card-subtitle mb-2 text-muted">Dentist&nbsp;(MBBS)</h6>
@@ -46,7 +46,7 @@
                     </div>
                 </div>
                 <div class="card">
-                    <img class="card-img-top" src="{{ asset('img/doc.jpg') }}" alt="Card image cap">
+                    <img class="card-img-top" src="{{ asset('images/doc.jpg') }}" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title"><a href="#">Alaba Mustapha olalekan</a></h5>
                         <h6 class="card-subtitle mb-2 text-muted">Dentist&nbsp;(MBBS)</h6>
@@ -62,7 +62,7 @@
                     </div>
                 </div>
                 <div class="card">
-                    <img class="card-img-top" src="{{ asset('img/doc.jpg') }}" alt="Card image cap">
+                    <img class="card-img-top" src="{{ asset('images/doc.jpg') }}" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title"><a href="#">Alaba Mustapha olalekan</a></h5>
                         <h6 class="card-subtitle mb-2 text-muted">Dentist&nbsp;(MBBS)</h6>
@@ -78,7 +78,7 @@
                     </div>
                 </div>
                 <div class="card">
-                    <img class="card-img-top" src="{{ asset('img/doc.jpg') }}" alt="Card image cap">
+                    <img class="card-img-top" src="{{ asset('images/doc.jpg') }}" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title"><a href="#">Alaba Mustapha olalekan</a></h5>
                         <h6 class="card-subtitle mb-2 text-muted">Dentist&nbsp;(MBBS)</h6>
@@ -108,7 +108,7 @@
     <div class="container">
         <div class="row">
                 <div class="col">
-                    <img class="img-responsive rounded-circle mx-auto d-block mb-2" src="{{ asset('img/doc.jpg') }}" alt="" width="100">    
+                    <img class="img-responsive rounded-circle mx-auto d-block mb-2" src="{{ asset('images/doc.jpg') }}" alt="" width="100">    
                     <div class="card text-center">
                         <div class="card-body">
                             <h5 class="card-title">Special title treatment</h5>
@@ -131,7 +131,7 @@
                 <a href="#" class="btn btn-primary">Download now</a>
             </div>
             <div class="col-md-4">
-                <img src="{{ asset('img/phone.png') }}" alt="phone" height="400">
+                <img src="{{ asset('images/phone.png') }}" alt="phone" height="400">
             </div>
         </div>
         

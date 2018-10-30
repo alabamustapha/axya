@@ -1,0 +1,18 @@
+
+.empty-list {
+    padding: 30px;
+    border:1px solid #d9d9d9; 
+    border-radius: 3px;
+    margin:0 auto;
+    text-align:center;
+    background:#f9f9f9;
+}
+
+.short-content-bg {
+  margin:0 15px;
+  padding:5px;
+  border:1px solid #d9d9d9;
+  background:#f1f1f1;
+  border-radius: 4px;
+  vertical-align: middle;
+}

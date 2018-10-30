@@ -18,3 +18,6 @@ Route::get('/', function () {
 Auth::routes(['verify' => true]);
 
 Route::get('/{user}', 'PatientController@dashboard')->name('patient_dashboard');
+
+Route::get('{user}/notifs', 'NotificationsController@index')->name('notifications.index');
+Route::get('{user}/notifications', 'NotificationsController@display')->name('notifications.display');

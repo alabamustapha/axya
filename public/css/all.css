@@ -72,4 +72,13 @@
   .border-top { border-top: 1px solid #e5e5e5; }
   .border-bottom { border-bottom: 1px solid #e5e5e5; }
   
+
+.empty-list {
+    padding: 30px;
+    border:1px solid #d9d9d9; 
+    border-radius: 3px;
+    margin:0 auto;
+    text-align:center;
+    background:#f9f9f9;
+}
 /* Some Vendor Styles Override */
