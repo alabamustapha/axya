@@ -19,7 +19,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/all.css') }}" rel="stylesheet">
 </head>
 <body>
     
@@ -33,10 +33,12 @@
                 @include('patients.partials.sidebar')
 
                 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                    
+                    @include('layouts.partials.verification_nag')
                 
-                        @include('flash::message')
+                    @include('flash::message')
 
-                        @yield('content')
+                    @yield('content')
                 </main>
             </div>
         </div>

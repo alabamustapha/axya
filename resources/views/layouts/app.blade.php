@@ -19,6 +19,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/all.css') }}" rel="stylesheet">
+    @yield('styles')
 </head>
 <body>
     
@@ -26,7 +28,11 @@
         
         @include('layouts.partials.top_nav')
 
-        <main class="">
+        <main class="" style="margin-top: 75px;">
+            @auth
+                {{-- @include('layouts.partials.verification_nag') --}}
+            @endauth
+
             @include('flash::message')
             
             @yield('content')
