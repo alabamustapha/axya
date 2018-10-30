@@ -13,10 +13,11 @@
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 Auth::routes(['verify' => true]);
 
+Route::get('dashboard', function(){return view('layouts.master');})->name('dashboard')->middleware('auth');
 Route::get('/{user}', 'PatientController@dashboard')->name('patient_dashboard');
 
 Route::get('{user}/notifs', 'NotificationsController@index')->name('notifications.index');

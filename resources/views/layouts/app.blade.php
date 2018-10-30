@@ -21,6 +21,12 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/all.css') }}" rel="stylesheet">
     @yield('styles')
+    @auth
+        <script>
+            {{-- window.user = {!! json_encode([ 'user' => auth()->user()  ]) !!}; --}}
+            window.user = @json(auth()->user());
+        </script>
+    @endauth
 </head>
 <body>
     
@@ -30,7 +36,7 @@
 
         <main class="" style="margin-top: 75px;">
             @auth
-                {{-- @include('layouts.partials.verification_nag') --}}
+                @include('layouts.partials.verification_nag')
             @endauth
 
             @include('flash::message')
