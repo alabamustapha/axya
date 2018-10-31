@@ -10,12 +10,24 @@ class UserPolicy
     use HandlesAuthorization;
 
     /**
-     * Create a new policy instance.
+     * Determine whether the user can edit the profile.
      *
-     * @return void
+     * @param  \App\User  $user
+     * @return boolean
      */
-    public function __construct()
+    public function edit(User $user)
     {
-        //
+        return $user->isAccountOwner();
+    }
+
+    /**
+     * Determine whether the user can delete the resource.
+     *
+     * @param  \App\User  $user
+     * @return mixed
+     */
+    public function delete(User $user)
+    {
+        return ($user->isAccountOwner() || $user->isSuperAdmin());
     }
 }
