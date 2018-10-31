@@ -17,7 +17,7 @@ class UserPolicy
      */
     public function edit(User $user)
     {
-        return $user->isAccountOwner();
+        return $user->id == auth()->id(); // Kinda faulty
     }
 
     /**
@@ -28,6 +28,6 @@ class UserPolicy
      */
     public function delete(User $user)
     {
-        return ($user->isAccountOwner() || $user->isSuperAdmin());
+        return (($user->id == auth()->id()) || $user->isSuperAdmin());
     }
 }

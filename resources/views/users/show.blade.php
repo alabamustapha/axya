@@ -95,9 +95,12 @@
                 <div class="card-body">
                   <div class="tf-flex">
                     <strong><i class="fa fa-allergies mr-1"></i> Allergies</strong>
-                    <a style="cursor: pointer;" onclick="return false;" title="Update Allergies" data-toggle="modal" data-target="#updateAllergyProfileForm">
-                      <span><i class="fa fa-edit mr-1"></i> Edit</span>
-                    </a>
+
+                    @if($user->isAccountOwner())
+                      <a style="cursor: pointer;" onclick="return false;" title="Update Allergies" data-toggle="modal" data-target="#updateAllergyProfileForm">
+                        <span><i class="fa fa-edit mr-1"></i> Edit</span>
+                      </a>
+                      @endif
 
                   </div>
                   <ul class="list-inline text-muted">
@@ -107,9 +110,12 @@
                   <hr>
                   <div class="tf-flex">
                     <strong><i class="fa fa-file-text-o mr-1"></i> Chronic Conditions</strong>
-                    <a style="cursor: pointer;" onclick="return false;" title="Update Chronic Conditions" data-toggle="modal" data-target="#updateChronicsProfileForm">
-                      <span><i class="fa fa-edit mr-1"></i> Edit</span>
-                    </a>
+
+                    @if($user->isAccountOwner())
+                      <a style="cursor: pointer;" onclick="return false;" title="Update Chronic Conditions" data-toggle="modal" data-target="#updateChronicsProfileForm">
+                        <span><i class="fa fa-edit mr-1"></i> Edit</span>
+                      </a>
+                      @endif
                   </div>
 
                   <p class="text-muted">
