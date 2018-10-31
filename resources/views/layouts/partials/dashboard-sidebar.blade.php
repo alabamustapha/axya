@@ -11,12 +11,14 @@
       </a>
       <ul class="nav nav-treeview">
         <li class="nav-item">
-          <router-link to="/profile" class="nav-link">
-            <i class="nav-icon fa fa-user-cog brown"></i>
-            <p>
-              Profile
-            </p>
-          </router-link>
+          <a class="nav-link" href="http://medapp.demo/user-dashboard">
+            {{-- <router-link to="/profile" class="nav-link"> --}}
+              <i class="nav-icon fa fa-user-cog brown"></i>
+              <p>
+                Profile
+              </p>
+            {{-- </router-link> --}}
+          </a>
         </li>
 
         <li class="nav-item">

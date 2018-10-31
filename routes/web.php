@@ -17,7 +17,8 @@ Route::get('/', function () {
 
 Auth::routes(['verify' => true]);
 
-Route::get('dashboard', function(){return view('layouts.master');})->name('dashboard')->middleware('auth');
+Route::get('user-dashboard', function(){return view('users.show');})->name('dashboard')->middleware('auth');
+Route::get('admin-dashboard', function(){return view('admin.dashboard');})->name('admin_dashboard')->middleware('auth');
 Route::get('/{user}', 'PatientController@dashboard')->name('patient_dashboard');
 
 Route::get('{user}/notifs', 'NotificationsController@index')->name('notifications.index');

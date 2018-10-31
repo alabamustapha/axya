@@ -11,6 +11,10 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable, Sluggable;
 
+    protected $casts = [
+        'dob' => 'date',
+    ];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -164,6 +168,16 @@ class User extends Authenticatable implements MustVerifyEmail
         }
         elseif ($this->acl == 3){
             return 'Normal';
+        }
+    }
+
+    public function status() 
+    {
+        if ($this->blocked == 1){
+            return 'Banned';
+        } 
+        else {
+            return 'Active';
         }
     }
 }

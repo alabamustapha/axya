@@ -16,3 +16,31 @@
   border-radius: 4px;
   vertical-align: middle;
 }
+
+.tf-flex {
+    display: flex;
+    justify-content: space-between;
+}
+
+@media (max-width: 380px) {
+  .tf-ss-flex {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 275px) {
+  .tf-flex,
+  .tf-ss-flex {
+      justify-content:unset;
+      flex-direction: column;
+  }
+}
+
+
+@media (min-width: 767px) and (max-width: 1000px) {
+  .tf-flex {
+      justify-content:unset;
+      flex-direction: column;
+  }
+}

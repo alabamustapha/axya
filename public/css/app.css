@@ -29904,3 +29904,8 @@ readers do not read off random characters that represent icons */
   color: #fff !important;
 }
 
+.container,
+.container-fluid {
+  padding: 5px;
+}
+
