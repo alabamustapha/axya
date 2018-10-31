@@ -17,9 +17,18 @@ Route::get('/', function () {
 
 Auth::routes(['verify' => true]);
 
-Route::get('user-dashboard', function(){return view('users.show');})->name('dashboard')->middleware('auth');
+// Route::get('user-dashboard', function(){return view('users.show');})->name('user_dashboard')->middleware('auth');
 Route::get('admin-dashboard', function(){return view('admin.dashboard');})->name('admin_dashboard')->middleware('auth');
-Route::get('/{user}', 'PatientController@dashboard')->name('patient_dashboard');
+Route::get('/dhb/{user}', 'PatientController@dashboard')->name('patient_dashboard');
+
+Route::patch('allergies/{user}',  'UserController@updateAllergies')->name('allergies.update');
+Route::patch('chronics/{user}',  'UserController@updateChronics')->name('chronics.update');
+
+Route::get('{user}/edit',   'UserController@edit')->name('users.edit');
+Route::patch('{user}',      'UserController@update')->name('users.update');
+Route::delete('{user}',     'UserController@destroy')->name('users.destroy');
 
 Route::get('{user}/notifs', 'NotificationsController@index')->name('notifications.index');
 Route::get('{user}/notifications', 'NotificationsController@display')->name('notifications.display');
+
+Route::get('{user}', 'UserController@show')->name('users.show');

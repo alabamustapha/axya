@@ -107,6 +107,20 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
 
+
+    /**
+     * Get all doctors that has attended to this user before.
+     * 
+     * @return array
+     */
+    public function inPastAttendantDoctors()
+    {
+        // $doctorIds = $this->doctors()->pluck('id')->toArray();
+
+        // return in_array(request()->user->id, $doctorIds);
+    }
+
+
     /* --- - Access Control Levels - --- */
 
     /**
@@ -167,17 +181,17 @@ class User extends Authenticatable implements MustVerifyEmail
             return 'Staff';
         }
         elseif ($this->acl == 3){
-            return 'Normal';
+            return 'Normal User';
         }
+    }
+
+    public function professionalType() 
+    {
+        return $this->is_doctor ? 'Doctor':'User';
     }
 
     public function status() 
     {
-        if ($this->blocked == 1){
-            return 'Banned';
-        } 
-        else {
-            return 'Active';
-        }
+        return $this->blocked ? 'Banned':'Active';
     }
 }

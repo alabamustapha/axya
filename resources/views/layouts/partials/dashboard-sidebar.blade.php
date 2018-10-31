@@ -1,6 +1,7 @@
 <nav class="mt-2">
   <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
+    @auth
     <li class="nav-item has-treeview">
       <a href="#" class="nav-link">
         <i class="nav-icon fa fa-user brown"></i>
@@ -11,7 +12,7 @@
       </a>
       <ul class="nav nav-treeview">
         <li class="nav-item">
-          <a class="nav-link" href="http://medapp.demo/user-dashboard">
+          <a class="nav-link" href="{{route('users.show', Auth::user())}}">
             {{-- <router-link to="/profile" class="nav-link"> --}}
               <i class="nav-icon fa fa-user-cog brown"></i>
               <p>
@@ -108,13 +109,19 @@
         <li class="nav-item">
           <router-link to="/upcoming-appointments" class="nav-link">
             <i class="fa fa-calendar-check nav-icon orange"></i>
-            <p>Upcoming</p>
+            <p class="tf-flex" title="Upcoming Appointments">
+            <span>Upcoming Apptmts</span>
+            <span class="badge bagde-light">5</span>
+          </p>
           </router-link>
         </li>
         <li class="nav-item">
           <router-link to="/pending-appointments" class="nav-link">
             <i class="fa fa-calendar-plus nav-icon orange"></i>
-            <p>Pending</p>
+            <p class="tf-flex" title="Pending Appointments">
+              <span>Pending Apptmts</span>
+              <span class="badge bagde-light">5</span>
+            </p>
           </router-link>
         </li>
         <li class="nav-item">
@@ -151,13 +158,13 @@
         <li class="nav-item">
           <router-link to="/patient-up-appointments" class="nav-link">
             <i class="fa fa-calendar-check nav-icon teal"></i>
-            <p>Upcoming</p>
+            <p title="Upcoming Appointments">Upcoming</p>
           </router-link>
         </li>
         <li class="nav-item">
           <router-link to="/patient-pe-appointments" class="nav-link">
             <i class="fa fa-calendar-plus nav-icon teal"></i>
-            <p>Pending</p>
+            <p title=">Pending Appointments">Pending</p>
           </router-link>
         </li>
         <li class="nav-item">
@@ -225,5 +232,25 @@
           @csrf
       </form>
     </li>
+
+    @else
+
+    <li class="nav-item">
+      <a class="nav-link" href="{{ route('login') }}">
+          <i class="nav-icon fa fa-login green"></i>
+          <p>
+            {{ __('Login') }}
+          </p>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ route('register') }}">
+          <i class="nav-icon fa fa-user-plus green"></i>
+          <p>
+            {{ __('Register') }}
+          </p>
+      </a>
+    </li>
+    @endauth
   </ul>
 </nav>

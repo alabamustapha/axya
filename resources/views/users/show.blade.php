@@ -8,7 +8,7 @@
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1>Profile</h1>
+              <h1>{{$user->name}} Profile</h1>
             </div>
           </div>
         </div><!-- /.container-fluid -->
@@ -24,46 +24,62 @@
               <div class="card card-primary card-outline">
                 <div class="card-body box-profile">
                   <div class="text-center">
-                    <img class="profile-user-img img-fluid img-circle" src="{{Auth::user()->avatar}}" alt="{{Auth::user()->name}} profile picture">
+                    <img class="profile-user-img img-fluid img-circle" src="{{$user->avatar}}" alt="{{$user->name}} profile picture">
                   </div>
 
-                  <h3 class="profile-username text-center">{{Auth::user()->name}}</h3>
+                  <h3 class="profile-username text-center">{{$user->name}}</h3>
 
                   <p class="text-muted text-center">
-                    {{Auth::user()->type()}} | {{Auth::user()->status()}}
+                    
+                    <strong>
+                      <span class="red" title="Certified Doctor?"><i class="fa fa-{{$user->is_doctor ? 'certificate green':''}}"></i> {{$user->professionalType()}}</span> | 
+                      <span class="teal" title="User Status">{{$user->status()}}</span>
+                    </strong>
+                    
+                    <br>
+                    @auth
+                      @if (AUth::user()->isAdmin())
+                        <b title="Admin Type" class="purple">{{$user->type()}}</b> 
+                      @endif
+                    @endauth
                   </p>
 
                   <ul class="list-group list-group-unbordered mb-3">
                     <li class="list-group-item p-1">
-                      <b>Date of Birth</b> <a class="float-right">{{substr(Auth::user()->dob, 0, 10)}}</a>
+                      <b>Date of Birth</b> <a class="float-right">{{substr($user->dob, 0, 10)}}</a>
                     </li>
                     <li class="list-group-item p-1">
-                      <b>Age</b> <a class="float-right">{{Auth::user()->age()}}</a>
+                      <b>Age</b> <a class="float-right">{{$user->age()}}</a>
                     </li>
                     <li class="list-group-item p-1">
-                      <b>Gender</b> <a class="float-right">{{Auth::user()->gender}}</a>
+                      <b>Gender</b> <a class="float-right">{{$user->gender}}</a>
                     </li>
                     <li class="list-group-item p-1">
-                      <b>Weight</b> <a class="float-right">{{Auth::user()->weight}}</a>
+                      <b>Weight</b> <a class="float-right">{{$user->weight}} (kg)</a>
                     </li>
                     <li class="list-group-item p-1">
-                      <b>Height</b> <a class="float-right">{{Auth::user()->height}}</a>
+                      <b>Height</b> <a class="float-right">{{$user->height}} (m)</a>
                     </li>
+
+                    @can ('isAccountOwner')
+                      <li class="list-group-item p-1">
+                        <b>Phone</b> <a class="float-right">{{$user->phone}}</a>
+                      </li>
+                      <li class="list-group-item p-1">
+                        <b>Email</b> <a class="float-right">{{$user->email}}</a>
+                      </li>
+                    @endcan
+
                     <li class="list-group-item p-1">
-                      <b>Phone</b> <a class="float-right">{{Auth::user()->phone}}</a>
-                    </li>
-                    <li class="list-group-item p-1">
-                      <b>Email</b> <a class="float-right">{{Auth::user()->email}}</a>
-                    </li>
-                    <li class="list-group-item p-1">
-                      <b>Location</b> <a class="float-right">{{--Auth::user()->address--}}Lagos, Nigeria</a>
+                      <b>Location</b> <a class="float-right">{{$user->address}}</a>
                     </li>
                   </ul>
 
-                  @if (Auth::user()->isAccountOwner())
-                    <a href="#" class="btn btn-primary btn-block">
+                  @if ($user->isAccountOwner())
+                    <a onclick="return false;" class="btn btn-primary btn-block" title="Update Profile" data-toggle="modal" data-target="#updateUserProfileForm">
                       <i class="fa fa-edit mr-1"></i> 
-                      <b>Edit Details</b></a>
+                      <b>Edit Details</b>
+                    </a>
                   @endif
                 </div>
                 <!-- /.card-body -->
@@ -79,26 +95,25 @@
                 <div class="card-body">
                   <div class="tf-flex">
                     <strong><i class="fa fa-allergies mr-1"></i> Allergies</strong>
-                    <span><i class="fa fa-edit mr-1"></i> Edit</span>
+                    <a style="cursor: pointer;" onclick="return false;" title="Update Allergies" data-toggle="modal" data-target="#updateAllergyProfileForm">
+                      <span><i class="fa fa-edit mr-1"></i> Edit</span>
+                    </a>
+
                   </div>
-                  <ul class="list-unstyled text-muted">
-                    <li class="list-item">Cookies</li>
-                    <li class="list-item">Red Oil</li>
-                    <li class="list-item">Veg. Oil</li>
-                    <li class="list-item">Histamines</li>
+                  <ul class="list-inline text-muted">
+                    <li class="list-inline-item">{{$user->allergies}}</li>
                   </ul>
 
                   <hr>
                   <div class="tf-flex">
                     <strong><i class="fa fa-file-text-o mr-1"></i> Chronic Conditions</strong>
-                    <span><i class="fa fa-edit mr-1"></i> Edit</span>
+                    <a style="cursor: pointer;" onclick="return false;" title="Update Chronic Conditions" data-toggle="modal" data-target="#updateChronicsProfileForm">
+                      <span><i class="fa fa-edit mr-1"></i> Edit</span>
+                    </a>
                   </div>
 
                   <p class="text-muted">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.
-                  </p>
-                  <p class="text-muted">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.
+                    {{$user->chronics}}
                   </p>
                 </div>
                 <!-- /.card-body -->
@@ -180,6 +195,61 @@
         </div><!-- /.container-fluid -->
       </section>
       <!-- /.content -->
+
+      @if ($user->isAccountOwner())
+        <div class="modal" tabindex="-1" role="dialog" id="updateUserProfileForm" style="display:none;" aria-labelledby="editUserProfileFormLabel" aria-hidden="true">
+          <div class="modal-dialog{{--  modal-dialog-centered --}}" role="document">
+            <div class="modal-content">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 5px 15px 0px;margin:10px auto -25px">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <br>
+              <div class="modal-header text-center">
+                  <h5 class="modal-title">
+                    {{$user->name}} Profile Update
+                  </h5>
+              </div>
+              <div class="modal-body">
+
+                @include('users.forms.edit')
+
+              </div> <!-- modal-body -->    
+            </div> <!-- modal-content -->    
+          </div>
+        </div>
+
+        <div class="modal" tabindex="-1" role="dialog" id="updateAllergyProfileForm" style="display:none;" aria-labelledby="editAllergyProfileFormLabel" aria-hidden="true">
+          <div class="modal-dialog{{--  modal-dialog-centered --}}" role="document">
+            <div class="modal-content">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 5px 15px 0px;margin:10px auto -25px">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <br>
+              <div class="modal-body">
+
+                @include('users.forms.allergies')
+
+              </div> <!-- modal-body -->    
+            </div> <!-- modal-content -->    
+          </div>
+        </div>
+
+        <div class="modal" tabindex="-1" role="dialog" id="updateChronicsProfileForm" style="display:none;" aria-labelledby="editChronicsProfileFormLabel" aria-hidden="true">
+          <div class="modal-dialog{{--  modal-dialog-centered --}}" role="document">
+            <div class="modal-content">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 5px 15px 0px;margin:10px auto -25px">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <br>
+              <div class="modal-body">
+
+                @include('users.forms.chronics-form')
+
+              </div> <!-- modal-body -->    
+            </div> <!-- modal-content -->    
+          </div>
+        </div>
+      @endif
   </div>
 
 @endsection

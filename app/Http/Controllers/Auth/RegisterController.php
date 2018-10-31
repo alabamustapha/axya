@@ -106,10 +106,10 @@ class RegisterController extends Controller
 
         $user->notify(new AccountVerificationNotification($user));
         
-        flash('A verification link was sent to '. $user->email .', kindly verify your account with the link. You may update your profile details now to be able to participate fully on '. config('app.name') .'.')->info()->important();
+        flash('A verification link was sent to '. $user->email .', kindly verify your account with the link. Update your profile details completely for a wider access on '. config('app.name') .'.')->info()->important();
 
         Auth::login($user);
-        return redirect()->route('patient_dashboard', $user);
+        return redirect()->route('users.show', $user);
     }
     
 }
