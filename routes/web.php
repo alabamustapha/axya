@@ -17,4 +17,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
+
+
+Route::get('become-a-doctor', 'BoardingContoller@index');
 Route::get('/{user}', 'PatientController@dashboard')->name('patient_dashboard');
+Route::get('/{user}/update-profile', 'UserController@showProfileUpdate')->name('update_profile');
