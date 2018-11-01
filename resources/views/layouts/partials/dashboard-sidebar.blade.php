@@ -23,12 +23,14 @@
         </li>
 
         <li class="nav-item">
-          <router-link to="/dashboard" class="nav-link">
+          <a class="nav-link" href="{{route('users.show', Auth::user())}}">
+            {{-- <router-link to="/dashboard" class="nav-link"> --}}
             <i class="nav-icon fa fa-tachometer-alt brown"></i>
             <p>
               Dashboard
             </p>
-          </router-link>
+            {{-- </router-link> --}}
+          </a>
         </li>
       </ul>
     </li>
@@ -38,62 +40,91 @@
         <a href="#" class="nav-link">
           <i class="nav-icon fa fa-th green"></i>
           <p>
-            App
+            Admin Section
             <i class="right fa fa-angle-left"></i>
           </p>
         </a>
         <ul class="nav nav-treeview">
           <li class="nav-item">
             <router-link to="/app-settings" class="nav-link">
-              <i class="nav-icon fa fa-cog green"></i>
+              <i class="nav-icon fa fa-cog gray"></i>
               <p>
-                Settings
+                App Settings
               </p>
             </router-link>
           </li>
 
           <li class="nav-item">
-            <router-link to="/app-dashboard" class="nav-link">
-              <i class="nav-icon fa fa-chart-line green"></i>
+            <a href="#" class="nav-link">
+              <i class="nav-icon fa fa-th green"></i>
               <p>
                 Dashboard
+                <i class="right fa fa-angle-left"></i>
               </p>
-            </router-link>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <router-link to="/app-settings" class="nav-link">
+                  <i class="nav-icon fa fa-cog green"></i>
+                  <p>
+                    Users Dashboard
+                  </p>
+                </router-link>
+              </li>
+
+              <li class="nav-item">
+                <router-link to="/app-dashboard" class="nav-link">
+                  <i class="nav-icon fa fa-chart-line green"></i>
+                  <p>
+                    Doctors Dashboard
+                  </p>
+                </router-link>
+              </li>
+
+              <li class="nav-item">
+                <router-link to="/app-dashboard" class="nav-link">
+                  <i class="nav-icon fa fa-chart-line green"></i>
+                  <p>
+                    Transactions Dashboard
+                  </p>
+                </router-link>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fa fa-cogs indigo"></i>
+              <p>
+                Management
+                <i class="right fa fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <router-link to="/doctors" class="nav-link">
+                  <i class="fa fa-user-md nav-icon indigo"></i>
+                  <p>Doctors</p>
+                </router-link>
+              </li>
+              <li class="nav-item">
+                <router-link to="/users" class="nav-link">
+                  <i class="fa fa-users nav-icon indigo"></i>
+                  <p>Users</p>
+                </router-link>
+              </li>
+              <li class="nav-item">
+                <router-link to="/transactions" class="nav-link">
+                  <i class="nav-icon fa fa-handshake indigo"></i>
+                  <p>
+                    Transactions
+                  </p>
+                </router-link>
+              </li>
+            </ul>
           </li>
         </ul>
       </li>
 
-      <li class="nav-item has-treeview">
-        <a href="#" class="nav-link">
-          <i class="nav-icon fa fa-cogs indigo"></i>
-          <p>
-            Management
-            <i class="right fa fa-angle-left"></i>
-          </p>
-        </a>
-        <ul class="nav nav-treeview">
-          <li class="nav-item">
-            <router-link to="/doctors" class="nav-link">
-              <i class="fa fa-user-md nav-icon indigo"></i>
-              <p>Doctors</p>
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/users" class="nav-link">
-              <i class="fa fa-users nav-icon indigo"></i>
-              <p>Users</p>
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/transactions" class="nav-link">
-              <i class="nav-icon fa fa-handshake indigo"></i>
-              <p>
-                Transactions
-              </p>
-            </router-link>
-          </li>
-        </ul>
-      </li>
     {{-- @endcan --}}
 
     {{-- @can('isDoctor') --}}
