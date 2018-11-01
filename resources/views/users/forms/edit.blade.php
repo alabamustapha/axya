@@ -1,6 +1,10 @@
 <form method="POST" action="{{ route('users.update', $user) }}">
     @csrf
     {{ method_field('PATCH') }}
+    
+    <div class="form-group row">
+        <label class="col-12 text-center h4">{{$user->name}} Profile Update</label>
+    </div>
 
     <div class="form-group row">
         <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>

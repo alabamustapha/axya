@@ -85,8 +85,12 @@
                 <!-- /.card-body -->
               </div>
               <!-- /.card -->
+            </div>
+            <!-- /.col -->
 
-              <!-- About Me Box -->
+            <div class="col-md-8">
+
+              <!-- Medical History Section -->
               <div class="card card-primary">
                 <div class="card-header">
                   <h3 class="card-title">Basic Medical History</h3>
@@ -125,11 +129,15 @@
                 <!-- /.card-body -->
               </div>
               <!-- /.card -->
+              
             </div>
             <!-- /.col -->
-
-
-            <div class="col-md-8">
+          </div>
+          <!-- /.row -->
+            
+          {{--
+          <div class="row">
+            <div class="col-12">
               <div class="card">
                 <div class="card-header p-2">
                   <ul class="nav nav-pills">
@@ -143,7 +151,7 @@
                       <!-- Post -->
                       <div class="post">
                         <div class="user-block">
-                          {{-- <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image"> --}}
+                          {{-- <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image"> -}}
                           <span class="username">
                             <a href="#">Dr. Jon Burkly</a>
                             <a href="#" class="float-right btn-tool"><i class="fa fa-times"></i></a>
@@ -162,7 +170,7 @@
                       <!-- Post -->
                       <div class="post clearfix">
                         <div class="user-block">
-                          {{-- <img class="img-circle img-bordered-sm" src="" alt="User Image"> --}}
+                          {{-- <img class="img-circle img-bordered-sm" src="" alt="User Image"> -}}
                           <span class="username">
                             <a href="#">Dr. Winston</a>
                             <a href="#" class="float-right btn-tool"><i class="fa fa-times"></i></a>
@@ -195,9 +203,10 @@
               </div>
               <!-- /.nav-tabs-custom -->
             </div>
-            <!-- /.col -->
           </div>
           <!-- /.row -->
+          --}}
+
         </div><!-- /.container-fluid -->
       </section>
       <!-- /.content -->
@@ -210,11 +219,6 @@
                 <span aria-hidden="true">&times;</span>
               </button>
               <br>
-              <div class="modal-header text-center">
-                  <h5 class="modal-title">
-                    {{$user->name}} Profile Update
-                  </h5>
-              </div>
               <div class="modal-body">
 
                 @include('users.forms.edit')
