@@ -7,7 +7,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class AccountVerificationNotification extends Notification //implements ShouldQueue
+class PasswordChangeNotification extends Notification //implements ShouldQueue
 {
     use Queueable;
 
@@ -31,7 +31,21 @@ class AccountVerificationNotification extends Notification //implements ShouldQu
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['mail','database'];
+    }
+
+    /**
+     * Get the mail representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return \Illuminate\Notifications\Messages\MailMessage
+     */
+    public function toMail($notifiable)
+    {
+        return (new MailMessage)
+            ->subject('Account Password Change')
+            ->line($this->user->name .', your account password update was successful.')
+            ->line('If you did not authorize this change please contact <a href="#">support</a> immediately.');
     }
 
     /**
@@ -44,9 +58,8 @@ class AccountVerificationNotification extends Notification //implements ShouldQu
     {
         $timestamp = \Carbon\Carbon::now()->format('D M-d, h:ia');
 
-        $message  = $timestamp .' - <strong>New Verification Link</strong> <br>';
-        $message  = 'A new verification link was sent to <strong>'.$this->user->email .'</strong>, ';
-        $message .= 'check your e-mail inbox, junk or spam folder to verify your account.';
+        $message  = $timestamp .' - <strong>Your account password update was successful.</strong> <br>';
+        $message .= 'If you did not authorize this change please contact <a href="#">support</a> immediately.';
 
         return [ 'message' => $message ];
     }

@@ -19,8 +19,9 @@ Route::get('user-dashboard', function(){return view('users.dashboard');})->name(
 Route::get('admin-dashboard', function(){return view('admin.dashboard');})->name('admin_dashboard')->middleware('auth');
 Route::get('/dhb/{user}', 'PatientController@dashboard')->name('patient_dashboard');
 
-Route::patch('allergies/{user}',  'UserController@updateAllergies')->name('allergies.update');
-Route::patch('chronics/{user}',  'UserController@updateChronics')->name('chronics.update');
+Route::patch('/{user}/allergies',  'UserController@updateAllergies')->name('allergies.update');
+Route::patch('/{user}/chronics',  'UserController@updateChronics')->name('chronics.update');
+Route::patch('/{user}/change-password',  'UserController@changePassword')->name('password.update');
 
 Route::get('{user}/edit',   'UserController@edit')->name('users.edit');
 Route::patch('{user}',      'UserController@update')->name('users.update');

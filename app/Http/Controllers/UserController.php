@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UsersUpdateRequest;
 use App\Notifications\AccountVerificationNotification;
+use App\Notifications\PasswordChangeNotification;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -62,8 +66,8 @@ class UserController extends Controller
     public function updateAllergies(Request $request, User $user)
     {
         $this->authorize('edit', $user);
-
         request()->validate(['allergies' => 'required|string|max:255']);
+        
         $user->update($request->all());
         
         flash('Profile updated successfully')->success();
@@ -74,12 +78,30 @@ class UserController extends Controller
     public function updateChronics(Request $request, User $user)
     {
         $this->authorize('edit', $user);
-
         request()->validate(['chronics' => 'required|string|max:1500']);
+
         $user->update($request->all());
         
         flash('Profile updated successfully')->success();
 
+        return redirect()->route('users.show', $user);
+    }
+
+    public function changePassword(Request $request, User $user)
+    {
+        $this->authorize('edit', $user);
+        request()->validate([ 'password' => 'required|string|min:6|confirmed' ]);
+
+        if ($user->update(['password' => Hash::make($request['password']) ])){
+
+            $user->notify(new PasswordChangeNotification($user));
+
+            flash('Account password changed successfully.')->success();
+        }
+        else {
+            flash('Account password change was unsuccessful.')->error();
+        }
+        
         return redirect()->route('users.show', $user);
     }
 

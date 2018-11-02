@@ -85,6 +85,15 @@
                 <!-- /.card-body -->
               </div>
 
+              <div class="card card-dark card-outline">
+                <div class="card-body box-profile">
+                  <button class="btn btn-block btn-secondary text-white" data-toggle="modal" data-target="#updatePasswordForm">
+                    <i class="fa fa-key"></i>
+                    <span>Change Password</span>
+                  </button>
+                </div>
+              </div>
+
             </div>
             <!-- /.col -->
 
@@ -286,6 +295,22 @@
               <div class="modal-body">
 
                 @include('users.forms.chronics-form')
+
+              </div> <!-- modal-body -->    
+            </div> <!-- modal-content -->    
+          </div>
+        </div>
+
+        <div class="modal" tabindex="-1" role="dialog" id="updatePasswordForm" style="display:none;" aria-labelledby="editPasswordFormLabel" aria-hidden="true">
+          <div class="modal-dialog{{--  modal-dialog-centered --}}" role="document">
+            <div class="modal-content">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 5px 15px 0px;margin:10px auto -25px">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <br>
+              <div class="modal-body">
+
+                @include('users.forms.password-form')
 
               </div> <!-- modal-body -->    
             </div> <!-- modal-content -->    
