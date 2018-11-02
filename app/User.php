@@ -2,14 +2,15 @@
 
 namespace App;
 
-use Illuminate\Notifications\Notifiable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use Notifiable, Sluggable;
+    use Notifiable, Sluggable, HasApiTokens;
 
     protected $casts = [
         'dob' => 'date',
@@ -93,7 +94,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function age()
     {
-        return !is_null($this->dob) ? $this->dob->diffInYears(\Carbon\Carbon::now()):0;
+        return is_null($this->dob) ? 0 : $this->dob->diffInYears(\Carbon\Carbon::now());
     }
 
     /**
@@ -103,7 +104,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function dob()
     {
-        return $this->dob ? substr($this->dob, 0, 10) :'not set';
+        return is_null($this->dob) ? 'not set' : substr($this->dob, 0, 10);
     }
 
 
