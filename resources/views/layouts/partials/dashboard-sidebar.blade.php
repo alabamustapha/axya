@@ -2,38 +2,6 @@
   <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
     @auth
-    <li class="nav-item has-treeview">
-      <a href="#" class="nav-link">
-        <i class="nav-icon fa fa-user brown"></i>
-        <p>
-          Account
-          <i class="right fa fa-angle-left"></i>
-        </p>
-      </a>
-      <ul class="nav nav-treeview">
-        <li class="nav-item">
-          <a class="nav-link" href="{{route('users.show', Auth::user())}}">
-            {{-- <router-link to="/profile" class="nav-link"> --}}
-              <i class="nav-icon fa fa-user-cog brown"></i>
-              <p>
-                Profile
-              </p>
-            {{-- </router-link> --}}
-          </a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link" href="{{route('users.show', Auth::user())}}">
-            {{-- <router-link to="/dashboard" class="nav-link"> --}}
-            <i class="nav-icon fa fa-tachometer-alt brown"></i>
-            <p>
-              Dashboard
-            </p>
-            {{-- </router-link> --}}
-          </a>
-        </li>
-      </ul>
-    </li>
 
     {{-- @can('isSuperAdmin') --}}
       <li class="nav-item has-treeview">
@@ -55,37 +23,36 @@
           </li>
 
           <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fa fa-th green"></i>
+            <a href="{{route('admin_dashboard')}}" class="nav-link">
+              <i class="nav-icon fa fa-th-list green"></i>
               <p>
                 Dashboard
                 <i class="right fa fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
+
               <li class="nav-item">
                 <router-link to="/app-settings" class="nav-link">
                   <i class="nav-icon fa fa-cog green"></i>
                   <p>
-                    Users Dashboard
+                    Users
                   </p>
                 </router-link>
               </li>
-
               <li class="nav-item">
                 <router-link to="/app-dashboard" class="nav-link">
                   <i class="nav-icon fa fa-chart-line green"></i>
                   <p>
-                    Doctors Dashboard
+                    Doctors
                   </p>
                 </router-link>
               </li>
-
               <li class="nav-item">
                 <router-link to="/app-dashboard" class="nav-link">
                   <i class="nav-icon fa fa-chart-line green"></i>
                   <p>
-                    Transactions Dashboard
+                    Transactions
                   </p>
                 </router-link>
               </li>
@@ -138,48 +105,137 @@
       </a>
       <ul class="nav nav-treeview">
         <li class="nav-item">
-          <router-link to="/upcoming-appointments" class="nav-link">
-            <i class="fa fa-calendar-check nav-icon orange"></i>
-            <p class="tf-flex" title="Upcoming Appointments">
-            <span>Upcoming Apptmts</span>
-            <span class="badge bagde-light">5</span>
-          </p>
-          </router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="/pending-appointments" class="nav-link">
-            <i class="fa fa-calendar-plus nav-icon orange"></i>
-            <p class="tf-flex" title="Pending Appointments">
-              <span>Pending Apptmts</span>
-              <span class="badge bagde-light">5</span>
-            </p>
+          <router-link to="/past-patients" class="nav-link">
+            <i class="fa fa-procedures nav-icon orange"></i>
+            <p>Professional Details</p>
           </router-link>
         </li>
         <li class="nav-item">
           <router-link to="/past-patients" class="nav-link">
             <i class="fa fa-procedures nav-icon orange"></i>
-            <p>Patients</p>
+            <p>My Patients</p>
           </router-link>
         </li>
         <li class="nav-item">
-          <router-link to="/activity-histories" class="nav-link">
-            <i class="fa fa-calendar-alt nav-icon orange"></i>
-            <p>Consultation History</p>
+          <a href="#" class="nav-link">
+            <i class="nav-icon fa fa-tachometer-alt brown"></i>
+            <p>
+              My Appointments
+              <i class="right fa fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <router-link to="/upcoming-appointments" class="nav-link">
+                <i class="fa fa-calendar-check nav-icon orange"></i>
+                <p class="tf-flex" title="Upcoming Appointments">
+                <span>Upcoming</span>
+                <span class="badge bagde-light">5</span>
+              </p>
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to="/pending-appointments" class="nav-link">
+                <i class="fa fa-calendar-plus nav-icon orange"></i>
+                <p class="tf-flex" title="Pending Appointments">
+                  <span>Pending</span>
+                  <span class="badge bagde-light">5</span>
+                </p>
+              </router-link>
+            </li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fa fa-tachometer-alt brown"></i>
+            <p>
+              My History
+              <i class="right fa fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <router-link to="/activity-histories" class="nav-link">
+                <i class="fa fa-calendar-alt nav-icon orange"></i>
+                <p>Consultation</p>
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link to="/transaction-histories" class="nav-link">
+                <i class="fa fa-handshake nav-icon orange"></i>
+                <p>Transaction</p>
+              </router-link>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><hr></li>
+
+    {{-- @endcan --}}
+
+
+    <li class="nav-item">
+      <a class="nav-link" href="{{route('users.show', Auth::user())}}">
+        {{-- <router-link to="/profile" class="nav-link"> --}}
+        <i class="nav-icon fa fa-user-cog brown"></i>
+        <p>
+          Account
+        </p>
+        {{-- </router-link> --}}
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link" href="#">
+      {{-- <router-link to="/my-doctors" class="nav-link"> --}}
+        <i class="fa fa-user-md nav-icon teal"></i>
+        <p>My Doctors</p>
+      {{-- </router-link> --}}
+      </a>
+    </li>
+
+    <li class="nav-item has-treeview">
+      <a href="#" class="nav-link">
+        <i class="nav-icon fa fa-tachometer-alt brown"></i>
+        <p>
+          My Dashboard
+          <i class="right fa fa-angle-left"></i>
+        </p>
+      </a>
+      <ul class="nav nav-treeview">
+        <li class="nav-item">
+          <a class="nav-link" href="{{route('user_dashboard')}}">
+            {{-- <router-link to="/user-dashboard " class="nav-link"> --}}
+              <i class="fa fa-eye nav-icon teal"></i>
+              <p>View All </p>
+            {{-- </router-link> --}}
+          </a>
+        </li>
+        <li class="nav-item">
+          <router-link to="/medical-tests " class="nav-link">
+            <i class="fa fa-stethoscope nav-icon teal"></i>
+            <p>Medical tests </p>
           </router-link>
         </li>
         <li class="nav-item">
-          <router-link to="/transaction-histories" class="nav-link">
-            <i class="fa fa-handshake nav-icon orange"></i>
-            <p>Transaction History</p>
+          <router-link to="/treatments " class="nav-link">
+            <i class="fa fa-medkit nav-icon teal"></i>
+            <p>Treatments </p>
+          </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link to="/prescriptions" class="nav-link">
+            <i class="fa fa-prescription nav-icon teal"></i>
+            <p>Prescriptions</p>
           </router-link>
         </li>
       </ul>
     </li>
-    {{-- @endcan --}}
 
     <li class="nav-item has-treeview">
       <a href="#" class="nav-link">
-        <i class="nav-icon fa fa-hospital teal"></i>
+        <i class="nav-icon fa fa-tasks teal"></i>
         <p>
           Appointments
           <i class="right fa fa-angle-left"></i>
@@ -198,26 +254,33 @@
             <p title=">Pending Appointments">Pending</p>
           </router-link>
         </li>
+      </ul>
+    </li>
+
+    <li class="nav-item has-treeview">
+      <a href="#" class="nav-link">
+        <i class="nav-icon fa fa-tachometer-alt brown"></i>
+        <p>
+          My History
+          <i class="right fa fa-angle-left"></i>
+        </p>
+      </a>
+      <ul class="nav nav-treeview">
         <li class="nav-item">
-          <router-link to="/my-doctors" class="nav-link">
-            <i class="fa fa-user-md nav-icon teal"></i>
-            <p>My Doctors</p>
-          </router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="/activity-histories" class="nav-link">
+          <router-link to="/visits-history" class="nav-link">
             <i class="fa fa-calendar-alt nav-icon teal"></i>
-            <p>Visit History</p>
+            <p>Visits</p>
           </router-link>
         </li>
         <li class="nav-item">
-          <router-link to="/pa-transaction-histories" class="nav-link">
+          <router-link to="/transactions-history" class="nav-link">
             <i class="fa fa-handshake nav-icon teal"></i>
-            <p>Transaction History</p>
+            <p>Transactions</p>
           </router-link>
         </li>
       </ul>
     </li>
+
 
     <li class="nav-item has-treeview">
       <a href="#" class="nav-link">
@@ -253,7 +316,7 @@
       <a class="nav-link" href="{{ route('logout') }}"
       onclick="event.preventDefault();
       document.getElementById('logout-form').submit();">
-          <i class="nav-icon fa fa-power-off red"></i>
+          <i class="nav-icon fa fa-sign-out-alt red"></i>
           <p>
             {{ __('Logout') }}
           </p>

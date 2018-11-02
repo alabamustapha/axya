@@ -11,13 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::get('/', function () { return view('welcome'); })->name('home');
 
 Auth::routes(['verify' => true]);
 
-// Route::get('user-dashboard', function(){return view('users.show');})->name('user_dashboard')->middleware('auth');
+Route::get('user-dashboard', function(){return view('users.dashboard');})->name('user_dashboard')->middleware('auth');
 Route::get('admin-dashboard', function(){return view('admin.dashboard');})->name('admin_dashboard')->middleware('auth');
 Route::get('/dhb/{user}', 'PatientController@dashboard')->name('patient_dashboard');
 

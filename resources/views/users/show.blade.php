@@ -20,9 +20,9 @@
           <div class="row">
             <div class="col-md-4">
 
-              <!-- Profile Image -->
-              <div class="card card-primary card-outline">
+              <div class="card card-dark card-outline">
                 <div class="card-body box-profile">
+                  <!-- Profile Image -->
                   <div class="text-center">
                     <img class="profile-user-img img-fluid img-circle" src="{{$user->avatar}}" alt="{{$user->name}} profile picture">
                   </div>
@@ -38,7 +38,7 @@
                     
                     <br>
                     @auth
-                      @if (AUth::user()->isAdmin())
+                      @if (Auth::user()->isAdmin())
                         <b title="Admin Type" class="purple">{{$user->type()}}</b> 
                       @endif
                     @endauth
@@ -46,7 +46,7 @@
 
                   <ul class="list-group list-group-unbordered mb-3">
                     <li class="list-group-item p-1">
-                      <b>Date of Birth</b> <a class="float-right">{{substr($user->dob, 0, 10)}}</a>
+                      <b>Date of Birth</b> <a class="float-right">{{$user->dob()}}</a>
                     </li>
                     <li class="list-group-item p-1">
                       <b>Age</b> <a class="float-right">{{$user->age()}}</a>
@@ -76,7 +76,7 @@
                   </ul>
 
                   @if ($user->isAccountOwner())
-                    <a onclick="return false;" class="btn btn-primary btn-block" title="Update Profile" data-toggle="modal" data-target="#updateUserProfileForm">
+                    <a onclick="return false;" class="btn btn-dark btn-block text-light" title="Update Profile" data-toggle="modal" data-target="#updateUserProfileForm">
                       <i class="fa fa-edit mr-1"></i> 
                       <b>Edit Details</b>
                     </a>
@@ -84,14 +84,46 @@
                 </div>
                 <!-- /.card-body -->
               </div>
-              <!-- /.card -->
+
             </div>
             <!-- /.col -->
 
-            <div class="col-md-8">
+            <div class="col-md-8">             
+
+              @if($user->isAccountOwner())
+              <div class="row">  
+                <div class="col-sm-6">
+                  <div class="card card-dark card-outline">
+                    <div class="card-body box-profile">
+                      <h3 class="card-tile text-center">Payment Details</h3>
+                          
+                      <ul class="list-group list-group-unbordered mb-0">
+                        <li class="list-group-item p-1 tf-flex"><b>Card 1:</b> <span>*********{{$user->last_four}}</span></li>
+                        <li class="list-group-item p-1 tf-flex"><b>Card 2:</b> <span>*********{{$user->last_four}}</span></li>
+                        <li class="list-group-item p-1"><button class="btn btn-dark btn-block text-light">Add new</button></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="card card-dark card-outline">
+                    <div class="card-body box-profile">
+                      <h3 class="card-tile text-center">Payment Options</h3>
+
+                      <ul class="list-group list-group-unbordered mb-0">
+                        <li class="list-group-item p-1">Bank Transfer</li>
+                        <li class="list-group-item p-1">Credit/Debit cards</li>
+                        <li class="list-group-item p-1">Others</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              @endif
 
               <!-- Medical History Section -->
-              <div class="card card-primary">
+              <div class="card card-dark">
                 <div class="card-header">
                   <h3 class="card-title">Basic Medical History</h3>
                 </div>
