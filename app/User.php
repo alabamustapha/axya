@@ -195,4 +195,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->blocked ? 'Banned':'Active';
     }
+
+    public function images()
+    {
+        return $this->hasMany(Image::class);
+    }
 }

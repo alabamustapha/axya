@@ -2,13 +2,14 @@
 
 namespace Tests\Unit;
 
+use App\Image;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Schema;
 use Tests\TestCase;
 
-class CountriesTest extends TestCase
+class UsersTest extends TestCase
 {
     use RefreshDatabase, WithFaker;
 
@@ -16,7 +17,7 @@ class CountriesTest extends TestCase
     {
         parent::setUp();
 
-        $this->user = factory(User::class)->make();
+        $this->user = factory(User::class)->create();
     }
 
     /** @test  */
@@ -38,5 +39,13 @@ class CountriesTest extends TestCase
     public function a_user_has_email_attribute()
     {
         $this->assertNotNull($this->user->email);
+    }
+
+    /** @test  */
+    public function a_user_has_many_images()
+    {
+        $image   = factory(Image::class)->create(['user_id' => $this->user->id]);
+        
+        $this->assertTrue($this->user->images->contains($image));
     }
 }
