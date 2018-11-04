@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UsersUpdateRequest;
 use App\Notifications\AccountVerificationNotification;
 use App\Notifications\PasswordChangeNotification;
+use App\Traits\ImageProcessing;
 use App\User;
+use App\Image;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -14,10 +16,13 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
+    use ImageProcessing;
+
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('patient');
+        // $this->middleware('patient');
+        $this->middleware('verified')->only(['changePassword']);
         $this->middleware('owner')->only(['edit', 'update']);
     }
 
@@ -104,6 +109,37 @@ class UserController extends Controller
         
         return redirect()->route('users.show', $user);
     }
+
+
+
+    public function avatarUpload(Request $request, User $user) 
+    {
+        $this->avatarProcessing($request, $user);
+
+        flash('Your profile image was successfully updated.')->success();
+
+        return redirect()->route('users.show', $user); 
+    }
+
+    public function imageUpload(Request $request, User $user) 
+    {
+        $this->imageProcessing($request, $user);
+        
+        flash('Image was successfully updated.')->success();
+
+        return redirect()->route('users.show', $user); 
+    }
+
+    public function avatarDelete(Request $request, User $user) 
+    {       
+        $this->imageDeleteTrait($request, $user);
+
+        flash('Your profile image was successfully removed.')->success();
+
+        return redirect()->route('users.show', $user);
+    }
+
+
 
     /**
      * Remove the specified resource from storage.

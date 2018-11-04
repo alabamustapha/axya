@@ -14,7 +14,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected $casts = [
         'dob' => 'date',
-    ];
+    ]; 
 
     /**
      * The attributes that are mass assignable.
@@ -65,6 +65,16 @@ class User extends Authenticatable implements MustVerifyEmail
                 ? config('app.url') . '/images/doc.jpg' 
                 : $value
                 ;
+    }
+
+    public function getOriginalAvatarFileAttribute($value)
+    {
+        return $this->hasUploadedAvatar() ? $this->images()->first()->url:'#';
+    }
+
+    public function hasUploadedAvatar()
+    {
+        return $this->avatar !== config('app.url') . '/images/doc.jpg';
     }
 
     /**
@@ -189,6 +199,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function professionalType() 
     {
         return $this->is_doctor ? 'Doctor':'User';
+    }
+
+    public function isActive() 
+    {
+        return !$this->blocked ?: false;
     }
 
     public function status() 

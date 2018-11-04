@@ -32,12 +32,7 @@ class ImageController extends Controller
     {
         $this->authorize('delete', $image);
 
-        if ( auth()->id() !== $image->user_id || ! auth()->user()->isAdmin()){
-            request()->session()->flash('error', 'You can only delete your own uploaded images.');
-            return back();
-        }
-
-        // 1.
+        // 1. Remove all sizes from disk
         if ($image->url) {
             $image_frags = explode('/', $image->url);
             $file_name = end($image_frags);
@@ -57,7 +52,8 @@ class ImageController extends Controller
             Storage::disk('s3images')->delete('reports/' . $file_name);
         }
 
-        $image->delete(); // From images table
+        // 2. Remove reference link from images table
+        $image->delete();
 
         request()->session()->flash('success', 'Image was successfully removed.');
         return redirect()->back();

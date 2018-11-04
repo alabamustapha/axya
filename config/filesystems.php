@@ -66,4 +66,9 @@ return [
 
     ],
 
+    'storage' => [
+        'images' => '/uploads/images',
+        'videos' => '/uploads/videos',
+    ]
+
 ];
