@@ -27,7 +27,7 @@ class ImagesTest extends TestCase
           [
             'id','user_id','caption',
             'url','medium_url','thumbnail_url',
-            'imageable_id','imageable_type','main',
+            'imageable_id','imageable_type','cover',
             'mime','size', 
           ]), 1);
     }

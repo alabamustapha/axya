@@ -18,7 +18,7 @@ $factory->define(App\Image::class, function (Faker $faker) {
 
       'imageable_id'  => $faker->numberBetween(1,5),
       'imageable_type'=> $model_type,
-      'main'          => $faker->boolean(95) ? '0':'1',
+      'cover'         => $faker->boolean(95) ? '0':'1',
 
       'mime'          => $faker->mimeType,
       'size'          => $faker->numberBetween(200,2000), 

@@ -24,7 +24,7 @@ class CreateImagesTable extends Migration
 
             $table->integer('imageable_id');
             $table->string('imageable_type');
-            $table->boolean('main')->default(0); // [0,1] Stands as main pic from among many for a Model 
+            $table->boolean('cover')->default(0); // [0,1] Stands as main pic from among many for a Model 
                                                  // eg User->dp, Page->coverImage. One/Model.
             $table->string('mime')->nullable();
             $table->integer('size')->nullable();
