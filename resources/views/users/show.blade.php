@@ -3,16 +3,6 @@
 @section('content')
 
   <div class="">
-      <!-- Content Header (Page header) -->
-      <section class="content-header">
-        <div class="container-fluid">
-          <div class="row mb-2">
-            <div class="col-sm-6">
-              <h1>{{$user->name}} Profile</h1>
-            </div>
-          </div>
-        </div><!-- /.container-fluid -->
-      </section>
 
       <!-- Main content -->
       <section class="content">
@@ -24,8 +14,29 @@
                 <div class="card-body box-profile">
                   <!-- Profile Image -->
                   <div class="text-center">
-                    <img class="profile-user-img img-fluid img-circle" src="{{$user->avatar}}" alt="{{$user->name}} profile picture">
+                    <a href="{{$user->OriginalAvatarFile}}" target="_blank" style="text-decoration:none;color: inherit;">
+                      <img class="profile-user-img img-fluid img-circle profile-img" src="{{$user->avatar}}" alt="{{$user->name}} profile picture">
+                    </a>
                   </div>
+
+                  @if ($user->isAccountOwner())
+                  <div class="tf-flex">
+                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#updateAvatarForm" title=" Update Avatar">
+                      <i class="fa fa-upload text-light"></i>
+                    </button>
+
+                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#testMultipleForm" title=" Test Multiple Uploads">
+                      <i class="fa fa-upload text-light"></i> Multiple Uploads
+                    </button>
+
+                    
+                    @if ($user->hasUploadedAvatar())
+                        <a href="{{route('user.avatar.delete', $user)}}" class="btn btn-sm btn-danger" title="Remove Avatar" onclick="return confirm('Do you want to remove current avatar?');">
+                        <i class="fa fa-trash text-light"></i>
+                      </a>
+                    @endif
+                  </div>
+                  @endif
 
                   <h3 class="profile-username text-center">{{$user->name}}</h3>
 
@@ -102,9 +113,11 @@
               @if($user->isAccountOwner())
               <div class="row">  
                 <div class="col-sm-6">
-                  <div class="card card-dark card-outline">
+                  <div class="card card-dark">
+                    <div class="card-header">
+                      <h3 class="card-title">Payment Details</h3>
+                    </div>
                     <div class="card-body box-profile">
-                      <h3 class="card-tile text-center">Payment Details</h3>
                           
                       <ul class="list-group list-group-unbordered mb-0">
                         <li class="list-group-item p-1 tf-flex"><b>Card 1:</b> <span>*********{{$user->last_four}}</span></li>
@@ -116,9 +129,11 @@
                 </div>
 
                 <div class="col-sm-6">
-                  <div class="card card-dark card-outline">
+                  <div class="card card-dark">
+                    <div class="card-header">
+                      <h3 class="card-title">Payment Options</h3>
+                    </div>
                     <div class="card-body box-profile">
-                      <h3 class="card-tile text-center">Payment Options</h3>
 
                       <ul class="list-group list-group-unbordered mb-0">
                         <li class="list-group-item p-1">Bank Transfer</li>
@@ -175,85 +190,13 @@
             <!-- /.col -->
           </div>
           <!-- /.row -->
-            
-          {{--
-          <div class="row">
-            <div class="col-12">
-              <div class="card">
-                <div class="card-header p-2">
-                  <ul class="nav nav-pills">
-                    <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Activity</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#timeline" data-toggle="tab">Timeline</a></li>
-                  </ul>
-                </div><!-- /.card-header -->
-                <div class="card-body">
-                  <div class="tab-content">
-                    <div class="active tab-pane" id="activity">
-                      <!-- Post -->
-                      <div class="post">
-                        <div class="user-block">
-                          {{-- <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image"> -}}
-                          <span class="username">
-                            <a href="#">Dr. Jon Burkly</a>
-                            <a href="#" class="float-right btn-tool"><i class="fa fa-times"></i></a>
-                          </span>
-                          <span class="description">Appointment confirmed - 7:30 PM today</span>
-                        </div>
-                        <!-- /.user-block -->
-                        <p>
-                          Agreed time is October 31, 2018 by 4:25pm. <br>
-                          Send me more details as soon as possible. <br>
-                          Stay healthy.
-                        </p>
-                      </div>
-                      <!-- /.post -->
-
-                      <!-- Post -->
-                      <div class="post clearfix">
-                        <div class="user-block">
-                          {{-- <img class="img-circle img-bordered-sm" src="" alt="User Image"> -}}
-                          <span class="username">
-                            <a href="#">Dr. Winston</a>
-                            <a href="#" class="float-right btn-tool"><i class="fa fa-times"></i></a>
-                          </span>
-                          <span class="description">Sent you drug prescriptions - 7 days ago</span>
-                        </div>
-                        <!-- /.user-block -->
-                        <p>
-                          Some people hate it and argue for
-                          its demise, but others ignore the hate as they create awesome
-                          tools to help create filler text for everyone from bacon lovers to Charlie Sheen fans.
-                        </p>
-                        <footer class="muted">...About migraine headache</footer>
-                      </div>
-                      <!-- /.post -->
-                    </div>
-                    <!-- /.tab-pane -->
-
-
-                    <div class="tab-pane" id="timeline">
-                      <!-- The timeline -->
-
-                    </div>
-                    <!-- /.tab-pane -->
-
-                    <!-- /.tab-pane -->
-                  </div>
-                  <!-- /.tab-content -->
-                </div><!-- /.card-body -->
-              </div>
-              <!-- /.nav-tabs-custom -->
-            </div>
-          </div>
-          <!-- /.row -->
-          --}}
 
         </div><!-- /.container-fluid -->
       </section>
       <!-- /.content -->
 
       @if ($user->isAccountOwner())
-        <div class="modal" tabindex="-1" role="dialog" id="updateUserProfileForm" style="display:none;" aria-labelledby="editUserProfileFormLabel" aria-hidden="true">
+        <div class="modal" tabindex="-1" role="dialog" id="updateUserProfileForm" style="display:none;" aria-labelledby="updateUserProfileFormLabel" aria-hidden="true">
           <div class="modal-dialog{{--  modal-dialog-centered --}}" role="document">
             <div class="modal-content">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 5px 15px 0px;margin:10px auto -25px">
@@ -269,7 +212,7 @@
           </div>
         </div>
 
-        <div class="modal" tabindex="-1" role="dialog" id="updateAllergyProfileForm" style="display:none;" aria-labelledby="editAllergyProfileFormLabel" aria-hidden="true">
+        <div class="modal" tabindex="-1" role="dialog" id="updateAllergyProfileForm" style="display:none;" aria-labelledby="updateAllergyProfileFormLabel" aria-hidden="true">
           <div class="modal-dialog{{--  modal-dialog-centered --}}" role="document">
             <div class="modal-content">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 5px 15px 0px;margin:10px auto -25px">
@@ -285,7 +228,7 @@
           </div>
         </div>
 
-        <div class="modal" tabindex="-1" role="dialog" id="updateChronicsProfileForm" style="display:none;" aria-labelledby="editChronicsProfileFormLabel" aria-hidden="true">
+        <div class="modal" tabindex="-1" role="dialog" id="updateChronicsProfileForm" style="display:none;" aria-labelledby="updateChronicsProfileFormLabel" aria-hidden="true">
           <div class="modal-dialog{{--  modal-dialog-centered --}}" role="document">
             <div class="modal-content">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 5px 15px 0px;margin:10px auto -25px">
@@ -301,8 +244,8 @@
           </div>
         </div>
 
-        <div class="modal" tabindex="-1" role="dialog" id="updatePasswordForm" style="display:none;" aria-labelledby="editPasswordFormLabel" aria-hidden="true">
-          <div class="modal-dialog{{--  modal-dialog-centered --}}" role="document">
+        <div class="modal" tabindex="-1" role="dialog" id="updatePasswordForm" style="display:none;" aria-labelledby="updatePasswordFormLabel" aria-hidden="true">
+          <div class="modal-dialog" role="document">
             <div class="modal-content">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 5px 15px 0px;margin:10px auto -25px">
                 <span aria-hidden="true">&times;</span>
@@ -314,6 +257,83 @@
 
               </div> <!-- modal-body -->    
             </div> <!-- modal-content -->    
+          </div>
+        </div>
+
+        <div class="modal" tabindex="-1" role="dialog" id="updateAvatarForm" style="display:none;" aria-labelledby="updateAvatarFormLabel" aria-hidden="true">
+          <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content px-3">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 5px 15px 0px;margin:10px auto -25px">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <br>
+              <div class="modal-body">
+                <div class="text-center">
+                  <img class="img-fluid img-circle profile-img" src="{{$user->avatar}}" alt="{{$user->name}} profile picture">
+
+                  <div class="form-group text-center">
+                    <label for="avatar" class="h5">Update Display Picture</label>
+                  </div>
+                </div>
+
+                <form action="{{route('user.avatar.upload', $user)}}" method="post" enctype="multipart/form-data">
+                  {{ csrf_field() }}  
+                  {{ method_field('PATCH') }}   
+
+                  <div class="form-group text-center">
+                    <input type="file" name="avatar" id="avatar" class="form-control{{ $errors->has('avatar') ? ' is-invalid' : '' }}" accept="image/*" required>
+
+                    @if ($errors->has('avatar'))
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $errors->first('avatar') }}</strong>
+                        </span>
+                    @endif
+                  </div> 
+
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-image"></i> Upload Avatar</button>
+                  </div>
+                </form> 
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal" tabindex="-1" role="dialog" id="testMultipleForm" style="display:none;" aria-labelledby="testMultipleFormLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content px-2">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 5px 15px 0px;margin:10px auto -25px">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <br>
+              <div class="modal-body">
+            <form action="{{route('image.upload', auth()->user())}}" method="post" enctype="multipart/form-data">
+              {{ csrf_field() }}  
+              {{ method_field('PATCH') }}   
+
+              <div class="form-group text-center">
+                <label for="image_file" class="h5">Test Multiple Uploads (Max. 5)</label>
+                <br>
+
+                <input type="file" name="image_file[]" id="image_file" class="form-control{{ $errors->has('image_file') ? ' is-invalid' : '' }}" accept="image/*" multiple required>
+
+                @if ($errors->has('image_file'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $errors->first('image_file') }}</strong>
+                    </span>
+                @endif
+              </div> 
+
+              <div class="form-group">
+                <input type="text" name="caption" class="form-control" placeholder="write caption" required>
+              </div>
+
+              <div class="form-group">
+                <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-pencil"></i> Upload Images</button>
+              </div>
+            </form>
+              </div>
+            </div>
           </div>
         </div>
       @endif

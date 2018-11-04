@@ -44,5 +44,8 @@
             @yield('content')
         </main>
     </div>
+    <script>
+      $('div.alert').not('.alert-important').delay(7000).fadeOut(350);
+    </script>
 </body>
 </html>

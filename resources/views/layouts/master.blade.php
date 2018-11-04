@@ -78,7 +78,7 @@
     <!-- REQUIRED SCRIPTS -->
     <script src="{{asset('js/app.js')}}"></script>
     <script>
-      $('div.alert').not('.alert-important').delay(3000).fadeOut(350);
+      $('div.alert').not('.alert-important').delay(7000).fadeOut(350);
     </script>
   </body>
 </html>

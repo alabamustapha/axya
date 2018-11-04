@@ -2,7 +2,7 @@
     @csrf
     {{ method_field('PATCH') }}
 
-    <div class="form-group row">
+    <div class="form-group">
         <label for="allergies" class="col-12 text-center h4">{{$user->name}} {{ __('Allergies Update') }}</label>
 
         <br>
