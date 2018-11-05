@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('title', $user->name)
+
 @section('content')
 
   <div class="">
@@ -7,6 +9,15 @@
       <!-- Main content -->
       <section class="content">
         <div class="container-fluid">
+
+          @if ($user->isAccountOwner())
+          <div class="col bg-white pt-2 pb-1 mb-3 text-center">
+            <h4>
+              {{ $user->professionalStatus() }}
+            </h4>
+          </div>
+          @endif
+
           <div class="row">
             <div class="col-md-4">
 
@@ -14,7 +25,7 @@
                 <div class="card-body box-profile">
                   <!-- Profile Image -->
                   <div class="text-center">
-                    <a href="{{$user->OriginalAvatarFile}}" target="_blank" style="text-decoration:none;color: inherit;">
+                    <a href="{{$user->originalAvatarFile}}" target="_blank" style="text-decoration:none;color: inherit;">
                       <img class="profile-user-img img-fluid img-circle profile-img" src="{{$user->avatar}}" alt="{{$user->name}} profile picture">
                     </a>
                   </div>

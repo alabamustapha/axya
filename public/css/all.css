@@ -132,4 +132,7 @@
   border-color: #f5c6cb;
 }
 /* Some Vendor Styles Override */
+::-webkit-scrollbar {
+    background: transparent;
+}
 

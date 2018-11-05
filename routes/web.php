@@ -11,7 +11,8 @@
 |
 */
 
-Route::get('/', function () { return view('welcome'); })->name('home');
+// Route::get('/', function () { return view('welcome'); })->name('home');
+Route::get('/', 'HomeController@index')->name('home');
 
 Auth::routes(['verify' => true]);
 

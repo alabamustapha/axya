@@ -10,92 +10,37 @@
     </div>
 </div>
 <div class="container">
-    <div class="row justify-content-center">
-            <div class="card-deck">
-                <div class="card">
-                    <img class="card-img-top" src="{{ asset('images/doc.jpg') }}" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title"><a href="#">Alaba Mustapha</a></h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Dentist&nbsp;(MBBS)</h6>
-                        <p class="card-text">Practice Years: 5</p>
+        <div class="table-responsive">
+            <div class="card-deck" style="flex-flow: nowrap;">
+                @foreach ($doctors as $doctor)
+                    <div class="card mr-2" style="min-width: 16rem;max-width: 16rem;">
+                        <img class="card-img-top" src="{{ $doctor->dummyAvatar()/*$doctor->user->avatar*/ }}" alt="{{ $doctor->user->name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="#">{{ $doctor->user->name }}</a>
+                            </h5>
+                            <h6 class="card-subtitle mb-2 text-muted">
+                                <a href="#" style="color: inherit;">{{ $doctor->speciality }}</a>
+                            </h6>
+                            <p class="card-text">Practice Years: {{random_int(2,10)}}</p>
+                        </div>
+                        <div class="card-footer tf-flex">
+                            <span>
+                                <small class="text-muted">
+                                    <span class="fa fa-star text-primary"></span>
+                                    <span class="fa fa-star text-primary"></span>
+                                    <span class="fa fa-star text-primary"></span>
+                                    <span class="fa fa-star text-primary"></span>
+                                    <span class="fa fa-star text-primary"></span>
+                                </small>
+                                &nbsp;{{random_int(1,5)}}({{random_int(10,100)}})
+                            </span>
+                            <a href="#" class="btn btn-primary btn-sm">View Profile</a>
+                        </div>
                     </div>
-                    <div class="card-footer">
-                        <small class="text-muted">
-                            <span class="fa fa-star text-primary"></span>
-                            <span class="fa fa-star text-primary"></span>
-                            <span class="fa fa-star text-primary"></span>
-                            <span class="fa fa-star text-primary"></span>
-                            <span class="fa fa-star text-primary"></span>
-                        </small>&nbsp;5(34)
-                    </div>
-                </div>
-                <div class="card">
-                    <img class="card-img-top" src="{{ asset('images/doc.jpg') }}" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title"><a href="#">Alaba Mustapha olalekan</a></h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Dentist&nbsp;(MBBS)</h6>
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-muted">
-                            <span class="fa fa-star text-primary"></span>
-                            <span class="fa fa-star text-primary"></span>
-                            <span class="fa fa-star text-primary"></span>
-                            <span class="fa fa-star text-primary"></span>
-                            <span class="fa fa-star text-primary"></span>
-                        </small>&nbsp;5(34)
-                    </div>
-                </div>
-                <div class="card">
-                    <img class="card-img-top" src="{{ asset('images/doc.jpg') }}" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title"><a href="#">Alaba Mustapha olalekan</a></h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Dentist&nbsp;(MBBS)</h6>
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-muted">
-                            <span class="fa fa-star text-primary"></span>
-                            <span class="fa fa-star text-primary"></span>
-                            <span class="fa fa-star text-primary"></span>
-                            <span class="fa fa-star text-primary"></span>
-                            <span class="fa fa-star text-primary"></span>
-                        </small>&nbsp;5(34)
-                    </div>
-                </div>
-                <div class="card">
-                    <img class="card-img-top" src="{{ asset('images/doc.jpg') }}" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title"><a href="#">Alaba Mustapha olalekan</a></h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Dentist&nbsp;(MBBS)</h6>
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-muted">
-                            <span class="fa fa-star text-primary"></span>
-                            <span class="fa fa-star text-primary"></span>
-                            <span class="fa fa-star text-primary"></span>
-                            <span class="fa fa-star text-primary"></span>
-                            <span class="fa fa-star text-primary"></span>
-                        </small>&nbsp;5(34)
-                    </div>
-                </div>
-                <div class="card">
-                    <img class="card-img-top" src="{{ asset('images/doc.jpg') }}" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title"><a href="#">Alaba Mustapha olalekan</a></h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Dentist&nbsp;(MBBS)</h6>
-                    </div>
-                    <div class="card-footer">
-                        <small class="text-muted">
-                            <span class="fa fa-star text-primary"></span>
-                            <span class="fa fa-star text-primary"></span>
-                            <span class="fa fa-star text-primary"></span>
-                            <span class="fa fa-star text-primary"></span>
-                            <span class="fa fa-star text-primary"></span>
-                        </small>&nbsp;5(34)
-                    </div>
-                </div>
-               
+                @endforeach
             </div>
-    </div>
+        </div>
 </div>
 
 

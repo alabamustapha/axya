@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Doctor;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -13,7 +14,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
     /**
@@ -23,7 +24,9 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $doctors = Doctor::isActive()->get()->take(9);
+
         flash('Welcome');
-        return view('home');
+        return view('welcome', compact('doctors'));
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Doctor;
 use App\Image;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -18,6 +19,7 @@ class UsersTest extends TestCase
         parent::setUp();
 
         $this->user = factory(User::class)->create();
+        $this->doctor = factory(Doctor::class)->create();
     }
 
     /** @test  */
@@ -47,5 +49,17 @@ class UsersTest extends TestCase
         $image   = factory(Image::class)->create(['user_id' => $this->user->id]);
         
         $this->assertTrue($this->user->images->contains($image));
+    }
+
+    /** @test */
+    public function a_user_has_a_doctor_profile()
+    {
+        $this->assertInstanceOf(Doctor::class, $this->user->doctor); 
+    }
+
+    /** @test */
+    public function a_user_has_many_doctors()
+    {
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->user->doctors); 
     }
 }
