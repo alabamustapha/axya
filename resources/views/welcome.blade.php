@@ -14,10 +14,12 @@
             <div class="card-deck" style="flex-flow: nowrap;">
                 @foreach ($doctors as $doctor)
                     <div class="card mr-2" style="min-width: 16rem;max-width: 16rem;">
-                        <img class="card-img-top" src="{{ $doctor->dummyAvatar()/*$doctor->user->avatar*/ }}" alt="{{ $doctor->user->name }}">
+                        <div style="display:block;min-height: 200px;height: 200px;overflow: hidden;">
+                            <img class="card-img-top" src="{{ $doctor->dummyAvatar()/*$doctor->user->avatar*/ }}" alt="{{ $doctor->user->name }}" style="display:block;min-height: 200px;">
+                        </div>
                         <div class="card-body">
                             <h5 class="card-title">
-                                <a href="#">{{ $doctor->user->name }}</a>
+                                <a href="{{route('doctors.show', $doctor->user)}}">{{ $doctor->user->name }}</a>
                             </h5>
                             <h6 class="card-subtitle mb-2 text-muted">
                                 <a href="#" style="color: inherit;">{{ $doctor->speciality }}</a>
@@ -35,7 +37,7 @@
                                 </small>
                                 &nbsp;{{random_int(1,5)}}({{random_int(10,100)}})
                             </span>
-                            <a href="#" class="btn btn-primary btn-sm">View Profile</a>
+                            <a href="{{route('doctors.show', $doctor->user)}}" class="btn btn-primary btn-sm">View Profile</a>
                         </div>
                     </div>
                 @endforeach

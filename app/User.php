@@ -201,7 +201,7 @@ class User extends Authenticatable implements MustVerifyEmail
               <small>
                 Notifications and updates on professional stuffs.
                 <br>
-                <small>You must be subscribed to appear in search results.</small>
+                <small class="red"><em>You must be <b>subscribed</b> to appear in search results.</em></small>
               </small>',
 
         2 => '<span class="green text-bold"><i class="fa fa-info-circle"></i>&nbsp; Application Accepted</span>

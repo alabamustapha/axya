@@ -91,7 +91,6 @@
           </li>
         </ul>
       </li>
-
     {{-- @endcan --}}
 
     {{-- @can('isDoctor') --}}
@@ -105,20 +104,24 @@
       </a>
       <ul class="nav nav-treeview">
         <li class="nav-item">
-          <router-link to="/past-patients" class="nav-link">
-            <i class="fa fa-procedures nav-icon orange"></i>
+          <a href="{{auth()->user()->isDoctor() ? route('doctors.show', auth()->user()) : '#'}}" class="nav-link">
+          {{-- <router-link to="/doctors/:slug" class="nav-link"> --}}
+            <i class="fa fa-user-md nav-icon orange"></i>
             <p>Professional Details</p>
-          </router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="/past-patients" class="nav-link">
-            <i class="fa fa-procedures nav-icon orange"></i>
-            <p>My Patients</p>
-          </router-link>
+          {{-- </router-link> --}}
+          </a>
         </li>
         <li class="nav-item">
           <a href="#" class="nav-link">
-            <i class="nav-icon fa fa-tachometer-alt brown"></i>
+          {{-- <router-link to="/past-patients" class="nav-link"> --}}
+            <i class="fa fa-procedures nav-icon orange"></i>
+            <p>My Patients</p>
+          {{-- </router-link> --}}
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fa fa-tachometer-alt orange"></i>
             <p>
               My Appointments
               <i class="right fa fa-angle-left"></i>
@@ -126,20 +129,22 @@
           </a>
           <ul class="nav nav-treeview">
             <li class="nav-item">
-              <router-link to="/upcoming-appointments" class="nav-link">
-                <i class="fa fa-calendar-check nav-icon orange"></i>
+              <a href="#" class="nav-link">
+              {{-- <router-link to="/upcoming-appointments" class="nav-link"> --}}
+                <i class="fa fa-calendar-check nav-icon teal"></i>
                 <p class="tf-flex" title="Upcoming Appointments">
                 <span>Upcoming</span>
-                <span class="badge bagde-light">5</span>
+                <span class="badge bagde-danger right">5</span>
               </p>
-              </router-link>
+              {{-- </router-link> --}}
+              </a>
             </li>
             <li class="nav-item">
               <router-link to="/pending-appointments" class="nav-link">
-                <i class="fa fa-calendar-plus nav-icon orange"></i>
+                <i class="fa fa-calendar-plus nav-icon teal"></i>
                 <p class="tf-flex" title="Pending Appointments">
                   <span>Pending</span>
-                  <span class="badge bagde-light">5</span>
+                  <span class="badge bagde-danger right">5</span>
                 </p>
               </router-link>
             </li>
@@ -147,7 +152,7 @@
         </li>
         <li class="nav-item">
           <a href="#" class="nav-link">
-            <i class="nav-icon fa fa-tachometer-alt brown"></i>
+            <i class="nav-icon fa fa-tachometer-alt orange"></i>
             <p>
               My History
               <i class="right fa fa-angle-left"></i>
@@ -156,13 +161,13 @@
           <ul class="nav nav-treeview">
             <li class="nav-item">
               <router-link to="/activity-histories" class="nav-link">
-                <i class="fa fa-calendar-alt nav-icon orange"></i>
+                <i class="fa fa-calendar-alt nav-icon teal"></i>
                 <p>Consultation</p>
               </router-link>
             </li>
             <li class="nav-item">
               <router-link to="/transaction-histories" class="nav-link">
-                <i class="fa fa-handshake nav-icon orange"></i>
+                <i class="fa fa-handshake nav-icon teal"></i>
                 <p>Transaction</p>
               </router-link>
             </li>
@@ -170,17 +175,19 @@
         </li>
       </ul>
     </li>
-    <li><hr></li>
+    {{-- @endcan --}}
 
+    {{-- @can('isSuperAdmin') || @can('isDoctor') --}}
+    <li><hr></li>
     {{-- @endcan --}}
 
 
     <li class="nav-item">
       <a class="nav-link" href="{{route('users.show', Auth::user())}}">
         {{-- <router-link to="/profile" class="nav-link"> --}}
-        <i class="nav-icon fa fa-user-cog brown"></i>
+        <i class="nav-icon fa fa-user-cog indigo"></i>
         <p>
-          Account
+          My Account
         </p>
         {{-- </router-link> --}}
       </a>
@@ -189,7 +196,7 @@
     <li class="nav-item">
       <a class="nav-link" href="#">
       {{-- <router-link to="/my-doctors" class="nav-link"> --}}
-        <i class="fa fa-user-md nav-icon teal"></i>
+        <i class="fa fa-user-md nav-icon yellow"></i>
         <p>My Doctors</p>
       {{-- </router-link> --}}
       </a>
@@ -197,7 +204,7 @@
 
     <li class="nav-item has-treeview">
       <a href="#" class="nav-link">
-        <i class="nav-icon fa fa-tachometer-alt brown"></i>
+        <i class="nav-icon fa fa-tachometer-alt teal"></i>
         <p>
           My Dashboard
           <i class="right fa fa-angle-left"></i>
@@ -235,7 +242,7 @@
 
     <li class="nav-item has-treeview">
       <a href="#" class="nav-link">
-        <i class="nav-icon fa fa-tasks teal"></i>
+        <i class="nav-icon fa fa-tasks cyan"></i>
         <p>
           Appointments
           <i class="right fa fa-angle-left"></i>
@@ -244,14 +251,20 @@
       <ul class="nav nav-treeview">
         <li class="nav-item">
           <router-link to="/patient-up-appointments" class="nav-link">
-            <i class="fa fa-calendar-check nav-icon teal"></i>
-            <p title="Upcoming Appointments">Upcoming</p>
+            <i class="fa fa-calendar-check nav-icon cyan"></i>
+            <p title="Upcoming Appointments">
+              Upcoming
+              <span class="badge bagde-danger right">5</span>
+            </p>
           </router-link>
         </li>
         <li class="nav-item">
           <router-link to="/patient-pe-appointments" class="nav-link">
-            <i class="fa fa-calendar-plus nav-icon teal"></i>
-            <p title=">Pending Appointments">Pending</p>
+            <i class="fa fa-calendar-plus nav-icon cyan"></i>
+            <p title=">Pending Appointments">
+              Pending
+              <span class="badge bagde-danger right">5</span>
+            </p>
           </router-link>
         </li>
       </ul>
@@ -259,7 +272,7 @@
 
     <li class="nav-item has-treeview">
       <a href="#" class="nav-link">
-        <i class="nav-icon fa fa-tachometer-alt brown"></i>
+        <i class="nav-icon fa fa-tachometer-alt blue"></i>
         <p>
           My History
           <i class="right fa fa-angle-left"></i>
@@ -268,13 +281,13 @@
       <ul class="nav nav-treeview">
         <li class="nav-item">
           <router-link to="/visits-history" class="nav-link">
-            <i class="fa fa-calendar-alt nav-icon teal"></i>
+            <i class="fa fa-calendar-alt nav-icon blue"></i>
             <p>Visits</p>
           </router-link>
         </li>
         <li class="nav-item">
           <router-link to="/transactions-history" class="nav-link">
-            <i class="fa fa-handshake nav-icon teal"></i>
+            <i class="fa fa-handshake nav-icon blue"></i>
             <p>Transactions</p>
           </router-link>
         </li>
@@ -331,7 +344,7 @@
 
     <li class="nav-item">
       <a class="nav-link" href="{{ route('login') }}">
-          <i class="nav-icon fa fa-login green"></i>
+          <i class="nav-icon fa fa-sign-in-alt green"></i>
           <p>
             {{ __('Login') }}
           </p>

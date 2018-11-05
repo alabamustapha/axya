@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-md fixed-top navbar-light navbar-laravel">
     <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">
-            {{ config('app.name', 'Laravel') }}
+            {{ config('app.name', 'AXYA') }}
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
             <span class="navbar-toggler-icon"></span>
@@ -29,7 +29,8 @@
                             href="{{ route('notifications.display', auth()->user()) }}" 
                             title="{{ auth()->user()->notifications->count() }} notifications"
                         >
-                            <i class="fa fa-bell"></i>
+                            <i class="fa fa-bell" style="font-size: 120%;"></i>
+                            {{-- <small style="font-size: 50%;" class="badge badge-danger navbar-badge">{{ auth()->user()->notifications->count() }}</small> --}}
                         </a>
                     </li>
 

@@ -16,9 +16,10 @@ class CreateDoctorsTable extends Migration
         Schema::create('doctors', function (Blueprint $table) {
             $table->integer('id')->unique()->unsigned();
             $table->integer('user_id')->unique()->unsigned();
+            $table->string('slug');
 
             $table->string('speciality')->nullable();
-            // $table->boolean('status')->default(0); // 0:Unsubscribed and Inactive, 1:Subscribed and Active.
+            $table->string('graduate_school')->nullable();
             $table->boolean('available')->default(0); // 0:Available, 1:Not Available.
             $table->timestamp('subscription_ends_at')->nullable();
             $table->timestamps();

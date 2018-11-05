@@ -28,7 +28,8 @@
                     href="{{ route('notifications.display', auth()->user()) }}" 
                     title="{{ auth()->user()->notifications->count() }} notifications"
                 >
-                    <i class="fa fa-bell"></i>
+                    <i class="fa fa-bell" style="font-size: 120%;"></i>
+                    <small style="font-size: 50%;" class="badge badge-danger navbar-badge">{{ auth()->user()->notifications->count() }}</small>
                 </a>
             </li>
 
