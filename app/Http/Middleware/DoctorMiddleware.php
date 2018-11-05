@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Auth;
 use Closure;
 
-class PatientProfileMiddleware
+class DoctorMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,13 +16,11 @@ class PatientProfileMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check() 
-            && ((Auth::id() == request()->user->id) 
-                || Auth::user()->isSuperAdmin() 
-                // || Auth::user()->inPastAttendantDoctors()
-            )) {
+        if (Auth::check() && Auth::user()->isDoctor()) {
             return $next($request);
         }
-        return abort('403');
-    }
+        
+        return redirect()->route('home');
+
+    } 
 }

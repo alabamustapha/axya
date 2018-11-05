@@ -182,9 +182,14 @@ class User extends Authenticatable implements MustVerifyEmail
         }
     }
 
+    public function isDoctor() 
+    {
+        return (bool) $this->doctor()->count();
+    }
+
     public function professionalType() 
     {
-        return $this->is_doctor ? 'Doctor':'User';
+        return $this->isDoctor() ? 'Doctor':'User';
     }
 
     public static $professionalStatus = array(

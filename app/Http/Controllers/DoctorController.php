@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class DoctorController extends Controller
 {
+    public function __construct()
+    {
+        // $this->middleware('auth')->except('index','show');
+        // $this->middleware('doctor')->except('index','show');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -46,7 +52,7 @@ class DoctorController extends Controller
      */
     public function show(Doctor $doctor)
     {
-        //
+        return view('doctors.show', compact('doctor'));
     }
 
     /**
