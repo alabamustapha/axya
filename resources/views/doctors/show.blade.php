@@ -236,6 +236,45 @@
             </div> <!-- modal-content -->    
           </div>
         </div>
+
+        <div class="modal" tabindex="-1" role="dialog" id="updateAvatarForm" style="display:none;" aria-labelledby="updateAvatarFormLabel" aria-hidden="true">
+          <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content px-3">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 5px 15px 0px;margin:10px auto -25px">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <br>
+              <div class="modal-body">
+                <div class="text-center">
+                  <img class="img-fluid img-circle profile-img" src="{{$user->avatar}}" alt="{{$user->name}} profile picture">
+
+                  <div class="form-group text-center">
+                    <label for="avatar" class="h5">Update Display Picture</label>
+                  </div>
+                </div>
+
+                <form action="{{route('user.avatar.upload', $user)}}" method="post" enctype="multipart/form-data">
+                  {{ csrf_field() }}  
+                  {{ method_field('PATCH') }}   
+
+                  <div class="form-group text-center">
+                    <input type="file" name="avatar" id="avatar" class="form-control{{ $errors->has('avatar') ? ' is-invalid' : '' }}" accept="image/*" required>
+
+                    @if ($errors->has('avatar'))
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $errors->first('avatar') }}</strong>
+                        </span>
+                    @endif
+                  </div> 
+
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-image"></i> Upload Avatar</button>
+                  </div>
+                </form> 
+              </div>
+            </div>
+          </div>
+        </div>
       @endif
   </div>
 

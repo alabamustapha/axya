@@ -7,15 +7,18 @@
     <a class="dropdown-item" href="{{ route('patient_dashboard', Auth::user()) }}">
         {{ __('My Account') }}
     </a>
+    <a class="dropdown-item" href="{{ route('admin_dashboard') }}">
+        {{ __('My Account Upd') }}
+    </a>
     <a class="dropdown-item" href="{{ route('users.show',  Auth::user()) }}">
         {{ __('My Dashboard') }}
     </a>
-    <a class="dropdown-item" href="{{-- --}}">
+    {{-- <a class="dropdown-item" href="#">
         {{ __('Update profile') }}
     </a>
-    <a class="dropdown-item" href="{{-- --}}">
+    <a class="dropdown-item" href="#">
         {{ __('Settings') }}
-    </a>
+    </a> --}}
     <a class="dropdown-item" href="{{ route('logout') }}"
         onclick="event.preventDefault();
                         document.getElementById('logout-form').submit();">

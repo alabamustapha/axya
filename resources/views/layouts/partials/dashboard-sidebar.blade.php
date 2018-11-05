@@ -121,7 +121,7 @@
         </li>
         <li class="nav-item">
           <a href="#" class="nav-link">
-            <i class="nav-icon fa fa-tachometer-alt orange"></i>
+            <i class="nav-icon fa fa-tasks orange"></i>
             <p>
               My Appointments
               <i class="right fa fa-angle-left"></i>
@@ -152,7 +152,7 @@
         </li>
         <li class="nav-item">
           <a href="#" class="nav-link">
-            <i class="nav-icon fa fa-tachometer-alt orange"></i>
+            <i class="nav-icon fa fa-history orange"></i>
             <p>
               My History
               <i class="right fa fa-angle-left"></i>
@@ -272,7 +272,7 @@
 
     <li class="nav-item has-treeview">
       <a href="#" class="nav-link">
-        <i class="nav-icon fa fa-tachometer-alt blue"></i>
+        <i class="nav-icon fa fa-history blue"></i>
         <p>
           My History
           <i class="right fa fa-angle-left"></i>
