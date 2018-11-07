@@ -18,6 +18,11 @@
 
   <div class="row">
     <div class="col-md-8">
+      <div class="card shadow-sm">
+          <div class="card-body">
+              <b>{{ $specialty->name }}</b> - {{ $specialty->description }}
+          </div>
+      </div>
 
       <div class="card-deck">
       {{-- @foreach ($doctors as $doctor) --}}
@@ -108,7 +113,7 @@
     </div>
 
     <div class="col-md-4">
-      @if (Auth::check()/* && (Auth::user()->isAdmin() || Auth::user()->isDoctor())*/)
+      @can ('create', App\Specialty::class)
         <div class="card card-primary card-outline text-center shadow">
           <div class="card-header">
             <div class="card-title">
@@ -156,16 +161,16 @@
             <span class="text-danger"><b>Relevant keywords help patients in locating relevant doctors easily.</b></span>
           </div>
         </div>
-      @endif
-
-      <br clear="both">
+      @endcan
 
       <div class="p-3 shadow bg-white text-center">
         Medical terms, illnesses, procedures under <b>{{$specialty->name}}</b> 
         <span class="badge badge-primary">{{$specialty->tags->count()}}</span>.
+        
         <hr>
+        
         @foreach ($specialty->tags as $tag)
-          <span class="keyword-labels">
+          <span class="keyword-labels" title="{{$tag->description}}">
             <a href="{{ route('tags.show', $tag) }}">{{ $tag->name }}</a>
           </span>
         @endforeach

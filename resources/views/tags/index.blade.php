@@ -17,7 +17,11 @@
   
 <div class="row">
 	<div class="col-md-8">
-		<h1>Medical Terms, Procedures, Illnesses etc</h1>
+    <div class="card shadow-sm">
+        <div class="card-body">
+          <h1>Medical Terms, Procedures, Illnesses etc</h1>
+        </div>
+    </div>
 
 		<div class="row">
       @forelse ($tags as $tag)
@@ -44,11 +48,11 @@
 	</div>
 
   <div class="col-md-4">
-    @if (Auth::check()/* && (Auth::user()->isAdmin() || Auth::user()->isDoctor())*/)
+    @can ('create', App\Tag::class)
 
       @include('tags.partials.create-form')
 
-    @endif
+    @endcan
 
     <br clear="both">
 

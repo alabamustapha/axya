@@ -25,7 +25,6 @@ trait ImageProcessing
 
         $image_file = $request->file('avatar');
 
-
         // $uploadModelImage = '\App\Jobs\\Upload'. $modelClassName .'Image';
 
         // $this->authorize('upload', $model);

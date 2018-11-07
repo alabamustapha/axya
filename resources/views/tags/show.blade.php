@@ -20,105 +20,118 @@
 
   <div class="row">
     <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <b>{{ $tag->name }}</b> - {{ $tag->description }}
+            </div>
+        </div>
 
-      <div class="card-deck">
-      {{-- @foreach ($doctors as $doctor) --}}
-        <div class="card mr-2" style="min-width: 16rem;max-width: 16rem;">
-            <div style="display:block;min-height: 200px;height: 200px;overflow: hidden;">
-                <img class="card-img-top" src="{{ \App\Doctor::first()->dummyAvatar()/*$doctor->user->avatar*/ }}" alt="{{-- $doctor->user->name --}}" style="display:block;min-height: 200px;">
+        <div class="card-deck">
+        {{-- @foreach ($doctors as $doctor) --}}
+            <div class="card mr-2" style="min-width: 16rem;max-width: 16rem;">
+                <div style="display:block;min-height: 200px;height: 200px;overflow: hidden;">
+                    <img class="card-img-top" src="{{ \App\Doctor::first()->dummyAvatar()/*$doctor->user->avatar*/ }}" alt="{{-- $doctor->user->name --}}" style="display:block;min-height: 200px;">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a href="{{--route('doctors.show', $doctor->user)--}}">{{-- $doctor->user->name --}} Dr. Name</a>
+                    </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">
+                        <a href="#" style="color: inherit;">Spech{{-- $doctor->tag --}}</a>
+                    </h6>
+                    <p class="card-text">Practice Years: {{random_int(2,10)}}</p>
+                </div>
+                <div class="card-footer tf-flex">
+                    <span>
+                        <small class="text-muted">
+                            <span class="fa fa-star text-primary"></span>
+                            <span class="fa fa-star text-primary"></span>
+                            <span class="fa fa-star text-primary"></span>
+                            <span class="fa fa-star text-primary"></span>
+                            <span class="fa fa-star text-primary"></span>
+                        </small>
+                        &nbsp;{{random_int(1,5)}}({{random_int(10,100)}})
+                    </span>
+                    <a href="{{--route('doctors.show', $doctor->user)--}}" class="btn btn-primary btn-sm">View Profile</a>
+                </div>
             </div>
-            <div class="card-body">
-                <h5 class="card-title">
-                    <a href="{{--route('doctors.show', $doctor->user)--}}">{{-- $doctor->user->name --}} Dr. Name</a>
-                </h5>
-                <h6 class="card-subtitle mb-2 text-muted">
-                    <a href="#" style="color: inherit;">Spech{{-- $doctor->tag --}}</a>
-                </h6>
-                <p class="card-text">Practice Years: {{random_int(2,10)}}</p>
+            <div class="card mr-2" style="min-width: 16rem;max-width: 16rem;">
+                <div style="display:block;min-height: 200px;height: 200px;overflow: hidden;">
+                    <img class="card-img-top" src="{{ \App\Doctor::first()->dummyAvatar()/*$doctor->user->avatar*/ }}" alt="{{-- $doctor->user->name --}}" style="display:block;min-height: 200px;">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a href="{{--route('doctors.show', $doctor->user)--}}">{{-- $doctor->user->name --}} Dr. Name</a>
+                    </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">
+                        <a href="#" style="color: inherit;">Spech{{-- $doctor->tag --}}</a>
+                    </h6>
+                    <p class="card-text">Practice Years: {{random_int(2,10)}}</p>
+                </div>
+                <div class="card-footer tf-flex">
+                    <span>
+                        <small class="text-muted">
+                            <span class="fa fa-star text-primary"></span>
+                            <span class="fa fa-star text-primary"></span>
+                            <span class="fa fa-star text-primary"></span>
+                            <span class="fa fa-star text-primary"></span>
+                            <span class="fa fa-star text-primary"></span>
+                        </small>
+                        &nbsp;{{random_int(1,5)}}({{random_int(10,100)}})
+                    </span>
+                    <a href="{{--route('doctors.show', $doctor->user)--}}" class="btn btn-primary btn-sm">View Profile</a>
+                </div>
             </div>
-            <div class="card-footer tf-flex">
-                <span>
-                    <small class="text-muted">
-                        <span class="fa fa-star text-primary"></span>
-                        <span class="fa fa-star text-primary"></span>
-                        <span class="fa fa-star text-primary"></span>
-                        <span class="fa fa-star text-primary"></span>
-                        <span class="fa fa-star text-primary"></span>
-                    </small>
-                    &nbsp;{{random_int(1,5)}}({{random_int(10,100)}})
-                </span>
-                <a href="{{--route('doctors.show', $doctor->user)--}}" class="btn btn-primary btn-sm">View Profile</a>
+            <div class="card mr-2" style="min-width: 16rem;max-width: 16rem;">
+                <div style="display:block;min-height: 200px;height: 200px;overflow: hidden;">
+                    <img class="card-img-top" src="{{ \App\Doctor::first()->dummyAvatar()/*$doctor->user->avatar*/ }}" alt="{{-- $doctor->user->name --}}" style="display:block;min-height: 200px;">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a href="{{--route('doctors.show', $doctor->user)--}}">{{-- $doctor->user->name --}} Dr. Name</a>
+                    </h5>
+                    <h6 class="card-subtitle mb-2 text-muted">
+                        <a href="#" style="color: inherit;">Spech{{-- $doctor->tag --}}</a>
+                    </h6>
+                    <p class="card-text">Practice Years: {{random_int(2,10)}}</p>
+                </div>
+                <div class="card-footer tf-flex">
+                    <span>
+                        <small class="text-muted">
+                            <span class="fa fa-star text-primary"></span>
+                            <span class="fa fa-star text-primary"></span>
+                            <span class="fa fa-star text-primary"></span>
+                            <span class="fa fa-star text-primary"></span>
+                            <span class="fa fa-star text-primary"></span>
+                        </small>
+                        &nbsp;{{random_int(1,5)}}({{random_int(10,100)}})
+                    </span>
+                    <a href="{{--route('doctors.show', $doctor->user)--}}" class="btn btn-primary btn-sm">View Profile</a>
+                </div>
             </div>
+        {{-- @endforeach --}}
         </div>
-        <div class="card mr-2" style="min-width: 16rem;max-width: 16rem;">
-            <div style="display:block;min-height: 200px;height: 200px;overflow: hidden;">
-                <img class="card-img-top" src="{{ \App\Doctor::first()->dummyAvatar()/*$doctor->user->avatar*/ }}" alt="{{-- $doctor->user->name --}}" style="display:block;min-height: 200px;">
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">
-                    <a href="{{--route('doctors.show', $doctor->user)--}}">{{-- $doctor->user->name --}} Dr. Name</a>
-                </h5>
-                <h6 class="card-subtitle mb-2 text-muted">
-                    <a href="#" style="color: inherit;">Spech{{-- $doctor->tag --}}</a>
-                </h6>
-                <p class="card-text">Practice Years: {{random_int(2,10)}}</p>
-            </div>
-            <div class="card-footer tf-flex">
-                <span>
-                    <small class="text-muted">
-                        <span class="fa fa-star text-primary"></span>
-                        <span class="fa fa-star text-primary"></span>
-                        <span class="fa fa-star text-primary"></span>
-                        <span class="fa fa-star text-primary"></span>
-                        <span class="fa fa-star text-primary"></span>
-                    </small>
-                    &nbsp;{{random_int(1,5)}}({{random_int(10,100)}})
-                </span>
-                <a href="{{--route('doctors.show', $doctor->user)--}}" class="btn btn-primary btn-sm">View Profile</a>
-            </div>
-        </div>
-        <div class="card mr-2" style="min-width: 16rem;max-width: 16rem;">
-            <div style="display:block;min-height: 200px;height: 200px;overflow: hidden;">
-                <img class="card-img-top" src="{{ \App\Doctor::first()->dummyAvatar()/*$doctor->user->avatar*/ }}" alt="{{-- $doctor->user->name --}}" style="display:block;min-height: 200px;">
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">
-                    <a href="{{--route('doctors.show', $doctor->user)--}}">{{-- $doctor->user->name --}} Dr. Name</a>
-                </h5>
-                <h6 class="card-subtitle mb-2 text-muted">
-                    <a href="#" style="color: inherit;">Spech{{-- $doctor->tag --}}</a>
-                </h6>
-                <p class="card-text">Practice Years: {{random_int(2,10)}}</p>
-            </div>
-            <div class="card-footer tf-flex">
-                <span>
-                    <small class="text-muted">
-                        <span class="fa fa-star text-primary"></span>
-                        <span class="fa fa-star text-primary"></span>
-                        <span class="fa fa-star text-primary"></span>
-                        <span class="fa fa-star text-primary"></span>
-                        <span class="fa fa-star text-primary"></span>
-                    </small>
-                    &nbsp;{{random_int(1,5)}}({{random_int(10,100)}})
-                </span>
-                <a href="{{--route('doctors.show', $doctor->user)--}}" class="btn btn-primary btn-sm">View Profile</a>
-            </div>
-        </div>
-      {{-- @endforeach --}}
-      </div>
 
     </div>
 
     <div class="col-md-4">
-      @if (Auth::check()/* && (Auth::user()->isAdmin() || Auth::user()->isDoctor())*/)
+      @can ('create', App\Tag::class)
     
         @include('tags.partials.create-form')
       
-      @endif
+      @endcan
 
-      <br clear="both">
+      <div class="bg-white p-3 shadow text-center">
+       Medical terms, illnesses, procedures under the specialty <b>{{$tag->specialty->name}}</b>.
 
-      @include('tags.partials.related-tags')
+        <hr>
+
+        @foreach ($tag->specialty->tags as $tag)
+          <span class="keyword-labels" title="{{ $tag->description }}">
+            <a href="{{ route('tags.show', $tag) }}" class="d-inline p-1">{{ $tag->name }}</a>
+          </span>
+        @endforeach
+      </div>
 
     </div>
   </div>

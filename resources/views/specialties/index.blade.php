@@ -16,7 +16,11 @@
   
 <div class="row">
 	<div class="col-md-8">
-		<h1>Medical Specialties</h1>
+    <div class="card shadow-sm">
+        <div class="card-body">
+          <h1>Medical Specialties</h1>
+        </div>
+    </div>
 
 		@forelse ($specialties as $specialty)
       
@@ -38,9 +42,6 @@
             <footer class="blockquote-footer">{{ $specialty->description }}</footer>
           </blockquote>
         </div>
-        <div class="card-footer">
-          @ 5 tags +  <a class="card-link" href="{{ route('specialties.show', $specialty) }}">see more</a>
-        </div>
       </div>
     @empty
       <div class="empty-list bg-white my-1">
@@ -50,7 +51,7 @@
 	</div>
 
   <div class="col-md-4">
-    @if (Auth::check()/* && (Auth::user()->isAdmin() || Auth::user()->isDoctor())*/)
+    @can ('create', App\Specialty::class)
       <div class="card card-primary card-outline text-center shadow">
         <div class="card-header">
           <div class="card-title">
@@ -97,16 +98,10 @@
           </span>
         </div>
       </div>
-    @endif
+    @endcan
 
-    <br clear="both">
-
-    <div class="p-3 shadow bg-white">
-      @foreach ($specialty->tags as $tag)
-        <span class="keyword-labels">
-          <a href="{{ route('tags.show', $tag) }}">{{ $tag->name }}</a>
-        </span>
-      @endforeach
+    <div class="p-3 shadow bg-white text-center">
+      ...
     </div>
   </div>
 </div>

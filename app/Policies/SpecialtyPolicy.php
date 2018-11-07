@@ -42,6 +42,6 @@ class SpecialtyPolicy
      */
     public function delete(User $user, Specialty $specialty)
     {
-        return $user->isAdmin()
+        return $user->isAdmin();
     }
 }

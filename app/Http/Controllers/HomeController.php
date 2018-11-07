@@ -25,8 +25,7 @@ class HomeController extends Controller
     public function index()
     {
         $doctors = Doctor::isActive()->get()->take(9);
-
-        flash('Welcome');
+        
         return view('welcome', compact('doctors'));
     }
 }
