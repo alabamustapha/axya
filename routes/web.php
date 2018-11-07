@@ -17,6 +17,7 @@ Route::get('/', 'HomeController@index')->name('home');
 Auth::routes(['verify' => true]);
 
 Route::resource('specialties', 'SpecialtyController')->except('create');
+Route::resource('tags', 'TagController')->except('create');
 Route::resource('doctors', 'DoctorController');
 
 // ---- IMAGE UPLOADS RELATED ---------------->

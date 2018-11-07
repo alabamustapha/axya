@@ -62,3 +62,12 @@
   background-color: red;
   border-color: #f5c6cb;
 }
+
+.keyword-labels {
+  display:inline-block;
+  margin:3px auto;
+  font-size:85%;
+  border-radius: 0.25rem;
+  border:1px dotted green;
+  padding:2px 5px;
+}
