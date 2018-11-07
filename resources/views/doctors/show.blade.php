@@ -58,7 +58,7 @@
 
                   <ul class="list-group list-group-unbordered mb-3">
                     <li class="list-group-item p-1">
-                      <b>Speciality</b> <a class="float-right">{{$doctor->speciality}}</a>
+                      <b>Specialties</b> <a class="float-right">{{--$doctor->specialty--}}</a>
                     </li>
                     <li class="list-group-item p-1">
                       <b>Patients Served</b> <a class="float-right">{{$doctor->patients->count()}}</a>

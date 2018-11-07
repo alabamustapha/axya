@@ -89,6 +89,35 @@
               </li>
             </ul>
           </li>
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fa fa-folder-open teal"></i>
+              <p>
+                Contents
+                <i class="right fa fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('specialties.index')}}" class="nav-link">
+                {{-- <router-link to="/specialties" class="nav-link"> --}}
+                  <i class="fa fa-hat-wizard nav-icon teal"></i>
+                  <p>Specialties</p>
+                {{-- </router-link> --}}
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{--route('tags.index')--}}" class="nav-link">
+                {{-- <router-link to="/tags" class="nav-link"> --}}
+                  <i class="nav-icon fa fa-tags teal"></i>
+                  <p>
+                    Tags
+                  </p>
+                {{-- </router-link> --}}
+                </a>
+              </li>
+            </ul>
+          </li>
         </ul>
       </li>
     {{-- @endcan --}}

@@ -22,7 +22,7 @@
                                 <a href="{{route('doctors.show', $doctor->user)}}">{{ $doctor->user->name }}</a>
                             </h5>
                             <h6 class="card-subtitle mb-2 text-muted">
-                                <a href="#" style="color: inherit;">{{ $doctor->speciality }}</a>
+                                <a href="#" style="color: inherit;">Spech{{-- $doctor->specialty --}}</a>
                             </h6>
                             <p class="card-text">Practice Years: {{random_int(2,10)}}</p>
                         </div>

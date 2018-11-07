@@ -16,6 +16,7 @@ Route::get('/', 'HomeController@index')->name('home');
 
 Auth::routes(['verify' => true]);
 
+Route::resource('specialties', 'SpecialtyController');
 Route::resource('doctors', 'DoctorController');
 
 // ---- IMAGE UPLOADS RELATED ---------------->
