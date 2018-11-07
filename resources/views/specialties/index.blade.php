@@ -8,7 +8,7 @@
 @section('content')
 
 <nav aria-label="breadcrumb" class=" mt-0">
-  <ol class="breadcrumb p-1">
+  <ol class="breadcrumb py-1">
     <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
     <li class="breadcrumb-item"><b>Specialties</b></li>
   </ol>
@@ -19,32 +19,31 @@
 		<h1>Medical Specialties</h1>
 
 		@forelse ($specialties as $specialty)
-      <a href="{{ route('specialties.show', $specialty) }}" style="color: inherit;text-decoration:none;">
-        <div class="card shadow-sm">
-          <div class="card-body">
-            <blockquote class="blockquote mb-0">
+      
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <blockquote class="blockquote mb-0">
+            <a href="{{ route('specialties.show', $specialty) }}">
               <p>
-                <span class="blue">
-                  {{ $specialty->name }}
-                </span>
-                <span class="pull-right">
+                {{ $specialty->name }}
+                <span class="pull-right" style="color: inherit;">
                   <span class="badge badge-dark badge-sm" title="Doctors with {{ $specialty->name }} specialty">
                     {{random_int(5,100)}}
                     {{-- $specialty->doctors_count --}}
+                    <small>Doctor(s)</small>
                   </span>
-                  <small>Doctor(s)</small>
                 </span>
               </p>
-              <footer class="blockquote-footer">{{ $specialty->description }}</footer>
-            </blockquote>
-          </div>
-          <div class="card-footer">
-            @ 5 tags + <button class="btn btn-sm btn-info">see more</button>
-          </div>
+            </a>
+            <footer class="blockquote-footer">{{ $specialty->description }}</footer>
+          </blockquote>
         </div>
-      </a>
+        <div class="card-footer">
+          @ 5 tags +  <a class="card-link" href="{{ route('specialties.show', $specialty) }}">see more</a>
+        </div>
+      </div>
     @empty
-      <div class="empty-list bg-white">
+      <div class="empty-list bg-white my-1">
         0 specialties at the moment
       </div>
 		@endforelse
@@ -55,7 +54,12 @@
       <div class="card card-primary card-outline text-center shadow">
         <div class="card-header">
           <div class="card-title">
-            <i class="fa fa-plus"></i> Add New Specialty
+            <i class="fa fa-stethoscope"></i> Add New Specialty
+              <br>
+              <span style="font-size:12px;">
+                <i class="fa fa-info-circle red"></i> For doctors only! <br>
+                <b>Add your specialty</b> if not available of this platform yet.
+              </span>
           </div>
         </div>
 
@@ -83,13 +87,13 @@
 	            @endif
 	          </div>
 
-						<button type="submit" class="btn btn-block btn-primary">New Specialty</button>
+						<button type="submit" class="btn btn-block btn-primary">Create Specialty</button>
 					</form>
         </div>
         <div class="card-footer">            
           <span class="text-muted">
               <b>Medical Fields of Specialization</b> <br>
-              <i class="fa fa-info-circle brown"></i>&nbsp; Only medical doctors can see this form or allowed to create new specialties.
+              <i class="fa fa-info-circle brown"></i>&nbsp; Only medical doctors can see this form or allowed to create new specialties. 
           </span>
         </div>
       </div>
@@ -97,14 +101,12 @@
 
     <br clear="both">
 
-    <div class="card p-3">
-      {{-- @foreach ($specialty->tags as $tag)
-        <a href="{{ route('tags.show', $tag) }}"><span class="badge">{{ $tag->name }}</span></a>, 
-      @endforeach --}}
-      @ foreach <br>
-        $tags as $tag  <br>
-      @ endforeach <br>
-      paginate(100)
+    <div class="p-3 shadow bg-white">
+      @foreach ($specialty->tags as $tag)
+        <span class="keyword-labels">
+          <a href="{{ route('tags.show', $tag) }}">{{ $tag->name }}</a>
+        </span>
+      @endforeach
     </div>
   </div>
 </div>

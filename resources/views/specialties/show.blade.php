@@ -9,7 +9,7 @@
 
 <div class="">
   <nav aria-label="breadcrumb" class=" mt-0">
-    <ol class="breadcrumb p-1">
+    <ol class="breadcrumb py-1">
       <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
       <li class="breadcrumb-item"><a href="{{ route('specialties.index') }}">Specialties</a></li>
       <li class="breadcrumb-item active" aria-current="page"><b>{{ $specialty->name }}</b></li>
@@ -18,9 +18,6 @@
 
   <div class="row">
     <div class="col-md-8">
-
-      List of Doctors under {{$specialty->name}}, with statistics <br>
-      List of Tags under {{$specialty->name}}
 
       <div class="card-deck">
       {{-- @foreach ($doctors as $doctor) --}}
@@ -115,34 +112,24 @@
         <div class="card card-primary card-outline text-center shadow">
           <div class="card-header">
             <div class="card-title">
-              <i class="fa fa-plus"></i> Add New Tag/Content
+              <i class="fa fa-tags"></i> Add New Keyword
+              <br>
+              <span style="font-size:12px;">
+                <i class="fa fa-info-circle red"></i> For doctors only! {{-- Only medical doctors can see this form. --}}
+                <br>
+                Add tags or keywords that are relevant to <b>{{$specialty->name}}</b> with this form.
+              </span>
             </div>
           </div>
 
           <div class="card-body">
-            <form action="{{--route('tags.store')--}}" method="post">
+            <form action="{{ route('tags.store') }}" method="post">
               {{ csrf_field() }}
 
               <input type="hidden" name="specialty_id" value="{{$specialty->id}}">
 
-              {{-- <div class="form-group">
-                <label for="specialty_id" class="col-form-label">{{ __('Specialty Name') }}</label>
-                <select name="specialty_id" class="form-control{{ $errors->has('specialty_id') ? ' is-invalid' : '' }}" value="{{ old('specialty_id') }}" required>
-                  <option value="">Select Specialty</option>
-                  @foreach($specialties as $specialty)
-                    <option value="{{ $specialty->id }}">{{ $specialty->name }}</option>
-                  @endforeach
-                </select>
-
-                @if ($errors->has('specialty_id'))
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $errors->first('specialty_id') }}</strong>
-                    </span>
-                @endif
-              </div> --}}
-
               <div class="form-group">
-                <input type="text" name="name" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" value="{{ old('name') }}" placeholder="tag/content name" required>
+                <input type="text" name="name" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" value="{{ old('name') }}" placeholder="keyword, illness, procedure" required>
 
                 @if ($errors->has('name'))
                     <span class="invalid-feedback" role="alert">
@@ -161,27 +148,27 @@
                 @endif
               </div>
 
-              <button type="submit" class="btn btn-block btn-primary">Submit</button>
+              <button type="submit" class="btn btn-block btn-primary">Create Keyword</button>
             </form>
           </div>
-          <div class="card-footer">            
-            <span class="text-muted">
-                Medical Terms, procedures etc under <b>{{$specialty->name}}</b>
-            </span>
+
+          <div class="card-footer">
+            <span class="text-danger"><b>Relevant keywords help patients in locating relevant doctors easily.</b></span>
           </div>
         </div>
       @endif
 
       <br clear="both">
 
-      <div class="card p-3">
-        {{-- @foreach ($specialty->tags as $tag)
-          <a href="{{ route('tags.show', $tag) }}"><span class="badge">{{ $tag->name }}</span></a>, 
-        @endforeach --}}
-        @ foreach <br>
-          $tags as $tag  <br>
-        @ endforeach <br>
-        paginate(100)
+      <div class="p-3 shadow bg-white text-center">
+        Medical terms, illnesses, procedures under <b>{{$specialty->name}}</b> 
+        <span class="badge badge-primary">{{$specialty->tags->count()}}</span>.
+        <hr>
+        @foreach ($specialty->tags as $tag)
+          <span class="keyword-labels">
+            <a href="{{ route('tags.show', $tag) }}">{{ $tag->name }}</a>
+          </span>
+        @endforeach
       </div>
     </div>
   </div>

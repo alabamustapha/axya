@@ -18,6 +18,8 @@ class CreateSpecialtiesTable extends Migration
             $table->string('name')->unique();
             $table->string('slug');
             $table->string('description');
+            $table->integer('user_id')->unsigned();
+            $table->timestamp('accepted_at')->nullable();
         });
     }
 

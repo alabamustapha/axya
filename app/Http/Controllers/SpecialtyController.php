@@ -28,6 +28,8 @@ class SpecialtyController extends Controller
      */
     public function store(SpecialtyRequest $request)
     {
+        $request->merge(['user_id' => auth()->id()]);
+        
         $specialty = Specialty::create($request->all());
 
         if ($specialty){

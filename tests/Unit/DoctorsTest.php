@@ -2,9 +2,10 @@
 
 namespace Tests\Unit;
 
-use App\Image;
-use App\User;
 use App\Doctor;
+use App\Image;
+use App\Specialty;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Schema;
@@ -20,6 +21,7 @@ class DoctorsTest extends TestCase
 
         $this->image  = factory(Image::class)->create();
         $this->user   = factory(User::class)->create();
+        $this->specialty = factory(Specialty::class)->create();
         $this->doctor = factory(Doctor::class)->create();
     } 
 
@@ -28,7 +30,7 @@ class DoctorsTest extends TestCase
     {
         $this->assertTrue(Schema::hasColumns('doctors', 
           [
-            'id','user_id','speciality','graduate_school','verified_by','verified_at', 
+            'id','user_id',/*'specialty_id',*/'graduate_school','verified_by','verified_at', 
           ]), 1);
     }
 
@@ -42,5 +44,17 @@ class DoctorsTest extends TestCase
     public function a_doctor_has_many_patients()
     {
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->doctor->patients); 
+    }
+
+    // /** @test */
+    // public function a_doctor_belongs_to_a_specialty()
+    // {
+    //     $this->assertInstanceOf(Specialty::class, $this->doctor->specialty);
+    // }
+
+    /** @test */
+    public function a_doctor_belongs_to_many_specialties()
+    {
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->doctor->specialties); 
     }
 }

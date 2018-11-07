@@ -9,9 +9,11 @@ class Specialty extends Model
 {
     use Sluggable;
 
+    protected $dates = ['accepted_at'];
+
     public $timestamps = false;
 
-    protected $fillable = ['name','slug','description',];
+    protected $fillable = ['name','slug','description','user_id', 'accepted_at'];
 
     /**
      * Return the sluggable configuration array for this model.
@@ -41,8 +43,9 @@ class Specialty extends Model
       return $this->belongsToMany(Doctor::class);
     }
 
-    // public function tags()
-    // {
-    //   return $this->belongsToMany(Tag::class);
-    // }
+    public function tags()
+    {
+      // return $this->belongsToMany(Tag::class);
+      return $this->hasMany(Tag::class);
+    }
 }

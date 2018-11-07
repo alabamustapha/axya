@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\User;
 use App\Specialty;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -16,6 +17,7 @@ class SpecialtiesTest extends TestCase
     {
         parent::setUp();
         
+        $this->user = factory(User::class)->create();
         $this->specialty = factory(Specialty::class)->create();
     } 
 
@@ -32,6 +34,12 @@ class SpecialtiesTest extends TestCase
     public function a_specialty_belongs_to_many_doctors()
     {
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->specialty->doctors); 
+    }
+
+    /** @test */
+    public function a_specialty_has_many_tags()
+    {
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->specialty->tags); 
     }
 
     // /** @test */
