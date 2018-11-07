@@ -2,42 +2,48 @@
 
 namespace App\Traits;
 
-use App\Exceptions\EditUserException;
+use App\Doctor;
+use App\Exceptions\ResourceAdministrationException;
+use App\User;
 
 /** 
  * Authorization and Exceptions 
- * Checks if request->user() has enough authorization to ADMIN resource.
+ * Checks if request->user has enough authorization to ADMIN (Edit, Delete) a resource. 
  *
+ * @param  \App\Model  $model
+ * @return App\Exceptions\ResourceAdministrationException
  */
 trait CustomAuthorizationsTrait
 {
-    /** 
-     * User Admin Authorization and Exceptions 
-     * Checks if request->user() has authorization to edit resource.
-     * @target API
-     *
-     * @param  \App\User  $user
-     * @return App\Exceptions\EditUserException
-     */
+    // To Do: Make this trait dynamic 
+    // https://stackoverflow.com/questions/251485/dynamic-class-method-invocation-in-php
+    // https://www.designcise.com/web/tutorial/how-to-dynamically-invoke-a-class-method-in-php
+
+    /** ~~~~~~~ User-API */
     public function canEditUser(User $user)
     {
         if (auth()->id() !== $user->id) {
-            throw new EditUserException;
+            throw new ResourceAdministrationException;
+        }
+    }
+    public function canRemoveUser(User $user)
+    {
+        if ((auth()->id() !== $user->id) && (! auth()->user()->isSuperAdmin())) {
+            throw new ResourceAdministrationException;
         }
     }
 
-    /** 
-     * User Admin Authorization and Exceptions 
-     * Checks if request->user() has authorization to DESTROY a User resource.
-     * @target API
-     *
-     * @param  \App\User  $user
-     * @return App\Exceptions\EditUserException
-     */
-    public function canRemoveUser(User $user)
+    /** ~~~~~~~ Doctor-API*/
+    public function canEditDoctor(Doctor $doctor)
     {
-        if ((auth()->id() !== $user->id) || auth()->user()->isSuperAdmin()) {
-            throw new EditUserException;
+        if (auth()->id() !== $doctor->id) {
+            throw new ResourceAdministrationException;
+        }
+    }
+    public function canRemoveDoctor(Doctor $doctor)
+    {
+        if ((auth()->id() !== $doctor->id) && (! auth()->user()->isSuperAdmin())) {
+            throw new ResourceAdministrationException;
         }
     }
 
