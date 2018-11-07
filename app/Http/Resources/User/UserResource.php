@@ -38,8 +38,8 @@ class UserResource extends JsonResource
             'type'              => $this->type(),
             'active_status'     => $this->status(),
             'professional_type' => $this->professionalType(),
-            'doctors'   => (array) $this->inPastAttendantDoctors(),
-            'children'  => (array) $this->inPastAttendantDoctors(),
+            // 'doctors'   => (array) $this->inPastAttendantDoctors(),
+            // 'children'  => (array) $this->inPastAttendantDoctors(),
             'href' => [
                 'self' => route('users_api.show', $this),
                 // 'doctors' => route('doctors-api.show', $this)

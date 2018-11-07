@@ -2,21 +2,25 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests\UserRequest;
+use App\Http\Requests\UserUpdateRequest;
+use App\Http\Resources\User\UserResource;
+use App\Notifications\PasswordChangeNotification;
+use App\Traits\CustomAuthorizationsTrait;
+use App\Traits\ImageProcessing;
 use App\User;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\UsersUpdateRequest;
-use App\Http\Resources\User\UserResource;
-use App\Traits\CustomAuthorizationsTrait;
+use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
-    use CustomAuthorizationsTrait;
+    use CustomAuthorizationsTrait, ImageProcessing;
 
     public function __construct()
     {
-        $this->middleware('auth:api');
+        $this->middleware('auth:api')->except('store');
     }
 
     /**
@@ -26,7 +30,38 @@ class UserController extends Controller
      */
     public function index()
     {
-        return UserResource::collection(User::paginate(5));
+        return UserResource::collection(User::paginate(15));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(UserRequest $request)
+    {
+        // 1.
+        $user = User::create([
+            'name'     => $request['name'],
+            'email'    => $request['email'],
+            'gender'   => $request['gender'],
+            'password' => Hash::make($request['password']),
+            'dob'      => $request['dob'],
+            'terms'    => $request['terms'],
+        ]);
+
+        // 2.
+        // new User;
+        // $user->name     = $request['name'];
+        // $user->email    = $request['email'];
+        // $user->gender   = $request['gender'];
+        // $user->password = Hash::make($request['password']);
+        // $user->dob      = $request['dob'];
+        // $user->terms    = $request['terms'];
+        // $user->save();
+
+        return response()->json(new UserResource($user), Response::HTTP_CREATED);//201
     }
 
     /**
@@ -35,8 +70,10 @@ class UserController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show($slug)
     {
+        $user = User::whereSlug($slug)->firstOrFail();
+
         return new UserResource($user);
     }
 
@@ -47,8 +84,10 @@ class UserController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(UsersUpdateRequest $request, User $user)
+    public function update(UserUpdateRequest $request, $slug)
     {
+        $user = User::whereSlug($slug)->firstOrFail();
+
         $this->canEditUser($user);
 
         $user->update($request->all());
@@ -56,17 +95,100 @@ class UserController extends Controller
         return response()->json(new UserResource($user),  Response::HTTP_OK);//200
     }
 
+
+    public function updateAllergies(Request $request, $slug)
+    {
+        $user = User::whereSlug($slug)->firstOrFail();
+
+        $this->canEditUser($user);
+
+        request()->validate(['allergies' => 'required|string|max:255']);
+        
+        $user->update(['allergies' => $request->allergies]);
+        
+        // flash('Profile updated successfully')->success();
+
+        return response()->json(new UserResource($user),  Response::HTTP_OK);//200
+    }
+
+
+    public function updateChronics(Request $request, $slug)
+    {
+        $user = User::whereSlug($slug)->firstOrFail();
+
+        $this->canEditUser($user);
+
+        request()->validate(['chronics' => 'required|string|max:1500']);
+
+        $user->update(['chronics' => $request->chronics]);
+        
+        // flash('Profile updated successfully')->success();
+
+        return response()->json(new UserResource($user),  Response::HTTP_OK);//200
+    }
+
+    public function changePassword(Request $request, $slug)
+    {
+        $user = User::whereSlug($slug)->firstOrFail();
+
+        $this->canEditUser($user);
+
+        request()->validate([ 
+            'password' => 'required|string|min:6|confirmed', 
+            'password_confirmation' => 'required|string|min:6' 
+        ]);
+
+        if ($user->update(['password' => Hash::make($request['password']) ])){
+
+            $user->notify(new PasswordChangeNotification($user));
+        }
+        
+        return response()->json(new UserResource($user),  Response::HTTP_OK);//200 
+    }
+
+
+    public function avatarUpload(Request $request, $slug)
+    {
+        $user = User::whereSlug($slug)->firstOrFail();
+
+        $this->canEditUser($user);
+
+        $this->avatarProcessing($request, $user);
+
+        // flash('Your profile image was successfully updated.')->success();
+
+        return response()->json(new UserResource($user),  Response::HTTP_OK);//200 
+    }
+
+
+    public function avatarDelete(Request $request, $slug)
+    {
+        $user = User::whereSlug($slug)->firstOrFail();
+
+        $this->canEditUser($user);
+
+        $this->imageDeleteTrait($request, $user);
+
+        // flash('Your profile image was successfully removed.')->success();
+
+        return response()->json(new UserResource($user),  Response::HTTP_OK);//200
+    }
+
+
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy($slug)
     {
+        $user = User::whereSlug($slug)->firstOrFail();
+
         $this->canRemoveUser($user);
 
-        // $user->associated_model->each()->delete();
+        // If not cascaded, 
+        // Delete $user->associated_model->each()->delete();
         $user->delete();
 
         return response()->json(null, Response::HTTP_NO_CONTENT);//204

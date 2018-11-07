@@ -121,6 +121,7 @@ class UserController extends Controller
         return redirect()->route('users.show', $user); 
     }
 
+    // For Multiples Uploads Test.
     public function imageUpload(Request $request, User $user) 
     {
         $this->imageProcessing($request, $user);
@@ -149,6 +150,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        $this->authorize('delete', $user);
         // $user->images()->get()->each->delete();
         // $user->comments()->get()->each->delete();
         $user->delete();
