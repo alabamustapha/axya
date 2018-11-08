@@ -8,14 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 class Doctor extends Model
 {
     protected $fillable = [
-      'id','user_id','slug','speciality','graduate_school','available','subscription_ends_at','verified_at','verified_by',
+      'id','user_id','slug','specialty_id','graduate_school','available','subscription_ends_at','verified_at','verified_by',
     ];
 
     protected $dates = ['verified_at', 'subscription_ends_at'];
 
+    public $appends = ['specialty'];
+
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function specialties()
+    {
+        return $this->belongsToMany(Specialty::class);
     }
 
     public function patients()
@@ -93,5 +100,10 @@ class Doctor extends Model
         return $query->isSubscribed()
                      ->where('available', '0')
                      ;
+    }
+
+    public function getSpecialtyAttribute()
+    {
+        dd($this->specialty[0]->name);//->name;
     }
 }

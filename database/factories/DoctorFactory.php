@@ -10,14 +10,14 @@ $factory->define(App\Doctor::class, function (Faker $faker) {
     $grad_school = ucfirst($faker->word) . ' '. $name .', '. $faker->country;/* '. $faker->city .',*/
 
     return [        
-      'id'          => $id,
-      'user_id'     => $id,
-      'slug'        => $slug,
-      'speciality'  => $faker->randomElement(['Optician','Opthamologist','Gynaecologist','Dentist','Dermatologist','Oculist','Oncologist']),
+      'id'              => $id,
+      'user_id'         => $id,
+      'slug'            => $slug,
+      // 'specialty_id'    => App\Specialty::all()->random()->id,
       'graduate_school' => $grad_school,
-      'available'   => $faker->boolean(85),
+      'available'       => $faker->boolean(85),
       'subscription_ends_at' => $faker->dateTimeBetween('-5 day', '30 day'),
-      'verified_by' => App\User::all()->random()->id,
-      'verified_at' => $faker->dateTimeBetween('-50 day', '-16 minute'),
+      'verified_by'     => App\User::all()->random()->id,
+      'verified_at'     => $faker->dateTimeBetween('-50 day', '-16 minute'),
     ];
 });

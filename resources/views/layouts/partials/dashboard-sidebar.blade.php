@@ -107,7 +107,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{--route('tags.index')--}}" class="nav-link">
+                <a href="{{route('tags.index')}}" class="nav-link">
                 {{-- <router-link to="/tags" class="nav-link"> --}}
                   <i class="nav-icon fa fa-tags teal"></i>
                   <p>

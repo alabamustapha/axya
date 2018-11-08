@@ -71,3 +71,9 @@
   border:1px dotted green;
   padding:2px 5px;
 }
+
+.borderless,
+.borderless:hover, {
+.borderless:active {
+  outline: none;border: none;
+}

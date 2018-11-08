@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Doctor;
+use App\Specialty;
 use Illuminate\Http\Request;
 
 class DoctorController extends Controller
 {
     public function __construct()
     {
-        // $this->middleware('auth')->except('index','show');
+        $this->middleware('auth')->except('index','show');
         // $this->middleware('doctor')->except('index','show');
     }
 
@@ -30,7 +31,9 @@ class DoctorController extends Controller
      */
     public function create()
     {
-        //
+        $specialties = Specialty::all();
+
+        return view('doctors.create', compact('specialties'));
     }
 
     /**
@@ -41,7 +44,7 @@ class DoctorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //'certs' => 'file|mimetypes:application/pdf,image/png,image/jpeg|mimes:pdf,jpeg,png'
     }
 
     /**

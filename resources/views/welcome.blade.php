@@ -10,39 +10,62 @@
     </div>
 </div>
 <div class="container">
-        <div class="table-responsive">
-            <div class="card-deck" style="flex-flow: nowrap;">
-                @foreach ($doctors as $doctor)
-                    <div class="card mr-2" style="min-width: 16rem;max-width: 16rem;">
-                        <div style="display:block;min-height: 200px;height: 200px;overflow: hidden;">
-                            <img class="card-img-top" src="{{ $doctor->dummyAvatar()/*$doctor->user->avatar*/ }}" alt="{{ $doctor->user->name }}" style="display:block;min-height: 200px;">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <a href="{{route('doctors.show', $doctor->user)}}">{{ $doctor->user->name }}</a>
-                            </h5>
-                            <h6 class="card-subtitle mb-2 text-muted">
-                                <a href="#" style="color: inherit;">Spech{{-- $doctor->specialty --}}</a>
-                            </h6>
-                            <p class="card-text">Practice Years: {{random_int(2,10)}}</p>
-                        </div>
-                        <div class="card-footer tf-flex">
-                            <span>
-                                <small class="text-muted">
-                                    <span class="fa fa-star text-primary"></span>
-                                    <span class="fa fa-star text-primary"></span>
-                                    <span class="fa fa-star text-primary"></span>
-                                    <span class="fa fa-star text-primary"></span>
-                                    <span class="fa fa-star text-primary"></span>
-                                </small>
-                                &nbsp;{{random_int(1,5)}}({{random_int(10,100)}})
-                            </span>
-                            <a href="{{route('doctors.show', $doctor->user)}}" class="btn btn-primary btn-sm">View Profile</a>
-                        </div>
+    <div class="table-responsive mb-5">
+        <div class="card-deck" style="flex-flow: nowrap;">
+            @foreach ($doctors as $doctor)
+                <div class="card mr-2" style="min-width: 16rem;max-width: 16rem;">
+                    <div style="display:block;min-height: 200px;height: 200px;overflow: hidden;">
+                        <img class="card-img-top" src="{{ $doctor->dummyAvatar()/*$doctor->user->avatar*/ }}" alt="{{ $doctor->user->name }}" style="display:block;min-height: 200px;">
                     </div>
-                @endforeach
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a href="{{route('doctors.show', $doctor->user)}}">{{ $doctor->user->name }}</a>
+                        </h5>
+                        <h6 class="card-subtitle mb-2 text-muted">
+                            <a href="#" style="color: inherit;">Spech{{-- $doctor->specialty --}}</a>
+                        </h6>
+                        <p class="card-text">Practice Years: {{random_int(2,10)}}</p>
+                    </div>
+                    <div class="card-footer tf-flex">
+                        <span>
+                            <small class="text-muted">
+                                <span class="fa fa-star text-primary"></span>
+                                <span class="fa fa-star text-primary"></span>
+                                <span class="fa fa-star text-primary"></span>
+                                <span class="fa fa-star text-primary"></span>
+                                <span class="fa fa-star text-primary"></span>
+                            </small>
+                            &nbsp;{{random_int(1,5)}}({{random_int(10,100)}})
+                        </span>
+                        <a href="{{route('doctors.show', $doctor->user)}}" class="btn btn-primary btn-sm">View Profile</a>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+    
+    <div class="text-center">
+        <div class="row">
+            <div class="col-sm-6">
+                <a href="{{route('specialties.index')}}" class="card">
+                    <h1 class="card-body red">
+                        
+                        <i class="fa fa-stethoscope"></i>&nbsp; Doctors By Specialties
+
+                    </h1>
+                </a>
+            </div>
+            <div class="col-sm-6">
+                <a href="{{route('tags.index')}}" class="card">
+                    <h1 class="card-body teal">
+                        
+                        <i class="fa fa-tags"></i>&nbsp; Doctors By Keywords
+                        
+                    </h1>
+                </a>
             </div>
         </div>
+    </div>
 </div>
 
 

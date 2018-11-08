@@ -194,7 +194,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public static $professionalStatus = array(
         0 => 'Are you a <i class="fa fa-user-md"></i> Medical Doctor? 
-              <a class="btn btn-success btn-lg">Create a Profile Now!</a>',
+              <a class="btn btn-success btn-lg" href="http://medapp.demo/doctors/create">Register Here!</a>',
 
         1 => '<span class="teal text-bold"><i class="fa fa-info-circle"></i>&nbsp; Notifications</span>
               <hr> 

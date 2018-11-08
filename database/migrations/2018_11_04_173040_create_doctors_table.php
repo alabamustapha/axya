@@ -18,7 +18,7 @@ class CreateDoctorsTable extends Migration
             $table->integer('user_id')->unique()->unsigned();
             $table->string('slug');
 
-            $table->string('speciality')->nullable();
+            // $table->integer('specialty_id')->unsigned();
             $table->string('graduate_school')->nullable();
             $table->boolean('available')->default(0); // 0:Available, 1:Not Available.
             $table->timestamp('subscription_ends_at')->nullable();
@@ -29,6 +29,7 @@ class CreateDoctorsTable extends Migration
             $table->foreign('id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('verified_by')->references('id')->on('users')->onDelete('cascade');
+            // $table->foreign('specialty_id')->references('id')->on('specialties')->onDelete('cascade');
         });
     }
 

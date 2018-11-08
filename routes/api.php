@@ -21,6 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::apiResources([
     'users_api' => 'API\UserController',
+    'doctors_api' => 'API\DoctorController' 
 ]);
 
 Route::patch('/users_api/{users_api}/allergies',  'Api\UserController@updateAllergies')->name('users.allergies');
