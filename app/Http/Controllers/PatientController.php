@@ -22,6 +22,6 @@ class PatientController extends Controller
      */
 
      public function dashboard(User $user){
-        return view('patients.dashboard');
+        return view('');
      }
 }

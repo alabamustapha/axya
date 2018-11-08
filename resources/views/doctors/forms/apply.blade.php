@@ -1,16 +1,22 @@
 <form method="POST" action="{{-- route('apply') --}}" enctype="multipart/form-data">
     @csrf
 
-    <div class="form-group h1">
+    <div class="form-group h1 text-center">
         Doctor's Application
     </div>
 
-    <fieldset class="p-3 mb-4 bg-white shadow">
-        <legend class="bg-dark text-white py-1 px-3">Basic Details</legend>
-        <div class="form-group">
-            <label for="name">{{ __('Name') }}</label>
+    <div class="card card-primary card-outline text-center shadow mb-4">
+      <div class="card-header">
+        <div class="card-title">
+          <i class="fa fa-user-md"></i> Basic Details
+        </div>
+      </div>
 
-                <input type="text" class="form-control" value="{{ Auth::user()->name }}" readonly>
+      <div class="card-body">
+        <div class="form-group">
+            <label for="name" class="tf-flex">{{ __('Name') }}</label>
+
+            <input type="text" class="form-control" value="{{ Auth::user()->name }}" readonly>
         </div>
 
         <div class="form-group" data-toggle="tooltip" title="Choose a specialty close to yours if your specialty is not available yet, as a medical doctor on this platform, you can add it if your application is successful and then update your profile.">
@@ -32,10 +38,24 @@
                 </span>
             @endif
         </div>
-    </fieldset>
+      </div>
 
-    <fieldset class="p-3 mb-4 bg-white shadow">
-        <legend class="bg-dark text-white py-1 px-3">Work Experience Information</legend>
+      <div class="card-footer">
+        <small class="text-muted">Choose a specialty close to yours if your specialty is not available yet.
+        As a medical doctor on this platform, you can add it if your application is successful, then update your profile.</small>
+      </div>
+    </div>
+
+
+
+    <div class="card card-primary card-outline text-center shadow mb-4">
+      <div class="card-header">
+        <div class="card-title">
+          <i class="fa fa-hospital-alt"></i> Work Experience
+        </div>
+      </div>
+
+      <div class="card-body">
         <div class="form-group">
             <label for="first_appointment" class="tf-flex">
                 <span>{{ __('Date of First Appointment') }}</span>
@@ -79,10 +99,19 @@
                 </span>
             @endif
         </div>
-    </fieldset>
+      </div>
+    </div>
 
-    <fieldset class="p-3 mb-4 bg-white shadow">
-        <legend class="bg-dark text-white py-1 px-3">Certifications</legend>
+
+
+    <div class="card card-primary card-outline text-center shadow mb-4">
+      <div class="card-header">
+        <div class="card-title">
+          <i class="fa fa-certificate"></i> Certifications
+        </div>
+      </div>
+
+      <div class="card-body">
         <div class="form-group">
             <label for="medical_certificate" class="tf-flex">
                 <span>{{ __('Medical School Certificate') }}</span>
@@ -129,9 +158,10 @@
                 </span>
             @endif
         </div> 
-    </fieldset>       
+      </div>
+    </div> 
 
-    <div class="form-group mb-0">
+    <div class="form-group mb-4">
         <button type="submit" class="btn btn-primary btn-block">
             {{ __('Submit Application') }}
         </button>

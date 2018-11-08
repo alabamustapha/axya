@@ -28,6 +28,8 @@ class SpecialtyController extends Controller
      */
     public function store(SpecialtyRequest $request)
     {
+        $this->authorize('create', Specialty::class);
+
         $request->merge(['user_id' => auth()->id()]);
         
         $specialty = Specialty::create($request->all());
@@ -59,6 +61,9 @@ class SpecialtyController extends Controller
      */
     public function update(SpecialtyRequest $request, Specialty $specialty)
     {
+        dd($request->all());
+        $this->authorize('edit', $specialty);
+
         if ($specialty->update($request->all())){
             flash($specialty->name . ' updated successfully')->success();
         }
@@ -74,6 +79,8 @@ class SpecialtyController extends Controller
      */
     public function destroy(Specialty $specialty)
     {
+        $this->authorize('delete', $specialty);
+
         if ($specialty->delete()){
             flash($specialty->name . ' deleted successfully')->info();
         }

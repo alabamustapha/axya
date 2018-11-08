@@ -3,3 +3,7 @@
     background: transparent;
 }
 
+.fa,
+.fas {
+  min-width:15px;
+}

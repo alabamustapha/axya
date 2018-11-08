@@ -10,14 +10,6 @@
       <section class="content">
         <div class="container-fluid">
 
-          @if ($user->isAccountOwner())
-          <div class="col bg-white pt-2 pb-1 mb-3 text-center">
-            <h4>
-              {{ $user->professionalStatus() }}
-            </h4>
-          </div>
-          @endif
-
           <div class="row">
             <div class="col-md-4">
 

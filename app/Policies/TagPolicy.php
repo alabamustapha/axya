@@ -22,15 +22,15 @@ class TagPolicy
     }
 
     /**
-     * Determine whether the user can update the tag.
+     * Determine whether the user can edit/update the tag.
      *
      * @param  \App\User  $user
      * @param  \App\Tag  $tag
      * @return mixed
      */
-    public function update(User $user, Tag $tag)
+    public function edit(User $user, Tag $tag)
     {
-        return ($tag->user_id == auth()->id && $user->isDoctor()) || $user->isAdmin();
+        return ($tag->user_id == auth()->id() && $user->isDoctor()) || $user->isAdmin();
     }
 
     /**

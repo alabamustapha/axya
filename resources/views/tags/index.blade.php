@@ -6,14 +6,6 @@
 @section('title', "Tags Index")
 
 @section('content')
-
-<nav aria-label="breadcrumb" class=" mt-0">
-  <ol class="breadcrumb py-1">
-    <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-      <li class="breadcrumb-item"><a href="{{ route('specialties.index') }}">Specialties</a></li>
-    <li class="breadcrumb-item"><b>Tags</b></li>
-  </ol>
-</nav>
   
 <div class="row">
 	<div class="col-md-8">

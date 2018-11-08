@@ -16,8 +16,8 @@ Route::get('/', 'HomeController@index')->name('home');
 
 Auth::routes(['verify' => true]);
 
-Route::resource('specialties', 'SpecialtyController')->except('create');
-Route::resource('tags', 'TagController')->except('create');
+Route::resource('specialties', 'SpecialtyController')->except('create','edit');
+Route::resource('tags', 'TagController')->except('create','edit');
 Route::resource('doctors', 'DoctorController');
 
 // ---- IMAGE UPLOADS RELATED ---------------->
@@ -31,7 +31,6 @@ Route::get('image/{image}', 'ImageController@destroy')->name('image.destroy');
 
 Route::get('user-dashboard', function(){return view('users.dashboard');})->name('user_dashboard')->middleware('auth');
 Route::get('admin-dashboard', function(){return view('admin.dashboard');})->name('admin_dashboard')->middleware('auth');
-Route::get('/dhb/{user}', 'PatientController@dashboard')->name('patient_dashboard');
 
 Route::patch('/{user}/allergies',  'UserController@updateAllergies')->name('allergies.update');
 Route::patch('/{user}/chronics',  'UserController@updateChronics')->name('chronics.update');

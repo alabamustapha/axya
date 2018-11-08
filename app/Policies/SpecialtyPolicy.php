@@ -22,13 +22,13 @@ class SpecialtyPolicy
     }
 
     /**
-     * Determine whether the user can update the specialty.
+     * Determine whether the user can edit/update the specialty.
      *
      * @param  \App\User  $user
      * @param  \App\Specialty  $specialty
      * @return mixed
      */
-    public function update(User $user, Specialty $specialty)
+    public function edit(User $user, Specialty $specialty)
     {
         return ($specialty->user_id == auth()->id() && $user->isDoctor()) || $user->isAdmin();
     }

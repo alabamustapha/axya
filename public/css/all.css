@@ -140,8 +140,18 @@
   border:1px dotted green;
   padding:2px 5px;
 }
+
+.borderless,
+.borderless:hover, {
+.borderless:active {
+  outline: none;border: none;
+}
 /* Some Vendor Styles Override */
 ::-webkit-scrollbar {
     background: transparent;
 }
 
+.fa,
+.fas {
+  min-width:15px;
+}

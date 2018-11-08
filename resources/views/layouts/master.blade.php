@@ -32,9 +32,24 @@
         <div class="content">
 
           @auth
-              @include('layouts.partials.verification_nag')
-          @endauth
+            @include('layouts.partials.verification_nag')
 
+            @if (Auth::user()->isAccountOwner())
+            <div class="container">
+              <div class="col bg-white p-0 pt-2 mt-0 text-center">
+                <h4>
+                  {{ Auth::user()->professionalStatus() }}
+                </h4>
+
+                <nav aria-label="breadcrumb" class="mt-0">
+                  
+                  @include('layouts.partials.dynamic-breadcrumb')
+
+                </nav>
+              </div>
+            </div>
+            @endif
+          @endauth
 
           @if(isset($errors) && count($errors) > 0)
             <div class="container">

@@ -4,11 +4,8 @@
 </a>
 
 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" aria-labelledby="navbarDropdown">
-    <a class="dropdown-item" href="{{ route('patient_dashboard', Auth::user()) }}">
-        {{ __('My Account') }}
-    </a>
     <a class="dropdown-item" href="{{ route('admin_dashboard') }}">
-        {{ __('My Account Upd') }}
+        {{ __('Admin Dashboard') }}
     </a>
     <a class="dropdown-item" href="{{ route('users.show',  Auth::user()) }}">
         {{ __('My Dashboard') }}
