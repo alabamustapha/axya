@@ -41,8 +41,7 @@
       </div>
 
       <div class="card-footer">
-        <small class="text-muted">Choose a specialty close to yours if your specialty is not available yet.
-        As a medical doctor on this platform, you can add it if your application is successful, then update your profile.</small>
+        <small class="text-muted">Your specialty is not in the list yet? Choose anyone close, however verified medical doctors on this platform has privelege to add specialties, add it when your application is successful and then update your profile.</small>
       </div>
     </div>
 

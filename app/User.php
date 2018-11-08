@@ -262,6 +262,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Image::class);
     }
 
+    public function uploaded_documents()
+    {
+        return $this->hasMany(Document::class, 'user_id');
+    }
+
+    public function documents()
+    {
+        return $this->morphMany(Document::class, 'documentable');
+    }
+
     public function doctor()
     {
         return $this->hasOne(Doctor::class);
@@ -269,13 +279,13 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function doctors()
     {
-        $doctorIds = $this->appointments()
-                          ->successful() // Scope on Appointment Class
-                          ->pluck('doctor_id')
-                          ->toArray();
+        // $doctorIds = $this->appointments()
+        //                   ->successful() // Scope on Appointment Class
+        //                   ->pluck('doctor_id')
+        //                   ->toArray();
 
-        return App\Doctor::whereIn('id', $doctorIds)->get();
-        // return $this->hasMany(Doctor::class);
+        // return App\Doctor::whereIn('id', $doctorIds)->get();
+        // // return $this->hasMany(Doctor::class);
     }
 
 
