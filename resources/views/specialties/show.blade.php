@@ -113,7 +113,7 @@
   </div>
 
   <div class="col-md-4">
-    @can ('create', App\Specialty::class)
+    {{--@can ('create', App\Specialty::class)--}}
       <div class="card card-primary card-outline text-center shadow">
         <div class="card-header">
           <div class="card-title">
@@ -160,7 +160,7 @@
           <span class="text-danger"><b>Relevant keywords help patients in locating relevant doctors easily.</b></span>
         </div>
       </div>
-    @endcan
+    {{--@endcan--}}
 
     <div class="p-3 shadow bg-white text-center">
       Medical terms, illnesses, procedures under <b>{{$specialty->name}}</b> 

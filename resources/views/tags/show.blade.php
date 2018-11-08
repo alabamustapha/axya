@@ -11,7 +11,7 @@
   <div class="col-md-8">
       <div class="card shadow-sm">
           <div class="card-body">
-            @can('edit', $tag)  
+            {{--@can('edit', $tag)--}}
               <span class="mr-3">              
                 <button id="navbarDropdown" class="btn btn-sm dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-cog"></i>
@@ -29,7 +29,7 @@
                     </form>
                 </div>
               </span>
-            @endcan
+            {{--@endcan--}}
             <span>
               <b>{{ $tag->name }}</b> - {{ $tag->description }}
             </span>
@@ -125,11 +125,11 @@
   </div>
 
   <div class="col-md-4">
-    @can ('create', App\Tag::class)
+    {{--@can ('create', App\Tag::class)--}}
   
       @include('tags.partials.create-form')
     
-    @endcan
+    {{--@endcan--}}
 
     <div class="bg-white p-3 shadow text-center">
      Medical terms, illnesses, procedures under the specialty <b>{{$tag->specialty->name}}</b>.
@@ -146,7 +146,7 @@
   </div>
 </div>
 
-@can('edit', $tag)
+{{--@can('edit', $tag)--}}
   <div class="modal bg-transparent" tabindex="-1" role="dialog" id="tagUpdateForm" style="display:none;" aria-labelledby="tagUpdateFormLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content px-2 bg-transparent shadow-none">
@@ -162,6 +162,6 @@
       </div>
     </div>
   </div>
-@endcan
+{{--@endcan--}}
 
 @endsection
