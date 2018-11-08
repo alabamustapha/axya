@@ -5,7 +5,7 @@ namespace App\Policies;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class DocumentsPolicy
+class ApplicationPolicy
 {
     use HandlesAuthorization;
 
@@ -14,7 +14,7 @@ class DocumentsPolicy
         return $user->isVerified();
     }
 
-    public function delete(User $user, Document $document)
+    public function delete(User $user, Application $application)
     {
         return $user->isAdmin();
     }
