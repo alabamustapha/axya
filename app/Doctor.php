@@ -25,8 +25,20 @@ class Doctor extends Model
         return $this->belongsToMany(Specialty::class);
     }
 
+    public function workplaces()
+    {
+        return $this->hasMany(Workplace::class);
+    }
+
     public function patients()
     {
+        // $patientIds = $this->appointments()
+        //                   ->successful() // Scope on Appointment Class
+        //                   ->pluck('user_id')
+        //                   ->toArray();
+
+        // return App\User::whereIn('id', $patientIds)->get();
+        // // return $this->hasMany(Doctor::class);
         return $this->hasMany(User::class, 'id');
     }
 

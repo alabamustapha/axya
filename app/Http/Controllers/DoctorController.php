@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Doctor;
 use App\Specialty;
+use App\Workplace;
 use Illuminate\Http\Request;
 
 class DoctorController extends Controller
@@ -55,7 +56,9 @@ class DoctorController extends Controller
      */
     public function show(Doctor $doctor)
     {
-        return view('doctors.show', compact('doctor'));
+        $workplaces = Workplace::orderBy('end_date', 'desc')->get();
+
+        return view('doctors.show', compact('doctor','workplaces'));
     }
 
     /**

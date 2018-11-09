@@ -18,6 +18,7 @@ Auth::routes(['verify' => true]);
 
 Route::resource('specialties', 'SpecialtyController')->except('create','edit');
 Route::resource('tags', 'TagController')->except('create','edit');
+Route::resource('workplaces', 'WorkplaceController')->only('store','update','destroy');
 Route::resource('doctors', 'DoctorController');
 
 // ---- IMAGE UPLOADS RELATED ---------------->

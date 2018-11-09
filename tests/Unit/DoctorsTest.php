@@ -46,6 +46,12 @@ class DoctorsTest extends TestCase
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->doctor->patients); 
     }
 
+    /** @test */
+    public function a_doctor_has_many_workplaces()
+    {
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->doctor->workplaces); 
+    }
+
     // /** @test */
     // public function a_doctor_belongs_to_a_specialty()
     // {
