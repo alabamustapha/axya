@@ -6,14 +6,6 @@
 
   <div class="container-fluid">
 
-    @if ($doctor->user->isAccountOwner())
-    <div class="col bg-white pt-2 pb-1 mb-3 text-center">
-      <h4>
-        {{ $doctor->user->professionalStatus() }}
-      </h4>
-    </div>
-    @endif
-
     <div class="row">
       <div class="col-md-4">
 
@@ -34,7 +26,7 @@
 
               
               @if ($doctor->user->hasUploadedAvatar())
-                  <a href="{{route('user.avatar.delete', $user)}}" class="btn btn-sm btn-danger" title="Remove Avatar" onclick="return confirm('Do you want to remove current avatar?');">
+                  <a href="{{route('user.avatar.delete', $doctor->user)}}" class="btn btn-sm btn-danger" title="Remove Avatar" onclick="return confirm('Do you want to remove current avatar?');">
                   <i class="fa fa-trash text-light"></i>
                 </a>
               @endif
@@ -165,7 +157,7 @@
                 <li class="list-group-item p-1 tf-flex "><b>Medical School:</b> <span><i class="fa fa-calendar"></i>&nbsp; June 2005</span></li>
                 <li class="list-group-item p-1 tf-flex"><b>Medical Association:</b> <span><i class="fa fa-calendar"></i>&nbsp; August 2005</span></li>
                 <li class="list-group-item p-1 border-bottom-0" title="Add new certificate">
-                  <button class="btn btn-secondary text-light">Add new &nbsp;<i class="fa fa-certificate"></i></button>
+                  <button class="btn btn-secondary btn-sm text-light">Add new &nbsp;<i class="fa fa-certificate"></i></button>
                 </li>
               </ul>
             </div>
@@ -175,13 +167,49 @@
                 <strong><i class="fa fa-hospital-alt"></i> Work records</strong>
               </h4>
 
-              <ul class="list-group list-group-unbordered mb-0">
-                <li class="list-group-item p-1 text-muted ">Children Hospital, Ontario Canada | Nov. 1998 - June 2004</li>
-                <li class="list-group-item p-1 text-muted">Mother and Child Hospital, Quebec Canada | July. 2004 - June 2009</li>
-                <li class="list-group-item p-1 border-bottom-0" title="Add new work record">
-                  <button class="btn btn-secondary text-light">Add new &nbsp;<i class="fa fa-hospital-alt"></i></button>
-                </li>
-              </ul>
+              <div class="table-responsive">
+                <table class="table table-sm">
+                  @foreach($workplaces as $workplace)
+                    <tr>
+                      <td>                      
+                        <span class="mr-3">              
+                          <button id="navbarDropdown" class="btn btn-sm btn-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <i class="fa fa-cog teal"></i>
+                          </button>
+                          <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown">
+                              <button class="dropdown-item" data-toggle="modal" data-target="#workplaceUpdateForm" title="Update Keyword">
+                                <i class="fa fa-edit teal"></i>&nbsp; edit
+                              </button>
+                              <form method="post" action="{{route('workplaces.destroy', $workplace)}}">
+                                @csrf
+                                {{ method_field('DELETE') }} 
+                                <button type="submit" class="dropdown-item" onclick="return confirm('You really want to delete this workplace?');" title="Delete Keyword">
+                                  <i class="fa fa-trash red"></i>&nbsp; delete
+                                </button>
+                              </form>
+                          </div>
+                        </span>
+
+                        {{ $workplace->name }}
+                      </td>
+                      <td>{{ $workplace->address }}</td>
+                      <td>
+                        <small class="tf-flex">
+                          <b class="" style="padding:2px;border:1px dotted gray;">{{ $workplace->start_date }}</b>
+
+                          <b class="" style="padding:2px;border:1px dotted gray;">{{ $workplace->end_date }}</b>
+                        </small>
+                      </td>
+                    </tr>
+                  @endforeach
+                  <tr>
+                    <td colspan="3">
+                      <button class="btn btn-secondary btn-sm text-light" data-toggle="modal" data-target="#createWorkplaceForm" title="Add new workplace">
+                        Add new &nbsp;<i class="fa fa-hospital-alt"></i></button>
+                      </td>
+                  </tr>
+                </table>
+              </div>
             </div>
           </div>
           <!-- /.card-body -->
@@ -224,6 +252,22 @@
         </div>
       </div>
 
+      <div class="modal" tabindex="-1" role="dialog" id="createWorkplaceForm" style="display:none;" aria-labelledby="createWorkplaceFormLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md modal-dialog-centered" role="document">
+          <div class="modal-content px-3 bg-transparent shadow-none">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 5px 15px 0px;margin:10px auto -25px">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <br>
+            <div class="modal-body">
+
+              @include('doctors.forms.workplace')
+
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="modal" tabindex="-1" role="dialog" id="updateAvatarForm" style="display:none;" aria-labelledby="updateAvatarFormLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
           <div class="modal-content px-3">
@@ -233,14 +277,14 @@
             <br>
             <div class="modal-body">
               <div class="text-center">
-                <img class="img-fluid img-circle profile-img" src="{{$user->avatar}}" alt="{{$user->name}} profile picture">
+                <img class="img-fluid img-circle profile-img" src="{{$doctor->user->avatar}}" alt="{{$doctor->user->name}} profile picture">
 
                 <div class="form-group text-center">
                   <label for="avatar" class="h5">Update Display Picture</label>
                 </div>
               </div>
 
-              <form action="{{route('user.avatar.upload', $user)}}" method="post" enctype="multipart/form-data">
+              <form action="{{route('user.avatar.upload', $doctor->user)}}" method="post" enctype="multipart/form-data">
                 {{ csrf_field() }}  
                 {{ method_field('PATCH') }}   
 

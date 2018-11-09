@@ -20,7 +20,10 @@ class SpecialtiesFeatureTest extends TestCase
         
         $this->doc_user  = factory(User::class)->create();
         $this->doctor    = factory(Doctor::class)
-             ->create(['id' => $this->doc_user, 'user_id' => $this->doc_user->id]);
+             ->create([
+                    'id'      => $this->doc_user->id, 
+                    'user_id' => $this->doc_user->id,
+                ]);
         $this->user      = factory(User::class)->create();
         $this->admin     = factory(User::class)->create(['acl' => '1']);
 
