@@ -26,7 +26,7 @@ class SpecialtiesTest extends TestCase
     {
         $this->assertTrue(Schema::hasColumns('specialties', 
           [
-            'id','name','slug','description', 
+            'id','name','slug','description','user','accepted_at'
           ]), 1);
     }
 

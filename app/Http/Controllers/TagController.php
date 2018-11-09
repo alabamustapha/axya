@@ -63,6 +63,7 @@ class TagController extends Controller
      */
     public function update(TagRequest $request, Tag $tag)
     {
+        // dd($request->all());
         $this->authorize('edit', $tag);
 
         if ($tag->update($request->all())){

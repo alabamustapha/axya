@@ -61,14 +61,14 @@ class SpecialtyController extends Controller
      */
     public function update(SpecialtyRequest $request, Specialty $specialty)
     {
-        dd($request->all());
+        // dd($request->all());
         $this->authorize('edit', $specialty);
 
         if ($specialty->update($request->all())){
             flash($specialty->name . ' updated successfully')->success();
         }
 
-        return redirect()->route('specialties.index');
+        return redirect()->route('specialties.show', $specialty);
     }
 
     /**
@@ -80,6 +80,13 @@ class SpecialtyController extends Controller
     public function destroy(Specialty $specialty)
     {
         $this->authorize('delete', $specialty);
+
+        // Expecting Cascade to drive this, seems not so with test.
+        if ($specialty->tags->count() > 0){
+            foreach ($specialty->tags as $tag) {
+                $tag->delete();
+            }
+        }
 
         if ($specialty->delete()){
             flash($specialty->name . ' deleted successfully')->info();
