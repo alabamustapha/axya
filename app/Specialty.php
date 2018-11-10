@@ -43,9 +43,19 @@ class Specialty extends Model
       return $this->belongsToMany(Doctor::class);
     }
 
+    // public function doctors()
+    // {
+    //   return $this->hasMany(Doctor::class);
+    // }
+
     public function tags()
     {
       // return $this->belongsToMany(Tag::class);
       return $this->hasMany(Tag::class);
+    }
+
+    public function applications()
+    {
+      return $this->hasMany(Application::class);
     }
 }

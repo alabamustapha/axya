@@ -42,6 +42,6 @@ class WorkplacePolicy
      */
     public function delete(User $user, Workplace $workplace)
     {
-        return ($workplace->user_id == auth()->id() && $user->isDoctor()) || $user->isAdmin();
+        return ($workplace->doctor_id == auth()->id() && $user->isDoctor()) || $user->isAdmin();
     }
 }

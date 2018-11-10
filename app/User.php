@@ -127,17 +127,17 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function isSuperAdmin() 
     {
-        return $this->acl == 5;
+        return /*$this->isVerified() && */$this->acl == 5;
     }
 
     public function isAdmin() 
     {
-        return ($this->acl == 1 || $this->isSuperAdmin());
+        return /*$this->isVerified() && */($this->acl == 1 || $this->isSuperAdmin());
     }
 
     public function isStaff() 
     {
-        return ($this->acl == 2 || $this->isAdmin());        
+        return /*$this->isVerified() && */($this->acl == 2 || $this->isAdmin());        
     }
 
 
@@ -192,6 +192,8 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->isDoctor() ? 'Doctor':'User';
     }
 
+
+    /*<!---------------- Update Registration Status ---------------->*/
     public static $professionalStatus = array(
         0 => 'Are you a <i class="fa fa-user-md"></i> Medical Doctor? 
               <a class="btn btn-success btn-lg" href="http://medapp.demo/doctors/create">Register Here!</a>',
@@ -214,24 +216,24 @@ class User extends Authenticatable implements MustVerifyEmail
                 <a href="#" class="btn btn-primary btn-lg">Subscribe now to begin</a>.
               </small>',
 
-        3 => '<span class="orange text-bold"><i class="fa fa-info-circle"></i>&nbsp; Ongoing verification</span>
+        3 => '<span class="orange text-bold"><i class="fa fa-info-circle"></i>&nbsp; Ongoing Verification</span>
               <hr>
               <small>
-                Your application as a <b>&nbsp;<i class="fa fa-user-md"></i>&nbsp; Medical Doctor</b> is receiving attention...
+                Your application as a <b>&nbsp;<i class="fa fa-user-md"></i>&nbsp; Medical Doctor</b> is being reviewed...
                 <br>
                 Wait for your documents verification and eventual administrator\'s decision (approval/rejection).
               </small>
                 ',
 
-        4 => '<span class="teal text-bold"><i class="fa fa-info-circle"></i>&nbsp; Application Activated!</span>
+        4 => '<span class="teal text-bold"><i class="fa fa-info-circle"></i>&nbsp; Application Received!</span>
               <hr>
               <small>
-                We received your intention to apply as a  <b>&nbsp;<i class="fa fa-user-md"></i>&nbsp; Medical Doctor</b> on this platform. 
+                We have received your application as a <b>&nbsp;<i class="fa fa-user-md"></i>&nbsp; Medical Doctor</b> on this platform. 
                 <br>
-                Kindly supply all required details and documents <a href="#" class="btn btn-success btn-sm">on this page</a> 
+                Keep checking this section for updates on your application status.
               </small>',
 
-        5 => '<span class="red text-bold"><i class="fa fa-info-circle red"></i>&nbsp; Application rejected!</span>
+        5 => '<span class="red text-bold"><i class="fa fa-info-circle red"></i>&nbsp; Application Rejected!</span>
               <hr>
               <small>
                 <b>We cannot accept your application as a medical doctor</b> on our platform at this time. 
@@ -242,10 +244,35 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function professionalStatus() 
     {
-        $status = ($this->is_doctor > (sizeof(self::$professionalStatus) - 1) || $this->is_doctor < 0) ? 0 : $this->is_doctor;
+        $status = ($this->is_doctor > (sizeof(self::$professionalStatus) - 1) || $this->is_doctor < 0) 
+                    ? 0 
+                    : $this->is_doctor
+                    ;
 
         echo self::$professionalStatus[$status];
     }
+
+    public static $rStatus = array(
+        'user'      => 0,
+
+        'accepted_subscribed' => 1,
+
+        'accepted_not_subscribed' => 2,
+
+        'verifying' => 3,
+
+        'received'  => 4,
+
+        'rejected'  => 5,
+    );
+
+    public function updateRegistrationStatus($code) 
+    {
+        $this->is_doctor = self::$rStatus[$code];  
+
+        $this->save();
+    }
+    /*<!!!-------------- Update Registration Status ---------------->*/
 
     public function isActive() 
     {

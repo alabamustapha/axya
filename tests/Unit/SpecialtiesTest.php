@@ -26,7 +26,7 @@ class SpecialtiesTest extends TestCase
     {
         $this->assertTrue(Schema::hasColumns('specialties', 
           [
-            'id','name','slug','description','user','accepted_at'
+            'id','name','slug','description','user_id','accepted_at'
           ]), 1);
     }
 
@@ -40,6 +40,12 @@ class SpecialtiesTest extends TestCase
     public function a_specialty_has_many_tags()
     {
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->specialty->tags); 
+    }
+
+    /** @test */
+    public function a_specialty_has_many_applications()
+    {
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->specialty->applications); 
     }
 
     // /** @test */

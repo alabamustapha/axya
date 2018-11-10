@@ -64,7 +64,7 @@ class WorkplaceController extends Controller
      */
     public function destroy(Workplace $workplace)
     {
-        // $this->authorize('delete', $workplace);
+        $this->authorize('delete', $workplace);
         
         if ($workplace->delete()){
             flash($workplace->name . ' deleted successfully')->info();

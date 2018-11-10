@@ -23,7 +23,6 @@ class UserController extends Controller
         $this->middleware('auth');
         $this->middleware('patient'); // Prevents viewing a user's profile
         $this->middleware('verified')->only(['changePassword']);
-        $this->middleware('owner')->only(['edit', 'update']);
     }
 
     /**

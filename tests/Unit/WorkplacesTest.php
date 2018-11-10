@@ -19,8 +19,8 @@ class WorkplacesTest extends TestCase
         parent::setUp();
 
         $this->user       = factory(User::class)->create();
-        $this->workplace  = factory(Workplace::class)->create();
         $this->doctor     = factory(Doctor::class)->create();
+        $this->workplace  = factory(Workplace::class)->create();
     } 
 
     /** @test */

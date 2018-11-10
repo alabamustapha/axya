@@ -18,11 +18,18 @@
               </button>
             </div>
           </div>
-        </form>
+        </form> 
 
         <!-- Right navbar links -->
-        @auth
           <ul class="navbar-nav ml-auto">
+        @guest
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+            </li>
+        @else
             <li class="nav-item">
                 <a id="navbarDropdown" class="nav-link {{auth()->user()->notifications->count() ? 'text-danger':'text-secondary'}}" role="button" 
                     href="{{ route('notifications.display', auth()->user()) }}" 
@@ -40,7 +47,7 @@
 
             </li>
           </ul>
-        @endauth
+        @endguest
         
       </nav>
       <!-- /.navbar -->
