@@ -1,8 +1,14 @@
-<form method="POST" action="{{-- route('apply') --}}" enctype="multipart/form-data">
+<form method="POST" action="{{ route('applications.store') }}" enctype="multipart/form-data">
     @csrf
 
-    <div class="form-group h1 text-center">
-        Doctor's Application
+    <div class="form-group card shadow text-center">
+        <div class="card-body">
+            <span class="h1">
+                <strong><i class="fa fa-user-md"></i>&nbsp; Doctor's Application</strong>
+            </span>
+            <br>
+            Kindly supply all <span class="red">required</span> details and documents with this form.
+        </div>
     </div>
 
     <div class="card card-primary card-outline text-center shadow mb-4">
@@ -25,16 +31,21 @@
                 <small class="red">required</small>
             </label>
 
-            <select id="specialties" class="form-control{{ $errors->has('specialties') ? ' is-invalid' : '' }}" name="specialties[]" {{-- multiple --}} required autofocus>
+            <select id="specialty_id" class="form-control{{ $errors->has('specialty_id') ? ' is-invalid' : '' }}" name="specialty_id[]" {{-- multiple --}} required autofocus>
                 <option value="">Select Specialty</option>
                 @foreach ($specialties as $specialty)
-                    <option value="{{$specialty->id}}" {{old('specialties') == $specialty->id ? 'selected':''}}>{{$specialty->name}}</option>
+                    <option value="{{$specialty->id}}" 
+                        {{
+                            old('specialty_id') 
+                                ? (in_array($specialty->id, old('specialty_id')) ? 'selected':'')
+                                :''
+                        }}>{{$specialty->name}}</option>
                 @endforeach
             </select>
 
-            @if ($errors->has('specialties'))
+            @if ($errors->has('specialty_id'))
                 <span class="invalid-feedback" role="alert">
-                    <strong>{{ $errors->first('specialties') }}</strong>
+                    <strong>{{ $errors->first('specialty_id') }}</strong>
                 </span>
             @endif
         </div>
@@ -70,11 +81,14 @@
             @endif
         </div>
 
-        <div class="card border-secondary">
-            <div class="card-body bg-transparent shadow-none">
-                <div class="form-group">
+        <div class="form-group">
+            <label for="workplace" class="tf-flex">
+                <span>{{ __('Present WorkPlace') }}</span>
+            </label>
+            <div class="card border-secondary">
+                <div class="card-body bg-transparent shadow-none">
                     <label for="workplace" class="tf-flex">
-                        <span>{{ __('Present WorkPlace') }}</span>
+                        <small style="size:10px;">{{ __('Name of Hospital') }}</small>
                         <small class="red">required</small>
                     </label>
 
@@ -88,8 +102,8 @@
 
                     <div class="row">
                         <div class="col-sm-6 mt-3">
-                            <label for="workplace" class="tf-flex">
-                                <span>{{ __('Address') }}</span>
+                            <label for="workplace_address" class="tf-flex">
+                                <small style="size:10px;">{{ __('Address') }}</small>
                                 <small class="red">required</small>
                             </label>
                             <input id="workplace_address" type="text" class="form-control{{ $errors->has('workplace_address') ? ' is-invalid' : '' }}" name="workplace_address" value="{{ old('workplace_address') }}" placeholder="eg state, country" required>
@@ -101,8 +115,8 @@
                             @endif                    
                         </div>
                         <div class="col-sm-6 mt-3">
-                            <label for="workplace" class="tf-flex">
-                                <span>{{ __('Start Date') }}</span>
+                            <label for="workplace_start" class="tf-flex">
+                                <small style="size:10px;">{{ __('Start Date') }}</small>
                                 <small class="red">(yyyy-mm-dd) required</small>
                             </label>
                             <input id="workplace_start" type="date" class="form-control{{ $errors->has('workplace_start') ? ' is-invalid' : '' }}" name="workplace_start" value="{{ old('workplace_start') }}" placeholder="name, state, country" required>
@@ -110,64 +124,6 @@
                             @if ($errors->has('workplace_start'))
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $errors->first('workplace_start') }}</strong>
-                                </span>
-                            @endif                    
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="card border-secondary">
-            <div class="card-body bg-transparent shadow-none">
-                <div class="form-group">
-                    <label for="workplace2" class="tf-flex">
-                        <span>{{ __('Previous WorkPlace') }}</span>
-                    </label>
-
-                    <input id="workplace2" type="text" class="form-control{{ $errors->has('workplace2') ? ' is-invalid' : '' }}" name="workplace2" value="{{ old('workplace2') }}" placeholder="name of hospital">
-
-                    @if ($errors->has('workplace2'))
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $errors->first('workplace2') }}</strong>
-                        </span>
-                    @endif
-
-                    <div class="form-grou">
-                        <label for="workplace2_address" class="tf-flex">
-                            <span>{{ __('Address') }}</span>
-                        </label>
-                        <input id="workplace2_address" type="text" class="form-control{{ $errors->has('workplace2_address') ? ' is-invalid' : '' }}" name="workplace2_address" value="{{ old('workplace2_address') }}" placeholder="eg state, country">
-
-                        @if ($errors->has('workplace2_address'))
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $errors->first('workplace2_address') }}</strong>
-                            </span>
-                        @endif                    
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-6 mt-3">
-                            <label for="workplace2_start" class="tf-flex">
-                                <span>{{ __('Start Date') }}</span>
-                            </label>
-                            <input id="workplace2_start" type="date" class="form-control{{ $errors->has('workplace2_start') ? ' is-invalid' : '' }}" name="workplace2_start" value="{{ old('workplace2_start') }}">
-
-                            @if ($errors->has('workplace2_start'))
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $errors->first('workplace2_start') }}</strong>
-                                </span>
-                            @endif                    
-                        </div>
-                        <div class="col-sm-6 mt-3">
-                            <label for="workplace2_end" class="tf-flex">
-                                <span>{{ __('End Date') }}</span>
-                            </label>
-                            <input id="workplace2_end" type="date" class="form-control{{ $errors->has('workplace2_end') ? ' is-invalid' : '' }}" name="workplace2_end" value="{{ old('workplace2_end') }}">
-
-                            @if ($errors->has('workplace2_end'))
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $errors->first('workplace2_end') }}</strong>
                                 </span>
                             @endif                    
                         </div>
@@ -187,30 +143,55 @@
       </div>
 
       <div class="card-body">
+
         <div class="form-group">
-            <label for="medical_certificate" class="tf-flex">
+            <label for="medical_college" class="tf-flex">
                 <span>{{ __('Medical College Practice Certificate') }}</span>
-                <small> (Image, PDF) <span class="red">required</span></small>
             </label>
+            <div class="card border-secondary">
+                <div class="card-body bg-transparent shadow-none">
+                    <div class="form-group row">
+                        <div class="col-sm-7">
+                            <label for="medical_college" class="tf-flex">
+                                <small>{{ __('Certificate') }}</small>
+                                <small> (PDF) <span class="red">required</span></small>
+                            </label>
 
-            <div class="">
-                <input id="medical_certificate" type="file" class="form-control{{ $errors->has('medical_certificate') ? ' is-invalid' : '' }}" name="medical_certificate" value="{{ old('medical_certificate') }}" placeholder="Medical school certificate" accept="application/pdf, image/png, image/jpeg" required>
+                            <div class="">
+                                <input id="medical_college" type="file" class="form-control{{ $errors->has('medical_college') ? ' is-invalid' : '' }}" name="medical_college" value="{{ old('medical_college') }}" placeholder="Medical school certificate" accept="application/pdf" required>
 
-                @if ($errors->has('medical_certificate'))
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $errors->first('medical_certificate') }}</strong>
-                    </span>
-                @endif
+                                @if ($errors->has('medical_college'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('medical_college') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <label for="medical_college_expiry" class="tf-flex">
+                                <small>{{ __('Expiry Date') }}</small>
+                                <small class="red">required</small>
+                            </label>
+                            <input id="medical_college_expiry" type="date" class="form-control{{ $errors->has('medical_college_expiry') ? ' is-invalid' : '' }}" name="medical_college_expiry" value="{{ old('medical_college_expiry') }}" required>
+
+                            @if ($errors->has('medical_college_expiry'))
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $errors->first('medical_college_expiry') }}</strong>
+                                </span>
+                            @endif                    
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="form-group mt-4">
             <label for="specialist_diploma" class="tf-flex">
                 <span>{{ __('Specialist Diploma') }}</span>
-                <small>(Image, PDF) <span class="red">required</span></small>
+                <small>(PDF) <span class="red">required</span></small>
             </label>
 
-            <input id="specialist_diploma" type="file" class="form-control{{ $errors->has('specialist_diploma') ? ' is-invalid' : '' }}" name="specialist_diploma" value="{{ old('specialist_diploma') }}" accept="application/pdf, image/png, image/jpeg" required>
+            <input id="specialist_diploma" type="file" class="form-control{{ $errors->has('specialist_diploma') ? ' is-invalid' : '' }}" name="specialist_diploma" value="{{ old('specialist_diploma') }}" accept="application/pdf" required>
 
             @if ($errors->has('specialist_diploma'))
                 <span class="invalid-feedback" role="alert">
@@ -222,10 +203,10 @@
         <div class="form-group mt-4">
             <label for="competences" class="tf-flex">
                 <span>{{ __('Competences Certificate') }}</span>
-                <small>(Image, PDF) <span class="red">required</span></small>
+                <small>(PDF) <span class="red">required</span></small>
             </label>
 
-            <input id="competences" type="file" class="form-control{{ $errors->has('competences') ? ' is-invalid' : '' }}" name="competences" value="{{ old('competences') }}" accept="application/pdf, image/png, image/jpeg" required>
+            <input id="competences" type="file" class="form-control{{ $errors->has('competences') ? ' is-invalid' : '' }}" name="competences" value="{{ old('competences') }}" accept="application/pdf" required>
 
             @if ($errors->has('competences'))
                 <span class="invalid-feedback" role="alert">
@@ -237,10 +218,10 @@
         <div class="form-group mt-4">
             <label for="malpraxis" class="tf-flex">
                 <span>{{ __('Malpraxis Insurance') }}</span>
-                <small>(Image, PDF) <span class="red">required</span></small>
+                <small>(PDF) <span class="red">required</span></small>
             </label>
 
-            <input id="malpraxis" type="file" class="form-control{{ $errors->has('malpraxis') ? ' is-invalid' : '' }}" name="malpraxis" value="{{ old('malpraxis') }}" accept="application/pdf, image/png, image/jpeg" required>
+            <input id="malpraxis" type="file" class="form-control{{ $errors->has('malpraxis') ? ' is-invalid' : '' }}" name="malpraxis" value="{{ old('malpraxis') }}" accept="application/pdf" required>
 
             @if ($errors->has('malpraxis'))
                 <span class="invalid-feedback" role="alert">
@@ -252,10 +233,10 @@
         <div class="form-group mt-4">
             <label for="other_certificates" class="tf-flex">
                 <span>{{ __('Other Relevant Certificate(s)') }}</span>
-                <small>(Image, PDF) <span class="teal">multiple files allowed</span></small>
+                <small>(PDF) <span class="teal">multiple files allowed</span></small>
             </label>
 
-            <input id="other_certificates" type="file" class="form-control{{ $errors->has('other_certificates') ? ' is-invalid' : '' }}" name="other_certificates[]" value="{{ old('other_certificates') }}" accept="application/pdf, image/png, image/jpeg" multiple>
+            <input id="other_certificates" type="file" class="form-control{{ $errors->has('other_certificates') ? ' is-invalid' : '' }}" name="other_certificates[]" value="{{ old('other_certificates') }}" accept="application/pdf" multiple>
 
             @if ($errors->has('other_certificates'))
                 <span class="invalid-feedback" role="alert">

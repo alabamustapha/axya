@@ -254,12 +254,12 @@
 
       <div class="modal" tabindex="-1" role="dialog" id="createWorkplaceForm" style="display:none;" aria-labelledby="createWorkplaceFormLabel" aria-hidden="true">
         <div class="modal-dialog modal-md modal-dialog-centered" role="document">
-          <div class="modal-content px-3 bg-transparent shadow-none">
+          <div class="modal-content px-0 pb-0 bg-transparent shadow-none">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 5px 15px 0px;margin:10px auto -25px">
               <span aria-hidden="true">&times;</span>
             </button>
             <br>
-            <div class="modal-body">
+            <div class="modal-body pb-0">
 
               @include('doctors.forms.workplace')
 

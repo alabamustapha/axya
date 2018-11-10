@@ -35,7 +35,7 @@
         <div class="col-sm-6"> 
           <div class="form-group">
             <label for="start_date">Start Date</label>
-            <input type="date" name="start_date" class="form-control{{ $errors->has('start_date') ? ' is-invalid' : '' }}" value="{{ old('start_date') }}" required>
+            <input type="date" name="start_date" class="form-control{{ $errors->has('start_date') ? ' is-invalid' : '' }}" value="{{ old('start_date') }}"  placeholder="yyyy-mm-dd" maxlength="10" minlength="10" required>
 
             @if ($errors->has('start_date'))
                 <span class="invalid-feedback" role="alert">
@@ -47,7 +47,7 @@
         <div class="col-sm-6"> 
           <div class="form-group">
             <label for="end_date">End Date</label>
-            <input type="date" name="end_date" class="form-control{{ $errors->has('end_date') ? ' is-invalid' : '' }}" value="{{ old('end_date') }}">
+            <input type="date" name="end_date" class="form-control{{ $errors->has('end_date') ? ' is-invalid' : '' }}" value="{{ old('end_date') }}"  placeholder="yyyy-mm-dd" maxlength="10" minlength="10">
 
             @if ($errors->has('end_date'))
                 <span class="invalid-feedback" role="alert">

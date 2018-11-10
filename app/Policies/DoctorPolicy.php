@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\User;
 use App\Doctor;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -17,7 +18,7 @@ class DoctorPolicy
      */
     public function edit(User $user, Doctor $doctor)
     {
-        return $doctor->id == $user->id();
+        return $doctor->id == $user->id;
     }
 
     public function create(User $user)
@@ -33,6 +34,6 @@ class DoctorPolicy
      */
     public function delete(User $user, Doctor $doctor)
     {
-        return (($doctor->id == $user->id()) || $user->isSuperAdmin());
+        return (($doctor->id == $user->id) || $user->isSuperAdmin());
     }
 }

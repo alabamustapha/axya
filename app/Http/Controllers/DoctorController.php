@@ -12,6 +12,8 @@ class DoctorController extends Controller
     public function __construct()
     {
         $this->middleware('auth')->except('index','show');
+        $this->middleware('application')->only('create','store');
+        $this->middleware('verified')->only('create','store');
         // $this->middleware('doctor')->except('index','show');
     }
 
@@ -45,7 +47,8 @@ class DoctorController extends Controller
      */
     public function store(Request $request)
     {
-        //'certs' => 'file|mimetypes:application/pdf,image/png,image/jpeg|mimes:pdf,jpeg,png'
+        // Sort Appl data to appropriate tables.
+        // Delete Appl
     }
 
     /**
@@ -92,6 +95,6 @@ class DoctorController extends Controller
      */
     public function destroy(Doctor $doctor)
     {
-        //
+        // Admin and Doctor
     }
 }
