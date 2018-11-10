@@ -26,13 +26,12 @@ class ApplicationsTest extends TestCase
     } 
 
     /** @test */
-    public function documents_database_has_expected_columns()
+    public function applications_database_has_expected_columns()
     {
         $this->assertTrue(Schema::hasColumns('applications', 
           [
             'id','user_id','specialty_id','first_appointment',
             'workplace','workplace_address','workplace_start',
-            'workplace2','workplace2_address','workplace2_start','workplace2_end',
             'specialist_diploma','competences','malpraxis',
             'medical_college','medical_college_expiry',
           ]), 1);
@@ -42,5 +41,11 @@ class ApplicationsTest extends TestCase
     public function an_application_belongs_to_a_user()
     {
         $this->assertInstanceOf(User::class, $this->application->user);
+    }
+
+    /** @test */
+    public function an_application_belongs_to_a_specialty()
+    {
+        $this->assertInstanceOf(Specialty::class, $this->application->specialty);
     }
 }

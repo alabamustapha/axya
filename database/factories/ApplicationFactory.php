@@ -17,11 +17,6 @@ $factory->define(App\Application::class, function (Faker $faker) {
         'workplace_address' => $faker->address,
         'workplace_start'   => $faker->dateTimeBetween('-15 year', '-12 year'),
 
-        'workplace2'        => $faker->words(1,3),
-        'workplace2_address'=> $faker->address,
-        'workplace2_start'  => $faker->dateTimeBetween('-11 year', '-8 year'),
-        'workplace2_end'    => $faker->dateTimeBetween('-7 year', '-5 year'),
-
         'specialist_diploma'=> $file_url,
         'competences'       => $file_url2,
         'malpraxis'         => $file_url3,

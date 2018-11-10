@@ -11,7 +11,6 @@ class Application extends Model
     protected $fillable = [
       'user_id','specialty_id','first_appointment',
       'workplace','workplace_address','workplace_start',
-      'workplace2','workplace2_address','workplace2_start','workplace2_end',
       'specialist_diploma','competences','malpraxis',
       'medical_college','medical_college_expiry',
     ];
@@ -19,5 +18,10 @@ class Application extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function specialty()
+    {
+        return $this->belongsTo(Specialty::class);
     }
 }

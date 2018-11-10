@@ -23,11 +23,6 @@ class CreateApplicationsTable extends Migration
             $table->string('workplace_address')->nullable();
             $table->date('workplace_start')->nullable();
 
-            $table->string('workplace2')->nullable();
-            $table->string('workplace2_address')->nullable();
-            $table->date('workplace2_start')->nullable();
-            $table->date('workplace2_end')->nullable();
-
             $table->string('specialist_diploma')->nullable();
             $table->string('competences')->nullable();
             $table->string('malpraxis')->nullable();
