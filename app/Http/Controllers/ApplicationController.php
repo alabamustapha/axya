@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Application;
 use App\Http\Requests\ApplicationRequest;
+use App\Notifications\Applications\ApplicationReceivedNotification;
+use App\Notifications\Applications\ApplicationRejectedNotification;
 use App\Specialty;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -95,11 +97,10 @@ class ApplicationController extends Controller
         # Certificate uploads handled in ApplicationObserver@created
         
         if ($application->save()){
-
             $application->user->updateRegistrationStatus('received');
 
-            // notify('ReceivedApplicationNotification');
-
+            // Notify About Receipt
+            $application->user->notify(new ApplicationReceivedNotification($application->user));
         }
 
         flash($application->user->name . ', your application was submitted successfully')->success();
@@ -162,7 +163,8 @@ class ApplicationController extends Controller
             if (! $application->user->isDoctor()){
                 $application->user->updateRegistrationStatus('rejected');
 
-                // notify('RejectedApplicationNotification');
+                // Notify About Rejection
+                $application->user->notify(new ApplicationRejectedNotification($application->user));
             }
         }
 

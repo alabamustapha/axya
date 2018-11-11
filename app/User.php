@@ -199,11 +199,11 @@ class User extends Authenticatable implements MustVerifyEmail
     /*<!---------------- Update Doctor Application Status ---------------->*/
     public static $professionalStatus = array(
         0 => 'Are you a <i class="fa fa-user-md"></i> Medical Doctor? 
-              <a class="btn btn-success btn-lg" href="http://medapp.demo/doctors/create">Register Here!</a>',
+              <a class="btn btn-success btn-sm" href="http://medapp.demo/doctors/create">Register Here!</a>',
 
         1 => '<span class="teal text-bold"><i class="fa fa-info-circle"></i>&nbsp; Notifications</span>
               <hr> 
-              <small>
+              <small style="font-size:12px;">
                 Notifications and updates on professional stuffs.
                 <br>
                 <small class="red"><em>You must be <b>subscribed</b> to appear in search results.</em></small>
@@ -211,17 +211,16 @@ class User extends Authenticatable implements MustVerifyEmail
 
         2 => '<span class="green text-bold"><i class="fa fa-info-circle"></i>&nbsp; Application Accepted</span>
               <hr>
-              <small>
-                Your professional medical certificates has been <b>verified</b>, your application is <b>accepted</b> 
+              <small style="font-size:12px;">
+                Your information has been <b>verified</b>, your application is <b>accepted</b> 
                 <br>
-                You can now attend to patients and receive appointments on this platform.
-                <br> 
-                <a href="#" class="btn btn-primary btn-lg">Subscribe now to begin</a>.
+                You can now attend to patients and receive appointments on this platform after subscription.
+                <a href="#" class="btn btn-primary btn-sm">Subscribe now to begin</a>.
               </small>',
 
         3 => '<span class="orange text-bold"><i class="fa fa-info-circle"></i>&nbsp; Ongoing Verification</span>
               <hr>
-              <small>
+              <small style="font-size:12px;">
                 Your application as a <b>&nbsp;<i class="fa fa-user-md"></i>&nbsp; Medical Doctor</b> is being reviewed...
                 <br>
                 Wait for your documents verification and eventual administrator\'s decision (approval/rejection).
@@ -230,15 +229,15 @@ class User extends Authenticatable implements MustVerifyEmail
 
         4 => '<span class="teal text-bold"><i class="fa fa-info-circle"></i>&nbsp; Application Received!</span>
               <hr>
-              <small>
-                We have received your application as a <b>&nbsp;<i class="fa fa-user-md"></i>&nbsp; Medical Doctor</b> on this platform. 
+              <small style="font-size:12px;">
+                We have received your application as a <b>&nbsp;<i class="fa fa-user-md"></i>&nbsp; Medical Doctor</b> on this platform. Your details will be reviewed within 48hours. 
                 <br>
                 Keep checking this section for updates on your application status.
               </small>',
 
         5 => '<span class="red text-bold"><i class="fa fa-info-circle red"></i>&nbsp; Application Rejected!</span>
               <hr>
-              <small>
+              <small style="font-size:12px;">
                 <b>We cannot accept your application as a medical doctor</b> on our platform at this time. 
                 <br>
                 Kindly update your documents and reapply later.

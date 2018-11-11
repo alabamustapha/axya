@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Application;
 use App\Doctor;
+use App\Notifications\Applications\ApplicationAcceptedNotification;
 use App\Specialty;
 use App\Workplace;
 use Carbon\Carbon;
@@ -88,7 +89,8 @@ class DoctorController extends Controller
         // Delete Appl
         
         if ($appl->delete()) {
-            // notify('AcceptedApplicationNotification');
+            // Notify About Acceptance and Access to Doctor's Dashboard
+            $appl->user->notify(new ApplicationAcceptedNotification($appl->user));
 
             flash('Application accepted, Doctor <b>'. $appl->user->name .'</b> registered successfully')->important()->info();
         }
