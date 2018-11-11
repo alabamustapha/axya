@@ -23,10 +23,13 @@ class DoctorRequest extends FormRequest
      */
     public function rules()
     {
+        $date = date('Y-m-d');
         return [
-            'id'         => 'required|integer|exists:users,id',
-            'user_id'    => 'required|integer|exists:users,id',
-            'slug'       => 'required|string|exists:users,slug',
+            'id'          => 'required|integer|exists:users,id',
+            'user_id'     => 'required|integer|exists:users,id',
+            'specialty_id'=> 'required|integer|exists:specialties,id',
+            'first_appointment'=> 'required|date|before_or_equal:'. $date,
+            'slug'        => 'required|string|exists:users,slug',
         ];
     }
 

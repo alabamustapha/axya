@@ -16,6 +16,8 @@ class CreateDoctorsTable extends Migration
         Schema::create('doctors', function (Blueprint $table) {
             $table->integer('id')->unique()->unsigned();
             $table->integer('user_id')->unique()->unsigned();
+            $table->integer('specialty_id')->unsigned();
+            $table->date('first_appointment');
             $table->string('slug');
 
             // $table->integer('specialty_id')->unsigned();
@@ -29,7 +31,7 @@ class CreateDoctorsTable extends Migration
             $table->foreign('id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('verified_by')->references('id')->on('users')->onDelete('cascade');
-            // $table->foreign('specialty_id')->references('id')->on('specialties')->onDelete('cascade');
+            $table->foreign('specialty_id')->references('id')->on('specialties')->onDelete('cascade');
         });
     }
 

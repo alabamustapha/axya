@@ -16,7 +16,7 @@ class CreateDoctorSpecialtyTable extends Migration
         Schema::create('doctor_specialty', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('doctor_id')->unsigned();
-            $table->integer('specialty_id')->unsigned();
+            $table->integer('specialty_id')->unsigned(); 
 
             $table->foreign('doctor_id')
                   ->references('id')->on('doctors')

@@ -16,16 +16,23 @@ class ApplicationMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && !Auth::user()->isDoctor() && !Auth::user()->application()->count()) {
-            return $next($request);
-        }
+        if (Auth::check() && 
+                (!Auth::user()->isDoctor() 
+                    && !Auth::user()->application()->count() 
+                    && !Auth::user()->applicationIsRejected()
+                )
+            ){ return $next($request); }
         
         if (Auth::user()->isDoctor()){
             flash('You are already a doctor on this platform and can apply once only!')->error();
-            return redirect()->route('users.show', Auth::user());
+        }
+        if (Auth::user()->application()->count()){
+            flash('You have an ongoing doctor\'s application on this platform currently. Only one application is allowed at a time.')->error();
+        }
+        if (Auth::user()->applicationIsRejected()){
+            flash('You are not allowed to re-apply at the moment, please do on/after <b>'. Auth::user()->application_retry_at->format('F d, Y') .'</b> with valid documents.')->important()->error();
         }
 
-        flash('You have an ongoing doctor\'s application on this platform presently. Only one application is allowed at a time.')->error();
         return redirect()->route('users.show', Auth::user());
     } 
 }

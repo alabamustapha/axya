@@ -38,15 +38,20 @@ class ApplicationController extends Controller
      */
     public function store(ApplicationRequest $request)
     {
-        // $this->authorize('create', Application::class);
+        $this->authorize('create', Application::class);
         
         $application = new Application;
+        // Doctor Table
         $application->user_id           = auth()->id();
         $application->specialty_id      = $request->specialty_id[0];
         $application->first_appointment = $request->first_appointment;
+
+        // Workplace Table
         $application->workplace         = $request->workplace;
         $application->workplace_address = $request->workplace_address;
         $application->workplace_start   = $request->workplace_start;
+
+        // Document Table
         $application->medical_college_expiry = $request->medical_college_expiry;
 
         $directory = 'appl-'. auth()->user()->slug;
@@ -57,33 +62,33 @@ class ApplicationController extends Controller
 
         if($request->medical_college){
             $extension = $request->medical_college->getClientOriginalExtension();
-            $name      = 'appl-mc-'. auth()->user()->slug .'.'. $extension;
-            $full_directory = $directory .'/'. $name;
-            $path      = $request->file('medical_college')->storeAs( $directory, $full_directory );
+            $name      = 'appl-medical-college-'. auth()->user()->slug .'.'. $extension;
+
+            $path      = $request->file('medical_college')->storeAs( $directory, $name );
             $application->medical_college = $name;
         }
 
         if($request->specialist_diploma){
             $extension = $request->specialist_diploma->getClientOriginalExtension();
-            $name      = 'appl-sd-'. auth()->user()->slug .'.'. $extension;
-            $full_directory = $directory .'/'. $name;
-            $path      = $request->file('specialist_diploma')->storeAs( $directory, $full_directory );
+            $name      = 'appl-specialist-diploma-'. auth()->user()->slug .'.'. $extension;
+
+            $path      = $request->file('specialist_diploma')->storeAs( $directory, $name );
             $application->specialist_diploma = $name;
         }
 
         if($request->competences){
             $extension = $request->competences->getClientOriginalExtension();
-            $name      = 'appl-cp-'. auth()->user()->slug .'.'. $extension;
-            $full_directory = $directory .'/'. $name;
-            $path      = $request->file('competences')->storeAs( $directory, $full_directory );
+            $name      = 'appl-competences-'. auth()->user()->slug .'.'. $extension;
+
+            $path      = $request->file('competences')->storeAs( $directory, $name );
             $application->competences = $name;
         }
 
         if($request->malpraxis){
             $extension = $request->malpraxis->getClientOriginalExtension();
-            $name      = 'appl-mp-'. auth()->user()->slug .'.'. $extension;
-            $full_directory = $directory .'/'. $name;
-            $path      = $request->file('malpraxis')->storeAs( $directory, $full_directory );
+            $name      = 'appl-malpraxis-'. auth()->user()->slug .'.'. $extension;
+
+            $path      = $request->file('malpraxis')->storeAs( $directory, $name );
             $application->malpraxis = $name;
         }
 
@@ -92,6 +97,8 @@ class ApplicationController extends Controller
         if ($application->save()){
 
             $application->user->updateRegistrationStatus('received');
+
+            // notify('ReceivedApplicationNotification');
 
         }
 
@@ -144,7 +151,23 @@ class ApplicationController extends Controller
      */
     public function destroy(Application $application)
     {
-        // Delete Appl
-        // Delete folder directory
+        $this->authorize('delete', $application);
+        
+        if ($application->delete())
+        {
+            // Delete folder directory
+            $directory = 'appl-'. $application->user->slug;
+            Storage::deleteDirectory($directory);
+
+            if (! $application->user->isDoctor()){
+                $application->user->updateRegistrationStatus('rejected');
+
+                // notify('RejectedApplicationNotification');
+            }
+        }
+
+        flash('Application deleted successfully')->info();
+
+        return redirect()->route('applications.index');
     }
 }

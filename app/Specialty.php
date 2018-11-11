@@ -13,7 +13,7 @@ class Specialty extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['name','slug','description','user_id', 'accepted_at'];
+    protected $fillable = ['name','slug','description','user_id','specialty_id','accepted_at'];
 
     /**
      * Return the sluggable configuration array for this model.
@@ -38,15 +38,15 @@ class Specialty extends Model
         return 'slug';
     }
 
-    public function doctors()
-    {
-      return $this->belongsToMany(Doctor::class);
-    }
-
     // public function doctors()
     // {
-    //   return $this->hasMany(Doctor::class);
+    //   return $this->belongsToMany(Doctor::class, 'doctor_specialty', 'id', 'id');
     // }
+
+    public function doctors()
+    {
+      return $this->hasMany(Doctor::class);
+    }
 
     public function tags()
     {

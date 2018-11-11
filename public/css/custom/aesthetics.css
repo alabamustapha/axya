@@ -77,3 +77,24 @@
 .borderless:active {
   outline: none;border: none;
 }
+
+
+/************** Indicators *************/
+.available,
+.unavailable {
+  display:inline-block;
+  width:12px;
+  height:12px;
+  border-radius:50%;
+}
+
+.available  {
+  background:green;
+  border:1px solid green;
+}
+
+.unavailable {
+  background-color:yellow;
+  border:1px solid yellow;
+}
+/************* ! Indicators ************/

@@ -34,7 +34,7 @@ class CreateUsersTable extends Migration
             $table->string('allergies')->nullable();
             $table->string('chronics')->nullable();
 
-            // AUthorization Details
+            // Authorization Details
             $table->boolean('acl')->default(3);
             $table->boolean('is_doctor')->default(0); // Determined after application & verification of docs.
             $table->boolean('blocked')->default(0);
@@ -42,6 +42,7 @@ class CreateUsersTable extends Migration
             // Other Details
             $table->string('last_four',4)->nullable();
             $table->boolean('terms')->default(0);
+            $table->timestamp('application_retry_at')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

@@ -26,11 +26,12 @@ class DoctorUpdateRequest extends FormRequest
         $rules = [];
 
         $rules = array_merge($rules, [
-                'graduate_school'=> 'nullable|string',
-                'available'      => 'boolean',
-                'specialties'    => 'required|array|max:3',
-                'specialties.*'  => 'required|integer|exists:specialties,id',
-            ]);
+            'graduate_school'=> 'nullable|string',
+            'available'      => 'boolean',
+            'specialty_id'=> 'required|integer|exists:specialties,id',
+            'specialties'    => 'required|array|max:3',
+            'specialties.*'  => 'required|integer|exists:specialties,id',
+        ]);
 
         return $rules;
     }

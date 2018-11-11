@@ -30,8 +30,14 @@ class SpecialtiesTest extends TestCase
           ]), 1);
     }
 
+    // /** @test */
+    // public function a_specialty_belongs_to_many_doctors()
+    // {
+    //     $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->specialty->doctors); 
+    // }
+
     /** @test */
-    public function a_specialty_belongs_to_many_doctors()
+    public function a_specialty_has_many_doctors()
     {
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->specialty->doctors); 
     }

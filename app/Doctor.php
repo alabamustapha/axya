@@ -8,27 +8,27 @@ use Illuminate\Database\Eloquent\Model;
 class Doctor extends Model
 {
     protected $fillable = [
-      'id','user_id','slug','specialty_id','graduate_school','available','subscription_ends_at','verified_at','verified_by',
+      'id','user_id','slug','specialty_id','first_appointment','graduate_school','available','subscription_ends_at','verified_at','verified_by',
     ];
 
-    protected $dates = ['verified_at', 'subscription_ends_at'];
+    protected $dates = ['verified_at','subscription_ends_at','first_appointment'];
 
-    public $appends = ['specialty'];
+    protected $appends = ['practice_years'];
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function specialties()
-    {
-        return $this->belongsToMany(Specialty::class);
-    }
-
-    // public function specialty()
+    // public function specialties()
     // {
-    //     return $this->belongsTo(Specialty::class);
+    //     return $this->belongsToMany(Specialty::class, 'doctor_specialty', 'id', 'id');
     // }
+
+    public function specialty()
+    {
+        return $this->belongsTo(Specialty::class);
+    }
 
     public function workplaces()
     {
@@ -72,6 +72,11 @@ class Doctor extends Model
       return config('app.url').'/images/doctor_images/' . $img;
     }
 
+    public function getPracticeYearsAttribute()
+    {
+      return Carbon::now()->diffInYears($this->first_appointment);
+    }
+
 
     /**
      * Has ongoing subscription.
@@ -100,6 +105,14 @@ class Doctor extends Model
         return $query->where('available', '1');
     }
 
+    public function availabilityText()
+    {
+      echo $this->is_active()
+              ? 'class="available" title="Avaialble for appointments"'
+              : 'class="unavailable" title="Unavaialble for appointments"'
+              ;
+    }
+
     // /**
     //  * Subscribed and Available for Appointments.
     //  */
@@ -117,10 +130,5 @@ class Doctor extends Model
         return $query->isSubscribed()
                      ->where('available', '0')
                      ;
-    }
-
-    public function getSpecialtyAttribute()
-    {
-        dd($this->specialty[0]->name);//->name;
     }
 }

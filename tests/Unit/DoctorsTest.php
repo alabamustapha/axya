@@ -30,7 +30,7 @@ class DoctorsTest extends TestCase
     {
         $this->assertTrue(Schema::hasColumns('doctors', 
           [
-            'id','user_id',/*'specialty_id',*/'graduate_school','verified_by','verified_at', 
+            'id','user_id','specialty_id','first_appointment','graduate_school','verified_by','verified_at', 
           ]), 1);
     }
 
@@ -52,15 +52,15 @@ class DoctorsTest extends TestCase
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->doctor->workplaces); 
     }
 
-    // /** @test */
-    // public function a_doctor_belongs_to_a_specialty()
-    // {
-    //     $this->assertInstanceOf(Specialty::class, $this->doctor->specialty);
-    // }
-
     /** @test */
-    public function a_doctor_belongs_to_many_specialties()
+    public function a_doctor_belongs_to_a_specialty()
     {
-        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->doctor->specialties); 
+        $this->assertInstanceOf(Specialty::class, $this->doctor->specialty);
     }
+
+    // /** @test */
+    // public function a_doctor_belongs_to_many_specialties()
+    // {
+    //     $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->doctor->specialties); 
+    // }
 }

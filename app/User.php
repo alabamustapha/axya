@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -12,8 +13,10 @@ class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable, Sluggable, HasApiTokens;
 
+    protected $dates = ['dob','application_retry_at'];
+
     protected $casts = [
-        'dob' => 'date',
+        'dob' => 'date:Y-m-d',
     ]; 
 
     /**
@@ -22,7 +25,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name','slug','email','password','address','phone','gender','avatar','is_doctor','blocked','dob','weight','height','allergies','chronics','last_four','terms',
+        'name','slug','email','password','address','phone','gender','avatar','is_doctor','blocked','dob','weight','height','allergies','chronics','last_four','terms','application_retry_at',
     ];
 
     /**
@@ -193,7 +196,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
 
-    /*<!---------------- Update Registration Status ---------------->*/
+    /*<!---------------- Update Doctor Application Status ---------------->*/
     public static $professionalStatus = array(
         0 => 'Are you a <i class="fa fa-user-md"></i> Medical Doctor? 
               <a class="btn btn-success btn-lg" href="http://medapp.demo/doctors/create">Register Here!</a>',
@@ -238,7 +241,7 @@ class User extends Authenticatable implements MustVerifyEmail
               <small>
                 <b>We cannot accept your application as a medical doctor</b> on our platform at this time. 
                 <br>
-                Kindly update your documents and reapply after 1 week from {now}.
+                Kindly update your documents and reapply later.
               </small>'
     );
 
@@ -252,6 +255,7 @@ class User extends Authenticatable implements MustVerifyEmail
         echo self::$professionalStatus[$status];
     }
 
+    // Registration Status
     public static $rStatus = array(
         'user'      => 0,
 
@@ -268,11 +272,20 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function updateRegistrationStatus($code) 
     {
-        $this->is_doctor = self::$rStatus[$code];  
+        $this->is_doctor = self::$rStatus[$code];
+
+        if ($code == 'rejected') { $this->application_retry_at = Carbon::now()->addDays(7); }
 
         $this->save();
     }
-    /*<!!!-------------- Update Registration Status ---------------->*/
+
+    public function applicationIsRejected() 
+    {
+        return $this->is_doctor == '5';
+    }
+    /*<!!!-------------- Update Doctor Application Status ---------------->*/
+
+
 
     public function isActive() 
     {

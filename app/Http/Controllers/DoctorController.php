@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Application;
 use App\Doctor;
 use App\Specialty;
 use App\Workplace;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class DoctorController extends Controller
@@ -12,7 +14,7 @@ class DoctorController extends Controller
     public function __construct()
     {
         $this->middleware('auth')->except('index','show');
-        $this->middleware('application')->only('create','store');
+        $this->middleware('application')->only('create');
         $this->middleware('verified')->only('create','store');
         // $this->middleware('doctor')->except('index','show');
     }
@@ -48,7 +50,50 @@ class DoctorController extends Controller
     public function store(Request $request)
     {
         // Sort Appl data to appropriate tables.
+        $appl = Application::whereUserId($request->user_id)->first();
+
+        // Doctor data
+        $doctor = new Doctor;
+        $doctor->id           = $appl->user_id;
+        $doctor->user_id      = $appl->user_id;
+        $doctor->specialty_id = $appl->specialty_id;
+        $doctor->first_appointment = $appl->first_appointment;
+        $doctor->slug         = $appl->user->slug;
+        $doctor->verified_at  = Carbon::now();
+        $doctor->verified_by  = auth()->id();
+        
+        if ($doctor->save()) {
+            // Add a new entry into doctor_specialty intermediate table;
+            // $doctor->specialties()->sync($appl->specialty_id);
+            $doctor->user->updateRegistrationStatus('accepted_not_subscribed');
+        }
+
+        // Workplace data
+        $workplace = new Workplace;
+        $workplace->doctor_id  = $appl->user_id;
+        $workplace->name       = $appl->workplace;
+        $workplace->address    = $appl->workplace_address;
+        $workplace->start_date = $appl->workplace_start;
+        $workplace->save();
+
+        // // Document data
+        // $document = new Document;
+        // $document->medical_college    = $appl->medical_college;
+        // $document->specialist_diploma = $appl->specialist_diploma;
+        // $document->competences        = $appl->competences;
+        // $document->malpraxis          = $appl->malpraxis;
+        // $document->medical_college_expiry = $appl->medical_college_expiry;
+        // $document->save();
+
         // Delete Appl
+        
+        if ($appl->delete()) {
+            // notify('AcceptedApplicationNotification');
+
+            flash('Application accepted, Doctor <b>'. $appl->user->name .'</b> registered successfully')->important()->info();
+        }
+
+        return redirect()->route('applications.index');
     }
 
     /**
@@ -59,7 +104,10 @@ class DoctorController extends Controller
      */
     public function show(Doctor $doctor)
     {
-        $workplaces = Workplace::orderBy('end_date', 'desc')->get();
+        $workplaces = $doctor->workplaces()
+                             ->orderBy('end_date', 'desc')
+                             ->get()
+                             ;
 
         return view('doctors.show', compact('doctor','workplaces'));
     }

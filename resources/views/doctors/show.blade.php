@@ -33,7 +33,11 @@
             </div>
             @endif
 
-            <h3 class="profile-username text-center">{{$doctor->user->name}}</h3>
+            <h3 class="profile-username text-center">
+              {{$doctor->user->name}}
+              
+              <span {{$doctor->availabilityText()}}></span>
+            </h3>
 
             <p class="text-muted text-center">
 
@@ -46,7 +50,7 @@
 
             <ul class="list-group list-group-unbordered mb-3">
               <li class="list-group-item p-1">
-                <b>Specialties</b> <a class="float-right">{{--$doctor->specialty--}}</a>
+                <b>Specialty{{-- ies --}}</b> <a class="float-right">{{ $doctor->specialty->name }}</a>
               </li>
               <li class="list-group-item p-1">
                 <b>Patients Served</b> <a class="float-right">{{$doctor->patients->count()}}</a>
@@ -58,7 +62,7 @@
                 <b>Availabilty</b> <a class="float-right">{{$doctor->available ? 'Available':'Unavailable'}}</a>
               </li>
               <li class="list-group-item p-1">
-                <b>Practice Years</b> <a class="float-right">{{random_int(1,20)/*$doctor->practiceYears()*/}} yrs</a>
+                <b>Practice Years</b> <a class="float-right">{{$doctor->practice_years}} yrs</a>
               </li>
 
               <li class="list-group-item p-1">

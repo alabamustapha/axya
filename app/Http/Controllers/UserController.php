@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UsersUpdateRequest;
+use App\Http\Requests\UserUpdateRequest;
 use App\Notifications\AccountVerificationNotification;
 use App\Notifications\PasswordChangeNotification;
 use App\Traits\ImageProcessing;
@@ -56,7 +56,7 @@ class UserController extends Controller
      * @param  \App\User $user
      * @return \Illuminate\Http\Response
      */
-    public function update(UsersUpdateRequest $request, User $user)
+    public function update(UserUpdateRequest $request, User $user)
     {
         $this->authorize('edit', $user);
 

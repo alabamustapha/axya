@@ -16,54 +16,58 @@
     </div>
 </div>
 
-<div style="border:5px solid gray;">
-    
-        // admin only,  <br>
-        // Seperate <b>ongoing </b><br>
-        // from New =<b>unattended,  </b><br>
-        // from <b>Accepted => delete immediately when new doctor is populated or  </b><br>
-        // <b>Rejected=>deleted after 1 week. </b><br>
-</div>
-
 <h2>Section title</h2>
 <div class="table-responsive">
     <table class="table table-striped table-sm">
         <thead>
         <tr>
-            <th>#</th>
             <th>Status</th>
             <th>Name</th>
             <th> View Applicant</th>
-            <th>Action</th>
-            <th>Specialty</th>
-            <th>Doc</th>
+            <th class="text-center">Action</th>
+            <th><i class="fa fa-stethoscope"></i>&nbsp; Specialty</th>
         </tr>
         </thead>
         <tbody>
         
-        @foreach($applications as $i => $application)
+        @foreach($applications as $application)
         <tr>
-            <td>{{$i + 1}}</td>
             <td>{{$application->user->is_doctor}}</td>
             <td>
-                <a href="{{route('applications.show', $application)}}">
+                <a href="{{route('users.show', $application->user)}}" target="_blank">
+                    <i class="fa fa-user"></i>&nbsp;
                     {{$application->user->name}}
                 </a>
             </td>
             <td>
                 <a href="{{route('applications.show', $application)}}">
-                    <i class="fa file"></i> View Applicant
+                    <i class="fa fa-file"></i>&nbsp;
+                    View Application
                 </a>
             </td>
-            <td>
-                <button class="btn btn-sm btn-info" onclick="return confirm('You really want to ACCEPT this application?');">Accept</button>
-                <button class="btn btn-sm btn-danger" onclick="return confirm('You really want to DELETE this application?');">Reject/Del</button>
+            <td class="tf-flex">
+                <form action="{{route('doctors.store')}}" method="post" style="display:inline-block;">
+                    @csrf
+                    <input type="hidden" name="user_id" value="{{$application->user_id}}">
+                    
+                    <button class="btn btn-sm btn-info" onclick="return confirm('Accept this application?');">
+                        <i class="fa fa-user-check"></i>&nbsp;
+                        Accept
+                    </button>
+                </form>
+
+                <span>/</span>
+
+                <form action="{{route('applications.destroy', $application)}}" method="post" style="display:inline-block;">
+                    @csrf
+                    {{method_field('DELETE')}}
+                    <button class="btn btn-sm btn-danger" onclick="return confirm('You really want to DELETE this application?');">
+                        <i class="fa fa-user-minus"></i> Reject/Del
+                    </button>
+                </form>
             </td>
-            <td>{{$application->specialty->name}}</td>
             <td>
-                <a href="{{asset($application->malpraxis)}}">
-                    View Doc1
-                </a>
+                {{$application->specialty->name}}
             </td>
         </tr>
         @endforeach

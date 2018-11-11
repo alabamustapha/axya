@@ -68,7 +68,7 @@
       <div class="card-body">
         <div class="form-group">
             <label for="first_appointment" class="tf-flex">
-                <span>{{ __('Date of First Appointment') }}</span>
+                <span>{{ __('Date You Started Work (First Appointment)') }}</span>
                 <small class="red">required</small>
             </label>
 
@@ -116,10 +116,10 @@
                         </div>
                         <div class="col-sm-6 mt-3">
                             <label for="workplace_start" class="tf-flex">
-                                <small style="size:10px;">{{ __('Start Date') }}</small>
+                                <small style="size:10px;">{{ __('Date Started Working Here ') }}</small>
                                 <small class="red">(yyyy-mm-dd) required</small>
                             </label>
-                            <input id="workplace_start" type="date" class="form-control{{ $errors->has('workplace_start') ? ' is-invalid' : '' }}" name="workplace_start" value="{{ old('workplace_start') }}" placeholder="name, state, country" required>
+                            <input id="workplace_start" type="date" class="form-control{{ $errors->has('workplace_start') ? ' is-invalid' : '' }}" name="workplace_start" value="{{ old('workplace_start') }}" placeholder="yyyy-mm-dd" required>
 
                             @if ($errors->has('workplace_start'))
                                 <span class="invalid-feedback" role="alert">
@@ -172,7 +172,7 @@
                                 <small>{{ __('Expiry Date') }}</small>
                                 <small class="red">required</small>
                             </label>
-                            <input id="medical_college_expiry" type="date" class="form-control{{ $errors->has('medical_college_expiry') ? ' is-invalid' : '' }}" name="medical_college_expiry" value="{{ old('medical_college_expiry') }}" required>
+                            <input id="medical_college_expiry" type="date" class="form-control{{ $errors->has('medical_college_expiry') ? ' is-invalid' : '' }}" name="medical_college_expiry" value="{{ old('medical_college_expiry') }}"  placeholder="yyyy-mm-dd" required>
 
                             @if ($errors->has('medical_college_expiry'))
                                 <span class="invalid-feedback" role="alert">
@@ -245,10 +245,15 @@
             @endif
         </div> 
       </div>
+      <div class="card-footer">
+            <small>All details and documents must be correct and valid! <br>
+              If your application is rejected, you may only re-apply one week after the rejection date. Kindly supply appropriate details once.
+            </small>
+      </div>
     </div> 
 
     <div class="form-group mb-4">
-        <button type="submit" class="btn btn-primary btn-block">
+        <button type="submit" class="btn btn-primary btn-block" onclick="return confirm('All details and documents are correct and valid?');">
             {{ __('Submit Application') }}
         </button>
     </div>
