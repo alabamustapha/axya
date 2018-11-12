@@ -301,15 +301,15 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Image::class);
     }
 
-    public function uploaded_documents()
+    public function documents()//uploaded_documents()
     {
         return $this->hasMany(Document::class, 'user_id');
     }
 
-    public function documents()
-    {
-        return $this->morphMany(Document::class, 'documentable');
-    }
+    // public function documents()
+    // {
+    //     return $this->morphMany(Document::class, 'documentable');
+    // }
 
     public function application()
     {

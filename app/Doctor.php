@@ -30,6 +30,11 @@ class Doctor extends Model
         return $this->belongsTo(Specialty::class);
     }
 
+    public function documents()
+    {
+        return $this->morphMany(Document::class, 'documentable');
+    }
+
     public function workplaces()
     {
         return $this->hasMany(Workplace::class);

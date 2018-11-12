@@ -21,6 +21,7 @@ Route::resource('tags', 'TagController')->except('create','edit');
 Route::resource('workplaces', 'WorkplaceController')->only('store','update','destroy');
 Route::resource('applications', 'ApplicationController');
 Route::resource('doctors', 'DoctorController');
+Route::resource('documents', 'DocumentController');
 
 // ---- IMAGE UPLOADS RELATED ---------------->
 Route::patch('{user}/image-upload', 'UserController@imageUpload')->name('image.upload');

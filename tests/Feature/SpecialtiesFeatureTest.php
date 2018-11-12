@@ -19,6 +19,7 @@ class SpecialtiesFeatureTest extends TestCase
         parent::setUp();
         
         $this->doc_user  = factory(User::class)->create();
+        $this->specialty = factory(Specialty::class)->create();
         $this->doctor    = factory(Doctor::class)
              ->create([
                     'id'      => $this->doc_user->id, 
@@ -26,8 +27,6 @@ class SpecialtiesFeatureTest extends TestCase
                 ]);
         $this->user      = factory(User::class)->create();
         $this->admin     = factory(User::class)->create(['acl' => '1']);
-
-        $this->specialty = factory(Specialty::class)->create();
 
         $this->name = $this->faker->word;
         $this->data = [ 

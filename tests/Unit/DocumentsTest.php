@@ -2,7 +2,9 @@
 
 namespace Tests\Unit;
 
+use App\Application;
 use App\Document;
+use App\Specialty;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -17,8 +19,10 @@ class DocumentsTest extends TestCase
     {
         parent::setUp();
 
-        $this->user     = factory(User::class)->create();
-        $this->document = factory(Document::class)->create();
+        $this->user         = factory(User::class)->create();
+        $this->specialty    = factory(Specialty::class)->create();
+        $this->application  = factory(Application::class)->create();
+        $this->document     = factory(Document::class)->create();
     } 
 
     /** @test */

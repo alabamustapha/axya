@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Doctor;
 use App\Image;
+use App\Specialty;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -19,6 +20,7 @@ class UsersTest extends TestCase
         parent::setUp();
 
         $this->user = factory(User::class)->create();
+        $this->specialty = factory(Specialty::class)->create();
         $this->doctor = factory(Doctor::class)->create();
     }
 

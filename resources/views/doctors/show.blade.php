@@ -158,8 +158,9 @@
               </h4>
                       
               <ul class="list-group list-group-unbordered mb-0">
-                <li class="list-group-item p-1 tf-flex "><b>Medical School:</b> <span><i class="fa fa-calendar"></i>&nbsp; June 2005</span></li>
-                <li class="list-group-item p-1 tf-flex"><b>Medical Association:</b> <span><i class="fa fa-calendar"></i>&nbsp; August 2005</span></li>
+                @foreach ($certificates as $certificate)
+                <li class="list-group-item p-1 tf-flex "><b>{{$certificate->name}}:</b> <span><i class="fa fa-calendar"></i>&nbsp; {{$certificate->expiry_date}} <i class="fa fa-check green"></i></span></li>
+                @endforeach
                 <li class="list-group-item p-1 border-bottom-0" title="Add new certificate">
                   <button class="btn btn-secondary btn-sm text-light">Add new &nbsp;<i class="fa fa-certificate"></i></button>
                 </li>

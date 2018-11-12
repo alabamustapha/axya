@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Application;
 use App\Doctor;
+use App\Document;
 use App\Notifications\Applications\ApplicationAcceptedNotification;
 use App\Specialty;
 use App\Workplace;
@@ -79,12 +80,54 @@ class DoctorController extends Controller
 
         // // Document data
         // $document = new Document;
-        // $document->medical_college    = $appl->medical_college;
-        // $document->specialist_diploma = $appl->specialist_diploma;
-        // $document->competences        = $appl->competences;
-        // $document->malpraxis          = $appl->malpraxis;
-        // $document->medical_college_expiry = $appl->medical_college_expiry;
-        // $document->save();
+        if ($appl->medical_college){
+            Document::create([
+                'user_id'       => $appl->user_id,
+                'name'          => 'Medical College Certificate',
+                'description'   => 'Doctor professional document',
+                'documentable_id'   => $appl->user_id,
+                'documentable_type' => 'App\Doctor',
+                'issued_date'   => null,
+                'expiry_date'   => $appl->medical_college_expiry,
+                'url'           => $appl->medical_college,
+            ]);
+        }
+        if ($appl->specialist_diploma){
+            Document::create([
+                'user_id'       => $appl->user_id,
+                'name'          => 'Specialist Diploma Certificate',
+                'description'   => 'Doctor professional document',
+                'documentable_id'   => $appl->user_id,
+                'documentable_type' => 'App\Doctor',
+                'issued_date'   => null,
+                'expiry_date'   => null,
+                'url'           => $appl->specialist_diploma,
+            ]);
+        }
+        if ($appl->competences){
+            Document::create([
+                'user_id'       => $appl->user_id,
+                'name'          => 'Competences Certificate',
+                'description'   => 'Doctor professional document',
+                'documentable_id'   => $appl->user_id,
+                'documentable_type' => 'App\Doctor',
+                'issued_date'   => null,
+                'expiry_date'   => null,
+                'url'           => $appl->competences,
+            ]);
+        }
+        if ($appl->malpraxis){
+            Document::create([
+                'user_id'       => $appl->user_id,
+                'name'          => 'Malpraxis Certificate',
+                'description'   => 'Doctor professional document',
+                'documentable_id'   => $appl->user_id,
+                'documentable_type' => 'App\Doctor',
+                'issued_date'   => null,
+                'expiry_date'   => null,
+                'url'           => $appl->malpraxis,
+            ]);
+        }
 
         // Delete Appl
         
@@ -106,12 +149,18 @@ class DoctorController extends Controller
      */
     public function show(Doctor $doctor)
     {
+        $certificates = $doctor->documents()
+                             ->where('description', 'Doctor professional document')
+                             ->orderBy('expiry_date', 'desc')
+                             ->orderBy('name', 'desc')
+                             ->get()
+                             ;
         $workplaces = $doctor->workplaces()
                              ->orderBy('end_date', 'desc')
                              ->get()
                              ;
 
-        return view('doctors.show', compact('doctor','workplaces'));
+        return view('doctors.show', compact('doctor','workplaces','certificates'));
     }
 
     /**

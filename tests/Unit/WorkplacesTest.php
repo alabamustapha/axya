@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Doctor;
+use App\Specialty;
 use App\User;
 use App\Workplace;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -19,6 +20,7 @@ class WorkplacesTest extends TestCase
         parent::setUp();
 
         $this->user       = factory(User::class)->create();
+        $this->specialty  = factory(Specialty::class)->create();
         $this->doctor     = factory(Doctor::class)->create();
         $this->workplace  = factory(Workplace::class)->create();
     } 

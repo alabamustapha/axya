@@ -19,12 +19,13 @@ class TagsFeatureTest extends TestCase
         parent::setUp();
         
         $this->doc_user  = factory(User::class)->create();
+        $this->specialty = factory(Specialty::class)->create();
         $this->doctor    = factory(Doctor::class)
              ->create(['id' => $this->doc_user, 'user_id' => $this->doc_user->id]);
         $this->user      = factory(User::class)->create();
         $this->admin     = factory(User::class)->create(['acl' => '1']);
 
-        $this->specialty = factory(Specialty::class)->create();
+        // $this->specialty = factory(Specialty::class)->create();
         $this->tag = factory(Tag::class)->create();
 
         $this->name = $this->faker->word;

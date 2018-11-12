@@ -3,9 +3,10 @@
 namespace Tests\Feature;
 
 use App\Doctor;
-use App\Workplace;
-use App\User;
+use App\Specialty;
 use App\Tag;
+use App\User;
+use App\Workplace;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -19,6 +20,7 @@ class WorkplacesFeatureTest extends TestCase
         parent::setUp();        
 
         $this->doc_user   = factory(User::class)->create();
+        $this->specialty  = factory(Specialty::class)->create();
         $this->doctor     = factory(Doctor::class)
              ->create([
                     'id'      => $this->doc_user->id, 
@@ -53,7 +55,7 @@ class WorkplacesFeatureTest extends TestCase
     /** @test */
     public function update_a_workplace_can_be_updated_by_doctor()
     {
-        $this->actingAs($this->doc_user);
+        $this->actingAs($this->doctor);
 
         // Create a Workplace
         $workplace = factory(Workplace::class)->create($this->data);
