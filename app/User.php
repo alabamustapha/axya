@@ -199,7 +199,7 @@ class User extends Authenticatable implements MustVerifyEmail
     /*<!---------------- Update Doctor Application Status ---------------->*/
     public static $professionalStatus = array(
         0 => 'Are you a <i class="fa fa-user-md"></i> Medical Doctor? 
-              <a class="btn btn-success btn-sm" href="http://medapp.demo/doctors/create">Register Here!</a>',
+              <a class="btn btn-success btn-sm" href="http://axya.he-healthy.ro/doctors/create">Register Here!</a>',
 
         1 => '<span class="teal text-bold"><i class="fa fa-info-circle"></i>&nbsp; Notifications</span>
               <hr> 

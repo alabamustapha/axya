@@ -15,6 +15,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
+
+        view()->composer(['layouts.partials.dashboard-sidebar'], function($view){
+            $view->with('applications_count', \App\Application::all()->count());
+        });
     }
 
     /**

@@ -16,71 +16,67 @@
     </div>
 </div>
 
-<div class="jumbotron">
-    
-        <div class="row">
-            <div class="col-md-3">
-                <img class="rounded-circle" src="{{ $application->user->avatar }}" style="width:200px;" width="25">
-            </div>
-            <div class="col-md-9">
-                <h2>
-                    <b>{{$application->user->name}}</b>
-                    <br>
-                    <small><i class="fa fa-user-md"></i> {{ $application->specialty->name }}</small>
-                </h2>
-                
-                <hr>
+<div class="jumbotron">    
+    <div class="row">
+        <div class="col-md-3">
+            <img class="rounded-circle" src="{{ $application->user->avatar }}" style="width:200px;" width="25">
+        </div>
+        <div class="col-md-9">
+            <h2>
+                <b>{{$application->user->name}}</b>
+                <br>
+                <small><i class="fa fa-user-md"></i> {{ $application->specialty->name }}</small>
+            </h2>
+            
+            <hr>
 
-                <div class="">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <th colspan="2" class="text-bold h4">Work Experience</th>
-                            </tr>
+            <div class="">
+                <table>
+                    <tbody>
+                        <tr>
+                            <th colspan="2" class="text-bold h4">Work Experience</th>
+                        </tr>
 
-                            <tr>
-                                <th>Date of First Appointment</th>
-                                <td>&nbsp;&nbsp; <i class="fa fa-calendar"></i> {{ $application->first_appointment }}</td>
-                            </tr>
+                        <tr>
+                            <th>Date of First Appointment</th>
+                            <td>&nbsp;&nbsp; <i class="fa fa-calendar"></i> {{ $application->first_appointment }}</td>
+                        </tr>
 
-                            <tr>
-                                <th>Current Place of Work</th>
-                                <td>
-                                    &nbsp;&nbsp; <i class="fa fa-hospital"></i> {{ $application->workplace }}, {{ $application->workplace_address }} 
-                                    <br>
-                                    &nbsp;&nbsp; <i class="fa fa-calendar"></i> Since: <b>{{ $application->workplace_start }}</b>
-                                </td>
-                            </tr>
-                        <tbody>
-                    </table>
+                        <tr>
+                            <th>Current Place of Work</th>
+                            <td>
+                                &nbsp;&nbsp; <i class="fa fa-hospital"></i> {{ $application->workplace }}, {{ $application->workplace_address }} 
+                                <br>
+                                &nbsp;&nbsp; <i class="fa fa-calendar"></i> Since: <b>{{ $application->workplace_start }}</b>
+                            </td>
+                        </tr>
+                    <tbody>
+                </table>
 
-                    <div class="tf-flex">
-                        <form action="{{route('doctors.store')}}" method="post" style="display:inline-block;">
-                            @csrf
-                            <input type="hidden" name="user_id" value="{{$application->user_id}}">
-                            
-                            <button class="btn btn-sm btn-info" onclick="return confirm('Accept this application?');">
-                                <i class="fa fa-user-check"></i>&nbsp;
-                                Accept
-                            </button>
-                        </form>
+                <div class="tf-flex">
+                    <form action="{{route('doctors.store')}}" method="post" style="display:inline-block;">
+                        @csrf
+                        <input type="hidden" name="user_id" value="{{$application->user_id}}">
+                        
+                        <button class="btn btn-sm btn-info" onclick="return confirm('Accept this application?');">
+                            <i class="fa fa-user-check"></i>&nbsp;
+                            Accept
+                        </button>
+                    </form>
 
-                        <span>/</span>
+                    <span>/</span>
 
-                        <form action="{{route('applications.destroy', $application)}}" method="post" style="display:inline-block;">
-                            @csrf
-                            {{method_field('DELETE')}}
-                            <button class="btn btn-sm btn-danger" onclick="return confirm('You really want to DELETE this application?');">
-                                <i class="fa fa-user-minus"></i> Reject/Del
-                            </button>
-                        </form>
-                    </div>
+                    <form action="{{route('applications.destroy', $application)}}" method="post" style="display:inline-block;">
+                        @csrf
+                        {{method_field('DELETE')}}
+                        <button class="btn btn-sm btn-danger" onclick="return confirm('You really want to DELETE this application?');">
+                            <i class="fa fa-user-minus"></i> Reject/Del
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
-    
-
-    {{-- <h3></h3> --}}
+    </div>
 </div>
 
 <div class="table-responsive">

@@ -9,6 +9,11 @@
           <i class="nav-icon fa fa-th green"></i>
           <p>
             Admin Section
+            @if ($applications_count)
+            <span class="badge bagde-danger px-1 text-bold bg-danger text-white" style="border-radius:4px;font-size: 9px;">
+              {{$applications_count}}
+            </span>
+            @endif
             <i class="right fa fa-angle-left"></i>
           </p>
         </a>
@@ -63,15 +68,29 @@
               <i class="nav-icon fa fa-cogs indigo"></i>
               <p>
                 Management
+                @if ($applications_count)
+                <span class="badge bagde-danger px-1 text-bold bg-danger text-white" style="border-radius:4px;font-size: 9px;">
+                  {{$applications_count}}
+                </span>
+                @endif
                 <i class="right fa fa-angle-left"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <router-link to="/doctors" class="nav-link">
+                <a href="{{route('applications.index')}}" class="nav-link">
+                {{-- <router-link to="/doctors" class="nav-link"> --}}
                   <i class="fa fa-user-md nav-icon indigo"></i>
-                  <p>Doctors</p>
-                </router-link>
+                  <p class="tf-flex">
+                    Doctors
+                    @if ($applications_count)
+                    <span class="badge bagde-danger px-1 text-bold bg-danger text-white right" style="border-radius:4px;font-size: 9px;">
+                      {{$applications_count}}
+                    </span>
+                    @endif
+                  </p>
+                {{-- </router-link> --}}
+                </a>
               </li>
               <li class="nav-item">
                 <router-link to="/users" class="nav-link">

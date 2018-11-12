@@ -6,17 +6,12 @@
 
   <div class="container-fluid">
 
-    <div class="row">
-      <div class="col-md-4">
+    <div class="jumbotron">    
+      <div class="row">
+        <div class="col-md-3">
+            <img class="rounded-circle" src="{{ $doctor->user->avatar }}" style="width:200px;" width="25">
 
-        <div class="card card-dark card-outline">
-          <div class="card-body box-profile">
-            <!-- Profile Image -->
-            <div class="text-center">
-              <a href="{{$doctor->user->originalAvatarFile}}" target="_blank" style="text-decoration:none;color: inherit;">
-                <img class="profile-user-img img-fluid img-circle profile-img" src="{{$doctor->user->avatar}}" alt="{{$doctor->user->name}} profile picture">
-              </a>
-            </div>
+            <br>
 
             @if ($doctor->user->isAccountOwner())
             <div class="tf-flex">
@@ -33,12 +28,6 @@
             </div>
             @endif
 
-            <h3 class="profile-username text-center">
-              {{$doctor->user->name}}
-              
-              <span {{$doctor->availabilityText()}}></span>
-            </h3>
-
             <p class="text-muted text-center">
 
               @if ($doctor->user->isAccountOwner())
@@ -48,42 +37,64 @@
               @endif
             </p>
 
-            <ul class="list-group list-group-unbordered mb-3">
-              <li class="list-group-item p-1">
-                <b>Specialty{{-- ies --}}</b> <a class="float-right">{{ $doctor->specialty->name }}</a>
-              </li>
-              <li class="list-group-item p-1">
-                <b>Patients Served</b> <a class="float-right">{{$doctor->patients->count()}}</a>
-              </li>
-              <li class="list-group-item p-1">
-                <b>Alma mater</b> <a class="float-right">{{ $doctor->graduate_school }}</a>
-              </li>
-              <li class="list-group-item p-1">
-                <b>Availabilty</b> <a class="float-right">{{$doctor->available ? 'Available':'Unavailable'}}</a>
-              </li>
-              <li class="list-group-item p-1">
-                <b>Practice Years</b> <a class="float-right">{{$doctor->practice_years}} yrs</a>
-              </li>
-
-              <li class="list-group-item p-1">
-                <b>Location</b> <a class="float-right">{{$doctor->user->address}}</a>
-              </li>
-            </ul>
-
             @if ($doctor->user->isAccountOwner())
               <a onclick="return false;" class="btn btn-dark btn-block text-light" title="Update Profile" data-toggle="modal" data-target="#updateProfessionalProfileForm">
                 <i class="fa fa-edit mr-1"></i> 
                 <b>Edit Details</b>
               </a>
             @endif
-          </div>
-          <!-- /.card-body -->
+
         </div>
+        <div class="col-md-9">
+          <h1>
+            {{$doctor->user->name}}
+            <span {{$doctor->availabilityText()}}></span>
+          </h1>
+          <h3>
+            <small><i class="fa fa-user-md"></i> {{ $doctor->specialty->name }}</small>
+          </h3>
+          
+          <hr>
 
+
+          <ul class="list-group list-group-unbordered mb-3">
+            <li class="list-group-item p-2 px-3">
+              <b><i style="width:30px;" class="fa fa-user-md"></i> Specialty</b> <a class="float-right">{{ $doctor->specialty->name }}</a>
+            </li>
+            <li class="list-group-item p-1 px-3">
+              <b><i style="width:30px;" class="fa fa-procedures"></i> Patients Served</b> <a class="float-right">{{$doctor->patients->count()}}</a>
+            </li>
+            <li class="list-group-item p-1 px-3">
+              <b><i style="width:30px;" class="fa fa-university"></i> Alma mater</b> <a class="float-right">{{ $doctor->graduate_school }}</a>
+            </li>
+            <li class="list-group-item p-1 px-3">
+              <b><i style="width:30px;" class="fa fa-calendar-alt"></i> Availabilty</b> <a class="float-right">{{$doctor->available ? 'Available':'Unavailable'}}</a>
+            </li>
+            <li class="list-group-item p-1 px-3">
+              <b><i style="width:30px;" class="fa fa-calendar"></i> Practice Years</b> <a class="float-right">{{$doctor->practice_years}} yrs</a>
+            </li>
+
+            <li class="list-group-item p-1 px-3">
+              <b><i style="width:30px;" class="fa fa-map-marker"></i> Location</b> <a class="float-right">{{$doctor->user->address}}</a>
+            </li>
+            <li class="list-group-item p-1 px-3">
+              <b><i style="width:30px;" class="fa fa-hospital-alt"></i> Place of Work</b> <a class="float-right"> {{-- $doctor->workplace }}, {{ $doctor->workplace_address --}}</a>
+            </li>
+          </ul>
+
+          <div class="">
+            <div class="tf-flex">                        
+                <a href="#" class="btn btn-primary btn-sm btn-block col-sm-6"><i class="fa fa-calendar-check"></i>&nbsp; Make Appointment</a>
+                <span>&nbsp;</span>
+            </div>
+          </div>
+        </div>
       </div>
+    </div>
 
-      <div class="col-md-8">
+    <div class="row">
 
+      <div class="col-md-7">
 
         <!-- Available Hours Section -->
         <div class="card card-dark">
@@ -219,7 +230,11 @@
           </div>
           <!-- /.card-body -->
         </div>
-        <!-- /.card -->
+        <!-- /.card -->           
+        
+      </div>
+
+      <div class="col-md-5">
 
         <!-- Reviews Section -->
         <div class="card card-dark">
@@ -235,8 +250,8 @@
             </ul>
           </div>
         </div>  
-        <!-- /.card -->            
-        
+        <!-- /.card --> 
+
       </div>
     </div>
 
