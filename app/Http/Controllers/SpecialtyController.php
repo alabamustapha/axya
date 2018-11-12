@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Doctor;
 use App\Http\Requests\SpecialtyRequest;
 use App\Specialty;
 use Illuminate\Http\Request;
@@ -54,7 +55,9 @@ class SpecialtyController extends Controller
      */
     public function show(Specialty $specialty)
     {
-        return view('specialties.show', compact('specialty'));
+        $doctors = Doctor::where('specialty_id', $specialty->id)->get();
+
+        return view('specialties.show', compact('specialty', 'doctors'));
     }
 
     /**

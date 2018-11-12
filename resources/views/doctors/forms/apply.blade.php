@@ -116,7 +116,7 @@
                         </div>
                         <div class="col-sm-6 mt-3">
                             <label for="workplace_start" class="tf-flex">
-                                <small style="size:10px;">{{ __('Date Started Working Here ') }}</small>
+                                <small style="size:10px;">{{ __('Date Started') }}</small>
                                 <small class="red">(yyyy-mm-dd) required</small>
                             </label>
                             <input id="workplace_start" type="date" class="form-control{{ $errors->has('workplace_start') ? ' is-invalid' : '' }}" name="workplace_start" value="{{ old('workplace_start') }}" placeholder="yyyy-mm-dd" required>
@@ -248,7 +248,7 @@
       </div>
       <div class="card-footer">
             <small>All details and documents must be correct and valid! <br>
-              If your application is rejected, you may only re-apply one week after the rejection date. Kindly supply appropriate details once.
+              If your application is rejected, <b class="red">you may only re-apply one week after the rejection date</b>. Kindly supply appropriate details once.
             </small>
       </div>
     </div> 

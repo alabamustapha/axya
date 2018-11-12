@@ -8,7 +8,7 @@
 
     <div class="jumbotron">    
       <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-3 text-center">
             <img class="rounded-circle" src="{{ $doctor->user->avatar }}" style="width:200px;" width="25">
 
             <br>
@@ -28,21 +28,31 @@
             </div>
             @endif
 
-            <p class="text-muted text-center">
+            <div>
+              <p class="text-muted text-center">
+
+                @if ($doctor->user->isAccountOwner())
+                
+                  <strong>{{$doctor->subscriptionStatus()}}</strong>
+
+                @endif
+              </p>
 
               @if ($doctor->user->isAccountOwner())
-              
-                <strong>{{$doctor->subscriptionStatus()}}</strong>
-
+                <a onclick="return false;" class="btn btn-dark btn-block text-light" title="Update Profile" data-toggle="modal" data-target="#updateProfessionalProfileForm">
+                  <i class="fa fa-edit mr-1"></i> 
+                  <b>Edit Details</b>
+                </a>
               @endif
-            </p>
+            </div>
 
-            @if ($doctor->user->isAccountOwner())
-              <a onclick="return false;" class="btn btn-dark btn-block text-light" title="Update Profile" data-toggle="modal" data-target="#updateProfessionalProfileForm">
-                <i class="fa fa-edit mr-1"></i> 
-                <b>Edit Details</b>
-              </a>
-            @endif
+            <hr>
+
+            <div class="tf-flex mb-3">                        
+                <a href="#" class="btn btn-primary btn-sm btn-block col">
+                  <i class="fa fa-calendar-check"></i>&nbsp; Make Appointment</a>
+                <span>&nbsp;</span>
+            </div>
 
         </div>
         <div class="col-md-9">
@@ -81,13 +91,6 @@
               <b><i style="width:30px;" class="fa fa-hospital-alt"></i> Place of Work</b> <a class="float-right"> {{-- $doctor->workplace }}, {{ $doctor->workplace_address --}}</a>
             </li>
           </ul>
-
-          <div class="">
-            <div class="tf-flex">                        
-                <a href="#" class="btn btn-primary btn-sm btn-block col-sm-6"><i class="fa fa-calendar-check"></i>&nbsp; Make Appointment</a>
-                <span>&nbsp;</span>
-            </div>
-          </div>
         </div>
       </div>
     </div>

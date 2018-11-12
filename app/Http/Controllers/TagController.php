@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Doctor;
 use App\Http\Requests\TagRequest;
 use App\Specialty;
 use App\Tag;
@@ -56,7 +57,17 @@ class TagController extends Controller
     {
         $specialties = Specialty::all();
 
-        return view('tags.show', compact('tag', 'specialties'));
+        $q = '%'.$tag->slug.'%';
+        $tag_specs = Tag::where('slug', 'like', $q)
+                        ->get()
+                        ->pluck('specialty_id')
+                        ;
+        $doctors = Doctor::where('specialty_id', $tag->specialty->id)
+                        ->orWhereIn('specialty_id', $tag_specs->toArray())
+                        ->get()
+                        ;
+
+        return view('tags.show', compact('tag', 'specialties','doctors'));
     }
 
     /**
