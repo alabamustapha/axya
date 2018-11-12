@@ -229,21 +229,22 @@
                 </span>
             @endif
         </div> 
+        {{-- 
+            <div class="form-group mt-4">
+                <label for="other_certificates" class="tf-flex">
+                    <span>{{ __('Other Relevant Certificate(s)') }}</span>
+                    <small>(PDF) <span class="teal">multiple files allowed</span></small>
+                </label>
 
-        <div class="form-group mt-4">
-            <label for="other_certificates" class="tf-flex">
-                <span>{{ __('Other Relevant Certificate(s)') }}</span>
-                <small>(PDF) <span class="teal">multiple files allowed</span></small>
-            </label>
+                <input id="other_certificates" type="file" class="form-control{{ $errors->has('other_certificates') ? ' is-invalid' : '' }}" name="other_certificates[]" value="{{ old('other_certificates') }}" accept="application/pdf" multiple>
 
-            <input id="other_certificates" type="file" class="form-control{{ $errors->has('other_certificates') ? ' is-invalid' : '' }}" name="other_certificates[]" value="{{ old('other_certificates') }}" accept="application/pdf" multiple>
-
-            @if ($errors->has('other_certificates'))
-                <span class="invalid-feedback" role="alert">
-                    <strong>{{ $errors->first('other_certificates') }}</strong>
-                </span>
-            @endif
-        </div> 
+                @if ($errors->has('other_certificates'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $errors->first('other_certificates') }}</strong>
+                    </span>
+                @endif
+            </div>
+        --}}
       </div>
       <div class="card-footer">
             <small>All details and documents must be correct and valid! <br>

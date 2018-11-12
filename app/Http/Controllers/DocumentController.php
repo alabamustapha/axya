@@ -79,12 +79,13 @@ class DocumentController extends Controller
     /**
      * Display the specified resource.
      *
+     * @link https://stackoverflow.com/questions/46898095/display-pdf-file-from-local-disk-in-laravel-5
      * @param  \App\Document  $document
      * @return \Illuminate\Http\Response
      */
     public function show(Document $document)
     {
-        //
+        // Get hint from ApplicationCOntroller@showFile
     }
 
     /**

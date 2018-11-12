@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-    <h1 class="h2">Doctor Applications Dashboard</h1>
+    <h1 class="h2">Doctor Application Status Dashboard</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group mr-2">
         <button class="btn btn-sm btn-outline-secondary">Share</button>
@@ -17,31 +17,111 @@
 </div>
 
 <div class="jumbotron">
-    {{$application->user->name}}'s application for Doctorship
-    <br>
-    <h2>Application Status</h2>
+    
+        <div class="row">
+            <div class="col-md-3">
+                <img class="rounded-circle" src="{{ $application->user->avatar }}" style="width:200px;" width="25">
+            </div>
+            <div class="col-md-9">
+                <h2>
+                    <b>{{$application->user->name}}</b>
+                    <br>
+                    <small><i class="fa fa-user-md"></i> {{ $application->specialty->name }}</small>
+                </h2>
+                
+                <hr>
+
+                <div class="">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <th colspan="2" class="text-bold h4">Work Experience</th>
+                            </tr>
+
+                            <tr>
+                                <th>Date of First Appointment</th>
+                                <td>&nbsp;&nbsp; <i class="fa fa-calendar"></i> {{ $application->first_appointment }}</td>
+                            </tr>
+
+                            <tr>
+                                <th>Current Place of Work</th>
+                                <td>
+                                    &nbsp;&nbsp; <i class="fa fa-hospital"></i> {{ $application->workplace }}, {{ $application->workplace_address }} 
+                                    <br>
+                                    &nbsp;&nbsp; <i class="fa fa-calendar"></i> Since: <b>{{ $application->workplace_start }}</b>
+                                </td>
+                            </tr>
+                        <tbody>
+                    </table>
+
+                    <div class="tf-flex">
+                        <form action="{{route('doctors.store')}}" method="post" style="display:inline-block;">
+                            @csrf
+                            <input type="hidden" name="user_id" value="{{$application->user_id}}">
+                            
+                            <button class="btn btn-sm btn-info" onclick="return confirm('Accept this application?');">
+                                <i class="fa fa-user-check"></i>&nbsp;
+                                Accept
+                            </button>
+                        </form>
+
+                        <span>/</span>
+
+                        <form action="{{route('applications.destroy', $application)}}" method="post" style="display:inline-block;">
+                            @csrf
+                            {{method_field('DELETE')}}
+                            <button class="btn btn-sm btn-danger" onclick="return confirm('You really want to DELETE this application?');">
+                                <i class="fa fa-user-minus"></i> Reject/Del
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+
+    {{-- <h3></h3> --}}
 </div>
 
 <div class="table-responsive">
     <table class="table table-striped table-sm">
+
         <thead>
-        <tr>
-            <th>Title</th>
-            <th>Value</th>
-        </tr>
-        </thead>
+            <tr>
+                <th colspan="2" class="h3">CERTIFICATES</th>
+            </tr>
+        <thead>
         <tbody>
-            <tr><th>user->name</th><td>{{ $application->user->name }}</td></tr>
-            <tr><th>specialty->name</th><td>{{ $application->specialty->name }}</td></tr>
-            <tr><th>first_appointment</th><td>{{ $application->first_appointment }}</td></tr>
-            <tr><th>workplace</th><td>{{ $application->workplace }}</td></tr>
-            <tr><th>workplace_address</th><td>{{ $application->workplace_address }}</td></tr>
-            <tr><th>workplace_start</th><td>{{ $application->workplace_start }}</td></tr>
-            <tr><th>specialist_diploma</th><td>{{ $application->specialist_diploma }}</td></tr>
-            <tr><th>competences</th><td>{{ $application->competences }}</td></tr>
-            <tr><th>malpraxis</th><td>{{ $application->malpraxis }}</td></tr>
-            <tr><th>medical_college</th><td>{{ $application->medical_college }}</td></tr>
-            <tr><th>medical_college_expiry</th><td>{{ $application->medical_college_expiry }}</td></tr>
+            <tr>
+                <th>Specialist Diploma</th>
+                <td>
+                    <i class="fa fa-file-pdf red"></i>&nbsp; 
+                    <a href="{{ route('showFile', ['application' => $application,'type' =>'specialist_diploma']) }}" target="_blank">{{ $application->specialist_diploma }}</a>
+                </td>
+            </tr>
+
+            <tr>
+                <th>Competences Certificate</th>
+                <td>
+                    <i class="fa fa-file-pdf red"></i>&nbsp; 
+                    <a href="{{ route('showFile', ['application' => $application,'type' =>'competences']) }}" target="_blank">{{ $application->competences }}</a></td>
+            </tr>
+
+            <tr>
+                <th>Malpraxis</th>
+                <td>
+                    <i class="fa fa-file-pdf red"></i>&nbsp; 
+                    <a href="{{ route('showFile', ['application' => $application,'type' =>'malpraxis']) }}" target="_blank">{{ $application->malpraxis }}</a></td>
+            </tr>
+
+            <tr>
+                <th>Medical College License</th>
+                <td>
+                    <i class="fa fa-file-pdf red"></i>&nbsp; 
+                    <a href="{{ route('showFile', ['application' => $application,'type' =>'medical_college']) }}" target="_blank">{{ $application->medical_college }}</a> 
+                    <br><br>
+                    <i class="fa fa-calendar"></i> Expiry Date: <b>{{ $application->medical_college_expiry }}</b></td>
+            </tr>
         </tbody>
     </table>
 </div>

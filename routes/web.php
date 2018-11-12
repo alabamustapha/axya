@@ -23,6 +23,8 @@ Route::resource('applications', 'ApplicationController');
 Route::resource('doctors', 'DoctorController');
 Route::resource('documents', 'DocumentController');
 
+Route::get('applications/{application}/show-file', 'ApplicationController@showFile')->name('showFile');
+
 // ---- IMAGE UPLOADS RELATED ---------------->
 Route::patch('{user}/image-upload', 'UserController@imageUpload')->name('image.upload');
 

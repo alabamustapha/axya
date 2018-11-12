@@ -24,7 +24,6 @@
             <th>Status</th>
             <th>Name</th>
             <th> View Applicant</th>
-            <th class="text-center">Action</th>
             <th><i class="fa fa-stethoscope"></i>&nbsp; Specialty</th>
         </tr>
         </thead>
@@ -44,27 +43,6 @@
                     <i class="fa fa-file"></i>&nbsp;
                     View Application
                 </a>
-            </td>
-            <td class="tf-flex">
-                <form action="{{route('doctors.store')}}" method="post" style="display:inline-block;">
-                    @csrf
-                    <input type="hidden" name="user_id" value="{{$application->user_id}}">
-                    
-                    <button class="btn btn-sm btn-info" onclick="return confirm('Accept this application?');">
-                        <i class="fa fa-user-check"></i>&nbsp;
-                        Accept
-                    </button>
-                </form>
-
-                <span>/</span>
-
-                <form action="{{route('applications.destroy', $application)}}" method="post" style="display:inline-block;">
-                    @csrf
-                    {{method_field('DELETE')}}
-                    <button class="btn btn-sm btn-danger" onclick="return confirm('You really want to DELETE this application?');">
-                        <i class="fa fa-user-minus"></i> Reject/Del
-                    </button>
-                </form>
             </td>
             <td>
                 {{$application->specialty->name}}

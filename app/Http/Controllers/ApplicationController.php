@@ -7,7 +7,9 @@ use App\Http\Requests\ApplicationRequest;
 use App\Notifications\Applications\ApplicationReceivedNotification;
 use App\Notifications\Applications\ApplicationRejectedNotification;
 use App\Specialty;
+use File;
 use Illuminate\Http\Request;
+use Response;
 use Illuminate\Support\Facades\Storage;
 
 class ApplicationController extends Controller
@@ -119,6 +121,29 @@ class ApplicationController extends Controller
         $this->authorize('admin', $application);
 
         return view('applications.show', compact('application'));
+    }
+
+    public function showFile(Request $request, Application $application)
+    {
+        $certType      = $request->type; // Med_col, Malpraxis etc
+
+        $file          = $application->{$certType};
+        $userDirectory = 'appl-'. $application->user->slug;
+        $filePath      = storage_path('app/'. $userDirectory .'/' . $file);
+
+        // File not found?
+        if(! File::exists($filePath)) { 
+            abort(404); 
+        }
+
+        $content    = File::get($filePath);
+        $type       = File::mimeType($filePath);
+        $fileName   = File::name($filePath);
+
+        return response()->file($filePath, [
+          'Content-Type'        => $type,
+          'Content-Disposition' => 'inline; filename="'.$fileName.'"'
+        ]);
     }
 
     /**
