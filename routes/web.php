@@ -23,14 +23,27 @@ Route::resource('applications','ApplicationController');
 Route::resource('doctors',     'DoctorController');
 Route::resource('documents',   'DocumentController');
 
-// Route::prefix('dashboard', function(){
-  Route::get('dashboard',        'DashboardController@index')->name('dashboard-main');
-  Route::get('dashboard/users',  'DashboardController@users')->name('dashboard-users');
-  Route::get('dashboard/doctors','DashboardController@doctors')->name('dashboard-doctors');
-  Route::get('dashboard/admins', 'DashboardController@admins')->name('dashboard-admins');
-  Route::get('dashboard/transactions', 'DashboardController@transactions')->name('dashboard-transactions');  
-// });
+
+
+// ---- ADMIN ACL RELATED ---------------->
+Route::prefix('make')->group(function(){
+Route::patch('/{user}/admin', 'AppAdminController@makeAdmin')->name('make-admin');
+Route::patch('/{user}/staff', 'AppAdminController@makeStaff')->name('make-staff');
+Route::patch('/{user}/normal', 'AppAdminController@makeNormal')->name('make-normal');
+});
+// ---- ADMIN ACL RELATED ---------------->
+
+
+Route::prefix('dashboard')->group(function(){
+  Route::get('/',        'DashboardController@index')->name('dashboard-main');
+  Route::get('/users',  'DashboardController@users')->name('dashboard-users');
+  Route::get('/doctors','DashboardController@doctors')->name('dashboard-doctors');
+  Route::get('/admins', 'DashboardController@admins')->name('dashboard-admins');
+  Route::get('/transactions', 'DashboardController@transactions')->name('dashboard-transactions');  
+});
 Route::get('applications/{application}/show-file', 'ApplicationController@showFile')->name('showFile');
+
+
 
 // ---- IMAGE UPLOADS RELATED ---------------->
 Route::patch('{user}/image-upload', 'UserController@imageUpload')->name('image.upload');

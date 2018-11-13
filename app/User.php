@@ -97,7 +97,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function isVerified()
     {
-        return app()->environment('testing')
+        return app()->environment('local')
             ? ($this->email == 'cucuteanu@yahoo.com' || $this->email == 'alabamustapha@gmail.com' || $this->email == 'tonyfrenzy@gmail.com')
             : !is_null($this->email_verified_at)
             ;
@@ -167,26 +167,43 @@ class User extends Authenticatable implements MustVerifyEmail
     /* --- - Access Control Levels - --- */
 
     /**
-     * Chcek a user's authorization level.
+     * Check a user's authorization level.
      * 
      * @return boolean
      */
+
+    /**
+     * Has not verified email address.
+     */
+    public function scopeAdmin($query)
+    {
+        return $query->whereIn('acl', ['1','5']);
+    }
+
+    /**
+     * Has not verified email address.
+     */
+    public function scopeStaff($query)
+    {
+        return $query->where('acl', '2');
+    }
+
     public function isSuperAdmin() 
     {
-        return /*$this->isVerified() && */$this->acl == 5;
+        return $this->isVerified() && $this->acl == '5';
     }
 
     public function isAdmin() 
     {
-        return /*$this->isVerified() && */app()->environment('testing') 
-            ? ($this->email == 'cucuteanu@yahoo.com' || $this->email == 'alabamustapha@gmail.com' || $this->email == 'tonyfrenzy@gmail.com')
-            : ($this->acl == 1 || $this->isSuperAdmin())
+        return $this->isVerified() && app()->environment('local') 
+            ? ($this->email == 'cucuteanu@yahoo.com' || $this->email == 'alabamustapha@gmail.com' || $this->email == 'tonyfrenzy@gmail.com' || $this->acl == '1' || $this->isSuperAdmin())
+            : ($this->acl == '1' || $this->isSuperAdmin())
             ;
     }
 
     public function isStaff() 
     {
-        return /*$this->isVerified() && */($this->acl == 2 || $this->isAdmin());        
+        return $this->isVerified() && ($this->acl == '2' || $this->isAdmin());        
     }
 
 
@@ -197,17 +214,20 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function makeOrdinaryMember() 
     {
-        $this->acl = 3;  
+        $this->acl = '3';
+        $this->update();
     } 
 
     public function makeStaff() 
     {
-        $this->acl = 2;  
+        $this->acl = '2';
+        $this->update();
     }
 
     public function makeAdmin() 
     {
-        $this->acl = 1;  
+        $this->acl = '1';
+        $this->update();
     }
 
 
@@ -220,14 +240,14 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function type() 
     {
-        if ($this->acl == 1 || $this->acl == 5){
+        if ($this->acl == '1' || $this->acl == '5'){
             return 'Admin';
         } 
-        elseif ($this->acl == 2){
+        elseif ($this->acl == '2'){
             return 'Staff';
         }
-        elseif ($this->acl == 3){
-            return 'Normal User';
+        elseif ($this->acl == '3'){
+            return 'Normal';
         }
     }
 
