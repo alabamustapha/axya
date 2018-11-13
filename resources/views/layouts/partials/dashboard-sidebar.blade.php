@@ -38,28 +38,44 @@
             <ul class="nav nav-treeview">
 
               <li class="nav-item">
-                <router-link to="/app-settings" class="nav-link">
-                  <i class="nav-icon fa fa-cog green"></i>
+                <a href="{{route('dashboard-main')}}" class="nav-link">
+                {{-- <router-link to="/dashboard-main" class="nav-link"> --}}
+                  <i class="nav-icon fa fa-chart-line green"></i>
                   <p>
-                    Users
+                    Main
                   </p>
-                </router-link>
+                {{-- </router-link> --}}
+                </a>
               </li>
               <li class="nav-item">
-                <router-link to="/app-dashboard" class="nav-link">
-                  <i class="nav-icon fa fa-chart-line green"></i>
+                <a href="{{route('dashboard-doctors')}}" class="nav-link">
+                {{-- <router-link to="/dashboard-doctors" class="nav-link"> --}}
+                  <i class="nav-icon fa fa-user-md green"></i>
                   <p>
                     Doctors
                   </p>
-                </router-link>
+                {{-- </router-link> --}}
+                </a>
               </li>
               <li class="nav-item">
-                <router-link to="/app-dashboard" class="nav-link">
-                  <i class="nav-icon fa fa-chart-line green"></i>
+                <a href="{{route('dashboard-users')}}" class="nav-link">
+                {{-- <router-link to="/dashboard-users class="nav-link"> --}}
+                  <i class="nav-icon fa fa-users green"></i>
+                  <p>
+                    Users
+                  </p>
+                {{-- </router-link> --}}
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('dashboard-transactions')}}" class="nav-link">
+                {{-- <router-link to="/dashboard-transactions" class="nav-link"> --}}
+                  <i class="nav-icon fa fa-handshake green"></i>
                   <p>
                     Transactions
                   </p>
-                </router-link>
+                {{-- </router-link> --}}
+                </a>
               </li>
             </ul>
           </li>

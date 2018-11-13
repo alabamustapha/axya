@@ -101,6 +101,22 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * Has verified email address.
+     */
+    public function scopeVerified($query)
+    {
+        return $query->whereNotNull('email_verified_at');
+    }
+
+    /**
+     * Has not verified email address.
+     */
+    public function scopeNotVerified($query)
+    {
+        return $query->whereNull('email_verified_at');
+    }
+
+    /**
      * Get actual age.
      * 
      * @return integer
