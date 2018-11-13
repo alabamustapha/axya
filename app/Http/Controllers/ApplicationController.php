@@ -29,7 +29,7 @@ class ApplicationController extends Controller
      */
     public function index()
     {
-        $applications = Application::oldest()->paginate(25);
+        $applications = Application::with(['user','specialty'])->oldest()->paginate(25);
 
         return view('applications.index', compact('applications'));
     }

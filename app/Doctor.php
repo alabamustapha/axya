@@ -83,27 +83,27 @@ class Doctor extends Model
     }
 
     /**
-     * Has verified email address.
+     * Get male doctors from users model.
      */
-    public function scopeMaleMembers($query)
+    public static function maleMembers()
     {
-        return $this->user()->maleMembers($query);
+        return \App\User::whereHas('doctor')->where('gender', 'Male')->get();
     }
 
     /**
-     * Has verified email address.
+     * Get female doctors from users model.
      */
-    public function scopeFemaleMembers($query)
+    public static function femaleMembers()
     {
-        return $this->user()->femaleMembers($query);
+        return \App\User::whereHas('doctor')->where('gender', 'Female')->get();
     }
 
     /**
-     * Has verified email address.
+     * Get doctors with other sexuality from users model
      */
-    public function scopeOtherGenders($query)
+    public static function otherGenders()
     {
-        return $this->user()->otherGenders($query);
+        return \App\User::whereHas('doctor')->where('gender', 'Other')->get();
     }
 
 

@@ -26,7 +26,7 @@
               
               <div class="display-1 tf-flex">
                 <i class="fa fa-user-md col-sm-3"></i>
-                <span class="col-sm-9">{{ \App\Doctor::all()->count() }}</span>
+                <span class="col-sm-9">{{ $doctors_count }}</span>
               </div>
 
             </div>
@@ -49,13 +49,13 @@
                   </div>
                   <div class="col-sm-9">
                     <h1 class="font-weight-light">
-                      {{\App\User::whereHas('doctor')->maleMembers()->get()->count()}}
+                      {{$male_doctors_count}}
                     </h1>
 
                     <p>
                       Male Doctors
                       <span class="badge badge-dark badge-pill badge-sm" style="font-size:16px;">
-                        {{ round(100 * ((\App\User::whereHas('doctor')->maleMembers()->get()->count() / \App\Doctor::all()->count())), 1) }}%
+                        {{ $male_doctors_stat }}%
                       </span>
                     </p>
                   </div>
@@ -74,13 +74,13 @@
                   </div>
                   <div class="col-sm-9">
                     <h1 class="font-weight-light">
-                      {{\App\User::whereHas('doctor')->femaleMembers()->get()->count()}}
+                      {{$female_doctors_count}}
                     </h1>
 
                     <p>
                       Female Doctors
                       <span class="badge badge-dark badge-pill badge-sm" style="font-size:16px;">
-                        {{ round(100 * ((\App\User::whereHas('doctor')->femaleMembers()->get()->count() / \App\Doctor::all()->count())), 1) }}%
+                        {{ $female_doctors_stat }}%
                       </span>
                     </p>
                   </div>
@@ -99,13 +99,13 @@
                   </div>
                   <div class="col-sm-9">
                     <h1 class="font-weight-light">
-                      {{\App\User::whereHas('doctor')->otherGenders()->get()->count()}}
+                      {{$other_genders_count}}
                     </h1>
 
                     <p>
                       Other Doctors
                       <span class="badge badge-dark badge-pill badge-sm" style="font-size:16px;">
-                        {{ round(100 * ((\App\User::whereHas('doctor')->otherGenders()->get()->count() / \App\Doctor::all()->count())), 1) }}%
+                        {{ $other_genders_stat }}%
                       </span>
                     </p>
                   </div>
@@ -132,7 +132,7 @@
                   <div class="col-sm-9">
                     <a href="{{route('applications.index')}}" style="color: inherit;text-decoration: none;">
                       <h1 class="font-weight-light badge badge-danger">
-                        <span class="h3">{{\App\Application::all()->count()}}</span>
+                        <span class="h3">{{$applications_count}}</span>
                       </h1>
 
                       <p>Pending Applications</p>
@@ -150,7 +150,7 @@
           Specialty Statistics
         </h3>
         <div class="row mx-1">
-          @foreach (\App\Specialty::all() as $specialty)
+          @foreach ($specialties as $specialty)
           <div class="col-md-6">
             <!-- small box -->
             <div class="small-box shadow">
@@ -162,13 +162,13 @@
                   <div class="col-sm-9">
                     <a href="{{route('specialties.show', $specialty)}}" class="users-list-name">
                       <h1>
-                        {{$specialty->doctors()->count()}}
+                        {{$specialty->doctors->count()}}
                       </h1>
 
                       <p>
                         {{$specialty->name}}
                         <span class="badge badge-dark badge-pill badge-sm" style="font-size:16px;">
-                          {{ round(100 * (($specialty->doctors()->count() / \App\Doctor::all()->count())), 1) }}%
+                          {{ round(100 * (($specialty->doctors->count() / $doctors_count)), 1) }}%
                         </span>
                       </p>
                   </a>
@@ -195,7 +195,7 @@
             <!-- /.card-header -->
             <div class="card-body p-0">
               <ul class="users-list clearfix">                
-                @foreach(\App\Doctor::latest()->take(8)->get() as $doctor)
+                @foreach($latest_doctors as $doctor)
                 <li title="{{$doctor->user->name}}">
                   <img src="{{$doctor->user->avatar}}" width="80" alt="Doctor Image">
                   <a class="users-list-name" href="{{route('doctors.show', $doctor->user)}}">{{$doctor->user->name}}</a>

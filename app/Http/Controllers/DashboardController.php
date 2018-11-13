@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Doctor;
 use App\User;
+use App\Specialty;
+use App\Application;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -71,7 +73,35 @@ class DashboardController extends Controller
 
     public function doctors()
     {
-        return view('admin.dashboard.doctors');
+        $applications_count   = Application::all()->count();
+        $doctors_count        = Doctor::all()->count();
+
+        $male_doctors_count   = Doctor::maleMembers()->count();
+        $female_doctors_count = Doctor::femaleMembers()->count();
+        $other_genders_count  = Doctor::otherGenders()->count();
+
+        $male_doctors_stat    = ($doctors_count > 0) ? round((100 * ($male_doctors_count / $doctors_count)), 1) : 0;
+        $female_doctors_stat  = ($doctors_count > 0) ? round((100 * ($female_doctors_count / $doctors_count)), 1) : 0;
+        $other_genders_stat   = ($doctors_count > 0) ? round((100 * ($other_genders_count / $doctors_count)), 1) : 0;
+
+        $specialties    = Specialty::with('doctors')->get();
+        $latest_doctors = Doctor::with('user')->latest()->take(8)->get();
+
+        return view('admin.dashboard.doctors', compact(
+            'applications_count',
+            'doctors_count',
+
+            'male_doctors_count',
+            'female_doctors_count',
+            'other_genders_count',
+
+            'male_doctors_stat',
+            'female_doctors_stat',
+            'other_genders_stat',
+
+            'specialties',
+            'latest_doctors'
+        ));
     }
 
     public function admins()
