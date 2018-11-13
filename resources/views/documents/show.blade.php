@@ -1,5 +1,7 @@
 @section('layouts.master')
 
+@section('title', $document->name .' Document')
+
 @section('content')
 <embed
     src="{{ action('DocumentController@show', $document->id) }}"

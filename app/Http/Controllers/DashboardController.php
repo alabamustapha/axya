@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Doctor;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -20,7 +21,17 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('admin.dashboard.index');
+        $users_count    = User::all()->count();
+        $doctors_count  = Doctor::all()->count();
+        // $completed_transactions_count  = Transaction::notverified()->count();
+        // $successful_appointments_count = Appointment::notverified()->count();
+
+        return view('admin.dashboard.index', compact(
+            'users_count',
+            'doctors_count'
+            // 'completed_transactions_count',
+            // 'successful_appointments_count',
+        ));
     }
 
     public function users()

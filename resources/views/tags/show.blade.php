@@ -1,9 +1,9 @@
 @extends('layouts.master')
 
-@section('meta-description', $tag->name)
+@section('meta-description', 'Doctors, Specialties and medical procedures associated with '. $tag->name)
 @section('meta-keywords', '')
 
-@section('title', $tag->name)
+@section('title', 'Doctors, Specialties associated with '. $tag->name)
 
 @section('content')
 

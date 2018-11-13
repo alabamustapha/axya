@@ -1,9 +1,9 @@
 @extends('layouts.master')
 
-@section('meta-description', 'COntents associated with...')
+@section('meta-description', 'Medical Keywards Index')
 @section('meta-keywords', '')
 
-@section('title', "Tags Index")
+@section('title', "Tag, Keywords Index")
 
 @section('content')
   

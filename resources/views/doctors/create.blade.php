@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', Auth::user()->name)
+@section('title', 'Apply as a Doctor')
 
 @section('content')
 

@@ -18,7 +18,7 @@
                   <i class="fa fa-users display-3"></i>
                 </div>
                 <div class="col-sm-7">
-                  <h1 class="font-weight-light">150,000</h1>
+                  <h1 class="font-weight-light">{{$users_count}}</h1>
 
                   <p>Registered Users</p>
                 </div>
@@ -42,7 +42,7 @@
                   <i class="fa fa-user-md display-3"></i>
                 </div>
                 <div class="col-sm-7">
-                  <h1 class="font-weight-light">150,000</h1>
+                  <h1 class="font-weight-light">{{$doctors_count}}</h1>
 
                   <p>Verified Doctors</p>
                 </div>
@@ -69,7 +69,7 @@
                   <i class="fa fa-handshake display-3"></i>
                 </div>
                 <div class="col-sm-7">
-                  <h1 class="font-weight-light">80,000</h1>
+                  <h1 class="font-weight-light">---</h1>
 
                   <p>Completed Transactions</p>
                 </div>
@@ -96,7 +96,7 @@
                   <i class="fa fa-calendar-alt display-3"></i>
                 </div>
                 <div class="col-sm-7">
-                  <h1 class="font-weight-light">70,000</h1>
+                  <h1 class="font-weight-light">---</h1>
 
                   <p>Successful Appointments</p>
                 </div>
@@ -120,7 +120,7 @@
 
         <div class="info-box-content">
           <span class="info-box-text">New Subscription</span>
-          <span class="info-box-number">5,200</span>
+          <span class="info-box-number">---</span>
         </div>
         <!-- /.info-box-content -->
       </div>
@@ -130,7 +130,7 @@
 
         <div class="info-box-content">
           <span class="info-box-text">New Users</span>
-          <span class="info-box-number">92,050</span>
+          <span class="info-box-number">---</span>
         </div>
         <!-- /.info-box-content -->
       </div>
@@ -140,7 +140,7 @@
 
         <div class="info-box-content">
           <span class="info-box-text">New Doctors</span>
-          <span class="info-box-number">114,381</span>
+          <span class="info-box-number">---</span>
         </div>
         <!-- /.info-box-content -->
       </div>
@@ -150,7 +150,7 @@
 
         <div class="info-box-content">
           <span class="info-box-text">New Transactions</span>
-          <span class="info-box-number">163,921</span>
+          <span class="info-box-number">---</span>
         </div>
         <!-- /.info-box-content -->
       </div>

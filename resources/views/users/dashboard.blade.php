@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('title', $user->name .' Dashboard')
+
 @section('content')    
   
   <div class="row">

@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', $doctor->user->name)
+@section('title', $doctor->user->name .' - Doctors')
 
 @section('content')
 

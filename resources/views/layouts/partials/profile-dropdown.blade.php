@@ -4,7 +4,7 @@
 </a>
 
 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" aria-labelledby="navbarDropdown">
-    <a class="dropdown-item" href="{{ route('admin_dashboard') }}">
+    <a class="dropdown-item" href="{{ route('dashboard-main') }}">
         {{ __('Admin Dashboard') }}
     </a>
     <a class="dropdown-item" href="{{ route('users.show',  Auth::user()) }}">
