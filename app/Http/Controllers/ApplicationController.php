@@ -19,7 +19,7 @@ class ApplicationController extends Controller
         $this->middleware('auth');
         $this->middleware('admin')->only('index');
         $this->middleware('application')->only('store');
-        $this->middleware('verified');//->only('store');
+        // $this->middleware('verified');
     }
     
     /**

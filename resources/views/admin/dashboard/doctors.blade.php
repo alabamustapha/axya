@@ -10,8 +10,8 @@
     <div class="col-md-9">
       <!-- MAP & BOX PANE -->
       <div class="card text-center shadow-none">
-        <div class="card-header">
-          <h3 class="card-title text-bold">Verified Doctors</h3>
+        <div class="card-header bg-secondary">
+          <h3 class="card-title text-bold pt-3">Verified Doctors</h3>
 
           <div class="card-tools">
             <button type="button" class="btn btn-tool" data-widget="collapse">
@@ -34,7 +34,7 @@
         </div>
         <!-- /.card-body -->
 
-        <h3 class="text-bold pt-5 pb-2 bg-secondary">
+        <h3 class="text-bold pt-3 mt-3 pb-2 bg-secondary">
           <i class="fa fa-venus-mars"></i>
           Gender Statistics
         </h3>
@@ -52,7 +52,12 @@
                       {{\App\User::whereHas('doctor')->maleMembers()->get()->count()}}
                     </h1>
 
-                    <p>Male Doctors</p>
+                    <p>
+                      Male Doctors
+                      <span class="badge badge-dark badge-pill badge-sm" style="font-size:16px;">
+                        {{ round(100 * ((\App\User::whereHas('doctor')->maleMembers()->get()->count() / \App\Doctor::all()->count())), 1) }}%
+                      </span>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -72,7 +77,12 @@
                       {{\App\User::whereHas('doctor')->femaleMembers()->get()->count()}}
                     </h1>
 
-                    <p>Female Doctors</p>
+                    <p>
+                      Female Doctors
+                      <span class="badge badge-dark badge-pill badge-sm" style="font-size:16px;">
+                        {{ round(100 * ((\App\User::whereHas('doctor')->femaleMembers()->get()->count() / \App\Doctor::all()->count())), 1) }}%
+                      </span>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -92,7 +102,12 @@
                       {{\App\User::whereHas('doctor')->otherGenders()->get()->count()}}
                     </h1>
 
-                    <p>Other Doctors</p>
+                    <p>
+                      Other Doctors
+                      <span class="badge badge-dark badge-pill badge-sm" style="font-size:16px;">
+                        {{ round(100 * ((\App\User::whereHas('doctor')->otherGenders()->get()->count() / \App\Doctor::all()->count())), 1) }}%
+                      </span>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -101,9 +116,9 @@
           <!-- ./col -->
         </div>
 
-        <h3 class="text-bold pt-5 pb-2 bg-secondary">
+        <h3 class="text-bold pt-3 mt-3 pb-2 bg-secondary">
           <i class="fa fa-user-plus"></i>
-          Application Statistics
+          Doctor Applications
         </h3>
         <div class="row mx-1">
           <div class="col-md-6 offset-md-3">
@@ -130,7 +145,7 @@
           <!-- ./col -->
         </div>
 
-        <h3 class="text-bold pt-5 pb-2 bg-secondary">
+        <h3 class="text-bold pt-3 mt-3 pb-2 bg-secondary">
           <i class="fa fa-stethoscope"></i>
           Specialty Statistics
         </h3>
@@ -150,7 +165,12 @@
                         {{$specialty->doctors()->count()}}
                       </h1>
 
-                      <p>{{$specialty->name}}</p>
+                      <p>
+                        {{$specialty->name}}
+                        <span class="badge badge-dark badge-pill badge-sm" style="font-size:16px;">
+                          {{ round(100 * (($specialty->doctors()->count() / \App\Doctor::all()->count())), 1) }}%
+                        </span>
+                      </p>
                   </a>
                   </div>
                 </div>
@@ -169,8 +189,8 @@
         <div class="col-md-12">
           <!-- USERS LIST -->
           <div class="card shadow-none">
-            <div class="card-header text-center">
-              <h3 class="card-title text-bold">Latest Additions</h3>
+            <div class="card-header text-center bg-secondary">
+              <h3 class="card-title text-bold pt-3">Latest Additions</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body p-0">
@@ -186,8 +206,8 @@
               <!-- /.users-list -->
             </div>
             <!-- /.card-body -->
-            <div class="card-footer text-center p-1">
-              <a href="{{ route('doctors.index') }}">View More <i class="fa fa-arrow-circle-right"></i></a>
+            <div class="card-footer text-center p-2">
+              <a href="#{{-- route('doctors.index') --}}">View More <i class="fa fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!--/.card -->
@@ -204,7 +224,7 @@
         <span class="info-box-icon"><i class="fa"></i></span>
 
         <div class="info-box-content">
-          <span class="info-box-text">New Today</span>
+          <span class="info-box-text">New Doctors Today</span>
           <span class="info-box-number">5,200</span>
         </div>
         <!-- /.info-box-content -->
@@ -214,7 +234,7 @@
         <span class="info-box-icon"><i class="fa"></i></span>
 
         <div class="info-box-content">
-          <span class="info-box-text">New This Week</span>
+          <span class="info-box-text">New Doctors This Week</span>
           <span class="info-box-number">92,050</span>
         </div>
         <!-- /.info-box-content -->
@@ -224,7 +244,7 @@
         <span class="info-box-icon"><i class="fa"></i></span>
 
         <div class="info-box-content">
-          <span class="info-box-text">New this Month</span>
+          <span class="info-box-text">New Doctors This Month</span>
           <span class="info-box-number">114,381</span>
         </div>
         <!-- /.info-box-content -->

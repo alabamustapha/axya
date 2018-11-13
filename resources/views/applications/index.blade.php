@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+@section('title', 'Doctor Applications Index')
+
 @section('content')
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
@@ -21,7 +23,6 @@
     <table class="table table-striped table-sm">
         <thead>
         <tr>
-            <th>Status</th>
             <th>Name</th>
             <th> View Applicant</th>
             <th><i class="fa fa-stethoscope"></i>&nbsp; Specialty</th>
@@ -31,12 +32,8 @@
         
         @foreach($applications as $application)
         <tr>
-            <td>{{$application->user->is_doctor}}</td>
             <td>
-                <a href="{{route('users.show', $application->user)}}" target="_blank">
-                    <i class="fa fa-user"></i>&nbsp;
-                    {{$application->user->name}}
-                </a>
+                {{$application->user->name}}
             </td>
             <td>
                 <a href="{{route('applications.show', $application)}}">

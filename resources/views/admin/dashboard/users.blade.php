@@ -10,8 +10,8 @@
     <div class="col-md-9">
       <!-- MAP & BOX PANE -->
       <div class="card text-center shadow-none">
-        <div class="card-header">
-          <h3 class="card-title">All Registered Users</h3>
+        <div class="card-header bg-secondary">
+          <h3 class="card-title text-bold pt-3">All Registered Users</h3>
 
           <div class="card-tools">
             <button type="button" class="btn btn-tool" data-widget="collapse">
@@ -26,7 +26,7 @@
               
               <div class="display-1 tf-flex">
                 <i class="fa fa-users col-sm-3"></i>
-                <span class="col-sm-9">{{ \App\User::all()->count() }}</span>
+                <span class="col-sm-9">{{ $users_count }}</span>
               </div>
 
             </div>
@@ -34,7 +34,7 @@
         </div>
         <!-- /.card-body -->
 
-        <h3 class="text-bold pt-5 pb-2 bg-secondary">
+        <h3 class="text-bold pt-3 mt-3 pb-2 bg-secondary">
           <i class="fa fa-check-double"></i>
           Verification Statistics
         </h3>
@@ -48,9 +48,16 @@
                     <i class="fa fa-user-check display-3 green"></i>
                   </div>
                   <div class="col-sm-9">
-                    <h1 class="font-weight-light">{{ \App\User::verified()->get()->count() }}</h1>
+                    <h1 class="font-weight-light">
+                      {{ $verified_users_count }}
+                    </h1>
 
-                    <p>Verified Users</p>
+                    <p>
+                      Verified Users
+                      <span class="badge badge-dark badge-pill badge-sm" style="font-size:16px;">
+                        {{ $verified_users_stat }}%
+                      </span>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -66,9 +73,16 @@
                     <i class="fa fa-users display-3 red"></i>
                   </div>
                   <div class="col-sm-9">
-                    <h1 class="font-weight-light">{{ \App\User::notVerified()->get()->count() }}</h1>
+                    <h1 class="font-weight-light">
+                      {{ $unverified_users_count }}
+                    </h1>
 
-                    <p>UnVerified Users</p>
+                    <p>
+                      UnVerified Users
+                      <span class="badge badge-dark badge-pill badge-sm" style="font-size:16px;">
+                        {{ $unverified_users_stat }}%
+                      </span>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -76,7 +90,7 @@
           </div>
         </div>
 
-        <h3 class="text-bold pt-5 pb-2 bg-secondary">
+        <h3 class="text-bold pt-3 mt-3 pb-2 bg-secondary">
           <i class="fa fa-venus-mars"></i>
           Gender Statistics
         </h3>
@@ -90,9 +104,14 @@
                     <i class="fa fa-male display-3 purple"></i>
                   </div>
                   <div class="col-sm-9">
-                    <h1 class="font-weight-light">{{ \App\User::maleMembers()->get()->count() }}</h1>
+                    <h1 class="font-weight-light">{{ $male_users_count }}</h1>
 
-                    <p>Males</p>
+                    <p>
+                      Males
+                      <span class="badge badge-dark badge-pill badge-sm" style="font-size:16px;">
+                        {{ $male_users_stat }}%
+                      </span>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -108,9 +127,14 @@
                     <i class="fa fa-female display-3 pink"></i>
                   </div>
                   <div class="col-sm-9">
-                    <h1 class="font-weight-light">{{ \App\User::femaleMembers()->get()->count() }}</h1>
+                    <h1 class="font-weight-light">{{ $female_users_count }}</h1>
 
-                    <p>Females</p>
+                    <p>
+                      Females
+                      <span class="badge badge-dark badge-pill badge-sm" style="font-size:16px;">
+                        {{ $female_users_stat }}%
+                      </span>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -125,9 +149,14 @@
                     <i class="fa fa-genderless display-3 pink"></i>
                   </div>
                   <div class="col-sm-9">
-                    <h1 class="font-weight-light">{{ \App\User::otherGenders()->get()->count() }}</h1>
+                    <h1 class="font-weight-light">{{ $other_genders_stat }}</h1>
 
-                    <p>Others</p>
+                    <p>
+                      Others
+                      <span class="badge badge-dark badge-pill badge-sm" style="font-size:16px;">
+                        {{ $other_genders_stat }}%
+                      </span>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -143,8 +172,8 @@
         <div class="col-md-12">
           <!-- USERS LIST -->
           <div class="card shadow-none">
-            <div class="card-header text-center">
-              <h3 class="card-title text-bold">Latest Users</h3>
+            <div class="card-header text-center bg-secondary">
+              <h3 class="card-title text-bold pt-3">Latest Users</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body p-0">
@@ -175,7 +204,7 @@
         <span class="info-box-icon"><i class="fa"></i></span>
 
         <div class="info-box-content">
-          <span class="info-box-text">New Today</span>
+          <span class="info-box-text">New Users Today</span>
           <span class="info-box-number">5,200</span>
         </div>
         <!-- /.info-box-content -->
@@ -185,7 +214,7 @@
         <span class="info-box-icon"><i class="fa"></i></span>
 
         <div class="info-box-content">
-          <span class="info-box-text">New This Week</span>
+          <span class="info-box-text">New Users This Week</span>
           <span class="info-box-number">92,050</span>
         </div>
         <!-- /.info-box-content -->
@@ -195,7 +224,7 @@
         <span class="info-box-icon"><i class="fa"></i></span>
 
         <div class="info-box-content">
-          <span class="info-box-text">New this Month</span>
+          <span class="info-box-text">New Users This Month</span>
           <span class="info-box-number">114,381</span>
         </div>
         <!-- /.info-box-content -->

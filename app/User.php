@@ -143,6 +143,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return $query->whereNull('email_verified_at');
     }
 
+
     /**
      * Get actual age.
      * 

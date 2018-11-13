@@ -25,7 +25,37 @@ class DashboardController extends Controller
 
     public function users()
     {
-        return view('admin.dashboard.users');
+        $users_count            = User::all()->count();
+        $verified_users_count   = User::verified()->count();
+        $unverified_users_count = User::notverified()->count();
+
+        $male_users_count       = User::maleMembers()->count();
+        $female_users_count     = User::femaleMembers()->count();
+        $other_genders_count    = User::otherGenders()->count();
+
+        $verified_users_stat    = ($users_count > 0) ? round((100 * ($verified_users_count / $users_count)), 1) : 0;
+        $unverified_users_stat  = ($users_count > 0) ? round((100 * ($unverified_users_count / $users_count)), 1) : 0;
+
+        $male_users_stat        = ($users_count > 0) ? round((100 * ($male_users_count / $users_count)), 1) : 0;
+        $female_users_stat      = ($users_count > 0) ? round((100 * ($female_users_count / $users_count)), 1) : 0;
+        $other_genders_stat     = ($users_count > 0) ? round((100 * ($other_genders_count / $users_count)), 1) : 0;
+
+        return view('admin.dashboard.users', compact(
+            'users_count',
+            'verified_users_count',
+            'unverified_users_count',
+
+            'male_users_count',
+            'female_users_count',
+            'other_genders_count',
+
+            'verified_users_stat',
+            'unverified_users_stat',
+
+            'male_users_stat',
+            'female_users_stat',
+            'other_genders_stat'
+        ));
     }
 
     public function doctors()
