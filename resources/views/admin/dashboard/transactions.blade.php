@@ -55,8 +55,8 @@
         <span class="info-box-icon"><i class="fa"></i></span>
 
         <div class="info-box-content">
-          <span class="info-box-text">New Today</span>
-          <span class="info-box-number">5,200</span>
+          <span class="info-box-text">New Transactions Today</span>
+          <span class="info-box-number">---</span>
         </div>
         <!-- /.info-box-content -->
       </div>
@@ -65,8 +65,8 @@
         <span class="info-box-icon"><i class="fa"></i></span>
 
         <div class="info-box-content">
-          <span class="info-box-text">New This Week</span>
-          <span class="info-box-number">92,050</span>
+          <span class="info-box-text">New Transactions This Week</span>
+          <span class="info-box-number">---</span>
         </div>
         <!-- /.info-box-content -->
       </div>
@@ -75,8 +75,8 @@
         <span class="info-box-icon"><i class="fa"></i></span>
 
         <div class="info-box-content">
-          <span class="info-box-text">New this Month</span>
-          <span class="info-box-number">114,381</span>
+          <span class="info-box-text">New Transactions This Month</span>
+          <span class="info-box-number">---</span>
         </div>
         <!-- /.info-box-content -->
       </div>

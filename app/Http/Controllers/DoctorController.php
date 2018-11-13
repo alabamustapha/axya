@@ -17,7 +17,7 @@ class DoctorController extends Controller
     {
         $this->middleware('auth')->except('index','show');
         $this->middleware('application')->only('create');
-        $this->middleware('verified')->only('create','store');
+        // $this->middleware('verified')->only('create','store');
         // $this->middleware('doctor')->except('index','show');
     }
 

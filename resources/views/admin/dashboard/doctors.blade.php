@@ -225,7 +225,7 @@
 
         <div class="info-box-content">
           <span class="info-box-text">New Doctors Today</span>
-          <span class="info-box-number">5,200</span>
+          <span class="info-box-number">---</span>
         </div>
         <!-- /.info-box-content -->
       </div>
@@ -235,7 +235,7 @@
 
         <div class="info-box-content">
           <span class="info-box-text">New Doctors This Week</span>
-          <span class="info-box-number">92,050</span>
+          <span class="info-box-number">---</span>
         </div>
         <!-- /.info-box-content -->
       </div>
@@ -245,7 +245,7 @@
 
         <div class="info-box-content">
           <span class="info-box-text">New Doctors This Month</span>
-          <span class="info-box-number">114,381</span>
+          <span class="info-box-number">---</span>
         </div>
         <!-- /.info-box-content -->
       </div>
