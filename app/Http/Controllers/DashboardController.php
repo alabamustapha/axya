@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -34,7 +35,10 @@ class DashboardController extends Controller
 
     public function admins()
     {
-        return view('admin.dashboard.admins');
+        $admins = User::whereIn('acl', [1,5])->orderBy('name')->get();
+        $staffs = User::whereIn('acl', [2])->orderBy('name')->get();
+
+        return view('admin.dashboard.admins', compact('admins','staffs'));
     }
 
     public function transactions()

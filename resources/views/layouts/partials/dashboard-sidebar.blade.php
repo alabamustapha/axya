@@ -68,6 +68,16 @@
                 </a>
               </li>
               <li class="nav-item">
+                <a href="{{route('dashboard-admins')}}" class="nav-link">
+                {{-- <router-link to="/dashboard-admins class="nav-link"> --}}
+                  <i class="nav-icon fa fa-user-tie green"></i>
+                  <p>
+                    Staffs & Admins
+                  </p>
+                {{-- </router-link> --}}
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="{{route('dashboard-transactions')}}" class="nav-link">
                 {{-- <router-link to="/dashboard-transactions" class="nav-link"> --}}
                   <i class="nav-icon fa fa-handshake green"></i>
@@ -147,6 +157,16 @@
                   <i class="nav-icon fa fa-tags teal"></i>
                   <p>
                     Tags
+                  </p>
+                {{-- </router-link> --}}
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="#{{--route('faqs.index')--}}" class="nav-link">
+                {{-- <router-link to="/faqs" class="nav-link"> --}}
+                  <i class="nav-icon fa fa-question-circle teal"></i>
+                  <p>
+                    FAQs
                   </p>
                 {{-- </router-link> --}}
                 </a>

@@ -34,7 +34,10 @@
         </div>
         <!-- /.card-body -->
 
-        <h3 class="text-bold pt-5 pb-2">Gender Statistics</h3>
+        <h3 class="text-bold pt-5 pb-2 bg-secondary">
+          <i class="fa fa-venus-mars"></i>
+          Gender Statistics
+        </h3>
         <div class="row mx-1">
           <div class="col-md-6">
             <!-- small box -->
@@ -45,7 +48,9 @@
                     <i class="fa fa-male display-3 purple"></i>
                   </div>
                   <div class="col-sm-9">
-                    <h1 class="font-weight-light">1,000</h1>
+                    <h1 class="font-weight-light">
+                      {{\App\User::whereHas('doctor')->maleMembers()->get()->count()}}
+                    </h1>
 
                     <p>Male Doctors</p>
                   </div>
@@ -63,7 +68,9 @@
                     <i class="fa fa-female display-3 pink"></i>
                   </div>
                   <div class="col-sm-9">
-                    <h1 class="font-weight-light">500</h1>
+                    <h1 class="font-weight-light">
+                      {{\App\User::whereHas('doctor')->femaleMembers()->get()->count()}}
+                    </h1>
 
                     <p>Female Doctors</p>
                   </div>
@@ -72,9 +79,32 @@
             </div>
           </div>
           <!-- ./col -->
+          <div class="col-md-6">
+            <!-- small box -->
+            <div class="small-box shadow">
+              <div class="inner">
+                <div class="row">
+                  <div class="col-sm-3">
+                    <i class="fa fa-genderless display-3 pink"></i>
+                  </div>
+                  <div class="col-sm-9">
+                    <h1 class="font-weight-light">
+                      {{\App\User::whereHas('doctor')->otherGenders()->get()->count()}}
+                    </h1>
+
+                    <p>Other Doctors</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ./col -->
         </div>
 
-        <h3 class="text-bold pt-5 pb-2">Application Statistics</h3>
+        <h3 class="text-bold pt-5 pb-2 bg-secondary">
+          <i class="fa fa-user-plus"></i>
+          Application Statistics
+        </h3>
         <div class="row mx-1">
           <div class="col-md-6 offset-md-3">
             <!-- small box -->
@@ -100,7 +130,10 @@
           <!-- ./col -->
         </div>
 
-        <h3 class="text-bold pt-5 pb-2">Specialty Statistics</h3>
+        <h3 class="text-bold pt-5 pb-2 bg-secondary">
+          <i class="fa fa-stethoscope"></i>
+          Specialty Statistics
+        </h3>
         <div class="row mx-1">
           @foreach (\App\Specialty::all() as $specialty)
           <div class="col-md-6">
@@ -112,8 +145,10 @@
                     <i class="fa fa-stethoscope display-3"></i>
                   </div>
                   <div class="col-sm-9">
-                    <a href="{{route('specialties.show', $specialty)}}" style="color: inherit;text-decoration: none;">
-                      <h1 class="font-weight-light">{{$specialty->doctors()->count()}}</h1>
+                    <a href="{{route('specialties.show', $specialty)}}" class="users-list-name">
+                      <h1>
+                        {{$specialty->doctors()->count()}}
+                      </h1>
 
                       <p>{{$specialty->name}}</p>
                   </a>

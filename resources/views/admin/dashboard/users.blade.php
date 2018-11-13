@@ -34,7 +34,10 @@
         </div>
         <!-- /.card-body -->
 
-        <h3 class="text-bold pt-5 pb-2">Verification Statistics</h3>
+        <h3 class="text-bold pt-5 pb-2 bg-secondary">
+          <i class="fa fa-check-double"></i>
+          Verification Statistics
+        </h3>
         <div class="row mx-1">
           <div class="col-md-6">
             <!-- small box -->
@@ -73,7 +76,10 @@
           </div>
         </div>
 
-        <h3 class="text-bold pt-5 pb-2">Gender Statistics</h3>
+        <h3 class="text-bold pt-5 pb-2 bg-secondary">
+          <i class="fa fa-venus-mars"></i>
+          Gender Statistics
+        </h3>
         <div class="row mx-1">
           <div class="col-md-6">
             <!-- small box -->
@@ -84,7 +90,7 @@
                     <i class="fa fa-male display-3 purple"></i>
                   </div>
                   <div class="col-sm-9">
-                    <h1 class="font-weight-light">80,000</h1>
+                    <h1 class="font-weight-light">{{ \App\User::maleMembers()->get()->count() }}</h1>
 
                     <p>Males</p>
                   </div>
@@ -102,9 +108,26 @@
                     <i class="fa fa-female display-3 pink"></i>
                   </div>
                   <div class="col-sm-9">
-                    <h1 class="font-weight-light">70,000</h1>
+                    <h1 class="font-weight-light">{{ \App\User::femaleMembers()->get()->count() }}</h1>
 
                     <p>Females</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <!-- small box -->
+            <div class="small-box shadow">
+              <div class="inner">
+                <div class="row">
+                  <div class="col-sm-3">
+                    <i class="fa fa-genderless display-3 pink"></i>
+                  </div>
+                  <div class="col-sm-9">
+                    <h1 class="font-weight-light">{{ \App\User::otherGenders()->get()->count() }}</h1>
+
+                    <p>Others</p>
                   </div>
                 </div>
               </div>
@@ -114,10 +137,12 @@
         </div>
       </div>
       <!-- /.card -->
+
+
       <div class="row">
         <div class="col-md-12">
           <!-- USERS LIST -->
-          <div class="card">
+          <div class="card shadow-none">
             <div class="card-header text-center">
               <h3 class="card-title text-bold">Latest Users</h3>
             </div>

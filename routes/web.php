@@ -23,11 +23,13 @@ Route::resource('applications','ApplicationController');
 Route::resource('doctors',     'DoctorController');
 Route::resource('documents',   'DocumentController');
 
-Route::get('dashboard',        'DashboardController@index')->name('dashboard-main');
-Route::get('dashboard/users',  'DashboardController@users')->name('dashboard-users');
-Route::get('dashboard/doctors','DashboardController@doctors')->name('dashboard-doctors');
-Route::get('dashboard/admins', 'DashboardController@admins')->name('dashboard-admins');
-Route::get('dashboard/transactions', 'DashboardController@transactions')->name('dashboard-transactions');
+// Route::prefix('dashboard', function(){
+  Route::get('dashboard',        'DashboardController@index')->name('dashboard-main');
+  Route::get('dashboard/users',  'DashboardController@users')->name('dashboard-users');
+  Route::get('dashboard/doctors','DashboardController@doctors')->name('dashboard-doctors');
+  Route::get('dashboard/admins', 'DashboardController@admins')->name('dashboard-admins');
+  Route::get('dashboard/transactions', 'DashboardController@transactions')->name('dashboard-transactions');  
+// });
 Route::get('applications/{application}/show-file', 'ApplicationController@showFile')->name('showFile');
 
 // ---- IMAGE UPLOADS RELATED ---------------->

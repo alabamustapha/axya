@@ -73,13 +73,37 @@ class Doctor extends Model
 
     public function dummyAvatar()
     {
-      $img = 'dummy_avatar'. random_int(1, 9) .'.jpg';
+      $img = 'dummy_avatar'. random_int(1, 8) .'.jpg';
       return config('app.url').'/images/doctor_images/' . $img;
     }
 
     public function getPracticeYearsAttribute()
     {
       return Carbon::now()->diffInYears($this->first_appointment);
+    }
+
+    /**
+     * Has verified email address.
+     */
+    public function scopeMaleMembers($query)
+    {
+        return $this->user()->maleMembers($query);
+    }
+
+    /**
+     * Has verified email address.
+     */
+    public function scopeFemaleMembers($query)
+    {
+        return $this->user()->femaleMembers($query);
+    }
+
+    /**
+     * Has verified email address.
+     */
+    public function scopeOtherGenders($query)
+    {
+        return $this->user()->otherGenders($query);
     }
 
 
