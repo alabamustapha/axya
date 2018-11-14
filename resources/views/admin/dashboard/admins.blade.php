@@ -57,19 +57,21 @@
             </p>
           </div>
 
-          <div class="">
+          <div class="mb-4">
             @forelse ($admins as $admin)
             <div class="px-3 py-1">
               <div class="row" title="{{$admin->name}}">
                 <a class="users-list-name" href="{{route('users.show', $admin)}}">
                   <img src="{{$admin->avatar}}" style="width:80px;height: 80px;" alt="Doctor Image">
                 </a>
-                <span class="text-left">
+                <span class="text-left ml-2">
                   <a class="users-list-name" href="{{route('users.show', $admin)}}">
                     {{$admin->name}}
                   </a>
 
-                  <span class="mr-3">
+                  <span class="text-muted">{{$admin->type()}}</span><br>
+
+                  <span>
                     <button id="navbarDropdown" class="btn btn-sm dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-cog"></i>
                     </button>
@@ -125,19 +127,21 @@
             </p>
           </div>
 
-          <div class="">
+          <div class="mb-4">
             @forelse ($staffs as $staff)
             <div class="px-3 py-1">
               <div class="row" title="{{$staff->name}}">
                 <a class="users-list-name" href="{{route('users.show', $staff)}}">
                   <img src="{{$staff->avatar}}" style="width:80px;height: 80px;" alt="staff Image">
                 </a>
-                <span class="text-left">
+                <span class="text-left ml-2">
                   <a class="users-list-name" href="{{route('users.show', $staff)}}">
                     {{$staff->name}}
                   </a>
 
-                  <span class="mr-3">
+                  <span class="text-muted">{{$staff->type()}}</span><br>
+
+                  <span>
                     <button id="navbarDropdown" class="btn btn-sm dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-cog"></i>
                     </button>
