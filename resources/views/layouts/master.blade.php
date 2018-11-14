@@ -15,6 +15,7 @@
     @auth
       <script>
           window.user = @json(auth()->user());
+          window.appUrl  = config('app.url');
       </script>
     @endauth
   </head>
@@ -77,6 +78,7 @@
 
           <div class="container-fluid">
 
+            <searches></searches>
             <router-view></router-view>
 
             @yield('content')

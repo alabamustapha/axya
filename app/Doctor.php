@@ -13,7 +13,7 @@ class Doctor extends Model
 
     protected $dates = ['verified_at','subscription_ends_at','first_appointment'];
 
-    protected $appends = ['practice_years'];
+    protected $appends = ['practice_years', 'link'];
 
     public function user()
     {
@@ -75,11 +75,6 @@ class Doctor extends Model
     {
       $img = 'dummy_avatar'. random_int(1, 8) .'.jpg';
       return config('app.url').'/images/doctor_images/' . $img;
-    }
-
-    public function getPracticeYearsAttribute()
-    {
-      return Carbon::now()->diffInYears($this->first_appointment);
     }
 
     /**
@@ -159,5 +154,17 @@ class Doctor extends Model
         return $query->isSubscribed()
                      ->where('available', '0')
                      ;
+    }
+
+    /**** ~API Candidates~****/
+
+    public function getLinkAttribute()
+    {
+      return route('doctors.show', $this);
+    }
+
+    public function getPracticeYearsAttribute()
+    {
+      return Carbon::now()->diffInYears($this->first_appointment);
     }
 }

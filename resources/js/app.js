@@ -8,6 +8,64 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+window.Event = new Vue();
+
+
+// Moment:
+import moment from 'moment'
+
+
+// VueForm:
+import { Form, HasError, AlertError } from 'vform'
+window.Form = Form // Available globally for global access.
+Vue.component(HasError.name, HasError)
+Vue.component(AlertError.name, AlertError)
+
+
+// VueRouter:
+import VueRouter from 'vue-router'
+Vue.use(VueRouter)
+
+
+// VueProgressBar:
+// Import and Add to master.blade.php after <router-view>
+import VueProgressBar from 'vue-progressbar'
+Vue.use(VueProgressBar, {
+    color: 'rgb(143, 255, 199)',
+    failedColor: 'red',
+    height: '3px'
+})
+
+
+// SweetAlert:
+// ES6 Modules or TypeScript
+import swal from 'sweetalert2'
+window.swal = swal;
+const toast = swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000
+});
+window.toast = toast;
+
+
+// Vue Routes
+let routes = [
+    // { path: '/dashboard-admins', component: require('./components/admin/DashboardAdmin.vue')},
+    // { path: '/dashboard-users', component: require('./components/admin/DashboardUser.vue')},
+    // { path: '/searches', component: require('./components/Searches.vue')},
+];
+const router = new VueRouter({
+    mode: 'history',
+    routes // short for "routes: routes"
+});
+
+
+// Vue Filters
+Vue.filter('upText', function(text)   { return text.toUpperCase() });
+Vue.filter('myDate', function(created){ return moment(created).format("MMM Do YY") });
+
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -16,7 +74,17 @@ window.Vue = require('vue');
  */
 
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
+Vue.component('searches', require('./components/Searches.vue'));
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    router,
+    data: {
+      search: ''
+    },
+    methods: {
+      searchForQuery(){
+        Event.$emit('search_stuff');
+      }
+    }
 });

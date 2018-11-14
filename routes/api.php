@@ -17,6 +17,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('searches', 'Api\SearchController@index')->name('search');
+
 // Route::apiResource();
 
 Route::apiResources([

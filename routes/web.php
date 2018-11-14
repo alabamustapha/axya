@@ -13,6 +13,7 @@
 
 // Route::get('/', function () { return view('welcome'); })->name('home');
 Route::get('/', 'HomeController@index')->name('home');
+// Route::get('{path}', 'HomeController@search')->where('path', '([A-z\d-\/_.]+)?');
 
 Auth::routes(['verify' => true]);
 
@@ -22,7 +23,6 @@ Route::resource('workplaces',  'WorkplaceController')->only('store','update','de
 Route::resource('applications','ApplicationController');
 Route::resource('doctors',     'DoctorController');
 Route::resource('documents',   'DocumentController');
-
 
 
 // ---- ADMIN ACL RELATED ---------------->
