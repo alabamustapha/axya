@@ -43,6 +43,8 @@ Route::prefix('dashboard')->group(function(){
 });
 Route::get('applications/{application}/show-file', 'ApplicationController@showFile')->name('showFile');
 
+Route::get('searches', 'SearchController@index')->name('search');
+
 
 
 // ---- IMAGE UPLOADS RELATED ---------------->

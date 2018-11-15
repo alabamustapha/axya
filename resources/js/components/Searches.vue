@@ -89,7 +89,7 @@
     methods: {
       loadSearches() {
         let query = this.$parent.search; // This is accessed from a parent component i.e the root instance at ...resources\js\app.js thus need for .$parent
-        const searchUrl = appUrl +'/api/searches?q=';
+        const searchUrl = appUrl +'/searches?q=';
 
         axios.get(searchUrl + query)
         .then(({data}) => (this.searches = data.data))
