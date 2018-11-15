@@ -12,12 +12,13 @@
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <link rel="stylesheet" href="{{asset('css/all.css')}}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-    @auth
       <script>
+        @auth
           window.user = @json(auth()->user());
-          window.appUrl  = config('app.url');
-      </script>
-    @endauth
+        @endauth
+        
+        window.appUrl  = @json(config('app.url'));
+    </script>
   </head>
   <body class="hold-transition sidebar-mini">
 

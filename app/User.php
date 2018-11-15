@@ -19,6 +19,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'dob' => 'date:Y-m-d',
     ]; 
 
+    protected $appends = ['link','is_verified','is_superadmin','is_admin','is_staff'];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -98,13 +100,19 @@ class User extends Authenticatable implements MustVerifyEmail
     public function isVerified()
     {
         return app()->environment('local')
-            ? ($this->email == 'cucuteanu@yahoo.com' || $this->email == 'alabamustapha@gmail.com' || $this->email == 'tonyfrenzy@gmail.com')
+            ? ( 
+              !is_null($this->email_verified_at) || 
+              $this->email == 'cucuteanu@yahoo.com' || 
+              $this->email == 'alabamustapha@gmail.com' || 
+              $this->email == 'tonyfrenzy@gmail.com' || 
+              $this->email == 'solomoneyitene@gmail.com'
+              )
             : !is_null($this->email_verified_at)
             ;
     }
 
     /**
-     * Has verified email address.
+     * Is a male user.
      */
     public function scopeMaleMembers($query)
     {
@@ -112,7 +120,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * Has verified email address.
+     * Is a female user.
      */
     public function scopeFemaleMembers($query)
     {
@@ -120,7 +128,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * Has verified email address.
+     * Is a user of other sexuality.
      */
     public function scopeOtherGenders($query)
     {
@@ -173,17 +181,11 @@ class User extends Authenticatable implements MustVerifyEmail
      * @return boolean
      */
 
-    /**
-     * Has not verified email address.
-     */
     public function scopeAdmin($query)
     {
         return $query->whereIn('acl', ['1','5']);
     }
 
-    /**
-     * Has not verified email address.
-     */
     public function scopeStaff($query)
     {
         return $query->where('acl', '2');
@@ -191,20 +193,27 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function isSuperAdmin() 
     {
-        return $this->isVerified() && $this->acl == '5';
+        return $this->is_verified && $this->acl == '5';
     }
 
     public function isAdmin() 
     {
-        return $this->isVerified() && app()->environment('local') 
-            ? ($this->email == 'cucuteanu@yahoo.com' || $this->email == 'alabamustapha@gmail.com' || $this->email == 'tonyfrenzy@gmail.com' || $this->acl == '1' || $this->isSuperAdmin())
-            : ($this->acl == '1' || $this->isSuperAdmin())
+        return $this->is_verified && app()->environment('local') 
+            ? (
+              $this->acl == '1' || 
+              $this->isSuperAdmin() || 
+              $this->email == 'cucuteanu@yahoo.com' || 
+              $this->email == 'alabamustapha@gmail.com' || 
+              // $this->email == 'tonyfrenzy@gmail.com' || 
+              $this->email == 'solomoneyitene@gmail.com' 
+              )
+            : $this->acl == '1' || $this->isSuperAdmin()
             ;
     }
 
     public function isStaff() 
     {
-        return $this->isVerified() && ($this->acl == '2' || $this->isAdmin());        
+        return $this->is_verified && ($this->acl == '2' || $this->isAdmin());        
     }
 
 
@@ -413,5 +422,31 @@ class User extends Authenticatable implements MustVerifyEmail
                           ->toArray();
 
         return in_array(request()->user->id, $doctorIds);
+    }
+
+
+
+    public function getLinkAttribute()
+    {
+      return route('users.show', $this);
+    }
+
+    public function getIsVerifiedAttribute()
+    {
+        return $this->isVerified();
+    }
+    public function getIsSuperAdminAttribute() 
+    {
+        return $this->isSuperAdmin();
+    }
+
+    public function getIsAdminAttribute() 
+    {
+        return $this->isAdmin();
+    }
+
+    public function getIsStaffAttribute() 
+    {
+        return $this->isStaff(); 
     }
 }

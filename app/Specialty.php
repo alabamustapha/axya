@@ -13,6 +13,8 @@ class Specialty extends Model
 
     public $timestamps = false;
 
+    protected $appends = ['link'];
+
     protected $fillable = ['name','slug','description','user_id','specialty_id','accepted_at'];
 
     /**
@@ -57,5 +59,11 @@ class Specialty extends Model
     public function applications()
     {
       return $this->hasMany(Application::class);
+    }
+
+
+    public function getLinkAttribute()
+    {
+      return route('specialties.show', $this);
     }
 }

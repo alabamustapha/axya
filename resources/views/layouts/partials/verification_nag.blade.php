@@ -1,5 +1,5 @@
 
-@unless(Auth::user()->isVerified())
+@unless(Auth::user()->is_verified)
     <div class="container">
         <div class="nag nag-danger text-center">
             {{ __('For full access on this platform, please verify your account with the verification link sent to '. Auth::user()->email .'.') }}

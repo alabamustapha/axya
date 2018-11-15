@@ -13,6 +13,8 @@ class Doctor extends Model
 
     protected $dates = ['verified_at','subscription_ends_at','first_appointment'];
 
+    protected $with = ['specialty','user'];
+
     protected $appends = ['practice_years', 'link'];
 
     public function user()

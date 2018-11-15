@@ -15,11 +15,11 @@
                     <div class="card-footer">
                         <span class="tf-flex mb-2">
                             <small class="text-muted">
-                                <span class="fa fa-star text-primary"></span>
-                                <span class="fa fa-star text-primary"></span>
-                                <span class="fa fa-star text-primary"></span>
-                                <span class="fa fa-star text-primary"></span>
-                                <span class="fa fa-star text-primary"></span>
+                                <span class="fa fa-star text-primary p-0 m-0"></span>
+                                <span class="fa fa-star text-primary p-0 m-0"></span>
+                                <span class="fa fa-star text-primary p-0 m-0"></span>
+                                <span class="fa fa-star text-primary p-0 m-0"></span>
+                                <span class="fa fa-star text-primary p-0 m-0"></span>
                             </small>
                             <span>&nbsp;{{random_int(1,5)}}({{random_int(10,100)}})</span>
                         </span>

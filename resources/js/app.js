@@ -11,6 +11,11 @@ window.Vue = require('vue');
 window.Event = new Vue();
 
 
+import Acl from './acl'
+// Tied to Vue so it can be used within it
+Vue.prototype.$acl = new Acl(window.user); 
+
+
 // Moment:
 import moment from 'moment'
 
