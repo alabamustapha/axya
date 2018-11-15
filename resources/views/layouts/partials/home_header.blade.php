@@ -6,7 +6,7 @@
         
         {{-- @include('layouts.partials.search_form') --}}
         
-        <span class="{{-- form-inline ml-3 --}}">
+        <div>
           <div class="input-group input-group-lg">
             <input class="form-control form-control-navbar" 
                 v-model="search" 
@@ -21,8 +21,9 @@
               </button>
             </div>
           </div>
-        </span> 
-        <searches></searches>
+
+          <searches></searches>
+        </div> 
 
    </div>
 </div>

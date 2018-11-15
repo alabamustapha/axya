@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Doctor\DoctorResource;
 use App\User;
 use App\Doctor;
 use Illuminate\Http\Request;

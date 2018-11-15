@@ -29,7 +29,7 @@ Route::resource('documents',   'DocumentController');
 Route::prefix('make')->group(function(){
 Route::patch('/{user}/admin', 'AppAdminController@makeAdmin')->name('make-admin');
 Route::patch('/{user}/staff', 'AppAdminController@makeStaff')->name('make-staff');
-Route::patch('/{user}/normal', 'AppAdminController@makeNormal')->name('make-normal');
+Route::patch('/{user}/normal','AppAdminController@makeNormal')->name('make-normal');
 });
 // ---- ADMIN ACL RELATED ---------------->
 
@@ -42,6 +42,8 @@ Route::prefix('dashboard')->group(function(){
   Route::get('/transactions', 'DashboardController@transactions')->name('dashboard-transactions');  
 });
 Route::get('applications/{application}/show-file', 'ApplicationController@showFile')->name('showFile');
+
+Route::get('searches', 'SearchController@index')->name('search');
 
 
 

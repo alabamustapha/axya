@@ -19,7 +19,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'dob' => 'date:Y-m-d',
     ]; 
 
-    protected $appends = ['link','is_verified','is_superadmin','is_admin','is_staff'];
+    protected $appends = ['link','is_verified','is_superadmin','is_admin','is_staff','is_doctor'];
 
     /**
      * The attributes that are mass assignable.
@@ -27,7 +27,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name','slug','email','password','address','phone','gender','avatar','is_doctor','blocked','dob','weight','height','allergies','chronics','last_four','terms','application_retry_at',
+        'name','slug','email','password','address','phone','gender','avatar','blocked','dob','weight','height','allergies','chronics','last_four','terms','application_retry_at',
     ];
 
     /**
@@ -448,5 +448,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getIsStaffAttribute() 
     {
         return $this->isStaff(); 
+    }
+
+    public function getIsDoctorAttribute() 
+    {
+        return $this->isDoctor(); 
     }
 }

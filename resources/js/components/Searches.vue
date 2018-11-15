@@ -6,7 +6,6 @@
           <div class="card-header bg-primary text-center p-2">
             <b>{{searches.length}}</b> results found for <em><b>{{this.$parent.search}}</b></em>
 
-
             <div class="card-tools">
               <button type="button" class="btn btn-tool" data-widget="collapse">
                 <i class="fa fa-minus"></i>
@@ -14,11 +13,10 @@
             </div>
           </div>
 
-          <div class="card-body" id="search-list">               
+          <div class="card-body" id="search-list">
             <!-- <tr v-for="search in searches" :key="search.id"> -->
 
               <div class="mb-4">
-
 
                 <div class="px-3 py-1" v-for="doctor in searches" key="doctor.doctor.id">
                   <div class="row col-sm-6 col-md-4" :title="doctor.name">
@@ -72,8 +70,6 @@
                     </a>
                   </div>
                 </div>
-
-
               </div>
             <!-- </tr> -->
           </div>
@@ -93,7 +89,7 @@
     methods: {
       loadSearches() {
         let query = this.$parent.search; // This is accessed from a parent component i.e the root instance at ...resources\js\app.js thus need for .$parent
-        const searchUrl = appUrl +'/api/searches?q=';
+        const searchUrl = appUrl +'/searches?q=';
 
         axios.get(searchUrl + query)
         .then(({data}) => (this.searches = data.data))

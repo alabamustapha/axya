@@ -70587,10 +70587,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -70604,7 +70600,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this = this;
 
       var query = this.$parent.search; // This is accessed from a parent component i.e the root instance at ...resources\js\app.js thus need for .$parent
-      var searchUrl = appUrl + '/api/searches?q=';
+      var searchUrl = appUrl + '/searches?q=';
 
       axios.get(searchUrl + query).then(function (_ref) {
         var data = _ref.data;
