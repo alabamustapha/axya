@@ -30484,9 +30484,14 @@ var app = new Vue({
         search: ''
     },
     methods: {
-        searchForQuery: function searchForQuery() {
+        searchForQuery: _.debounce(function () {
             Event.$emit('search_stuff');
-        }
+        }, 750)
+
+        // Used with @keyup.enter
+        // searchForQuery(){ 
+        //   Event.$emit('search_stuff');
+        // }
     }
 });
 
@@ -70609,13 +70614,17 @@ var render = function() {
       _c("div", { staticClass: "row justify-content-center" }, [
         _c("div", { staticClass: "col" }, [
           _c("div", { staticClass: "card shadow-none" }, [
-            _c("div", { staticClass: "card-header bg-primary text-center" }, [
-              _c("b", [_vm._v(_vm._s(_vm.searches.length))]),
-              _vm._v(" results found for "),
-              _c("em", [_c("b", [_vm._v(_vm._s(this.$parent.search))])]),
-              _vm._v(" "),
-              _vm._m(0)
-            ]),
+            _c(
+              "div",
+              { staticClass: "card-header bg-primary text-center p-2" },
+              [
+                _c("b", [_vm._v(_vm._s(_vm.searches.length))]),
+                _vm._v(" results found for "),
+                _c("em", [_c("b", [_vm._v(_vm._s(this.$parent.search))])]),
+                _vm._v(" "),
+                _vm._m(0)
+              ]
+            ),
             _vm._v(" "),
             _c(
               "div",
@@ -70627,7 +70636,7 @@ var render = function() {
                   _vm._l(_vm.searches, function(doctor) {
                     return _c(
                       "div",
-                      { key: "doctor.id", staticClass: "px-3 py-1" },
+                      { key: "doctor.doctor.id", staticClass: "px-3 py-1" },
                       [
                         _c(
                           "div",

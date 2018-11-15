@@ -21,12 +21,14 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/all.css') }}" rel="stylesheet">
     @yield('styles')
-    @auth
-        <script>
-            {{-- window.user = {!! json_encode([ 'user' => auth()->user()  ]) !!}; --}}
-            window.user = @json(auth()->user());
-        </script>
-    @endauth
+
+    <script>
+        @auth
+          window.user = @json(auth()->user());
+        @endauth
+
+        window.appUrl  = @json(config('app.url'));
+    </script>
 </head>
 <body>
     

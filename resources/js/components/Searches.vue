@@ -3,7 +3,7 @@
     <div class="row justify-content-center">
       <div class="col">
         <div class="card shadow-none">
-          <div class="card-header bg-primary text-center">
+          <div class="card-header bg-primary text-center p-2">
             <b>{{searches.length}}</b> results found for <em><b>{{this.$parent.search}}</b></em>
 
 
@@ -20,7 +20,7 @@
               <div class="mb-4">
 
 
-                <div class="px-3 py-1" v-for="doctor in searches" key="doctor.id">
+                <div class="px-3 py-1" v-for="doctor in searches" key="doctor.doctor.id">
                   <div class="row col-sm-6 col-md-4" :title="doctor.name">
                     <a :href="doctor.doctor.link">
                       <img :src="doctor.avatar" class="text-sm-center" style="display:inline-block;width:80px;height: 80px;" alt="Doctor Image">

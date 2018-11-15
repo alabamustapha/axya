@@ -88,8 +88,13 @@ const app = new Vue({
       search: ''
     },
     methods: {
-      searchForQuery(){
+      searchForQuery: _.debounce(() => {
         Event.$emit('search_stuff');
-      }
+      }, 750)
+
+      // Used with @keyup.enter
+      // searchForQuery(){ 
+      //   Event.$emit('search_stuff');
+      // }
     }
 });
