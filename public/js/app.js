@@ -70587,6 +70587,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -70652,9 +70669,18 @@ var render = function() {
               "div",
               { staticClass: "card-header bg-primary text-center p-2" },
               [
-                _c("b", [_vm._v(_vm._s(_vm.searches.length))]),
-                _vm._v(" results found for "),
-                _c("em", [_c("b", [_vm._v(_vm._s(this.$parent.search))])]),
+                _c("span", [
+                  _c("span", { staticClass: "h4" }, [
+                    _c("b", [
+                      _vm._v(_vm._s(_vm.searches.length) + " "),
+                      _c("i", { staticClass: "fa fa-user-md" })
+                    ])
+                  ]),
+                  _vm._v(" specialists found for "),
+                  _c("span", { staticClass: "h4" }, [
+                    _c("b", [_vm._v(_vm._s(this.$parent.search))])
+                  ])
+                ]),
                 _vm._v(" "),
                 _vm._m(0)
               ]
@@ -70670,16 +70696,16 @@ var render = function() {
                   _vm._l(_vm.searches, function(doctor) {
                     return _c(
                       "div",
-                      { key: "doctor.doctor.id", staticClass: "px-3 py-1" },
+                      { key: "doctor.id", staticClass: "px-3 py-1" },
                       [
                         _c(
                           "div",
                           {
                             staticClass: "row col-sm-6 col-md-4",
-                            attrs: { title: doctor.name }
+                            attrs: { title: doctor.user.name }
                           },
                           [
-                            _c("a", { attrs: { href: doctor.doctor.link } }, [
+                            _c("a", { attrs: { href: doctor.link } }, [
                               _c("img", {
                                 staticClass: "text-sm-center",
                                 staticStyle: {
@@ -70688,7 +70714,7 @@ var render = function() {
                                   height: "80px"
                                 },
                                 attrs: {
-                                  src: doctor.avatar,
+                                  src: doctor.user.avatar,
                                   alt: "Doctor Image"
                                 }
                               })
@@ -70712,9 +70738,9 @@ var render = function() {
                                       "a",
                                       {
                                         staticClass: "users-list-name",
-                                        attrs: { href: doctor.doctor.link }
+                                        attrs: { href: doctor.link }
                                       },
-                                      [_vm._v(_vm._s(doctor.name))]
+                                      [_vm._v(_vm._s(doctor.user.name))]
                                     ),
                                     _vm._v(" "),
                                     _vm.$acl.isAdmin()
@@ -70729,11 +70755,9 @@ var render = function() {
                                 _vm._v(" "),
                                 _c("a", {
                                   staticClass: "text-muted",
-                                  attrs: { href: doctor.doctor.specialty.link },
+                                  attrs: { href: doctor.specialty.link },
                                   domProps: {
-                                    textContent: _vm._s(
-                                      doctor.doctor.specialty.name
-                                    )
+                                    textContent: _vm._s(doctor.specialty.name)
                                   }
                                 }),
                                 _vm._v(" "),
@@ -70816,7 +70840,7 @@ var staticRenderFns = [
           },
           [
             _c("i", { staticClass: "fa fa-user-tag orange" }),
-            _vm._v("  Demote to Staff\n                            ")
+            _vm._v("  Demote to Staff\n                              ")
           ]
         ),
         _vm._v(" "),
@@ -70833,7 +70857,7 @@ var staticRenderFns = [
           },
           [
             _c("i", { staticClass: "fa fa-user-slash red" }),
-            _vm._v("  Demote to Normal User\n                            ")
+            _vm._v("  Demote to Normal User\n                              ")
           ]
         )
       ]
@@ -70875,7 +70899,7 @@ var staticRenderFns = [
       },
       [
         _c("i", { staticClass: "fa fa-calendar-check" }),
-        _vm._v("  Make Appointment\n                  ")
+        _vm._v("  Make Appointment\n                    ")
       ]
     )
   }

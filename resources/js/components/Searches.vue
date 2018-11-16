@@ -4,7 +4,9 @@
       <div class="col">
         <div class="card shadow-none">
           <div class="card-header bg-primary text-center p-2">
-            <b>{{searches.length}}</b> results found for <em><b>{{this.$parent.search}}</b></em>
+            <span>
+              <span class="h4"><b>{{searches.length}} <i class="fa fa-user-md"></i></b></span> specialists found for <span class="h4"><b>{{this.$parent.search}}</b></span>
+            </span>
 
             <div class="card-tools">
               <button type="button" class="btn btn-tool" data-widget="collapse">
@@ -18,15 +20,15 @@
 
               <div class="mb-4">
 
-                <div class="px-3 py-1" v-for="doctor in searches" key="doctor.doctor.id">
-                  <div class="row col-sm-6 col-md-4" :title="doctor.name">
-                    <a :href="doctor.doctor.link">
-                      <img :src="doctor.avatar" class="text-sm-center" style="display:inline-block;width:80px;height: 80px;" alt="Doctor Image">
+                <div class="px-3 py-1" v-for="doctor in searches" key="doctor.id">
+                  <div class="row col-sm-6 col-md-4" :title="doctor.user.name">
+                    <a :href="doctor.link">
+                      <img :src="doctor.user.avatar" class="text-sm-center" style="display:inline-block;width:80px;height: 80px;" alt="Doctor Image">
                     </a>
 
                     <div class="text-left ml-2 ml-sm-0 ml-lg-2 d-flex flex-column justify-content-between h-100">
                       <div class="d-flex flex-row justify-content-between w-100">
-                        <a class="users-list-name":href="doctor.doctor.link">{{doctor.name}}</a>
+                        <a class="users-list-name":href="doctor.link">{{doctor.user.name}}</a>
 
                         <div v-if="$acl.isAdmin()">
                           <button id="navbarDropdown" class="btn btn-sm dropdown-toggle d-inline" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -51,7 +53,7 @@
                         </div>
                       </div>
                       
-                      <a :href="doctor.doctor.specialty.link" class="text-muted" v-text="doctor.doctor.specialty.name"></a><!-- <br> -->
+                      <a :href="doctor.specialty.link" class="text-muted" v-text="doctor.specialty.name"></a><!-- <br> -->
 
                       <div class="d-flex flex-row justify-content-between w-100 mb-1">
                         <small class="text-muted">
@@ -69,6 +71,21 @@
                       <i class="fa fa-calendar-check"></i>&nbsp; Make Appointment
                     </a>
                   </div>
+
+<!-- 
+                  <div class="row col-sm-6 col-md-4" :title="doctor.name">
+                    <div class="text-left ml-2 ml-sm-0 ml-lg-2 d-flex flex-column justify-content-between h-100">
+                      <div class="d-flex flex-row justify-content-between w-100">
+                        <a class="users-list-name":href="doctor.link">{{doctor.name}}</a>
+                      </div>
+                      
+                      <a :href="doctor.link" class="text-muted" v-text="doctor.description"></a>
+
+                    </div>
+                    <a href="#" class="btn btn-primary btn-sm btn-block mt-1">
+                      <i class="fa fa-user-md"></i>&nbsp; View Doctors
+                    </a>
+                  </div> -->
                 </div>
               </div>
             <!-- </tr> -->
