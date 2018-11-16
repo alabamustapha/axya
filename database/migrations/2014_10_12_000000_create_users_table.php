@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class CreateUsersTable extends Migration
 {
@@ -16,8 +17,8 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             // Basic Details
             $table->increments('id');
-            $table->string('name');
-            $table->string('slug');
+            $table->string('name')->index();
+            $table->string('slug')->unique();
             $table->string('avatar')->nullable()->default('images/doc.jpg');
             $table->enum('gender', ['Female', 'Male', 'Other'])->nullable();
             $table->date('dob')->nullable();
@@ -47,6 +48,9 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+
+        // DB::statement('ALTER TABLE users ADD FULLTEXT fulltext_users (name)');
+        // DB::statement('CREATE FULLTEXT INDEX fulltext_users ON users (name)');
     }
 
     /**

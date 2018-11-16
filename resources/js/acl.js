@@ -1,20 +1,26 @@
 export default class Acl{
-  constructor(user, env) {
+  constructor(user) {
     this.user = user;
+  }
+
+  isLoggedIn() 
+  {
+      return typeof this.user != "undefined";
+      // return typeof window.user != "undefined";
   }
 
   isSuperAdmin() 
   {
-      return this.user.is_superadmin;
+      return this.isLoggedIn() && this.user.is_superadmin;
   }
 
   isAdmin() 
   {
-      return this.user.is_admin;
+      return this.isLoggedIn() && this.user.is_admin;
   }
 
   isStaff() 
   {
-      return this.user.is_staff;        
+      return this.isLoggedIn() && this.user.is_staff;        
   }
 }

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Doctor extends Model
 {
     protected $fillable = [
-      'id','user_id','slug','specialty_id','first_appointment','graduate_school','available','subscription_ends_at','verified_at','verified_by',
+      'id','user_id','slug','about','specialty_id','first_appointment','graduate_school','available','subscription_ends_at','verified_at','verified_by',
     ];
 
     protected $dates = ['verified_at','subscription_ends_at','first_appointment'];

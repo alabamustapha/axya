@@ -30,25 +30,27 @@
                       <div class="d-flex flex-row justify-content-between w-100">
                         <a class="users-list-name":href="doctor.link">{{doctor.user.name}}</a>
 
-                        <div v-if="$acl.isAdmin()">
+                        <div v-if="$acl.isAdmin()"><!--  -->
                           <button id="navbarDropdown" class="btn btn-sm dropdown-toggle d-inline" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               <i class="fa fa-cog"></i>
                           </button>
-                          <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown">
-                            <!-- <form method="post" action="{{ route('make-staff', $admin) }}">
-                              @csrf
-                              {{method_field('PATCH')}} -->
+                          <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown" style="font-size:12px;">
+
                               <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to STAFF?');" title="Demote Admin">
-                                <i class="fa fa-user-tag orange"></i>&nbsp; Demote to Staff
+                                <i class="fa fa-user-tie teal"></i>&nbsp; Upgrade to Admin
                               </button>
-                            <!-- </form>
-                            <form method="post" action="{{ route('make-normal', $admin) }}">
-                              @csrf
-                              {{method_field('PATCH')}} -->
+
                               <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
-                                <i class="fa fa-user-slash red"></i>&nbsp; Demote to Normal User
+                                <i class="fa fa-user-tag indigo"></i>&nbsp; Upgrade to Staff
                               </button>
-                            <!-- </form> -->
+
+                              <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
+                                <i class="fa fa-user-slash orange"></i>&nbsp; Demote to Normal User
+                              </button>
+
+                              <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
+                                <i class="fa fa-ban red"></i>&nbsp; Block/Suspend
+                              </button>
                           </div>
                         </div>
                       </div>

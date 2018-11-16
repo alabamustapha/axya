@@ -63755,26 +63755,32 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Acl = function () {
-  function Acl(user, env) {
+  function Acl(user) {
     _classCallCheck(this, Acl);
 
     this.user = user;
   }
 
   _createClass(Acl, [{
+    key: "isLoggedIn",
+    value: function isLoggedIn() {
+      return typeof this.user != "undefined";
+      // return typeof window.user != "undefined";
+    }
+  }, {
     key: "isSuperAdmin",
     value: function isSuperAdmin() {
-      return this.user.is_superadmin;
+      return this.isLoggedIn() && this.user.is_superadmin;
     }
   }, {
     key: "isAdmin",
     value: function isAdmin() {
-      return this.user.is_admin;
+      return this.isLoggedIn() && this.user.is_admin;
     }
   }, {
     key: "isStaff",
     value: function isStaff() {
-      return this.user.is_staff;
+      return this.isLoggedIn() && this.user.is_staff;
     }
   }]);
 
@@ -70604,6 +70610,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -70824,6 +70832,7 @@ var staticRenderFns = [
       "div",
       {
         staticClass: "dropdown-menu dropdown-menu-lg",
+        staticStyle: { "font-size": "12px" },
         attrs: { "aria-labelledby": "navbarDropdown" }
       },
       [
@@ -70839,8 +70848,8 @@ var staticRenderFns = [
             }
           },
           [
-            _c("i", { staticClass: "fa fa-user-tag orange" }),
-            _vm._v("  Demote to Staff\n                              ")
+            _c("i", { staticClass: "fa fa-user-tie teal" }),
+            _vm._v("  Upgrade to Admin\n                              ")
           ]
         ),
         _vm._v(" "),
@@ -70856,8 +70865,42 @@ var staticRenderFns = [
             }
           },
           [
-            _c("i", { staticClass: "fa fa-user-slash red" }),
+            _c("i", { staticClass: "fa fa-user-tag indigo" }),
+            _vm._v("  Upgrade to Staff\n                              ")
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "dropdown-item",
+            attrs: {
+              type: "submit",
+              onclick:
+                "return confirm('You really want to demote this admin to NORMAL User?');",
+              title: "Demote Admin"
+            }
+          },
+          [
+            _c("i", { staticClass: "fa fa-user-slash orange" }),
             _vm._v("  Demote to Normal User\n                              ")
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "dropdown-item",
+            attrs: {
+              type: "submit",
+              onclick:
+                "return confirm('You really want to demote this admin to NORMAL User?');",
+              title: "Demote Admin"
+            }
+          },
+          [
+            _c("i", { staticClass: "fa fa-ban red" }),
+            _vm._v("  Block/Suspend\n                              ")
           ]
         )
       ]

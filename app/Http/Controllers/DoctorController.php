@@ -70,6 +70,14 @@ class DoctorController extends Controller
             $doctor->user->updateRegistrationStatus('accepted_not_subscribed');
         }
 
+        // // Schedule data for 7 days of the week.
+        // $days = ['Mon'...'Sun'];
+        // foreach($days as $day){
+        //     $schedule = new Schedule;
+        //     $schedule->day  = $day;
+        //     $schedule->save();
+        // }
+
         // Workplace data
         $workplace = new Workplace;
         $workplace->doctor_id  = $appl->user_id;
@@ -183,7 +191,7 @@ class DoctorController extends Controller
      */
     public function update(Request $request, Doctor $doctor)
     {
-        //
+        // Include Schedule here
     }
 
     /**

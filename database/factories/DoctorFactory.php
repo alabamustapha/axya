@@ -13,6 +13,7 @@ $factory->define(App\Doctor::class, function (Faker $faker) {
       'id'               => $id,
       'user_id'          => $id,
       'slug'             => $slug,
+      'about'            => $faker->paragraphs(2,5),
       'specialty_id'     => App\Specialty::all()->random()->id,
       'first_appointment'=> $faker->dateTimeBetween('-10 year', '-1 year'),
       'graduate_school'  => $grad_school,

@@ -90,6 +90,9 @@
             <li class="list-group-item p-1 px-3">
               <b><i style="width:30px;" class="fa fa-hospital-alt"></i> Place of Work</b> <a class="float-right"> {{-- $doctor->workplace }}, {{ $doctor->workplace_address --}}</a>
             </li>
+            <li class="list-group-item p-1 px-3">
+              <b><i style="width:30px;" class="fa fa-hospital-alt"></i> About</b> <a class="float-right"> {{ $doctor->about }}</a>
+            </li>
           </ul>
         </div>
       </div>

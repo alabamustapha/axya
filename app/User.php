@@ -204,7 +204,7 @@ class User extends Authenticatable implements MustVerifyEmail
               $this->isSuperAdmin() || 
               $this->email == 'cucuteanu@yahoo.com' || 
               $this->email == 'alabamustapha@gmail.com' || 
-              // $this->email == 'tonyfrenzy@gmail.com' || 
+              $this->email == 'tonyfrenzy@gmail.com' || 
               $this->email == 'solomoneyitene@gmail.com' 
               )
             : $this->acl == '1' || $this->isSuperAdmin()

@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class CreateDoctorsTable extends Migration
 {
@@ -18,7 +19,8 @@ class CreateDoctorsTable extends Migration
             $table->integer('user_id')->unique()->unsigned();
             $table->integer('specialty_id')->unsigned();
             $table->date('first_appointment');
-            $table->string('slug');
+            $table->string('slug')->index();
+            $table->text('about')->nullable();
 
             // $table->integer('specialty_id')->unsigned();
             $table->string('graduate_school')->nullable();
@@ -28,11 +30,16 @@ class CreateDoctorsTable extends Migration
             $table->timestamp('verified_at')->nullable();
             $table->integer('verified_by')->unsigned()->nullable();
 
+            $table->primary(['id', 'user_id']);
+
             $table->foreign('id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('verified_by')->references('id')->on('users')->onDelete('cascade');
             // $table->foreign('specialty_id')->references('id')->on('specialties')->onDelete('cascade');
         });
+
+        // DB::statement('ALTER TABLE doctors ADD FULLTEXT fulltext_doctors (about)');
+
     }
 
     /**
