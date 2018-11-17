@@ -1,11 +1,11 @@
 <template>
-  <div class="container" v-show="searches.length">
+  <div class="container" v-show="searches.data">
     <div class="row justify-content-center">
       <div class="col">
         <div class="card shadow-none">
           <div class="card-header bg-primary text-center p-2">
             <span>
-              <span class="h4"><b>{{searches.length}} <i class="fa fa-user-md"></i></b></span> specialists found for <span class="h4"><b>{{this.$parent.search}}</b></span>
+              <span class="h4"><b><!-- {{searches.data.length}}  --><i class="fa fa-user-md"></i></b></span> specialists found for <span class="h4"><b>{{this.$parent.search}}</b></span>
             </span>
 
             <div class="card-tools">
@@ -16,81 +16,83 @@
           </div>
 
           <div class="card-body" id="search-list">
-            <!-- <tr v-for="search in searches" :key="search.id"> -->
 
-              <div class="mb-4">
+            <div class="mb-4">
 
-                <div class="px-3 py-1" v-for="doctor in searches" key="doctor.id">
-                  <div class="row col-sm-6 col-md-4" :title="doctor.user.name">
-                    <a :href="doctor.link">
-                      <img :src="doctor.user.avatar" class="text-sm-center" style="display:inline-block;width:80px;height: 80px;" alt="Doctor Image">
-                    </a>
+              <div class="px-3 py-1" v-for="doctor in searches.data" :key="doctor.id">
+                <div class="row col-sm-6 col-md-4" :title="doctor.user.name">
+                  <a :href="doctor.link">
+                    <img :src="doctor.user.avatar" class="text-sm-center" style="display:inline-block;width:80px;height: 80px;" alt="Doctor Image">
+                  </a>
 
-                    <div class="text-left ml-2 ml-sm-0 ml-lg-2 d-flex flex-column justify-content-between h-100">
-                      <div class="d-flex flex-row justify-content-between w-100">
-                        <a class="users-list-name":href="doctor.link">{{doctor.user.name}}</a>
+                  <div class="text-left ml-2 ml-sm-0 ml-lg-2 d-flex flex-column justify-content-between h-100">
+                    <div class="d-flex flex-row justify-content-between w-100">
+                      <a class="users-list-name":href="doctor.link">{{doctor.user.name}}</a>
 
-                        <div v-if="$acl.isAdmin()"><!--  -->
-                          <button id="navbarDropdown" class="btn btn-sm dropdown-toggle d-inline" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              <i class="fa fa-cog"></i>
-                          </button>
-                          <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown" style="font-size:12px;">
+                      <div v-if="$acl.isAdmin()"><!--  -->
+                        <button id="navbarDropdown" class="btn btn-sm dropdown-toggle d-inline" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-cog"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown" style="font-size:12px;">
 
-                              <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to STAFF?');" title="Demote Admin">
-                                <i class="fa fa-user-tie teal"></i>&nbsp; Upgrade to Admin
-                              </button>
+                            <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to STAFF?');" title="Demote Admin">
+                              <i class="fa fa-user-tie teal"></i>&nbsp; Upgrade to Admin
+                            </button>
 
-                              <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
-                                <i class="fa fa-user-tag indigo"></i>&nbsp; Upgrade to Staff
-                              </button>
+                            <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
+                              <i class="fa fa-user-tag indigo"></i>&nbsp; Upgrade to Staff
+                            </button>
 
-                              <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
-                                <i class="fa fa-user-slash orange"></i>&nbsp; Demote to Normal User
-                              </button>
+                            <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
+                              <i class="fa fa-user-slash orange"></i>&nbsp; Demote to Normal User
+                            </button>
 
-                              <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
-                                <i class="fa fa-ban red"></i>&nbsp; Block/Suspend
-                              </button>
-                          </div>
+                            <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
+                              <i class="fa fa-ban red"></i>&nbsp; Block/Suspend
+                            </button>
                         </div>
                       </div>
-                      
-                      <a :href="doctor.specialty.link" class="text-muted" v-text="doctor.specialty.name"></a><!-- <br> -->
-
-                      <div class="d-flex flex-row justify-content-between w-100 mb-1">
-                        <small class="text-muted">
-                            <span class="fa fa-star text-primary p-0 m-0"></span>
-                            <span class="fa fa-star text-primary p-0 m-0"></span>
-                            <span class="fa fa-star text-primary p-0 m-0"></span>
-                            <span class="fa fa-star text-primary p-0 m-0"></span>
-                            <span class="fa fa-star text-primary p-0 m-0"></span>
-                        </small>
-                        <span>&nbsp;12(5)</span>
-                      </div>
-
                     </div>
-                    <a href="#" class="btn btn-primary btn-sm btn-block mt-1">
-                      <i class="fa fa-calendar-check"></i>&nbsp; Make Appointment
-                    </a>
+                    
+                    <a :href="doctor.specialty.link" class="text-muted" v-text="doctor.specialty.name"></a><!-- <br> -->
+
+                    <div class="d-flex flex-row justify-content-between w-100 mb-1">
+                      <small class="text-muted">
+                          <span class="fa fa-star text-primary p-0 m-0"></span>
+                          <span class="fa fa-star text-primary p-0 m-0"></span>
+                          <span class="fa fa-star text-primary p-0 m-0"></span>
+                          <span class="fa fa-star text-primary p-0 m-0"></span>
+                          <span class="fa fa-star text-primary p-0 m-0"></span>
+                      </small>
+                      <span>&nbsp;12(5)</span>
+                    </div>
+
                   </div>
-
-<!-- 
-                  <div class="row col-sm-6 col-md-4" :title="doctor.name">
-                    <div class="text-left ml-2 ml-sm-0 ml-lg-2 d-flex flex-column justify-content-between h-100">
-                      <div class="d-flex flex-row justify-content-between w-100">
-                        <a class="users-list-name":href="doctor.link">{{doctor.name}}</a>
-                      </div>
-                      
-                      <a :href="doctor.link" class="text-muted" v-text="doctor.description"></a>
-
-                    </div>
-                    <a href="#" class="btn btn-primary btn-sm btn-block mt-1">
-                      <i class="fa fa-user-md"></i>&nbsp; View Doctors
-                    </a>
-                  </div> -->
+                  <a href="#" class="btn btn-primary btn-sm btn-block mt-1">
+                    <i class="fa fa-calendar-check"></i>&nbsp; Make Appointment
+                  </a>
                 </div>
+
+                <!-- 
+                <div class="row col-sm-6 col-md-4" :title="doctor.name">
+                  <div class="text-left ml-2 ml-sm-0 ml-lg-2 d-flex flex-column justify-content-between h-100">
+                    <div class="d-flex flex-row justify-content-between w-100">
+                      <a class="users-list-name":href="doctor.link">{{doctor.name}}</a>
+                    </div>
+                    
+                    <a :href="doctor.link" class="text-muted" v-text="doctor.description"></a>
+
+                  </div>
+                  <a href="#" class="btn btn-primary btn-sm btn-block mt-1">
+                    <i class="fa fa-user-md"></i>&nbsp; View Doctors
+                  </a>
+                </div> -->
               </div>
-            <!-- </tr> -->
+              <br>
+              <!-- <div class="empty-list" v-else>0 results</div> -->
+
+              <pagination :data="searches" @pagination-change-page="getResults"></pagination>
+            </div>
           </div>
         </div>
       </div>
@@ -102,16 +104,18 @@
   export default {
     data() {
       return {
-        searches : {}
+        searches : {},
       }
     },
+
     methods: {
       loadSearches() {
-        let query = this.$parent.search; // This is accessed from a parent component i.e the root instance at ...resources\js\app.js thus need for .$parent
+        // $parent needed to access the root instance at ...resources\js\app.js
+        let query = this.$parent.search;
         const searchUrl = appUrl +'/searches?q=';
 
         axios.get(searchUrl + query)
-        .then(({data}) => (this.searches = data.data))
+        .then(({data}) => (this.searches = data))
         .then(()=>{
           if(this.searches.length){
             $('#search-list').css('display', 'block');//.show();
@@ -120,8 +124,19 @@
         .catch(()=>{
           //...
         })
+      },
+
+      getResults(page = 1) {
+        let query = this.$parent.search; 
+        const searchUrl = appUrl +'/searches?q=';
+
+        axios.get(searchUrl + query + '&page=' + page)
+          .then(response => {
+            this.searches = response.data;
+          });
       }
     },
+
     created() {
       Event.$on('search_stuff', () => {
         this.loadSearches();

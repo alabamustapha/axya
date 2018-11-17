@@ -81,6 +81,8 @@ Vue.filter('myDate', function(created){ return moment(created).format("MMM Do YY
 Vue.component('example-component', require('./components/ExampleComponent.vue'));
 Vue.component('searches', require('./components/Searches.vue'));
 
+Vue.component('pagination', require('laravel-vue-pagination'));
+
 const app = new Vue({
     el: '#app',
     router,

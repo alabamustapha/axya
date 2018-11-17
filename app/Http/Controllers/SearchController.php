@@ -41,7 +41,7 @@ class SearchController extends Controller
                   ->orwhereIn('specialty_id', $tag_spec)
                   ->orWhereIn('specialty_id', $actual_spec)
             ;
-          })->paginate(5);
+          })->paginate(3);
           // dd($tags,$doctors->count());
 
 
@@ -60,8 +60,8 @@ class SearchController extends Controller
         // $results = new LengthAwarePaginator($currentPageResults, count($collection), $per_page);
         // // $results->setPath($request->url());
         // // dd($tags->count(),$specialties->count(),$doctors->count(),$results->count());
-      }
       
-      return $doctors;
+        return $doctors;
+      }
     }
 }
