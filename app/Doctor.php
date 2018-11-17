@@ -42,6 +42,11 @@ class Doctor extends Model
         return $this->hasMany(Workplace::class);
     }
 
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::class);
+    }
+
     public function patients()
     {
         // $patientIds = $this->appointments()
