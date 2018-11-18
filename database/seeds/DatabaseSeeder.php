@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Schema;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,7 +11,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Schema::disableForeignKeyConstraints(); 
         // https://laravel.com/docs/5.7/migrations#foreign-key-constraints
         // $this->call(UsersTableSeeder::class);
 
@@ -23,6 +21,7 @@ class DatabaseSeeder extends Seeder
 
         // factory(App\Doctor::class, 30)->create();
         // factory(App\Workplace::class, 10)->create();
-        factory(App\Day::class, 7)->create();
+        // factory(App\Day::class, 7)->create();
+        factory(App\Schedule::class, 100)->create();
     }
 }

@@ -41,4 +41,10 @@ class SchedulesTest extends TestCase
     {
         $this->assertInstanceOf(Doctor::class, $this->schedule->doctor);
     }
+
+    /** @test */
+    public function a_schedule_belongs_to_a_day()
+    {
+        $this->assertInstanceOf(Day::class, $this->schedule->day);
+    }
 }
