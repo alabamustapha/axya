@@ -6,7 +6,7 @@
 
   <div class="container-fluid">
 
-    <div class="jumbotron">    
+    <div class="jumbotron bg-white">    
       <div class="row">
         <div class="col-md-3 text-center">
             <img class="rounded-circle" src="{{ $doctor->user->avatar }}" style="width:200px;" width="25">
@@ -66,32 +66,31 @@
           
           <hr>
 
-
           <ul class="list-group list-group-unbordered mb-3">
-            <li class="list-group-item p-2 px-3">
-              <b><i style="width:30px;" class="fa fa-user-md"></i> Specialty</b> <a class="float-right">{{ $doctor->specialty->name }}</a>
+            <li class="list-group-item p-2 px-3 border-top-0">
+              <b class="d-inline-block w-25"><i style="width:25px;" class="fa fa-user-md"></i> Specialty</b> <a>{{ $doctor->specialty->name }}</a>
             </li>
             <li class="list-group-item p-1 px-3">
-              <b><i style="width:30px;" class="fa fa-procedures"></i> Patients Served</b> <a class="float-right">{{$doctor->patients->count()}}</a>
+              <b class="d-inline-block w-25"><i style="width:25px;" class="fa fa-procedures"></i> Patients Served</b> <a>{{$doctor->patients->count()}}</a>
             </li>
             <li class="list-group-item p-1 px-3">
-              <b><i style="width:30px;" class="fa fa-university"></i> Alma mater</b> <a class="float-right">{{ $doctor->graduate_school }}</a>
+              <b class="d-inline-block w-25"><i style="width:25px;" class="fa fa-university"></i> Alma mater</b> <span>{{ $doctor->graduate_school }}</span>
             </li>
             <li class="list-group-item p-1 px-3">
-              <b><i style="width:30px;" class="fa fa-calendar-alt"></i> Availabilty</b> <a class="float-right">{{$doctor->available ? 'Available':'Unavailable'}}</a>
+              <b class="d-inline-block w-25"><i style="width:25px;" class="fa fa-calendar-alt"></i> Availabilty</b> <span>{{$doctor->available ? 'Available':'Unavailable'}}</span>
             </li>
             <li class="list-group-item p-1 px-3">
-              <b><i style="width:30px;" class="fa fa-calendar"></i> Practice Years</b> <a class="float-right">{{$doctor->practice_years}} yrs</a>
+              <b class="d-inline-block w-25"><i style="width:25px;" class="fa fa-calendar"></i> Practice Years</b> <span>{{$doctor->practice_years}} yrs</span>
             </li>
 
             <li class="list-group-item p-1 px-3">
-              <b><i style="width:30px;" class="fa fa-map-marker"></i> Location</b> <a class="float-right">{{$doctor->user->address}}</a>
+              <b class="d-inline-block w-25"><i style="width:25px;" class="fa fa-map-marker"></i> Location</b> <span>{{$doctor->user->address}}</span>
             </li>
             <li class="list-group-item p-1 px-3">
-              <b><i style="width:30px;" class="fa fa-hospital-alt"></i> Place of Work</b> <a class="float-right"> {{-- $doctor->workplace }}, {{ $doctor->workplace_address --}}</a>
+              <b class="d-inline-block w-25"><i style="width:25px;" class="fa fa-hospital-alt"></i> Place of Work</b> <span> {{-- $doctor->workplace }}, {{ $doctor->workplace_address --}}</span>
             </li>
-            <li class="list-group-item p-1 px-3">
-              <b><i style="width:30px;" class="fa fa-hospital-alt"></i> About</b> <a class="float-right"> {{ $doctor->about }}</a>
+            <li class="list-group-item p-1 px-3 border-bottom-0">
+              <b class="d-inline-block w-25"><i style="width:25px;" class="fa fa-info-circle"></i> About</b> <span> {{ $doctor->about }}</span>
             </li>
           </ul>
         </div>
@@ -102,140 +101,16 @@
 
       <div class="col-md-7">
 
-        <!-- Available Hours Section -->
-        <div class="card card-dark">
-          <div class="card-header">
-            <h3 class="card-title">
-              {{--$doctor->availability()--}}
-              Available Hours
-            </h3>
-          </div>
-          <div class="card-body box-profile">
+        <!-- Schedules/Available Hours Section -->
 
-            <table class="table table-sm table-striped">
-              <thead>
-                <tr>
-                  <th>Day</th>
-                  <th>Period 1</th>
-                  <th>Period 2</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th>Sunday</th>
-                  <td>9:00am - 12:15pm</td>
-                  <td>6:30pm - 09:00pm</td>
-                </tr>
-                <tr>
-                  <th>Monday</th>
-                  <td>9:00am - 12:15pm</td>
-                  <td>6:30pm - 09:00pm</td>
-                </tr>
-                <tr>
-                  <th>Tuesday</th>
-                  <td>9:00am - 12:15pm</td>
-                  <td>6:30pm - 09:00pm</td>
-                </tr>
-                <tr>
-                  <th>Wednesday</th>
-                  <td>9:00am - 12:15pm</td>
-                  <td>6:30pm - 09:00pm</td>
-                </tr>
-                <tr>
-                  <th>Thursday</th>
-                  <td>9:00am - 12:15pm</td>
-                  <td>6:30pm - 09:00pm</td>
-                </tr>
-                <tr>
-                  <th>Friday</th>
-                  <td>9:00am - 12:15pm</td>
-                  <td>6:30pm - 09:00pm</td>
-                </tr>
-                <tr>
-                  <th>Saturday</th>
-                  <td>9:00am - 12:15pm</td>
-                  <td>6:30pm - 09:00pm</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+          @include('doctors._schedules')
+
         <!-- /.card -->
 
         <!-- Certification And Work Records Section -->
-        <div class="card card-dark">
-          <div class="card-header">
-            <h3 class="card-title">Certification And Work Records</h3>
-          </div>
 
-          <div class="card-body">
-            <div class="mb-5">
-              <h4 class="mb-3">
-                <strong><i class="fa fa-certificate"></i> Certifications</strong>
-              </h4>
-                      
-              <ul class="list-group list-group-unbordered mb-0">
-                @foreach ($certificates as $certificate)
-                <li class="list-group-item p-1 tf-flex "><b>{{$certificate->name}}:</b> <span><i class="fa fa-calendar"></i>&nbsp; {{$certificate->expiry_date}} <i class="fa fa-check green"></i></span></li>
-                @endforeach
-                <li class="list-group-item p-1 border-bottom-0" title="Add new certificate">
-                  <button class="btn btn-secondary btn-sm text-light">Add new &nbsp;<i class="fa fa-certificate"></i></button>
-                </li>
-              </ul>
-            </div>
+          @include('doctors._certifications')
 
-            <div>
-              <h4 class="mb-3">
-                <strong><i class="fa fa-hospital-alt"></i> Work records</strong>
-              </h4>
-
-              <div class="table-responsive">
-                <table class="table table-sm">
-                  @foreach($workplaces as $workplace)
-                    <tr>
-                      <td>                      
-                        <span class="mr-3">              
-                          <button id="navbarDropdown" class="btn btn-sm btn-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              <i class="fa fa-cog teal"></i>
-                          </button>
-                          <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown">
-                              <button class="dropdown-item" data-toggle="modal" data-target="#workplaceUpdateForm" title="Update Keyword">
-                                <i class="fa fa-edit teal"></i>&nbsp; edit
-                              </button>
-                              <form method="post" action="{{route('workplaces.destroy', $workplace)}}">
-                                @csrf
-                                {{ method_field('DELETE') }} 
-                                <button type="submit" class="dropdown-item" onclick="return confirm('You really want to delete this workplace?');" title="Delete Keyword">
-                                  <i class="fa fa-trash red"></i>&nbsp; delete
-                                </button>
-                              </form>
-                          </div>
-                        </span>
-
-                        {{ $workplace->name }}
-                      </td>
-                      <td>{{ $workplace->address }}</td>
-                      <td>
-                        <small class="tf-flex">
-                          <b class="" style="padding:2px;border:1px dotted gray;">{{ $workplace->start_date }}</b>
-
-                          <b class="" style="padding:2px;border:1px dotted gray;">{{ $workplace->end_date }}</b>
-                        </small>
-                      </td>
-                    </tr>
-                  @endforeach
-                  <tr>
-                    <td colspan="3">
-                      <button class="btn btn-secondary btn-sm text-light" data-toggle="modal" data-target="#createWorkplaceForm" title="Add new workplace">
-                        Add new &nbsp;<i class="fa fa-hospital-alt"></i></button>
-                      </td>
-                  </tr>
-                </table>
-              </div>
-            </div>
-          </div>
-          <!-- /.card-body -->
-        </div>
         <!-- /.card -->           
         
       </div>
@@ -326,6 +201,47 @@
 
                 <div class="form-group">
                   <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-image"></i> Upload Avatar</button>
+                </div>
+              </form> 
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal" tabindex="-1" role="dialog" id="updateScheduleForm" style="display:none;" aria-labelledby="updateScheduleFormLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+          <div class="modal-content px-3">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 5px 15px 0px;margin:10px auto -25px">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <br>
+            <div class="modal-body">
+
+              <form action="{{-- route('schedules.update', $schedule) --}}" method="post">
+                {{ csrf_field() }}  
+                {{ method_field('PUT') }}   
+
+                <div class="form-group text-center">
+                  <input type="hidden" name="schedule_id" required>
+                  <input type="time" name="start_at" value="{{--$schedule->id--}}" placeholder="hh:mm am (23:15 am)" pattern="" id="start_at" class="form-control{{ $errors->has('start_at') ? ' is-invalid' : '' }}" required>
+
+                  @if ($errors->has('start_at'))
+                      <span class="invalid-feedback" role="alert">
+                          <strong>{{ $errors->first('start_at') }}</strong>
+                      </span>
+                  @endif
+
+                  <input type="time" name="end_at" value="{{--$schedule->id--}}" placeholder="hh:mm am (23:15 am)" pattern="" id="end_at" class="form-control{{ $errors->has('end_at') ? ' is-invalid' : '' }}" required>
+
+                  @if ($errors->has('end_at'))
+                      <span class="invalid-feedback" role="alert">
+                          <strong>{{ $errors->first('end_at') }}</strong>
+                      </span>
+                  @endif
+                </div> 
+
+                <div class="form-group">
+                  <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-image"></i> Update Schedule</button>
                 </div>
               </form> 
             </div>
