@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Day;
+use App\Doctor;
 use App\Http\Requests\ScheduleRequest;
 use App\Schedule;
 use Illuminate\Http\Request;
@@ -51,15 +53,22 @@ class ScheduleController extends Controller
      * @param  \App\Schedule  $schedule
      * @return \Illuminate\Http\Response
      */
-    public function update(ScheduleRequest $request, Schedule $schedule)
+    public function update(Request $request, Schedule $schedule)
     {
-        $this->authorize('update', $schedule);
+        // $this->authorize('update', $schedule);
 
-        if ($schedule->update($request->all())){
-            flash('Schedule was updated successfully')->success();
-        }
+        $request->validate([
+            'start_at'  => 'required|date_format:H:i:s',
+            'end_at'    => 'required|date_format:H:i:s',
+        ]);
 
-        return redirect()->route('doctors.show', $schedule->doctor);
+        $schedule->update($request->all());
+        return ['message' => 'Schedule update successful'];
+        // if ($schedule->update($request->all())){
+        //     flash('Schedule was updated successfully')->success();
+        // }
+
+        // return redirect()->route('doctors.show', $schedule->doctor);
     }
 
     /**
@@ -71,5 +80,16 @@ class ScheduleController extends Controller
     public function destroy(Schedule $schedule)
     {
         //
+    }
+
+
+
+    public function schedules(Request $request, $doctor, $day)
+    {
+        $doctor    = Doctor::findOrFail($request->doctor);
+
+        $schedules = $doctor->schedules()->where('day_id', $day)->get();
+
+        return $schedules;
     }
 }

@@ -25,7 +25,7 @@ class Schedule extends Model
 
     public function getStartAttribute()
     {
-      return Carbon::parse($this->end_at)->format('H:i a');
+      return Carbon::parse($this->start_at)->format('H:i a');
     }
 
     public function getEndAttribute()

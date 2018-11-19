@@ -61,7 +61,7 @@ class SearchController extends Controller
         // // $results->setPath($request->url());
         // // dd($tags->count(),$specialties->count(),$doctors->count(),$results->count());
       
-        return $doctors;
+        return response()->json($doctors);
       }
     }
 }

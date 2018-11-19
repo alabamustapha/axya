@@ -103,7 +103,16 @@
 
         <!-- Schedules/Available Hours Section -->
 
-          @include('doctors._schedules')
+          @can ('edit', $doctor)
+          
+            @include('doctors._schedules')
+            
+          @else
+          
+            @include('doctors._schedules_users')
+            
+          @endcan
+          {{-- <schedule-list :doctor_id="{{$doctor->id}}"></schedule-list> --}}
 
         <!-- /.card -->
 

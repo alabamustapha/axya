@@ -26,8 +26,8 @@ class ScheduleRequest extends FormRequest
         return [
             'doctor_id' => 'required|integer|exists:doctors,id',
             'day_id'    => 'required|integer|exists:days,id',
-            'start_at'  => 'required|date_format:hh:mm',
-            'end_at'    => 'required|date_format:hh:mm',
+            'start_at'  => 'required|date_format:H:i:s',
+            'end_at'    => 'required|date_format:H:i:s',
         ];
     }
 }

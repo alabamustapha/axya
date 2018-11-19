@@ -25,6 +25,8 @@ Route::resource('doctors',     'DoctorController');
 Route::resource('documents',   'DocumentController');
 Route::resource('schedules',   'ScheduleController')->except('index','edit');
 
+Route::get('schedules/{doctor}/{day}', 'ScheduleController@schedules');
+
 
 // ---- ADMIN ACL RELATED ---------------->
 Route::prefix('make')->group(function(){

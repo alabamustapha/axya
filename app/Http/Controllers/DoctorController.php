@@ -6,6 +6,7 @@ use App\Application;
 use App\Doctor;
 use App\Document;
 use App\Notifications\Applications\ApplicationAcceptedNotification;
+use App\Schedule;
 use App\Specialty;
 use App\Workplace;
 use Carbon\Carbon;
