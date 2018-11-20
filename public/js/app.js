@@ -72663,11 +72663,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.form.post('/schedules').then(function () {
 
         // Event.$emit('RefreshPage');
+        _this.closeForm();
         toast({
           type: 'success',
           title: 'Schedule created successfully'
         });
-        _this.closeForm();
         _this.$Progress.finish();
       }).catch(function () {
         _this.$Progress.fail();
@@ -72686,17 +72686,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.form.patch('/schedules/' + this.schedule.id).then(function () {
 
         // Event.$emit('RefreshPage');
+        _this2.closeForm();
         toast({
           type: 'success',
           title: 'Schedule updated successfully'
         });
-        _this2.closeForm();
         _this2.$Progress.finish();
       }).catch(function () {
         _this2.$Progress.fail();
       });
     },
-
 
     // update() {
     //   axios.patch('/schedules/' + this.schedule.id, {
@@ -72718,7 +72717,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             title: 'Schedule deleted successfully'
           });
           _this3.$Progress.finish();
-          _this3.$forceUpdate();
         });
 
         $(this.$el).fadeOut(500);

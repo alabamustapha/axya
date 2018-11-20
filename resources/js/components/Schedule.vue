@@ -33,16 +33,17 @@
         .then(() => {
 
           // Event.$emit('RefreshPage');
+          this.closeForm();
           toast({
               type: 'success',
               title: 'Schedule created successfully'
           });
-          this.closeForm();
           this.$Progress.finish();
         })
-        .catch(() => { this.$Progress.fail();});
+        .catch(() => { 
+          this.$Progress.fail();});
       },
-      
+
       edit(schedule) {
         this.editing = true;
         this.form.clear(); // VForm, clears error message
@@ -55,16 +56,16 @@
         .then(() => {
 
           // Event.$emit('RefreshPage');
+          this.closeForm();
           toast({
               type: 'success',
               title: 'Schedule updated successfully'
           });
-          this.closeForm();
           this.$Progress.finish();
         })
-        .catch(()=> { this.$Progress.fail(); });
+        .catch(()=> { 
+          this.$Progress.fail(); });
       },
-
       // update() {
       //   axios.patch('/schedules/' + this.schedule.id, {
       //     start_at  : this.schedule.start_at,
@@ -84,7 +85,6 @@
                 title: 'Schedule deleted successfully'
             });
             this.$Progress.finish();
-            this.$forceUpdate();
           });
               
           $(this.$el).fadeOut(500);
