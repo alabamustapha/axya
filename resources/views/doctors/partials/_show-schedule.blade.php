@@ -31,7 +31,9 @@
                             </div>
 
                             <div v-else>
-                              <span>{{$schedule->start}} - {{$schedule->end}}</span>
+                              <span>
+                                <span>{{$schedule->start}} - {{$schedule->end}}</span>
+                              </span>
                             </div>
 
                             @include('doctors.partials._schedule-controls')

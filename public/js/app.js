@@ -72662,7 +72662,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.$Progress.start();
       this.form.post('/schedules').then(function () {
 
-        // Event.$emit('RefreshPage');
+        // Event.$emit('RefreshSection');
+        // this.$forceUpdate();
+        _this.$router.go(0); // Refreshes whole page!
         _this.closeForm();
         toast({
           type: 'success',
@@ -72685,7 +72687,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.$Progress.start();
       this.form.patch('/schedules/' + this.schedule.id).then(function () {
 
-        // Event.$emit('RefreshPage');
+        // Event.$emit('RefreshSection');
+        _this2.$router.go(0);
         _this2.closeForm();
         toast({
           type: 'success',
@@ -72696,16 +72699,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this2.$Progress.fail();
       });
     },
-
-    // update() {
-    //   axios.patch('/schedules/' + this.schedule.id, {
-    //     start_at  : this.schedule.start_at,
-    //     end_at    : this.schedule.end_at
-    //   });
-
-    //   this.editing = false;
-    // },
-
     destroy: function destroy() {
       var _this3 = this;
 

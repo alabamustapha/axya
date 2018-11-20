@@ -32,7 +32,9 @@
         this.form.post('/schedules')
         .then(() => {
 
-          // Event.$emit('RefreshPage');
+          // Event.$emit('RefreshSection');
+          // this.$forceUpdate();
+          this.$router.go(0); // Refreshes whole page!
           this.closeForm();
           toast({
               type: 'success',
@@ -55,7 +57,8 @@
         this.form.patch('/schedules/' + this.schedule.id)
         .then(() => {
 
-          // Event.$emit('RefreshPage');
+          // Event.$emit('RefreshSection');
+          this.$router.go(0);
           this.closeForm();
           toast({
               type: 'success',
@@ -66,14 +69,6 @@
         .catch(()=> { 
           this.$Progress.fail(); });
       },
-      // update() {
-      //   axios.patch('/schedules/' + this.schedule.id, {
-      //     start_at  : this.schedule.start_at,
-      //     end_at    : this.schedule.end_at
-      //   });
-        
-      //   this.editing = false;
-      // },
 
       destroy() {
         if (confirm("You really want to delete this schedule?")) {
@@ -83,8 +78,8 @@
             toast({
                 type: 'success',
                 title: 'Schedule deleted successfully'
-            });
-            this.$Progress.finish();
+          });
+          this.$Progress.finish();
           });
               
           $(this.$el).fadeOut(500);
