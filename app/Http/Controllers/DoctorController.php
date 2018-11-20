@@ -6,6 +6,7 @@ use App\Application;
 use App\Doctor;
 use App\Document;
 use App\Notifications\Applications\ApplicationAcceptedNotification;
+use App\Schedule;
 use App\Specialty;
 use App\Workplace;
 use Carbon\Carbon;
@@ -157,6 +158,15 @@ class DoctorController extends Controller
      */
     public function show(Doctor $doctor)
     {
+        // To be refactored by grouping:: $schedules = $doctor->schedules()->groupBy('day_id')->get();
+        $sun_schedules = $doctor->schedules()->where('day_id', '1')->get();
+        $mon_schedules = $doctor->schedules()->where('day_id', '2')->get();
+        $tue_schedules = $doctor->schedules()->where('day_id', '3')->get();
+        $wed_schedules = $doctor->schedules()->where('day_id', '4')->get();
+        $thu_schedules = $doctor->schedules()->where('day_id', '5')->get();
+        $fri_schedules = $doctor->schedules()->where('day_id', '6')->get();
+        $sat_schedules = $doctor->schedules()->where('day_id', '7')->get();
+
         $certificates = $doctor->documents()
                              ->where('description', 'Doctor professional document')
                              ->orderBy('expiry_date', 'desc')
@@ -168,7 +178,15 @@ class DoctorController extends Controller
                              ->get()
                              ;
 
-        return view('doctors.show', compact('doctor','workplaces','certificates'));
+        return view('doctors.show', compact('doctor','workplaces','certificates',
+            'sun_schedules',
+            'mon_schedules',
+            'tue_schedules',
+            'wed_schedules',
+            'thu_schedules',
+            'fri_schedules',
+            'sat_schedules'
+        ));
     }
 
     /**

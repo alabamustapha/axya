@@ -1,3 +1,5 @@
+[v-cloak] { display:none; }
+
 .profile-img{
   height:150px;
   width:150px;
@@ -21,21 +23,22 @@
   vertical-align: middle;
 }
 
-.tf-flex {
+.tf-flex,
+.tf-flex-ctrl {
     display: flex;
     justify-content: space-between;
 }
 
 @media (max-width: 380px) {
-  .tf-ss-flex {
-    display: flex;
-    justify-content: space-between;
+  .tf-flex-ctrl {
+    justify-content:unset;
+    flex-direction: column;
+    padding-bottom: 5px;
   }
 }
-
+/*
 @media (max-width: 275px) {
-  .tf-flex,
-  .tf-ss-flex {
+  .tf-flex {
       justify-content:unset;
       flex-direction: column;
   }
@@ -47,7 +50,7 @@
       justify-content:unset;
       flex-direction: column;
   }
-}
+}*/
 
 .nag {
   position: relative;
@@ -98,3 +101,13 @@
   border:1px solid yellow;
 }
 /************* ! Indicators ************/
+
+
+
+.w-15 {
+  width: 15% !important;
+}
+
+.w-20 {
+  width: 20% !important;
+}

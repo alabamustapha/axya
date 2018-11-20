@@ -41,6 +41,12 @@ class DoctorsTest extends TestCase
     }
 
     /** @test */
+    public function a_doctor_has_many_schedules()
+    {
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->doctor->schedules); 
+    }
+
+    /** @test */
     public function a_doctor_has_many_patients()
     {
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->doctor->patients); 

@@ -30476,6 +30476,8 @@ Vue.filter('myDate', function (created) {
 
 Vue.component('example-component', __webpack_require__(171));
 Vue.component('searches', __webpack_require__(174));
+Vue.component('schedule-list', __webpack_require__(177));
+Vue.component('schedule', __webpack_require__(180));
 
 Vue.component('pagination', __webpack_require__(182));
 
@@ -70616,6 +70618,125 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -70644,7 +70765,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         //...
       });
     },
-    getResults: function getResults() {
+    makePagination: function makePagination() {
       var _this2 = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
@@ -70712,99 +70833,299 @@ var render = function() {
               "div",
               { staticClass: "card-body", attrs: { id: "search-list" } },
               [
-                _c(
-                  "div",
-                  { staticClass: "mb-4" },
-                  [
-                    _vm._l(_vm.searches.data, function(doctor) {
-                      return _c(
+                _c("div", { staticClass: "card-deck" }, [
+                  _c(
+                    "div",
+                    { staticClass: "card card-primary shadow-none mx-1" },
+                    [
+                      _vm._m(2),
+                      _vm._v(" "),
+                      _c(
                         "div",
-                        { key: doctor.id, staticClass: "px-3 py-1" },
-                        [
-                          _c(
+                        { staticClass: "card-body p-2" },
+                        _vm._l(_vm.searches.data, function(doctor) {
+                          return _c(
                             "div",
-                            {
-                              staticClass: "row col-sm-6 col-md-4",
-                              attrs: { title: doctor.user.name }
-                            },
+                            { key: doctor.id, staticClass: "px-3 py-1" },
                             [
-                              _c("a", { attrs: { href: doctor.link } }, [
-                                _c("img", {
-                                  staticClass: "text-sm-center",
-                                  staticStyle: {
-                                    display: "inline-block",
-                                    width: "80px",
-                                    height: "80px"
-                                  },
-                                  attrs: {
-                                    src: doctor.user.avatar,
-                                    alt: "Doctor Image"
-                                  }
-                                })
-                              ]),
-                              _vm._v(" "),
                               _c(
                                 "div",
                                 {
-                                  staticClass:
-                                    "text-left ml-2 ml-sm-0 ml-lg-2 d-flex flex-column justify-content-between h-100"
+                                  staticClass: "row",
+                                  attrs: { title: doctor.user.name }
                                 },
                                 [
+                                  _c("a", { attrs: { href: doctor.link } }, [
+                                    _c("img", {
+                                      staticClass: "text-sm-center",
+                                      staticStyle: {
+                                        display: "inline-block",
+                                        width: "80px",
+                                        height: "80px"
+                                      },
+                                      attrs: {
+                                        src: doctor.user.avatar,
+                                        alt: "Doctor Image"
+                                      }
+                                    })
+                                  ]),
+                                  _vm._v(" "),
                                   _c(
                                     "div",
                                     {
                                       staticClass:
-                                        "d-flex flex-row justify-content-between w-100"
+                                        "text-left ml-2 ml-sm-0 ml-lg-2 d-flex flex-column justify-content-between h-100"
                                     },
                                     [
                                       _c(
-                                        "a",
+                                        "div",
                                         {
-                                          staticClass: "users-list-name",
-                                          attrs: { href: doctor.link }
+                                          staticClass:
+                                            "d-flex flex-row justify-content-between w-100"
                                         },
-                                        [_vm._v(_vm._s(doctor.user.name))]
+                                        [
+                                          _c(
+                                            "a",
+                                            {
+                                              staticClass: "users-list-name",
+                                              attrs: { href: doctor.link }
+                                            },
+                                            [_vm._v(_vm._s(doctor.user.name))]
+                                          ),
+                                          _vm._v(" "),
+                                          _vm.$acl.isAdmin()
+                                            ? _c("div", [
+                                                _vm._m(3, true),
+                                                _vm._v(" "),
+                                                _vm._m(4, true)
+                                              ])
+                                            : _vm._e()
+                                        ]
                                       ),
                                       _vm._v(" "),
-                                      _vm.$acl.isAdmin()
-                                        ? _c("div", [
-                                            _vm._m(2, true),
-                                            _vm._v(" "),
-                                            _vm._m(3, true)
-                                          ])
-                                        : _vm._e()
+                                      _c("a", {
+                                        staticClass: "text-muted",
+                                        attrs: { href: doctor.specialty.link },
+                                        domProps: {
+                                          textContent: _vm._s(
+                                            doctor.specialty.name
+                                          )
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _vm._m(5, true)
                                     ]
                                   ),
                                   _vm._v(" "),
-                                  _c("a", {
-                                    staticClass: "text-muted",
-                                    attrs: { href: doctor.specialty.link },
-                                    domProps: {
-                                      textContent: _vm._s(doctor.specialty.name)
-                                    }
-                                  }),
-                                  _vm._v(" "),
-                                  _vm._m(4, true)
+                                  _vm._m(6, true)
                                 ]
-                              ),
-                              _vm._v(" "),
-                              _vm._m(5, true)
+                              )
                             ]
                           )
-                        ]
+                        })
                       )
-                    }),
-                    _vm._v(" "),
-                    _c("br"),
-                    _vm._v(" "),
-                    _c("pagination", {
-                      attrs: { data: _vm.searches },
-                      on: { "pagination-change-page": _vm.getResults }
-                    })
-                  ],
-                  2
-                )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "card card-secondary shadow-none mx-1" },
+                    [
+                      _vm._m(7),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "card-body p-2" },
+                        _vm._l(_vm.searches.data, function(doctor) {
+                          return _c(
+                            "div",
+                            { key: doctor.id, staticClass: "px-3 py-1" },
+                            [
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "row",
+                                  attrs: { title: doctor.user.name }
+                                },
+                                [
+                                  _c("a", { attrs: { href: doctor.link } }, [
+                                    _c("img", {
+                                      staticClass: "text-sm-center",
+                                      staticStyle: {
+                                        display: "inline-block",
+                                        width: "80px",
+                                        height: "80px"
+                                      },
+                                      attrs: {
+                                        src: doctor.user.avatar,
+                                        alt: "Doctor Image"
+                                      }
+                                    })
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "text-left ml-2 ml-sm-0 ml-lg-2 d-flex flex-column justify-content-between h-100"
+                                    },
+                                    [
+                                      _c(
+                                        "div",
+                                        {
+                                          staticClass:
+                                            "d-flex flex-row justify-content-between w-100"
+                                        },
+                                        [
+                                          _c(
+                                            "a",
+                                            {
+                                              staticClass: "users-list-name",
+                                              attrs: { href: doctor.link }
+                                            },
+                                            [_vm._v(_vm._s(doctor.user.name))]
+                                          ),
+                                          _vm._v(" "),
+                                          _vm.$acl.isAdmin()
+                                            ? _c("div", [
+                                                _vm._m(8, true),
+                                                _vm._v(" "),
+                                                _vm._m(9, true)
+                                              ])
+                                            : _vm._e()
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("a", {
+                                        staticClass: "text-muted",
+                                        attrs: { href: doctor.specialty.link },
+                                        domProps: {
+                                          textContent: _vm._s(
+                                            doctor.specialty.name
+                                          )
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _vm._m(10, true)
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _vm._m(11, true)
+                                ]
+                              )
+                            ]
+                          )
+                        })
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "card card-info shadow-none mx-1" },
+                    [
+                      _vm._m(12),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "card-body p-2" },
+                        _vm._l(_vm.searches.data, function(doctor) {
+                          return _c(
+                            "div",
+                            { key: doctor.id, staticClass: "px-3 py-1" },
+                            [
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "row",
+                                  attrs: { title: doctor.user.name }
+                                },
+                                [
+                                  _c("a", { attrs: { href: doctor.link } }, [
+                                    _c("img", {
+                                      staticClass: "text-sm-center",
+                                      staticStyle: {
+                                        display: "inline-block",
+                                        width: "80px",
+                                        height: "80px"
+                                      },
+                                      attrs: {
+                                        src: doctor.user.avatar,
+                                        alt: "Doctor Image"
+                                      }
+                                    })
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "text-left ml-2 ml-sm-0 ml-lg-2 d-flex flex-column justify-content-between h-100"
+                                    },
+                                    [
+                                      _c(
+                                        "div",
+                                        {
+                                          staticClass:
+                                            "d-flex flex-row justify-content-between w-100"
+                                        },
+                                        [
+                                          _c(
+                                            "a",
+                                            {
+                                              staticClass: "users-list-name",
+                                              attrs: { href: doctor.link }
+                                            },
+                                            [_vm._v(_vm._s(doctor.user.name))]
+                                          ),
+                                          _vm._v(" "),
+                                          _vm.$acl.isAdmin()
+                                            ? _c("div", [
+                                                _vm._m(13, true),
+                                                _vm._v(" "),
+                                                _vm._m(14, true)
+                                              ])
+                                            : _vm._e()
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("a", {
+                                        staticClass: "text-muted",
+                                        attrs: { href: doctor.specialty.link },
+                                        domProps: {
+                                          textContent: _vm._s(
+                                            doctor.specialty.name
+                                          )
+                                        }
+                                      }),
+                                      _vm._v(" "),
+                                      _vm._m(15, true)
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _vm._m(16, true)
+                                ]
+                              )
+                            ]
+                          )
+                        })
+                      )
+                    ]
+                  )
+                ])
               ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "card-footer text-center mb-0" },
+              [
+                _c("pagination", {
+                  attrs: { data: _vm.searches },
+                  on: { "pagination-change-page": _vm.makePagination }
+                })
+              ],
+              1
             )
           ])
         ])
@@ -70834,6 +71155,15 @@ var staticRenderFns = [
         },
         [_c("i", { staticClass: "fa fa-minus" })]
       )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("i", { staticClass: "fa fa-user-md" }),
+      _vm._v("  Doctors\n              ")
     ])
   },
   function() {
@@ -70881,7 +71211,7 @@ var staticRenderFns = [
           },
           [
             _c("i", { staticClass: "fa fa-user-tie teal" }),
-            _vm._v("  Upgrade to Admin\n                          ")
+            _vm._v("  Upgrade to Admin\n                              ")
           ]
         ),
         _vm._v(" "),
@@ -70898,7 +71228,7 @@ var staticRenderFns = [
           },
           [
             _c("i", { staticClass: "fa fa-user-tag indigo" }),
-            _vm._v("  Upgrade to Staff\n                          ")
+            _vm._v("  Upgrade to Staff\n                              ")
           ]
         ),
         _vm._v(" "),
@@ -70915,7 +71245,7 @@ var staticRenderFns = [
           },
           [
             _c("i", { staticClass: "fa fa-user-slash orange" }),
-            _vm._v("  Demote to Normal User\n                          ")
+            _vm._v("  Demote to Normal User\n                              ")
           ]
         ),
         _vm._v(" "),
@@ -70932,7 +71262,7 @@ var staticRenderFns = [
           },
           [
             _c("i", { staticClass: "fa fa-ban red" }),
-            _vm._v("  Block/Suspend\n                          ")
+            _vm._v("  Block/Suspend\n                              ")
           ]
         )
       ]
@@ -70974,7 +71304,309 @@ var staticRenderFns = [
       },
       [
         _c("i", { staticClass: "fa fa-calendar-check" }),
-        _vm._v("  Make Appointment\n                ")
+        _vm._v("  Make Appointment\n                    ")
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("i", { staticClass: "fa fa-tags" }),
+      _vm._v("  Keyword/Tags\n              ")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "btn btn-sm dropdown-toggle d-inline",
+        attrs: {
+          id: "navbarDropdown",
+          href: "#",
+          role: "button",
+          "data-toggle": "dropdown",
+          "aria-haspopup": "true",
+          "aria-expanded": "false"
+        }
+      },
+      [_c("i", { staticClass: "fa fa-cog" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "dropdown-menu dropdown-menu-lg",
+        staticStyle: { "font-size": "12px" },
+        attrs: { "aria-labelledby": "navbarDropdown" }
+      },
+      [
+        _c(
+          "button",
+          {
+            staticClass: "dropdown-item",
+            attrs: {
+              type: "submit",
+              onclick:
+                "return confirm('You really want to demote this admin to STAFF?');",
+              title: "Demote Admin"
+            }
+          },
+          [
+            _c("i", { staticClass: "fa fa-user-tie teal" }),
+            _vm._v("  Upgrade to Admin\n                              ")
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "dropdown-item",
+            attrs: {
+              type: "submit",
+              onclick:
+                "return confirm('You really want to demote this admin to NORMAL User?');",
+              title: "Demote Admin"
+            }
+          },
+          [
+            _c("i", { staticClass: "fa fa-user-tag indigo" }),
+            _vm._v("  Upgrade to Staff\n                              ")
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "dropdown-item",
+            attrs: {
+              type: "submit",
+              onclick:
+                "return confirm('You really want to demote this admin to NORMAL User?');",
+              title: "Demote Admin"
+            }
+          },
+          [
+            _c("i", { staticClass: "fa fa-user-slash orange" }),
+            _vm._v("  Demote to Normal User\n                              ")
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "dropdown-item",
+            attrs: {
+              type: "submit",
+              onclick:
+                "return confirm('You really want to demote this admin to NORMAL User?');",
+              title: "Demote Admin"
+            }
+          },
+          [
+            _c("i", { staticClass: "fa fa-ban red" }),
+            _vm._v("  Block/Suspend\n                              ")
+          ]
+        )
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "d-flex flex-row justify-content-between w-100 mb-1" },
+      [
+        _c("small", { staticClass: "text-muted" }, [
+          _c("span", { staticClass: "fa fa-star text-primary p-0 m-0" }),
+          _vm._v(" "),
+          _c("span", { staticClass: "fa fa-star text-primary p-0 m-0" }),
+          _vm._v(" "),
+          _c("span", { staticClass: "fa fa-star text-primary p-0 m-0" }),
+          _vm._v(" "),
+          _c("span", { staticClass: "fa fa-star text-primary p-0 m-0" }),
+          _vm._v(" "),
+          _c("span", { staticClass: "fa fa-star text-primary p-0 m-0" })
+        ]),
+        _vm._v(" "),
+        _c("span", [_vm._v(" 12(5)")])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      {
+        staticClass: "btn btn-secondary btn-sm btn-block mt-1",
+        attrs: { href: "#" }
+      },
+      [
+        _c("i", { staticClass: "fa fa-calendar-check" }),
+        _vm._v("  Make Appointment\n                    ")
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("i", { staticClass: "fa fa-stethoscope" }),
+      _vm._v("  Specialties\n              ")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "btn btn-sm dropdown-toggle d-inline",
+        attrs: {
+          id: "navbarDropdown",
+          href: "#",
+          role: "button",
+          "data-toggle": "dropdown",
+          "aria-haspopup": "true",
+          "aria-expanded": "false"
+        }
+      },
+      [_c("i", { staticClass: "fa fa-cog" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "dropdown-menu dropdown-menu-lg",
+        staticStyle: { "font-size": "12px" },
+        attrs: { "aria-labelledby": "navbarDropdown" }
+      },
+      [
+        _c(
+          "button",
+          {
+            staticClass: "dropdown-item",
+            attrs: {
+              type: "submit",
+              onclick:
+                "return confirm('You really want to demote this admin to STAFF?');",
+              title: "Demote Admin"
+            }
+          },
+          [
+            _c("i", { staticClass: "fa fa-user-tie teal" }),
+            _vm._v("  Upgrade to Admin\n                              ")
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "dropdown-item",
+            attrs: {
+              type: "submit",
+              onclick:
+                "return confirm('You really want to demote this admin to NORMAL User?');",
+              title: "Demote Admin"
+            }
+          },
+          [
+            _c("i", { staticClass: "fa fa-user-tag indigo" }),
+            _vm._v("  Upgrade to Staff\n                              ")
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "dropdown-item",
+            attrs: {
+              type: "submit",
+              onclick:
+                "return confirm('You really want to demote this admin to NORMAL User?');",
+              title: "Demote Admin"
+            }
+          },
+          [
+            _c("i", { staticClass: "fa fa-user-slash orange" }),
+            _vm._v("  Demote to Normal User\n                              ")
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "dropdown-item",
+            attrs: {
+              type: "submit",
+              onclick:
+                "return confirm('You really want to demote this admin to NORMAL User?');",
+              title: "Demote Admin"
+            }
+          },
+          [
+            _c("i", { staticClass: "fa fa-ban red" }),
+            _vm._v("  Block/Suspend\n                              ")
+          ]
+        )
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "d-flex flex-row justify-content-between w-100 mb-1" },
+      [
+        _c("small", { staticClass: "text-muted" }, [
+          _c("span", { staticClass: "fa fa-star text-primary p-0 m-0" }),
+          _vm._v(" "),
+          _c("span", { staticClass: "fa fa-star text-primary p-0 m-0" }),
+          _vm._v(" "),
+          _c("span", { staticClass: "fa fa-star text-primary p-0 m-0" }),
+          _vm._v(" "),
+          _c("span", { staticClass: "fa fa-star text-primary p-0 m-0" }),
+          _vm._v(" "),
+          _c("span", { staticClass: "fa fa-star text-primary p-0 m-0" })
+        ]),
+        _vm._v(" "),
+        _c("span", [_vm._v(" 12(5)")])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      {
+        staticClass: "btn btn-info btn-sm btn-block mt-1",
+        attrs: { href: "#" }
+      },
+      [
+        _c("i", { staticClass: "fa fa-calendar-check" }),
+        _vm._v("  Make Appointment\n                    ")
       ]
     )
   }
@@ -70989,11 +71621,1117 @@ if (false) {
 }
 
 /***/ }),
-/* 177 */,
-/* 178 */,
-/* 179 */,
-/* 180 */,
-/* 181 */,
+/* 177 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(3)
+/* script */
+var __vue_script__ = __webpack_require__(178)
+/* template */
+var __vue_template__ = __webpack_require__(179)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/ScheduleList.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4aed1540", Component.options)
+  } else {
+    hotAPI.reload("data-v-4aed1540", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 178 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['doctor_id', 'day'],
+
+  // data() {
+  //   return {
+  //     uid: this.auth.id,
+  //     interestsCount: this.report.follows_count,
+  //     hasShownInterest: this.report.hasShownInterest,
+  //   }
+  // },
+  data: function data() {
+    var _ref;
+
+    return _ref = {
+      doctorId: this.doctor_id,
+      sundaySchedules: {},
+      sundayId: '1',
+
+      mondaySchedules: {},
+      mondayId: '2',
+
+      tuesdaySchedules: {},
+      tuesdayId: '3',
+
+      wednesdaySchedules: {},
+      wednesdayId: '4',
+
+      thursdaySchedules: {},
+      thursdayId: '5',
+
+      fridaySchedules: {},
+      fridayId: '6'
+
+    }, _defineProperty(_ref, 'fridaySchedules', {}), _defineProperty(_ref, 'fridayId', '7'), _defineProperty(_ref, 'scheduleUrl', appUrl + '/schedules/'), _ref;
+  },
+
+
+  // mounted() {
+  //   this.loadSchedules();
+  // },
+
+  created: function created() {
+    this.loadSundaySchedules();
+    this.loadMondaySchedules();
+    this.loadTuesdaySchedules();
+    this.loadWednesdaySchedules();
+    this.loadThursdaySchedules();
+    this.loadFridaySchedules();
+    this.loadSaturdaySchedules();
+  },
+
+
+  methods: {
+    loadSundaySchedules: function loadSundaySchedules() {
+      var _this = this;
+
+      // const scheduleUrl = appUrl +'/schedules/' + this.doctorId +'/' + this.sundayId);
+      axios.get(this.scheduleUrl + this.doctorId + '/' + this.sundayId).then(function (_ref2) {
+        var data = _ref2.data;
+        return _this.sundaySchedules = data;
+      });
+    },
+    loadMondaySchedules: function loadMondaySchedules() {
+      var _this2 = this;
+
+      // const scheduleUrl = appUrl +'/schedules/' + this.doctorId +'/' + this.mondayId);
+      axios.get(this.scheduleUrl + this.doctorId + '/' + this.mondayId).then(function (_ref3) {
+        var data = _ref3.data;
+        return _this2.mondaySchedules = data;
+      });
+    },
+    loadTuesdaySchedules: function loadTuesdaySchedules() {
+      var _this3 = this;
+
+      // const scheduleUrl = appUrl +'/schedules/' + this.doctorId +'/' + this.tuesdayId);
+      axios.get(this.scheduleUrl + this.doctorId + '/' + this.tuesdayId).then(function (_ref4) {
+        var data = _ref4.data;
+        return _this3.tuesdaySchedules = data;
+      });
+    },
+    loadWednesdaySchedules: function loadWednesdaySchedules() {
+      var _this4 = this;
+
+      // const scheduleUrl = appUrl +'/schedules/' + this.doctorId +'/' + this.wednesdayId);
+      axios.get(this.scheduleUrl + this.doctorId + '/' + this.wednesdayId).then(function (_ref5) {
+        var data = _ref5.data;
+        return _this4.wednesdaySchedules = data;
+      });
+    },
+    loadThursdaySchedules: function loadThursdaySchedules() {
+      var _this5 = this;
+
+      // const scheduleUrl = appUrl +'/schedules/' + this.doctorId +'/' + this.thursdayId);
+      axios.get(this.scheduleUrl + this.doctorId + '/' + this.thursdayId).then(function (_ref6) {
+        var data = _ref6.data;
+        return _this5.thursdaySchedules = data;
+      });
+    },
+    loadFridaySchedules: function loadFridaySchedules() {
+      var _this6 = this;
+
+      // const scheduleUrl = appUrl +'/schedules/' + this.doctorId +'/' + this.fridayId);
+      axios.get(this.scheduleUrl + this.doctorId + '/' + this.fridayId).then(function (_ref7) {
+        var data = _ref7.data;
+        return _this6.fridaySchedules = data;
+      });
+    },
+    loadSaturdaySchedules: function loadSaturdaySchedules() {
+      var _this7 = this;
+
+      // const scheduleUrl = appUrl +'/schedules/' + this.doctorId +'/' + this.saturdayId);
+      axios.get(this.scheduleUrl + this.doctorId + '/' + this.saturdayId).then(function (_ref8) {
+        var data = _ref8.data;
+        return _this7.saturdaySchedules = data;
+      });
+    }
+  }
+});
+
+/***/ }),
+/* 179 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "card card-dark" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "card-body box-profile" }, [
+      _c("table", { staticClass: "table table-sm table-striped" }, [
+        _vm._m(1),
+        _vm._v(" "),
+        _c("tbody", [
+          _c(
+            "tr",
+            [
+              _vm._m(2),
+              _vm._v(" "),
+              _vm._l(_vm.sundaySchedules, function(schedule) {
+                return _c("td", { key: schedule.id, staticClass: "tf-flex" }, [
+                  _c("span", [
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.start) }
+                    }),
+                    _vm._v(" - "),
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.end) }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(3, true)
+                ])
+              }),
+              _vm._v(" "),
+              !_vm.sundaySchedules.length
+                ? _c(
+                    "td",
+                    {
+                      directives: [{ name: "else", rawName: "v-else" }],
+                      staticClass: "d-flex justify-content-center"
+                    },
+                    [
+                      _c("span", { attrs: { title: "Not Available" } }, [
+                        _vm._v("-na-")
+                      ])
+                    ]
+                  )
+                : _vm._e()
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c(
+            "tr",
+            [
+              _vm._m(4),
+              _vm._v(" "),
+              _vm._l(_vm.mondaySchedules, function(schedule) {
+                return _c("td", { key: schedule.id, staticClass: "tf-flex" }, [
+                  _c("span", [
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.start) }
+                    }),
+                    _vm._v(" - "),
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.end) }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(5, true)
+                ])
+              }),
+              _vm._v(" "),
+              !_vm.mondaySchedules.length
+                ? _c(
+                    "td",
+                    {
+                      directives: [{ name: "else", rawName: "v-else" }],
+                      staticClass: "d-flex justify-content-center"
+                    },
+                    [
+                      _c("span", { attrs: { title: "Not Available" } }, [
+                        _vm._v("-na-")
+                      ])
+                    ]
+                  )
+                : _vm._e()
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c(
+            "tr",
+            [
+              _vm._m(6),
+              _vm._v(" "),
+              _vm._l(_vm.tuesdaySchedules, function(schedule) {
+                return _c("td", { key: schedule.id, staticClass: "tf-flex" }, [
+                  _c("span", [
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.start) }
+                    }),
+                    _vm._v(" - "),
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.end) }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(7, true)
+                ])
+              }),
+              _vm._v(" "),
+              !_vm.tuesdaySchedules.length
+                ? _c(
+                    "td",
+                    {
+                      directives: [{ name: "else", rawName: "v-else" }],
+                      staticClass: "d-flex justify-content-center"
+                    },
+                    [
+                      _c("span", { attrs: { title: "Not Available" } }, [
+                        _vm._v("-na-")
+                      ])
+                    ]
+                  )
+                : _vm._e()
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c(
+            "tr",
+            [
+              _vm._m(8),
+              _vm._v(" "),
+              _vm._l(_vm.wednesdaySchedules, function(schedule) {
+                return _c("td", { key: schedule.id, staticClass: "tf-flex" }, [
+                  _c("span", [
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.start) }
+                    }),
+                    _vm._v(" - "),
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.end) }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(9, true)
+                ])
+              }),
+              _vm._v(" "),
+              !_vm.wednesdaySchedules.length
+                ? _c(
+                    "td",
+                    {
+                      directives: [{ name: "else", rawName: "v-else" }],
+                      staticClass: "d-flex justify-content-center"
+                    },
+                    [
+                      _c("span", { attrs: { title: "Not Available" } }, [
+                        _vm._v("-na-")
+                      ])
+                    ]
+                  )
+                : _vm._e()
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c(
+            "tr",
+            [
+              _vm._m(10),
+              _vm._v(" "),
+              _vm._l(_vm.thursdaySchedules, function(schedule) {
+                return _c("td", { key: schedule.id, staticClass: "tf-flex" }, [
+                  _c("span", [
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.start) }
+                    }),
+                    _vm._v(" - "),
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.end) }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(11, true)
+                ])
+              }),
+              _vm._v(" "),
+              !_vm.thursdaySchedules.length
+                ? _c(
+                    "td",
+                    {
+                      directives: [{ name: "else", rawName: "v-else" }],
+                      staticClass: "d-flex justify-content-center"
+                    },
+                    [
+                      _c("span", { attrs: { title: "Not Available" } }, [
+                        _vm._v("-na-")
+                      ])
+                    ]
+                  )
+                : _vm._e()
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c(
+            "tr",
+            [
+              _vm._m(12),
+              _vm._v(" "),
+              _vm._l(_vm.fridaySchedules, function(schedule) {
+                return _c("td", { key: schedule.id, staticClass: "tf-flex" }, [
+                  _c("span", [
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.start) }
+                    }),
+                    _vm._v(" - "),
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.end) }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(13, true)
+                ])
+              }),
+              _vm._v(" "),
+              !_vm.fridaySchedules.length
+                ? _c(
+                    "td",
+                    {
+                      directives: [{ name: "else", rawName: "v-else" }],
+                      staticClass: "d-flex justify-content-center"
+                    },
+                    [
+                      _c("span", { attrs: { title: "Not Available" } }, [
+                        _vm._v("-na-")
+                      ])
+                    ]
+                  )
+                : _vm._e()
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c(
+            "tr",
+            [
+              _vm._m(14),
+              _vm._v(" "),
+              _vm._l(_vm.saturdaySchedules, function(schedule) {
+                return _c("td", { key: schedule.id, staticClass: "tf-flex" }, [
+                  _c("span", [
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.start) }
+                    }),
+                    _vm._v(" - "),
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.end) }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(15, true)
+                ])
+              }),
+              _vm._v(" "),
+              !_vm.saturdaySchedules.length
+                ? _c(
+                    "td",
+                    {
+                      directives: [{ name: "else", rawName: "v-else" }],
+                      staticClass: "d-flex justify-content-center"
+                    },
+                    [
+                      _c("span", { attrs: { title: "Not Available" } }, [
+                        _vm._v("-na-")
+                      ])
+                    ]
+                  )
+                : _vm._e()
+            ],
+            2
+          )
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h3", { staticClass: "card-title" }, [
+        _vm._v("\n      Schedules\n    ")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Day")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Periods")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", [
+      _c("span", { staticClass: "tf-flex" }, [
+        _vm._v("\n              Sunday\n              "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-sm btn-primary p-1",
+            attrs: { title: "Add New" }
+          },
+          [
+            _c("i", {
+              staticClass: "fa fa-plus",
+              staticStyle: { "font-size": "10px" }
+            })
+          ]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "w-25 tf-flex" }, [
+      _c(
+        "span",
+        {
+          attrs: {
+            "data-toggle": "modal",
+            "data-target": "#updateScheduleForm",
+            title: " Update time"
+          }
+        },
+        [_c("i", { staticClass: "fa fa-edit teal" })]
+      ),
+      _vm._v("\n              / \n              "),
+      _c("i", { staticClass: "fa fa-times red" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", [
+      _c("span", { staticClass: "tf-flex" }, [
+        _vm._v("\n              Monday\n              "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-sm btn-primary p-1",
+            attrs: { title: "Add New" }
+          },
+          [
+            _c("i", {
+              staticClass: "fa fa-plus",
+              staticStyle: { "font-size": "10px" }
+            })
+          ]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "w-25 tf-flex" }, [
+      _c("span", { attrs: { title: "Update time" } }, [
+        _c("i", { staticClass: "fa fa-edit teal" })
+      ]),
+      _vm._v("\n              / \n              "),
+      _c("i", { staticClass: "fa fa-times red" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", [
+      _c("span", { staticClass: "tf-flex" }, [
+        _vm._v("\n              Tuesday\n              "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-sm btn-primary p-1",
+            attrs: { title: "Add New" }
+          },
+          [
+            _c("i", {
+              staticClass: "fa fa-plus",
+              staticStyle: { "font-size": "10px" }
+            })
+          ]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "w-25 tf-flex" }, [
+      _c("span", { attrs: { title: "Update time" } }, [
+        _c("i", { staticClass: "fa fa-edit teal" })
+      ]),
+      _vm._v("\n              / \n              "),
+      _c("i", { staticClass: "fa fa-times red" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", [
+      _c("span", { staticClass: "tf-flex" }, [
+        _vm._v("\n              Wednesday\n              "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-sm btn-primary p-1",
+            attrs: { title: "Add New" }
+          },
+          [
+            _c("i", {
+              staticClass: "fa fa-plus",
+              staticStyle: { "font-size": "10px" }
+            })
+          ]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "w-25 tf-flex" }, [
+      _c("span", { attrs: { title: "Update time" } }, [
+        _c("i", { staticClass: "fa fa-edit teal" })
+      ]),
+      _vm._v("\n              / \n              "),
+      _c("i", { staticClass: "fa fa-times red" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", [
+      _c("span", { staticClass: "tf-flex" }, [
+        _vm._v("\n              Thursday\n              "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-sm btn-primary p-1",
+            attrs: { title: "Add New" }
+          },
+          [
+            _c("i", {
+              staticClass: "fa fa-plus",
+              staticStyle: { "font-size": "10px" }
+            })
+          ]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "w-25 tf-flex" }, [
+      _c("span", { attrs: { title: "Update time" } }, [
+        _c("i", { staticClass: "fa fa-edit teal" })
+      ]),
+      _vm._v("\n              / \n              "),
+      _c("i", { staticClass: "fa fa-times red" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", [
+      _c("span", { staticClass: "tf-flex" }, [
+        _vm._v("\n              Friday\n              "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-sm btn-primary p-1",
+            attrs: { title: "Add New" }
+          },
+          [
+            _c("i", {
+              staticClass: "fa fa-plus",
+              staticStyle: { "font-size": "10px" }
+            })
+          ]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "w-25 tf-flex" }, [
+      _c("span", { attrs: { title: "Update time" } }, [
+        _c("i", { staticClass: "fa fa-edit teal" })
+      ]),
+      _vm._v("\n              / \n              "),
+      _c("i", { staticClass: "fa fa-times red" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", [
+      _c("span", { staticClass: "tf-flex" }, [
+        _vm._v("\n              Saturday\n              "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-sm btn-primary p-1",
+            attrs: { title: "Add New" }
+          },
+          [
+            _c("i", {
+              staticClass: "fa fa-plus",
+              staticStyle: { "font-size": "10px" }
+            })
+          ]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "w-25 tf-flex" }, [
+      _c("span", { attrs: { title: "Update time" } }, [
+        _c("i", { staticClass: "fa fa-edit teal" })
+      ]),
+      _vm._v("\n              / \n              "),
+      _c("i", { staticClass: "fa fa-times red" })
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-4aed1540", module.exports)
+  }
+}
+
+/***/ }),
+/* 180 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(3)
+/* script */
+var __vue_script__ = __webpack_require__(181)
+/* template */
+var __vue_template__ = null
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/Schedule.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-5f748482", Component.options)
+  } else {
+    hotAPI.reload("data-v-5f748482", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 181 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['the_doctor_id', 'the_schedule', 'the_day_id'],
+
+  data: function data() {
+    return {
+      creating: false,
+      editing: false,
+      // day_id   : this.the_day_id,
+      // doctor_id: this.the_doctor_id,
+      schedule: this.the_schedule,
+      form: new Form({
+        // id        : '',
+        doctor_id: this.the_doctor_id,
+        day_id: this.the_day_id,
+        start_at: '',
+        end_at: ''
+      })
+    };
+  },
+
+
+  computed: {
+    //
+  },
+
+  methods: {
+    create: function create() {
+      this.creating = true;
+    },
+    store: function store() {
+      var _this = this;
+
+      this.$Progress.start();
+      this.form.post('/schedules').then(function () {
+
+        // Event.$emit('RefreshPage');
+        _this.closeForm();
+        toast({
+          type: 'success',
+          title: 'Schedule created successfully'
+        });
+        _this.$Progress.finish();
+      }).catch(function () {
+        _this.$Progress.fail();
+      });
+    },
+    edit: function edit(schedule) {
+      this.editing = true;
+      this.form.clear(); // VForm, clears error message
+      this.form.reset(); // VForm
+      this.form.fill(schedule);
+    },
+    update: function update() {
+      var _this2 = this;
+
+      this.$Progress.start();
+      this.form.patch('/schedules/' + this.schedule.id).then(function () {
+
+        // Event.$emit('RefreshPage');
+        _this2.closeForm();
+        toast({
+          type: 'success',
+          title: 'Schedule updated successfully'
+        });
+        _this2.$Progress.finish();
+      }).catch(function () {
+        _this2.$Progress.fail();
+      });
+    },
+
+    // update() {
+    //   axios.patch('/schedules/' + this.schedule.id, {
+    //     start_at  : this.schedule.start_at,
+    //     end_at    : this.schedule.end_at
+    //   });
+
+    //   this.editing = false;
+    // },
+
+    destroy: function destroy() {
+      var _this3 = this;
+
+      if (confirm("You really want to delete this schedule?")) {
+
+        axios.delete('/schedules/' + this.schedule.id).then(function () {
+          toast({
+            type: 'success',
+            title: 'Schedule deleted successfully'
+          });
+          _this3.$Progress.finish();
+        });
+
+        $(this.$el).fadeOut(500);
+      }
+    },
+    closeForm: function closeForm() {
+      this.form.clear(); // VForm: Clear error messages
+      this.form.reset(); // VForm: Reset form fields
+      this.creating = false;
+      this.editing = false;
+    }
+  }
+});
+
+/***/ }),
 /* 182 */
 /***/ (function(module, exports) {
 
