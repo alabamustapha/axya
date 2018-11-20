@@ -18,7 +18,7 @@ class SchedulePolicy
      */
     public function create(User $user)
     {
-        return $user->is_doctor;
+        return $user->isDoctor();
     }
 
     /**
@@ -30,7 +30,7 @@ class SchedulePolicy
      */
     public function update(User $user, Schedule $schedule)
     {
-        return $user->is_doctor && $user->id == $schedule->doctor_id;
+        return $user->isDoctor() && $user->id == $schedule->doctor_id;
     }
 
     /**
@@ -42,6 +42,6 @@ class SchedulePolicy
      */
     public function delete(User $user, Schedule $schedule)
     {
-        return $user->is_doctor && $user->id == $schedule->doctor_id;
+        return $user->isDoctor() && $user->id == $schedule->doctor_id;
     }
 }

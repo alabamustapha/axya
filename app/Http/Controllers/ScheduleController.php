@@ -23,27 +23,22 @@ class ScheduleController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(ScheduleRequest $request)
-    {dd($request->all());
+    {
         $this->authorize('create', Schedule::class);
         
         $schedule = Schedule::create($request->all());
 
-        if ($schedule){
-            flash('Schedule added successfully')->success();
+        if ($schedule) {
+            $message = 'Schedule added successfully';
+
+            if (request()->expectsJson()) {
+                return response(['status' => $message]);
+            }
+
+            flash($message)->success();
         }
 
         return redirect()->route('doctors.show', $schedule->doctor);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Schedule  $schedule
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Schedule $schedule)
-    {
-        //
     }
 
     /**
@@ -53,22 +48,21 @@ class ScheduleController extends Controller
      * @param  \App\Schedule  $schedule
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Schedule $schedule)
+    public function update(ScheduleRequest $request, Schedule $schedule)
     {
-        // $this->authorize('update', $schedule);
+        $this->authorize('update', $schedule);
 
-        $request->validate([
-            'start_at'  => 'required|date_format:H:i:s',
-            'end_at'    => 'required|date_format:H:i:s',
-        ]);
+        if ($schedule->update($request->all())) {
+            $message = 'Schedule updated successfully';
 
-        $schedule->update($request->all());
-        return ['message' => 'Schedule update successful'];
-        // if ($schedule->update($request->all())){
-        //     flash('Schedule was updated successfully')->success();
-        // }
+            if (request()->expectsJson()) {
+                return response(['status' => $message]);
+            }
 
-        // return redirect()->route('doctors.show', $schedule->doctor);
+            flash($message)->success();
+        }
+
+        return redirect()->route('doctors.show', $schedule->doctor);
     }
 
     /**
@@ -79,7 +73,19 @@ class ScheduleController extends Controller
      */
     public function destroy(Schedule $schedule)
     {
-        //
+        $this->authorize('delete', $schedule);
+
+        if ($schedule->delete()) {
+            $message = 'Schedule deleted successfully';
+
+            if (request()->expectsJson()) {
+                return response(['status' => $message]);
+            }
+
+            flash($message)->success();
+        }
+
+        return redirect()->route('doctors.show', $schedule->doctor);
     }
 
 

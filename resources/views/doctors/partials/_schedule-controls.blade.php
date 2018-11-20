@@ -1,10 +1,10 @@
 
 <div class="w-15 tf-flex" v-if="creating">
-  <span class="mr-3" class="teal" title="Create new schedule" @click="create">
-    <i class="fa fa-save"></i>
+  <span class="mr-3" class="teal" title="Create new schedule" @click="store">
+    <i class="fa fa-save teal"></i>
   </span>
 
-  <span class="orange" title="Cancel create" @click="creating = false">
+  <span class="orange" title="Cancel create" @click="closeForm">
     <i class="fa fa-times"></i>
   </span>
 </div>
@@ -16,13 +16,13 @@
       <i class="fa fa-save teal"></i>{{-- &nbsp; Save --}}
     </span>
 
-    <span title="Cancel Edit" @click="editing = false">
+    <span title="Cancel Edit" @click="closeForm">
       <i class="fa fa-times orange"></i>{{-- &nbsp; Cancel --}}
     </span>
   </div>
 
   <div class="tf-flex" v-else>
-    <span class="mr-3" title="Edit Schedule" @click="editing = true">{{-- ; closeOthers() --}}
+    <span class="mr-3" title="Edit Schedule" @click="edit(schedule)">{{-- ; closeOthers() --}}
       <i class="fa fa-edit teal"></i> 
     </span>
 

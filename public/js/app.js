@@ -72628,15 +72628,22 @@ module.exports = Component.exports
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['the_doctor', 'the_schedule', 'edit', 'the_day'],
+  props: ['the_doctor_id', 'the_schedule', 'the_day_id'],
 
   data: function data() {
     return {
       creating: false,
-      editing: this.edit,
-      day: this.the_day,
-      doctor: this.the_doctor,
-      schedule: this.the_schedule
+      editing: false,
+      // day_id   : this.the_day_id,
+      // doctor_id: this.the_doctor_id,
+      schedule: this.the_schedule,
+      form: new Form({
+        // id        : '',
+        doctor_id: this.the_doctor_id,
+        day_id: this.the_day_id,
+        start_at: '',
+        end_at: ''
+      })
     };
   },
 
@@ -72647,29 +72654,81 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   methods: {
     create: function create() {
-      axios.post('/schedules', {
-        doctor_id: this.doctor.id,
-        start_at: this.start_at,
-        end_at: this.end_at
-      });
+      this.creating = true;
+    },
+    store: function store() {
+      var _this = this;
 
-      this.creating = false;
+      this.$Progress.start();
+      this.form.post('/schedules').then(function () {
+
+        // Event.$emit('RefreshPage');
+        toast({
+          type: 'success',
+          title: 'Schedule created successfully'
+        });
+        _this.closeForm();
+        _this.$Progress.finish();
+      }).catch(function () {
+        _this.$Progress.fail();
+      });
+    },
+    edit: function edit(schedule) {
+      this.editing = true;
+      this.form.clear(); // VForm, clears error message
+      this.form.reset(); // VForm
+      this.form.fill(schedule);
     },
     update: function update() {
-      axios.patch('/schedules/' + this.schedule.id, {
-        start_at: this.schedule.start_at,
-        end_at: this.schedule.end_at
-      });
+      var _this2 = this;
 
-      this.editing = false;
-    },
-    destroy: function destroy() {
-      if (confirm("You really want to delete this schedule?")) {
-        axios.delete('/schedules/' + this.schedule.id);
-        $(this.$el).fadeOut(500, function () {
-          flash('Schedule was deleted.');
+      this.$Progress.start();
+      this.form.patch('/schedules/' + this.schedule.id).then(function () {
+
+        // Event.$emit('RefreshPage');
+        toast({
+          type: 'success',
+          title: 'Schedule updated successfully'
         });
+        _this2.closeForm();
+        _this2.$Progress.finish();
+      }).catch(function () {
+        _this2.$Progress.fail();
+      });
+    },
+
+
+    // update() {
+    //   axios.patch('/schedules/' + this.schedule.id, {
+    //     start_at  : this.schedule.start_at,
+    //     end_at    : this.schedule.end_at
+    //   });
+
+    //   this.editing = false;
+    // },
+
+    destroy: function destroy() {
+      var _this3 = this;
+
+      if (confirm("You really want to delete this schedule?")) {
+
+        axios.delete('/schedules/' + this.schedule.id).then(function () {
+          toast({
+            type: 'success',
+            title: 'Schedule deleted successfully'
+          });
+          _this3.$Progress.finish();
+          _this3.$forceUpdate();
+        });
+
+        $(this.$el).fadeOut(500);
       }
+    },
+    closeForm: function closeForm() {
+      this.form.clear(); // VForm: Clear error messages
+      this.form.reset(); // VForm: Reset form fields
+      this.creating = false;
+      this.editing = false;
     }
   }
 });

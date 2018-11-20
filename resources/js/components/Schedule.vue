@@ -1,14 +1,21 @@
 <script>
   export default {
-    props: [ 'the_doctor','the_schedule','edit','the_day' ],
+    props: [ 'the_doctor_id','the_schedule','the_day_id' ],
 
     data() {
       return {
-        creating: false,
-        editing : this.edit,
-        day     : this.the_day,
-        doctor  : this.the_doctor,
-        schedule: this.the_schedule,
+        creating : false,
+        editing  : false,
+        // day_id   : this.the_day_id,
+        // doctor_id: this.the_doctor_id,
+        schedule : this.the_schedule,
+        form: new Form({
+          // id        : '',
+          doctor_id : this.the_doctor_id,
+          day_id    : this.the_day_id,
+          start_at  : '',
+          end_at    : '',
+        })
       };
     },
 
@@ -18,32 +25,78 @@
 
     methods: {
       create() {
-        axios.post('/schedules', {
-          doctor_id : this.doctor.id,
-          start_at  : this.start_at,
-          end_at    : this.end_at
-        });
-        
-        this.creating = false;
+        this.creating = true;
+      },
+      store() {
+        this.$Progress.start();
+        this.form.post('/schedules')
+        .then(() => {
+
+          // Event.$emit('RefreshPage');
+          toast({
+              type: 'success',
+              title: 'Schedule created successfully'
+          });
+          this.closeForm();
+          this.$Progress.finish();
+        })
+        .catch(() => { this.$Progress.fail();});
+      },
+      
+      edit(schedule) {
+        this.editing = true;
+        this.form.clear(); // VForm, clears error message
+        this.form.reset(); // VForm
+        this.form.fill(schedule);
+      },
+      update() {
+        this.$Progress.start();
+        this.form.patch('/schedules/' + this.schedule.id)
+        .then(() => {
+
+          // Event.$emit('RefreshPage');
+          toast({
+              type: 'success',
+              title: 'Schedule updated successfully'
+          });
+          this.closeForm();
+          this.$Progress.finish();
+        })
+        .catch(()=> { this.$Progress.fail(); });
       },
 
-      update() {
-        axios.patch('/schedules/' + this.schedule.id, {
-          start_at  : this.schedule.start_at,
-          end_at    : this.schedule.end_at
-        });
+      // update() {
+      //   axios.patch('/schedules/' + this.schedule.id, {
+      //     start_at  : this.schedule.start_at,
+      //     end_at    : this.schedule.end_at
+      //   });
         
-        this.editing = false;
-      },
+      //   this.editing = false;
+      // },
 
       destroy() {
         if (confirm("You really want to delete this schedule?")) {
-          axios.delete('/schedules/' + this.schedule.id);
-          $(this.$el).fadeOut(500, () => {              
-            flash('Schedule was deleted.');
+
+          axios.delete('/schedules/' + this.schedule.id)
+          .then(() => {
+            toast({
+                type: 'success',
+                title: 'Schedule deleted successfully'
+            });
+            this.$Progress.finish();
+            this.$forceUpdate();
           });
+              
+          $(this.$el).fadeOut(500);
         }
-      }
+      },
+
+      closeForm() {
+        this.form.clear(); // VForm: Clear error messages
+        this.form.reset(); // VForm: Reset form fields
+        this.creating = false;
+        this.editing  = false;
+      },
     },
   }
 </script>

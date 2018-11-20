@@ -60,17 +60,33 @@
             {{$doctor->user->name}}
             <span {{$doctor->availabilityText()}}></span>
           </h1>
-          <h3>
-            <small><i class="fa fa-user-md"></i> {{ $doctor->specialty->name }}</small>
-          </h3>
+          <span class="h6">
+            <ul class="list-unstyled">
+              <li class="pb-1" title="Speicialty">
+                <span>
+                  <i class="fa fa-user-md" style="min-width:7%"></i> {{ $doctor->specialty->name }}
+                </span>
+              </li>
+
+              @if(Auth::check() && (Auth::user()->can('edit', $doctor) || Auth::user()->is_admin))
+              <li class="pb-1" title="Email">
+                <span>
+                  <i class="fa fa-at" style="min-width:7%"></i> {{$doctor->user->email}}
+                </span>
+              </li>
+              <li class="pb-1" title="Phone">
+                <span>
+                  <i class="fa fa-mobile" style="min-width:7%"></i> {{$doctor->user->phone}}
+                </span>
+              </li>
+              @endif
+            </ul>
+          </span>
           
           <hr>
 
           <ul class="list-group list-group-unbordered mb-3">
-            <li class="list-group-item p-2 px-3 border-top-0">
-              <b class="d-inline-block w-25"><i style="width:25px;" class="fa fa-user-md"></i> Specialty</b> <a>{{ $doctor->specialty->name }}</a>
-            </li>
-            <li class="list-group-item p-1 px-3">
+            <li class="list-group-item p-1 px-3 mt-0 border-top-0">
               <b class="d-inline-block w-25"><i style="width:25px;" class="fa fa-procedures"></i> Patients Served</b> <a>{{$doctor->patients->count()}}</a>
             </li>
             <li class="list-group-item p-1 px-3">

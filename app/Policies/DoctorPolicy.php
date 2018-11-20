@@ -23,7 +23,7 @@ class DoctorPolicy
 
     public function create(User $user)
     {
-        return $user->isSuperAdmin();
+        return $user->isAdmin();
     }
 
     /**

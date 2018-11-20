@@ -22,14 +22,32 @@
           
             <td>
               <!-- The Main Template -->
-              <schedule :the_doctor="{{ $doctor }}" :the_day="4" inline-template v-cloak>
+              <schedule :the_doctor_id="{{ $doctor->id }}" :the_day_id="1" inline-template v-cloak>
                 <table v-if="creating" class="w-100">
                   <tr>
                     <td class="tf-flex-ctrl">
                       <div>
-                        <span class="d-inline-block">Start: <input type="time" maxlength="11" name="start_at" placeholder="eg 23:15 PM" pattern="" id="start_at" class="form-control" required></span>
+                        <span class="d-inline-block">Start: 
+                          <input v-model="form.start_at" 
+                            :class="{ 'is-invalid': form.errors.has('start_at') }" 
+                            @keyup.enter="store" 
+                            type="text" maxlength="11" minlength="11" 
+                            name="start_at" placeholder="eg 23:15:00" pattern="" 
+                            id="start_at" class="form-control" 
+                          required>
+                          <has-error :form="form" field="start_at"></has-error>
+                        </span>
                         
-                        <span class="d-inline-block">End: <input type="time" maxlength="11" name="end_at" placeholder="eg 01:30 AM" pattern="" id="end_at" class="form-control" required></span>
+                        <span class="d-inline-block">End: 
+                          <input v-model="form.end_at" 
+                            :class="{ 'is-invalid': form.errors.has('end_at') }" 
+                            @keyup.enter="store" 
+                            type="text" maxlength="11" minlength="11" 
+                            name="end_at" placeholder="eg 01:30:00" pattern="" 
+                            id="end_at" class="form-control" 
+                          required>
+                          <has-error :form="form" field="end_at"></has-error>
+                        </span>
                       </div>
 
                       @include('doctors.partials._schedule-controls')
@@ -40,7 +58,7 @@
                 <table v-else class="w-100">
                   <tr>
                     <td>                    
-                      <button @click="creating = true" class="btn btn-sm btn-primary p-1" title="Add New"><i class="fa fa-plus" style="font-size:10px;"></i> Add New</button>
+                      <button @click="create" class="btn btn-sm btn-primary p-1" title="Add New"><i class="fa fa-plus" style="font-size:10px;"></i> Add New</button>
                     </td>
                   </tr>
                   @forelse($sun_schedules as $sunschedule)
@@ -48,15 +66,17 @@
                       <td class="w-100">
 
                         <!-- The Sub Template Section-->
-                        <schedule :the_doctor="{{ $doctor }}" :the_schedule="{{ $sunschedule }}" inline-template v-cloak>
+                        <schedule :the_doctor_id="{{ $doctor->id }}" :the_schedule="{{ $sunschedule }}" inline-template v-cloak>
                           <div class="tf-flex-ctrl">
                             <div v-if="editing">
                               <span class="d-inline-block mr-2">
-                                Start: <input value="{{$sunschedule->start_at}}" type="text" maxlength="8" name="start_at" placeholder="eg 23:15:00" style="width:100px;" pattern="" id="start_at" class="form-control" required>
+                                Start: <input v-model="form.start_at" :class="{ 'is-invalid': form.errors.has('start_at') }" @keyup.enter="update" {{-- value="{{$sunschedule->start_at}}" --}} type="text" minlength="11" maxlength="11" name="start_at" placeholder="eg 23:15:00" style="width:100px;" pattern="" id="start_at" class="form-control" required>
+                                <has-error :form="form" field="start_at"></has-error>
                               </span>
                               
                               <span class="d-inline-block mr-2">
-                                End: <input value="{{$sunschedule->end_at}}" type="text" maxlength="8" name="end_at" placeholder="eg 01:30:00" style="width:100px;" pattern="" id="end_at" class="form-control" required>
+                                End: <input v-model="form.end_at" :class="{ 'is-invalid': form.errors.has('end_at') }" @keyup.enter="update" {{-- value="{{$sunschedule->end_at}}" --}} type="text" minlength="11" maxlength="11" name="end_at" placeholder="eg 01:30:00" style="width:100px;" pattern="" id="end_at" class="form-control" required>
+                                <has-error :form="form" field="end_at"></has-error>
                               </span>
                             </div>
 
@@ -87,14 +107,14 @@
           
             <td>
               <!-- The Main Template -->
-              <schedule :the_doctor="{{ $doctor }}" :the_day="4" inline-template v-cloak>
+              <schedule :the_doctor_id="{{ $doctor->id }}" :the_day_id="2" inline-template v-cloak>
                 <table v-if="creating" class="w-100">
                   <tr>
                     <td class="tf-flex-ctrl">
                       <div>
-                        <span class="d-inline-block">Start: <input type="time" maxlength="11" name="start_at" placeholder="eg 23:15 PM" pattern="" id="start_at" class="form-control" required></span>
+                        <span class="d-inline-block">Start: <input type="time" maxlength="11" name="start_at" placeholder="eg 23:15:00" pattern="" id="start_at" class="form-control" required></span>
                         
-                        <span class="d-inline-block">End: <input type="time" maxlength="11" name="end_at" placeholder="eg 01:30 AM" pattern="" id="end_at" class="form-control" required></span>
+                        <span class="d-inline-block">End: <input type="time" maxlength="11" name="end_at" placeholder="eg 01:30:00" pattern="" id="end_at" class="form-control" required></span>
                       </div>
 
                       @include('doctors.partials._schedule-controls')
@@ -113,7 +133,7 @@
                       <td class="w-100">
 
                         <!-- The Sub Template Section-->
-                        <schedule :the_doctor="{{ $doctor }}" :the_schedule="{{ $monschedule }}" inline-template v-cloak>
+                        <schedule :the_doctor_id="{{ $doctor->id }}" :the_schedule="{{ $monschedule }}" inline-template v-cloak>
                           <div class="tf-flex-ctrl">
                             <div v-if="editing">
                               <span class="d-inline-block mr-2">
@@ -152,14 +172,14 @@
           
             <td>
               <!-- The Main Template -->
-              <schedule :the_doctor="{{ $doctor }}" :the_day="4" inline-template v-cloak>
+              <schedule :the_doctor_id="{{ $doctor->id }}" :the_day_id="3" inline-template v-cloak>
                 <table v-if="creating" class="w-100">
                   <tr>
                     <td class="tf-flex-ctrl">
                       <div>
-                        <span class="d-inline-block">Start: <input type="time" maxlength="11" name="start_at" placeholder="eg 23:15 PM" pattern="" id="start_at" class="form-control" required></span>
+                        <span class="d-inline-block">Start: <input type="time" maxlength="11" name="start_at" placeholder="eg 23:15:00" pattern="" id="start_at" class="form-control" required></span>
                         
-                        <span class="d-inline-block">End: <input type="time" maxlength="11" name="end_at" placeholder="eg 01:30 AM" pattern="" id="end_at" class="form-control" required></span>
+                        <span class="d-inline-block">End: <input type="time" maxlength="11" name="end_at" placeholder="eg 01:30:00" pattern="" id="end_at" class="form-control" required></span>
                       </div>
 
                       @include('doctors.partials._schedule-controls')
@@ -178,7 +198,7 @@
                       <td class="w-100">
 
                         <!-- The Sub Template Section-->
-                        <schedule :the_doctor="{{ $doctor }}" :the_schedule="{{ $tueschedule }}" inline-template v-cloak>
+                        <schedule :the_doctor_id="{{ $doctor->id }}" :the_schedule="{{ $tueschedule }}" inline-template v-cloak>
                           <div class="tf-flex-ctrl">
                             <div v-if="editing">
                               <span class="d-inline-block mr-2">
@@ -217,14 +237,14 @@
           
             <td>
               <!-- The Main Template -->
-              <schedule :the_doctor="{{ $doctor }}" :the_day="4" inline-template v-cloak>
+              <schedule :the_doctor_id="{{ $doctor->id }}" :the_day_id="4" inline-template v-cloak>
                 <table v-if="creating" class="w-100">
                   <tr>
                     <td class="tf-flex-ctrl">
                       <div>
-                        <span class="d-inline-block">Start: <input type="time" maxlength="11" name="start_at" placeholder="eg 23:15 PM" pattern="" id="start_at" class="form-control" required></span>
+                        <span class="d-inline-block">Start: <input type="time" maxlength="11" name="start_at" placeholder="eg 23:15:00" pattern="" id="start_at" class="form-control" required></span>
                         
-                        <span class="d-inline-block">End: <input type="time" maxlength="11" name="end_at" placeholder="eg 01:30 AM" pattern="" id="end_at" class="form-control" required></span>
+                        <span class="d-inline-block">End: <input type="time" maxlength="11" name="end_at" placeholder="eg 01:30:00" pattern="" id="end_at" class="form-control" required></span>
                       </div>
 
                       @include('doctors.partials._schedule-controls')
@@ -243,7 +263,7 @@
                       <td class="w-100">
 
                         <!-- The Sub Template Section-->
-                        <schedule :the_doctor="{{ $doctor }}" :the_schedule="{{ $wedschedule }}" inline-template v-cloak>
+                        <schedule :the_doctor_id="{{ $doctor->id }}" :the_schedule="{{ $wedschedule }}" inline-template v-cloak>
                           <div class="tf-flex-ctrl">
                             <div v-if="editing">
                               <span class="d-inline-block mr-2">
@@ -282,14 +302,14 @@
           
             <td>
               <!-- The Main Template -->
-              <schedule :the_doctor="{{ $doctor }}" :the_day="5" inline-template v-cloak>
+              <schedule :the_doctor_id="{{ $doctor->id }}" :the_day_id="5" inline-template v-cloak>
                 <table v-if="creating" class="w-100">
                   <tr>
                     <td class="tf-flex-ctrl">
                       <div>
-                        <span class="d-inline-block">Start: <input type="time" maxlength="11" name="start_at" placeholder="eg 23:15 PM" pattern="" id="start_at" class="form-control" required></span>
+                        <span class="d-inline-block">Start: <input type="time" maxlength="11" name="start_at" placeholder="eg 23:15:00" pattern="" id="start_at" class="form-control" required></span>
                         
-                        <span class="d-inline-block">End: <input type="time" maxlength="11" name="end_at" placeholder="eg 01:30 AM" pattern="" id="end_at" class="form-control" required></span>
+                        <span class="d-inline-block">End: <input type="time" maxlength="11" name="end_at" placeholder="eg 01:30:00" pattern="" id="end_at" class="form-control" required></span>
                       </div>
 
                       @include('doctors.partials._schedule-controls')
@@ -308,7 +328,7 @@
                       <td class="w-100">
 
                         <!-- The Sub Template Section-->
-                        <schedule :the_doctor="{{ $doctor }}" :the_schedule="{{ $thuschedule }}" inline-template v-cloak>
+                        <schedule :the_doctor_id="{{ $doctor->id }}" :the_schedule="{{ $thuschedule }}" inline-template v-cloak>
                           <div class="tf-flex-ctrl">
                             <div v-if="editing">
                               <span class="d-inline-block mr-2">
@@ -347,14 +367,14 @@
           
             <td>
               <!-- The Main Template -->
-              <schedule :the_doctor="{{ $doctor }}" :the_day="6" inline-template v-cloak>
+              <schedule :the_doctor_id="{{ $doctor->id }}" :the_day_id="6" inline-template v-cloak>
                 <table v-if="creating" class="w-100">
                   <tr>
                     <td class="tf-flex-ctrl">
                       <div>
-                        <span class="d-inline-block">Start: <input type="time" maxlength="11" name="start_at" placeholder="eg 23:15 PM" pattern="" id="start_at" class="form-control" required></span>
+                        <span class="d-inline-block">Start: <input type="time" maxlength="11" name="start_at" placeholder="eg 23:15:00" pattern="" id="start_at" class="form-control" required></span>
                         
-                        <span class="d-inline-block">End: <input type="time" maxlength="11" name="end_at" placeholder="eg 01:30 AM" pattern="" id="end_at" class="form-control" required></span>
+                        <span class="d-inline-block">End: <input type="time" maxlength="11" name="end_at" placeholder="eg 01:30:00" pattern="" id="end_at" class="form-control" required></span>
                       </div>
 
                       @include('doctors.partials._schedule-controls')
@@ -373,7 +393,7 @@
                       <td class="w-100">
 
                         <!-- The Sub Template Section-->
-                        <schedule :the_doctor="{{ $doctor }}" :the_schedule="{{ $frischedule }}" inline-template v-cloak>
+                        <schedule :the_doctor_id="{{ $doctor->id }}" :the_schedule="{{ $frischedule }}" inline-template v-cloak>
                           <div class="tf-flex-ctrl">
                             <div v-if="editing">
                               <span class="d-inline-block mr-2">
@@ -412,14 +432,14 @@
           
             <td>
               <!-- The Main Template -->
-              <schedule :the_doctor="{{ $doctor }}" :the_day="6" inline-template v-cloak>
+              <schedule :the_doctor_id="{{ $doctor->id }}" :the_day_id="7" inline-template v-cloak>
                 <table v-if="creating" class="w-100">
                   <tr>
                     <td class="tf-flex-ctrl">
                       <div>
-                        <span class="d-inline-block">Start: <input type="time" maxlength="11" name="start_at" placeholder="eg 23:15 PM" pattern="" id="start_at" class="form-control" required></span>
+                        <span class="d-inline-block">Start: <input type="time" maxlength="11" name="start_at" placeholder="eg 23:15:00" pattern="" id="start_at" class="form-control" required></span>
                         
-                        <span class="d-inline-block">End: <input type="time" maxlength="11" name="end_at" placeholder="eg 01:30 AM" pattern="" id="end_at" class="form-control" required></span>
+                        <span class="d-inline-block">End: <input type="time" maxlength="11" name="end_at" placeholder="eg 01:30:00" pattern="" id="end_at" class="form-control" required></span>
                       </div>
 
                       @include('doctors.partials._schedule-controls')
@@ -438,7 +458,7 @@
                       <td class="w-100">
 
                         <!-- The Sub Template Section-->
-                        <schedule :the_doctor="{{ $doctor }}" :the_schedule="{{ $satschedule }}" inline-template v-cloak>
+                        <schedule :the_doctor_id="{{ $doctor->id }}" :the_schedule="{{ $satschedule }}" inline-template v-cloak>
                           <div class="tf-flex-ctrl">
                             <div v-if="editing">
                               <span class="d-inline-block mr-2">

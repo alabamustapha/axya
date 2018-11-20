@@ -30,4 +30,17 @@ class ScheduleRequest extends FormRequest
             'end_at'    => 'required|date_format:H:i:s',
         ];
     }
+
+    /**
+    * Get the error messages for the defined validation rules.
+    *
+    * @return array
+    */
+    public function messages()
+    {
+        return [
+            'start_at.date_format' => 'The start of a schedule must be in the format: 18:23:00 and must be between 00:00:00 to 23:59:59.',
+            'end_at.date_format'   => 'The end of a schedule must be in the format: 18:23:00 and must be between 00:00:00 to 23:59:59.',
+        ];
+    }
 }

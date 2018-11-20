@@ -23,7 +23,7 @@ Route::resource('workplaces',  'WorkplaceController')->only('store','update','de
 Route::resource('applications','ApplicationController');
 Route::resource('doctors',     'DoctorController');
 Route::resource('documents',   'DocumentController');
-Route::resource('schedules',   'ScheduleController')->except('index','edit');
+Route::resource('schedules',   'ScheduleController')->only('store','update','destroy');
 
 Route::get('schedules/{doctor}/{day}', 'ScheduleController@schedules');
 
