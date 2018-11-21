@@ -23,5 +23,6 @@ class DatabaseSeeder extends Seeder
         // factory(App\Workplace::class, 10)->create();
         factory(App\Day::class, 7)->create();
         factory(App\Schedule::class, 100)->create();
+        factory(App\Appointment::class, 100)->create();
     }
 }

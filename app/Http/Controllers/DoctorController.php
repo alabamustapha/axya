@@ -29,7 +29,9 @@ class DoctorController extends Controller
      */
     public function index()
     {
-        //
+        $doctors = Doctor::orderBy('slug')->paginate(25);
+
+        return view('doctors.index', compact('doctors'));
     }
 
     /**

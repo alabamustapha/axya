@@ -69,4 +69,10 @@ class DoctorsTest extends TestCase
     // {
     //     $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->doctor->specialties); 
     // }
+
+    /** @test */
+    public function a_doctor_has_many_appointments()
+    {
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->doctor->appointments); 
+    }
 }
