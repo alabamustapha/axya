@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Schedule;
+use App\Appointment;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -15,8 +15,13 @@ class AppointmentPolicy
         return $user->isVerified() && !$user->isSuspended();
     }
 
-    public function edit(User $user, Schedule $schedule)
+    public function edit(User $user, Appointment $appointment)
     {
-        return $schedule->user_id === $user->id || $schedule->doctor_id === $user->id;
+        return $appointment->user_id == $user->id || $appointment->doctor_id == $user->id;
+    }
+
+    public function delete(User $user, Appointment $appointment)
+    {
+        return $appointment->user_id == $user->id;
     }
 }

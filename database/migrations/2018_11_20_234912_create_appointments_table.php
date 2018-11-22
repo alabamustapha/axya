@@ -18,11 +18,15 @@ class CreateAppointmentsTable extends Migration
             $table->tinyInteger('status')->default(0);
             $table->integer('user_id')->unsigned()->index();
             $table->integer('doctor_id')->unsigned()->index();
-            $table->date('date');
-            $table->time('from_time')->nullable();
-            $table->time('to_time')->nullable();
+            $table->date('day');
+            $table->time('from')->nullable();
+            $table->time('to')->nullable();
             $table->text('patient_info')->nullable();
             $table->datetime('sealed_at')->nullable();
+
+            $table->enum('type', ['Online', 'Home'])->defualt('Online');
+            $table->string('address')->nullable();
+            $table->string('phone', 50)->nullable();
             $table->timestamps();
         });
     }

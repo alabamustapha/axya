@@ -23,13 +23,29 @@ class AppointmentRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [];
+        $rules = array_merge($rules, [
+            'type'      => 'required|in:Online,Home',
+            'address'   => 'required_if:type,Home|string',
+            'phone'     => 'required_if:type,Home|string',
+
             'doctor_id' => 'required|integer|exists:doctors,id',
-            'day'       => 'required|date',
-            'from_time' => 'required|date_format:H:i:s',
-            'to_time'   => 'required|date_format:H:i:s',
             'patient_info' => 'required|string|max:1500',
-        ];
+
+            'day'       => 'required|date',
+            'from'      => 'required|date_format:H:i',
+            'to'        => 'required|date_format:H:i|after:from',
+        ]);
+
+        $rules = app()->environment('testing')
+        # date_format:H:i not responding in testing thus needs to be seperated out.
+            ? array_merge($rules, [])
+            : array_merge($rules, [
+                'from' => 'required',
+                'to'   => 'required',
+            ]);
+
+        return $rules;
     }
 
     /**
@@ -40,10 +56,10 @@ class AppointmentRequest extends FormRequest
     public function messages()
     {
         return [
-            'doctor_id.required'=> 'A doctor must be selected.',
-            'doctor_id.exists'  => 'A valid doctor must be selected.',
-            'from_time.date_format' => 'The start of an appointment must be in the format: 18:23:00 and must be between 00:00:00 to 23:59:59.',
-            'to_time.date_format'   => 'The end of a schedule must be in the format: 18:23:00 and must be between 00:00:00 to 23:59:59.',
+            'doctor_id.required'    => 'A doctor must be selected.',
+            'doctor_id.exists'      => 'A valid doctor must be selected.',
+            'from.date_format' => 'The start of an appointment must be in the format: 08:23 AM.',
+            'to.date_format'   => 'The end of a schedule must be in the format: 10:23 PM.',
         ];
     }
 }

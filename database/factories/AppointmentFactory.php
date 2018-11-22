@@ -7,10 +7,16 @@ $factory->define(App\Appointment::class, function (Faker $faker) {
       'status'    => $faker->numberBetween(0,6),
       'user_id'   => App\User::all()->random()->id,
       'doctor_id' => App\Doctor::all()->random()->id,
-      'date'      => $faker->dateTimeBetween('-50 day', '-1day'),
-      'from_time' => $faker->time('H:i:s', '5:00:00'), // 'H:i:s'
-      'to_time'   => $faker->time('H:i:s', '23:00:00'), // 'H:i:s'
+
+      'day'       => $faker->dateTimeBetween('-50 day', '-1day'),
+      'from'      => $faker->time('H:i', '5:00 am'), // 'H:i:s'
+      'to'        => $faker->time('H:i', '11:00 pm'), // 'H:i:s'
+
       'patient_info' => $faker->paragraphs(1,3),
-      'sealed_at'   => $faker->dateTimeBetween('-50 day', '-1day'),
+      'sealed_at' => $faker->dateTimeBetween('-50 day', '-1day'),
+      
+      'type'      => $faker->randomElement(['Online','Home']),
+      'address'   => $faker->address,
+      'phone'     => $faker->e164PhoneNumber,
     ];
 });

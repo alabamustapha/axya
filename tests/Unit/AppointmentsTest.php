@@ -34,7 +34,7 @@ class AppointmentsTest extends TestCase
     {
         $this->assertTrue(Schema::hasColumns('appointments', 
           [
-            'id','status','user_id','doctor_id','date','from_time','to_time','patient_info','sealed_at' 
+            'id','status','user_id','doctor_id','day','from','to','patient_info','sealed_at','type','address','phone'
           ]), 1);
     }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Appointment;
+use App\Http\Requests\AppointmentRequest;
 use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
@@ -10,7 +11,7 @@ class AppointmentController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('verified');
+        // $this->middleware('verified');
         // $this->middleware('doctor');
         // $this->middleware('admin')->only('index');
     }
@@ -22,9 +23,9 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        $appointments = auth()->user()->appointments()->orderBy('date', 'desc')->paginate(25);
+        $appointments = auth()->user()->appointments()->orderBy('day', 'desc')->paginate(25);
 
-        // return view('appointments.index', compact('appointments'));
+        return view('appointments.index', compact('appointments'));
     }
 
     /**
@@ -38,14 +39,19 @@ class AppointmentController extends Controller
         $this->authorize('create', Appointment::class);
 
         $request->merge(['user_id' => auth()->id()]);
+
+        if (Appointment::create($request->all())){
+            // $appointment->doctor->user->notify(); // You have a new appiontment from $username, view here.
+
+            $message = 'Appointment created successfully.';
+
+            if ($request->expectsJson()){
+                return response(['message' => $message]);
+            }
         
-        $appointment = Appointment::create($request->all());
-
-        if ($appointment){
-            flash('Appointment created successfully')->success();
+            flash($message)->success();
+            return redirect()->route('appointments.index');
         }
-
-        return redirect()->route('appointments.index');
     }
 
     /**
@@ -66,16 +72,23 @@ class AppointmentController extends Controller
      * @param  \App\Appointment  $appointment
      * @return \Illuminate\Http\Response
      */
-    public function update(AppointmentRequest $request, Appointment $appointment)
+    public function update(Request $request, Appointment $appointment)
     {
-        // dd($request->all());
         $this->authorize('edit', $appointment);
 
+        $request->merge(['user_id' => auth()->id()]);
+
         if ($appointment->update($request->all())){
-            flash('Appointment updated successfully')->success();
+            $message = 'Appointment updated successfully.';
+
+            if ($request->expectsJson()){
+                return response(['message' => $message]);
+            }
+        
+            flash($message)->success();
+            return redirect()->route('appointments.show', $appointment);
         }
 
-        return redirect()->route('appointments.show', $appointment);
     }
 
     /**
@@ -88,10 +101,16 @@ class AppointmentController extends Controller
     {
         $this->authorize('delete', $appointment);
 
-        if ($appointment->delete()){
-            flash('Appointment deleted successfully')->info();
-        }
+        $appointment->delete();
+        $message = 'Appointment deleted successfully';
 
+        // if ($appointment->delete()) {
+        //     if ($request->expectsJson()) {
+        //         return response(['message' => $message]);
+        //     }
+        // }
+
+        flash($message)->info();
         return redirect()->route('appointments.index');
     }
 }
