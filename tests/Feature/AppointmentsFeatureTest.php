@@ -103,7 +103,7 @@ class AppointmentsFeatureTest extends TestCase
         $this
             ->actingAs($user)
             ->post(route('appointments.store'), $data)
-            ->assertStatus(403)
+            ->assertStatus(302) // Redirected to verfy page
             ;
 
         $this->assertDatabaseMissing('appointments', $data);

@@ -35,7 +35,7 @@ class SchedulesFeatureTest extends TestCase
         $start_time = '5:00:00';
         $end_time   = '11:00:00';
         $this->data = [ 
-            // 'doctor_id' => $this->doctor->id,
+            'doctor_id' => $this->doctor->id,
             'day_id'    => $this->day->id,
             'start_at'  => $start_time,
             'end_at'    => $end_time,

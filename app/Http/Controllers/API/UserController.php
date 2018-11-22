@@ -74,6 +74,8 @@ class UserController extends Controller
     {
         $user = User::whereSlug($slug)->firstOrFail();
 
+        // dd($this->canViewUser($user));
+
         return new UserResource($user);
     }
 

@@ -324,6 +324,7 @@ class User extends Authenticatable implements MustVerifyEmail
               </small>'
     );
 
+    // If the status code is not in the provided list above return the default '0'.
     public function professionalStatus() 
     {
         $status = ($this->is_doctor > (sizeof(self::$professionalStatus) - 1) || $this->is_doctor < 0) 

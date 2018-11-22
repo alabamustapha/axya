@@ -17,11 +17,12 @@ class AuthServiceProvider extends ServiceProvider
         'App\Model' => 'App\Policies\ModelPolicy',
 
         'App\Application'=> 'App\Policies\ApplicationPolicy',
+        'App\Appointment'=> 'App\Policies\AppointmentPolicy',
         'App\Doctor'     => 'App\Policies\DoctorPolicy',
         'App\Document'   => 'App\Policies\DocumentPolicy',
         // 'App\Image'      => 'App\Policies\ImagePolicy',
-        'App\Specialty'  => 'App\Policies\SpecialtyPolicy',
         'App\Schedule'   => 'App\Policies\SchedulePolicy',
+        'App\Specialty'  => 'App\Policies\SpecialtyPolicy',
         'App\Tag'        => 'App\Policies\TagPolicy',
         'App\User'       => 'App\Policies\UserPolicy',
         'App\Workplace'  => 'App\Policies\WorkplacePolicy',

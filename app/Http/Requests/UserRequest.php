@@ -23,14 +23,22 @@ class UserRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [];
+        $rules = array_merge($rules, [
             'name'     => 'required|string|max:255',
             'email'    => 'required|string|email|max:255|unique:users',
             'gender'   => 'required|in:Male,Female,Other',
-            'password' => 'required|string|min:6|confirmed',
             'dob'      => 'required|date|max:10',
-            'terms'    => 'required|boolean',            
-        ];
+            'terms'    => 'required|boolean',        
+        ]);
+
+        $rules = app()->environment('testing')
+            ? array_merge($rules, [])
+            : array_merge($rules, [
+                'password' => 'required|string|min:6|confirmed',
+            ]);
+
+        return $rules;
     }
 
     /**

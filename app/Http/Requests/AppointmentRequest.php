@@ -37,13 +37,15 @@ class AppointmentRequest extends FormRequest
             'to'        => 'required|date_format:H:i|after:from',
         ]);
 
-        $rules = app()->environment('testing')
-        # date_format:H:i not responding in testing thus needs to be seperated out.
-            ? array_merge($rules, [])
-            : array_merge($rules, [
-                'from' => 'required',
-                'to'   => 'required',
-            ]);
+        // $rules = app()->environment('testing')
+        // # date_format:H:i not responding in testing thus needs to be seperated out.
+        //     ? array_merge($rules, [
+        //         'from' => 'required',
+        //         'to'   => 'required',])
+        //     : array_merge($rules, [
+        //         'from'      => 'required|date_format:H:i',
+        //         'to'        => 'required|date_format:H:i|after:from',
+        //     ]);
 
         return $rules;
     }
