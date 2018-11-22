@@ -49,9 +49,9 @@
             <hr>
 
             <div class="tf-flex mb-3">                        
-                <a href="#" class="btn btn-primary btn-sm btn-block col">
-                  <i class="fa fa-calendar-check"></i>&nbsp; Make Appointment</a>
-                <span>&nbsp;</span>
+                <a href="#" class="btn btn-primary btn-sm btn-block col" data-toggle="modal" data-target="#appointmentForm" title="Book Appointment">
+                  <i class="fa fa-calenda r-check"></i>&nbsp; Make Appointment
+                </a>
             </div>
 
         </div>
@@ -274,6 +274,146 @@
         </div>
       </div>
     @endif
+
+    <div class="modal" tabindex="-1" role="dialog" id="appointmentForm" style="display:none;" aria-labelledby="appointmentFormLabel" aria-hidden="true">
+      <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content px-0 pb-0 bg-transparent shadow-none">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 5px 15px 0px;margin:10px auto -25px">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <br>
+          <div class="modal-body">
+
+            <div class="card card-primary card-outline text-center shadow">
+              <div class="card-header">
+                <div class="card-title">
+                  <i class="fa fa-tags"></i> {{$doctor->user->name}}
+
+                  <br>
+                  <span style="font-size:14px;font-weight:bold;">
+                    <i class="fa fa-user-md red"></i> {{$doctor->specialty->name}}
+
+                    <br>
+
+                    {{$doctor->about}}
+                  </span>
+                </div>
+              </div>
+
+              <div class="card-body">
+
+                <form action="{{ route('appointments.store') }}" method="post">
+                  {{ csrf_field() }}  
+                    
+                  <div class="form-group text-center">
+                    <div class="row">
+
+                      <div class="col-md-6">
+                        <label for="type">Type</label>
+                        <select value="{{old('type')}}" class="form-control{{ $errors->has('type') ? ' is-invalid' : '' }}" required>
+                          <option value="Online">Online</option>
+                          <option value="Home">Home</option>
+                        </select>
+
+                        @if ($errors->has('type'))
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $errors->first('type') }}</strong>
+                            </span>
+                        @endif                    
+                      </div>
+
+                      <div class="col-md-6">
+                        <label for="day">Select Day</label>
+                        <input type="hidden" name="doctor_id" value="{{$doctor->id}}">
+                        <input type="date" name="day" value="{{old('day')}}" placeholder="yyyy-mm-dd" pattern="" id="day" class="form-control{{ $errors->has('day') ? ' is-invalid' : '' }}" required>
+
+                        @if ($errors->has('day'))
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $errors->first('day') }}</strong>
+                            </span>
+                        @endif   
+                      </div>
+                    </div>
+                  </div> 
+
+                  <div class="form-group text-center">
+                    <div class="row">
+
+                      <div class="col-md-6">
+                        <label for="from_time">Schedule time start</label>
+                        <input type="time" name="from_time" minlength="8" maxlength="8" value="{{old('from_time')}}" placeholder="hh:mm:ss" pattern="" id="from_time" class="form-control{{ $errors->has('from_time') ? ' is-invalid' : '' }}" required>
+
+                        @if ($errors->has('from_time'))
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $errors->first('from_time') }}</strong>
+                            </span>
+                        @endif
+                      </div>
+                      <div class="col-md-6">
+                        <label for="to_time">Schedule time end</label>
+                        <input type="time" name="to_time" minlength="8" maxlength="8" value="{{old('to_time')}}" placeholder="hh:mm:ss" pattern="" id="to_time" class="form-control{{ $errors->has('to_time') ? ' is-invalid' : '' }}" required>
+
+                        @if ($errors->has('to_time'))
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $errors->first('to_time') }}</strong>
+                            </span>
+                        @endif                    
+                      </div>
+                    </div>
+                  </div> 
+
+                  <fieldset class="p-2 border-1">
+                    <legend class="h5">Home Visitation</legend>
+
+                    <div class="form-group text-center">
+                      <label for="address">Address</label>
+                      <input type="text" name="address" maxlength="255" value="{{old('address')}}" placeholder="address for home visit" id="address" class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" {{-- required --}}>
+
+                      @if ($errors->has('address'))
+                          <span class="invalid-feedback" role="alert">
+                              <strong>{{ $errors->first('address') }}</strong>
+                          </span>
+                      @endif
+                    </div>
+
+                    <div class="form-group text-center">
+                      <label for="phone">Phone Contact</label>
+                      <input type="tel" name="phone" maxlength="255" value="{{old('phone')}}" placeholder="phone for home visit" id="phone" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" {{-- required --}}>
+
+                      @if ($errors->has('phone'))
+                          <span class="invalid-feedback" role="alert">
+                              <strong>{{ $errors->first('phone') }}</strong>
+                          </span>
+                      @endif
+                    </div>
+                  </fieldset>
+
+                  <div class="form-group text-center">
+                    <textarea name="patient_info" id="patient_info" style="min-height: 120px;max-height: 150px;" placeholder="write your intention for booking an appointment with {{$doctor->user->name}}" class="form-control{{ $errors->has('patient_info') ? ' is-invalid' : '' }}" required>{{old('patient_info')}}</textarea>
+
+                    @if ($errors->has('patient_info'))
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $errors->first('patient_info') }}</strong>
+                        </span>
+                    @endif
+                  </div> 
+
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-image"></i> Submit</button>
+                  </div>
+                </form> 
+
+              </div>
+
+              <div class="card-footer">
+                <span class="text-danger"><b>Make sure your medical history is properly created in your profile.</b></span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
 @endsection
