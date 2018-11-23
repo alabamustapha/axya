@@ -67,6 +67,16 @@
   .border-top { border-top: 1px solid #e5e5e5; }
   .border-bottom { border-bottom: 1px solid #e5e5e5; }
   
+
+@supports ((position: -webkit-sticky) or (position: sticky)) {
+  .sticky-bottom {
+    position: -webkit-sticky;
+    position: sticky;
+    bottom: 0;
+    z-index: 1020;
+  }
+}
+
 [v-cloak] { display:none; }
 
 .profile-img{
@@ -194,4 +204,16 @@
 .container-fluid {
     padding-right: 5px;
     padding-left: 5px;
+}
+
+.direct-chat-messages {
+  /* padding: 10px;*/
+  height: 100%; 
+}
+
+.pull-right {
+  float: right;
+}
+.pull-left {
+  float: left;
 }

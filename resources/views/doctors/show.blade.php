@@ -57,8 +57,11 @@
         </div>
         <div class="col-md-9">
           <h1>
-            {{$doctor->user->name}}
-            <span {{$doctor->availabilityText()}}></span>
+            {{$doctor->user->name}} 
+            <small style="font-size: 14px;" class="badge badge-secondary badge-pill">
+              $100.00 / hour{{--$doctor->rate--}}
+            </small>
+            <span class="{{$doctor->availabilityText()}}"></span>
           </h1>
           <span class="h6">
             <ul class="list-unstyled">
@@ -288,14 +291,15 @@
               <div class="card-header">
                 <div class="card-title">
                   <i class="fa fa-tags"></i> {{$doctor->user->name}}
-
                   <br>
+
                   <span style="font-size:14px;font-weight:bold;">
                     <i class="fa fa-user-md red"></i> {{$doctor->specialty->name}}
-
                     <br>
 
-                    {{$doctor->about}}
+                    <span class="badge badge-secondary badge-pill">
+                      <b>$100.00 / hour</b>{{--$doctor->rate--}}
+                    </span>
                   </span>
                 </div>
               </div>
@@ -310,9 +314,10 @@
 
                       <div class="col-md-6">
                         <label for="type">Type</label>
-                        <select value="{{old('type')}}" class="form-control{{ $errors->has('type') ? ' is-invalid' : '' }}" required>
-                          <option value="Online">Online</option>
-                          <option value="Home">Home</option>
+                        <select name="type" class="form-control{{ $errors->has('type') ? ' is-invalid' : '' }}" required>
+                          <option value="">Appointment Type</option>
+                          <option value="Online" {{old('type') == 'Online' ? 'selected':''}}>Online</option>
+                          <option value="Home" {{old('type') == 'Home' ? 'selected':''}}>Home</option>
                         </select>
 
                         @if ($errors->has('type'))
@@ -340,22 +345,22 @@
                     <div class="row">
 
                       <div class="col-md-6">
-                        <label for="from_time">Schedule time start</label>
-                        <input type="time" name="from_time" minlength="8" maxlength="8" value="{{old('from_time')}}" placeholder="hh:mm:ss" pattern="" id="from_time" class="form-control{{ $errors->has('from_time') ? ' is-invalid' : '' }}" required>
+                        <label for="from">Schedule time start</label>
+                        <input type="time" name="from" minlength="8" maxlength="8" value="{{old('from')}}" placeholder="hh:mm:ss" pattern="" id="from" class="form-control{{ $errors->has('from') ? ' is-invalid' : '' }}" required>
 
-                        @if ($errors->has('from_time'))
+                        @if ($errors->has('from'))
                             <span class="invalid-feedback" role="alert">
-                                <strong>{{ $errors->first('from_time') }}</strong>
+                                <strong>{{ $errors->first('from') }}</strong>
                             </span>
                         @endif
                       </div>
                       <div class="col-md-6">
-                        <label for="to_time">Schedule time end</label>
-                        <input type="time" name="to_time" minlength="8" maxlength="8" value="{{old('to_time')}}" placeholder="hh:mm:ss" pattern="" id="to_time" class="form-control{{ $errors->has('to_time') ? ' is-invalid' : '' }}" required>
+                        <label for="to">Schedule time end</label>
+                        <input type="time" name="to" minlength="8" maxlength="8" value="{{old('to')}}" placeholder="hh:mm:ss" pattern="" id="to" class="form-control{{ $errors->has('to') ? ' is-invalid' : '' }}" required>
 
-                        @if ($errors->has('to_time'))
+                        @if ($errors->has('to'))
                             <span class="invalid-feedback" role="alert">
-                                <strong>{{ $errors->first('to_time') }}</strong>
+                                <strong>{{ $errors->first('to') }}</strong>
                             </span>
                         @endif                    
                       </div>

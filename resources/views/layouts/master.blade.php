@@ -10,8 +10,9 @@
     <title>{{ config('app.name') }} - @yield ('title')</title>
 
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
-    <link rel="stylesheet" href="{{asset('css/all.css')}}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{asset('css/all.css')}}">
+    <link rel="stylesheet" href="{{asset('css/custom/override.css')}}">
       <script>
         @auth
           window.user = @json(auth()->user());
@@ -39,15 +40,17 @@
           <div class="container">
             <div class="col bg-white p-0 pt-2 mt-0 text-center">
               @auth
-                @if (Auth::user()->isAccountOwner())
-                    <h4>
-                      @if (Auth::user()->is_doctor == '0')
-                        Are you a <i class="fa fa-user-md"></i> Medical Doctor? 
-                        <a class="btn btn-success btn-lg" href="{{route('doctors.create')}}">Register Here!</a>
-                      @else
-                        {{ Auth::user()->professionalStatus() }}
-                      @endif
-                    </h4>
+                @if (! Request::is('appointments/*'))
+                  @if (Auth::user()->isAccountOwner())
+                      <h4>
+                        @if (Auth::user()->is_doctor == '0')
+                          Are you a <i class="fa fa-user-md"></i> Medical Doctor? 
+                          <a class="btn btn-success btn-lg" href="{{route('doctors.create')}}">Register Here!</a>
+                        @else
+                          {{ Auth::user()->professionalStatus() }}
+                        @endif
+                      </h4>
+                  @endif
                 @endif
               @endauth
 
@@ -88,10 +91,10 @@
         </div>
       </div>
 
-      <footer class="main-footer">
+      {{-- <footer class="main-footer">
         <!-- Default to the left -->
-        {{-- <strong>Copyright &copy; 2014-{{date('Y')}} <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved. --}}
-      </footer>
+        <strong>Copyright &copy; 2014-{{date('Y')}} <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+      </footer> --}}
 
       <vue-progress-bar></vue-progress-bar>
     </div>

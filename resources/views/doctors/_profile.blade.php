@@ -23,6 +23,8 @@
                             </small>
                             <span>&nbsp;{{random_int(1,5)}}({{random_int(10,100)}})</span>
                         </span>
-                        <a href="#" class="btn btn-primary btn-sm btn-block"><i class="fa fa-calendar-check"></i>&nbsp; Make Appointment</a>
+                        <a href="{{route('doctors.show', $doctor)}}" class="btn btn-primary btn-sm btn-block" title="View Profile and Make Appointment">
+                            <i class="fa fa-user-check"></i>&nbsp; View Profile
+                        </a>
                     </div>
                 </div>

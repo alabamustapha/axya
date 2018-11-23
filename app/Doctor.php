@@ -144,8 +144,8 @@ class Doctor extends Model
     public function availabilityText()
     {
       echo $this->is_active()
-              ? 'class="available" title="Avaialble for appointments"'
-              : 'class="unavailable" title="Unavaialble for appointments"'
+              ? 'available'
+              : 'unavailable'
               ;
     }
 

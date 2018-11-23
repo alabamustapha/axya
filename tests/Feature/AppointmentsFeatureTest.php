@@ -33,6 +33,7 @@ class AppointmentsFeatureTest extends TestCase
             'address'     => $this->faker->address,
 
             'user_id'     => $this->user2->id,
+            'slug'        => $this->user2->slug,
             'doctor_id'   => $this->doctor->id,
             'patient_info'=> $this->faker->sentence,
 

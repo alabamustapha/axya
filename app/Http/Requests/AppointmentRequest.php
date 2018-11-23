@@ -58,10 +58,15 @@ class AppointmentRequest extends FormRequest
     public function messages()
     {
         return [
-            'doctor_id.required'    => 'A doctor must be selected.',
-            'doctor_id.exists'      => 'A valid doctor must be selected.',
-            'from.date_format' => 'The start of an appointment must be in the format: 08:23 AM.',
-            'to.date_format'   => 'The end of a schedule must be in the format: 10:23 PM.',
+            'doctor_id.required' => 'A doctor must be selected.',
+            'doctor_id.exists'   => 'A valid doctor must be selected.',
+
+            'from.required'      => 'The appointment start time is required.',
+            'from.date_format'   => 'The appointment start time must be in the format: 10:23 PM.',
+
+            'to.required'        => 'The appointment end time is required.',
+            'to.date_format'     => 'The appointment end time must be in the format: 10:23 PM.',
+            'to.after'           => 'The appointment end time must be a time after start time. It might be a wrong AM/PM.',
         ];
     }
 }

@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'User Appointmnents Index')
+@section('title', 'User Appointments Index')
 
 @section('content')
 
@@ -35,7 +35,11 @@
         @foreach($appointments as $appointment)
         <tr>
             <td>{{$appointment->day}} </td>
-            <td>{{$appointment->statusText()}} </td>
+            <td>
+                <a href="{{route('appointments.show', $appointment)}}" style="color:inherit;">
+                    {{$appointment->statusText()}}
+                </a>
+            </td>
             <td>
                 <a href="{{route('doctors.show', $appointment->doctor)}}" style="color:inherit;">{{$appointment->doctor->user->name}}</a>
             </td>

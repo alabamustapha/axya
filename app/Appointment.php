@@ -3,15 +3,42 @@
 namespace App;
 
 use Carbon\Carbon;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 
 class Appointment extends Model
 {
+    use Sluggable;
+
     protected $dates = ['day','sealed_at'];
 
     protected $fillable = [
-      'status','user_id','doctor_id','day','from','to','patient_info','sealed_at','type','address','phone'
+      'status','slug','user_id','doctor_id','day','from','to','patient_info','sealed_at','type','address','phone'
     ];
+
+    /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source'    => ['day', 'user.slug'],
+                'maxLength' => 50,
+            ]
+        ];
+    }
+
+    /**
+     * Route key
+     * 
+     * @return string
+     */
+    public function getRouteKeyName(){
+        return 'slug';
+    }
 
     public function documents()
     {
@@ -38,7 +65,7 @@ class Appointment extends Model
     public static $appointmentStatus = array(
         0 => '<span class="indigo"><i class="fa fa-info-circle"></i>&nbsp; Awaiting doctor\'s confirmation</span>',
 
-        1 => 'Success',
+        1 => '<span class="teal"><i class="fa fa-info-circle teal"></i>&nbsp; Success</span>',
 
         2 => 'Confirmed, not completed',
 
@@ -50,14 +77,16 @@ class Appointment extends Model
 
         6 => '<span class="red"><i class="fa fa-info-circle red"></i>&nbsp; Cancelled</span>',
         
-        7 => '<span class="red"><i class="fa fa-info-circle red"></i>&nbsp; Something fishy</span>'
+        7 => '<span class="teal"><i class="fa fa-info-circle red"></i>&nbsp; Re-opened</span>',
+
+        8 => '<span class="red"><i class="fa fa-info-circle red"></i>&nbsp; Something fishy</span>'
     );
 
     // If the status code is not in the provided list above return the default '0'.
     public function statusText() 
     {
         $status = ($this->status > (sizeof(self::$appointmentStatus) - 1) || $this->status < 0) 
-                    ? 7 
+                    ? (sizeof(self::$appointmentStatus) + 1) // 8
                     : $this->status
                     ;
 
