@@ -110,6 +110,10 @@ class User extends Authenticatable implements MustVerifyEmail
             : !is_null($this->email_verified_at)
             ;
     }
+    public function isSuspended()
+    {
+        return $this->blocked == '1';
+    }
 
     /**
      * Is a male user.
@@ -320,6 +324,7 @@ class User extends Authenticatable implements MustVerifyEmail
               </small>'
     );
 
+    // If the status code is not in the provided list above return the default '0'.
     public function professionalStatus() 
     {
         $status = ($this->is_doctor > (sizeof(self::$professionalStatus) - 1) || $this->is_doctor < 0) 
@@ -395,6 +400,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function doctor()
     {
         return $this->hasOne(Doctor::class);
+    }
+
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
     }
 
     public function doctors()

@@ -21,4 +21,8 @@
     @else
       <li class="breadcrumb-item"><a href="{{ route('tags.index') }}">Tags</a></li>
     @endif
+    
+    @auth
+      <li class="breadcrumb-item"><a href="{{ route('appointments.index') }}">Appointments</a></li>
+    @endauth
   </ol>

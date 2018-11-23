@@ -66,4 +66,10 @@ class UsersTest extends TestCase
     {
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->user->doctors); 
     }
+
+    /** @test */
+    public function a_user_has_many_appointments()
+    {
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->user->appointments); 
+    }
 }

@@ -26,7 +26,7 @@ class DocumentRequest extends FormRequest
         // https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types
         return [
             'user_id'           => 'required|integer|exists:users,id',
-            'name'              => 'nullable|string'
+            'name'              => 'nullable|string',
             'description'       => 'nullable|string',
             'url'               => 'required|file|max:2000|mimetypes:application/pdf,image/png,image/jpeg,video/mp4|mimes:pdf,jpeg,png,mp4',// docx/video/ mp4?etc
             'documentable_id'   => 'required|integer',

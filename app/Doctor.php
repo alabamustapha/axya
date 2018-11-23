@@ -37,6 +37,11 @@ class Doctor extends Model
         return $this->morphMany(Document::class, 'documentable');
     }
 
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
+    }
+
     public function workplaces()
     {
         return $this->hasMany(Workplace::class);
@@ -139,8 +144,8 @@ class Doctor extends Model
     public function availabilityText()
     {
       echo $this->is_active()
-              ? 'class="available" title="Avaialble for appointments"'
-              : 'class="unavailable" title="Unavaialble for appointments"'
+              ? 'available'
+              : 'unavailable'
               ;
     }
 
