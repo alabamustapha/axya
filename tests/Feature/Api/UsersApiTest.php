@@ -16,8 +16,8 @@ class UsersApiTest extends TestCase
     {
         parent::setUp();
 
-        $this->user       = factory(User::class)->create();
-        $this->superadmin = factory(User::class)->create([ 'acl' => '5', ]);
+        $this->user       = factory(User::class)->create([ 'acl' => '3', ]);
+        $this->superadmin = factory(User::class)->create([ 'acl' => '5', 'email_verified_at' => '1995-05-05', ]);
     }
 
     /** @test */
@@ -73,22 +73,25 @@ class UsersApiTest extends TestCase
         $this
             ->actingAs($this->superadmin, 'api')
             ->get(route('users_api.show', $this->user))
+            ->assertStatus(200)
             ->assertSee($this->user->name)
             ->assertSee($this->user->age())
             ;
     }
 
-    // /** @test */
-    // public function show__non_account_owners_cannot_see_other_users_profile() 
-    // {
-    //     $other_user = factory(User::class)->create();
+    /** @test */
+    public function show__non_admins_non_account_owners_cannot_see_other_users_profile() 
+    {
+        $other_user = factory(User::class)->create();
 
-    //     $this
-    //         ->actingAs($this->user, 'api')
-    //         ->get(route('users_api.show', $other_user))
-    //         ->assertStatus(403)
-    //         ;
-    // }
+        $this
+            ->actingAs($other_user, 'api')
+            ->get(route('users_api.show', $this->user))
+            ->assertStatus(401)
+            ->assertDontSee($this->user->name)
+            ->assertDontSee($this->user->age())
+            ;
+    }
      
     // /** @test */
     // public function delete_a_user_can_be_destroyed()

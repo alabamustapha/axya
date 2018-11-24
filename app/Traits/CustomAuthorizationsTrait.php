@@ -32,6 +32,18 @@ trait CustomAuthorizationsTrait
             throw new ResourceAdministrationException;
         }
     }
+    public function canViewUser(User $user)
+    {
+        if (
+            (auth()->id() !== $user->id) 
+            && ! auth()->user()->isAdmin()
+            /* && (! auth()->user()->inPastAttendantDoctors())*/
+           ) 
+        {
+            throw new ResourceAdministrationException;
+        }
+    }
+
 
     /** ~~~~~~~ Doctor-API*/
     public function canEditDoctor(Doctor $doctor)

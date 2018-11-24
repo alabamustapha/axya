@@ -21,7 +21,7 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('patient'); // Prevents viewing a user's profile
+        $this->middleware('patient'); // Prevents viewing another user's profile
         $this->middleware('verified')->only(['changePassword']);
     }
 
