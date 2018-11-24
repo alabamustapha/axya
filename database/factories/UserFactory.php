@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Faker\Generator as Faker;
 
 /*
@@ -33,12 +34,47 @@ $factory->define(App\User::class, function (Faker $faker) {
         'allergies' => $faker->words(2,5),
         'chronics'  => $faker->sentences(1,4),
 
-        // AUthorization Details
+        // Authorization Details
         'acl'       => $faker->randomElement([1,2,3,5]),
         'is_doctor' => $faker->boolean(35),
         'blocked'   => $faker->boolean(15),
 
         // Other Details
         // 'email_verified_at
+    ];
+});
+
+$factory->state(App\User::class, 'verified', function (Faker $faker) {
+    return [
+        'acl' => '3',
+        'email_verified_at' => Carbon::parse('-1 day'), 
+    ];
+});
+
+$factory->state(App\User::class, 'unverified', function (Faker $faker) {
+    return [
+        'acl' => '3',
+        'email_verified_at' => null, 
+    ];
+});
+
+$factory->state(App\User::class, 'staff', function (Faker $faker) {
+    return [
+        'acl' => '2',
+        'email_verified_at' => Carbon::parse('-1 day'),
+    ];
+});
+
+$factory->state(App\User::class, 'admin', function (Faker $faker) {
+    return [
+        'acl' => '1',
+        'email_verified_at' => Carbon::parse('-1 day'),
+    ];
+});
+
+$factory->state(App\User::class, 'superadmin', function (Faker $faker) {
+    return [
+        'acl' => '5',
+        'email_verified_at' => Carbon::parse('-1 day'),
     ];
 });

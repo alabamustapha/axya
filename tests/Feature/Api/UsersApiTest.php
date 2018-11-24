@@ -16,8 +16,9 @@ class UsersApiTest extends TestCase
     {
         parent::setUp();
 
-        $this->user       = factory(User::class)->create([ 'acl' => '3', ]);
-        $this->superadmin = factory(User::class)->create([ 'acl' => '5', 'email_verified_at' => '1995-05-05', ]);
+        $this->user       = factory(User::class)->create();
+        $this->verfd_user = factory(User::class)->states('verified')->create();
+        $this->superadmin = factory(User::class)->states('superadmin')->create();
     }
 
     /** @test */
@@ -92,6 +93,31 @@ class UsersApiTest extends TestCase
             ->assertDontSee($this->user->age())
             ;
     }
+     
+    // /** @test */
+    // public function update__a_user_doctor_slug_is_updated_when_name_is_updated()
+    // {
+    //     // $doctor_user = factory(User::class)->create();
+    //     // $doctor = factory(Doctor::class)->create([
+    //     //     'user_id' => $doctor_user->id',
+    //     //     'slug' => $doctor_user->slug
+    //     // ]);
+    
+    //     // Update User name
+        
+    //     $this->actingAs($this->user);
+    //     $update_data = [
+    //         'name' => 'Jason Doe',
+    //         'slug' => str_slug('Jason Doe'), ];
+
+    //     $this
+    //         ->update(route('users_api.update', $name))
+    //         ->assertStatus(204)
+    //         ;
+
+    //     $this->assertDatabaseHas('users', ['slug' => $this->user->slug]);
+    //     $this->assertDatabaseHas('doctors', ['slug' => $this->doctor->slug]);
+    // }
      
     // /** @test */
     // public function delete_a_user_can_be_destroyed()

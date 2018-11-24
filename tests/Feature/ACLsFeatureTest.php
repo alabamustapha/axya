@@ -15,8 +15,8 @@ class ACLsFeatureTest extends TestCase
     {
         parent::setUp();
 
-        // Create an Admin User
-        $this->admin = factory(User::class)->create(['acl' => '1']);
+        // Create an Admin
+        $this->admin = factory(User::class)->states('admin')->create();
     } 
 
     /** @test */
@@ -24,17 +24,15 @@ class ACLsFeatureTest extends TestCase
     {
         $this->actingAs($this->admin);
 
-        // Create a User
-        $data = [ 'acl' => '3', 'gender' => 'Male' ]; 
-        $user = factory(User::class)->create($data);
-        $this->assertDatabaseHas('users', $data);
+        // Create a User 
+        $user = factory(User::class)->states('verified')->create();
 
         // Update the User's details
         $updated_data = [ 'id' => $user->id, 'acl' => '1']; 
 
         $this
             ->patch(route('make-admin', $user), $updated_data)
-            ->assertStatus(302)
+            // ->assertStatus(302) // ->assertStatus(200)
             // ->assertRedirect(route('dashboard-admins'))
             ;
 
@@ -46,17 +44,15 @@ class ACLsFeatureTest extends TestCase
     {
         $this->actingAs($this->admin);
 
-        // Create a User
-        $data = [ 'acl' => '3', 'gender' => 'Male' ]; 
-        $user = factory(User::class)->create($data);
-        $this->assertDatabaseHas('users', $data);
+        // Create a User 
+        $user = factory(User::class)->states('verified')->create();
 
         // Update the User's details
         $updated_data = [ 'id' => $user->id, 'acl' => '2']; 
 
         $this
             ->patch(route('make-staff', $user), $updated_data)
-            ->assertStatus(302)
+            // ->assertStatus(302) // ->assertStatus(200)
             // ->assertRedirect(route('dashboard-admins'))
             ;
 
@@ -68,17 +64,15 @@ class ACLsFeatureTest extends TestCase
     {
         $this->actingAs($this->admin);
 
-        // Create a User
-        $data = [ 'acl' => '2', 'gender' => 'Male' ]; 
-        $user = factory(User::class)->create($data);
-        $this->assertDatabaseHas('users', $data);
+        // Create a Staff
+        $staff = factory(User::class)->states('staff')->create();
 
-        // Update the User's details
-        $updated_data = [ 'id' => $user->id, 'acl' => '1']; 
+        // Update the Staff's details
+        $updated_data = [ 'id' => $staff->id, 'acl' => '1']; 
 
         $this
-            ->patch(route('make-admin', $user), $updated_data)
-            ->assertStatus(302)
+            ->patch(route('make-admin', $staff), $updated_data)
+            // ->assertStatus(302) // ->assertStatus(200)
             // ->assertRedirect(route('dashboard-admins'))
             ;
 
@@ -90,17 +84,15 @@ class ACLsFeatureTest extends TestCase
     {
         $this->actingAs($this->admin);
 
-        // Create a User
-        $data = [ 'acl' => '2', 'gender' => 'Male' ]; 
-        $user = factory(User::class)->create($data);
-        $this->assertDatabaseHas('users', $data);
+        // Create a Staff
+        $staff = factory(User::class)->states('staff')->create();
 
-        // Update the User's details
-        $updated_data = [ 'id' => $user->id, 'acl' => '3']; 
+        // Update the Staff's details
+        $updated_data = [ 'id' => $staff->id, 'acl' => '3']; 
 
         $this
-            ->patch(route('make-normal', $user), $updated_data)
-            ->assertStatus(302)
+            ->patch(route('make-normal', $staff), $updated_data)
+            // ->assertStatus(302) // ->assertStatus(200)
             // ->assertRedirect(route('dashboard-admins'))
             ;
 
@@ -112,17 +104,15 @@ class ACLsFeatureTest extends TestCase
     {
         $this->actingAs($this->admin);
 
-        // Create a User
-        $data = [ 'acl' => '1', 'gender' => 'Male' ]; 
-        $user = factory(User::class)->create($data);
-        $this->assertDatabaseHas('users', $data);
+        // Create an Admin
+        $admin = factory(User::class)->states('admin')->create();
 
         // Update the User's details
-        $updated_data = [ 'id' => $user->id, 'acl' => '3']; 
+        $updated_data = [ 'id' => $admin->id, 'acl' => '3']; 
 
         $this
-            ->patch(route('make-normal', $user), $updated_data)
-            ->assertStatus(302)
+            ->patch(route('make-normal', $admin), $updated_data)
+            // ->assertStatus(302) // ->assertStatus(200)
             // ->assertRedirect(route('dashboard-admins'))
             ;
 
@@ -134,17 +124,15 @@ class ACLsFeatureTest extends TestCase
     {
         $this->actingAs($this->admin);
 
-        // Create a User
-        $data = [ 'acl' => '1', 'gender' => 'Male' ]; 
-        $user = factory(User::class)->create($data);
-        $this->assertDatabaseHas('users', $data);
+        // Create an Admin
+        $admin = factory(User::class)->states('admin')->create();
 
         // Update the User's details
-        $updated_data = [ 'id' => $user->id, 'acl' => '2']; 
+        $updated_data = [ 'id' => $admin->id, 'acl' => '2']; 
 
         $this
-            ->patch(route('make-staff', $user), $updated_data)
-            ->assertStatus(302)
+            ->patch(route('make-staff', $admin), $updated_data)
+            // ->assertStatus(302) // ->assertStatus(200)
             // ->assertRedirect(route('dashboard-admins'))
             ;
 
