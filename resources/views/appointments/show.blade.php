@@ -3,20 +3,21 @@
 @section('title', 'Appointment - '. $appointment->day)
 
 @section('content')
-<div class="d-block m-auto text-center">
-
-  <div class="row">
-    <div class="text-left shadow-lg mx-0 px-3 pt-3 pb-0 mb-3">
-      <h2>{{$appointment->statusText()}}</h2>
-      <hr>
-       <p>{{$appointment->patient_info}}</p>
-    </div>
-  </div>
-</div>
 
 <div class="container-fluid">
   <div class="row">
     <div class="col-sm-4 bg-primary text-secondary p-2" style="max-height: 80vh;display: block;overflow-y: scroll;">
+
+      <div class="d-block m-auto text-center bg-white">
+
+        {{-- <div class="row"> --}}
+          <div class="text-left shadow-lg p-3 mb-3">
+            <h4>{{$appointment->statusText()}}</h4>
+            <hr>
+             <p>{{$appointment->patient_info}}</p>
+          </div>
+        {{-- </div> --}}
+      </div>
 
       <div class="card">
         <div class="card-header bg-primary text-center p-2 mb-0">

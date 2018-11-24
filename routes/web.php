@@ -60,7 +60,7 @@ Route::get('{user}/avatar-delete', 'UserController@avatarDelete')->name('user.av
 Route::get('image/{image}', 'ImageController@destroy')->name('image.destroy');
 //!---- IMAGE UPLOADS RELATED ---------------->
 
-Route::get('user-dashboard', function(){return view('users.dashboard');})->name('user_dashboard')->middleware('auth');
+Route::get('user-dashboard', 'PatientController@dashboard')->name('user_dashboard');
 Route::get('admin-dashboard', function(){return view('admin.dashboard');})->name('admin_dashboard')->middleware('auth');
 
 Route::patch('/{user}/allergies',  'UserController@updateAllergies')->name('allergies.update');
