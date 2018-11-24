@@ -6,6 +6,7 @@ use App\Http\Requests\UserUpdateRequest;
 use App\Notifications\AccountVerificationNotification;
 use App\Notifications\PasswordChangeNotification;
 use App\Traits\ImageProcessing;
+use App\Traits\CustomSluggableTrait;
 use App\User;
 use App\Image;
 use Carbon\Carbon;
@@ -16,7 +17,7 @@ use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
-    use ImageProcessing;
+    use ImageProcessing, CustomSluggableTrait;
 
     public function __construct()
     {
@@ -60,8 +61,10 @@ class UserController extends Controller
     {
         $this->authorize('edit', $user);
 
+        $this->updateSlug($request, $user);
+
         $user->update($request->all());
-        
+
         flash('Profile updated successfully')->success();
 
         return redirect()->route('users.show', $user);
