@@ -20,8 +20,7 @@ class AdminMiddleware
             return $next($request);
         }
         
-        return abort(403);//return redirect()->route('home');//
-
+        return abort(403);
     } 
 }
 

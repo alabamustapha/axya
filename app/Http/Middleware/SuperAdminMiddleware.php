@@ -19,6 +19,6 @@ class SuperAdminMiddleware
         if (Auth::check() && Auth::user()->isSuperAdmin()) {
             return $next($request);
         }
-        return redirect()->route('home');//return abort(404);
+        return abort(403);
     }
 }

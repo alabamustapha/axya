@@ -35,7 +35,7 @@
                         <div class="d-flex flex-row justify-content-between w-100">
                           <a class="users-list-name":href="doctor.link">{{doctor.user.name}}</a>
 
-                          <div v-if="$acl.isAdmin()"><!--  -->
+                          <div v-if="$acl.isSuperAdmin()"><!--  -->
                             <button id="navbarDropdown" class="btn btn-sm dropdown-toggle d-inline" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-cog"></i>
                             </button>
