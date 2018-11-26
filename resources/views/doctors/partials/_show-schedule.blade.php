@@ -1,4 +1,4 @@
-<tr>
+                    
                       <td class="w-100">
 
                         <!-- The Sub Template Section-->
@@ -40,4 +40,3 @@
                           </div>
                         </schedule>
                       </td>
-                    </tr>

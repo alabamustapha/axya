@@ -70,7 +70,7 @@ class DoctorController extends Controller
         if ($doctor->save()) {
             // Add a new entry into doctor_specialty intermediate table;
             // $doctor->specialties()->sync($appl->specialty_id);
-            $doctor->user->updateRegistrationStatus('accepted_not_subscribed');
+            $doctor->user->updateApplicationStatus('accepted_not_subscribed');
         }
 
         // // Schedule data for 7 days of the week.

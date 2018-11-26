@@ -36,7 +36,7 @@ class ScheduleRequest extends FormRequest
                 'end_at'    => 'required',])
             : array_merge($rules, [
                 'start_at'  => 'required|date_format:H:i:s',
-                'end_at'    => 'required|date_format:H:i:s',
+                'end_at'    => 'required|date_format:H:i:s|after:start_at',
             ]);
 
         return $rules;
@@ -52,6 +52,7 @@ class ScheduleRequest extends FormRequest
         return [
             'start_at.date_format' => 'The start of a schedule must be in the format: 18:23:00 and must be between 00:00:00 to 23:59:59.',
             'end_at.date_format'   => 'The end of a schedule must be in the format: 18:23:00 and must be between 00:00:00 to 23:59:59.',
+            'end_at.after' => 'The end time must be after the start time',
         ];
     }
 }
