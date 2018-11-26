@@ -8,6 +8,7 @@ use App\Http\Requests\UserUpdateRequest;
 use App\Http\Resources\User\UserResource;
 use App\Notifications\PasswordChangeNotification;
 use App\Traits\CustomAuthorizationsTrait;
+use App\Traits\CustomSluggableTrait;
 use App\Traits\ImageProcessing;
 use App\User;
 use Illuminate\Http\Request;
@@ -16,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
-    use CustomAuthorizationsTrait, ImageProcessing;
+    use CustomAuthorizationsTrait, ImageProcessing, CustomSluggableTrait;
 
     public function __construct()
     {
@@ -91,6 +92,8 @@ class UserController extends Controller
         $user = User::whereSlug($slug)->firstOrFail();
 
         $this->canEditUser($user);
+
+        $this->updateSlug($request, $user);
 
         $user->update($request->all());
 

@@ -17,7 +17,7 @@ class ApplicationController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('admin')->only('index');
+        $this->middleware('admin')->only('index','showFile');
         $this->middleware('application')->only('store');
         $this->middleware('verified');
     }

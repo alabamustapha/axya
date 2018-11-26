@@ -15,14 +15,14 @@ class ACLsFeatureTest extends TestCase
     {
         parent::setUp();
 
-        // Create an Admin
-        $this->admin = factory(User::class)->states('admin')->create();
+        // Create a Super Admin
+        $this->superadmin = factory(User::class)->states('superadmin')->create();
     } 
 
     /** @test */
     public function update_a_normal_user_can_be_updated_to_admin()
     {
-        $this->actingAs($this->admin);
+        $this->actingAs($this->superadmin);
 
         // Create a User 
         $user = factory(User::class)->states('verified')->create();
@@ -42,7 +42,7 @@ class ACLsFeatureTest extends TestCase
     /** @test */
     public function update_a_normal_user_can_be_updated_to_staff()
     {
-        $this->actingAs($this->admin);
+        $this->actingAs($this->superadmin);
 
         // Create a User 
         $user = factory(User::class)->states('verified')->create();
@@ -62,7 +62,7 @@ class ACLsFeatureTest extends TestCase
     /** @test */
     public function update_a_staff_can_be_upgraded_to_admin()
     {
-        $this->actingAs($this->admin);
+        $this->actingAs($this->superadmin);
 
         // Create a Staff
         $staff = factory(User::class)->states('staff')->create();
@@ -82,7 +82,7 @@ class ACLsFeatureTest extends TestCase
     /** @test */
     public function update_a_staff_can_be_demoted_to_normal_user()
     {
-        $this->actingAs($this->admin);
+        $this->actingAs($this->superadmin);
 
         // Create a Staff
         $staff = factory(User::class)->states('staff')->create();
@@ -102,7 +102,7 @@ class ACLsFeatureTest extends TestCase
     /** @test */
     public function update_an_admin_can_be_demoted_to_normal_user()
     {
-        $this->actingAs($this->admin);
+        $this->actingAs($this->superadmin);
 
         // Create an Admin
         $admin = factory(User::class)->states('admin')->create();
@@ -122,7 +122,7 @@ class ACLsFeatureTest extends TestCase
     /** @test */
     public function update_an_admin_can_be_demoted_to_staff()
     {
-        $this->actingAs($this->admin);
+        $this->actingAs($this->superadmin);
 
         // Create an Admin
         $admin = factory(User::class)->states('admin')->create();

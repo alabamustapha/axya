@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Doctor;
+use App\Specialty;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -17,7 +19,6 @@ class UsersApiTest extends TestCase
         parent::setUp();
 
         $this->user       = factory(User::class)->create();
-        $this->verfd_user = factory(User::class)->states('verified')->create();
         $this->superadmin = factory(User::class)->states('superadmin')->create();
     }
 
@@ -83,7 +84,7 @@ class UsersApiTest extends TestCase
     /** @test */
     public function show__non_admins_non_account_owners_cannot_see_other_users_profile() 
     {
-        $other_user = factory(User::class)->create();
+        $other_user = factory(User::class)->create([ 'acl' => '3', ]);
 
         $this
             ->actingAs($other_user, 'api')
@@ -94,30 +95,37 @@ class UsersApiTest extends TestCase
             ;
     }
      
-    // /** @test */
-    // public function update__a_user_doctor_slug_is_updated_when_name_is_updated()
-    // {
-    //     // $doctor_user = factory(User::class)->create();
-    //     // $doctor = factory(Doctor::class)->create([
-    //     //     'user_id' => $doctor_user->id',
-    //     //     'slug' => $doctor_user->slug
-    //     // ]);
+    /** @test */
+    public function update__a_user_doctor_slug_is_updated_when_name_is_updated()
+    {
+        $user       = factory(User::class)->states('verified')->create();
+        $specialty  = factory(Specialty::class)->create();
+        $doctor     = factory(Doctor::class)->create([
+            'user_id'  => $user->id,
+            'slug'     => $user->slug,
+            'specialty_id'=>$specialty->id
+        ]);
     
-    //     // Update User name
-        
-    //     $this->actingAs($this->user);
-    //     $update_data = [
-    //         'name' => 'Jason Doe',
-    //         'slug' => str_slug('Jason Doe'), ];
+        // Update User name 
+        $update_data = [
+            'name'   => 'Justina Doe',
+            'slug'   => str_slug('Justina Doe'), 
+            'gender' => 'Female',
+            'dob'    => '1990-09-09 00:00:00',
+        ];
 
-    //     $this
-    //         ->update(route('users_api.update', $name))
-    //         ->assertStatus(204)
-    //         ;
+        $this
+            ->actingAs($user, 'api')
+            ->patch(route('users_api.update', $user), $update_data)
+            ->assertStatus(200)
+            ;
 
-    //     $this->assertDatabaseHas('users', ['slug' => $this->user->slug]);
-    //     $this->assertDatabaseHas('doctors', ['slug' => $this->doctor->slug]);
-    // }
+        $this->assertDatabaseHas('users', $update_data);
+        $this->assertDatabaseHas('doctors', [
+            'id'   => $user->id,
+            'slug' => $update_data['slug']
+        ]);
+    }
      
     // /** @test */
     // public function delete_a_user_can_be_destroyed()
