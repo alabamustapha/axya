@@ -329,7 +329,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $status = ($this->application_status > (sizeof(self::$applicationStatus) - 1) || $this->application_status < 0) 
                     ? 0 
-                    : $this->application_status
+                    : intval($this->application_status)
                     ;
 
         echo self::$applicationStatus[$status];
@@ -350,9 +350,9 @@ class User extends Authenticatable implements MustVerifyEmail
         'rejected'  => 5,
     );
 
-    public function updateRegistrationStatus($code) 
+    public function updateApplicationStatus($code) 
     {
-        $this->is_doctor = self::$rStatus[$code];
+        $this->application_status = self::$rStatus[$code];
 
         if ($code == 'rejected') { $this->application_retry_at = Carbon::now()->addDays(7); }
 
@@ -361,7 +361,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function applicationIsRejected() 
     {
-        return $this->is_doctor == '5';
+        return $this->application_status == '5';
     }
     /*<!!!-------------- Update Doctor Application Status ---------------->*/
 

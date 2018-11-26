@@ -99,7 +99,7 @@ class ApplicationController extends Controller
         # Certificate uploads handled in ApplicationObserver@created
         
         if ($application->save()){
-            $application->user->updateRegistrationStatus('received');
+            $application->user->updateApplicationStatus('received');
 
             // Notify About Receipt
             $application->user->notify(new ApplicationReceivedNotification($application->user));
@@ -186,7 +186,7 @@ class ApplicationController extends Controller
             Storage::deleteDirectory($directory);
 
             if (! $application->user->isDoctor()){
-                $application->user->updateRegistrationStatus('rejected');
+                $application->user->updateApplicationStatus('rejected');
 
                 // Notify About Rejection
                 $application->user->notify(new ApplicationRejectedNotification($application->user));

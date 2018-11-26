@@ -11,7 +11,7 @@ class AppAdminController extends Controller
     {
         $this->middleware('auth');
         // $this->middleware('admin');
-        $this->middleware('superadmin')//->only('makeAdmin');
+        $this->middleware('superadmin'); //->only('makeAdmin');
     }
 
     public function makeAdmin(Request $request, User $user)

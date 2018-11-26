@@ -18,13 +18,13 @@ class AppointmentsFeatureTest extends TestCase
     {
         parent::setUp();
 
-        $this->user        = factory(User::class)->create(['email_verified_at' => '2018-10-10']);
+        $this->user        = factory(User::class)->states('verified')->create();
         $this->specialty   = factory(Specialty::class)->create();
         $this->doctor      = factory(Doctor::class)->create();
-        $this->appointment = factory(Appointment::class)->create();
+        $this->appointment = factory(Appointment::class)->create(['user_id' => $this->user->id]);
         $this->sub_patient_info = substr($this->appointment->patient_info, 0,100);
 
-        $this->user2       = factory(User::class)->create(['email_verified_at' => '2018-10-10']);
+        $this->user2       = factory(User::class)->states('verified')->create();
         $this->appointment2= factory(Appointment::class)->create(['user_id' => $this->user2->id]);
 
         $this->data = [ 
@@ -52,8 +52,6 @@ class AppointmentsFeatureTest extends TestCase
             ->assertStatus(200)
             // ->assertSee($this->appointment->statusText())
             ->assertSee($this->appointment->doctor->name)
-            // ->assertSee($appointment->from)
-            // ->assertSee($appointment->to)
             ->assertSee($this->sub_patient_info)
             ;
     }
@@ -67,28 +65,16 @@ class AppointmentsFeatureTest extends TestCase
             ->assertStatus(200)
             // ->assertSee($this->appointment->statusText())
             ->assertSee($this->appointment->doctor->name)
-            // ->assertSee($appointment->from)
-            // ->assertSee($appointment->to)
+            ->assertSee($this->appointment->from)
+            ->assertSee($this->appointment->to)
             ->assertSee($this->sub_patient_info)
             ;
     }
 
     /**  @test */
-    public function store_an_appointment_can_be_created_by_a_verified_user()
-    {
-        $this
-            ->actingAs($this->user2)
-            ->post(route('appointments.store'), $this->data)
-            ->assertStatus(302)
-            ;
-
-        $this->assertDatabaseHas('appointments', $this->data);
-    }
-
-    /**  @test */
     public function store_an_appointment_cannot_be_created_by_an_unverified_user()
     {
-        $user = factory(User::class)->create();
+        $user = factory(User::class)->states('unverified')->create();
         
         $data = [ 
             'type'        => 'Online',
@@ -104,10 +90,21 @@ class AppointmentsFeatureTest extends TestCase
         $this
             ->actingAs($user)
             ->post(route('appointments.store'), $data)
-            ->assertStatus(302) // Redirected to verfy page
+            ->assertStatus(302) // Redirected to verify page
             ;
 
         $this->assertDatabaseMissing('appointments', $data);
+    }
+
+    /**  @test */
+    public function store_an_appointment_can_be_created_by_a_verified_user()
+    {
+        $this
+            ->actingAs($this->user2)
+            ->post(route('appointments.store'), $this->data)
+            ;
+
+        $this->assertDatabaseHas('appointments', $this->data);
     }
 
     /** @test */

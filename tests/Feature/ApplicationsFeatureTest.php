@@ -17,12 +17,8 @@ class ApplicationsFeatureTest extends TestCase
     {
         parent::setUp();
 
-        $this->user        = factory(User::class)->create([
-                                'acl' => '3', 'email_verified_at' =>  '1990-10-10'
-                            ]);
-        $this->admin       = factory(User::class)->create([
-                                'acl' => '1', 'email_verified_at' =>  '1990-10-10'
-                            ]);
+        $this->user        = factory(User::class)->states('verified')->create();
+        $this->admin       = factory(User::class)->states('admin')->create();
 
         $this->specialty   = factory(Specialty::class)->create();
         $this->application = factory(Application::class)->create(['user_id' => $this->user->id]);

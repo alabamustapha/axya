@@ -87,7 +87,7 @@ class Appointment extends Model
     {
         $status = ($this->status > (sizeof(self::$appointmentStatus) - 1) || $this->status < 0) 
                     ? (sizeof(self::$appointmentStatus) + 1) // 8
-                    : $this->status
+                    : intval($this->status)
                     ;
 
         echo self::$appointmentStatus[$status];

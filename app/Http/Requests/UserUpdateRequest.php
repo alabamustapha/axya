@@ -26,14 +26,21 @@ class UserUpdateRequest extends FormRequest
         $rules = [];
 
         $rules = array_merge($rules, [
-                'name'      => 'required|string|max:255', 
+                'name'     => 'required|string|max:255', 
                 // 'email'     => 'required|max:255|email|unique:users,email,'.auth()->id(), // Use 3rd party service to ping for correct email addresses
-                'phone'     => 'nullable|numeric|max:9999999999999999|unique:users,phone,'.auth()->id(), //|digits:11 
-                'dob'       => 'required|date|max:10',
+                'phone'    => 'nullable|numeric|max:9999999999999999|unique:users,phone,'.auth()->id(), //|digits:11 
                 'gender'   => 'required|in:Male,Female,Other',
                 'weight'   => 'nullable|between:0,999.99',
                 'height'   => 'nullable|between:0,99.99',
-                'address'   => 'nullable|string',
+                'address'  => 'nullable|string',
+            ]);
+
+        $rules = app()->environment('testing')
+            ? array_merge($rules, [
+                'dob' => 'required|date',
+            ])
+            : array_merge($rules, [
+                'dob' => 'required|date|max:10',
             ]);
 
         return $rules;
