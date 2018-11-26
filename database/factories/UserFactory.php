@@ -36,11 +36,11 @@ $factory->define(App\User::class, function (Faker $faker) {
 
         // Authorization Details
         'acl'       => $faker->randomElement([1,2,3,5]),
-        'is_doctor' => $faker->boolean(35),
         'blocked'   => $faker->boolean(15),
 
         // Other Details
-        // 'email_verified_at
+        // 'application_status' => $faker->randomElement([0,1,2,3,4,5]),
+        'email_verified_at'  => $faker->boolean(15) ? $faker->dateTimeBetween('-7 week', '-5 hour') : null,
     ];
 });
 

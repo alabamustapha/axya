@@ -30,7 +30,7 @@ class UsersTest extends TestCase
         $this->assertTrue( Schema::hasColumns('users', 
         [
             'id','name','slug','email','email_verified_at','address','phone',
-            'gender','avatar','acl','is_doctor','blocked','dob','weight','height',
+            'gender','avatar','acl','application_status','blocked','dob','weight','height',
             'allergies','chronics','password','last_four','terms'
         ]), 1);
     }

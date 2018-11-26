@@ -37,10 +37,10 @@ class CreateUsersTable extends Migration
 
             // Authorization Details
             $table->boolean('acl')->default(3);
-            $table->boolean('is_doctor')->default(0); // Determined after application & verification of docs.
             $table->boolean('blocked')->default(0);
 
             // Other Details
+            $table->tinyInteger('application_status')->default(0); // Tracks current status in doctor's application process.
             $table->string('last_four',4)->nullable();
             $table->boolean('terms')->default(0);
             $table->timestamp('application_retry_at')->nullable();

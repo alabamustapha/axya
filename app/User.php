@@ -277,7 +277,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
 
     /*<!---------------- Update Doctor Application Status ---------------->*/
-    public static $professionalStatus = array(
+    public static $applicationStatus = array(
         0 => 'Are you a <i class="fa fa-user-md"></i> Medical Doctor? 
               <a class="btn btn-success btn-sm" href="http://axya.he-healthy.ro/doctors/create">Register Here!</a>',
 
@@ -325,14 +325,14 @@ class User extends Authenticatable implements MustVerifyEmail
     );
 
     // If the status code is not in the provided list above return the default '0'.
-    public function professionalStatus() 
+    public function applicationStatus() 
     {
-        $status = ($this->is_doctor > (sizeof(self::$professionalStatus) - 1) || $this->is_doctor < 0) 
+        $status = ($this->application_status > (sizeof(self::$applicationStatus) - 1) || $this->application_status < 0) 
                     ? 0 
-                    : $this->is_doctor
+                    : $this->application_status
                     ;
 
-        echo self::$professionalStatus[$status];
+        echo self::$applicationStatus[$status];
     }
 
     // Registration Status

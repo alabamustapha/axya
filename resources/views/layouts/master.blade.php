@@ -43,11 +43,11 @@
                 @if (! Request::is('appointments/*'))
                   @if (Auth::user()->isAccountOwner())
                       <h4>
-                        @if (Auth::user()->is_doctor == '0')
+                        @if (Auth::user()->application_status == '0')
                           Are you a <i class="fa fa-user-md"></i> Medical Doctor? 
                           <a class="btn btn-success btn-lg" href="{{route('doctors.create')}}">Register Here!</a>
                         @else
-                          {{ Auth::user()->professionalStatus() }}
+                          {{ Auth::user()->applicationStatus() }}
                         @endif
                       </h4>
                   @endif
