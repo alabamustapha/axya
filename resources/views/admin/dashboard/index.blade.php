@@ -96,7 +96,7 @@
                   <i class="fa fa-calendar-alt display-3"></i>
                 </div>
                 <div class="col-sm-7">
-                  <h1 class="font-weight-light">---</h1>
+                  <h1 class="font-weight-light">{{$completed_appointments_count}}</h1>
 
                   <p>Successful Appointments</p>
                 </div>

@@ -55,6 +55,14 @@ class Appointment extends Model
         return $this->belongsTo(Doctor::class);
     }
 
+    /**
+     * Was completed successfully.
+     */
+    public function scopeCompleted($query)
+    {
+        return $query->where('status', '1');
+    }
+
     public function getDayAttribute($value)
     {
         return Carbon::parse($value)->format('M d, Y');

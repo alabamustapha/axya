@@ -6,6 +6,7 @@ use App\Doctor;
 use App\User;
 use App\Specialty;
 use App\Application;
+use App\Appointment;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -26,13 +27,13 @@ class DashboardController extends Controller
         $users_count    = User::all()->count();
         $doctors_count  = Doctor::all()->count();
         // $completed_transactions_count  = Transaction::notverified()->count();
-        // $successful_appointments_count = Appointment::notverified()->count();
+        $completed_appointments_count = Appointment::completed()->count();
 
         return view('admin.dashboard.index', compact(
             'users_count',
-            'doctors_count'
+            'doctors_count',
             // 'completed_transactions_count',
-            // 'successful_appointments_count',
+            'completed_appointments_count'
         ));
     }
 
