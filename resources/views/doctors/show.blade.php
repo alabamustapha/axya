@@ -15,33 +15,33 @@
 
             @if ($doctor->user->isAccountOwner())
             <div class="tf-flex">
-              <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#updateAvatarForm" title=" Update Avatar">
-                <i class="fa fa-upload text-light"></i>
-              </button>
+              <span class="mr-3" title="settings">              
+                <button id="navbarDropdown" class="btn btn-sm btn-dark dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-cog"></i>
+                </button>
 
-              @if ($doctor->user->isAccountOwner())
-                <a onclick="return false;" class="btn btn-dark btn-block text-light" title="Update Profile" data-toggle="modal" data-target="#updateProfessionalProfileForm">
-                  <i class="fa fa-edit mr-1"></i> 
-                  <b>Edit Details</b>
-                </a>
-              @endif
+                <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown">
+                  <button class="dropdown-item" data-toggle="modal" data-target="#updateAvatarForm" title=" Update Avatar">
+                    <i class="fa fa-upload"></i>&nbsp; Change Avatar
+                  </button>
+
+                  <button onclick="return false;" class="dropdown-item" title="Update Profile" data-toggle="modal" data-target="#updateProfessionalProfileForm">
+                    <i class="fa fa-edit mr-1"></i>&nbsp; Edit Details
+                  </button>
               
-              {{-- @if ($doctor->user->hasUploadedAvatar())
-                  <a href="{{route('user.avatar.delete', $doctor->user)}}" class="btn btn-sm btn-danger" title="Remove Avatar" onclick="return confirm('Do you want to remove current avatar?');">
-                  <i class="fa fa-trash text-light"></i>
-                </a>
-              @endif --}}
-            </div>
-            @endif
-
-           @if ($doctor->user->isAccountOwner())
-              <div>
-                <p class="text-muted text-center">
+                  @if ($doctor->user->hasUploadedAvatar())
+                      <a href="{{route('user.avatar.delete', $doctor->user)}}" class="dropdown-item" title="Remove Avatar" onclick="return confirm('Do you want to remove current avatar?');">
+                      <i class="fa fa-trash text-light"></i>
+                    </a>
+                  @endif
+                </div>
+              </span>
+              <span class="text-muted text-center">
                   
-                    <strong>{{$doctor->subscriptionStatus()}}</strong>
+                <strong>{{$doctor->subscriptionStatus()}}</strong>
 
-                </p>
-              </div>
+              </span>
+            </div>
             @endif
 
             <hr>

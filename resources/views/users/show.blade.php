@@ -23,22 +23,48 @@
                   </div>
 
                   @if ($user->isAccountOwner())
-                  <div class="tf-flex">
-                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#updateAvatarForm" title=" Update Avatar">
-                      <i class="fa fa-upload text-light"></i>
-                    </button>
+                    <div class="tf-flex">
+                      <span class="mr-3" title="Profile Settings">              
+                        <button id="navbarDropdown" class="btn btn-sm btn-dark dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-cog"></i> Settings
+                        </button>
 
-                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#testMultipleForm" title=" Test Multiple Uploads">
-                      <i class="fa fa-upload text-light"></i> Multiple Uploads
-                    </button>
+                        <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown">
 
+                          <button onclick="return false;" class="dropdown-item" title="Update Profile" data-toggle="modal" data-target="#updateUserProfileForm">
+                            <i class="fa fa-edit"></i> 
+                            <span>Edit Profile</span>
+                          </button>
+
+                          <button class="dropdown-item" data-toggle="modal" data-target="#updatePasswordForm">
+                            <i class="fa fa-key"></i>
+                            <span>Change Password</span>
+                          </button>
+
+                          <button class="dropdown-item" data-toggle="modal" data-target="#updateAvatarForm" title=" Update Avatar">
+                            <i class="fa fa-image"></i> 
+                            <span>Upload Avatar</span>
+                          </button>
+
+                          <button class="dropdown-item" data-toggle="modal" data-target="#testMultipleForm" title=" Test Multiple Uploads">
+                            <i class="fa fa-upload"></i> 
+                            <span>Multiple Uploads</span>
+                          </button>
+                          
+                          @if ($user->hasUploadedAvatar())
+                              <a href="{{route('user.avatar.delete', $user)}}" class="dropdown-item" title="Remove Avatar" onclick="return confirm('Do you want to remove current avatar?');">
+                              <i class="fa fa-trash red"></i>
+                              <span>Remove Avatar</span>
+                            </a>
+                          @endif
+                        </div>
+                      </span>
                     
-                    @if ($user->hasUploadedAvatar())
-                        <a href="{{route('user.avatar.delete', $user)}}" class="btn btn-sm btn-danger" title="Remove Avatar" onclick="return confirm('Do you want to remove current avatar?');">
-                        <i class="fa fa-trash text-light"></i>
-                      </a>
-                    @endif
-                  </div>
+                      <strong>
+                        <span class="red" title="Certified Doctor?"><i class="fa fa-{{$user->is_doctor ? 'certificate green':''}}"></i> {{$user->professionalType()}}</span> | 
+                        <span class="teal" title="User Status">{{$user->status()}}</span>
+                      </strong>
+                    </div>
                   @endif
 
             <hr>
@@ -46,11 +72,6 @@
                   <h3 class="profile-username text-center">{{$user->name}}</h3>
 
                   <p class="text-muted text-center">
-                    
-                    <strong>
-                      <span class="red" title="Certified Doctor?"><i class="fa fa-{{$user->is_doctor ? 'certificate green':''}}"></i> {{$user->professionalType()}}</span> | 
-                      <span class="teal" title="User Status">{{$user->status()}}</span>
-                    </strong>
                     
                     <br>
                     @auth
@@ -90,24 +111,8 @@
                       <b>Location</b> <a class="float-right">{{$user->address}}</a>
                     </li>
                   </ul>
-
-                  @if ($user->isAccountOwner())
-                    <a onclick="return false;" class="btn btn-dark btn-block text-light" title="Update Profile" data-toggle="modal" data-target="#updateUserProfileForm">
-                      <i class="fa fa-edit mr-1"></i> 
-                      <b>Edit Details</b>
-                    </a>
-                  @endif
                 </div>
                 <!-- /.card-body -->
-              </div>
-
-              <div class="card card-dark card-outline">
-                <div class="card-body box-profile">
-                  <button class="btn btn-block btn-secondary text-white" data-toggle="modal" data-target="#updatePasswordForm">
-                    <i class="fa fa-key"></i>
-                    <span>Change Password</span>
-                  </button>
-                </div>
               </div>
 
             </div>

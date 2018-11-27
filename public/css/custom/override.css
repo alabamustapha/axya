@@ -3,9 +3,10 @@
     background: transparent;
 }
 
-.fa,
-.fas {
+i.fa,
+i.fas {
   min-width:15px;
+  margin-right:8px;/*mr-2, 8px*/
 }
 
 .container,
