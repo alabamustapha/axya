@@ -178,12 +178,24 @@ class SpecialtiesFeatureTest extends TestCase
     /** @test */
     public function a_specialty_author_doctor_can_see_the_edit_form_section_on_specialty_main_page()
     {
-        $this->tag = factory(Tag::class)->create(['user_id' => $this->doc_user->id]);
         $this
             ->actingAs($this->doc_user)
-            ->get(route('tags.show', $this->tag))
+            ->get(route('specialties.show', $this->specialty))
             ->assertStatus(200)
-            ->assertSee('Update the Tag:') // Within Modal Form
+            ->assertSee('Update the Specialty:') // Within Modal Form
+            ;
+    }
+    
+    /** @test */
+    public function a_non_specialty_author_doctor_cannot_see_the_edit_form_section_on_specialty_main_page()
+    {
+        $user2     = factory(User::class)->states('verified')->create();
+        $doctor2   = factory(Doctor::class)->create([ 'id'      => $user2->id, 'user_id' => $user2->id ]);
+        $this
+            ->actingAs($user2)
+            ->get(route('specialties.show', $this->specialty))
+            ->assertStatus(200)
+            ->assertDontSee('Update the Specialty:') // Within Modal Form
             ;
     }
 

@@ -19,38 +19,36 @@
                 <i class="fa fa-upload text-light"></i>
               </button>
 
-              
-              @if ($doctor->user->hasUploadedAvatar())
-                  <a href="{{route('user.avatar.delete', $doctor->user)}}" class="btn btn-sm btn-danger" title="Remove Avatar" onclick="return confirm('Do you want to remove current avatar?');">
-                  <i class="fa fa-trash text-light"></i>
-                </a>
-              @endif
-            </div>
-            @endif
-
-            <div>
-              <p class="text-muted text-center">
-
-                @if ($doctor->user->isAccountOwner())
-                
-                  <strong>{{$doctor->subscriptionStatus()}}</strong>
-
-                @endif
-              </p>
-
               @if ($doctor->user->isAccountOwner())
                 <a onclick="return false;" class="btn btn-dark btn-block text-light" title="Update Profile" data-toggle="modal" data-target="#updateProfessionalProfileForm">
                   <i class="fa fa-edit mr-1"></i> 
                   <b>Edit Details</b>
                 </a>
               @endif
+              
+              {{-- @if ($doctor->user->hasUploadedAvatar())
+                  <a href="{{route('user.avatar.delete', $doctor->user)}}" class="btn btn-sm btn-danger" title="Remove Avatar" onclick="return confirm('Do you want to remove current avatar?');">
+                  <i class="fa fa-trash text-light"></i>
+                </a>
+              @endif --}}
             </div>
+            @endif
+
+           @if ($doctor->user->isAccountOwner())
+              <div>
+                <p class="text-muted text-center">
+                  
+                    <strong>{{$doctor->subscriptionStatus()}}</strong>
+
+                </p>
+              </div>
+            @endif
 
             <hr>
 
             <div class="tf-flex mb-3">                        
                 <a href="#" class="btn btn-primary btn-sm btn-block col" data-toggle="modal" data-target="#appointmentForm" title="Book Appointment">
-                  <i class="fa fa-calenda r-check"></i>&nbsp; Make Appointment
+                  <i class="fa fa-calenda r-check"></i>&nbsp; Book Appointment
                 </a>
             </div>
 
@@ -124,11 +122,11 @@
 
           @can ('edit', $doctor)
           
-            @include('doctors._schedules')
+            @include('doctors.partials._schedules')
             
           @else
           
-            @include('doctors._schedules_users')
+            @include('doctors.partials._schedules_users')
             
           @endcan
           {{-- <schedule-list :doctor_id="{{$doctor->id}}"></schedule-list> --}}
@@ -137,7 +135,7 @@
 
         <!-- Certification And Work Records Section -->
 
-          @include('doctors._certifications')
+          @include('doctors.partials._certifications')
 
         <!-- /.card -->           
         
