@@ -4,7 +4,7 @@
 
 @section('content')
 
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
     <h1 class="h2">Patient Appointments Dashboard</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group mr-2">
@@ -18,7 +18,7 @@
     </div>
 </div>
 
-<h2>Section title</h2>
+
 <div class="table-responsive">
     <table class="table table-striped table-sm">
         <thead>
@@ -32,7 +32,7 @@
         </thead>
         <tbody>
         
-        @foreach($appointments as $appointment)
+        @forelse($appointments as $appointment)
         <tr>
             <td>{{$appointment->day}} </td>
             <td>
@@ -52,7 +52,11 @@
                 </a>
             </td>
         </tr>
-        @endforeach
+        @empty
+            <tr>
+                <td colspan="5" class="empty-list">No pending appointments at this time</td>
+            </tr>
+        @endforelse
         </tbody>
     </table>
 </div>

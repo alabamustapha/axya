@@ -11,7 +11,7 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js', 'public/js')//[,'public/js/custom.js','public/js/popper.min.js']
+mix.js('resources/js/app.js', 'public/js')//[,'public/js/custom.js','public/js/popper.min.js']
    .sass('resources/sass/app.scss', 'public/css')
    .styles([
     'public/css/vendor/font-awesome.min.css',

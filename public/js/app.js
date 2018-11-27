@@ -70893,7 +70893,7 @@ var render = function() {
                                             [_vm._v(_vm._s(doctor.user.name))]
                                           ),
                                           _vm._v(" "),
-                                          _vm.$acl.isAdmin()
+                                          _vm.$acl.isSuperAdmin()
                                             ? _c("div", [
                                                 _vm._m(3, true),
                                                 _vm._v(" "),

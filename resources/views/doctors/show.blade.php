@@ -48,7 +48,7 @@
 
             <div class="tf-flex mb-3">                        
                 <a href="#" class="btn btn-primary btn-sm btn-block col" data-toggle="modal" data-target="#appointmentForm" title="Book Appointment">
-                  <i class="fa fa-calenda r-check"></i>&nbsp; Book Appointment
+                  <i class="fa fa-calendar-check"></i>&nbsp; Book Appointment
                 </a>
             </div>
 
@@ -295,8 +295,8 @@
                     <i class="fa fa-user-md red"></i> {{$doctor->specialty->name}}
                     <br>
 
-                    <span class="badge badge-secondary badge-pill">
-                      <b>$100.00 / hour</b>{{--$doctor->rate--}}
+                    <span class="badge badge-secondary badge-pill text-bold">
+                      $100.00 / hour{{--$doctor->rate--}}
                     </span>
                   </span>
                 </div>
@@ -326,9 +326,12 @@
                       </div>
 
                       <div class="col-md-6">
-                        <label for="day">Select Day</label>
+                        <label for="day">Select Day <small>(yyyy-mm-dd)</small></label>
                         <input type="hidden" name="doctor_id" value="{{$doctor->id}}">
-                        <input type="date" name="day" value="{{old('day')}}" placeholder="yyyy-mm-dd" pattern="" id="day" class="form-control{{ $errors->has('day') ? ' is-invalid' : '' }}" required>
+                        <input type="date" name="day" maxlength="10"
+                          value="{{old('day')}}" placeholder="yyyy-mm-dd" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" 
+                          id="day" class="form-control{{ $errors->has('day') ? ' is-invalid' : '' }}" 
+                          required>
 
                         @if ($errors->has('day'))
                             <span class="invalid-feedback" role="alert">
@@ -343,8 +346,11 @@
                     <div class="row">
 
                       <div class="col-md-6">
-                        <label for="from">Schedule time start</label>
-                        <input type="time" name="from" minlength="8" maxlength="8" value="{{old('from')}}" placeholder="hh:mm:ss" pattern="" id="from" class="form-control{{ $errors->has('from') ? ' is-invalid' : '' }}" required>
+                        <label for="from">Schedule Start <small>(eg 01:30)</small></label>
+                        <input type="time" name="from" minlength="5" maxlength="5" min="00:00" max="23:59" 
+                          value="{{old('from')}}" placeholder="hh:mm" pattern="[0-9]{2}:[0-9]{2}" 
+                          id="from" class="form-control{{ $errors->has('from') ? ' is-invalid' : '' }}" 
+                          required>
 
                         @if ($errors->has('from'))
                             <span class="invalid-feedback" role="alert">
@@ -353,8 +359,11 @@
                         @endif
                       </div>
                       <div class="col-md-6">
-                        <label for="to">Schedule time end</label>
-                        <input type="time" name="to" minlength="8" maxlength="8" value="{{old('to')}}" placeholder="hh:mm:ss" pattern="" id="to" class="form-control{{ $errors->has('to') ? ' is-invalid' : '' }}" required>
+                        <label for="to">Schedule End <small>(eg 22:15)</small></label>
+                        <input type="time" name="to" minlength="5" maxlength="5" min="20:00" max="23:59" 
+                          value="{{old('to')}}" placeholder="hh:mm" pattern="[0-9]{2}:[0-9]{2}" 
+                          id="to" class="form-control{{ $errors->has('to') ? ' is-invalid' : '' }}" 
+                          required>
 
                         @if ($errors->has('to'))
                             <span class="invalid-feedback" role="alert">
