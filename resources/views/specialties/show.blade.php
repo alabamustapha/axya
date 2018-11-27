@@ -12,11 +12,11 @@
     <div class="card shadow-sm">
       <div class="card-body">
         @can('edit', $specialty)  
-          {{--<span class="mr-3">
+          <span class="mr-3">
             <button class="btn btn-sm" data-toggle="modal" data-target="#specialtyUpdateForm" title="Update Keyword">
               <i class="fa fa-edit teal"></i>&nbsp; edit
             </button>
-          </span>--}}
+          </span>
         @endcan
         <span>
           <b>{{ $specialty->name }}</b> - {{ $specialty->description }}
@@ -37,7 +37,7 @@
   </div>
 
   <div class="col-md-4">
-    {{--@can ('create', App\Specialty::class)--}}
+    @can ('create', App\Specialty::class)
       <div class="card card-primary card-outline text-center shadow">
         <div class="card-header">
           <div class="card-title">
@@ -84,7 +84,7 @@
           <span class="text-danger"><b>Relevant keywords help patients in locating relevant doctors easily.</b></span>
         </div>
       </div>
-    {{--@endcan--}}
+    @endcan
 
     <div class="p-3 shadow bg-white text-center">
       Medical terms, illnesses, procedures under <b>{{$specialty->name}}</b> 
@@ -103,9 +103,9 @@
 
 
 @can('edit', $specialty)
-  {{--<div class="modal bg-transparent" tabindex="-1" role="dialog" id="specialtyUpdateForm" style="display:none;" aria-labelledby="specialtyUpdateFormLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content px-2 bg-transparent shadow-none">
+  <div class="modal bg-transparent" tabindex="-1" role="dialog" id="specialtyUpdateForm" style="display:none;" aria-labelledby="specialtyUpdateFormLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content px-0 pb-0 m-0 bg-transparent shadow-none">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 5px 15px 0px;margin:10px auto -25px">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -153,7 +153,7 @@
         </div>
       </div>
     </div>
-  </div>--}}
+  </div>
 @endcan
 
 @endsection

@@ -50,6 +50,11 @@ class Specialty extends Model
       return $this->hasMany(Doctor::class);
     }
 
+    public function doctorsCount()
+    {
+      return $this->hasMany(Doctor::class)->count();
+    }
+
     public function tags()
     {
       // return $this->belongsToMany(Tag::class);

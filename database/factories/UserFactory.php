@@ -44,6 +44,8 @@ $factory->define(App\User::class, function (Faker $faker) {
     ];
 });
 
+$factory->state(App\User::class, 'normal', function (Faker $faker) { return [ 'acl' => '3' ]; });
+
 $factory->state(App\User::class, 'verified', function (Faker $faker) {
     return [
         'acl' => '3',

@@ -25,8 +25,7 @@
                 {{ $specialty->name }}
                 <span class="pull-right" style="color: inherit;">
                   <span class="badge badge-dark badge-sm" title="Doctors with {{ $specialty->name }} specialty">
-                    {{random_int(5,100)}}
-                    {{-- $specialty->doctors_count --}}
+                    {{ $specialty->doctorsCount() }}
                     <small>Doctor(s)</small>
                   </span>
                 </span>
@@ -44,7 +43,7 @@
 	</div>
 
   <div class="col-md-4">
-    {{--@can ('create', App\Specialty::class)--}}
+    @can ('create', App\Specialty::class)
       <div class="card card-primary card-outline text-center shadow">
         <div class="card-header">
           <div class="card-title">
@@ -52,7 +51,7 @@
               <br>
               <span style="font-size:12px;">
                 <i class="fa fa-info-circle red"></i> For doctors only! <br>
-                <b>Add your specialty</b> if not available of this platform yet.
+                <b>Add your specialty if not available of this platform yet.</b>
               </span>
           </div>
         </div>
@@ -91,7 +90,7 @@
           </span>
         </div>
       </div>
-    {{--@endcan--}}
+    @endcan
 
     <div class="p-3 shadow bg-white text-center">
       ...

@@ -12,6 +12,8 @@ class SpecialtyController extends Controller
     public function __construct()
     {
         $this->middleware('auth')->except('index','show');
+        // $this->middleware('doctor')->only('store','update'); // Leave to policy
+        $this->middleware('admin')->only('destroy');
     }
     
     /**
@@ -69,7 +71,6 @@ class SpecialtyController extends Controller
      */
     public function update(SpecialtyRequest $request, Specialty $specialty)
     {
-        // dd($request->all());
         $this->authorize('edit', $specialty);
 
         if ($specialty->update($request->all())){
