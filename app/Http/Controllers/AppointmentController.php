@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Appointment;
 use App\Http\Requests\AppointmentRequest;
-use Illuminate\Http\Request;
 use App\Notifications\Applications\ApplicationReceivedNotification;
+use App\Notifications\Appointments\AppointmentBookedNotification;
+use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
 {
@@ -41,9 +42,11 @@ class AppointmentController extends Controller
 
         $request->merge(['user_id' => auth()->id()]);
 
-        if (Appointment::create($request->all())){
+        $appointment = Appointment::create($request->all());
 
-            auth()->user()->notify(new ApplicationReceivedNotification(auth()->user()));
+        if ($appointment){
+
+            auth()->user()->notify(new AppointmentBookedNotification(auth()->user(), $appointment));
 
             $message = 'Appointment created successfully.';
 
