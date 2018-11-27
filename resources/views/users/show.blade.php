@@ -41,6 +41,8 @@
                   </div>
                   @endif
 
+            <hr>
+
                   <h3 class="profile-username text-center">{{$user->name}}</h3>
 
                   <p class="text-muted text-center">

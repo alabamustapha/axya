@@ -16,7 +16,7 @@
         <div class="card-deck" style="flex-flow: nowrap;">
             @foreach ($doctors as $doctor)
 
-                @include('doctors._profile')
+                @include('doctors.partials._profile')
 
             @endforeach
         </div>

@@ -27,7 +27,7 @@
     <div class="card-deck">
       @forelse ($doctors as $doctor)
 
-                @include('doctors._profile')
+                @include('doctors.partials._profile')
 
       @empty
         <div class="empty-list">0 doctors are specialized in {{$specialty->name}} at the moment.</div>
