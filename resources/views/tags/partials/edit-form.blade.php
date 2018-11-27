@@ -1,7 +1,7 @@
 <div class="card card-primary card-outline text-center shadow">
   <div class="card-header">
     <div class="card-title">
-      <h5>Update the Tag: <strong><i class="fa fa-tags"></i>&nbsp;{{$tag->name}}</strong> </h5>
+      <h5>Update the Keyword/Tag: <strong><i class="fa fa-tags"></i>&nbsp;{{$tag->name}}</strong> </h5>
     </div>
   </div>
 

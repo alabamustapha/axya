@@ -40,11 +40,11 @@
 	</div>
 
   <div class="col-md-4">
-    {{--@can ('create', App\Tag::class)--}}
+    @can ('create', App\Tag::class)
 
       @include('tags.partials.create-form')
 
-    {{--@endcan--}}
+    @endcan
 
     <br clear="both">
 
