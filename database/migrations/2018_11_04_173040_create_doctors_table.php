@@ -22,7 +22,7 @@ class CreateDoctorsTable extends Migration
             $table->string('slug')->index();
             $table->text('about')->nullable();
 
-            // $table->integer('specialty_id')->unsigned();
+            $table->string('rate')->default('5.00'); // per Hour min.
             $table->string('graduate_school')->nullable();
             $table->boolean('available')->default(0); // 0:Available, 1:Not Available.
             $table->timestamp('subscription_ends_at')->nullable();
