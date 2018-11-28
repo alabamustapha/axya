@@ -63,7 +63,7 @@
           <h1>
             {{$doctor->user->name}} 
             <small style="font-size: 14px;" class="badge badge-secondary badge-pill">
-              $100.00 / hour{{--$doctor->rate--}}
+              ${{$doctor->rate}} / hour
             </small>
             <span class="{{$doctor->availabilityText()}}"></span>
           </h1>
@@ -373,7 +373,7 @@
                       </div>
                       <div class="col-md-6">
                         <label for="to">Schedule End <small>(eg 22:15)</small></label>
-                        <input type="time" name="to" minlength="5" maxlength="5" min="20:00" max="23:59" 
+                        <input type="time" name="to" minlength="5" maxlength="5" min="00:00" max="23:59" 
                           value="{{old('to')}}" placeholder="hh:mm" pattern="[0-9]{2}:[0-9]{2}" 
                           id="to" class="form-control{{ $errors->has('to') ? ' is-invalid' : '' }}" 
                           required>

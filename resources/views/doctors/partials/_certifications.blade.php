@@ -1,3 +1,4 @@
+
 <div class="card card-dark">
   <div class="card-header">
     <h3 class="card-title"><i class="fa fa-hospital-alt"></i> Work Records</h3>
@@ -67,7 +68,7 @@
   <!-- /.card-body -->
 </div>
 
-@if ($doctor->user->isAccountOwner() || Auth::user()->isAdmin())
+@if ($doctor->user->isAccountOwner() || (Auth::check() && Auth::user()->isAdmin()))
 <div class="card card-dark">
   <div class="card-header">
     <h3 class="card-title"><i class="fa fa-certificate"></i> Certifications</h3>
@@ -82,9 +83,11 @@
   <div class="card-body" style="display: none;">
               
     <ul class="list-group list-group-unbordered mb-0">
-      @foreach ($certificates as $certificate)
+      @forelse ($certificates as $certificate)
       <li class="list-group-item p-1 tf-flex "><b>{{$certificate->name}}:</b> <span><i class="fa fa-calendar"></i>&nbsp; {{$certificate->expiry_date}} <i class="fa fa-check green"></i></span></li>
-      @endforeach
+      @empty
+        <li class="list-group-item">No Certifications at the moment.</li>
+      @endforelse
       {{-- <li class="list-group-item p-1 border-bottom-0" title="Add new certificate">
         <button class="btn btn-secondary btn-sm text-light">Add new &nbsp;<i class="fa fa-certificate"></i></button>
       </li> --}}

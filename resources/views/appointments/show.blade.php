@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Appointment - '. $appointment->day)
+@section('title', $appointment->user->name .' Appointments - '. $appointment->day)
 
 @section('content')
 
@@ -50,7 +50,7 @@
               <span>Fee</span>
               <span class="text-bold">
                 <span style="font-size: 14px;" class="badge badge-secondary badge-pill">
-                $100.00{{--{{$appointment->doctor->rate}}--}}
+                ${{$appointment->doctor->rate}}
                 </span>
               </span>
             </li>
@@ -116,7 +116,7 @@
             </div>
 
             <div class="card-footer">
-              <a href="{{route('users.show', $appointment->user)}}" class="btn btn-sm btn-primary">
+              <a href="{{route('users.show', $appointment->user)}}" target="_blank" class="btn btn-sm btn-primary">
                 <i style="width:25px;" class="fa fa-user"></i> Full Profile
               </a>
             </div>
@@ -133,7 +133,7 @@
               </p>
               <p class="card-text">
                 <span style="font-size: 14px;" class="badge badge-secondary badge-pill">
-                  $100.00 / hour{{--{{$appointment->doctor->rate}}--}}
+                  ${{$appointment->doctor->rate}} / hour
                 </span>
               </p>
 
@@ -182,7 +182,7 @@
 
             </div>
             <div class="card-footer">
-              <a href="{{route('doctors.show', $appointment->doctor)}}" class="btn btn-sm btn-primary">
+              <a href="{{route('doctors.show', $appointment->doctor)}}" target="_blank" class="btn btn-sm btn-primary">
                 <i style="width:25px;" class="fa fa-user-md"></i> Full Profile
               </a>
             </div>
