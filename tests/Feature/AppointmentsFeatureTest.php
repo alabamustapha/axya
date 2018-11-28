@@ -30,14 +30,14 @@ class AppointmentsFeatureTest extends TestCase
         $this->data = [ 
             'type'        => 'Home',
             'phone'       => $this->faker->e164PhoneNumber,
-            'address'     => $this->faker->address,
+            'address'     => '565 Kshlerin Wells Suite 835\nRebekachester, PA 44034',
 
             'user_id'     => $this->user2->id,
             'slug'        => $this->user2->slug,
             'doctor_id'   => $this->doctor->id,
-            'patient_info'=> $this->faker->sentence,
+            'patient_info'=> 'Reiciendis inventore et omnis non asperiores.',
 
-            'day'         => $this->faker->dateTimeBetween('-50 day', '-1day'),
+            'day'         => '2018-12-23 10:00:00',
             'from'        => '05:00',
             'to'          => '11:00',
         ];
@@ -110,11 +110,14 @@ class AppointmentsFeatureTest extends TestCase
     /** @test */
     public function update_an_appointment_can_be_updated()
     {
-        $this->actingAs($this->user2);
+        $user = factory(User::class)->states('verified')->create();
+        $this->actingAs($user);
 
         // Create an Appointment
-        $appointment = factory(Appointment::class)->create($this->data);
-        $this->assertDatabaseHas('appointments', $this->data);
+        $appointment = factory(Appointment::class)->create([
+            'user_id'     => $user->id,
+            'doctor_id'   => $this->doctor->id,
+        ]);
 
         // Update the Appointment's details
         $updated_data = [ 
@@ -122,7 +125,7 @@ class AppointmentsFeatureTest extends TestCase
             // 'phone'       => $this->faker->e164PhoneNumber,
             // 'address'     => $this->faker->address,
 
-            'user_id'     => $this->user2->id,
+            'user_id'     => $user->id,
             'doctor_id'   => $this->doctor->id,
             'patient_info'=> $this->faker->sentence,
 
@@ -147,8 +150,6 @@ class AppointmentsFeatureTest extends TestCase
         $this
             ->actingAs($this->user2)
             ->delete(route('appointments.destroy', $this->appointment2))
-            // ->assertStatus(302)
-            // ->assertRedirect(route('appointments.index'))
             ;
 
         $this->assertDatabaseMissing('appointments', $this->appointment2->toArray());

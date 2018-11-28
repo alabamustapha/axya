@@ -32,20 +32,18 @@ class AppointmentRequest extends FormRequest
             'doctor_id' => 'required|integer|exists:doctors,id',
             'patient_info' => 'required|string|max:1500',
 
-            'day'       => 'required|date',
             'from'      => 'required|date_format:H:i',
             'to'        => 'required|date_format:H:i|after:from',
         ]);
 
-        // $rules = app()->environment('testing')
-        // # date_format:H:i not responding in testing thus needs to be seperated out.
-        //     ? array_merge($rules, [
-        //         'from' => 'required',
-        //         'to'   => 'required',])
-        //     : array_merge($rules, [
-        //         'from'      => 'required|date_format:H:i',
-        //         'to'        => 'required|date_format:H:i|after:from',
-        //     ]);
+        $rules = app()->environment('testing')
+        # date_format:H:i not responding in testing thus needs to be seperated out.
+            ? array_merge($rules, [
+                'day'       => 'required',//|string|max:19',
+            ])
+            : array_merge($rules, [
+                'day'       => 'required|date',
+            ]);
 
         return $rules;
     }

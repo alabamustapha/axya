@@ -126,7 +126,7 @@ class SpecialtiesFeatureTest extends TestCase
     /** @test */
     public function a_doctor_can_see_the_create_form_section_on_specialty_index_page()
     {
-        $specialty = factory(Specialty::class)->create(['user_id' => $this->doc_user->id]);
+        $specialty = factory(Specialty::class)->create(['user_id' => $this->doc_user->id, 'name'=> $this->faker->word]);
 
         $this
             ->actingAs($this->doc_user)

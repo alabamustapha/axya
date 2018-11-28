@@ -17,11 +17,11 @@ class AppointmentPolicy
 
     public function edit(User $user, Appointment $appointment)
     {
-        return $appointment->user_id == $user->id || $appointment->doctor_id == $user->id;
+        return $user->id == $appointment->user_id || $user->id == $appointment->doctor_id;
     }
 
     public function delete(User $user, Appointment $appointment)
     {
-        return $appointment->user_id == $user->id;
+        return $user->id == $appointment->user_id;
     }
 }

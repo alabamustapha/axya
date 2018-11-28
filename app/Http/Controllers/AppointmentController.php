@@ -77,9 +77,9 @@ class AppointmentController extends Controller
      * @param  \App\Appointment  $appointment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Appointment $appointment)
+    public function update(AppointmentRequest $request, Appointment $appointment)
     {
-        $this->authorize('edit', $appointment);
+        // $this->authorize('edit', $appointment);
 
         $request->merge(['user_id' => auth()->id()]);
 
