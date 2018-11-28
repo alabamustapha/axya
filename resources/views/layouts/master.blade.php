@@ -38,11 +38,11 @@
           @endauth
 
           <div class="container">
-            <div class="col bg-white p-0 pt-2 mt-0 text-center">
+            <div class="col bg-white p-0 mt-0 text-center">
               @auth
                 @if (! Request::is('appointments/*'))
                   @if (Auth::user()->isAccountOwner())
-                      <h4>
+                      <h4 class="pt-2">
                         @if (Auth::user()->application_status == '0')
                           Are you a <i class="fa fa-user-md"></i> Medical Doctor? 
                           <a class="btn btn-success btn-lg" href="{{route('doctors.create')}}">Register Here!</a>
@@ -54,7 +54,7 @@
                 @endif
               @endauth
 
-              <nav aria-label="breadcrumb" class="mt-0">                
+              <nav aria-label="breadcrumb" class="my-0">                
                 @include('layouts.partials.dynamic-breadcrumb')
               </nav>
             </div>

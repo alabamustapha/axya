@@ -176,9 +176,11 @@ class DoctorController extends Controller
                              ->get()
                              ;
         $workplaces = $doctor->workplaces()
+                             ->orderBy('start_date', 'desc')
                              ->orderBy('end_date', 'desc')
                              ->get()
                              ;
+        $present_workplace = $workplaces->first();
 
         return view('doctors.show', compact('doctor','workplaces','certificates',
             'sun_schedules',
@@ -187,7 +189,8 @@ class DoctorController extends Controller
             'wed_schedules',
             'thu_schedules',
             'fri_schedules',
-            'sat_schedules'
+            'sat_schedules',
+            'present_workplace'
         ));
     }
 

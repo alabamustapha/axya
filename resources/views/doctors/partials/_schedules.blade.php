@@ -1,17 +1,21 @@
 <div class="card card-dark">
   <div class="card-header">
-    <h3 class="card-title">
-      Schedules
-    </h3>
+    <h3 class="card-title"> Schedules </h3>
+
+    <span class="card-tools">
+      <button type="button" class="btn btn-tool" data-widget="collapse">
+        <i class="fa fa-minus"></i>
+      </button>
+    </span>
   </div>
-  <div class="card-body box-profile">
+  <div class="card-body box-profile" style="font-size:90%">
     <div class="table-responsive">
 
       <table class="table table-sm">
         <thead>
           <tr>
             <th>Day</th>
-            <th>Periods</th>
+            <th>Available Between</th>
           </tr>
         </thead>
 

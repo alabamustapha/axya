@@ -4,7 +4,7 @@
 
 @section('content')
 
-  <div class="container-fluid">
+  <div>
 
     <div class="jumbotron bg-white">    
       <div class="row">
@@ -46,10 +46,16 @@
 
             <hr>
 
-            <div class="tf-flex mb-3">                        
+            <div class="tf-flex mb-3">
+              @auth                      
                 <a href="#" class="btn btn-primary btn-sm btn-block col" data-toggle="modal" data-target="#appointmentForm" title="Book Appointment">
                   <i class="fa fa-calendar-check"></i>&nbsp; Book Appointment
                 </a>
+              @else
+                <button class="btn btn-primary btn-sm btn-block col" onclick="alert('Log in now to book an appointment');" title="Book Appointment">
+                  <i class="fa fa-calendar-check"></i>&nbsp; Book Appointment
+                </button>
+              @endauth
             </div>
 
         </div>
@@ -65,19 +71,19 @@
             <ul class="list-unstyled">
               <li class="pb-1" title="Speicialty">
                 <span>
-                  <i class="fa fa-user-md" style="min-width:7%"></i> {{ $doctor->specialty->name }}
+                  <i class="fa fa-user-md"></i> {{ $doctor->specialty->name }}
                 </span>
               </li>
 
               @if(Auth::check() && (Auth::user()->can('edit', $doctor) || Auth::user()->is_admin))
               <li class="pb-1" title="Email">
                 <span>
-                  <i class="fa fa-at" style="min-width:7%"></i> {{$doctor->user->email}}
+                  <i class="fa fa-at"></i> {{$doctor->user->email}}
                 </span>
               </li>
               <li class="pb-1" title="Phone">
                 <span>
-                  <i class="fa fa-mobile" style="min-width:7%"></i> {{$doctor->user->phone}}
+                  <i class="fa fa-mobile"></i> {{$doctor->user->phone}}
                 </span>
               </li>
               @endif
@@ -86,28 +92,35 @@
           
           <hr>
 
-          <ul class="list-group list-group-unbordered mb-3">
-            <li class="list-group-item p-1 px-3 mt-0 border-top-0">
-              <b class="d-inline-block w-25"><i style="width:25px;" class="fa fa-procedures"></i> Patients Served</b> <a>{{$doctor->patients->count()}}</a>
+          <ul class="list-group list-group-unbordered mb-3" style="font-size:90%">
+            <li class="list-group-item p-1 px-3 mt-0 border-top-0{{--  tf-flex --}}">
+              <b class="d-inline-block w-25"><i class="fa fa-procedures"></i> Patients Served</b> <a>{{$doctor->patients->count()}}</a>
             </li>
-            <li class="list-group-item p-1 px-3">
-              <b class="d-inline-block w-25"><i style="width:25px;" class="fa fa-university"></i> Alma mater</b> <span>{{ $doctor->graduate_school }}</span>
+            <li class="list-group-item p-1 px-3{{--  tf-flex --}}">
+              <b class="d-inline-block w-25"><i class="fa fa-university"></i> Alma mater</b> <span>{{ $doctor->graduate_school }}</span>
             </li>
-            <li class="list-group-item p-1 px-3">
-              <b class="d-inline-block w-25"><i style="width:25px;" class="fa fa-calendar-alt"></i> Availabilty</b> <span>{{$doctor->available ? 'Available':'Unavailable'}}</span>
+            <li class="list-group-item p-1 px-3{{--  tf-flex --}}">
+              <b class="d-inline-block w-25"><i class="fa fa-calendar-alt"></i> Availabilty</b> <span>{{$doctor->available ? 'Available':'Unavailable'}}</span>
             </li>
-            <li class="list-group-item p-1 px-3">
-              <b class="d-inline-block w-25"><i style="width:25px;" class="fa fa-calendar"></i> Practice Years</b> <span>{{$doctor->practice_years}} yrs</span>
+            <li class="list-group-item p-1 px-3{{--  tf-flex --}}">
+              <b class="d-inline-block w-25"><i class="fa fa-calendar"></i> Practice Years</b> <span>{{$doctor->practice_years}} yrs</span>
             </li>
 
-            <li class="list-group-item p-1 px-3">
-              <b class="d-inline-block w-25"><i style="width:25px;" class="fa fa-map-marker"></i> Location</b> <span>{{$doctor->user->address}}</span>
+            <li class="list-group-item p-1 px-3{{--  tf-flex --}}">
+              <b class="d-inline-block w-25"><i class="fa fa-map-marker"></i> Location</b> <span>{{$doctor->user->address}}</span>
             </li>
-            <li class="list-group-item p-1 px-3">
-              <b class="d-inline-block w-25"><i style="width:25px;" class="fa fa-hospital-alt"></i> Place of Work</b> <span> {{-- $doctor->workplace }}, {{ $doctor->workplace_address --}}</span>
+            <li class="list-group-item p-1 px-3{{--  tf-flex --}}">
+              <b class="d-inline-block w-25"><i class="fa fa-hospital-alt"></i> Place of Work</b> 
+              <span>
+                @if($present_workplace)
+                  <span>{{ $present_workplace->name }}, {{ $present_workplace->address }}</span>
+                @else
+                  <span>---</span>
+                @endif
+              </span>
             </li>
-            <li class="list-group-item p-1 px-3 border-bottom-0">
-              <b class="d-inline-block w-25"><i style="width:25px;" class="fa fa-info-circle"></i> About</b> <span> {{ $doctor->about }}</span>
+            <li class="list-group-item p-1 px-3 border-bottom-0{{--  tf-flex --}}">
+              <b class="d-inline-block w-25"><i class="fa fa-info-circle"></i> About</b> <span> {{ $doctor->about }}</span>
             </li>
           </ul>
         </div>

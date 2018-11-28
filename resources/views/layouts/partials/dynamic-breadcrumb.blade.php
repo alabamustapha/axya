@@ -1,5 +1,5 @@
 
-  <ol class="breadcrumb py-1" style="border-radius: 0;">
+  <ol class="breadcrumb py-1 mb-0" style="border-radius: 0;">
     <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
     @if (Request::path() == 'specialties')
       <li class="breadcrumb-item active" aria-current="page"><b>Specialties</b></li>
