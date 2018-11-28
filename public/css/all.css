@@ -190,6 +190,10 @@
 .w-20 {
   width: 20% !important;
 }
+
+.text-small {
+  font-size: 90% !important;
+}
 /* Some Vendor Styles Override */
 ::-webkit-scrollbar {
     background: transparent;
