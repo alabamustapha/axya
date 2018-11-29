@@ -20,6 +20,7 @@ class CreateWorkplacesTable extends Migration
             $table->string('address');
             $table->date('start_date');
             $table->date('end_date')->nullable();
+            $table->boolean('current')->default(0);
 
             $table->timestamps();
 

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Workplace extends Model
 {
     protected $fillable = [
-      'id','doctor_id','name','address','start_date','end_date',
+      'id','doctor_id','name','address','start_date','end_date','current'
     ];
 
     protected $dates = ['start_date','end_date'];

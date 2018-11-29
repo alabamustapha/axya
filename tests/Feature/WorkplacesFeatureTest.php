@@ -73,8 +73,7 @@ class WorkplacesFeatureTest extends TestCase
         $this
             ->patch(route('workplaces.update', $workplace), $updated_data)
             ->assertStatus(302)
-            ->assertRedirect(route('doctors.show', $this->doc_user))
-            // ->assertSessionHas('success', $updated_data['name'] .' updated successfully')
+            ->assertRedirect(route('doctors.show', $this->doctor))
             ;
 
         $this->assertDatabaseHas('workplaces', $updated_data);

@@ -30,6 +30,7 @@ class WorkplaceUpdateRequest extends FormRequest
             'address'    => 'required|string',
             'start_date' => 'required|date|before_or_equal:'. $date,
             'end_date'   => 'date|after:start_date',
+            'current'    => 'boolean',
         ];
     }
 }

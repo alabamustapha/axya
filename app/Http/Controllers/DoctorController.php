@@ -10,6 +10,7 @@ use App\Schedule;
 use App\Specialty;
 use App\Workplace;
 use Carbon\Carbon;
+use App\Http\Requests\DoctorUpdateRequest;
 use Illuminate\Http\Request;
 
 class DoctorController extends Controller
@@ -87,6 +88,7 @@ class DoctorController extends Controller
         $workplace->name       = $appl->workplace;
         $workplace->address    = $appl->workplace_address;
         $workplace->start_date = $appl->workplace_start;
+        $workplace->current    = '1';
         $workplace->save();
 
         // // Document data
@@ -180,7 +182,8 @@ class DoctorController extends Controller
                              ->orderBy('end_date', 'desc')
                              ->get()
                              ;
-        $present_workplace = $workplaces->first();
+        $current_workplace = $doctor->currentWorkplace();
+        $specialties = Specialty::all();
 
         return view('doctors.show', compact('doctor','workplaces','certificates',
             'sun_schedules',
@@ -190,7 +193,8 @@ class DoctorController extends Controller
             'thu_schedules',
             'fri_schedules',
             'sat_schedules',
-            'present_workplace'
+            'current_workplace',
+            'specialties'
         ));
     }
 
@@ -212,9 +216,17 @@ class DoctorController extends Controller
      * @param  \App\Doctor  $doctor
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Doctor $doctor)
+    public function update(DoctorUpdateRequest $request, Doctor $doctor)
     {
-        // Include Schedule here
+        $this->authorize('edit', $doctor);
+
+        $doctor->updateCurrentWorkplace($request);
+
+        if ($doctor->update($request->all())){
+            flash('Offical profile updated successfully')->success();
+        }
+
+        return redirect()->route('doctors.show', $doctor);
     }
 
     /**

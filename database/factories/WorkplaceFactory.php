@@ -9,5 +9,6 @@ $factory->define(App\Workplace::class, function (Faker $faker) {
         'address'   => $faker->address,
         'start_date'=> $faker->dateTimeBetween('-11 year', '-8 year'),
         'end_date'  => $faker->dateTimeBetween('-7 year', '-5 year'),
+        'current'   => $faker->boolean(3) ? '1':'0',
     ];
 });
