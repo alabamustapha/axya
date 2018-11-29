@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Doctor extends Model
 {
     protected $fillable = [
-      'id','user_id','slug','about','rate','specialty_id','first_appointment','graduate_school','available','subscription_ends_at','verified_at','verified_by',
+      'id','user_id','slug','about','rate','specialty_id','first_appointment','graduate_school','available','subscription_ends_at','verified_at','verified_by','location','email','phone'
     ];
 
     protected $dates = ['verified_at','subscription_ends_at','first_appointment'];
@@ -45,6 +45,33 @@ class Doctor extends Model
     public function workplaces()
     {
         return $this->hasMany(Workplace::class);
+    }
+
+    public function currentWorkplace()
+    {
+        return $this->hasMany(Workplace::class)->where('current', 1)->first();
+    }
+
+    public function updateCurrentWorkplace($rq)
+    {
+        $current_workplace = $this->workplaces()->where('current', 1)->first();
+
+        if (!is_null($current_workplace) && $rq->workplace_id != $current_workplace->id){
+            $current_workplace->update(['current'=> 0]);
+
+            $this->workplaces()
+              ->find($rq->workplace_id)
+              ->update(['current'=> 1])
+              ;
+        }
+        else {
+            $this->workplaces()
+              ->find($rq->workplace_id)
+              ->update(['current'=> 1])
+              ;
+        }
+
+        return;
     }
 
     public function schedules()
@@ -178,5 +205,15 @@ class Doctor extends Model
     public function getPracticeYearsAttribute()
     {
       return Carbon::now()->diffInYears($this->first_appointment);
+    }
+
+    public function getEmailAttribute($value)
+    {
+      return (! is_null($value)) ? $value: $this->user->email;
+    }
+
+    public function getPhoneAttribute($value)
+    {
+      return (! is_null($value)) ? $value: $this->user->phone;
     }
 }

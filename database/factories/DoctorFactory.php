@@ -22,5 +22,8 @@ $factory->define(App\Doctor::class, function (Faker $faker) {
       'subscription_ends_at' => $faker->dateTimeBetween('-5 day', '30 day'),
       'verified_by'      => App\User::all()->random()->id,
       'verified_at'      => $faker->dateTimeBetween('-50 day', '-16 minute'),
+      'location'         => $faker->address,
+      'email'            => $faker->email,
+      'phone'            => $faker->e164PhoneNumber,
     ];
 });

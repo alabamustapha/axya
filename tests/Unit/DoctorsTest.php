@@ -30,7 +30,7 @@ class DoctorsTest extends TestCase
     {
         $this->assertTrue(Schema::hasColumns('doctors', 
           [
-            'id','user_id','about','rate','specialty_id','first_appointment','graduate_school','verified_by','verified_at', 
+            'id','user_id','about','rate','specialty_id','first_appointment','graduate_school','verified_by','verified_at','location','email','phone'
           ]), 1);
     }
 
