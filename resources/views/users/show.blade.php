@@ -179,7 +179,7 @@
 
                   <hr>
                   <div class="tf-flex">
-                    <strong><i class="fa fa-file-text-o mr-1"></i> Chronic Conditions</strong>
+                    <strong><i class="fa fa-diagnoses mr-1"></i> Chronic Conditions</strong>
 
                     @if($user->isAccountOwner())
                       <a style="cursor: pointer;" onclick="return false;" title="Update Chronic Conditions" data-toggle="modal" data-target="#updateChronicsProfileForm">

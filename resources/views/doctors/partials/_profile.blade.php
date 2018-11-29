@@ -1,5 +1,5 @@
 
-                <div class="card mr-1" style="min-width: 18rem;max-width: 18rem;">
+                <div class="card mr-1 shadow-sm" style="min-width: 18rem;max-width: 18rem;">
                     <div style="display:block;min-height: 200px;height: 200px;overflow: hidden;">
                         <img class="card-img-top" src="{{ $doctor->dummyAvatar()/*$doctor->user->avatar*/ }}" alt="{{ $doctor->user->name }}" style="display:block;min-height: 200px;">
                     </div>

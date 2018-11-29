@@ -1,3 +1,6 @@
+#leadview {
+  background-image: url(../images/bgs/railsware-stats-layer-medium-0103f701.jpg);
+}
 
 @supports ((position: -webkit-sticky) or (position: sticky)) {
   .sticky-bottom {

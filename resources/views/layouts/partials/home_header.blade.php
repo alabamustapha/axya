@@ -1,5 +1,5 @@
 
-   <div class="container text-center pt-5">
+   <div class="container text-center text-white pt-5">
         <h1 class="display-2">Premium Health Care!</h1>
         <p class="lead text-uppercase pb-4">Search for doctors and book an appointment today.</p>
 
