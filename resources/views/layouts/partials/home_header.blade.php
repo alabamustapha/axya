@@ -1,12 +1,13 @@
-<div class="jumbotron jumbotron-fluid">
-   <div class="container text-center">
-        <h1 class="display-4">Premium health care!</h1>
-        <p class="lead">Search for doctors and book an appointment today.</p>
+
+   <div class="container text-center text-white pt-5">
+        <h1 class="display-2">Premium Health Care!</h1>
+        <p class="lead text-uppercase pb-4">Search for doctors and book an appointment today.</p>
+
         <hr class="my-4">
         
         {{-- @include('layouts.partials.search_form') --}}
         
-        <div>
+        <div class="pt-4">
           <div class="input-group input-group-lg">
             <input class="form-control form-control-navbar" 
                 v-model="search" 
@@ -24,6 +25,4 @@
 
           <searches></searches>
         </div> 
-
    </div>
-</div>

@@ -53,6 +53,21 @@ i.fas {
 }
 
 
+/* Welcome Page Styles*/
+.vh90 {
+    min-height: 90vh;
+}
+
+.flex-center {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.position-ref {
+    position: relative;
+}
+
 
 
 
@@ -155,3 +170,5 @@ input:focus + label {
   </div>
 </form>
 */
+
+

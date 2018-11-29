@@ -20,6 +20,10 @@ Vue.prototype.$acl = new Acl(window.user);
 import moment from 'moment'
 
 
+// AOS (Animate On Scroll Library):
+import AOS from 'aos'
+
+
 // VueForm:
 import { Form, HasError, AlertError } from 'vform'
 window.Form = Form // Available globally for global access.
