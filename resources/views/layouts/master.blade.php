@@ -82,8 +82,10 @@
 
           <div class="container-fluid">
 
-            <searches></searches>
-            <router-view></router-view>
+            <span style="z-index: 2000;">
+              <searches></searches>
+              <router-view></router-view>
+            </span>
 
             @yield('content')
             
