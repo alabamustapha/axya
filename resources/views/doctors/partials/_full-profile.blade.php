@@ -17,12 +17,12 @@
                 @if(Auth::check() && (Auth::user()->can('edit', $doctor) || Auth::user()->is_admin))
                 <li class="pb-1" title="Email">
                   <span>
-                    <i class="fa fa-at"></i> {{$doctor->user->email}}
+                    <i class="fa fa-at"></i> {{$doctor->email}}
                   </span>
                 </li>
                 <li class="pb-1" title="Phone">
                   <span>
-                    <i class="fa fa-mobile"></i> {{$doctor->user->phone}}
+                    <i class="fa fa-mobile"></i> {{$doctor->phone}}
                   </span>
                 </li>
                 @endif
@@ -46,13 +46,13 @@
               </li>
 
               <li class="list-group-item p-1 px-3{{--  tf-flex --}}">
-                <b class="d-inline-block w-35"><i class="fa fa-map-marker"></i> Location</b> <span>{{$doctor->user->address}}</span>
+                <b class="d-inline-block w-35"><i class="fa fa-map-marker"></i> Location</b> <span>{{$doctor->location}}</span>
               </li>
               <li class="list-group-item p-1 px-3{{--  tf-flex --}}">
                 <b class="d-inline-block w-35"><i class="fa fa-hospital-alt"></i> Place of Work</b> 
                 <span>
-                  @if($present_workplace)
-                    <span>{{ $present_workplace->name }}, {{ $present_workplace->address }}</span>
+                  @if($current_workplace)
+                    <span>{{ $current_workplace->name }}, {{ $current_workplace->address }}</span>
                   @else
                     <span>---</span>
                   @endif

@@ -180,10 +180,10 @@
 
       @can('isDoctor')
       <li class="nav-item has-treeview">
-        <a href="#" class="nav-link">
+        <a href="#" class="nav-link" title="{{ Auth::user()->is_doctor ? 'Doctor':'Nurse'}} or Admin">
           <i class="nav-icon fa fa-prescription orange"></i>
           <p>
-            Doctor Section
+            Official Section
             <i class="right fa fa-angle-left"></i>
           </p>
         </a>

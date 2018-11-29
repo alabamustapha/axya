@@ -17,7 +17,7 @@
             <div class="tf-flex">
               <span class="mr-3" title="settings">
                 <button id="navbarDropdown" class="btn btn-sm btn-dark dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-cog"></i>
+                    <i class="fa fa-cog"></i> Settings
                 </button>
 
                 <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown">
@@ -26,7 +26,7 @@
                   </button>
 
                   <button onclick="return false;" class="dropdown-item" title="Update Profile" data-toggle="modal" data-target="#updateProfessionalProfileForm">
-                    <i class="fa fa-edit mr-1"></i>&nbsp; Edit Details
+                    <i class="fa fa-edit mr-1"></i>&nbsp; Edit Profile
                   </button>
               
                   @if ($doctor->user->hasUploadedAvatar())

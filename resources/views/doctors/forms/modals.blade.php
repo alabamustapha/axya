@@ -1,7 +1,7 @@
 
     @if ($doctor->user->isAccountOwner())
       <div class="modal" tabindex="-1" role="dialog" id="updateProfessionalProfileForm" style="display:none;" aria-labelledby="updateProfessionalProfileFormLabel" aria-hidden="true">
-        <div class="modal-dialog{{--  modal-dialog-centered --}}" role="document">
+        <div class="modal-dialog modal-md" role="document">
           <div class="modal-content">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 5px 15px 0px;margin:10px auto -25px">
               <span aria-hidden="true">&times;</span>
@@ -9,7 +9,7 @@
             <br>
             <div class="modal-body">
 
-              {{-- @include('doctors.forms.edit') --}}
+              @include('doctors.forms.edit')
 
             </div> <!-- modal-body -->    
           </div> <!-- modal-content -->    
