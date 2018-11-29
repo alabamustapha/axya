@@ -8,6 +8,7 @@ use App\Notifications\PasswordChangeNotification;
 use App\Traits\ImageProcessing;
 use App\Traits\CustomSluggableTrait;
 use App\User;
+use Auth;
 use App\Image;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -97,18 +98,24 @@ class UserController extends Controller
     public function changePassword(Request $request, User $user)
     {
         $this->authorize('edit', $user);
-        request()->validate([ 'password' => 'required|string|min:6|confirmed' ]);
 
-        if ($user->update(['password' => Hash::make($request['password']) ])){
+        if (Auth::attempt([ 'email' => $user->email, 'password' => $request->old_password])) {
 
-            $user->notify(new PasswordChangeNotification($user));
+            request()->validate([ 
+                'old_password' => 'required|string|min:6|', 
+                'password'     => 'required|string|min:6|confirmed' 
+            ]);
 
-            flash('Account password changed successfully.')->success();
+            if ($user->update(['password' => Hash::make($request['password']) ])) {
+                $user->notify(new PasswordChangeNotification($user));
+
+                // Auth::logout();
+                flash('Account password changed successfully.')->success();// <b class="orange">Log in with the new password now.</b>
+                return redirect()->route('users.show', $user);
+            }            
         }
-        else {
-            flash('Account password change was unsuccessful.')->error();
-        }
-        
+
+        flash('<b>The old password supplied is incorrect!</b> Account password change was not successful.')->error();
         return redirect()->route('users.show', $user);
     }
 
