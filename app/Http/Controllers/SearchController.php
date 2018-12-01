@@ -64,4 +64,18 @@ class SearchController extends Controller
         return response()->json($doctors);
       }
     }
+
+    public function doctors()
+    {
+      if (request()->q){
+        $q = request()->q;
+        
+        $results = Doctor::with('user')
+                   ->where('slug', 'like', "%$q%")
+                   ->orWhere('about', 'like', "%$q%")
+                   ->paginate(3);
+
+        return response()->json($results);
+      }
+    }
 }

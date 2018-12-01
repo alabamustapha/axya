@@ -19,7 +19,7 @@
 
             <div class="card-deck">
 
-              <div class="card card-primary shadow-none mx-1">
+              <!-- <div class="card card-primary shadow-none mx-1">
                 <div class="card-header">
                   <i class="fa fa-user-md"></i>&nbsp; Doctors
                 </div>
@@ -35,7 +35,7 @@
                         <div class="d-flex flex-row justify-content-between w-100">
                           <a class="users-list-name":href="doctor.link">{{doctor.user.name}}</a>
 
-                          <div v-if="$acl.isSuperAdmin()"><!--  -->
+                          <div v-if="$acl.isSuperAdmin()">
                             <button id="navbarDropdown" class="btn btn-sm dropdown-toggle d-inline" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-cog"></i>
                             </button>
@@ -60,7 +60,7 @@
                           </div>
                         </div>
                         
-                        <a :href="doctor.specialty.link" class="text-muted" v-text="doctor.specialty.name"></a><!-- <br> -->
+                        <a :href="doctor.specialty.link" class="text-muted" v-text="doctor.specialty.name"></a>
 
                         <div class="d-flex flex-row justify-content-between w-100 mb-1">
                           <small class="text-muted">
@@ -84,7 +84,7 @@
                       <pagination :data="searches" @pagination-change-page="makePagination"></pagination>
                   </div>
                 </div>
-              </div>
+              </div> -->
 
               <div class="card card-primary shadow-none mx-1">
                 <div class="card-header">
@@ -102,7 +102,7 @@
                         <div class="d-flex flex-row justify-content-between w-100">
                           <a class="users-list-name":href="doctor.link">{{doctor.user.name}}</a>
 
-                          <div v-if="$acl.isSuperAdmin()"><!--  -->
+                          <div v-if="$acl.isSuperAdmin()">
                             <button id="navbarDropdown" class="btn btn-sm dropdown-toggle d-inline" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-cog"></i>
                             </button>
@@ -127,7 +127,7 @@
                           </div>
                         </div>
                         
-                        <a :href="doctor.specialty.link" class="text-muted" v-text="doctor.specialty.name"></a><!-- <br> -->
+                        <a :href="doctor.specialty.link" class="text-muted" v-text="doctor.specialty.name"></a>
 
                         <div class="d-flex flex-row justify-content-between w-100 mb-1">
                           <small class="text-muted">
@@ -147,9 +147,9 @@
                     </div>
 
                   </div>
-                  <div class="card-footer text-center mb-0">
-                      <pagination :data="doctors" @pagination-change-page="doctorsPagination"></pagination>
-                  </div>
+                </div>
+                <div class="card-footer text-center mb-0">
+                    <pagination :data="doctors" @pagination-change-page="doctorsPagination"></pagination>
                 </div>
               </div>
 
@@ -169,7 +169,7 @@
                         <div class="d-flex flex-row justify-content-between w-100">
                           <a class="users-list-name":href="doctor.link">{{doctor.user.name}}</a>
 
-                          <div v-if="$acl.isAdmin()"><!--  -->
+                          <div v-if="$acl.isAdmin()">
                             <button id="navbarDropdown" class="btn btn-sm dropdown-toggle d-inline" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-cog"></i>
                             </button>
@@ -194,7 +194,7 @@
                           </div>
                         </div>
                         
-                        <a :href="doctor.specialty.link" class="text-muted" v-text="doctor.specialty.name"></a><!-- <br> -->
+                        <a :href="doctor.specialty.link" class="text-muted" v-text="doctor.specialty.name"></a>
 
                         <div class="d-flex flex-row justify-content-between w-100 mb-1">
                           <small class="text-muted">
@@ -232,7 +232,7 @@
                         <div class="d-flex flex-row justify-content-between w-100">
                           <a class="users-list-name":href="doctor.link">{{doctor.user.name}}</a>
 
-                          <div v-if="$acl.isAdmin()"><!--  -->
+                          <div v-if="$acl.isAdmin()">
                             <button id="navbarDropdown" class="btn btn-sm dropdown-toggle d-inline" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-cog"></i>
                             </button>
@@ -257,7 +257,7 @@
                           </div>
                         </div>
                         
-                        <a :href="doctor.specialty.link" class="text-muted" v-text="doctor.specialty.name"></a><!-- <br> -->
+                        <a :href="doctor.specialty.link" class="text-muted" v-text="doctor.specialty.name"></a>
 
                         <div class="d-flex flex-row justify-content-between w-100 mb-1">
                           <small class="text-muted">

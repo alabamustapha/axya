@@ -47,7 +47,8 @@ Route::prefix('dashboard')->group(function(){
 });
 Route::get('applications/{application}/show-file', 'ApplicationController@showFile')->name('showFile');
 
-Route::get('searches', 'SearchController@index')->name('search');
+Route::get('searches',        'SearchController@index')->name('search');
+Route::get('searches/doctors','SearchController@doctors')->name('search.doctors');
 
 
 
