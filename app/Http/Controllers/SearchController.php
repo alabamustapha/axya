@@ -36,30 +36,18 @@ class SearchController extends Controller
 
         // **with('user')** helps to link to relational *users* table for Vue rendering.
         $doctors =  Doctor::with('user')
-          ->where(function ($query) use ($q,$tag_spec,$actual_spec){
+          ->where(function ($query) use ($q,$tag_spec, $actual_spec){
               $query->where('slug', 'like', "%$q%")
                   ->orwhereIn('specialty_id', $tag_spec)
                   ->orWhereIn('specialty_id', $actual_spec)
             ;
           })->paginate(3);
-          // dd($tags,$doctors->count());
 
 
         // $collection = collect();
         // $collection = $collection->merge($tags);
         // $collection = $collection->merge($specialties);
-        // $collection = $collection->merge($doctors);
-
-        // // https://medium.com/@AceKYD/custom-pagination-view-in-laravel-5-with-arrays-769cd21bea74
-        // $results = array();
-
-        // $currentPage = LengthAwarePaginator::resolveCurrentPage();
-        // $per_page = 200;
-
-        // $currentPageResults = $collection->slice(($currentPage-1) * $per_page, $per_page)->all();
-        // $results = new LengthAwarePaginator($currentPageResults, count($collection), $per_page);
-        // // $results->setPath($request->url());
-        // // dd($tags->count(),$specialties->count(),$doctors->count(),$results->count());
+        // $collection/$doctors = $collection->merge($doctors);
       
         return response()->json($doctors);
       }

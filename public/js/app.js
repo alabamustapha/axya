@@ -70731,76 +70731,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -70818,26 +70748,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     /** ~~~~ MAKE NEW SEARCHES ~~~~*/
     /*******************************/
-    loadSearches: function loadSearches() {
-      var _this = this;
-
-      // $parent needed to access the root instance at ...resources\js\app.js
-      var query = this.$parent.search;
-      var searchUrl = appUrl + '/searches?q=';
-
-      axios.get(searchUrl + query).then(function (_ref) {
-        var data = _ref.data;
-        return _this.searches = data;
-      }).then(function () {
-        if (_this.searches.length) {
-          $('#search-list').css('display', 'block'); //.show();
-        }
-      }).catch(function () {
-        //...
-      });
-    },
     searchDoctors: function searchDoctors() {
-      var _this2 = this;
+      var _this = this;
 
       // $parent needed to access the root instance at ...resources\js\app.js
       var query = this.$parent.search;
@@ -70845,11 +70757,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var searchUrl = appUrl + '/searches/doctors?q=';
 
       // axios.get(searchUrl + query +'&type=dr')
-      axios.get(searchUrl + query).then(function (_ref2) {
-        var data = _ref2.data;
-        return _this2.doctors = data;
+      axios.get(searchUrl + query).then(function (_ref) {
+        var data = _ref.data;
+        return _this.doctors = data;
       }).then(function () {
-        if (_this2.doctors.length) {
+        if (_this.doctors.length) {
           $('#search-list').css('display', 'block'); //.show();
         }
       }).catch(function () {
@@ -70857,59 +70769,47 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     },
     searchTags: function searchTags() {
-      var _this3 = this;
+      var _this2 = this;
 
       // $parent needed to access the root instance at ...resources\js\app.js
       var query = this.$parent.search;
       var searchUrl = appUrl + '/searches/tags?q=';
 
-      axios.get(searchUrl + query).then(function (_ref3) {
-        var data = _ref3.data;
-        return _this3.tags = data;
+      axios.get(searchUrl + query).then(function (_ref2) {
+        var data = _ref2.data;
+        return _this2.tags = data;
       });
     },
     searchSpecialties: function searchSpecialties() {
-      var _this4 = this;
+      var _this3 = this;
 
       // $parent needed to access the root instance at ...resources\js\app.js
       var query = this.$parent.search;
       var searchUrl = appUrl + '/searches/specialties?q=';
 
-      axios.get(searchUrl + query).then(function (_ref4) {
-        var data = _ref4.data;
-        return _this4.specialties = data;
+      axios.get(searchUrl + query).then(function (_ref3) {
+        var data = _ref3.data;
+        return _this3.specialties = data;
       });
     },
     searchUsers: function searchUsers() {
-      var _this5 = this;
+      var _this4 = this;
 
       // $parent needed to access the root instance at ...resources\js\app.js
       var query = this.$parent.search;
       var searchUrl = appUrl + '/searches/users?q=';
 
-      axios.get(searchUrl + query).then(function (_ref5) {
-        var data = _ref5.data;
-        return _this5.users = data;
+      axios.get(searchUrl + query).then(function (_ref4) {
+        var data = _ref4.data;
+        return _this4.users = data;
       });
     },
 
 
     /*~~~~ PAGINATION OF MODELS ~~~~*/
     /*******************************/
-    makePagination: function makePagination() {
-      var _this6 = this;
-
-      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-
-      var query = this.$parent.search;
-      var searchUrl = appUrl + '/searches?q=';
-
-      axios.get(searchUrl + query + '&page=' + page).then(function (response) {
-        _this6.searches = response.data;
-      });
-    },
     doctorsPagination: function doctorsPagination() {
-      var _this7 = this;
+      var _this5 = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
@@ -70917,11 +70817,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var searchUrl = appUrl + '/searches/doctors?q=';
 
       axios.get(searchUrl + query + '&page=' + page).then(function (response) {
-        _this7.doctors = response.data;
+        _this5.doctors = response.data;
       });
     },
     tagsPagination: function tagsPagination() {
-      var _this8 = this;
+      var _this6 = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
@@ -70929,11 +70829,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var searchUrl = appUrl + '/searches/tags?q=';
 
       axios.get(searchUrl + query + '&page=' + page).then(function (response) {
-        _this8.tags = response.data;
+        _this6.tags = response.data;
       });
     },
     specialtiesPagination: function specialtiesPagination() {
-      var _this9 = this;
+      var _this7 = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
@@ -70941,11 +70841,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var searchUrl = appUrl + '/searches/specialties?q=';
 
       axios.get(searchUrl + query + '&page=' + page).then(function (response) {
-        _this9.specialties = response.data;
+        _this7.specialties = response.data;
       });
     },
     usersPagination: function usersPagination() {
-      var _this10 = this;
+      var _this8 = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
@@ -70953,7 +70853,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var searchUrl = appUrl + '/searches/users?q=';
 
       axios.get(searchUrl + query + '&page=' + page).then(function (response) {
-        _this10.users = response.data;
+        _this8.users = response.data;
       });
     }
   },
@@ -70961,14 +70861,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   /**~~~~ LOAD ON NEW SEARCH ~~~~*/
   /*******************************/
   created: function created() {
-    var _this11 = this;
+    var _this9 = this;
 
     Event.$on('search_stuff', function () {
-      _this11.loadSearches();
-      _this11.searchDoctors();
-      _this11.searchTags();
-      _this11.searchSpecialties();
-      _this11.searchUsers();
+      _this9.searchDoctors();
+      _this9.searchTags();
+      _this9.searchSpecialties();
+      _this9.searchUsers();
     });
   }
 });
@@ -71003,13 +70902,9 @@ var render = function() {
               { staticClass: "card-header bg-primary text-center p-2" },
               [
                 _c("span", [
-                  _c("b", { staticClass: "h4" }),
-                  _vm._v(" "),
-                  _c("span", [
-                    _vm._v("Results found for "),
-                    _c("b", { staticClass: "h4" }, [
-                      _vm._v(_vm._s(this.$parent.search))
-                    ])
+                  _vm._v("Results found for "),
+                  _c("b", { staticClass: "h4" }, [
+                    _vm._v(_vm._s(this.$parent.search))
                   ])
                 ]),
                 _vm._v(" "),
