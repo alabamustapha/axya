@@ -70800,6 +70800,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -71002,14 +71003,17 @@ var render = function() {
               { staticClass: "card-header bg-primary text-center p-2" },
               [
                 _c("span", [
-                  _vm._m(0),
-                  _vm._v(" specialists found for "),
-                  _c("span", { staticClass: "h4" }, [
-                    _c("b", [_vm._v(_vm._s(this.$parent.search))])
+                  _c("b", { staticClass: "h4" }),
+                  _vm._v(" "),
+                  _c("span", [
+                    _vm._v("Results found for "),
+                    _c("b", { staticClass: "h4" }, [
+                      _vm._v(_vm._s(this.$parent.search))
+                    ])
                   ])
                 ]),
                 _vm._v(" "),
-                _vm._m(1)
+                _vm._m(0)
               ]
             ),
             _vm._v(" "),
@@ -71022,7 +71026,7 @@ var render = function() {
                     "div",
                     { staticClass: "card card-primary shadow-none mx-1" },
                     [
-                      _vm._m(2),
+                      _vm._m(1),
                       _vm._v(" "),
                       _c(
                         "div",
@@ -71079,9 +71083,9 @@ var render = function() {
                                           _vm._v(" "),
                                           _vm.$acl.isSuperAdmin()
                                             ? _c("div", [
-                                                _vm._m(3, true),
+                                                _vm._m(2, true),
                                                 _vm._v(" "),
-                                                _vm._m(4, true)
+                                                _vm._m(3, true)
                                               ])
                                             : _vm._e()
                                         ]
@@ -71097,11 +71101,11 @@ var render = function() {
                                         }
                                       }),
                                       _vm._v(" "),
-                                      _vm._m(5, true)
+                                      _vm._m(4, true)
                                     ]
                                   ),
                                   _vm._v(" "),
-                                  _vm._m(6, true)
+                                  _vm._m(5, true)
                                 ]
                               )
                             ]
@@ -71129,7 +71133,7 @@ var render = function() {
                     "div",
                     { staticClass: "card card-secondary shadow-none mx-1" },
                     [
-                      _vm._m(7),
+                      _vm._m(6),
                       _vm._v(" "),
                       _c(
                         "div",
@@ -71182,7 +71186,7 @@ var render = function() {
                     "div",
                     { staticClass: "card card-secondary shadow-none mx-1" },
                     [
-                      _vm._m(8),
+                      _vm._m(7),
                       _vm._v(" "),
                       _c(
                         "div",
@@ -71229,98 +71233,101 @@ var render = function() {
                     ]
                   ),
                   _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "card card-primary shadow-none mx-1" },
-                    [
-                      _vm._m(9),
-                      _vm._v(" "),
-                      _c(
+                  _vm.$acl.isSuperAdmin()
+                    ? _c(
                         "div",
-                        { staticClass: "card-body p-2" },
-                        _vm._l(_vm.users.data, function(user) {
-                          return _c(
+                        { staticClass: "card card-primary shadow-none mx-1" },
+                        [
+                          _vm._m(8),
+                          _vm._v(" "),
+                          _c(
                             "div",
-                            { key: user.id, staticClass: "px-3 py-1" },
-                            [
-                              _c(
+                            { staticClass: "card-body p-2" },
+                            _vm._l(_vm.users.data, function(user) {
+                              return _c(
                                 "div",
-                                {
-                                  staticClass: "row",
-                                  attrs: { title: user.name }
-                                },
+                                { key: user.id, staticClass: "px-3 py-1" },
                                 [
-                                  _c("a", { attrs: { href: user.link } }, [
-                                    _c("img", {
-                                      staticClass: "text-sm-center",
-                                      staticStyle: {
-                                        display: "inline-block",
-                                        width: "80px",
-                                        height: "80px"
-                                      },
-                                      attrs: {
-                                        src: user.avatar,
-                                        alt: "Doctor Image"
-                                      }
-                                    })
-                                  ]),
-                                  _vm._v(" "),
                                   _c(
                                     "div",
                                     {
-                                      staticClass:
-                                        "text-left ml-2 ml-sm-0 ml-lg-2 d-flex flex-column justify-content-between h-100"
+                                      staticClass: "row",
+                                      attrs: { title: user.name }
                                     },
                                     [
+                                      _c("a", { attrs: { href: user.link } }, [
+                                        _c("img", {
+                                          staticClass: "text-sm-center",
+                                          staticStyle: {
+                                            display: "inline-block",
+                                            width: "80px",
+                                            height: "80px"
+                                          },
+                                          attrs: {
+                                            src: user.avatar,
+                                            alt: "Doctor Image"
+                                          }
+                                        })
+                                      ]),
+                                      _vm._v(" "),
                                       _c(
                                         "div",
                                         {
                                           staticClass:
-                                            "d-flex flex-row justify-content-between w-100"
+                                            "text-left ml-2 ml-sm-0 ml-lg-2 d-flex flex-column justify-content-between h-100"
                                         },
                                         [
                                           _c(
-                                            "a",
+                                            "div",
                                             {
-                                              staticClass: "users-list-name",
-                                              attrs: { href: user.link }
+                                              staticClass:
+                                                "d-flex flex-row justify-content-between w-100"
                                             },
-                                            [_vm._v(_vm._s(user.name))]
-                                          ),
-                                          _vm._v(" "),
-                                          _vm.$acl.isSuperAdmin()
-                                            ? _c("div", [
-                                                _vm._m(10, true),
-                                                _vm._v(" "),
-                                                _vm._m(11, true)
-                                              ])
-                                            : _vm._e()
+                                            [
+                                              _c(
+                                                "a",
+                                                {
+                                                  staticClass:
+                                                    "users-list-name",
+                                                  attrs: { href: user.link }
+                                                },
+                                                [_vm._v(_vm._s(user.name))]
+                                              ),
+                                              _vm._v(" "),
+                                              _vm.$acl.isSuperAdmin()
+                                                ? _c("div", [
+                                                    _vm._m(9, true),
+                                                    _vm._v(" "),
+                                                    _vm._m(10, true)
+                                                  ])
+                                                : _vm._e()
+                                            ]
+                                          )
                                         ]
                                       )
                                     ]
                                   )
                                 ]
                               )
-                            ]
+                            })
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            { staticClass: "card-footer text-center mb-0" },
+                            [
+                              _c("pagination", {
+                                attrs: { data: _vm.users },
+                                on: {
+                                  "pagination-change-page": _vm.usersPagination
+                                }
+                              })
+                            ],
+                            1
                           )
-                        })
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "card-footer text-center mb-0" },
-                        [
-                          _c("pagination", {
-                            attrs: { data: _vm.users },
-                            on: {
-                              "pagination-change-page": _vm.usersPagination
-                            }
-                          })
-                        ],
-                        1
+                        ]
                       )
-                    ]
-                  )
+                    : _vm._e()
                 ])
               ]
             )
@@ -71331,14 +71338,6 @@ var render = function() {
   )
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "h4" }, [
-      _c("b", [_c("i", { staticClass: "fa fa-user-md" })])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

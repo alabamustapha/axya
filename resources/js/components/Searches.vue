@@ -5,7 +5,8 @@
         <div class="card shadow-none">
           <div class="card-header bg-primary text-center p-2">
             <span>
-              <span class="h4"><b><!-- {{searches.data.length}}  --><i class="fa fa-user-md"></i></b></span> specialists found for <span class="h4"><b>{{this.$parent.search}}</b></span>
+              <b class="h4"><!-- {{doctors.data.length}}  --></b> 
+              <span>Results found for <b class="h4">{{this.$parent.search}}</b></span>
             </span>
 
             <div class="card-tools">
@@ -182,7 +183,7 @@
                     <pagination :data="tags" @pagination-change-page="tagsPagination"></pagination>
                 </div>
               </div>
-              
+
 
               <div class="card card-secondary shadow-none mx-1">
                 <div class="card-header">
@@ -207,7 +208,7 @@
               </div>
 
 
-              <div class="card card-primary shadow-none mx-1">
+              <div class="card card-primary shadow-none mx-1" v-if="$acl.isSuperAdmin()">
                 <div class="card-header">
                   <i class="fa fa-users"></i>&nbsp; Users
                 </div>

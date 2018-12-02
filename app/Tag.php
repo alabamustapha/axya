@@ -13,6 +13,8 @@ class Tag extends Model
 
     protected $with = ['specialty'];
 
+    protected $appends = ['link'];
+
     protected $fillable = ['name','slug','description','specialty_id','user_id','accepted_at'];
 
     /**
@@ -42,5 +44,10 @@ class Tag extends Model
     {
       // return $this->belongsToMany(Specialty::class);
       return $this->belongsTo(Specialty::class);
+    }
+
+    public function getLinkAttribute()
+    {
+      return route('tags.show', $this);
     }
 }
