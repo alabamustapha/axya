@@ -59,6 +59,7 @@
                         </div>
                         
                         <a :href="doctor.specialty.link" class="text-muted" v-text="doctor.specialty.name"></a>
+                        <span class="text-muted" v-text="doctor.location"></span>
 
                         <div class="d-flex flex-row justify-content-between w-100 mb-1">
                           <small class="text-muted">
@@ -79,13 +80,13 @@
 
                   </div>
 
-                  <!-- <div class="short-content-bg" v-show="doctors.data.length == 0">
+                  <div class="short-content-bg" v-show="doctors.data.length == 0">
                     0 results in doctors.
-                  </div> -->
+                  </div>
                 </div>
-                <div class="card-footer text-center mb-0">
+                <!-- <div class="card-footer text-center mb-0">
                     <pagination :data="doctors" @pagination-change-page="doctorsPagination"></pagination>
-                </div>
+                </div> -->
               </div>
               
 
@@ -105,7 +106,7 @@
                   </div>
 
                   <!-- <div class="short-content-bg" v-show="tags.data.length == 0">
-                    0 results in keywords/tags.
+                    0 results in keywords.
                   </div> -->
                 </div>
 

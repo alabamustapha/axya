@@ -60,6 +60,7 @@ class SearchController extends Controller
         
         $results = Doctor::with('user')
                    ->where('slug', 'like', "%$q%")
+                   ->orWhere('location', 'like', "%$q%")
                    ->orWhere('about', 'like', "%$q%")
                    ->paginate(3);
 
