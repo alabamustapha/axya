@@ -78,7 +78,7 @@ class SearchController extends Controller
         return response()->json($results);
       }
     }
-    
+
     public function tags()
     {
       if (request()->q){
@@ -86,7 +86,20 @@ class SearchController extends Controller
 
         $results = Tag::with('specialty')->where('name', 'like', "%$q%")
                      ->orWhere('description', 'like', "%$q%")
-                     ->paginate(10);//get();//
+                     ->paginate(10);
+
+        return response()->json($results);
+      }
+    }
+
+    public function specialties()
+    {
+      if (request()->q){
+        $q = request()->q;
+
+        $results = Specialty::where('name', 'like', "%$q%")
+                     // ->orWhere('description', 'like', "%$q%")
+                     ->paginate(15);
 
         return response()->json($results);
       }
