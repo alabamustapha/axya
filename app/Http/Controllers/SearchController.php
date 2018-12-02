@@ -78,4 +78,17 @@ class SearchController extends Controller
         return response()->json($results);
       }
     }
+    
+    public function tags()
+    {
+      if (request()->q){
+        $q = request()->q;
+
+        $results = Tag::with('specialty')->where('name', 'like', "%$q%")
+                     ->orWhere('description', 'like', "%$q%")
+                     ->paginate(10);//get();//
+
+        return response()->json($results);
+      }
+    }
 }
