@@ -182,6 +182,7 @@
                     <pagination :data="tags" @pagination-change-page="tagsPagination"></pagination>
                 </div>
               </div>
+              
 
               <div class="card card-secondary shadow-none mx-1">
                 <div class="card-header">
@@ -201,9 +202,65 @@
                 </div>
 
                 <div class="card-footer text-center mb-0">
-                    <pagination :data="specialties" @pagination-change-page="searchSpecialties"></pagination>
+                    <pagination :data="specialties" @pagination-change-page="specialtiesPagination"></pagination>
                 </div>
               </div>
+
+
+              <div class="card card-primary shadow-none mx-1">
+                <div class="card-header">
+                  <i class="fa fa-users"></i>&nbsp; Users
+                </div>
+                <div class="card-body p-2">
+                  <div class="px-3 py-1" v-for="user in users.data" :key="user.id">
+                    
+                    <div class="row" :title="user.name">
+                      <a :href="user.link">
+                        <img :src="user.avatar" class="text-sm-center" style="display:inline-block;width:80px;height: 80px;" alt="Doctor Image">
+                      </a>
+
+                      <div class="text-left ml-2 ml-sm-0 ml-lg-2 d-flex flex-column justify-content-between h-100">
+                        <div class="d-flex flex-row justify-content-between w-100">
+                          <a class="users-list-name":href="user.link">{{user.name}}</a>
+
+                          <div v-if="$acl.isSuperAdmin()">
+                            <button id="navbarDropdown" class="btn btn-sm dropdown-toggle d-inline" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fa fa-cog"></i>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown" style="font-size:12px;">
+
+                                <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to STAFF?');" title="Demote Admin">
+                                  <i class="fa fa-user-tie teal"></i>&nbsp; Upgrade to Admin
+                                </button>
+
+                                <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
+                                  <i class="fa fa-user-tag indigo"></i>&nbsp; Upgrade to Staff
+                                </button>
+
+                                <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
+                                  <i class="fa fa-user-slash orange"></i>&nbsp; Demote to Normal User
+                                </button>
+
+                                <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
+                                  <i class="fa fa-ban red"></i>&nbsp; Block/Suspend
+                                </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <!-- <div class="short-content-bg" v-show="users.data.length == 0">
+                    0 results in users.
+                  </div> -->
+                </div>
+                <div class="card-footer text-center mb-0">
+                    <pagination :data="users" @pagination-change-page="usersPagination"></pagination>
+                </div>
+              </div>
+              
 
             </div>
           </div>
@@ -221,11 +278,15 @@
         searches: {},
         doctors : {},
         tags    : {},
+        users   : {},
         specialties : {},
       }
     },
 
     methods: {
+
+      /** ~~~~ MAKE NEW SEARCHES ~~~~*/
+      /*******************************/
       loadSearches() {
         // $parent needed to access the root instance at ...resources\js\app.js
         let query = this.$parent.search;
@@ -242,7 +303,6 @@
           //...
         })
       },
-
       searchDoctors() {
         // $parent needed to access the root instance at ...resources\js\app.js
         let query = this.$parent.search;
@@ -261,7 +321,6 @@
           //...
         })
       },
-
       searchTags() {
         // $parent needed to access the root instance at ...resources\js\app.js
         let query = this.$parent.search;
@@ -270,7 +329,6 @@
         axios.get(searchUrl + query)
         .then(({data}) => (this.tags = data))
       },
-
       searchSpecialties() {
         // $parent needed to access the root instance at ...resources\js\app.js
         let query = this.$parent.search;
@@ -279,7 +337,18 @@
         axios.get(searchUrl + query)
         .then(({data}) => (this.specialties = data))
       },
+      searchUsers() {
+        // $parent needed to access the root instance at ...resources\js\app.js
+        let query = this.$parent.search;
+        const searchUrl = appUrl +'/searches/users?q=';
 
+        axios.get(searchUrl + query)
+        .then(({data}) => (this.users = data))
+      },
+
+
+      /*~~~~ PAGINATION OF MODELS ~~~~*/
+      /*******************************/
       makePagination(page = 1) {
         let query = this.$parent.search; 
         const searchUrl = appUrl +'/searches?q=';
@@ -289,7 +358,6 @@
             this.searches = response.data;
           });
       },
-
       doctorsPagination(page = 1) {
         let query = this.$parent.search; 
         const searchUrl = appUrl +'/searches/doctors?q=';
@@ -299,7 +367,6 @@
             this.doctors = response.data;
           });
       },
-
       tagsPagination(page = 1) {
         let query = this.$parent.search; 
         const searchUrl = appUrl +'/searches/tags?q=';
@@ -309,7 +376,6 @@
             this.tags = response.data;
           });
       },
-
       specialtiesPagination(page = 1) {
         let query = this.$parent.search; 
         const searchUrl = appUrl +'/searches/specialties?q=';
@@ -318,16 +384,28 @@
           .then(response => {
             this.specialties = response.data;
           });
+      },
+      usersPagination(page = 1) {
+        let query = this.$parent.search; 
+        const searchUrl = appUrl +'/searches/users?q=';
+
+        axios.get(searchUrl + query + '&page=' + page)
+          .then(response => {
+            this.users = response.data;
+          });
       }
 
     },
 
+    /**~~~~ LOAD ON NEW SEARCH ~~~~*/
+    /*******************************/
     created() {
       Event.$on('search_stuff', () => {
         this.loadSearches();
         this.searchDoctors();
         this.searchTags();
         this.searchSpecialties();
+        this.searchUsers();
       })
     }
   }

@@ -51,6 +51,7 @@ Route::get('searches',        'SearchController@index')->name('search');
 Route::get('searches/doctors','SearchController@doctors')->name('search.doctors');
 Route::get('searches/tags',   'SearchController@tags')->name('search.tags');
 Route::get('searches/specialties', 'SearchController@specialties')->name('search.specialties');
+Route::get('searches/users',  'SearchController@users')->name('search.users');
 
 
 

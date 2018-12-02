@@ -104,4 +104,18 @@ class SearchController extends Controller
         return response()->json($results);
       }
     }
+    
+    public function users()
+    {
+      if (request()->q){
+        $q = request()->q;
+
+        $results = User::where('name', 'like', "%$q%")
+                     ->orWhere('email', 'like', "%$q%")
+                     ->orWhere('phone', 'like', "%$q%")
+                     ->paginate(3);//get();
+
+        return response()->json($results);
+      }
+    }
 }

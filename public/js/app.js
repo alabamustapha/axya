@@ -70743,6 +70743,63 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -70750,12 +70807,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       searches: {},
       doctors: {},
       tags: {},
+      users: {},
       specialties: {}
     };
   },
 
 
   methods: {
+
+    /** ~~~~ MAKE NEW SEARCHES ~~~~*/
+    /*******************************/
     loadSearches: function loadSearches() {
       var _this = this;
 
@@ -70818,8 +70879,24 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return _this4.specialties = data;
       });
     },
-    makePagination: function makePagination() {
+    searchUsers: function searchUsers() {
       var _this5 = this;
+
+      // $parent needed to access the root instance at ...resources\js\app.js
+      var query = this.$parent.search;
+      var searchUrl = appUrl + '/searches/users?q=';
+
+      axios.get(searchUrl + query).then(function (_ref5) {
+        var data = _ref5.data;
+        return _this5.users = data;
+      });
+    },
+
+
+    /*~~~~ PAGINATION OF MODELS ~~~~*/
+    /*******************************/
+    makePagination: function makePagination() {
+      var _this6 = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
@@ -70827,11 +70904,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var searchUrl = appUrl + '/searches?q=';
 
       axios.get(searchUrl + query + '&page=' + page).then(function (response) {
-        _this5.searches = response.data;
+        _this6.searches = response.data;
       });
     },
     doctorsPagination: function doctorsPagination() {
-      var _this6 = this;
+      var _this7 = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
@@ -70839,11 +70916,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var searchUrl = appUrl + '/searches/doctors?q=';
 
       axios.get(searchUrl + query + '&page=' + page).then(function (response) {
-        _this6.doctors = response.data;
+        _this7.doctors = response.data;
       });
     },
     tagsPagination: function tagsPagination() {
-      var _this7 = this;
+      var _this8 = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
@@ -70851,11 +70928,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var searchUrl = appUrl + '/searches/tags?q=';
 
       axios.get(searchUrl + query + '&page=' + page).then(function (response) {
-        _this7.tags = response.data;
+        _this8.tags = response.data;
       });
     },
     specialtiesPagination: function specialtiesPagination() {
-      var _this8 = this;
+      var _this9 = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
@@ -70863,19 +70940,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var searchUrl = appUrl + '/searches/specialties?q=';
 
       axios.get(searchUrl + query + '&page=' + page).then(function (response) {
-        _this8.specialties = response.data;
+        _this9.specialties = response.data;
+      });
+    },
+    usersPagination: function usersPagination() {
+      var _this10 = this;
+
+      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+      var query = this.$parent.search;
+      var searchUrl = appUrl + '/searches/users?q=';
+
+      axios.get(searchUrl + query + '&page=' + page).then(function (response) {
+        _this10.users = response.data;
       });
     }
   },
 
+  /**~~~~ LOAD ON NEW SEARCH ~~~~*/
+  /*******************************/
   created: function created() {
-    var _this9 = this;
+    var _this11 = this;
 
     Event.$on('search_stuff', function () {
-      _this9.loadSearches();
-      _this9.searchDoctors();
-      _this9.searchTags();
-      _this9.searchSpecialties();
+      _this11.loadSearches();
+      _this11.searchDoctors();
+      _this11.searchTags();
+      _this11.searchSpecialties();
+      _this11.searchUsers();
     });
   }
 });
@@ -71127,7 +71219,101 @@ var render = function() {
                           _c("pagination", {
                             attrs: { data: _vm.specialties },
                             on: {
-                              "pagination-change-page": _vm.searchSpecialties
+                              "pagination-change-page":
+                                _vm.specialtiesPagination
+                            }
+                          })
+                        ],
+                        1
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "card card-primary shadow-none mx-1" },
+                    [
+                      _vm._m(9),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "card-body p-2" },
+                        _vm._l(_vm.users.data, function(user) {
+                          return _c(
+                            "div",
+                            { key: user.id, staticClass: "px-3 py-1" },
+                            [
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "row",
+                                  attrs: { title: user.name }
+                                },
+                                [
+                                  _c("a", { attrs: { href: user.link } }, [
+                                    _c("img", {
+                                      staticClass: "text-sm-center",
+                                      staticStyle: {
+                                        display: "inline-block",
+                                        width: "80px",
+                                        height: "80px"
+                                      },
+                                      attrs: {
+                                        src: user.avatar,
+                                        alt: "Doctor Image"
+                                      }
+                                    })
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "text-left ml-2 ml-sm-0 ml-lg-2 d-flex flex-column justify-content-between h-100"
+                                    },
+                                    [
+                                      _c(
+                                        "div",
+                                        {
+                                          staticClass:
+                                            "d-flex flex-row justify-content-between w-100"
+                                        },
+                                        [
+                                          _c(
+                                            "a",
+                                            {
+                                              staticClass: "users-list-name",
+                                              attrs: { href: user.link }
+                                            },
+                                            [_vm._v(_vm._s(user.name))]
+                                          ),
+                                          _vm._v(" "),
+                                          _vm.$acl.isSuperAdmin()
+                                            ? _c("div", [
+                                                _vm._m(10, true),
+                                                _vm._v(" "),
+                                                _vm._m(11, true)
+                                              ])
+                                            : _vm._e()
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                ]
+                              )
+                            ]
+                          )
+                        })
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "card-footer text-center mb-0" },
+                        [
+                          _c("pagination", {
+                            attrs: { data: _vm.users },
+                            on: {
+                              "pagination-change-page": _vm.usersPagination
                             }
                           })
                         ],
@@ -71336,6 +71522,117 @@ var staticRenderFns = [
       _c("i", { staticClass: "fa fa-tags" }),
       _vm._v("  Specialties\n              ")
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("i", { staticClass: "fa fa-users" }),
+      _vm._v("  Users\n              ")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "btn btn-sm dropdown-toggle d-inline",
+        attrs: {
+          id: "navbarDropdown",
+          href: "#",
+          role: "button",
+          "data-toggle": "dropdown",
+          "aria-haspopup": "true",
+          "aria-expanded": "false"
+        }
+      },
+      [_c("i", { staticClass: "fa fa-cog" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass: "dropdown-menu dropdown-menu-lg",
+        staticStyle: { "font-size": "12px" },
+        attrs: { "aria-labelledby": "navbarDropdown" }
+      },
+      [
+        _c(
+          "button",
+          {
+            staticClass: "dropdown-item",
+            attrs: {
+              type: "submit",
+              onclick:
+                "return confirm('You really want to demote this admin to STAFF?');",
+              title: "Demote Admin"
+            }
+          },
+          [
+            _c("i", { staticClass: "fa fa-user-tie teal" }),
+            _vm._v("  Upgrade to Admin\n                              ")
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "dropdown-item",
+            attrs: {
+              type: "submit",
+              onclick:
+                "return confirm('You really want to demote this admin to NORMAL User?');",
+              title: "Demote Admin"
+            }
+          },
+          [
+            _c("i", { staticClass: "fa fa-user-tag indigo" }),
+            _vm._v("  Upgrade to Staff\n                              ")
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "dropdown-item",
+            attrs: {
+              type: "submit",
+              onclick:
+                "return confirm('You really want to demote this admin to NORMAL User?');",
+              title: "Demote Admin"
+            }
+          },
+          [
+            _c("i", { staticClass: "fa fa-user-slash orange" }),
+            _vm._v("  Demote to Normal User\n                              ")
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "dropdown-item",
+            attrs: {
+              type: "submit",
+              onclick:
+                "return confirm('You really want to demote this admin to NORMAL User?');",
+              title: "Demote Admin"
+            }
+          },
+          [
+            _c("i", { staticClass: "fa fa-ban red" }),
+            _vm._v("  Block/Suspend\n                              ")
+          ]
+        )
+      ]
+    )
   }
 ]
 render._withStripped = true
