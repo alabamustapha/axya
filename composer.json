@@ -16,7 +16,8 @@
         "laravel/nova": "*",
         "laravel/passport": "^7.0",
         "laravel/socialite": "^3.1",
-        "laravel/tinker": "^1.0"
+        "laravel/tinker": "^1.0",
+        "qcod/laravel-app-settings": "^1.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",
