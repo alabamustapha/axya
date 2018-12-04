@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Doctor;
 use App\Image;
+use App\Message;
 use App\Specialty;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -45,6 +46,17 @@ class UsersTest extends TestCase
     public function a_user_has_email_attribute()
     {
         $this->assertNotNull($this->user->email);
+    }
+
+    /** @test  */
+    public function a_user_has_many_messages()
+    {
+        // Method 1:
+        $message   = factory(Message::class)->create(['user_id' => $this->user->id]);        
+        $this->assertTrue($this->user->messages->contains($message));
+
+        // Method 2:
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->user->messages);
     }
 
     /** @test  */

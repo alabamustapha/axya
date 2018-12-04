@@ -15,7 +15,7 @@ class Message extends Model
      */
     public function messageable()
     {
-        return $this->morphTo();
+        return $this->morphTo(); /* Appointment::class, Ticket::class */
     }
 
     public function user()

@@ -55,4 +55,10 @@ class AppointmentsTest extends TestCase
     {
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->appointment->documents); 
     }
+
+    /** @test */
+    public function an_appointment_morphs_many_messages()
+    {
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->appointment->messages); 
+    }
 }

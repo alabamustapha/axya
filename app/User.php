@@ -392,6 +392,11 @@ class User extends Authenticatable implements MustVerifyEmail
     //     return $this->morphMany(Document::class, 'documentable');
     // }
 
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
+
     public function application()
     {
         return $this->hasOne(Application::class);

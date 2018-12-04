@@ -31,6 +31,11 @@ class Appointment extends Model
         ];
     }
 
+    public function messages()
+    {
+        return $this->morphMany(Message::class, 'messageable');
+    }
+
     /**
      * Route key
      * 
