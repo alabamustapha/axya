@@ -21,6 +21,7 @@ class AuthServiceProvider extends ServiceProvider
         'App\Doctor'     => 'App\Policies\DoctorPolicy',
         'App\Document'   => 'App\Policies\DocumentPolicy',
         // 'App\Image'      => 'App\Policies\ImagePolicy',
+        'App\Message'   => 'App\Policies\MessagePolicy',
         'App\Schedule'   => 'App\Policies\SchedulePolicy',
         'App\Specialty'  => 'App\Policies\SpecialtyPolicy',
         'App\Tag'        => 'App\Policies\TagPolicy',

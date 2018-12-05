@@ -2,11 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\MessageRequest;
 use App\Message;
 use Illuminate\Http\Request;
 
 class MessageController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('verified');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,17 +21,9 @@ class MessageController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $messages = auth()->user()->messages()->paginate(20);
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return view('messages.index', compact('messages'));
     }
 
     /**
@@ -33,43 +32,21 @@ class MessageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(MessageRequest $request)
     {
-        //
-    }
+        $this->authorize('create', Message::class);
+        
+        $message = Message::create($request->all());
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Message  $message
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Message $message)
-    {
-        //
-    }
+        if ($message) {
+            $msg = 'Message added successfully';
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Message  $message
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Message $message)
-    {
-        //
-    }
+            if (request()->expectsJson()) {
+                return response(['status' => $msg]);
+            }
+        }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Message  $message
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Message $message)
-    {
-        //
+        return redirect()->route('appointments.show', $message->messageable);
     }
 
     /**
@@ -80,6 +57,18 @@ class MessageController extends Controller
      */
     public function destroy(Message $message)
     {
-        //
+        $this->authorize('delete', $message);
+
+        $message->delete();
+        $msg = 'Message deleted successfully';
+
+        // if ($message->delete()) {
+        //     if ($request->expectsJson()) {
+        //         return response(['message' => $msg]);
+        //     }
+        // }
+
+        flash($msg)->info();
+        return redirect()->route('appointments.show', $message->messageable);
     }
 }
