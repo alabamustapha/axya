@@ -14,7 +14,6 @@
         <thead>
         <tr>
             <th>Date</th>
-            <th>Status</th>
             <th>Type</th>
             <th>Body</th>
             <th>View Message</th>
@@ -26,10 +25,7 @@
         <tr>
             <td>{{$message->created_at}} </td>
             <td>
-                {{--$message->statusText()--}}
-            </td>
-            <td>
-                {{$message->messageable}}
+                {{$message->type()}}
             </td>
             <td>
                 {{$message->body}}

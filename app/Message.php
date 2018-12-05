@@ -33,6 +33,19 @@ class Message extends Model
         return $this->morphMany(Document::class, 'documentable');
     }
 
+    public function type()
+    {
+        // 1.
+        return (new \ReflectionClass($this->messageable_type))->getShortName();
+
+        /* 2.
+            $type_frags = explode('\\', $this->messageable_type);
+            $end = end($type_frags);
+
+            return $end;
+        */
+    }
+
     public function isAppointmentDoctor()
     {
         return (bool) $this->user_id == $this->messageable->doctor_id;

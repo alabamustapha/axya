@@ -389,10 +389,12 @@
         </a>
         <ul class="nav nav-treeview">
           <li class="nav-item">
-            <router-link to="/patient-up-appointments" class="nav-link">
+            <a href="{{route('messages.index')}}" class="nav-link">
+            {{-- <router-link to="/patient-up-appointments" class="nav-link"> --}}
               <i class="fa fa-envelope-open nav-icon gray"></i>
               <p>Inbox</p>
-            </router-link>
+            {{-- </router-link> --}}
+            </a>
           </li>
           <li class="nav-item">
             <router-link to="/patient-pe-appointments" class="nav-link">

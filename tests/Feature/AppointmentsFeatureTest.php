@@ -71,6 +71,21 @@ class AppointmentsFeatureTest extends TestCase
             ;
     }
 
+    /** @test */
+    public function show_an_appointment_cannot_be_viewed_by_non_creator()
+    {
+        $user = factory(User::class)->states('verified')->create();
+
+        $this
+            ->actingAs($user)
+            ->get(route('appointments.show', $this->appointment))
+            ->assertStatus(403)
+            ->assertDontSee($this->appointment->from)
+            ->assertDontSee($this->appointment->to)
+            ->assertDontSee($this->sub_patient_info)
+            ;
+    }
+
     /**  @test */
     public function store_an_appointment_cannot_be_created_by_an_unverified_user()
     {

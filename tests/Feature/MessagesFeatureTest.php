@@ -51,6 +51,7 @@ class MessagesFeatureTest extends TestCase
             // ->assertSee($this->message->statusText())
             ->assertSee($this->user->name)
             ->assertSee($this->message->body)
+            ->assertSee($this->message->type())
             ->assertSee($this->message->created_at)
             ;
     }

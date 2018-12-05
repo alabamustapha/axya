@@ -67,6 +67,8 @@ class AppointmentController extends Controller
      */
     public function show(Appointment $appointment)
     {
+        $this->authorize('edit', $appointment);
+
         return view('appointments.show', compact('appointment'));
     }
 
