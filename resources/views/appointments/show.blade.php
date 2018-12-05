@@ -261,36 +261,40 @@
           <!--/.direct-chat -->
 
           <div class="sticky-bottom mb-0 p-0 bg-dark">
-            <div class="container">
-              <div class="row">
-                <div class="col-sm-10">            
-                  <textarea name="message" id="" class="form-control" style="max-height: 70px;min-height: 70px;width:100%;display: block;overflow-y: scroll;font-size: 12px;line-height: 1;" placeholder="type a message..."></textarea>
-                </div>
-                <div class="col-sm-2 pl-sm-0">
+            <form action="{{route('messages.store', ['user_id'=> auth()->id(), 'messageable_id'=> $appointment->id, 'messageable_type'=> 'App\Appointment'])}}" method="post" enctype="multipart/form">
+              @csrf
 
-                    <button id="navbarDropdown" class="dropdown-toggle btn btn-sm btn-info btn-block m-1" 
-                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" 
-                      title="Prescription form, Upload form etc.">
-                      <i class="fa fa-cogs"></i> 
-                    </button>
+              <div class="container">
+                <div class="row">
+                  <div class="col-sm-10">            
+                    <textarea name="body" id="" class="form-control" style="max-height: 70px;min-height: 70px;width:100%;display: block;overflow-y: scroll;font-size: 12px;line-height: 1;" placeholder="type a message..."></textarea>
+                  </div>
+                  <div class="col-sm-2 pl-sm-0">
 
-                    <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown">
-                  {{--@if(Auth::user()->isAttendantDoctor())--}}
-                        <button class="dropdown-item" data-toggle="modal" data-target="#newPrescriptionForm" title="Create mdedication/drug prescription for this consultation.">
-                          <i class="fa fa-prescription teal"></i>&nbsp; Make Prescription
-                        </button>
-                  {{--@endif--}}
+                      <button id="navbarDropdown" class="dropdown-toggle btn btn-sm btn-info btn-block m-1" 
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" 
+                        title="Prescription form, Upload form etc.">
+                        <i class="fa fa-cogs"></i> 
+                      </button>
 
-                      <form action="">
-                        <button class="dropdown-item" title="Upload image, video or other files.">
-                          <i class="fa fa-file teal"></i>&nbsp; Image/File Uploads
-                        </button>
-                      </form>
-                    </div>
-                  <button class="btn btn-sm btn-primary btn-block m-1">Post</button>
+                      <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown">
+                    {{--@if(Auth::user()->isAttendantDoctor())--}}
+                          <button class="dropdown-item" data-toggle="modal" data-target="#newPrescriptionForm" title="Create mdedication/drug prescription for this consultation.">
+                            <i class="fa fa-prescription teal"></i>&nbsp; Make Prescription
+                          </button>
+                    {{--@endif--}}
+
+                        <form action="">
+                          <button class="dropdown-item" title="Upload image, video or other files.">
+                            <i class="fa fa-file teal"></i>&nbsp; Image/File Uploads
+                          </button>
+                        </form>
+                      </div>
+                    <button type="submit" class="btn btn-sm btn-primary btn-block m-1">Post</button>
+                  </div>
                 </div>
               </div>
-            </div>
+            </form>
           </div>
 
 

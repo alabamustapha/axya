@@ -16,7 +16,6 @@
             <th>Date</th>
             <th>Type</th>
             <th>Body</th>
-            <th>View Message</th>
         </tr>
         </thead>
         <tbody>
@@ -28,11 +27,8 @@
                 {{$message->type()}}
             </td>
             <td>
-                {{$message->body}}
-            </td>
-            <td>
-                <a href="{{route('appointments.show', $message->messageable)}}#msgId_{{$message->id}}" style="color:inherit;">                    
-                    <span><i class="fa fa-file"></i>&nbsp; View</span>
+                <a href="{{route('appointments.show', $message->messageable)}}#msgId_{{$message->id}}" style="color:inherit;">
+                    {{$message->body}}
                 </a>
             </td>
         </tr>
