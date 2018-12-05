@@ -19,7 +19,7 @@
                 Featured Doctors
             </h1>
 
-            <div class="table-responsive mb-5">
+            <div class="table-responsive mb-5" id="tp-scrollbar">
                 <div data-aos="zoom-out-down" class="card-deck" style="flex-flow: nowrap;">
                     @foreach ($doctors as $doctor)
 

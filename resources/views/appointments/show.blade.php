@@ -198,83 +198,49 @@
       <div class="container">
         @if(1 == 1) {{-- Subscription made and time is reached --}}
           <!-- DIRECT CHAT PRIMARY -->
-          <div class="box box-warning direct-chat direct-chat-warning" style="height: 80vh;display: block;overflow-y: scroll;">
+          <div class="box box-warning direct-chat direct-chat-warning" style="height: 80vh;display: block;overflow-y: scroll;" id="tp-scrollbar">
             <div class="box-body">
               
               <!-- Conversations are loaded here -->
               <div class="direct-chat-messages">
 
-                <!-- Message. Default to the left -->
-                <div class="direct-chat-msg mb-3 pb-2">
-                  <div class="direct-chat-info clearfix">
-                    <span class="direct-chat-name pull-left">{{$appointment->doctor->user->name}}</span>
-                    <span class="direct-chat-timestamp pull-right">{{$appointment->created_at}}</span>
-                  </div>
+                @forelse ($appointment->messages as $message)
+                  @if ($message->isAppointmentDoctor())
+                    <!-- Message. Default to the left -->
+                    <div class="direct-chat-msg mb-3 pb-2">
+                      <div class="direct-chat-info clearfix">
+                        <span class="direct-chat-name pull-left">{{$message->user->name}}</span>
+                        <span class="direct-chat-timestamp pull-right">{{$message->created_at}}</span>
+                      </div>
 
-                  <img class="direct-chat-img" src="{{$appointment->doctor->user->avatar}}" alt="{{$appointment->doctor->user->name}}" style="width: 40px;height: 40px;">
+                      <img class="direct-chat-img" src="{{$message->user->avatar}}" alt="{{$message->user->name}}" style="width: 40px;height: 40px;">
 
-                  <div class="direct-chat-text">
-                    Is this template really for free? That's unbelievable! <br>
-                    I believed all that I was told, and acquired a conscience which has kept me working hard down to the present moment.
-                  </div>
-                </div>
-                <!-- /.direct-chat-msg -->
+                      <div class="direct-chat-text">
+                        {{ $message->body }}
+                      </div>
+                    </div>
+                    <!-- /.direct-chat-msg -->
+                  @endif
 
-                <!-- Message to the right -->
-                <div class="direct-chat-msg right mb-3 pb-2">
-                  <div class="direct-chat-info clearfix">
-                    <span class="direct-chat-name pull-right">{{$appointment->user->name}}</span>
-                    <span class="direct-chat-timestamp pull-left">{{$appointment->updated_at}}</span>
-                  </div>
+                  @if ($message->isAppointmentAuthor())
+                    <!-- Message to the right -->
+                    <div class="direct-chat-msg right mb-3 pb-2">
+                      <div class="direct-chat-info clearfix">
+                        <span class="direct-chat-name pull-right">{{$message->user->name}}</span>
+                        <span class="direct-chat-timestamp pull-left">{{$message->updated_at}}</span>
+                      </div>
 
-                  <img class="direct-chat-img" src="{{$appointment->user->avatar}}" alt="{{$appointment->user->name}}" style="width: 40px;height: 40px;">
+                      <img class="direct-chat-img" src="{{$message->user->avatar}}" alt="{{$message->user->name}}" style="width: 40px;height: 40px;">
 
-                  <div class="direct-chat-text">
-                    You better believe it! But although my conscience has controlled my actions, my opinions have undergone a revolution. I think that there is far too much work done in the world, that immense harm is caused by the belief that work is virtuous, and that what needs to be preached in modern industrial countries is quite different from what always has been preached.
-                  </div>
-                </div>
-
-                <div class="direct-chat-msg right mb-3 pb-2">
-                  <div class="direct-chat-info clearfix">
-                    <span class="direct-chat-name pull-right">{{$appointment->user->name}}</span>
-                    <span class="direct-chat-timestamp pull-left">{{$appointment->updated_at}}</span>
-                  </div>
-
-                  <img class="direct-chat-img" src="{{$appointment->user->avatar}}" alt="{{$appointment->user->name}}" style="width: 40px;height: 40px;">
-
-                  <div class="direct-chat-text">
-                    Everyone knows the story of the traveler in Naples who saw twelve beggars lying in the sun (it was before the days of Mussolini), and offered a lira to the laziest of them.
-                  </div>
-                </div>
-                <!-- /.direct-chat-msg -->
-                
-                <div class="direct-chat-msg mb-3 pb-2">
-                  <div class="direct-chat-info clearfix">
-                    <span class="direct-chat-name pull-left">{{$appointment->doctor->user->name}}</span>
-                    <span class="direct-chat-timestamp pull-right">{{$appointment->created_at}}</span>
-                  </div>
-
-                  <img class="direct-chat-img" src="{{$appointment->doctor->user->avatar}}" alt="{{$appointment->doctor->user->name}}" style="width: 40px;height: 40px;">
-
-                  <div class="direct-chat-text">
-                    But although my conscience has controlled my actions, my opinions have undergone a revolution. I think that there is far too much work done in the world, that immense harm is caused by the belief that work is virtuous, and that what needs to be preached in modern industrial countries is quite different from what always has been preached.
-                  </div>
-                </div>
-                <!-- /.direct-chat-msg -->
-
-                <div class="direct-chat-msg mb-3 pb-2">
-                  <div class="direct-chat-info clearfix">
-                    <span class="direct-chat-name pull-left">{{$appointment->doctor->user->name}}</span>
-                    <span class="direct-chat-timestamp pull-right">{{$appointment->created_at}}</span>
-                  </div>
-
-                  <img class="direct-chat-img" src="{{$appointment->doctor->user->avatar}}" alt="{{$appointment->doctor->user->name}}" style="width: 40px;height: 40px;">
-
-                  <div class="direct-chat-text">
-                    What needs to be preached in modern industrial countries is quite different from what always has been preached.
-                  </div>
-                </div>
-                <!-- /.direct-chat-msg -->
+                      <div class="direct-chat-text">
+                        {{ $message->body }}
+                      </div>
+                    </div>
+                    <!-- /.direct-chat-msg -->
+                  @endif
+                @empty
+                  <div class="empty-list">0 messages at the moment.</div>
+                @endforelse
               </div>
               <!--/.direct-chat-messages-->
             </div>
