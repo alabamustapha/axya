@@ -412,6 +412,57 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Appointment::class);
     }
 
+    /**
+     * Appointment Status Related
+     */
+    public function appointmentsAwaitingConfirmation()
+    {
+        // 0. New appointment, awaiting doctor's confirmation.
+        return $this->appointments()->AwaitingConfirmation();
+    }
+    public function appointmentsCompleted()
+    {
+        // 1. Appointment/Consultation completed successfully.
+        return $this->appointments()->Completed();
+    }
+    public function appointmentsConfirmed()
+    {
+        // 2. Confirmed, awaiting fees payment
+        return $this->appointments()->Confirmed();
+    }
+    public function appointmentsScheduleChangeSuggestion()
+    {
+        // 3. Schedule change suggestion by doctor
+        return $this->appointments()->ScheduleChange();
+    }
+    public function appointmentsRejected()
+    {
+        // 4. Rejected by doctor!
+        return $this->appointments()->Rejected();
+    }
+    public function appointmentsOtherDoctorRecommendation()
+    {
+        // 5. Another doctor recommended.
+        return $this->appointments()->OtherDoctor();
+    }
+    public function appointmentsCancelled()
+    {
+        // 6. Cancelled by patient
+        return $this->appointments()->Cancelled();
+    }
+    public function appointmentsUncompleted()
+    {
+        // All uncompleted Appointments.
+        return $this->appointments()->Uncompleted();
+    }
+    public function appointmentsAwaitingAppointmentTime()
+    {
+        // Confirmed, payment made, awaiting appointment time.
+        return $this->appointments()->AwaitingAppointmentTime();
+    }
+
+
+
     public function doctors()
     {
         // $doctorIds = $this->appointments()

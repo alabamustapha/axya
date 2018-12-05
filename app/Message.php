@@ -48,11 +48,11 @@ class Message extends Model
 
     public function isAppointmentDoctor()
     {
-        return (bool) $this->user_id == $this->messageable->doctor_id;
+        return $this->user_id == $this->messageable->doctor_id;
     }
 
     public function isAppointmentAuthor()
     {
-        return (bool) $this->user_id == $this->messageable->user_id;
+        return $this->user_id == $this->messageable->user_id;
     }
 }

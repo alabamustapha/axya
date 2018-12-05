@@ -220,9 +220,7 @@
                       </div>
                     </div>
                     <!-- /.direct-chat-msg -->
-                  @endif
-
-                  @if ($message->isAppointmentAuthor())
+                  @elseif ($message->isAppointmentAuthor())
                     <!-- Message to the right -->
                     <div class="direct-chat-msg right mb-3 pb-2">
                       <div class="direct-chat-info clearfix">

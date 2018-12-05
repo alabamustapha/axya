@@ -63,14 +63,51 @@ class Appointment extends Model
     /**
      * Was completed successfully.
      */
+    public function scopeAwaitingConfirmation($query)
+    {
+        // New appoitnment, awaiting doctor's confirmation.
+        return $query->where('status', '0');
+    }
     public function scopeCompleted($query)
     {
+        // Appointment/Consultation completed successfully.
         return $query->where('status', '1');
     }
-
-    public function getDayAttribute($value)
+    public function scopeConfirmed($query)
     {
-        return Carbon::parse($value)->format('M d, Y');
+        // Confirmed, awaiting fees payment
+        return $query->where('status', '2');
+    }
+    public function scopeScheduleChangeSuggestion($query)
+    {
+        // Schedule change suggestion by doctor
+        return $query->where('status', '3');
+    }
+    public function scopeRejected($query)
+    {
+        // Rejected by doctor!
+        return $query->where('status', '4');
+    }
+    public function scopeOtherDoctorRecommendation($query)
+    {
+        // Another doctor recommended.
+        return $query->where('status', '5');
+    }
+    public function scopeCancelled($query)
+    {
+        // Cancelled by patient
+        return $query->where('status', '6');
+    }
+    public function scopeUncompleted($query)
+    {
+        // All uncompleted Appointments.
+        return $query->where('status', '!=', '1');
+    }
+
+    public function scopeAwaitingAppointmentTime($query)
+    {
+        // Confirmed, payment made, awaiting appointment time.
+        return $query->where('status', '7');
     }
 
 
@@ -80,7 +117,7 @@ class Appointment extends Model
 
         1 => '<span class="teal"><i class="fa fa-info-circle teal"></i>&nbsp; Success</span>',
 
-        2 => 'Confirmed, not completed',
+        2 => 'Confirmed, awaiting fees payment',
 
         3 => '<span class="orange"><i class="fa fa-info-circle"></i>&nbsp; Schedule change suggestion by doctor.</span>',
 
@@ -90,7 +127,7 @@ class Appointment extends Model
 
         6 => '<span class="red"><i class="fa fa-info-circle red"></i>&nbsp; Cancelled</span>',
         
-        7 => '<span class="teal"><i class="fa fa-info-circle red"></i>&nbsp; Re-opened</span>',
+        7 => '<span class="teal"><i class="fa fa-info-circle teal"></i>&nbsp; Confirmed, awaiting appointment time.</span>',
 
         8 => '<span class="red"><i class="fa fa-info-circle red"></i>&nbsp; Something fishy</span>'
     );
@@ -104,5 +141,10 @@ class Appointment extends Model
                     ;
 
         echo self::$appointmentStatus[$status];
+    }
+
+    public function getDayAttribute($value)
+    {
+        return Carbon::parse($value)->format('M d, Y');
     }
 }

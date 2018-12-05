@@ -11,7 +11,7 @@
             <p>
               Admin Section
               @if ($applications_count)
-              <span class="badge bagde-danger px-1 text-bold bg-danger text-white" style="border-radius:4px;font-size: 9px;">
+              <span class="badge badge-danger">
                 {{$applications_count}}
               </span>
               @endif
@@ -96,7 +96,7 @@
                 <p>
                   Management
                   @if ($applications_count)
-                  <span class="badge bagde-danger px-1 text-bold bg-danger text-white" style="border-radius:4px;font-size: 9px;">
+                  <span class="badge badge-danger">
                     {{$applications_count}}
                   </span>
                   @endif
@@ -111,7 +111,7 @@
                     <p class="tf-flex">
                       Doctors
                       @if ($applications_count)
-                      <span class="badge bagde-danger px-1 text-bold bg-danger text-white right" style="border-radius:4px;font-size: 9px;">
+                      <span class="badge badge-danger right">
                         {{$applications_count}}
                       </span>
                       @endif
@@ -219,7 +219,7 @@
                   <i class="fa fa-calendar-check nav-icon teal"></i>
                   <p class="tf-flex" title="Upcoming Appointments">
                   <span>Upcoming</span>
-                  <span class="badge bagde-danger right">5</span>
+                  <span class="badge badge-danger right">5</span>
                 </p>
                 {{-- </router-link> --}}
                 </a>
@@ -229,7 +229,7 @@
                   <i class="fa fa-calendar-plus nav-icon teal"></i>
                   <p class="tf-flex" title="Pending Appointments">
                     <span>Pending</span>
-                    <span class="badge bagde-danger right">5</span>
+                    <span class="badge badge-danger right">5</span>
                   </p>
                 </router-link>
               </li>
@@ -332,21 +332,45 @@
         </a>
         <ul class="nav nav-treeview">
           <li class="nav-item">
-            <router-link to="/patient-up-appointments" class="nav-link">
-              <i class="fa fa-calendar-check nav-icon cyan"></i>
+            <a href="{{route('appointments.index')}}" class="nav-link">
+            {{-- <router-link to="/patient-up-appointments" class="nav-link"> --}}
+              <i class="fa fa-calendar nav-icon cyan"></i>
               <p title="Upcoming Appointments">
-                Upcoming
-                <span class="badge bagde-danger right">5</span>
+                All
+                <span class="badge badge-danger right">{{--5--}}</span>
               </p>
-            </router-link>
+            {{-- </router-link> --}}
+            </a>
           </li>
           <li class="nav-item">
-            <a href="{{route('appointments.index')}}" class="nav-link">
-            {{-- <router-link to="/patient-pe-appointments" class="nav-link"> --}}
+            <a href="{{route('appointments.index', ['status'=> 'success'])}}" class="nav-link">
+            {{-- <router-link to="/patient-up-appointments" class="nav-link"> --}}
+              <i class="fa fa-calendar-check nav-icon cyan"></i>
+              <p title="Upcoming Appointments">
+                Completed
+                <span class="badge badge-danger right">{{--5--}}</span>
+              </p>
+            {{-- </router-link> --}}
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{route('appointments.index', ['status'=> 'confirmed'])}}" class="nav-link">
+            {{-- <router-link to="/patient-up-appointments" class="nav-link"> --}}
               <i class="fa fa-calendar-plus nav-icon cyan"></i>
+              <p title="Upcoming Appointments">
+                Upcoming
+                <span class="badge badge-danger right">{{--5--}}</span>
+              </p>
+            {{-- </router-link> --}}
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{route('appointments.index', ['status'=> 'uncompleted'])}}" class="nav-link">
+            {{-- <router-link to="/patient-pe-appointments" class="nav-link"> --}}
+              <i class="fa fa-calendar-minus nav-icon cyan"></i>
               <p title=">Pending Appointments">
                 Pending
-                <span class="badge bagde-danger right">5</span>
+                <span class="badge badge-danger right">{{--5--}}</span>
               </p>
             {{-- </router-link> --}}
             </a>

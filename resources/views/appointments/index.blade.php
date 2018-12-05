@@ -19,7 +19,7 @@
 </div>
 
 
-<div class="table-responsive">
+<div class="table-responsive" id="tp-scrollbar">
     <table class="table table-striped table-sm">
         <thead>
         <tr>
@@ -54,7 +54,7 @@
         </tr>
         @empty
             <tr>
-                <td colspan="5" class="empty-list">No pending appointments at this time</td>
+                <td colspan="5" class="empty-list">No {{ request()->status }} appointments at this time</td>
             </tr>
         @endforelse
         </tbody>

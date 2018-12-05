@@ -9,7 +9,7 @@
 </div>
 
 
-<div class="table-responsive">
+<div class="table-responsive" id="tp-scrollbar">
     <table class="table table-striped table-sm">
         <thead>
         <tr>
