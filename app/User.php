@@ -433,7 +433,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function appointmentsScheduleChangeSuggestion()
     {
         // 3. Schedule change suggestion by doctor
-        return $this->appointments()->ScheduleChange();
+        return $this->appointments()->ScheduleChangeSuggestion();
     }
     public function appointmentsRejected()
     {
@@ -443,7 +443,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function appointmentsOtherDoctorRecommendation()
     {
         // 5. Another doctor recommended.
-        return $this->appointments()->OtherDoctor();
+        return $this->appointments()->OtherDoctorRecommendation();
     }
     public function appointmentsCancelled()
     {

@@ -214,7 +214,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route('dr_appointments', ['status'=> 'awaiting-appointment-time'])}}" class="nav-link">
                 {{-- <router-link to="/upcoming-appointments" class="nav-link"> --}}
                   <i class="fa fa-calendar-check nav-icon teal"></i>
                   <p class="tf-flex" title="Upcoming Appointments">
@@ -225,13 +225,15 @@
                 </a>
               </li>
               <li class="nav-item">
-                <router-link to="/pending-appointments" class="nav-link">
+                <a href="{{route('dr_appointments', ['status'=> 'awaiting-confirmation'])}}" class="nav-link">
+                {{-- <router-link to="/pending-appointments" class="nav-link"> --}}
                   <i class="fa fa-calendar-plus nav-icon teal"></i>
                   <p class="tf-flex" title="Pending Appointments">
                     <span>Pending</span>
                     <span class="badge badge-danger right">5</span>
                   </p>
-                </router-link>
+                {{-- </router-link> --}}
+                </a>
               </li>
             </ul>
           </li>

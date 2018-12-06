@@ -65,7 +65,7 @@ class Appointment extends Model
      */
     public function scopeAwaitingConfirmation($query)
     {
-        // New appoitnment, awaiting doctor's confirmation.
+        // New appointment, awaiting doctor's confirmation.
         return $query->where('status', '0');
     }
     public function scopeCompleted($query)

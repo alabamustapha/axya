@@ -25,6 +25,7 @@ Route::resource('doctors',     'DoctorController');
 Route::resource('documents',   'DocumentController');
 Route::resource('schedules',   'ScheduleController')->only('store','update','destroy');
 Route::resource('appointments','AppointmentController');
+Route::get('dr-appointments','AppointmentController@drindex')->name('dr_appointments');
 Route::resource('messages',    'MessageController')->only('index','store','destroy');
 
 Route::get('schedules/{doctor}/{day}', 'ScheduleController@schedules');
