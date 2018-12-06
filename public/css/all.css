@@ -186,7 +186,7 @@
 
 
 /* Some Vendor Styles Override */
-#tp-scrollbar::-webkit-scrollbar {
+.tp-scrollbar::-webkit-scrollbar {
     background: transparent;
 }
 

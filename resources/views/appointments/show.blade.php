@@ -198,7 +198,7 @@
       <div class="container">
         @if(1 == 1) {{-- Subscription made and time is reached --}}
           <!-- DIRECT CHAT PRIMARY -->
-          <div class="box box-warning direct-chat direct-chat-warning" style="height: 80vh;display: block;overflow-y: scroll;" id="tp-scrollbar">
+          <div class="box box-warning direct-chat direct-chat-warning tp-scrollbar" style="height: 80vh;display: block;overflow-y: scroll;">
             <div class="box-body">
               
               <!-- Conversations are loaded here -->
