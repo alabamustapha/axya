@@ -50,6 +50,11 @@ class Appointment extends Model
         return $this->morphMany(Document::class, 'documentable');
     }
 
+    public function prescriptions()
+    {
+        return $this->hasMany(Prescription::class);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

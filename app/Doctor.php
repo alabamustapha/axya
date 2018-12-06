@@ -37,6 +37,11 @@ class Doctor extends Model
         return $this->morphMany(Document::class, 'documentable');
     }
 
+    public function prescriptions()
+    {
+        return $this->hasManyThrough(Prescription::class, Appointment::class, 'doctor_id', 'appointment_id');
+    }
+
     public function appointments()
     {
         return $this->hasMany(Appointment::class, 'doctor_id');
