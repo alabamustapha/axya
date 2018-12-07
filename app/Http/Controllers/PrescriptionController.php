@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Doctor;
 use App\Http\Requests\PrescriptionRequest;
+use App\Message;
 use App\Prescription;
 use Illuminate\Http\Request;
 
@@ -109,7 +110,7 @@ class PrescriptionController extends Controller
         if ($prescription){
             Message::create([
                 'user_id'         => auth()->id(),
-                'body'            => 'View Prescription',
+                'body'            => 'View Prescription: '. $prescription->id,
                 'messageable_id'  => $prescription->appointment_id,
                 'messageable_type'=> get_class($prescription->appointment),
             ]);

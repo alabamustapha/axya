@@ -87,7 +87,7 @@ class WorkplacesFeatureTest extends TestCase
 
         $this
             ->delete(route('workplaces.destroy', $this->workplace))
-            ->assertStatus(302)
+            ->assertStatus(403)
             // ->assertRedirect(route('doctors.show', $this->doc_user))
             // ->assertSessionHas('success', $this->workplace->name .' deleted successfully')
             ;

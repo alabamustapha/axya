@@ -20,7 +20,7 @@ class DoctorMiddleware
             return $next($request);
         }
         
-        return redirect()->route('home');
+        return abort(403, 'Unathorized access.');//redirect()->route('home');
 
     } 
 }

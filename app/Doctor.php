@@ -22,6 +22,11 @@ class Doctor extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function getNameAttribute()
+    {
+        return $this->user->name;
+    }
+
     // public function specialties()
     // {
     //     return $this->belongsToMany(Specialty::class, 'doctor_specialty', 'id', 'id');

@@ -1,6 +1,13 @@
 @extends('layouts.master')
 
-@section('title', 'User Appointments Index')
+@section('title')
+    {{-- @if (Request::is('appointments/*')) --}}
+    @if (Request::path() == 'appointments')
+        User Appointments Index
+    @else
+        Doctor Appointments Index
+    @endif
+@endsection
 
 @section('content')
 
