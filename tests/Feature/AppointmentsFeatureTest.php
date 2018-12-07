@@ -114,12 +114,29 @@ class AppointmentsFeatureTest extends TestCase
     /**  @test */
     public function store_an_appointment_can_be_created_by_a_verified_user()
     {
+        $user = factory(User::class)->states('verified')->create();
+
+        $data = [ 
+            'type'        => 'Home',
+            'phone'       => $this->faker->e164PhoneNumber,
+            'address'     => $this->faker->address,
+
+            'user_id'     => $user->id,
+            'slug'        => str_slug(date('Y-m-d')). $user->slug,
+            'doctor_id'   => $this->doctor->id,
+            'patient_info'=> $this->faker->sentence,
+
+            'day'         => '2018-12-23 10:00:00',
+            'from'        => '05:00',
+            'to'          => '11:00',
+        ];
+
         $this
-            ->actingAs($this->user2)
-            ->post(route('appointments.store'), $this->data)
+            ->actingAs($user)
+            ->post(route('appointments.store'), $data)
             ;
 
-        $this->assertDatabaseHas('appointments', $this->data);
+        $this->assertDatabaseHas('appointments', $data);
     }
 
     /** @test */
