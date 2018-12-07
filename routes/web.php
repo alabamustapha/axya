@@ -25,8 +25,11 @@ Route::resource('doctors',     'DoctorController');
 Route::resource('documents',   'DocumentController');
 Route::resource('schedules',   'ScheduleController')->only('store','update','destroy');
 Route::resource('appointments','AppointmentController');
-Route::get('dr-appointments','AppointmentController@drindex')->name('dr_appointments');
+Route::get('dr-appointments',  'AppointmentController@drindex')->name('dr_appointments');
 Route::resource('messages',    'MessageController')->only('index','store','destroy');
+Route::resource('prescriptions','PrescriptionController');
+Route::get('dr-prescriptions',  'PrescriptionController@drindex')->name('dr_prescriptions');
+Route::resource('drugs',       'DrugController');
 
 Route::get('schedules/{doctor}/{day}', 'ScheduleController@schedules');
 

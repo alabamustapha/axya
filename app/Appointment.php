@@ -65,7 +65,7 @@ class Appointment extends Model
         return $this->belongsTo(Doctor::class);
     }
 
-    public function isAttendantDoctor()
+    public function attendantDoctor()
     {
         return intval(auth()->id()) === intval($this->doctor_id);
     }
