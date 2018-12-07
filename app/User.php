@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Doctor;
 use Carbon\Carbon;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -470,30 +471,32 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function doctors()
     {
-        // $doctorIds = $this->appointments()
-        //                   ->successful() // Scope on Appointment Class
-        //                   ->pluck('doctor_id')
-        //                   ->toArray();
+        // // $doctorIds = $this->appointments()//Completed() // Scope on Appointment Class
+        // //                   ->pluck('doctor_id')
+        // //                   ->toArray();
 
-        // return App\Doctor::whereIn('id', $doctorIds)->get();
-        // // return $this->hasMany(Doctor::class);
+        // // return Doctor::whereIn('id', $doctorIds);//->get();
+
+        // return $this->hasManyThrough(Doctor::class, Appointment::class, 'doctor_id', 'user_id');
+
+        // // return $this->hasManyThrough(Prescription::class, Appointment::class, 'user_id', 'appointment_id');
     }
 
 
 
-    /**
-     * Get all doctors that has attended to this user before.
-     * 
-     * @return array
-     */
-    public function inPastAttendantDoctors()
-    {
-        $doctorIds = $this->doctors()
-                          ->pluck('id')
-                          ->toArray();
+    // /**
+    //  * Get all doctors that has attended to this user before.
+    //  * 
+    //  * @return array
+    //  */
+    // public function inPastAttendantDoctors()
+    // {
+    //     $doctorIds = $this->doctors()
+    //                       ->pluck('id')
+    //                       ->toArray();
 
-        return in_array(request()->user->id, $doctorIds);
-    }
+    //     return in_array(request()->user->id, $doctorIds);
+    // }
 
 
 

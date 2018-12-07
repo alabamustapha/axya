@@ -6,7 +6,7 @@
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-sm-4 bg-primary text-secondary p-2" style="max-height: 80vh;display: block;overflow-y: scroll;">
+    <div class="col-sm-4 bg-primary text-secondary p-2 text-small" style="max-height: 80vh;display: block;overflow-y: scroll;">
 
       <div class="d-block m-auto text-center bg-white">
 
@@ -92,6 +92,7 @@
       <div class="d-none d-sm-block">
 
         {{-- @if (Auth::user() == $appointment->doctor) --}}
+        {{-- @if ($appointment->attendantDoctor()) --}}
           <div class="card">
             <img class="card-img-top" src=".../100px180/" alt="Card image cap">
             <div class="card-header">
@@ -139,15 +140,15 @@
 
               <p class="card-text">
                 <ul class="list-group list-group-unbordered mb-0">
-                  <li class="tf-flex list-group-item p-1 pr-3 mt-0 border-top-0" title="Specialty" title="Specialty" data-toggle="tootltip">
+                  <li class="tf-flex list-group-item p-1 pr-3 mt-0 border-top-0" title="Specialty" title="Specialty" data-toggle="tooltip">
                     <span>
                       <i style="width:25px;" class="fa fa-user-md"></i> 
                     </span>
 
-                    <a class="text-bold" href="{{route('specialties.show', $appointment->doctor->specialty)}}" style="color:inherit;">{{$appointment->doctor->specialty->name}}</a>
+                    <a class="text-bold" href="{{route('specialties.show', $appointment->doctor->specialty)}}" style="color:inherit;">{{$appointment->doctor->name}}</a>
                   </li>
 
-                  <li class="tf-flex list-group-item p-1 pr-3 mt-0" title="Patients Served" data-toggle="tootltip">
+                  <li class="tf-flex list-group-item p-1 pr-3 mt-0" title="Patients Served" data-toggle="tooltip">
                     <span class="d-block">
                       <i style="width:25px;" class="fa fa-procedures"></i> 
                     </span>
@@ -156,25 +157,25 @@
                     </span>
                   </li>
 
-                  <li class="tf-flex list-group-item p-1 pr-3" title="Availabilty" data-toggle="tootltip">
+                  <li class="tf-flex list-group-item p-1 pr-3" title="Availabilty" data-toggle="tooltip">
                     <span class="d-block">
                       <i style="width:25px;" class="fa fa-calendar-alt"></i> 
                     </span>
                     <span class="text-bold">{{$appointment->doctor->available ? 'Available':'Unavailable'}}</span>
                   </li>
 
-                  <li class="tf-flex list-group-item p-1 pr-3" title="Practice Years" data-toggle="tootltip">
+                  <li class="tf-flex list-group-item p-1 pr-3" title="Practice Years" data-toggle="tooltip">
                     <span class="d-block">
                       <i style="width:25px;" class="fa fa-calendar"></i> 
                     </span>
                     <span class="text-bold">{{$appointment->doctor->practice_years}} Practice Years</span>
                   </li>
 
-                  <li class="tf-flex list-group-item p-1 pr-3 border-bottom-0" title="About" data-toggle="tootltip">
+                  <li class="tf-flex list-group-item p-1 pr-3 border-bottom-0" title="About" data-toggle="tooltip">
                     <span class="d-block">
                       <i style="width:25px;" class="fa fa-info-circle"></i> 
                     </span>
-                    <span class="text-bold"> {{ $appointment->doctor->about }}</span>
+                    <span> {{ $appointment->doctor->about }}</span>
                   </li>
 
                 </ul>
@@ -199,13 +200,33 @@
         @if(1 == 1) {{-- Subscription made and time is reached --}}
           <!-- DIRECT CHAT PRIMARY -->
           <div class="box box-warning direct-chat direct-chat-warning tp-scrollbar" style="height: 80vh;display: block;overflow-y: scroll;">
-            <div class="box-body">
+            <div class="box-body text-small">
               
               <!-- Conversations are loaded here -->
               <div class="direct-chat-messages">
 
                 @forelse ($appointment->messages as $message)
-                  @if ($message->isAppointmentDoctor())
+                  @if (starts_with($message->body, 'View Prescription:'))
+                    <!-- Message. Default to the left -->
+                    <div class="direct-chat-msg mb-3 pb-2">
+                      <div class="direct-chat-info clearfix">
+                        <span class="direct-chat-name pull-left">{{$message->user->name}}</span>
+                        <span class="direct-chat-timestamp pull-right">{{$message->created_at}}</span>
+                      </div>
+
+                      <img class="direct-chat-img" src="{{$message->user->avatar}}" alt="{{$message->user->name}}" style="width: 40px;height: 40px;">
+
+                      <div class="direct-chat-text">
+                        <h6 class="pb-1 border-bottom">
+                          <i class="fa fa-prescription"></i>
+                          {{ $message->body }}
+                        </h6> 
+
+                        {{-- @include('prescriptions._card') --}}
+                      </div>
+                    </div>
+                    <!-- /.direct-chat-msg -->
+                  @elseif ($message->isAppointmentDoctor())
                     <!-- Message. Default to the left -->
                     <div class="direct-chat-msg mb-3 pb-2">
                       <div class="direct-chat-info clearfix">
@@ -244,16 +265,6 @@
             </div>
             <!-- /.box-body -->
 
-            {{-- <div class="box-footer">
-              <form action="#" method="post">
-                <div class="input-group">
-                  <input type="text" name="message" placeholder="Type Message ..." class="form-control">
-                      <span class="input-group-btn">
-                        <button type="submit" class="btn btn-primary btn-flat">Send</button>
-                      </span>
-                </div>
-              </form>
-            </div> --}}
             <!-- /.box-footer-->
           </div>
           <!--/.direct-chat -->
@@ -269,25 +280,26 @@
                   </div>
                   <div class="col-sm-2 pl-sm-0">
 
-                      <button id="navbarDropdown" class="dropdown-toggle btn btn-sm btn-info btn-block m-1" 
+                    <div>
+                      <span id="navbarDropdown" class="dropdown-toggle btn btn-sm btn-info btn-block m-1" 
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" 
                         title="Prescription form, Upload form etc.">
                         <i class="fa fa-cogs"></i> 
-                      </button>
+                      </span>
 
                       <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown">
-                    {{--@if(Auth::user()->isAttendantDoctor())--}}
-                          <button class="dropdown-item" data-toggle="modal" data-target="#newPrescriptionForm" title="Create mdedication/drug prescription for this consultation.">
+                        @if($appointment->attendantDoctor())
+                          <span class="dropdown-item" data-toggle="modal" data-target="#newPrescriptionForm" title="Create medication/drug prescription for this consultation.">
                             <i class="fa fa-prescription teal"></i>&nbsp; Make Prescription
-                          </button>
-                    {{--@endif--}}
+                          </span>
+                        @endif
 
-                        <form action="">
-                          <button class="dropdown-item" title="Upload image, video or other files.">
-                            <i class="fa fa-file teal"></i>&nbsp; Image/File Uploads
-                          </button>
-                        </form>
+                        <span class="dropdown-item" title="Upload image, video or other files.">
+                          <i class="fa fa-file teal"></i>&nbsp; Image/File Uploads
+                        </span>
                       </div>
+                    </div>
+
                     <button type="submit" class="btn btn-sm btn-primary btn-block m-1">Post</button>
                   </div>
                 </div>
@@ -310,4 +322,104 @@
     </div>
     <!-- /.col-sm-8 -->
 </div>
+
+@if($appointment->attendantDoctor())
+  <div class="modal bg-transparent" tabindex="-1" role="dialog" id="newPrescriptionForm" style="display:none;" aria-labelledby="newPrescriptionFormLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content px-0 pb-0 m-0 bg-transparent shadow-none">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 5px 15px 0px;margin:10px auto -25px">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <br>
+        <div class="modal-body">
+
+          <div class="card card-primary card-outline shadow">
+            <div class="card-header">
+              <div class="card-title" title="{{$appointment->patient_info}}">
+                <h5 class="border-bottom"><i class="fa fa-prescription"></i>&nbsp; Prescription for:</h5>
+                <p style="font-size:11px;">{{substr($appointment->patient_info, 0, 150)}}</p>
+              </div>
+            </div>
+
+            <div class="card-body">
+              
+              <form action="{{route('prescriptions.store')}}" method="post">
+                <input type="hidden" name="appointment_id" value="{{$appointment->id}}">
+                {{ csrf_field() }}
+
+                <div class="form-group border">
+                  <div class="table-responsive tp-scrollbar">
+                    <table class="table table-sm">
+                      <tr>
+                        <td>Name</td>
+                        <td>Texture</td>
+                        <td>Dosage</td>
+                        <td>Usage</td>
+                        <td>Manufacturer</td>
+                      </tr>
+                      <tr>
+                        <td>Chloroquine{{--$drug->name--}}</td>
+                        <td>tablet</td>
+                        <td>200mg{{--$drug->dosage--}}</td>
+                        <td>2-2-2{{--$drug->usage--}}</td>
+                        <td>Emzor</td>
+                      </tr>
+                      <tr>
+                        <td>Piritin</td>
+                        <td>syrup</td>
+                        <td>1tp (15ml)</td>
+                        <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic a ex unde laudantium? Animi eum sapiente adipisci, voluptas optio quia eligendi quam, ea dignissimos consectetur ipsa aut earum maiores vel.</td>
+                        <td>Drugfield</td>
+                      </tr>
+                      <tr>
+                        <td>Aspirin</td>
+                        <td>capsule</td>
+                        <td>20mg</td>
+                        <td>1-0-1</td>
+                        <td>May and Baker</td>
+                      </tr>
+                      <tr>
+                        <td>Astimycin</td>
+                        <td>capsule</td>
+                        <td>10mg</td>
+                        <td>1-0-0</td>
+                        <td></td>
+                      </tr>
+                    </table>                    
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="usage">Explain How To Use</label>
+                  <textarea name="usage" class="form-control{{ $errors->has('usage') ? ' is-invalid' : '' }}"  style="min-height: 100px;max-height: 150px;" placeholder="explain how to use the medications" required>{{ old('usage') }}</textarea>
+
+                  @if ($errors->has('usage'))
+                      <span class="invalid-feedback" role="alert">
+                          <strong>{{ $errors->first('usage') }}</strong>
+                      </span>
+                  @endif
+                </div>
+
+                <div class="form-group">
+                  <label for="usage">More comments on this prescription</label>
+                  <textarea name="comment" class="form-control{{ $errors->has('comment') ? ' is-invalid' : '' }}"  style="min-height: 70px;max-height: 120px;" placeholder="more comments on this prescription">{{ old('comment') }}</textarea>
+
+                  @if ($errors->has('comment'))
+                      <span class="invalid-feedback" role="alert">
+                          <strong>{{ $errors->first('comment') }}</strong>
+                      </span>
+                  @endif
+                </div>
+
+                <button type="submit" class="btn btn-block btn-primary">Create Prescription</button>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+@endif
+
 @endsection
