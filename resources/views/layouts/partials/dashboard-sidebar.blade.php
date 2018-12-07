@@ -454,7 +454,8 @@
     @else
 
       <li class="nav-item">
-        <a class="nav-link" href="{{ route('login') }}">
+        <a class="nav-link" href="{{ route('login') }}"
+            onclick="return false;" id="login-trigger" data-toggle="modal" data-target="#regLoginForm">
             <i class="nav-icon fa fa-sign-in-alt green"></i>
             <p>
               {{ __('Login') }}
@@ -462,7 +463,8 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{{ route('register') }}">
+        <a class="nav-link" href="{{ route('register') }}"
+                    onclick="return false;" id="register-trigger" data-toggle="modal" data-target="#regLoginForm">
             <i class="nav-icon fa fa-user-plus green"></i>
             <p>
               {{ __('Register') }}

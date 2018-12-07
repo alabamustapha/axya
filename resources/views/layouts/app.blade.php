@@ -50,9 +50,15 @@
             
             @yield('content')
         </main>
+                
+        @guest
+          @include('auth.partials.registration-login-modal')
+        @endguest
     </div>
     <script>
       $('div.alert').not('.alert-important').delay(7000).fadeOut(350);
     </script>
+    <script src="{{asset('js/jquery-2.0.3.js')}}"></script>
+    <script src="{{asset('js/custom.js')}}"></script>
 </body>
 </html>

@@ -107,12 +107,12 @@
         </div>
 
         <div class="form-group row">
-            <div class="col-md-6 offset-md-4">
+            <div class="col-md-8 offset-md-2">
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" name="terms" value="1" required="required" id="terms" {{ old('terms') ? 'checked' : '' }}{{--  required --}}>  
 
-                    <label class="form-check-label" for="terms">
-                        I have read and accepted the <a href="{{-- route('terms') --}}" target="_blank" title="Terms of Service">Terms of Service</a> and <a href="{{-- route('privacy') --}}" target="_blank" title="Privacy Policy">Privacy policy</a>?
+                    <label class="form-check-label text-small" for="terms">
+                        I have read and accepted the <abbr title="Terms of Service"><a href="{{-- route('terms') --}}" class="text-bold text-underline text-primary" target="_blank">Terms of Service</a></abbr> and <abbr title="Privacy Policy"><a href="{{-- route('privacy') --}}" class="text-bold text-underline text-primary" target="_blank">Privacy policy</abbr></a>
                     </label>
                 </div>
             </div>
@@ -133,7 +133,7 @@
 
         <div class="form-group row mb-0">
             <div class="col-md-6 offset-md-4">
-                <button type="submit" class="btn btn-primary">
+                <button type="submit" class="btn btn-primary btn-block">
                     {{ __('Register') }}
                 </button>
             </div>

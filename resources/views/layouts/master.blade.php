@@ -97,6 +97,12 @@
         <!-- Default to the left -->
         <strong>Copyright &copy; 2014-{{date('Y')}} <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
       </footer> --}}
+                
+      @guest
+
+          @include('auth.partials.registration-login-modal')
+
+      @endguest
 
       <vue-progress-bar></vue-progress-bar>
     </div>
@@ -104,6 +110,7 @@
 
     <!-- REQUIRED SCRIPTS -->
     <script src="{{asset('js/app.js')}}"></script>
+    <script src="{{asset('js/custom.js')}}"></script>
     <script>
       $('div.alert').not('.alert-important').delay(7000).fadeOut(350);
     </script>
