@@ -13,7 +13,7 @@ class Specialty extends Model
 
     public $timestamps = false;
 
-    protected $appends = ['link'];
+    protected $appends = ['link','description_preview'];
 
     protected $fillable = ['name','slug','description','user_id','specialty_id','accepted_at'];
 
@@ -70,5 +70,12 @@ class Specialty extends Model
     public function getLinkAttribute()
     {
       return route('specialties.show', $this);
+    }
+
+    public function getDescriptionPreviewAttribute()
+    {
+      $descr_preview = substr($this->description, 0, 120);
+      
+      return strlen($this->description) > 120 ? $descr_preview .'...':$this->description;
     }
 }

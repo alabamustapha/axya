@@ -13,7 +13,7 @@ class Tag extends Model
 
     protected $with = ['specialty'];
 
-    protected $appends = ['link'];
+    protected $appends = ['link','description_preview'];
 
     protected $fillable = ['name','slug','description','specialty_id','user_id','accepted_at'];
 
@@ -49,5 +49,12 @@ class Tag extends Model
     public function getLinkAttribute()
     {
       return route('tags.show', $this);
+    }
+
+    public function getDescriptionPreviewAttribute()
+    {
+      $descr_preview = substr($this->description, 0, 120);
+      
+      return strlen($this->description) > 120 ? $descr_preview .'...':$this->description;
     }
 }

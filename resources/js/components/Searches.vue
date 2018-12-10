@@ -2,7 +2,7 @@
   <div class="container" v-show="specialties.data || doctors.data || tags.data || users.data">
     <div class="row justify-content-center">
       <div class="col">
-        <div class="card shadow-none">
+        <div class="card shadow-none text-left">
           <div class="card-header bg-primary text-center p-2">
             <span>Results found for <b class="h4">{{this.$parent.search}}</b></span>
 
@@ -25,64 +25,66 @@
                   <div v-if="doctors.data != undefined && doctors.data.length">
                     <div class="p-1" v-for="doctor in doctors.data" :key="doctor.id">
                       
-                      <span :title="doctor.user.name">
-                        <a :href="doctor.link">
-                          <img :src="doctor.user.avatar" class="text-sm-center" style="display:inline-block;width:80px;height: 80px;" alt="Doctor Image">
-                        </a>
+                      <span>
+                        <div class="mb-0">
+                          <a :href="doctor.link">
+                            <img :src="doctor.user.avatar" class="text-sm-center" style="display:inline-block;width:80px;height: 80px; float:left" alt="Doctor Image" :title="doctor.user.name +' avatar'">
+                          </a>
 
-                        <div class="text-left ml-2 ml-sm-0 ml-lg-2 d-flex flex-column justify-content-between h-100">
-                          <div class="d-flex flex-row justify-content-between w-100">
-                            <a class="users-list-name":href="doctor.link">{{doctor.user.name}}</a>
+                          <div class="pl-2 text-left ml-2 ml-sm-0 ml-lg-2 d-flex flex-column justify-content-between h-100">
+                            <div class="d-flex flex-row justify-content-between w-100 text-truncate">
+                              <a class="users-list-name":href="doctor.link" :title="doctor.user.name">{{doctor.user.name}}</a>
 
-                            <div v-if="$acl.isSuperAdmin()">
-                              <button id="navbarDropdown" class="btn btn-sm dropdown-toggle d-inline" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                  <i class="fa fa-cog"></i>
-                              </button>
-                              <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown" style="font-size:12px;">
+                              <div v-if="$acl.isSuperAdmin()" :title="'Admin '+ doctor.user.name">
+                                <button id="navbarDropdown" class="btn btn-sm dropdown-toggle d-inline" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-cog"></i>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown" style="font-size:12px;">
 
-                                  <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to STAFF?');" title="Demote Admin">
-                                    <i class="fa fa-user-tie teal"></i>&nbsp; Upgrade to Admin
-                                  </button>
+                                    <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to STAFF?');" title="Demote Admin">
+                                      <i class="fa fa-user-tie teal"></i>&nbsp; Upgrade to Admin
+                                    </button>
 
-                                  <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
-                                    <i class="fa fa-user-tag indigo"></i>&nbsp; Upgrade to Staff
-                                  </button>
+                                    <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
+                                      <i class="fa fa-user-tag indigo"></i>&nbsp; Upgrade to Staff
+                                    </button>
 
-                                  <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
-                                    <i class="fa fa-user-slash orange"></i>&nbsp; Demote to Normal User
-                                  </button>
+                                    <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
+                                      <i class="fa fa-user-slash orange"></i>&nbsp; Demote to Normal User
+                                    </button>
 
-                                  <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
-                                    <i class="fa fa-ban red"></i>&nbsp; Block/Suspend
-                                  </button>
+                                    <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
+                                      <i class="fa fa-ban red"></i>&nbsp; Block/Suspend
+                                    </button>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          
-                          <a :href="doctor.specialty.link" class="text-muted" v-text="doctor.specialty.name"></a>
-                          <span class="text-muted" v-text="doctor.location"></span>
+                            
+                            <a :href="doctor.specialty.link" class="text-muted text-truncate" v-text="doctor.specialty.name" :title="doctor.specialty.name"></a>
+                            <span class="text-muted text-truncate" v-text="doctor.location" :title="doctor.location"></span>
 
-                          <div class="d-flex flex-row justify-content-between w-100 mb-1">
-                            <small class="text-muted">
-                                <span class="fa fa-star text-primary p-0 m-0"></span>
-                                <span class="fa fa-star text-primary p-0 m-0"></span>
-                                <span class="fa fa-star text-primary p-0 m-0"></span>
-                                <span class="fa fa-star text-primary p-0 m-0"></span>
-                                <span class="fa fa-star text-primary p-0 m-0"></span>
-                            </small>
-                            <span>&nbsp;12(5)</span>
-                          </div>
+                            <div class="d-flex flex-row justify-content-between w-100 mb-1 text-truncate" :title="doctor.user.name +'\'s current rating'">
+                              <small class="text-muted">
+                                  <span class="fa fa-star text-primary p-0 m-0"></span>
+                                  <span class="fa fa-star text-primary p-0 m-0"></span>
+                                  <span class="fa fa-star text-primary p-0 m-0"></span>
+                                  <span class="fa fa-star text-primary p-0 m-0"></span>
+                                  <span class="fa fa-star text-primary p-0 m-0"></span>
+                              </small>
+                              <span>&nbsp;12(5)</span>
+                            </div>
 
+                          </div>
                         </div>
-                        <a href="#" class="btn btn-primary btn-sm btn-block mt-1">
-                          <i class="fa fa-calendar-check"></i>&nbsp; Make Appointment
+                        <a href="#" class="btn btn-primary btn-sm btn-block" :title="'View '+ doctor.user.name +'\'s profile to book an appointment.'">
+                          <i class="fa fa-user-md"></i>&nbsp; View Profile
                         </a>
                       </span>
 
                     </div>
                   </div>
                   <div class="short-content-bg" v-else>
-                    0 results in doctors.
+                    0 results for <b>{{this.$parent.search}}</b> in <em class="text-bold">doctors</em>.
                   </div>
                 </div>
 
@@ -106,14 +108,14 @@
                     <div class="p-1 my-2 mx-0 short-content-bg" v-for="tag in tags.data" :key="tag.id">
 
                       <span>
-                        <a :href="tag.link" :title="tag.name +' - '+ tag.specialty.name" v-text="tag.name"></a>
+                        <a class="text-bold" :href="tag.link" :title="tag.name +' - '+ tag.specialty.name" v-text="tag.name"></a>
                         &nbsp; |&nbsp; 
-                        <span v-text="tag.description"></span>
+                        <span class="text-dark" v-text="tag.description_preview"></span>
                       </span>
                     </div>
                   </div>
                   <div class="short-content-bg" v-else>
-                    0 results in keywords.
+                    0 results for <b>{{this.$parent.search}}</b> in <em class="text-bold">keywords</em>.
                   </div>
                 </div>
 
@@ -136,12 +138,14 @@
                     <div class="p-1" v-for="specialty in specialties.data" :key="specialty.id">
 
                       <span :title="specialty.name">
-                        <a :href="specialty.link" v-text="specialty.name"></a>
+                        <a class="text-bold" :href="specialty.link" v-text="specialty.name"></a>
+                        &nbsp; |&nbsp; 
+                        <span class="text-dark" v-text="specialty.description_preview"></span>
                       </span>
                     </div>
                   </div>
                   <div class="short-content-bg" v-else>
-                    0 results in specialties.
+                    0 results for <b>{{this.$parent.search}}</b> in <em class="text-bold">specialties</em>.
                   </div>
                 </div>
 
@@ -202,7 +206,7 @@
                     </div>
                   </div>
                   <div class="short-content-bg" v-else>
-                    0 results in users.
+                    0 results for <b>{{this.$parent.search}}</b> in <em class="text-bold">users</em>.
                   </div>
                 </div>
 
