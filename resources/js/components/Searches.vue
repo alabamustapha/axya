@@ -1,5 +1,5 @@
 <template>
-  <div class="container" v-show="searches.data || doctors.data || tags.data">
+  <div class="container" v-show="specialties.data || doctors.data || tags.data || users.data">
     <div class="row justify-content-center">
       <div class="col">
         <div class="card shadow-none">
@@ -22,71 +22,72 @@
                   <i class="fa fa-user-md"></i>&nbsp; Doctors
                 </div>
                 <div class="card-body p-2">
-                  <div class="px-3 py-1" v-for="doctor in doctors.data" :key="doctor.id">
-                    
-                    <div class="row" :title="doctor.user.name">
-                      <a :href="doctor.link">
-                        <img :src="doctor.user.avatar" class="text-sm-center" style="display:inline-block;width:80px;height: 80px;" alt="Doctor Image">
-                      </a>
+                  <div v-if="doctors.data != undefined && doctors.data.length">
+                    <div class="p-1" v-for="doctor in doctors.data" :key="doctor.id">
+                      
+                      <span :title="doctor.user.name">
+                        <a :href="doctor.link">
+                          <img :src="doctor.user.avatar" class="text-sm-center" style="display:inline-block;width:80px;height: 80px;" alt="Doctor Image">
+                        </a>
 
-                      <div class="text-left ml-2 ml-sm-0 ml-lg-2 d-flex flex-column justify-content-between h-100">
-                        <div class="d-flex flex-row justify-content-between w-100">
-                          <a class="users-list-name":href="doctor.link">{{doctor.user.name}}</a>
+                        <div class="text-left ml-2 ml-sm-0 ml-lg-2 d-flex flex-column justify-content-between h-100">
+                          <div class="d-flex flex-row justify-content-between w-100">
+                            <a class="users-list-name":href="doctor.link">{{doctor.user.name}}</a>
 
-                          <div v-if="$acl.isSuperAdmin()">
-                            <button id="navbarDropdown" class="btn btn-sm dropdown-toggle d-inline" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-cog"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown" style="font-size:12px;">
+                            <div v-if="$acl.isSuperAdmin()">
+                              <button id="navbarDropdown" class="btn btn-sm dropdown-toggle d-inline" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  <i class="fa fa-cog"></i>
+                              </button>
+                              <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown" style="font-size:12px;">
 
-                                <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to STAFF?');" title="Demote Admin">
-                                  <i class="fa fa-user-tie teal"></i>&nbsp; Upgrade to Admin
-                                </button>
+                                  <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to STAFF?');" title="Demote Admin">
+                                    <i class="fa fa-user-tie teal"></i>&nbsp; Upgrade to Admin
+                                  </button>
 
-                                <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
-                                  <i class="fa fa-user-tag indigo"></i>&nbsp; Upgrade to Staff
-                                </button>
+                                  <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
+                                    <i class="fa fa-user-tag indigo"></i>&nbsp; Upgrade to Staff
+                                  </button>
 
-                                <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
-                                  <i class="fa fa-user-slash orange"></i>&nbsp; Demote to Normal User
-                                </button>
+                                  <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
+                                    <i class="fa fa-user-slash orange"></i>&nbsp; Demote to Normal User
+                                  </button>
 
-                                <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
-                                  <i class="fa fa-ban red"></i>&nbsp; Block/Suspend
-                                </button>
+                                  <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
+                                    <i class="fa fa-ban red"></i>&nbsp; Block/Suspend
+                                  </button>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        
-                        <a :href="doctor.specialty.link" class="text-muted" v-text="doctor.specialty.name"></a>
-                        <span class="text-muted" v-text="doctor.location"></span>
+                          
+                          <a :href="doctor.specialty.link" class="text-muted" v-text="doctor.specialty.name"></a>
+                          <span class="text-muted" v-text="doctor.location"></span>
 
-                        <div class="d-flex flex-row justify-content-between w-100 mb-1">
-                          <small class="text-muted">
-                              <span class="fa fa-star text-primary p-0 m-0"></span>
-                              <span class="fa fa-star text-primary p-0 m-0"></span>
-                              <span class="fa fa-star text-primary p-0 m-0"></span>
-                              <span class="fa fa-star text-primary p-0 m-0"></span>
-                              <span class="fa fa-star text-primary p-0 m-0"></span>
-                          </small>
-                          <span>&nbsp;12(5)</span>
-                        </div>
+                          <div class="d-flex flex-row justify-content-between w-100 mb-1">
+                            <small class="text-muted">
+                                <span class="fa fa-star text-primary p-0 m-0"></span>
+                                <span class="fa fa-star text-primary p-0 m-0"></span>
+                                <span class="fa fa-star text-primary p-0 m-0"></span>
+                                <span class="fa fa-star text-primary p-0 m-0"></span>
+                                <span class="fa fa-star text-primary p-0 m-0"></span>
+                            </small>
+                            <span>&nbsp;12(5)</span>
+                          </div>
 
-                      </div>
-                      <a href="#" class="btn btn-primary btn-sm btn-block mt-1">
-                        <i class="fa fa-calendar-check"></i>&nbsp; Make Appointment
-                      </a>
+                        </div>
+                        <a href="#" class="btn btn-primary btn-sm btn-block mt-1">
+                          <i class="fa fa-calendar-check"></i>&nbsp; Make Appointment
+                        </a>
+                      </span>
+
                     </div>
-
                   </div>
-
-                  <div class="short-content-bg" v-show="doctors.data.length == 0">
+                  <div class="short-content-bg" v-else>
                     0 results in doctors.
                   </div>
                 </div>
-                <!-- <div class="card-footer text-center mb-0">
+                <div class="card-footer text-center mb-0 pb-0 px-2">
                     <pagination :data="doctors" @pagination-change-page="doctorsPagination"></pagination>
-                </div> -->
+                </div>
               </div>
               
 
@@ -96,21 +97,22 @@
                 </div>
 
                 <div class="card-body p-2">
-                  <div class="p-1 my-2 short-content-bg" v-for="tag in tags.data" :key="tag.id">
+                  <div v-if="tags.data != undefined && tags.data.length">
+                    <div class="p-1 my-2 mx-0 short-content-bg" v-for="tag in tags.data" :key="tag.id">
 
-                    <span>
-                      <a :href="tag.link" :title="tag.name +' - '+ tag.specialty.name" v-text="tag.name"></a>
-                      &nbsp; |&nbsp; 
-                      <span v-text="tag.description"></span>
-                    </span>
+                      <span>
+                        <a :href="tag.link" :title="tag.name +' - '+ tag.specialty.name" v-text="tag.name"></a>
+                        &nbsp; |&nbsp; 
+                        <span v-text="tag.description"></span>
+                      </span>
+                    </div>
                   </div>
-
-                  <!-- <div class="short-content-bg" v-show="tags.data.length == 0">
+                  <div class="short-content-bg" v-else>
                     0 results in keywords.
-                  </div> -->
+                  </div>
                 </div>
 
-                <div class="card-footer text-center mb-0">
+                <div class="card-footer text-center mb-0 pb-0 px-2">
                     <pagination :data="tags" @pagination-change-page="tagsPagination"></pagination>
                 </div>
               </div>
@@ -121,19 +123,20 @@
                   <i class="fa fa-tags"></i>&nbsp; Specialties
                 </div>
                 <div class="card-body p-2">
-                  <div class="px-3 py-1" v-for="specialty in specialties.data" :key="specialty.id">
+                  <div v-if="specialties.data != undefined && specialties.data.length">
+                    <div class="p-1" v-for="specialty in specialties.data" :key="specialty.id">
 
-                    <div class="row" :title="specialty.name">
-                      <a :href="specialty.link" v-text="specialty.name"></a>
+                      <span :title="specialty.name">
+                        <a :href="specialty.link" v-text="specialty.name"></a>
+                      </span>
                     </div>
                   </div>
-
-                  <!-- <div class="short-content-bg" v-show="specialties.data.length == 0">
+                  <div class="short-content-bg" v-else>
                     0 results in specialties.
-                  </div> -->
+                  </div>
                 </div>
 
-                <div class="card-footer text-center mb-0">
+                <div class="card-footer text-center mb-0 pb-0 px-2">
                     <pagination :data="specialties" @pagination-change-page="specialtiesPagination"></pagination>
                 </div>
               </div>
@@ -144,51 +147,52 @@
                   <i class="fa fa-users"></i>&nbsp; Users
                 </div>
                 <div class="card-body p-2">
-                  <div class="px-3 py-1" v-for="user in users.data" :key="user.id">
-                    
-                    <div class="row" :title="user.name">
-                      <a :href="user.link">
-                        <img :src="user.avatar" class="text-sm-center" style="display:inline-block;width:80px;height: 80px;" alt="Doctor Image">
-                      </a>
+                  <div v-if="users.data != undefined && users.data.length">
+                    <div class="p-1" v-for="user in users.data" :key="user.id">
+                      
+                      <span :title="user.name">
+                        <a :href="user.link">
+                          <img :src="user.avatar" class="text-sm-center" style="display:inline-block;width:80px;height: 80px;" alt="Doctor Image">
+                        </a>
 
-                      <div class="text-left ml-2 ml-sm-0 ml-lg-2 d-flex flex-column justify-content-between h-100">
-                        <div class="d-flex flex-row justify-content-between w-100">
-                          <a class="users-list-name":href="user.link">{{user.name}}</a>
+                        <div class="text-left ml-2 ml-sm-0 ml-lg-2 d-flex flex-column justify-content-between h-100">
+                          <div class="d-flex flex-row justify-content-between w-100">
+                            <a class="users-list-name":href="user.link">{{user.name}}</a>
 
-                          <div v-if="$acl.isSuperAdmin()">
-                            <button id="navbarDropdown" class="btn btn-sm dropdown-toggle d-inline" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-cog"></i>
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown" style="font-size:12px;">
+                            <div v-if="$acl.isSuperAdmin()">
+                              <button id="navbarDropdown" class="btn btn-sm dropdown-toggle d-inline" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  <i class="fa fa-cog"></i>
+                              </button>
+                              <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown" style="font-size:12px;">
 
-                                <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to STAFF?');" title="Demote Admin">
-                                  <i class="fa fa-user-tie teal"></i>&nbsp; Upgrade to Admin
-                                </button>
+                                  <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to STAFF?');" title="Demote Admin">
+                                    <i class="fa fa-user-tie teal"></i>&nbsp; Upgrade to Admin
+                                  </button>
 
-                                <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
-                                  <i class="fa fa-user-tag indigo"></i>&nbsp; Upgrade to Staff
-                                </button>
+                                  <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
+                                    <i class="fa fa-user-tag indigo"></i>&nbsp; Upgrade to Staff
+                                  </button>
 
-                                <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
-                                  <i class="fa fa-user-slash orange"></i>&nbsp; Demote to Normal User
-                                </button>
+                                  <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
+                                    <i class="fa fa-user-slash orange"></i>&nbsp; Demote to Normal User
+                                  </button>
 
-                                <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
-                                  <i class="fa fa-ban red"></i>&nbsp; Block/Suspend
-                                </button>
+                                  <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
+                                    <i class="fa fa-ban red"></i>&nbsp; Block/Suspend
+                                  </button>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </span>
+
                     </div>
-
                   </div>
-
-                  <!-- <div class="short-content-bg" v-show="users.data.length == 0">
+                  <div class="short-content-bg" v-else>
                     0 results in users.
-                  </div> -->
+                  </div>
                 </div>
-                <div class="card-footer text-center mb-0">
+                <div class="card-footer text-center mb-0 pb-0 px-2">
                     <pagination :data="users" @pagination-change-page="usersPagination"></pagination>
                 </div>
               </div>
