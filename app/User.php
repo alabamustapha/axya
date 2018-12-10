@@ -100,16 +100,18 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function isVerified()
     {
-        return app()->environment('local')
-            ? ( 
-              !is_null($this->email_verified_at) || 
-              $this->email == 'cucuteanu@yahoo.com' || 
-              $this->email == 'alabamustapha@gmail.com' || 
-              $this->email == 'tonyfrenzy@gmail.com' || 
-              $this->email == 'solomoneyitene@gmail.com'
-              )
-            : !is_null($this->email_verified_at)
-            ;
+        return !is_null($this->email_verified_at);
+
+        // return app()->environment('local')
+        //     ? ( 
+        //       !is_null($this->email_verified_at) || 
+        //       $this->email == 'cucuteanu@yahoo.com' || 
+        //       $this->email == 'alabamustapha@gmail.com' || 
+        //       $this->email == 'tonyfrenzy@gmail.com' || 
+        //       $this->email == 'solomoneyitene@gmail.com'
+        //       )
+        //     : !is_null($this->email_verified_at)
+        //     ;
     }
     public function isSuspended()
     {
@@ -203,17 +205,19 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function isAdmin() 
     {
-        return $this->is_verified && app()->environment('local') 
-            ? (
-              $this->acl == '1' || 
-              $this->isSuperAdmin() || 
-              $this->email == 'cucuteanu@yahoo.com' || 
-              $this->email == 'alabamustapha@gmail.com' || 
-              $this->email == 'tonyfrenzy@gmail.com' || 
-              $this->email == 'solomoneyitene@gmail.com' 
-              )
-            : $this->acl == '1' || $this->isSuperAdmin()
-            ;
+        return $this->is_verified && ($this->acl == '1' || $this->isSuperAdmin());
+
+        // return $this->is_verified && app()->environment('local') 
+        //     ? (
+        //       $this->acl == '1' || 
+        //       $this->isSuperAdmin() || 
+        //       $this->email == 'cucuteanu@yahoo.com' || 
+        //       $this->email == 'alabamustapha@gmail.com' || 
+        //       $this->email == 'tonyfrenzy@gmail.com' || 
+        //       $this->email == 'solomoneyitene@gmail.com' 
+        //       )
+        //     : $this->acl == '1' || $this->isSuperAdmin()
+        //     ;
     }
 
     public function isStaff() 
