@@ -70736,6 +70736,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -71045,17 +71062,32 @@ var render = function() {
                       _c(
                         "div",
                         {
-                          staticClass: "card-footer text-center mb-0 pb-0 px-2"
+                          staticClass: "card-footer text-center mb-0 pb-1 px-2"
                         },
                         [
-                          _c("pagination", {
-                            attrs: { data: _vm.doctors },
-                            on: {
-                              "pagination-change-page": _vm.doctorsPagination
-                            }
-                          })
-                        ],
-                        1
+                          _c(
+                            "div",
+                            {
+                              staticClass: "table-responsive tp-scrollbar m-0"
+                            },
+                            [
+                              _c(
+                                "div",
+                                { staticStyle: { "flex-flow": "nowrap" } },
+                                [
+                                  _c("pagination", {
+                                    attrs: { data: _vm.doctors },
+                                    on: {
+                                      "pagination-change-page":
+                                        _vm.doctorsPagination
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ]
+                          )
+                        ]
                       )
                     ]
                   ),
@@ -71115,15 +71147,32 @@ var render = function() {
                       _c(
                         "div",
                         {
-                          staticClass: "card-footer text-center mb-0 pb-0 px-2"
+                          staticClass: "card-footer text-center mb-0 pb-1 px-2"
                         },
                         [
-                          _c("pagination", {
-                            attrs: { data: _vm.tags },
-                            on: { "pagination-change-page": _vm.tagsPagination }
-                          })
-                        ],
-                        1
+                          _c(
+                            "div",
+                            {
+                              staticClass: "table-responsive tp-scrollbar m-0"
+                            },
+                            [
+                              _c(
+                                "div",
+                                { staticStyle: { "flex-flow": "nowrap" } },
+                                [
+                                  _c("pagination", {
+                                    attrs: { data: _vm.tags },
+                                    on: {
+                                      "pagination-change-page":
+                                        _vm.tagsPagination
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ]
+                          )
+                        ]
                       )
                     ]
                   ),
@@ -71170,18 +71219,32 @@ var render = function() {
                       _c(
                         "div",
                         {
-                          staticClass: "card-footer text-center mb-0 pb-0 px-2"
+                          staticClass: "card-footer text-center mb-0 pb-1 px-2"
                         },
                         [
-                          _c("pagination", {
-                            attrs: { data: _vm.specialties },
-                            on: {
-                              "pagination-change-page":
-                                _vm.specialtiesPagination
-                            }
-                          })
-                        ],
-                        1
+                          _c(
+                            "div",
+                            {
+                              staticClass: "table-responsive tp-scrollbar m-0"
+                            },
+                            [
+                              _c(
+                                "div",
+                                { staticStyle: { "flex-flow": "nowrap" } },
+                                [
+                                  _c("pagination", {
+                                    attrs: { data: _vm.specialties },
+                                    on: {
+                                      "pagination-change-page":
+                                        _vm.specialtiesPagination
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ]
+                          )
+                        ]
                       )
                     ]
                   ),
@@ -71283,17 +71346,33 @@ var render = function() {
                             "div",
                             {
                               staticClass:
-                                "card-footer text-center mb-0 pb-0 px-2"
+                                "card-footer text-center mb-0 pb-1 px-2"
                             },
                             [
-                              _c("pagination", {
-                                attrs: { data: _vm.users },
-                                on: {
-                                  "pagination-change-page": _vm.usersPagination
-                                }
-                              })
-                            ],
-                            1
+                              _c(
+                                "div",
+                                {
+                                  staticClass:
+                                    "table-responsive tp-scrollbar m-0"
+                                },
+                                [
+                                  _c(
+                                    "div",
+                                    { staticStyle: { "flex-flow": "nowrap" } },
+                                    [
+                                      _c("pagination", {
+                                        attrs: { data: _vm.users },
+                                        on: {
+                                          "pagination-change-page":
+                                            _vm.usersPagination
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ]
+                              )
+                            ]
                           )
                         ]
                       )
@@ -73648,7 +73727,7 @@ var computed = ref.computed;
 var prevButtonEvents = ref.prevButtonEvents;
 var nextButtonEvents = ref.nextButtonEvents;
 var pageButtonEvents = ref.pageButtonEvents;
-return (computed.total > computed.perPage)?_c('ul',{staticClass:"pagination"},[(computed.prevPageUrl || _vm.showDisabled)?_c('li',{staticClass:"page-item pagination-prev-nav",class:{'disabled': !computed.prevPageUrl}},[_c('a',_vm._g({staticClass:"page-link",attrs:{"href":"#","aria-label":"Previous","tabindex":!computed.prevPageUrl && -1}},prevButtonEvents),[_vm._t("prev-nav",[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("«")]),_c('span',{staticClass:"sr-only"},[_vm._v("Previous")])])],2)]):_vm._e(),_vm._l((computed.pageRange),function(page,key){return _c('li',{key:key,staticClass:"page-item pagination-page-nav",class:{ 'active': page == computed.currentPage }},[_c('a',_vm._g({staticClass:"page-link",attrs:{"href":"#"}},pageButtonEvents(page)),[_vm._v(_vm._s(page))])])}),(computed.nextPageUrl || _vm.showDisabled)?_c('li',{staticClass:"page-item pagination-next-nav",class:{'disabled': !computed.nextPageUrl}},[_c('a',_vm._g({staticClass:"page-link",attrs:{"href":"#","aria-label":"Next","tabindex":!computed.nextPageUrl && -1}},nextButtonEvents),[_vm._t("next-nav",[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("»")]),_c('span',{staticClass:"sr-only"},[_vm._v("Next")])])],2)]):_vm._e()],2):_vm._e()}}])})}
+return (computed.total > computed.perPage)?_c('ul',{staticClass:"pagination mb-0"},[(computed.prevPageUrl || _vm.showDisabled)?_c('li',{staticClass:"page-item pagination-prev-nav",class:{'disabled': !computed.prevPageUrl}},[_c('a',_vm._g({staticClass:"page-link",attrs:{"href":"#","aria-label":"Previous","tabindex":!computed.prevPageUrl && -1}},prevButtonEvents),[_vm._t("prev-nav",[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("«")]),_c('span',{staticClass:"sr-only"},[_vm._v("Previous")])])],2)]):_vm._e(),_vm._l((computed.pageRange),function(page,key){return _c('li',{key:key,staticClass:"page-item pagination-page-nav",class:{ 'active': page == computed.currentPage }},[_c('a',_vm._g({staticClass:"page-link",attrs:{"href":"#"}},pageButtonEvents(page)),[_vm._v(_vm._s(page))])])}),(computed.nextPageUrl || _vm.showDisabled)?_c('li',{staticClass:"page-item pagination-next-nav",class:{'disabled': !computed.nextPageUrl}},[_c('a',_vm._g({staticClass:"page-link",attrs:{"href":"#","aria-label":"Next","tabindex":!computed.nextPageUrl && -1}},nextButtonEvents),[_vm._t("next-nav",[_c('span',{attrs:{"aria-hidden":"true"}},[_vm._v("»")]),_c('span',{staticClass:"sr-only"},[_vm._v("Next")])])],2)]):_vm._e()],2):_vm._e()}}])})}
 var staticRenderFns = []
 
 

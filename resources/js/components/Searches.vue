@@ -85,8 +85,13 @@
                     0 results in doctors.
                   </div>
                 </div>
-                <div class="card-footer text-center mb-0 pb-0 px-2">
-                    <pagination :data="doctors" @pagination-change-page="doctorsPagination"></pagination>
+
+                <div class="card-footer text-center mb-0 pb-1 px-2">
+                  <div class="table-responsive tp-scrollbar m-0">
+                    <div style="flex-flow: nowrap;">
+                      <pagination :data="doctors" @pagination-change-page="doctorsPagination"></pagination>
+                    </div>
+                  </div>
                 </div>
               </div>
               
@@ -112,8 +117,12 @@
                   </div>
                 </div>
 
-                <div class="card-footer text-center mb-0 pb-0 px-2">
-                    <pagination :data="tags" @pagination-change-page="tagsPagination"></pagination>
+                <div class="card-footer text-center mb-0 pb-1 px-2">
+                  <div class="table-responsive tp-scrollbar m-0">
+                    <div style="flex-flow: nowrap;">
+                      <pagination :data="tags" @pagination-change-page="tagsPagination"></pagination>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -136,8 +145,12 @@
                   </div>
                 </div>
 
-                <div class="card-footer text-center mb-0 pb-0 px-2">
-                    <pagination :data="specialties" @pagination-change-page="specialtiesPagination"></pagination>
+                <div class="card-footer text-center mb-0 pb-1 px-2">
+                  <div class="table-responsive tp-scrollbar m-0">
+                    <div style="flex-flow: nowrap;">
+                      <pagination :data="specialties" @pagination-change-page="specialtiesPagination"></pagination>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -192,11 +205,15 @@
                     0 results in users.
                   </div>
                 </div>
-                <div class="card-footer text-center mb-0 pb-0 px-2">
-                    <pagination :data="users" @pagination-change-page="usersPagination"></pagination>
+
+                <div class="card-footer text-center mb-0 pb-1 px-2">
+                  <div class="table-responsive tp-scrollbar m-0">
+                    <div style="flex-flow: nowrap;">
+                      <pagination :data="users" @pagination-change-page="usersPagination"></pagination>
+                    </div>
+                  </div>
                 </div>
               </div>
-              
 
             </div>
           </div>
