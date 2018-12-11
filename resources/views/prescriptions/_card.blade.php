@@ -21,10 +21,11 @@
     </div>
   </div>
 
-  <div class="card-body">
+  <div class="card-body p-3">
 
     <div>          
       <h5 class="border-bottom">Drugs:</h5>
+
       <div class="table-responsive tp-scrollbar mb-3">
         <table class="table table-sm">
           <tr>
@@ -68,6 +69,15 @@
           @endforelse --}}
         </table>                    
       </div>
+{{-- 
+      <ul class="mb-3">
+        @forelse($prescription->drugs as $drug)
+            <li>...</li>
+        @empty
+          <li class="bg-light p-3">0 drugs prescribed</li>
+        @endforelse
+      </ul> --}}
+      
     </div>
 
     <div>          
