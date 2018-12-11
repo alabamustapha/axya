@@ -55,4 +55,19 @@ class Message extends Model
     {
         return $this->user_id == $this->messageable->user_id;
     }
+
+    public function hasPrescription()
+    {
+        return starts_with($this->body, 'View Prescription:');
+    }
+
+    public function displayPrescription()
+    {
+        if ($this->hasPrescription()){
+            $getId = explode(': ', $this->body);
+            $id    = intval(end($getId));
+            
+            return \App\Prescription::find($id);
+        }
+    }
 }

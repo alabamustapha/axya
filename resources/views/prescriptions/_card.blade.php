@@ -21,7 +21,7 @@
     </div>
   </div>
 
-  <div class="card-body">
+  <div class="card-body p-3">
 
     <div>          
       <h5 class="border-bottom">Drugs:</h5>
@@ -29,7 +29,7 @@
         @forelse($prescription->drugs as $drug)
             <li>...</li>
         @empty
-          <li class="empty-list">0 drugs prescribed</li>
+          <li class="bg-light p-3">0 drugs prescribed</li>
         @endforelse
       </ul>
     </div>

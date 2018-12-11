@@ -206,9 +206,9 @@
               <div class="direct-chat-messages">
 
                 @forelse ($appointment->messages as $message)
-                  @if (starts_with($message->body, 'View Prescription:'))
+                  @if ($message->hasPrescription())
                     <!-- Message. Default to the left -->
-                    <div class="direct-chat-msg mb-3 pb-2">
+                    <div class="direct-chat-msg mb-3 pb-2 w-75">
                       <div class="direct-chat-info clearfix">
                         <span class="direct-chat-name pull-left">{{$message->user->name}}</span>
                         <span class="direct-chat-timestamp pull-right">{{$message->created_at}}</span>
@@ -220,9 +220,13 @@
                         <h6 class="pb-1 border-bottom">
                           <i class="fa fa-prescription"></i>
                           {{ $message->body }}
-                        </h6> 
+                        </h6>
 
-                        {{-- @include('prescriptions._card') --}}
+                        @php 
+                          $prescription = $message->displayPrescription();
+                        @endphp
+
+                        @include('prescriptions._card')
                       </div>
                     </div>
                     <!-- /.direct-chat-msg -->
@@ -270,8 +274,9 @@
           <!--/.direct-chat -->
 
           <div class="sticky-bottom mb-0 p-0 bg-dark">
-            <form action="{{route('messages.store', ['user_id'=> auth()->id(), 'messageable_id'=> $appointment->id, 'messageable_type'=> 'App\Appointment'])}}" method="post" enctype="multipart/form">
+            <form action="{{route('messages.store')}}" method="post" enctype="multipart/form">
               @csrf
+              <input type="hidden" name="messageable_id" value="{{$appointment->id}}"><input type="hidden" name="messageable_type" value="App\Appointment">
 
               <div class="container">
                 <div class="row">
