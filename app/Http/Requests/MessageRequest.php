@@ -24,7 +24,7 @@ class MessageRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id'         => 'required|integer|exists:users,id',
+            // 'user_id'         => 'required|integer|exists:users,id',
             'body'            => 'required|string',
             'messageable_id'  => 'required|integer',
             'messageable_type'=> 'required|string',
