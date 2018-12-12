@@ -26,47 +26,47 @@
     <div>          
       <h5 class="border-bottom">Drugs:</h5>
 
-      <div class="table-responsive tp-scrollbar mb-3">
+      <div class="table-responsive mb-3">
         <table class="table table-sm">
           <tr>
             <td>Name</td>
             <td>Texture</td>
             <td>Dosage</td>
-            <td>Usage</td>
             <td>Manufacturer</td>
+            <td>Usage</td>
           </tr>
           {{-- @forelse($prescription->drugs as $drug) --}}
             <tr>
               <td>Chloroquine{{--$drug->name--}}</td>
               <td>tablet</td>
               <td>200mg{{--$drug->dosage--}}</td>
-              <td>2-2-2{{--$drug->usage--}}</td>
               <td>Emzor</td>
+              <td>2-2-2{{--$drug->usage--}}</td>
             </tr>
+          {{-- @empty
+            <tr><td colspan="5" class="empty-list">0 drugs prescribed</td></tr>
+          @endforelse --}}
             <tr>
               <td>Piritin</td>
               <td>syrup</td>
               <td>1tp (15ml)</td>
-              <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic a ex unde laudantium? Animi eum sapiente adipisci, voluptas optio quia eligendi quam, ea dignissimos consectetur ipsa aut earum maiores vel.</td>
               <td>Drugfield</td>
+              <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic a ex unde laudantium? Animi eum sapiente adipisci, voluptas optio quia eligendi quam, ea dignissimos consectetur ipsa aut earum maiores vel.</td>
             </tr>
             <tr>
               <td>Aspirin</td>
               <td>capsule</td>
               <td>20mg</td>
-              <td>1-0-1</td>
               <td>May and Baker</td>
+              <td>1-0-1</td>
             </tr>
             <tr>
               <td>Astimycin</td>
               <td>capsule</td>
               <td>10mg</td>
-              <td>1-0-0</td>
               <td></td>
+              <td>1-0-0</td>
             </tr>
-          {{-- @empty
-            <tr><td colspan="5" class="empty-list">0 drugs prescribed</td></tr>
-          @endforelse --}}
         </table>                    
       </div>
 {{-- 
@@ -77,7 +77,7 @@
           <li class="bg-light p-3">0 drugs prescribed</li>
         @endforelse
       </ul> --}}
-      
+
     </div>
 
     <div>          

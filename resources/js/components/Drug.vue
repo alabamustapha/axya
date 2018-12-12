@@ -1,80 +1,113 @@
 <template>
-  <div>
-    <div class="container">
-      <button class="btn btn-success mt-5 mb-5">
-        New Drug
-      </button>
-    </div>
+  <div class="form-group">
+    <div class="card p-2 p-sm-3 bg-light border-0">
+      <div class="card-header mb-2">
+        <span class="h5 text-center">
+          New Drug
+        </span>
 
-    <div class="card card-primary card-outline shadow">
-      <div class="card-header">
-        <div class="card-title" title="{ {$appointment->patient_info}}">
-          <h5 class="border-bottom"><i class="fa fa-prescription"></i>&nbsp; Prescription for:</h5>
-          <p style="font-size:11px;">{ {substr($appointment->patient_info, 0, 150)}}</p>
-        </div>
+        <span class="card-tools">
+          <button type="button" class="btn btn-tool" data-widget="collapse">
+            <i class="fa fa-minus"></i>
+          </button>
+        </span>
       </div>
-
-      <div class="card-body">
-
-          <div class="form-group border"><!-- 
-            <div class="table-responsive tp-scrollbar">
-              <table class="table table-sm">
-                <tr>
-                  <td>Name</td>
-                  <td>Texture</td>
-                  <td>Dosage</td>
-                  <td>Usage</td>
-                  <td>Manufacturer</td>
-                </tr>
-                <tr>
-                  <td>Chloroquine{{--$drug->name--}}</td>
-                  <td>tablet</td>
-                  <td>200mg{{--$drug->dosage--}}</td>
-                  <td>2-2-2{{--$drug->usage--}}</td>
-                  <td>Emzor</td>
-                </tr>
-                <tr>
-                  <td>Piritin</td>
-                  <td>syrup</td>
-                  <td>1tp (15ml)</td>
-                  <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic a ex unde laudantium? Animi eum sapiente adipisci, voluptas optio quia eligendi quam, ea dignissimos consectetur ipsa aut earum maiores vel.</td>
-                  <td>Drugfield</td>
-                </tr>
-                <tr>
-                  <td>Aspirin</td>
-                  <td>capsule</td>
-                  <td>20mg</td>
-                  <td>1-0-1</td>
-                  <td>May and Baker</td>
-                </tr>
-                <tr>
-                  <td>Astimycin</td>
-                  <td>capsule</td>
-                  <td>10mg</td>
-                  <td>1-0-0</td>
-                  <td></td>
-                </tr>
-              </table>                    
-            </div> -->
+      
+      <div class="card-body p-0 m-0">
+        <form @submit.prevent="editmode ? updateUser() : createUser()">
+          <div class="form-group mb-1">
+            <div class="row">
+              <div class="col-sm-6">
+                <label class="pb-0 mb-0" for="name">Name</label> <br>
+                <input v-model="form.name" type="text" name="name"
+                    placeholder="Name"
+                    class="form-control form-control-sm" :class="{ 'is-invalid': form.errors.has('name') }">
+                <has-error :form="form" field="name"></has-error>              
+              </div>
+              <div class="col-sm-6">
+                <label class="pb-0 mb-0" for="texture">Drug Texture</label> <br>
+                <select v-model="form.texture" name="texture" id="texture" class="form-control form-control-sm" :class="{ 'is-invalid': form.errors.has('texture') }">
+                  <option value="">Choose one</option>
+                  <option value="tablet">Tablet</option>
+                  <option value="syrup">Liquid</option>
+                  <option value="capsule">Capsule</option>
+                  <option value="caplet">Caplet</option>
+                  <option value="powder">Powder</option>
+                  <option value="chewable">Chewable</option>
+                  <option value="any">Any type</option>
+                  <option value="others">Others</option>
+                </select>
+                <has-error :form="form" field="texture"></has-error>
+              </div>
+            </div>
+          </div>
+      
+          <div class="form-group mb-1">
+            <div class="row">
+              <div class="col-sm-6">
+                <label class="pb-0 mb-0" for="dosage">Dosage</label> <br>
+                <input v-model="form.dosage" type="dosage" name="dosage"
+                    placeholder="dosage eg 2-2-2/50mg etc"
+                    class="form-control form-control-sm" :class="{ 'is-invalid': form.errors.has('dosage') }">
+                <has-error :form="form" field="dosage"></has-error>
+              </div>
+          
+              <div class="col-sm-6">
+                <label class="pb-0 mb-0" for="manufacturer">Brand</label> <br>
+                <input v-model="form.manufacturer" type="manufacturer" name="manufacturer"
+                    placeholder="drug brand/manufacturer"
+                    class="form-control form-control-sm" :class="{ 'is-invalid': form.errors.has('manufacturer') }">
+                <has-error :form="form" field="manufacturer"></has-error>
+              </div>
+            </div>
+          </div>
+      
+          <div class="form-group mb-1">
+            <label class="pb-0 mb-0" for="usage">Usage</label> <br>
+            <textarea v-model="form.usage" name="usage"
+                placeholder="Short description on how to use"
+                style="min-height:100px;max-height:180px;" 
+                class="form-control form-control-sm" :class="{ 'is-invalid': form.errors.has('usage') }"></textarea>
+            <has-error :form="form" field="usage"></has-error>
           </div>
 
+          <div>
+           <!--  <button v-show="editmode" type="submit" class="btn btn-primary">Update</button>
+            <button v-show="!editmode" type="submit" class="btn btn-primary">Create</button> -->
+          </div>
+        </form>
       </div>
+
+      <hr>
+
+      <button class="btn btn-dark btn-sm">
+        <i class="fa fa-plus"></i>&nbsp; Add New
+      </button>
     </div>
   </div>
 </template>
+
 <script>
   export default {
     data() {
       return {
-        drugs: [
-          {
+        form: new Form({
+            id: '',
             name: '',
             texture: '',
             dosage: '',
-            usage: '',
-            manufacturer: ''
-          }
-        ],
+            manufacturer: '',
+            usage: ''
+        }),
+        // drugs: [
+        //   {
+        //     name: '',
+        //     texture: '',
+        //     dosage: '',
+        //     manufacturer: '',
+        //     usage: ''
+        //   }
+        // ],
       }
     },
   }

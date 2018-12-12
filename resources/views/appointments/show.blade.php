@@ -338,7 +338,7 @@
         <br>
         <div class="modal-body">
 
-          <div class="card card-primary card-outline shadow">
+          {{-- <div class="card card-primary card-outline shadow">
             <div class="card-header">
               <div class="card-title" title="{{$appointment->patient_info}}">
                 <h5 class="border-bottom"><i class="fa fa-prescription"></i>&nbsp; Prescription for:</h5>
@@ -346,9 +346,9 @@
               </div>
             </div>
 
-            <div class="card-body">
+            <div class="card-body"> --}}
               
-              <form action="{{route('prescriptions.store')}}" method="post">
+              {{-- <form action="{{route('prescriptions.store')}}" method="post">
                 <input type="hidden" name="appointment_id" value="{{$appointment->id}}">
                 {{ csrf_field() }}
 
@@ -363,10 +363,10 @@
                         <td>Manufacturer</td>
                       </tr>
                       <tr>
-                        <td>Chloroquine{{--$drug->name--}}</td>
+                        <td>Chloroquine{{- -$drug->name- -}}</td>
                         <td>tablet</td>
-                        <td>200mg{{--$drug->dosage--}}</td>
-                        <td>2-2-2{{--$drug->usage--}}</td>
+                        <td>200mg{{- -$drug->dosage- -}}</td>
+                        <td>2-2-2{{- -$drug->usage- -}}</td>
                         <td>Emzor</td>
                       </tr>
                       <tr>
@@ -417,10 +417,11 @@
                 </div>
 
                 <button type="submit" class="btn btn-block btn-primary">Create Prescription</button>
-              </form>
+              </form> --}}
+              <prescription></prescription>
 
-            </div>
-          </div>
+            {{-- </div>
+          </div> --}}
         </div>
       </div>
     </div>
