@@ -18,7 +18,7 @@ class PatientMiddleware
     {
         if (Auth::check() 
             && ((Auth::id() == request()->user->id) 
-                || Auth::user()->isAdmin() 
+                // || Auth::user()->isAdmin() 
                 // || Auth::user()->inPastAttendantDoctors()
             )) {
             return $next($request);

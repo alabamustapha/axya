@@ -13,6 +13,8 @@
 
 // Route::get('/', function () { return view('welcome'); })->name('home');
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('/nova');
+
 // Route::get('{path}', 'HomeController@search')->where('path', '([A-z\d-\/_.]+)?');
 
 Auth::routes(['verify' => true]);

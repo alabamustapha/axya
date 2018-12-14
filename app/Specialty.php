@@ -13,9 +13,9 @@ class Specialty extends Model
 
     public $timestamps = false;
 
-    protected $appends = ['link','description_preview'];
+    protected $appends = ['link','description_preview','doctors_count'];
 
-    protected $fillable = ['name','slug','description','user_id','specialty_id','accepted_at'];
+    protected $fillable = ['name','slug','description','user_id','accepted_at'];
 
     /**
      * Return the sluggable configuration array for this model.
@@ -50,7 +50,7 @@ class Specialty extends Model
       return $this->hasMany(Doctor::class);
     }
 
-    public function doctorsCount()
+    public function getDoctorsCountAttribute()
     {
       return $this->hasMany(Doctor::class)->count();
     }

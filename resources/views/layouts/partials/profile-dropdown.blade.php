@@ -7,19 +7,22 @@
 
 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" aria-labelledby="navbarDropdown">
     @can('isAdmin')
-    <a class="dropdown-item" href="{{ route('dashboard-main') }}" title="Adimn Dashboard Area">
+    <a class="dropdown-item" href="{{ route('dashboard-main') }}" title="Admin Dashboard Area">
         <i class="fa fa-user-tie"></i>&nbsp; {{ __('Admin Dashboard') }}
+    </a>
+    <a class="dropdown-item" href="/nova" title="Admin Dashboard (Nova)">
+        <i class="fa fa-user-tie"></i>&nbsp; {{ __('Admin Dashboard (Nova)') }}
     </a>
     @endcan
 
     @can('isDoctor')
     <a class="dropdown-item" href="{{ route('doctors.show',  Auth::user()) }}" title="Official Profile Page (Doctor)">
-        <i class="fa fa-user-md"></i>&nbsp; {{ __('Official Profile') }}
+        <i class="fa fa-user-md"></i>&nbsp; {{ __('Doctor Profile') }}
     </a>
     @endcan
 
     <a class="dropdown-item" href="{{ route('users.show',  Auth::user()) }}" title="Profile Page (Normal User)">
-        <i class="fa fa-user"></i>&nbsp; {{ __('Normal Profile') }}
+        <i class="fa fa-user"></i>&nbsp; {{ __('Profile') }}
     </a>
 
     <a class="dropdown-item" href="{{ route('user_dashboard') }}" title="Dashboard Area (Normal User)">

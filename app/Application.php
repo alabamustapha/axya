@@ -24,4 +24,9 @@ class Application extends Model
     {
         return $this->belongsTo(Specialty::class);
     }
+
+    public function getNameAttribute()
+    {
+        return $this->user->name;
+    }
 }

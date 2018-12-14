@@ -235,6 +235,14 @@ class Doctor extends Model
               ;
     }
 
+    public function subsrciptionStatusText()
+    {
+      return $this->is_subscribed()
+              ? 'available'
+              : 'unavailable'
+              ;
+    }
+
     // /**
     //  * Subscribed and Available for Appointments.
     //  */

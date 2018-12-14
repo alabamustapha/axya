@@ -39,6 +39,17 @@
               <ul class="nav nav-treeview">
 
                 <li class="nav-item">
+                  <a href="/nova" class="nav-link">
+                  {{-- <router-link to="/dashboard-main" class="nav-link"> --}}
+                    <i class="nav-icon fa fa-chart-line green"></i>
+                    <p>
+                      Nova Main
+                    </p>
+                  {{-- </router-link> --}}
+                  </a>
+                </li>
+
+                <li class="nav-item">
                   <a href="{{route('dashboard-main')}}" class="nav-link">
                   {{-- <router-link to="/dashboard-main" class="nav-link"> --}}
                     <i class="nav-icon fa fa-chart-line green"></i>
