@@ -12,6 +12,9 @@ use Laravel\Nova\NovaApplicationServiceProvider;
 use App\Nova\Metrics\Doctors\DoctorsCount;
 use App\Nova\Metrics\Doctors\DoctorsTrend;
 use App\Nova\Metrics\Doctors\DoctorsPartition;
+use App\Nova\Metrics\Applications\ApplicationsCount;
+use App\Nova\Metrics\Applications\ApplicationsTrend;
+use App\Nova\Metrics\Applications\ApplicationsBySpecialty;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
@@ -72,6 +75,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             new DoctorsCount,
             new DoctorsTrend,
             new DoctorsPartition,
+
+            new ApplicationsCount,
+            new ApplicationsTrend,
+            new ApplicationsBySpecialty,
         ];
     }
 
