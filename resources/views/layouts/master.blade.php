@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link rel="stylesheet" href="{{asset('css/all.css')}}">
     <link rel="stylesheet" href="{{asset('css/custom/override.css')}}">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
       <script>
         @auth
           window.user = @json(auth()->user());
@@ -111,8 +112,14 @@
     <!-- REQUIRED SCRIPTS -->
     <script src="{{asset('js/app.js')}}"></script>
     <script src="{{asset('js/custom.js')}}"></script>
+    <script src="{{asset('js/pickaday.js')}}"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script> --}}
     <script>
       $('div.alert').not('.alert-important').delay(7000).fadeOut(350);
+    </script>
+    <script>
+      // https://github.com/Pikaday/Pikaday ..Customization..
+      var picker = new Pikaday({ field: document.getElementById('datepicker') });
     </script>
   </body>
 </html>
