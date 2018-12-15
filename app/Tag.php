@@ -40,10 +40,24 @@ class Tag extends Model
         return 'slug';
     }
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($tag) {
+            $tag->user_id = auth()->id();
+        });
+    }
+
     public function specialty()
     {
       // return $this->belongsToMany(Specialty::class);
       return $this->belongsTo(Specialty::class);
+    }
+
+    public function user()
+    {
+      return $this->belongsTo(User::class);
     }
 
     public function getLinkAttribute()
