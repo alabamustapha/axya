@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Cards\Help;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
+use App\Nova\Metrics\Doctors\DoctorsCount;
+use App\Nova\Metrics\Doctors\DoctorsTrend;
+use App\Nova\Metrics\Doctors\DoctorsPartition;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
@@ -65,6 +68,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             new UsersCount,
             new UsersTrend,
             new UsersGenderPartition,
+
+            new DoctorsCount,
+            new DoctorsTrend,
+            new DoctorsPartition,
         ];
     }
 
