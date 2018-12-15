@@ -29,10 +29,10 @@ class UsersTrend extends Trend
     public function ranges()
     {
         return [
-            1 => '1 Month',
-            3 => '3 Months',
-            6 => '6 Months',
             12 => '12 Months',
+            6 => '6 Months',
+            3 => '3 Months',
+            1 => '1 Month',
         ];
     }
 

@@ -52,11 +52,11 @@ class Doctor extends Resource
             // ID::make()->sortable(),
 
             BelongsTo::make('User')
-                ->sortable()
+                // ->sortable()
                 ,
 
             BelongsTo::make('Specialty')
-                ->sortable()
+                // ->sortable()
                 ,
 
             Boolean::make('available')

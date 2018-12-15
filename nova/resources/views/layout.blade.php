@@ -23,7 +23,7 @@
         <div v-cloak class="flex min-h-screen">
             <!-- Sidebar -->
             <div class="min-h-screen flex-none pt-header min-h-screen w-sidebar bg-grad-sidebar px-6">
-                <a href="{{ Nova::path() }}">
+                <a href="{{ Config::get('nova.url') }}">
                     <div class="absolute pin-t pin-l pin-r bg-logo flex items-center w-sidebar h-header px-6 text-white">
                        @include('nova::partials.logo')
                     </div>
@@ -37,7 +37,7 @@
             <!-- Content -->
             <div class="content">
                 <div class="flex items-center relative shadow h-header bg-white z-50 px-6">
-                    <a href="{{ Config::get('nova.url') }}" class="no-underline dim font-bold text-90 mr-6">
+                    <a href="{{ Nova::path() }}" class="no-underline dim font-bold text-90 mr-6">
                         {{config('app.name')}} Nova Dashboard{{-- Nova::name() --}}
                     </a>
 

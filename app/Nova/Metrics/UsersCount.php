@@ -27,7 +27,7 @@ class UsersCount extends Value
     public function ranges()
     {
         return [
-            1 => '1 Day',
+            // 1 => '1 Day',
             7 => '7 Days',
             30 => '30 Days',
             60 => '60 Days',
