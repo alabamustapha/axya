@@ -8,16 +8,18 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Nova\Actions\Actionable;
 use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use Notifiable, Sluggable, HasApiTokens;
+    use Notifiable, Sluggable, HasApiTokens, Actionable;
 
     protected $dates = ['dob','application_retry_at'];
 
     protected $casts = [
         'dob' => 'date:Y-m-d',
+        'email_verified_at' => 'datetime',
     ]; 
 
     protected $appends = ['link','is_verified','is_superadmin','is_admin','is_staff','is_doctor'];
