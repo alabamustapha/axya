@@ -40,10 +40,24 @@ class Specialty extends Model
         return 'slug';
     }
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($specialty) {
+            $specialty->user_id = auth()->id();
+        });
+    }
+
     // public function doctors()
     // {
     //   return $this->belongsToMany(Doctor::class, 'doctor_specialty', 'id', 'id');
     // }
+
+    public function user()
+    {
+      return $this->belongsTo(User::class);
+    }
 
     public function doctors()
     {
