@@ -42,11 +42,8 @@
         @include('layouts.partials.top_nav')
 
         <main class="" style="margin-top: 75px;">
-            @auth
-                @include('layouts.partials.verification_nag')
-            @endauth
 
-            @include('flash::message')
+            @include('layouts.partials.notifications')
             
             @yield('content')
         </main>

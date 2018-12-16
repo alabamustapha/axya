@@ -34,10 +34,6 @@
         <!-- Main content -->
         <div class="content">
 
-          @auth
-            @include('layouts.partials.verification_nag')
-          @endauth
-
           <div class="container">
             <div class="col bg-white p-0 mt-0 text-center">
               @auth
@@ -61,25 +57,7 @@
             </div>
           </div>
 
-          @if(isset($errors) && count($errors) > 0)
-            <div class="container">
-              <div class="col text-left">
-                <div class="alert alert-danger" role="alert">
-                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                  </button>
-
-                  <ul class="list-unstyled">
-                      @foreach($errors->all() as $error)
-                          <li>{{ $error }}</li>
-                      @endforeach
-                  </ul>
-                </div>
-              </div>
-            </div>
-          @endif
-
-          @include('flash::message')
+          @include('layouts.partials.notifications')
 
           <div class="container-fluid">
 
