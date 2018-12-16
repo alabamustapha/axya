@@ -200,7 +200,7 @@
         </a>
         <ul class="nav nav-treeview">
           <li class="nav-item">
-            <a href="{{auth()->user()->isDoctor() ? route('doctors.show', auth()->user()) : '#'}}" class="nav-link">
+            <a href="{{auth()->user()->is_doctor ? route('doctors.show', auth()->user()) : '#'}}" class="nav-link">
             {{-- <router-link to="/doctors/:slug" class="nav-link"> --}}
               <i class="fa fa-user-md nav-icon orange"></i>
               <p>Professional Details</p>
@@ -208,7 +208,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{auth()->user()->is_doctor ? '#' : '#'}}" class="nav-link">
             {{-- <router-link to="/past-patients" class="nav-link"> --}}
               <i class="fa fa-procedures nav-icon orange"></i>
               <p>My Patients</p>
@@ -225,7 +225,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('dr_appointments', ['status'=> 'awaiting-appointment-time'])}}" class="nav-link">
+                <a href="{{auth()->user()->is_doctor ? route('dr_appointments', ['status'=> 'awaiting-appointment-time']) : '#'}}" class="nav-link">
                 {{-- <router-link to="/upcoming-appointments" class="nav-link"> --}}
                   <i class="fa fa-calendar-check nav-icon teal"></i>
                   <p class="tf-flex" title="Upcoming Appointments">
@@ -236,7 +236,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{route('dr_appointments', ['status'=> 'awaiting-confirmation'])}}" class="nav-link">
+                <a href="{{auth()->user()->is_doctor ? route('dr_appointments', ['status'=> 'awaiting-confirmation']) : '#'}}" class="nav-link">
                 {{-- <router-link to="/pending-appointments" class="nav-link"> --}}
                   <i class="fa fa-calendar-plus nav-icon teal"></i>
                   <p class="tf-flex" title="Pending Appointments">
@@ -249,7 +249,7 @@
             </ul>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{auth()->user()->is_doctor ? '#' : '#'}}" class="nav-link">
               <i class="nav-icon fa fa-history orange"></i>
               <p>
                 My History

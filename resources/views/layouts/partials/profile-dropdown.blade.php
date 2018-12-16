@@ -15,11 +15,13 @@
     </a>
     @endcan
 
-    @can('isDoctor')
+    @if(Auth::user()->is_doctor)
+    {{-- @can('isDoctor') --}}
     <a class="dropdown-item" href="{{ route('doctors.show',  Auth::user()) }}" title="Official Profile Page (Doctor)">
         <i class="fa fa-user-md"></i>&nbsp; {{ __('Doctor Profile') }}
     </a>
-    @endcan
+    {{-- @endcan --}}
+    @endif
 
     <a class="dropdown-item" href="{{ route('users.show',  Auth::user()) }}" title="Profile Page (Normal User)">
         <i class="fa fa-user"></i>&nbsp; {{ __('Profile') }}
