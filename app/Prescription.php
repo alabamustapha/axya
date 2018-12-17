@@ -12,6 +12,8 @@ class Prescription extends Model
 
     protected $appends = ['user','doctor'];
 
+    protected $with = ['drugs'];
+
     public function appointment()
     {
         return $this->belongsTo(Appointment::class);

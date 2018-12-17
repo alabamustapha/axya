@@ -14,9 +14,4 @@ class Drug extends Model
     {
         return $this->belongsTo(Prescription::class);
     }
-
-    public function appointment()
-    {
-        return $this->belongsTo(Appointment::class);
-    }
 }

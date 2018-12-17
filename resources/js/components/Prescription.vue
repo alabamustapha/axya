@@ -147,13 +147,11 @@
                 <span>How to combine all prescribed drugs?</span> 
                 <small class="red">* req.</small>
               </label>
-              <textarea v-model="all_usage" name="usage"
+              <textarea v-model="general_usage" name="usage"
                   class="form-control" 
                   style="min-height: 100px;max-height: 150px;" 
                   placeholder="explain how to use the medications" 
                   required></textarea>
-                  <!-- :class="{ 'is-invalid': form.errors.has('usage') }" -->
-                  <!-- <has-error :form="form" field="usage"></has-error> -->
             </div>
 
             <div class="form-group">
@@ -162,8 +160,6 @@
                   class="form-control"
                   style="min-height: 100px;max-height: 150px;" 
                   placeholder="more comments on this prescription"></textarea>
-                  <!-- :class="{ 'is-invalid': form.errors.has('comment') }"  -->
-                  <!-- <has-error :form="form" field="comment"></has-error> -->
             </div>
 
             <button type="submit" class="btn btn-block btn-primary">Create Prescription</button>
@@ -176,17 +172,9 @@
 <script>
   export default {
     props: ['appointment'],
+    
     data() {
       return {
-        // form: new Form({
-        //     // id: '',
-        //     // name: '',
-        //     // texture: '',
-        //     // dosage: '',
-        //     // manufacturer: '',
-        //     usage: '',
-        //     comment: ''
-        // }),
         drugs: [
           {
             name    : '',
@@ -197,7 +185,7 @@
           }
         ],
         appointment_id: this.appointment.id,
-        all_usage : '',
+        general_usage : '',
         comment   : '',
       }
     },
@@ -219,7 +207,7 @@
         this.$Progress.start();
         axios.post('/prescriptions', {
           appointment_id: this.appointment_id,
-          usage   : this.all_usage,
+          usage   : this.general_usage,
           comment : this.comment,
           drugs   : this.drugs,
         })
@@ -234,6 +222,10 @@
           this.$Progress.finish();            
         })
         .catch(() => {
+          toast({
+              type: 'fail',
+              title: 'Something went wrong! Try again with correct details.'
+          });
           this.$Progress.fail();
         });
       },

@@ -217,9 +217,17 @@
                       <img class="direct-chat-img" src="{{$message->user->avatar}}" alt="{{$message->user->name}}" style="width: 40px;height: 40px;">
 
                       <div class="direct-chat-text">
-                        <h6 class="pb-1 border-bottom">
-                          <i class="fa fa-prescription"></i>
-                          {{ $message->body }}
+                        <h6 class="pb-1 border-bottom tf-flex">
+                          <span>
+                            <i class="fa fa-prescription"></i>
+                            {{ $message->body }}
+                          </span>
+
+                          <edit-prescription>
+                            <button class="btn btn-sm btn-info" @click="editPrescription({{$message->id}})">
+                              <i class="fa fa-edit"></i>Edit
+                            </button>
+                          <edit-prescription>
                         </h6>
 
                         @php 

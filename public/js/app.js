@@ -73093,24 +73093,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['appointment'],
+
   data: function data() {
     return {
-      // form: new Form({
-      //     // id: '',
-      //     // name: '',
-      //     // texture: '',
-      //     // dosage: '',
-      //     // manufacturer: '',
-      //     usage: '',
-      //     comment: ''
-      // }),
       drugs: [{
         name: '',
         texture: '',
@@ -73119,7 +73107,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         usage: ''
       }],
       appointment_id: this.appointment.id,
-      all_usage: '',
+      general_usage: '',
       comment: ''
     };
   },
@@ -73144,7 +73132,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.$Progress.start();
       axios.post('/prescriptions', {
         appointment_id: this.appointment_id,
-        usage: this.all_usage,
+        usage: this.general_usage,
         comment: this.comment,
         drugs: this.drugs
       }).then(function () {
@@ -73157,6 +73145,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         });
         _this.$Progress.finish();
       }).catch(function () {
+        toast({
+          type: 'fail',
+          title: 'Something went wrong! Try again with correct details.'
+        });
         _this.$Progress.fail();
       });
     }
@@ -73606,8 +73598,8 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.all_usage,
-                    expression: "all_usage"
+                    value: _vm.general_usage,
+                    expression: "general_usage"
                   }
                 ],
                 staticClass: "form-control",
@@ -73617,13 +73609,13 @@ var render = function() {
                   placeholder: "explain how to use the medications",
                   required: ""
                 },
-                domProps: { value: _vm.all_usage },
+                domProps: { value: _vm.general_usage },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.all_usage = $event.target.value
+                    _vm.general_usage = $event.target.value
                   }
                 }
               })
