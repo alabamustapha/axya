@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Doctor;
+use App\Drug;
 use App\Http\Requests\PrescriptionRequest;
 use App\Message;
 use App\Prescription;
@@ -106,6 +107,20 @@ class PrescriptionController extends Controller
         // $request->merge(['user_id' => auth()->id()]);
 
         $prescription = Prescription::create($request->all());
+
+        if ($request->drugs){
+            foreach ($request->drugs as $drug) {
+
+                Drug::create([
+                  'prescription_id' => $prescription->id,
+                  'name'    => $drug['name'],
+                  'texture' => $drug['texture'],
+                  'dosage'  => $drug['dosage'],
+                  'manufacturer' => $drug['manufacturer'],
+                  'usage'   => $drug['usage'],
+                ]);
+            }
+        }
 
         if ($prescription){
             Message::create([

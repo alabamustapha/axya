@@ -27,6 +27,7 @@ class PrescriptionRequest extends FormRequest
             'appointment_id' => 'required|integer|exists:appointments,id',
             'usage'          => 'required|string',
             'comment'        => 'nullable|string',
+            'drugs'          => 'required|array'
         ];
     }
 }
