@@ -26,7 +26,7 @@
                     <div class="p-1" v-for="doctor in doctors.data" :key="doctor.id">
                       
                       <span>
-                        <div class="mb-0">
+                        <div class="mb-0 clearfix">
                           <a :href="doctor.link">
                             <img :src="doctor.user.avatar" class="text-sm-center" style="display:inline-block;width:80px;height: 80px; float:left" alt="Doctor Image" :title="doctor.user.name +' avatar'">
                           </a>
@@ -76,7 +76,7 @@
 
                           </div>
                         </div>
-                        <a href="#" class="btn btn-primary btn-sm btn-block" :title="'View '+ doctor.user.name +'\'s profile to book an appointment.'">
+                        <a :href="doctor.user.link" class="btn btn-primary btn-sm btn-block" :title="'View '+ doctor.user.name +'\'s profile to book an appointment.'">
                           <i class="fa fa-user-md"></i>&nbsp; View Profile
                         </a>
                       </span>

@@ -88,6 +88,7 @@ Vue.component('schedule-list', require('./components/ScheduleList.vue'));
 Vue.component('schedule', require('./components/Schedule.vue'));
 Vue.component('prescription', require('./components/Prescription.vue'));
 Vue.component('drug', require('./components/Drug.vue'));
+Vue.component('edit-prescription', require('./components/EditPrescription.vue'));
 
 Vue.component('pagination', require('laravel-vue-pagination'));
 

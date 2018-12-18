@@ -65,9 +65,9 @@
               <li>
                 <button class="btn btn-sm my-1 btn-primary">Accept & Confirm</button>
               </li>
-              <li>
+              {{-- <li>
                 <button class="btn btn-sm my-1 btn-info">Recommend Other</button>
-              </li>
+              </li> --}}
               <li>
                 <button class="btn btn-sm my-1 btn-danger">Reject</button>
               </li>
@@ -75,9 +75,9 @@
               <li>
                 <button class="btn btn-sm my-1 btn-primary">Pay Consultation Fee</button>
               </li>
-              <li>
+              {{-- <li>
                 <button class="btn btn-sm my-1 btn-info">Change Time</button>
-              </li>
+              </li> --}}
               <li>
                 <button class="btn btn-sm my-1 btn-danger">Cancel</button>
               </li>  
@@ -217,25 +217,21 @@
                       <img class="direct-chat-img" src="{{$message->user->avatar}}" alt="{{$message->user->name}}" style="width: 40px;height: 40px;">
 
                       <div class="direct-chat-text">
+                        @php 
+                          $prescription = $message->displayPrescription();
+                        @endphp
+
                         <h6 class="pb-1 border-bottom tf-flex">
                           <span>
                             <i class="fa fa-prescription"></i>
                             {{ $message->body }}
                           </span>
-
-                          <edit-prescription>
-                            <button class="btn btn-sm btn-info" @click="editPrescription({{$message->id}})">
-                              <i class="fa fa-edit"></i>Edit
-                            </button>
-                          <edit-prescription>
                         </h6>
 
-                        @php 
-                          $prescription = $message->displayPrescription();
-                        @endphp
-
                         @if ($prescription)
-                          @include('prescriptions._card')
+                        <edit-prescription :prescription="{{ $prescription }}"><edit-prescription>
+
+                          {{-- @include('prescriptions._card') --}}
                         @else
                           <div class="text-danger empty-list">Prescription is missing</div>
                         @endif

@@ -179,6 +179,52 @@ class PrescriptionController extends Controller
         $this->authorize('edit', $prescription);
 
         if ($prescription->update($request->all())){
+
+            $drugsId    = $prescription->drugs()->pluck('id')->toArray();
+            $reqDrugsId = collect($request->drugs)->pluck('id')->toArray();
+            $removedDrugs = array_diff($drugsId, $reqDrugsId);
+
+            // dd( $drugsId,
+            //     $reqDrugsId,
+            //     $removedDrugs
+            // );
+
+            foreach ($removedDrugs as $drugId) {
+                // Drugs removed from list are removed from the DB.
+                $drug = Drug::find($drugId);
+                // dd($drug->delete());
+                $drug->delete();
+            }
+
+            foreach ($request->drugs as $drug) {
+                // Previous drugs and new additions are persisted to the DB.
+                // dd($drug);
+                if (isset($drug['id'])){
+                    $drg = Drug::find($drug['id']);
+
+                    $drg->update([
+                      // 'prescription_id' => $prescription->id,
+                      'name'    => $drug['name'],
+                      // 'texture' => $drug['texture'],
+                      'dosage'  => $drug['dosage'],
+                      'manufacturer' => $drug['manufacturer'],
+                      'usage'   => $drug['usage'],
+                      // 'comment'   => $drug['comment'],
+                    ]);
+                }
+                else{
+                    Drug::create([
+                      'prescription_id' => $prescription->id,
+                      'name'    => $drug['name'],
+                      'texture' => $drug['texture'],
+                      'dosage'  => $drug['dosage'],
+                      'manufacturer' => $drug['manufacturer'],
+                      'usage'   => $drug['usage'],
+                      // 'comment'   => $drug['comment'],
+                    ]);
+                }
+            }
+
             // auth()->user()->notify(new PrescriptonUpdateNotification($prescription->user, $prescription));
 
             $message = 'Prescription updated successfully.';
