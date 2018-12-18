@@ -39,7 +39,7 @@ class DrugsTest extends TestCase
     {
         $this->assertTrue(Schema::hasColumns('drugs', 
           [
-            'id','prescription_id','name','manufacturer','dosage','usage','comment'
+            'id','prescription_id','name','manufacturer','dosage','usage','comment','texture'
           ]), 1);
     }
 

@@ -13,7 +13,7 @@ class DrugRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,13 @@ class DrugRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            // 'prescription_id'=> 'required|integer|exists:appointments,id',
+            'name'           => 'required|string|max:100',
+            'dosage'         => 'required|string',
+            'usage'          => 'required|string',
+            'texture'        => 'nullable|string',
+            'manufacturer'   => 'nullable|string',
+            'comment'        => 'nullable|string',
         ];
     }
 }
