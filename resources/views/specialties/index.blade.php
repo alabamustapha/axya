@@ -25,7 +25,7 @@
                 {{ $specialty->name }}
                 <span class="pull-right" style="color: inherit;">
                   <span class="badge badge-dark badge-sm" title="Doctors with {{ $specialty->name }} specialty">
-                    {{ $specialty->doctorsCount() }}
+                    {{ $specialty->doctors_count }}
                     <small>Doctor(s)</small>
                   </span>
                 </span>
