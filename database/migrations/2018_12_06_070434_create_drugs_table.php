@@ -19,6 +19,7 @@ class CreateDrugsTable extends Migration
             $table->string('manufacturer')->nullable();
             $table->string('dosage'); // eg 500mg: numeric
             $table->string('usage');
+            $table->string('texture', 100)->default('others');
             $table->string('comment')->nullable();
             $table->integer('prescription_id')->unsigned();
             $table->timestamps();

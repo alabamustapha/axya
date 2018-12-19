@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Drug;
 use Illuminate\Http\Request;
+use App\Http\Requests\DrugRequest;
 
 class DrugController extends Controller
 {
@@ -33,7 +34,7 @@ class DrugController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(DrugRequest $request)
     {
         //
     }

@@ -48,13 +48,17 @@
 
             <div class="tf-flex mb-3">
               @auth                      
-                <a href="#" class="btn btn-primary btn-sm btn-block col" data-toggle="modal" data-target="#appointmentForm" title="Book Appointment">
+                <a href="# " class="btn btn-primary btn-sm btn-block col" data-toggle="modal" data-target="#appointmentForm" title="Book Appointment">
                   <i class="fa fa-calendar-check"></i>&nbsp; Book Appointment
                 </a>
               @else
-                <button class="btn btn-primary btn-sm btn-block col" onclick="alert('Log in now to book an appointment');" title="Book Appointment">
+                <a href="{{ route('login') }}"
+                  id="login-trigger" class="btn btn-primary btn-sm btn-block col" 
+                  onclick="alert('Log in now to book an appointment');return false;" 
+                  data-toggle="modal" data-target="#regLoginForm" 
+                  title="Log in now to book an appointment with {{$doctor->name}}">
                   <i class="fa fa-calendar-check"></i>&nbsp; Book Appointment
-                </button>
+                </a>
               @endauth
             </div>
 

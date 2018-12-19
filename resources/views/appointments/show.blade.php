@@ -65,9 +65,9 @@
               <li>
                 <button class="btn btn-sm my-1 btn-primary">Accept & Confirm</button>
               </li>
-              <li>
+              {{-- <li>
                 <button class="btn btn-sm my-1 btn-info">Recommend Other</button>
-              </li>
+              </li> --}}
               <li>
                 <button class="btn btn-sm my-1 btn-danger">Reject</button>
               </li>
@@ -75,9 +75,9 @@
               <li>
                 <button class="btn btn-sm my-1 btn-primary">Pay Consultation Fee</button>
               </li>
-              <li>
+              {{-- <li>
                 <button class="btn btn-sm my-1 btn-info">Change Time</button>
-              </li>
+              </li> --}}
               <li>
                 <button class="btn btn-sm my-1 btn-danger">Cancel</button>
               </li>  
@@ -130,7 +130,7 @@
             </div>
             <div class="card-body p-3 px-sm-2">
               <p class="card-text h5 text-dark">
-                <a class="text-dark" href="{{route('doctors.show', $appointment->doctor)}}">{{$appointment->doctor->user->name}}</a>
+                <a class="text-dark" href="{{route('doctors.show', $appointment->doctor)}}">{{$appointment->doctor->name}}</a>
               </p>
               <p class="card-text">
                 <span style="font-size: 14px;" class="badge badge-secondary badge-pill">
@@ -193,22 +193,22 @@
     </div>
     <!-- /.col-sm-4 -->
 
-    <div class="col-sm-8 bg-dark px-3 pb-0" style="height: 80vh;display: block;overflow-y: scroll;">
-      <h3 class="text-center{{--  sticky-top bg-dark --}}">Chats</h3>
+    <div class="col-sm-8 bg-dark px-0 pb-0" style="height: 80vh;display: block;overflow-y: scroll;">
+      <h3 class="text-center">Chats</h3>
 
-      <div class="container">
+      <div class="container" id="appointment-chats">
         @if(1 == 1) {{-- Subscription made and time is reached --}}
           <!-- DIRECT CHAT PRIMARY -->
-          <div class="box box-warning direct-chat direct-chat-warning tp-scrollbar" style="height: 80vh;display: block;overflow-y: scroll;">
+          <div class="box box-warning direct-chat direct-chat-warning" style="height: 80vh;display: block;overflow-y: scroll;">
             <div class="box-body text-small">
               
               <!-- Conversations are loaded here -->
               <div class="direct-chat-messages">
 
-                @forelse ($appointment->messages as $message)
+                @forelse ($messages as $message)
                   @if ($message->hasPrescription())
                     <!-- Message. Default to the left -->
-                    <div class="direct-chat-msg mb-3 pb-2 w-75">
+                    <div class="direct-chat-msg mb-3 pb-2 w-90">
                       <div class="direct-chat-info clearfix">
                         <span class="direct-chat-name pull-left">{{$message->user->name}}</span>
                         <span class="direct-chat-timestamp pull-right">{{$message->created_at}}</span>
@@ -217,16 +217,24 @@
                       <img class="direct-chat-img" src="{{$message->user->avatar}}" alt="{{$message->user->name}}" style="width: 40px;height: 40px;">
 
                       <div class="direct-chat-text">
-                        <h6 class="pb-1 border-bottom">
-                          <i class="fa fa-prescription"></i>
-                          {{ $message->body }}
-                        </h6>
-
                         @php 
                           $prescription = $message->displayPrescription();
                         @endphp
 
-                        @include('prescriptions._card')
+                        <h6 class="pb-1 border-bottom tf-flex">
+                          <span>
+                            <i class="fa fa-prescription"></i>
+                            {{ $message->body }}
+                          </span>
+                        </h6>
+
+                        @if ($prescription)
+                        <edit-prescription :prescription="{{ $prescription }}"><edit-prescription>
+
+                          {{-- @include('prescriptions._card') --}}
+                        @else
+                          <div class="text-danger empty-list">Prescription is missing</div>
+                        @endif
                       </div>
                     </div>
                     <!-- /.direct-chat-msg -->
@@ -326,106 +334,25 @@
       </div>
     </div>
     <!-- /.col-sm-8 -->
-</div>
+  </div>
 
-@if($appointment->attendantDoctor())
-  <div class="modal bg-transparent" tabindex="-1" role="dialog" id="newPrescriptionForm" style="display:none;" aria-labelledby="newPrescriptionFormLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content px-0 pb-0 m-0 bg-transparent shadow-none">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 5px 15px 0px;margin:10px auto -25px">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <br>
-        <div class="modal-body">
+  @if($appointment->attendantDoctor())
+    <div class="modal bg-transparent" tabindex="-1" role="dialog" id="newPrescriptionForm" style="display:none;" aria-labelledby="newPrescriptionFormLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content px-0 pb-0 m-0 bg-transparent shadow-none">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 5px 15px 0px;margin:10px auto -25px">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <br>
+          <div class="modal-body">
 
-          {{-- <div class="card card-primary card-outline shadow">
-            <div class="card-header">
-              <div class="card-title" title="{{$appointment->patient_info}}">
-                <h5 class="border-bottom"><i class="fa fa-prescription"></i>&nbsp; Prescription for:</h5>
-                <p style="font-size:11px;">{{substr($appointment->patient_info, 0, 150)}}</p>
-              </div>
-            </div>
+            <prescription :appointment="{{$appointment}}"></prescription>
 
-            <div class="card-body"> --}}
-              
-              {{-- <form action="{{route('prescriptions.store')}}" method="post">
-                <input type="hidden" name="appointment_id" value="{{$appointment->id}}">
-                {{ csrf_field() }}
-
-                <div class="form-group border">
-                  <div class="table-responsive tp-scrollbar">
-                    <table class="table table-sm">
-                      <tr>
-                        <td>Name</td>
-                        <td>Texture</td>
-                        <td>Dosage</td>
-                        <td>Usage</td>
-                        <td>Manufacturer</td>
-                      </tr>
-                      <tr>
-                        <td>Chloroquine{{- -$drug->name- -}}</td>
-                        <td>tablet</td>
-                        <td>200mg{{- -$drug->dosage- -}}</td>
-                        <td>2-2-2{{- -$drug->usage- -}}</td>
-                        <td>Emzor</td>
-                      </tr>
-                      <tr>
-                        <td>Piritin</td>
-                        <td>syrup</td>
-                        <td>1tp (15ml)</td>
-                        <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic a ex unde laudantium? Animi eum sapiente adipisci, voluptas optio quia eligendi quam, ea dignissimos consectetur ipsa aut earum maiores vel.</td>
-                        <td>Drugfield</td>
-                      </tr>
-                      <tr>
-                        <td>Aspirin</td>
-                        <td>capsule</td>
-                        <td>20mg</td>
-                        <td>1-0-1</td>
-                        <td>May and Baker</td>
-                      </tr>
-                      <tr>
-                        <td>Astimycin</td>
-                        <td>capsule</td>
-                        <td>10mg</td>
-                        <td>1-0-0</td>
-                        <td></td>
-                      </tr>
-                    </table>                    
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label for="usage">Explain How To Use</label>
-                  <textarea name="usage" class="form-control{{ $errors->has('usage') ? ' is-invalid' : '' }}"  style="min-height: 100px;max-height: 150px;" placeholder="explain how to use the medications" required>{{ old('usage') }}</textarea>
-
-                  @if ($errors->has('usage'))
-                      <span class="invalid-feedback" role="alert">
-                          <strong>{{ $errors->first('usage') }}</strong>
-                      </span>
-                  @endif
-                </div>
-
-                <div class="form-group">
-                  <label for="usage">More comments on this prescription</label>
-                  <textarea name="comment" class="form-control{{ $errors->has('comment') ? ' is-invalid' : '' }}"  style="min-height: 70px;max-height: 120px;" placeholder="more comments on this prescription">{{ old('comment') }}</textarea>
-
-                  @if ($errors->has('comment'))
-                      <span class="invalid-feedback" role="alert">
-                          <strong>{{ $errors->first('comment') }}</strong>
-                      </span>
-                  @endif
-                </div>
-
-                <button type="submit" class="btn btn-block btn-primary">Create Prescription</button>
-              </form> --}}
-              <prescription></prescription>
-
-            {{-- </div>
-          </div> --}}
+          </div>
         </div>
       </div>
     </div>
-  </div>
-@endif
+  @endif
+</div>
 
 @endsection

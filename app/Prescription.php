@@ -10,6 +10,10 @@ class Prescription extends Model
       'appointment_id','usage','comment', // 'status'
     ];
 
+    protected $appends = ['user','doctor'];
+
+    protected $with = ['drugs'];
+
     public function appointment()
     {
         return $this->belongsTo(Appointment::class);

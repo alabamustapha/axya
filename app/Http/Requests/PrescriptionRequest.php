@@ -27,6 +27,16 @@ class PrescriptionRequest extends FormRequest
             'appointment_id' => 'required|integer|exists:appointments,id',
             'usage'          => 'required|string',
             'comment'        => 'nullable|string',
+            'drugs'          => 'required|array',
+            // REQUIREDS
+            // 'drugs.prescription_id'=> 'required|integer|exists:prescriptions,id',
+            'drugs.*.name'           => 'required|string|max:100',
+            'drugs.*.dosage'         => 'required|string',
+            'drugs.*.usage'          => 'required|string',
+            // NULLABLES
+            'drugs.*.texture'        => 'nullable|string',
+            'drugs.*.manufacturer'   => 'nullable|string',
+            'drugs.*.comment'        => 'nullable|string',
         ];
     }
 }

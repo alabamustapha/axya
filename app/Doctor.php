@@ -15,7 +15,7 @@ class Doctor extends Model
 
     protected $with = ['specialty'];
 
-    protected $appends = ['practice_years', 'link'];
+    protected $appends = ['practice_years','link','name'];
 
     public function user()
     {

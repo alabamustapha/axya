@@ -10,6 +10,10 @@ class Message extends Model
       'user_id','body','messageable_id','messageable_type'
     ];
 
+    protected $with = [
+      'messageable', 'user'
+    ];
+
     /**
      * Get all of the owning messageable models.
      */
