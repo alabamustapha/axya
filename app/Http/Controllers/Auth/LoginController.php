@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use Auth;
-use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -38,20 +39,19 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
     
-    // public function login(Request $request)
-    // {
-    //     $remember = $request->remember;
-    //     dd($remember);
+    public function login(Request $request)
+    {
+        $remember = $request->remember;
 
-    //     if (Auth::attempt([ 'email' => $request->email, 'password' => $request->password], $remember)) {
+        if (Auth::attempt([ 'email' => $request->email, 'password' => $request->password], $remember)) {
 
-    //         return redirect()->route('users.show', Auth::user());
+            return redirect()->route('users.show', Auth::user());
 
-    //     }
+        }
         
-    //     $request->session()->flash('error', 'We could not sign you in, check your login credentials and try again.');
-    //     return redirect()->back();
+        $request->session()->flash('error', 'We could not sign you in, check your login credentials and try again.');
+        return redirect()->back();
 
-    // }
+    }
 
 }
