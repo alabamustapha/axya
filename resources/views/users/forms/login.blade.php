@@ -1,6 +1,23 @@
 
 <form method="POST" action="{{ route('login') }}">
         @csrf
+                    
+        @if (   request()->url() !== route('login' )
+            &&  request()->url() !== route('logout') 
+            &&  request()->url() !== route('register')
+            /*&& url()->previous() !== route('login') 
+            && url()->previous() !== route('logout') 
+            && url()->previous() !== route('register')*/
+            )
+            @php 
+                $current_url = request()->url();
+                
+                $url = explode(config('app.url'), $current_url); 
+                $ref = end($url);
+            @endphp
+            {{-- Use regular expression to add the #anchor to this later --}}
+            <input type="hidden" name="ref" value="{{ $ref }}" maxlength="300">
+        @endif
 
         <div class="form-group row">
             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
