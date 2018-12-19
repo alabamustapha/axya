@@ -165,8 +165,9 @@
                       <div class="col-md-6">
                         <label for="day">Select Day <small>(yyyy-mm-dd)</small></label>
                         <input type="hidden" name="doctor_id" value="{{$doctor->id}}">
-                        <input type="date" name="day" maxlength="10" min="{{date('Y-m-d')}}"
-                          value="{{old('day')}}" placeholder="yyyy-mm-dd" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" 
+                        <input type="text" name="day" maxlength="10" min="{{date('Y-m-d')}}"
+                           id="datepicker" value="{{old('day')}}" placeholder="{{date('Y-m-d')}}" 
+                           pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" autocomplete="off" 
                           id="day" class="form-control{{ $errors->has('day') ? ' is-invalid' : '' }}" 
                           required>
 

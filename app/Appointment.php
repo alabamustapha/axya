@@ -12,8 +12,10 @@ class Appointment extends Model
 
     protected $dates = ['day','sealed_at'];
 
+    protected $appends = ['attendant_doctor'];
+
     protected $fillable = [
-      'status','slug','user_id','doctor_id','day','from','to','patient_info','sealed_at','type','address','phone'
+      'status','slug','user_id','doctor_id','day','from','to','patient_info','sealed_at','type','address','phone',
     ];
 
     /**
@@ -129,11 +131,11 @@ class Appointment extends Model
 
         2 => 'Confirmed, awaiting fees payment',
 
-        3 => '<span class="orange"><i class="fa fa-info-circle"></i>&nbsp; Schedule change suggestion by doctor.</span>',
+        // 3 => '<span class="orange"><i class="fa fa-info-circle"></i>&nbsp; Schedule change suggestion by doctor.</span>',
 
         4 => '<span class="red"><i class="fa fa-info-circle"></i>&nbsp; Rejected by doctor!</span>',
 
-        5 => '<span class="teal"><i class="fa fa-info-circle red"></i>&nbsp; Another doctor recommended</span>',
+        // 5 => '<span class="teal"><i class="fa fa-info-circle red"></i>&nbsp; Another doctor recommended</span>',
 
         6 => '<span class="red"><i class="fa fa-info-circle red"></i>&nbsp; Cancelled</span>',
         
@@ -156,5 +158,10 @@ class Appointment extends Model
     public function getDayAttribute($value)
     {
         return Carbon::parse($value)->format('M d, Y');
+    }
+
+    public function getAttendantDoctorAttribute()
+    {
+        return $this->attendantDoctor();
     }
 }
