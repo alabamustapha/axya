@@ -74720,6 +74720,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['prescription'],
@@ -75401,6 +75405,8 @@ var render = function() {
                   _vm._v("Usage Information: ")
                 ]),
                 _vm._v(" "),
+                _c("br"),
+                _vm._v(" "),
                 _c("span", {
                   domProps: { textContent: _vm._s(_vm.general_usage) }
                 })
@@ -75411,6 +75417,8 @@ var render = function() {
                     _c("strong", { staticClass: "border-bottom" }, [
                       _vm._v("Comment: ")
                     ]),
+                    _vm._v(" "),
+                    _c("br"),
                     _vm._v(" "),
                     _c("span", {
                       domProps: { textContent: _vm._s(_vm.comment) }
@@ -75446,7 +75454,7 @@ var staticRenderFns = [
           "data-widget": "collapse"
         }
       },
-      [_c("i", { staticClass: "fa fa-minus" })]
+      [_c("i", { staticClass: "fa fa-minus indigo" })]
     )
   },
   function() {

@@ -33,7 +33,8 @@
       </div>
 
       <div v-if="editing == true">
-        <div class="card-body p-2 p-sm-3">          
+        <div class="card-body p-2 p-sm-3">
+
           <!-- Edit form -->
           <form class="mb-3" @submit.prevent="updatePrescription(prescription.id)" id="prescription_update_form"><!-- {{route('prescriptions.update')}} -->
             <div v-for="(drug, index) in drugs" :key="drug.id">
@@ -46,7 +47,7 @@
 
                   <span class="card-tools">
                     <button title="Minimize entity" type="button" class="btn btn-tool pr-2" data-widget="collapse">
-                      <i class="fa fa-minus"></i>
+                      <i class="fa fa-minus indigo"></i>
                     </button>
                     <button title="Remove entity" type="button" class="btn btn-tool px-2" @click="removeDrugForm(index)"><!--  data-widget="remove" -->
                       <i class="fa fa-times red"></i>
@@ -120,7 +121,8 @@
               </div>
               <!-- .\ Drug Form -->
             </div>
-            <!-- Content Display Form -->
+
+            <!-- Content Display Section -->
             <div class="display-section">
               <span class="btn btn-dark btn-sm mb-3" @click="addNewDrugForm">
                 <i class="fa fa-plus"></i>&nbsp; Add New
@@ -226,11 +228,13 @@
         <div class="card-footer">
           <div class="mb-3">
             <strong class="border-bottom">Usage Information:&nbsp;</strong>
+            <br>
             <span v-text="general_usage"></span><!-- {{prescription.usage}} -->
           </div>
           
           <div v-if="prescription.comment">
             <strong class="border-bottom">Comment:&nbsp;</strong>
+            <br>
             <span v-text="comment"></span><!-- {{prescription.comment}} -->
           </div>
         </div>
