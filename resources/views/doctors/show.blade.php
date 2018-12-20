@@ -48,7 +48,7 @@
 
             <div class="tf-flex mb-3">
               @auth                      
-                <a href="# " class="btn btn-primary btn-sm btn-block col" data-toggle="modal" data-target="#appointmentForm" title="Book Appointment">
+                <a href="#" class="btn btn-primary btn-sm btn-block col" data-toggle="modal" data-target="#appointmentForm" title="Book Appointment">
                   <i class="fa fa-calendar-check"></i>&nbsp; Book Appointment
                 </a>
               @else
@@ -120,4 +120,24 @@
     </div>
   </div>
 
+@endsection
+
+@section('scripts')
+  <script src="{{asset('js/vendor/jquery.timepicker.min.js')}}"></script><!-- Load this on appointment booking page only -->
+  {{-- <script src="https://cdn.jsdelivr.net/npm/timepicker@1.11.14/jquery.timepicker.min.js"></script> --}}
+
+  <script>
+    {{--
+      // https://github.com/jonthornton/jquery-timepicker
+      // https://github.com/jonthornton/Datepair.js
+      // http://jonthornton.github.io/Datepair.js/
+    --}}
+    $('#timepicker .time').timepicker({
+      'showDuration': true,
+      'timeFormat': 'h:i A',
+      'scrollDefault': 'now',
+      // 'step': 10,
+      'show2400': true,
+    });
+  </script>
 @endsection

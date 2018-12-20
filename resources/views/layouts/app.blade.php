@@ -25,6 +25,7 @@
     <link href="{{ asset('css/all.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custom/welcome.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custom/override.css') }}" rel="stylesheet">
+    
     @yield('styles')
 
     <script>
@@ -55,7 +56,9 @@
     <script>
       $('div.alert').not('.alert-important').delay(7000).fadeOut(350);
     </script>
-    <script src="{{asset('js/jquery-2.0.3.js')}}"></script>
+    <script src="{{asset('js/vendor/jquery-2.0.3.js')}}"></script>
     <script src="{{asset('js/custom.js')}}"></script>
+
+    @yield('scripts')
 </body>
 </html>

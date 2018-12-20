@@ -14,13 +14,20 @@
     <link rel="stylesheet" href="{{asset('css/all.css')}}">
     <link rel="stylesheet" href="{{asset('css/custom/override.css')}}">
     <link rel="stylesheet" href="{{asset('css/vendor/pikaday.css')}}">
-    {{-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css"> --}}
-      <script>
-        @auth
-          window.user = @json(auth()->user());
-        @endauth
-        
-        window.appUrl  = @json(config('app.url'));
+    <link rel="stylesheet" href="{{asset('css/vendor/jquery.timepicker.css')}}">
+    {{-- 
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css"> 
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/timepicker@1.11.14/jquery.timepicker.css">
+    --}}
+
+    @yield('styles')
+
+    <script>
+      @auth
+        window.user = @json(auth()->user());
+      @endauth
+      
+      window.appUrl  = @json(config('app.url'));
     </script>
   </head>
   <body class="hold-transition sidebar-mini">
@@ -93,13 +100,16 @@
     <!-- REQUIRED SCRIPTS -->
     <script src="{{asset('js/app.js')}}"></script>
     <script src="{{asset('js/custom.js')}}"></script>
-    <script src="{{asset('js/moment.min.js')}}"></script>
-    <script src="{{asset('js/pikaday.js')}}"></script>
-    {{-- <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script> --}}
-    {{-- <script src="https://momentjs.com/downloads/moment.min.js"></script> --}}
+    <script src="{{asset('js/vendor/moment.min.js')}}"></script>
+    <script src="{{asset('js/vendor/pikaday.js')}}"></script>
+    {{-- 
+      <script src="https://momentjs.com/downloads/moment.min.js"></script> 
+      <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
+    --}}
     <script>
       $('div.alert').not('.alert-important').delay(7000).fadeOut(350);
     </script>
+
     <script>
       // https://github.com/Pikaday/Pikaday ..Customization..
       var picker = new Pikaday({ 
@@ -109,6 +119,9 @@
           console.log(this.getMoment().format('Y-M-D'));
         }
       });
+      picker.gotoToday();
     </script>
+
+    @yield('scripts')
   </body>
 </html>
