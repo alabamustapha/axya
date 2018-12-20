@@ -15,7 +15,7 @@ class Doctor extends Model
 
     protected $with = ['specialty'];
 
-    protected $appends = ['practice_years','link','name'];
+    protected $appends = ['practice_years','link','name','avatar'];
 
     public function user()
     {
@@ -25,6 +25,11 @@ class Doctor extends Model
     public function getNameAttribute()
     {
         return $this->user->name;
+    }
+
+    public function getAvatarAttribute()
+    {
+        return $this->user->avatar;
     }
 
     // public function specialties()

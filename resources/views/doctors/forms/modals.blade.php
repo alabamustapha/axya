@@ -41,7 +41,7 @@
             <br>
             <div class="modal-body">
               <div class="text-center">
-                <img class="img-fluid img-circle profile-img" src="{{$doctor->user->avatar}}" alt="{{$doctor->user->name}} profile picture">
+                <img class="img-fluid img-circle profile-img" src="{{$doctor->user->avatar}}" alt="{{$doctor->name}} profile picture">
 
                 <div class="form-group text-center">
                   <label for="avatar" class="h5">Update Display Picture</label>
@@ -125,7 +125,7 @@
             <div class="card card-primary card-outline text-center shadow">
               <div class="card-header">
                 <div class="card-title">
-                  <i class="fa fa-tags"></i> {{$doctor->user->name}}
+                  <i class="fa fa-tags"></i> {{$doctor->name}}
                   <br>
 
                   <span style="font-size:14px;font-weight:bold;">
@@ -165,9 +165,8 @@
                       <div class="col-md-6">
                         <label for="day">Select Day <small>(yyyy-mm-dd)</small></label>
                         <input type="hidden" name="doctor_id" value="{{$doctor->id}}">
-                        <input type="text" name="day" maxlength="10" min="{{date('Y-m-d')}}"
-                           id="datepicker" value="{{old('day')}}" placeholder="{{date('Y-m-d')}}" 
-                           pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" autocomplete="off" 
+                        <input type="text" name="day" minlength="10" maxlength="15" min="{{date('Y-m-d')}}"
+                           id="datepicker" value="{{old('day')}}" placeholder="{{date('Y-m-d')}}" autocomplete="off" 
                           id="day" class="form-control{{ $errors->has('day') ? ' is-invalid' : '' }}" 
                           required>
 
@@ -181,14 +180,13 @@
                   </div> 
 
                   <div class="form-group text-center">
-                    <div class="row">
-
-                      <div class="col-md-6">
-                        <label for="from">Start <small>(eg 11:30 or 11:30 AM)</small></label>
-                        <input type="time" name="from" minlength="5" maxlength="5" min="00:00" max="23:59" 
-                          value="{{old('from')}}" placeholder="hh:mm" pattern="[0-9]{2}:[0-9]{2}" 
-                          id="from" class="form-control{{ $errors->has('from') ? ' is-invalid' : '' }}" 
-                          required>
+                    <div class="row" id="timepicker">
+                      <div class="col-md-5">
+                        {{-- <label for="from">Start <small>(eg 11:30 or 11:30 AM)</small></label> --}}
+                        <input type="text" name="from" minlength="5" maxlength="8" min="00:00" max="23:59" 
+                        value="{{old('from')}}" placeholder="HH:MM AM" {{-- pattern="[0-9]{2}:[0-9]{2} (AM|PM)"  --}}
+                        id="from" class="time start form-control{{ $errors->has('from') ? ' is-invalid' : '' }}" 
+                        required>
 
                         @if ($errors->has('from'))
                             <span class="invalid-feedback" role="alert">
@@ -196,12 +194,15 @@
                             </span>
                         @endif
                       </div>
+
+                      <div class="col-xs-1 mx-auto p-0 m-0"> to </div>
+
                       <div class="col-md-6">
-                        <label for="to">End <small>(eg 22:15 or 10:15 PM)</small></label>
-                        <input type="time" name="to" minlength="5" maxlength="5" min="00:00" max="23:59" 
-                          value="{{old('to')}}" placeholder="hh:mm" pattern="[0-9]{2}:[0-9]{2}" 
-                          id="to" class="form-control{{ $errors->has('to') ? ' is-invalid' : '' }}" 
-                          required>
+                        {{-- <label for="to">End <small>(eg 22:15 or 10:15 PM)</small></label> --}}
+                        <input type="text" name="to" minlength="5" maxlength="8" min="00:00" max="23:59" 
+                        value="{{old('to')}}" placeholder="HH:MM AM" {{-- pattern="[0-9]{2}:[0-9]{2} (AM|PM)"  --}}
+                        id="to" class="time end form-control{{ $errors->has('to') ? ' is-invalid' : '' }}" 
+                        required>
 
                         @if ($errors->has('to'))
                             <span class="invalid-feedback" role="alert">
@@ -217,7 +218,7 @@
 
                     <div class="form-group text-center">
                       <label for="address">Address</label>
-                      <input type="text" name="address" maxlength="255" value="{{old('address')}}" placeholder="address for home visit" id="address" class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" {{-- required --}}>
+                      <input type="text" name="address" maxlength="255" value="{{old('address')}}" placeholder="address for home visit" id="address" class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}">
 
                       @if ($errors->has('address'))
                           <span class="invalid-feedback" role="alert">
@@ -228,7 +229,7 @@
 
                     <div class="form-group text-center">
                       <label for="phone">Phone Contact</label>
-                      <input type="tel" name="phone" maxlength="255" value="{{old('phone')}}" placeholder="phone for home visit" id="phone" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" {{-- required --}}>
+                      <input type="tel" name="phone" maxlength="255" value="{{old('phone')}}" placeholder="phone for home visit" id="phone" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}">
 
                       @if ($errors->has('phone'))
                           <span class="invalid-feedback" role="alert">
@@ -239,7 +240,7 @@
                   </fieldset>
 
                   <div class="form-group text-center">
-                    <textarea name="patient_info" id="patient_info" style="min-height: 120px;max-height: 150px;" placeholder="write your intention for booking an appointment with {{$doctor->user->name}}" class="form-control{{ $errors->has('patient_info') ? ' is-invalid' : '' }}" required>{{old('patient_info')}}</textarea>
+                    <textarea name="patient_info" id="patient_info" style="min-height: 120px;max-height: 150px;" placeholder="write your intention for booking an appointment with {{$doctor->name}}" class="form-control{{ $errors->has('patient_info') ? ' is-invalid' : '' }}" required>{{old('patient_info')}}</textarea>
 
                     @if ($errors->has('patient_info'))
                         <span class="invalid-feedback" role="alert">
@@ -251,7 +252,8 @@
                   <div class="form-group">
                     <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-image"></i> Submit</button>
                   </div>
-                </form> 
+                </form>
+                {{-- <appointment-form :doctor_id="{{$doctor->id}}"></appointment-form> --}}
 
               </div>
 

@@ -47,6 +47,15 @@ class Appointment extends Model
         return 'slug';
     }
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($appointment) {
+            $appointment->user_id = auth()->id();
+        });
+    }
+
     public function documents()
     {
         return $this->morphMany(Document::class, 'documentable');

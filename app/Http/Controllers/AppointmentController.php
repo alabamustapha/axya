@@ -7,10 +7,13 @@ use App\Doctor;
 use App\Http\Requests\AppointmentRequest;
 use App\Notifications\Applications\ApplicationReceivedNotification;
 use App\Notifications\Appointments\AppointmentBookedNotification;
+use App\Traits\TimeScheduleTrait;
 use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
 {
+    use TimeScheduleTrait;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -176,7 +179,7 @@ class AppointmentController extends Controller
     {
         $this->authorize('create', Appointment::class);
 
-        $request->merge(['user_id' => auth()->id()]);
+        $this->formatHourTo2400($request);
 
         $appointment = Appointment::create($request->all());
 
