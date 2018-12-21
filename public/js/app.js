@@ -70926,7 +70926,8 @@ var render = function() {
             "specialties.data || doctors.data || tags.data || users.data"
         }
       ],
-      staticClass: "container"
+      staticClass: "container",
+      staticStyle: { "z-index": "2000" }
     },
     [
       _c("div", { staticClass: "row justify-content-center" }, [
@@ -75709,16 +75710,71 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['doctor_id'],
+  props: ['doctor'],
 
   data: function data() {
     return {
       form: new Form({
         id: '',
         // user_id   : '',Model::boot()
-        doctor_id: this.doctor_id,
+        doctor_id: this.doctor.id,
         day: '',
         from: '',
         to: '',
@@ -75729,9 +75785,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       })
     };
   },
-  mounted: function mounted() {
-    console.log('Component mounted.');
+
+
+  methods: {
+    createAppointment: function createAppointment() {
+      var _this = this;
+
+      this.$Progress.start();
+      this.form.post('/appointments').then(function () {
+        // Event.$emit('RefreshPage');
+        // this.$router.go(0); // Refreshes whole page!
+        $('#appointmentForm').modal('hide');
+        toast({
+          type: 'success',
+          title: 'Appointment created successfully.'
+        });
+        _this.$Progress.finish();
+      }).catch(function () {
+        toast({
+          type: 'fail',
+          title: 'Something went wrong! Try again with correct details.'
+        });
+        _this.$Progress.fail();
+      });
+    }
   }
+
 });
 
 /***/ }),
@@ -75742,374 +75821,400 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "form",
-      {
-        on: {
-          submit: function($event) {
-            $event.preventDefault()
-            return _vm.createAppointnment($event)
-          }
-        }
-      },
-      [
-        _c("div", { staticClass: "form-group text-center" }, [
-          _c("div", { staticClass: "row" }, [
-            _c(
-              "div",
-              { staticClass: "col-md-6" },
-              [
-                _c("label", { attrs: { for: "type" } }, [_vm._v("Type")]),
-                _vm._v(" "),
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.form.type,
-                        expression: "form.type"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    class: { "is-invalid": _vm.form.errors.has("type") },
-                    attrs: { name: "type", required: "" },
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.$set(
-                          _vm.form,
-                          "type",
-                          $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
-                        )
-                      }
-                    }
-                  },
-                  [
-                    _c("option", { attrs: { value: "" } }, [
-                      _vm._v("Appointment Type")
-                    ]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "Online" } }, [
-                      _vm._v("Online")
-                    ]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "Home" } }, [_vm._v("Home")])
-                  ]
-                ),
-                _vm._v(" "),
-                _c("has-error", { attrs: { form: _vm.form, field: "type" } })
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "col-md-6" },
-              [
-                _vm._m(0),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.form.doctor_id,
-                      expression: "form.doctor_id"
-                    }
-                  ],
-                  attrs: { type: "hidden", name: "doctor_id" },
-                  domProps: { value: _vm.form.doctor_id },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.form, "doctor_id", $event.target.value)
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.form.day,
-                      expression: "form.day"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  class: { "is-invalid": _vm.form.errors.has("day") },
-                  attrs: {
-                    type: "text",
-                    name: "day",
-                    maxlength: "10",
-                    min: this.getMoment().format("Y-M-D"),
-                    id: "datepicker",
-                    placeholder: this.getMoment().format("Y-M-D"),
-                    pattern: "[0-9]{4}-[0-9]{2}-[0-9]{2}",
-                    autocomplete: "off",
-                    required: ""
-                  },
-                  domProps: { value: _vm.form.day },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.form, "day", $event.target.value)
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c("has-error", { attrs: { form: _vm.form, field: "day" } })
-              ],
-              1
-            )
-          ])
+  return _c("div", { staticClass: "card card-primary text-center shadow" }, [
+    _c("div", { staticClass: "card-header" }, [
+      _c("div", { staticClass: "card-title" }, [
+        _c("span", [
+          _c("i", { staticClass: "fa fa-tags" }),
+          _vm._v(" "),
+          _c("span", { domProps: { textContent: _vm._s(_vm.doctor.name) } })
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "form-group text-center" }, [
-          _c("div", { staticClass: "row" }, [
-            _c(
-              "div",
-              { staticClass: "col-md-6" },
-              [
-                _vm._m(1),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.form.from,
-                      expression: "form.from"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  class: { "is-invalid": _vm.form.errors.has("type") },
-                  attrs: {
-                    type: "time",
-                    name: "from",
-                    minlength: "5",
-                    maxlength: "5",
-                    min: "00:00",
-                    max: "23:59",
-                    placeholder: "hh:mm",
-                    pattern: "[0-9]{2}:[0-9]{2}",
-                    id: "from",
-                    required: ""
-                  },
-                  domProps: { value: _vm.form.from },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.form, "from", $event.target.value)
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c("has-error", { attrs: { form: _vm.form, field: "from" } })
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "col-md-6" },
-              [
-                _vm._m(2),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.form.to,
-                      expression: "form.to"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  class: { "is-invalid": _vm.form.errors.has("to") },
-                  attrs: {
-                    type: "time",
-                    name: "to",
-                    minlength: "5",
-                    maxlength: "5",
-                    min: "00:00",
-                    max: "23:59",
-                    placeholder: "hh:mm",
-                    pattern: "[0-9]{2}:[0-9]{2}",
-                    id: "to",
-                    required: ""
-                  },
-                  domProps: { value: _vm.form.to },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.$set(_vm.form, "to", $event.target.value)
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _c("has-error", { attrs: { form: _vm.form, field: "to" } })
-              ],
-              1
-            )
-          ])
-        ]),
+        _c("br"),
         _vm._v(" "),
-        _vm.form.type == "home"
-          ? _c("fieldset", { staticClass: "p-2 border-1" }, [
-              _c("legend", { staticClass: "h5" }, [_vm._v("Home Visitation")]),
+        _c(
+          "span",
+          { staticStyle: { "font-size": "14px", "font-weight": "bold" } },
+          [
+            _c("span", [
+              _c("i", { staticClass: "fa fa-user-md red" }),
               _vm._v(" "),
+              _c("span", {
+                domProps: { textContent: _vm._s(_vm.doctor.specialty.name) }
+              })
+            ]),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c(
+              "span",
+              { staticClass: "badge badge-secondary badge-pill text-bold" },
+              [
+                _vm._v("\n          $"),
+                _c("span", {
+                  domProps: { textContent: _vm._s(_vm.doctor.rate) }
+                }),
+                _vm._v(" / hour\n        ")
+              ]
+            )
+          ]
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "card-body" }, [
+      _c(
+        "form",
+        {
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              return _vm.createAppointment($event)
+            }
+          }
+        },
+        [
+          _c(
+            "div",
+            { staticClass: "form-group text-center" },
+            [
+              _c("textarea", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.form.patient_info,
+                    expression: "form.patient_info"
+                  }
+                ],
+                staticClass: "form-control",
+                class: { "is-invalid": _vm.form.errors.has("patient_info") },
+                staticStyle: { "min-height": "120px", "max-height": "150px" },
+                attrs: {
+                  name: "patient_info",
+                  id: "patient_info",
+                  placeholder: "description for booking this appointment",
+                  required: ""
+                },
+                domProps: { value: _vm.form.patient_info },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.form, "patient_info", $event.target.value)
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _c("has-error", {
+                attrs: { form: _vm.form, field: "patient_info" }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group text-center" }, [
+            _c("div", { staticClass: "row" }, [
               _c(
                 "div",
-                { staticClass: "form-group text-center" },
+                { staticClass: "col-md-6" },
                 [
-                  _c("label", { attrs: { for: "address" } }, [
-                    _vm._v("Address")
-                  ]),
+                  _c("label", { attrs: { for: "type" } }, [_vm._v("Type")]),
                   _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.form.address,
-                        expression: "form.address"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    class: { "is-invalid": _vm.form.errors.has("type") },
-                    attrs: {
-                      type: "text",
-                      name: "address",
-                      maxlength: "255",
-                      placeholder: "address for home visit",
-                      id: "address"
-                    },
-                    domProps: { value: _vm.form.address },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.type,
+                          expression: "form.type"
                         }
-                        _vm.$set(_vm.form, "address", $event.target.value)
+                      ],
+                      staticClass: "form-control",
+                      class: { "is-invalid": _vm.form.errors.has("type") },
+                      attrs: { name: "type", required: "" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.form,
+                            "type",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
                       }
-                    }
-                  }),
+                    },
+                    [
+                      _c("option", { attrs: { value: "" } }, [
+                        _vm._v("Appointment Type")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "Online" } }, [
+                        _vm._v("Online")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "Home" } }, [
+                        _vm._v("Home")
+                      ])
+                    ]
+                  ),
                   _vm._v(" "),
-                  _c("has-error", {
-                    attrs: { form: _vm.form, field: "address" }
-                  })
+                  _c("has-error", { attrs: { form: _vm.form, field: "type" } })
                 ],
                 1
               ),
               _vm._v(" "),
               _c(
                 "div",
-                { staticClass: "form-group text-center" },
+                { staticClass: "col-md-6" },
                 [
-                  _c("label", { attrs: { for: "phone" } }, [
-                    _vm._v("Phone Contact")
-                  ]),
+                  _vm._m(0),
                   _vm._v(" "),
                   _c("input", {
                     directives: [
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.form.phone,
-                        expression: "form.phone"
+                        value: _vm.form.day,
+                        expression: "form.day"
                       }
                     ],
                     staticClass: "form-control",
-                    class: { "is-invalid": _vm.form.errors.has("type") },
+                    class: { "is-invalid": _vm.form.errors.has("day") },
                     attrs: {
-                      type: "tel",
-                      name: "phone",
-                      maxlength: "255",
-                      placeholder: "phone for home visit",
-                      id: "phone"
+                      id: "datepicker",
+                      type: "text",
+                      name: "day",
+                      minlength: "10",
+                      maxlength: "15",
+                      placeholder: "yyyy-mm-dd",
+                      autocomplete: "off",
+                      required: ""
                     },
-                    domProps: { value: _vm.form.phone },
+                    domProps: { value: _vm.form.day },
                     on: {
                       input: function($event) {
                         if ($event.target.composing) {
                           return
                         }
-                        _vm.$set(_vm.form, "phone", $event.target.value)
+                        _vm.$set(_vm.form, "day", $event.target.value)
                       }
                     }
                   }),
                   _vm._v(" "),
-                  _c("has-error", { attrs: { form: _vm.form, field: "phone" } })
+                  _c("has-error", { attrs: { form: _vm.form, field: "day" } })
                 ],
                 1
               )
             ])
-          : _vm._e(),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "form-group text-center" },
-          [
-            _c("textarea", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.form.patient_info,
-                  expression: "form.patient_info"
-                }
-              ],
-              staticClass: "form-control",
-              class: { "is-invalid": _vm.form.errors.has("patient_info") },
-              staticStyle: { "min-height": "120px", "max-height": "150px" },
-              attrs: {
-                name: "patient_info",
-                id: "patient_info",
-                placeholder: "description for booking this appointment",
-                required: ""
-              },
-              domProps: { value: _vm.form.patient_info },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.form, "patient_info", $event.target.value)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c("has-error", {
-              attrs: { form: _vm.form, field: "patient_info" }
-            })
-          ],
-          1
-        ),
-        _vm._v(" "),
-        _vm._m(3)
-      ]
-    )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "form-group text-center" }, [
+            _c("div", { staticClass: "row", attrs: { id: "timepicker" } }, [
+              _c(
+                "div",
+                { staticClass: "col-md-5" },
+                [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.form.from,
+                        expression: "form.from"
+                      }
+                    ],
+                    staticClass: "time start form-control",
+                    class: { "is-invalid": _vm.form.errors.has("type") },
+                    attrs: {
+                      type: "text",
+                      name: "from",
+                      minlength: "5",
+                      maxlength: "5",
+                      min: "00:00",
+                      max: "23:59",
+                      placeholder: "hh:mm am",
+                      id: "from",
+                      required: ""
+                    },
+                    domProps: { value: _vm.form.from },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.form, "from", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("has-error", { attrs: { form: _vm.form, field: "from" } })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-xs-1 mx-auto p-0 m-0" }, [
+                _vm._v(" to ")
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "col-md-6" },
+                [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.form.to,
+                        expression: "form.to"
+                      }
+                    ],
+                    staticClass: "time end form-control",
+                    class: { "is-invalid": _vm.form.errors.has("to") },
+                    attrs: {
+                      type: "text",
+                      name: "to",
+                      minlength: "5",
+                      maxlength: "5",
+                      min: "00:00",
+                      max: "23:59",
+                      placeholder: "hh:mm am",
+                      id: "to",
+                      required: ""
+                    },
+                    domProps: { value: _vm.form.to },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.form, "to", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("has-error", { attrs: { form: _vm.form, field: "to" } })
+                ],
+                1
+              )
+            ])
+          ]),
+          _vm._v(" "),
+          _vm.form.type == "Home"
+            ? _c("fieldset", { staticClass: "p-2 border-1" }, [
+                _c("legend", { staticClass: "h5" }, [
+                  _vm._v("Home Visitation")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "form-group text-center" },
+                  [
+                    _c("label", { attrs: { for: "address" } }, [
+                      _vm._v("Address")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.address,
+                          expression: "form.address"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      class: { "is-invalid": _vm.form.errors.has("type") },
+                      attrs: {
+                        type: "text",
+                        name: "address",
+                        maxlength: "255",
+                        placeholder: "address for home visit",
+                        id: "address"
+                      },
+                      domProps: { value: _vm.form.address },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.form, "address", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("has-error", {
+                      attrs: { form: _vm.form, field: "address" }
+                    })
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "form-group text-center" },
+                  [
+                    _c("label", { attrs: { for: "phone" } }, [
+                      _vm._v("Phone Contact")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.form.phone,
+                          expression: "form.phone"
+                        }
+                      ],
+                      staticClass: "form-control",
+                      class: { "is-invalid": _vm.form.errors.has("type") },
+                      attrs: {
+                        type: "tel",
+                        name: "phone",
+                        maxlength: "255",
+                        placeholder: "phone for home visit",
+                        id: "phone"
+                      },
+                      domProps: { value: _vm.form.phone },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.$set(_vm.form, "phone", $event.target.value)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("has-error", {
+                      attrs: { form: _vm.form, field: "phone" }
+                    })
+                  ],
+                  1
+                )
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm._m(1)
+        ]
+      )
+    ]),
+    _vm._v(" "),
+    _vm._m(2)
   ])
 }
 var staticRenderFns = [
@@ -76126,30 +76231,26 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("label", { attrs: { for: "from" } }, [
-      _vm._v("Start "),
-      _c("small", [_vm._v("(eg 11:30 or 11:30 AM)")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("label", { attrs: { for: "to" } }, [
-      _vm._v("End "),
-      _c("small", [_vm._v("(eg 22:15 or 10:15 PM)")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "form-group" }, [
       _c(
         "button",
         { staticClass: "btn btn-block btn-primary", attrs: { type: "submit" } },
         [_c("i", { staticClass: "fa fa-image" }), _vm._v(" Submit")]
       )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-footer" }, [
+      _c("span", { staticClass: "text-danger text-small" }, [
+        _c("b", [
+          _vm._v(
+            "Make sure your medical history is properly created in your profile."
+          )
+        ])
+      ])
     ])
   }
 ]

@@ -1,5 +1,5 @@
 <template>
-  <div class="container" v-show="specialties.data || doctors.data || tags.data || users.data">
+  <div class="container" v-show="specialties.data || doctors.data || tags.data || users.data" style="z-index: 2000;">
     <div class="row justify-content-center">
       <div class="col">
         <div class="card shadow-none text-left">
