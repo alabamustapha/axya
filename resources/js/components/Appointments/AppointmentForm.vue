@@ -24,15 +24,6 @@
 
     <div class="card-body">
       <form @submit.prevent="createAppointment"><!-- action="{{ route('appointments.store') }}" method="post" -->
-
-        <div class="form-group text-center">
-          <textarea v-model="form.patient_info" name="patient_info" 
-            id="patient_info" style="min-height: 120px;max-height: 150px;" 
-            placeholder="description for booking this appointment" 
-            class="form-control" :class="{ 'is-invalid': form.errors.has('patient_info') }" 
-            required></textarea>
-              <has-error :form="form" field="patient_info"></has-error> 
-        </div> 
           
         <div class="form-group text-center">
           <div class="row">
@@ -134,6 +125,15 @@
           </div>
         </fieldset>
 
+        <div class="form-group text-center">
+          <textarea v-model="form.patient_info" name="patient_info" 
+            id="patient_info" style="min-height: 120px;max-height: 150px;" 
+            placeholder="description for booking this appointment" 
+            class="form-control" :class="{ 'is-invalid': form.errors.has('patient_info') }" 
+            required></textarea>
+              <has-error :form="form" field="patient_info"></has-error> 
+        </div> 
+
         <div class="form-group">
           <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-image"></i> Submit</button>
         </div>
@@ -174,11 +174,11 @@
         this.form.post('/appointments')
         .then(() => {
           // Event.$emit('RefreshPage');
-          // this.$router.go(0); // Refreshes whole page!
+          // router.push({ path: 'appointments' });
           $('#appointmentForm').modal('hide');
           toast({
-              type: 'success',
-              title: 'Appointment created successfully.'
+              type: 'success',              
+              title: 'Appointment created successfully. Check your appointments list.'
           });
           this.$Progress.finish();            
         })
