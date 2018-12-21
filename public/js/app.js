@@ -73628,9 +73628,68 @@ var render = function() {
             _vm._v(" "),
             _c("hr"),
             _vm._v(" "),
-            _vm._m(6),
+            _c("div", { staticClass: "form-group" }, [
+              _vm._m(6),
+              _vm._v(" "),
+              _c("textarea", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.general_usage,
+                    expression: "general_usage"
+                  }
+                ],
+                staticClass: "form-control",
+                staticStyle: { "min-height": "100px", "max-height": "150px" },
+                attrs: {
+                  name: "usage",
+                  placeholder: "explain how to use the medications",
+                  required: ""
+                },
+                domProps: { value: _vm.general_usage },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.general_usage = $event.target.value
+                  }
+                }
+              })
+            ]),
             _vm._v(" "),
-            _vm._m(7),
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "comment" } }, [
+                _vm._v("Other comments on this prescription")
+              ]),
+              _vm._v(" "),
+              _c("textarea", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.comment,
+                    expression: "comment"
+                  }
+                ],
+                staticClass: "form-control",
+                staticStyle: { "min-height": "100px", "max-height": "150px" },
+                attrs: {
+                  name: "comment",
+                  placeholder: "more comments on this prescription"
+                },
+                domProps: { value: _vm.comment },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.comment = $event.target.value
+                  }
+                }
+              })
+            ]),
             _vm._v(" "),
             _c(
               "button",
@@ -73735,45 +73794,10 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c("label", { staticClass: "tf-flex", attrs: { for: "usage" } }, [
-        _c("span", [_vm._v("How to combine all prescribed drugs?")]),
-        _vm._v(" "),
-        _c("small", { staticClass: "red" }, [_vm._v("* req.")])
-      ]),
+    return _c("label", { staticClass: "tf-flex", attrs: { for: "usage" } }, [
+      _c("span", [_vm._v("How to combine all prescribed drugs?")]),
       _vm._v(" "),
-      _c("textarea", {
-        pre: true,
-        attrs: {
-          "v-model": "general_usage",
-          name: "usage",
-          class: "form-control",
-          style: "min-height: 100px;max-height: 150px;",
-          placeholder: "explain how to use the medications",
-          required: ""
-        }
-      })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c("label", { attrs: { for: "comment" } }, [
-        _vm._v("Other comments on this prescription")
-      ]),
-      _vm._v(" "),
-      _c("textarea", {
-        pre: true,
-        attrs: {
-          "v-model": "comment",
-          name: "comment",
-          class: "form-control",
-          style: "min-height: 100px;max-height: 150px;",
-          placeholder: "more comments on this prescription"
-        }
-      })
+      _c("small", { staticClass: "red" }, [_vm._v("* req.")])
     ])
   }
 ]
@@ -74946,7 +74970,8 @@ var render = function() {
                                   attrs: {
                                     type: "text",
                                     name: "name",
-                                    placeholder: "Name"
+                                    placeholder: "Name",
+                                    required: ""
                                   },
                                   domProps: { value: drug.name },
                                   on: {
@@ -75082,7 +75107,8 @@ var render = function() {
                                   attrs: {
                                     type: "text",
                                     name: "dosage",
-                                    placeholder: "dosage eg 2-2-2/50mg etc"
+                                    placeholder: "dosage eg 2-2-2/50mg etc",
+                                    required: ""
                                   },
                                   domProps: { value: drug.dosage },
                                   on: {
@@ -75164,7 +75190,8 @@ var render = function() {
                               },
                               attrs: {
                                 name: "usage",
-                                placeholder: "Short description on how to use"
+                                placeholder: "Short description on how to use",
+                                required: ""
                               },
                               domProps: { value: drug.usage },
                               on: {
@@ -75289,7 +75316,8 @@ var render = function() {
                         },
                         attrs: {
                           name: "usage",
-                          placeholder: "explain how to use the medications"
+                          placeholder: "explain how to use the medications",
+                          required: ""
                         },
                         domProps: { value: _vm.general_usage },
                         on: {

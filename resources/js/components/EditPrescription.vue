@@ -66,7 +66,7 @@
                         <input v-model="drug.name" type="text" name="name"
                             placeholder="Name"
                             class="form-control form-control-sm"
-                            >
+                            required>
                       </div>
                       <div class="col-sm-6">
                         <label class="pb-0 mb-0" for="texture">Texture</label> <br>
@@ -94,7 +94,7 @@
                         <input v-model="drug.dosage" type="text" name="dosage"
                             placeholder="dosage eg 2-2-2/50mg etc"
                             class="form-control form-control-sm"
-                            >
+                            required>
                       </div>
                   
                       <div class="col-sm-6">
@@ -115,7 +115,7 @@
                         placeholder="Short description on how to use"
                         style="min-height:60px;max-height:180px;" 
                         class="form-control form-control-sm"
-                        ></textarea>
+                        required></textarea>
                   </div>
                 </div>
               </div>
@@ -174,7 +174,7 @@
                     class="form-control" 
                     style="min-height: 100px;max-height: 150px;" 
                     placeholder="explain how to use the medications" 
-                    ></textarea>
+                    required></textarea>
               </div>
 
               <div class="form-group">

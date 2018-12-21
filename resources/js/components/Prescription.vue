@@ -147,7 +147,7 @@
                 <span>How to combine all prescribed drugs?</span> 
                 <small class="red">* req.</small>
               </label>
-              <textarea v-model="general_usage" v-pre name="usage"
+              <textarea v-model="general_usage" name="usage"
                   class="form-control" 
                   style="min-height: 100px;max-height: 150px;" 
                   placeholder="explain how to use the medications" 
@@ -156,7 +156,7 @@
 
             <div class="form-group">
               <label for="comment">Other comments on this prescription</label>
-              <textarea v-model="comment" v-pre name="comment"
+              <textarea v-model="comment" name="comment"
                   class="form-control"
                   style="min-height: 100px;max-height: 150px;" 
                   placeholder="more comments on this prescription"></textarea>
