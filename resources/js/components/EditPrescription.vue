@@ -49,7 +49,7 @@
                     <button title="Minimize entity" type="button" class="btn btn-tool pr-2" data-widget="collapse">
                       <i class="fa fa-minus indigo"></i>
                     </button>
-                    <button title="Remove entity" type="button" class="btn btn-tool px-2" @click="removeDrugForm(index)"><!--  data-widget="remove" -->
+                    <button v-if="drugs.length > 1" title="Remove entity" type="button" class="btn btn-tool px-2" @click="removeDrugForm(index)"><!--  data-widget="remove" -->
                       <i class="fa fa-times red"></i>
                     </button>
                   </span>

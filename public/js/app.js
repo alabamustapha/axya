@@ -74049,19 +74049,21 @@ var render = function() {
               _c("span", { staticClass: "card-tools" }, [
                 _vm._m(0, true),
                 _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    staticClass: "btn btn-tool px-2",
-                    attrs: { title: "Remove entity", type: "button" },
-                    on: {
-                      click: function($event) {
-                        _vm.removeDrugForm(index)
-                      }
-                    }
-                  },
-                  [_c("i", { staticClass: "fa fa-times red" })]
-                )
+                _vm.drugs.length > 1
+                  ? _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-tool px-2",
+                        attrs: { title: "Remove entity", type: "button" },
+                        on: {
+                          click: function($event) {
+                            _vm.removeDrugForm(index)
+                          }
+                        }
+                      },
+                      [_c("i", { staticClass: "fa fa-times red" })]
+                    )
+                  : _vm._e()
               ])
             ]),
             _vm._v(" "),
@@ -74932,22 +74934,24 @@ var render = function() {
                           _c("span", { staticClass: "card-tools" }, [
                             _vm._m(1, true),
                             _vm._v(" "),
-                            _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-tool px-2",
-                                attrs: {
-                                  title: "Remove entity",
-                                  type: "button"
-                                },
-                                on: {
-                                  click: function($event) {
-                                    _vm.removeDrugForm(index)
-                                  }
-                                }
-                              },
-                              [_c("i", { staticClass: "fa fa-times red" })]
-                            )
+                            _vm.drugs.length > 1
+                              ? _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-tool px-2",
+                                    attrs: {
+                                      title: "Remove entity",
+                                      type: "button"
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        _vm.removeDrugForm(index)
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "fa fa-times red" })]
+                                )
+                              : _vm._e()
                           ])
                         ]),
                         _vm._v(" "),
