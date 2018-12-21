@@ -1,5 +1,5 @@
 <template>
-  <div class="card card-primary text-center shadow"> <!-- card-outline -->
+  <div class="card card-secondary text-center shadow"> <!-- card-outline -->
     <div class="card-header">
       <div class="card-title">
         <span>
