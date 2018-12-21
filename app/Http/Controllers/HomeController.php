@@ -28,14 +28,14 @@ class HomeController extends Controller
         
         return view('welcome', compact('doctors'));
     }
+    
+    // public function search($path)
+    // {
+    //     return view('layouts.master');
+    // }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function search($path)
+    public function home()
     {
-        return view('layouts.master');
+        return view('home');
     }
 }

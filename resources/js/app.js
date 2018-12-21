@@ -59,21 +59,23 @@ const toast = swal.mixin({
 window.toast = toast;
 
 
+// Vue Filters
+Vue.filter('upText', function(text)   { return text.toUpperCase() });
+Vue.filter('myDate', function(created){ return moment(created).format("MMM Do YY") });
+
+
 // Vue Routes
 let routes = [
-    // { path: '/dashboard-admins', component: require('./components/admin/DashboardAdmin.vue')},
-    // { path: '/dashboard-users', component: require('./components/admin/DashboardUser.vue')},
     // { path: '/searches', component: require('./components/Searches.vue')},
+
+    // { path: '/appointments',       component: require('./components/appointments/AppointmentIndex.vue')},
+    // { path: '/appointments/:slug', component: require('./components/appointments/AppointmentShow.vue')},
 ];
 const router = new VueRouter({
     mode: 'history',
     routes // short for "routes: routes"
 });
 
-
-// Vue Filters
-Vue.filter('upText', function(text)   { return text.toUpperCase() });
-Vue.filter('myDate', function(created){ return moment(created).format("MMM Do YY") });
 
 
 /**
@@ -82,14 +84,14 @@ Vue.filter('myDate', function(created){ return moment(created).format("MMM Do YY
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
-Vue.component('searches', require('./components/Searches.vue'));
-Vue.component('schedule-list', require('./components/ScheduleList.vue'));
-Vue.component('schedule', require('./components/Schedule.vue'));
-Vue.component('prescription', require('./components/Prescription.vue'));
-Vue.component('drug', require('./components/Drug.vue'));
-Vue.component('edit-prescription', require('./components/EditPrescription.vue'));
-Vue.component('appointment-form', require('./components/AppointmentForm.vue'));
+Vue.component('example-component',require('./components/ExampleComponent.vue'));
+Vue.component('searches',         require('./components/Searches.vue'));
+Vue.component('schedule-list',    require('./components/ScheduleList.vue'));
+Vue.component('schedule',         require('./components/Schedule.vue'));
+Vue.component('prescription',     require('./components/Prescription.vue'));
+Vue.component('drug',             require('./components/Drug.vue'));
+Vue.component('edit-prescription',require('./components/EditPrescription.vue'));
+Vue.component('appointment-form', require('./components/appointments/AppointmentForm.vue'));
 
 Vue.component('pagination', require('laravel-vue-pagination'));
 

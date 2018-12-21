@@ -15,21 +15,11 @@ class Doctor extends Model
 
     protected $with = ['specialty'];
 
-    protected $appends = ['practice_years','link','name','avatar'];
+    protected $appends = ['name','link','avatar','practice_years',];
 
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-    public function getNameAttribute()
-    {
-        return $this->user->name;
-    }
-
-    public function getAvatarAttribute()
-    {
-        return $this->user->avatar;
     }
 
     // public function specialties()
@@ -269,9 +259,19 @@ class Doctor extends Model
 
     /**** ~API Candidates~****/
 
+    public function getNameAttribute()
+    {
+        return $this->user->name;
+    }
+
     public function getLinkAttribute()
     {
       return route('doctors.show', $this);
+    }
+
+    public function getAvatarAttribute()
+    {
+        return $this->user->avatar;
     }
 
     public function getPracticeYearsAttribute()

@@ -12,7 +12,7 @@ class Appointment extends Model
 
     protected $dates = ['day','sealed_at'];
 
-    protected $appends = ['attendant_doctor'];
+    protected $appends = ['attendant_doctor','description_preview','link'];
 
     protected $fillable = [
       'status','slug','user_id','doctor_id','day','from','to','patient_info','sealed_at','type','address','phone',
@@ -164,6 +164,14 @@ class Appointment extends Model
         echo self::$appointmentStatus[$status];
     }
 
+
+    /**** ~API Candidates~****/
+
+    public function getLinkAttribute()
+    {
+      return route('appointments.show', $this);
+    }
+
     public function getDayAttribute($value)
     {
         return Carbon::parse($value)->format('M d, Y');
@@ -172,5 +180,12 @@ class Appointment extends Model
     public function getAttendantDoctorAttribute()
     {
         return $this->attendantDoctor();
+    }
+
+    public function getDescriptionPreviewAttribute()
+    {
+      $descr_preview = substr($this->patient_info, 0, 100);
+      
+      return strlen($this->patient_info) > 100 ? $descr_preview .'...':$this->patient_info;
     }
 }

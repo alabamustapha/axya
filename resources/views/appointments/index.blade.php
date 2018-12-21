@@ -13,16 +13,6 @@
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
     <h1 class="h2">Patient Appointments Dashboard</h1>
-    <div class="btn-toolbar mb-2 mb-md-0">
-        <div class="btn-group mr-2">
-        <button class="btn btn-sm btn-outline-secondary">Share</button>
-        <button class="btn btn-sm btn-outline-secondary">Export</button>
-        </div>
-        <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
-        <span data-feather="calendar"></span>
-        This week
-        </button>
-    </div>
 </div>
 
 
@@ -55,7 +45,7 @@
             </td>
             <td>
                 <a href="{{route('appointments.show', $appointment)}}" style="color:inherit;">                    
-                    <span><i class="fa fa-file"></i>&nbsp; {{substr($appointment->patient_info, 0, 100)}}...</span>
+                    <span><i class="fa fa-file"></i>&nbsp; {{ $appointment->description_preview }}</span>
                 </a>
             </td>
         </tr>

@@ -1,4 +1,4 @@
-<div class="card card-primary card-outline text-center shadow">
+<div class="card card-primary text-center shadow">
               <div class="card-header">
                 <div class="card-title">
                   <i class="fa fa-tags"></i> {{$doctor->name}}

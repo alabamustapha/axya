@@ -86,7 +86,8 @@ class AppointmentController extends Controller
                          ;
                 break;
             default:
-                $appointments = $user->appointments()
+                $appointments // = $user->appointments()
+                              = Appointment::with(['doctor','doctor.specialty'])->where('user_id', $user->id)
                          ->orderBy('day', 'desc')
                          ->paginate(25)
                          ;
