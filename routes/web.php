@@ -19,6 +19,16 @@ Route::get('/nova');
 
 Auth::routes(['verify' => true]);
 
+// ---- APPOINTMENT RELATED ---------------->
+Route::prefix('appointments')->group(function(){
+Route::patch('/{appointment}/complete','AppointmentStatusController@complete')->name('appointments.complete');
+Route::patch('/{appointment}/accept',  'AppointmentStatusController@accept')->name('appointments.accept');
+Route::patch('/{appointment}/reject',  'AppointmentStatusController@reject')->name('appointments.reject');
+Route::patch('/{appointment}/cancel',  'AppointmentStatusController@cancel')->name('appointments.cancel');
+Route::patch('/{appointment}/payfee',  'AppointmentStatusController@payFee')->name('appointments.payfee');
+});
+// ---- APPOINTMENT RELATED ---------------->
+
 Route::resource('specialties', 'SpecialtyController')->except('create','edit');
 Route::resource('tags',        'TagController')->except('create','edit');
 Route::resource('workplaces',  'WorkplaceController')->only('store','update','destroy');
@@ -43,6 +53,7 @@ Route::patch('/{user}/staff', 'AppAdminController@makeStaff')->name('make-staff'
 Route::patch('/{user}/normal','AppAdminController@makeNormal')->name('make-normal');
 });
 // ---- ADMIN ACL RELATED ---------------->
+
 
 
 Route::prefix('dashboard')->group(function(){

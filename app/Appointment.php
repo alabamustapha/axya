@@ -14,10 +14,14 @@ class Appointment extends Model
 
     // protected $with = ['doctor'];
 
-    protected $appends = ['attendant_doctor','creator','description_preview','link','duration','status_text_color','status_text', 'schedule_is_past','start_time','end_time',];
+    protected $appends = [
+        'attendant_doctor','creator','description_preview','link',
+        'duration','status_text_color','status_text','schedule_is_past',
+        'start_time','end_time',
+    ];
 
     protected $fillable = [
-      'status','slug','user_id','doctor_id','day','from','to','patient_info','sealed_at','type','address','phone',
+      'status','slug','user_id','doctor_id','day','from','to','patient_info','sealed_at','type','address','phone', // 'rated (0|1)' with Reviews (user_id, dr_id & appmt_id composite key/unique)
     ];
 
     /**
@@ -80,9 +84,58 @@ class Appointment extends Model
         return $this->belongsTo(Doctor::class);
     }
 
+
+    /**
+     * Change a appintment's status.
+     * 
+     * @return null
+     */
+    public function activateComplete() 
+    {
+        // Appointment/Consultation completed successfully.
+        $this->status = '1';
+        $this->update();
+    }
+
+    public function activateAccept() 
+    {
+        //Confirmed, awaiting fees payment
+        $this->status = '2';
+        $this->update();
+    }
+
+    public function activateReject() 
+    {
+        // Rejected by doctor
+        $this->status = '3';
+        $this->update();
+    }
+
+    public function activateCancel() 
+    {
+        // Cancelled by patient
+        $this->status = '4';
+        $this->update();
+    }
+
+    public function activateFeePayment() 
+    {
+        // Fee paid, awaiting appointment time.
+        $this->status = '5';
+        $this->update();
+    }
+
+
+
     /**
      * Was completed successfully.
      */
+    public function scopeUncompleted($query)
+    {
+        // All uncompleted Appointments.
+        return $query->where('status', '!=', '1');
+    }
+
     public function scopeAwaitingConfirmation($query)
     {
         // New appointment, awaiting doctor's confirmation.
@@ -98,36 +151,20 @@ class Appointment extends Model
         // Confirmed, awaiting fees payment
         return $query->where('status', '2');
     }
-    public function scopeScheduleChangeSuggestion($query)
-    {
-        // Schedule change suggestion by doctor
-        return $query->where('status', '3');
-    }
     public function scopeRejected($query)
     {
         // Rejected by doctor!
-        return $query->where('status', '4');
-    }
-    public function scopeOtherDoctorRecommendation($query)
-    {
-        // Another doctor recommended.
-        return $query->where('status', '5');
+        return $query->where('status', '3');
     }
     public function scopeCancelled($query)
     {
         // Cancelled by patient
-        return $query->where('status', '6');
+        return $query->where('status', '4');
     }
-    public function scopeUncompleted($query)
-    {
-        // All uncompleted Appointments.
-        return $query->where('status', '!=', '1');
-    }
-
     public function scopeAwaitingAppointmentTime($query)
     {
-        // Confirmed, payment made, awaiting appointment time.
-        return $query->where('status', '7');
+        // Fee paid, awaiting appointment time.
+        return $query->where('status', '5');
     }
 
 
@@ -137,19 +174,17 @@ class Appointment extends Model
 
         1 => 'Success',
 
-        2 => 'Confirmed, awaiting fees payment',
+        2 => 'Appointment accepted by doctor. Awaits fee payment',
 
         3 => 'Rejected by doctor!',
 
         4 => 'Cancelled by patient!',
         
-        5 => 'Confirmed, awaiting appointment time.',
+        5 => 'Fee paid, awaiting appointment time.',
 
-        6 => 'Something fishy',
+        // 6 => '<span class="orange"><i class="fa fa-info-circle"></i>&nbsp; Schedule change suggestion by doctor.',
 
-        // 7 => '<span class="orange"><i class="fa fa-info-circle"></i>&nbsp; Schedule change suggestion by doctor.',
-
-        // 8 => '<span class="teal"><i class="fa fa-info-circle red"></i>&nbsp; Another doctor recommended',
+        // 7 => '<span class="teal"><i class="fa fa-info-circle red"></i>&nbsp; Another doctor recommended',
     );
 
     public static $appointmentStatusColor = array(
@@ -165,18 +200,16 @@ class Appointment extends Model
         
         5 => 'orange',
 
-        6 => 'red',
+        // 6 => '<span class="orange"><i class="fa fa-info-circle"></i>&nbsp; Schedule change suggestion by doctor.',
 
-        // 7 => '<span class="orange"><i class="fa fa-info-circle"></i>&nbsp; Schedule change suggestion by doctor.',
-
-        // 8 => '<span class="teal"><i class="fa fa-info-circle red"></i>&nbsp; Another doctor recommended',
+        // 7 => '<span class="teal"><i class="fa fa-info-circle red"></i>&nbsp; Another doctor recommended',
     );
 
     // If the status code is not in the provided list above return the default '0'.
     public function statusText() 
     {
         $status = ($this->status > (sizeof(self::$appointmentStatus) - 1) || $this->status < 0) 
-                    ? (sizeof(self::$appointmentStatus) + 1) // 8
+                    ? (sizeof(self::$appointmentStatus) + 1) // Something fishy.
                     : intval($this->status)
                     ;
 
@@ -185,7 +218,7 @@ class Appointment extends Model
     public function statusTextColor() 
     {
         $status = ($this->status > (sizeof(self::$appointmentStatusColor) - 1) || $this->status < 0) 
-                    ? (sizeof(self::$appointmentStatusColor) + 1) // 8
+                    ? (sizeof(self::$appointmentStatusColor) + 1) // red
                     : intval($this->status)
                     ;
 
@@ -237,6 +270,11 @@ class Appointment extends Model
     public function getScheduleIsPastAttribute($value)
     {
         return Carbon::now() > Carbon::parse($this->to);
+    }
+
+    public function getPendingYetAttribute()
+    {
+        return $this->status != '1' && $this->status != '5';
     }
 
 
