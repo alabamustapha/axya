@@ -12,7 +12,7 @@ class Appointment extends Model
 
     protected $dates = ['day','sealed_at'];
 
-    protected $appends = ['attendant_doctor','description_preview','link'];
+    protected $appends = ['attendant_doctor','creator','description_preview','link','duration','status_text_color','status_text'];
 
     protected $fillable = [
       'status','slug','user_id','doctor_id','day','from','to','patient_info','sealed_at','type','address','phone',
@@ -53,6 +53,8 @@ class Appointment extends Model
 
         static::creating(function ($appointment) {
             $appointment->user_id = auth()->id();
+            $str = str_slug($this->day) . auth()->user()->slug;
+            $appointment->slug = substr($str, 0, 50);
         });
     }
 
@@ -74,11 +76,6 @@ class Appointment extends Model
     public function doctor()
     {
         return $this->belongsTo(Doctor::class);
-    }
-
-    public function attendantDoctor()
-    {
-        return intval(auth()->id()) === intval($this->doctor_id);
     }
 
     /**
@@ -134,23 +131,43 @@ class Appointment extends Model
 
     /*<!---------------- Update Doctor Application Status ---------------->*/
     public static $appointmentStatus = array(
-        0 => '<span class="indigo"><i class="fa fa-info-circle"></i>&nbsp; Awaiting doctor\'s confirmation</span>',
+        0 => 'Awaiting doctor\'s confirmation',
 
-        1 => '<span class="teal"><i class="fa fa-info-circle teal"></i>&nbsp; Success</span>',
+        1 => 'Success',
 
         2 => 'Confirmed, awaiting fees payment',
 
-        // 3 => '<span class="orange"><i class="fa fa-info-circle"></i>&nbsp; Schedule change suggestion by doctor.</span>',
+        3 => 'Rejected by doctor!',
 
-        4 => '<span class="red"><i class="fa fa-info-circle"></i>&nbsp; Rejected by doctor!</span>',
-
-        // 5 => '<span class="teal"><i class="fa fa-info-circle red"></i>&nbsp; Another doctor recommended</span>',
-
-        6 => '<span class="red"><i class="fa fa-info-circle red"></i>&nbsp; Cancelled</span>',
+        4 => 'Cancelled by patient!',
         
-        7 => '<span class="teal"><i class="fa fa-info-circle teal"></i>&nbsp; Confirmed, awaiting appointment time.</span>',
+        5 => 'Confirmed, awaiting appointment time.',
 
-        8 => '<span class="red"><i class="fa fa-info-circle red"></i>&nbsp; Something fishy</span>'
+        6 => 'Something fishy',
+
+        // 7 => '<span class="orange"><i class="fa fa-info-circle"></i>&nbsp; Schedule change suggestion by doctor.',
+
+        // 8 => '<span class="teal"><i class="fa fa-info-circle red"></i>&nbsp; Another doctor recommended',
+    );
+
+    public static $appointmentStatusColor = array(
+        0 => 'indigo',
+
+        1 => 'teal',
+
+        2 => 'orange',
+
+        3 => 'red',
+
+        4 => 'red',
+        
+        5 => 'orange',
+
+        6 => 'red',
+
+        // 7 => '<span class="orange"><i class="fa fa-info-circle"></i>&nbsp; Schedule change suggestion by doctor.',
+
+        // 8 => '<span class="teal"><i class="fa fa-info-circle red"></i>&nbsp; Another doctor recommended',
     );
 
     // If the status code is not in the provided list above return the default '0'.
@@ -161,7 +178,16 @@ class Appointment extends Model
                     : intval($this->status)
                     ;
 
-        echo self::$appointmentStatus[$status];
+        return self::$appointmentStatus[$status];
+    }
+    public function statusTextColor() 
+    {
+        $status = ($this->status > (sizeof(self::$appointmentStatusColor) - 1) || $this->status < 0) 
+                    ? (sizeof(self::$appointmentStatusColor) + 1) // 8
+                    : intval($this->status)
+                    ;
+
+        return self::$appointmentStatusColor[$status];
     }
 
 
@@ -177,9 +203,34 @@ class Appointment extends Model
         return Carbon::parse($value)->format('M d, Y');
     }
 
+    public function getFromAttribute($value)
+    {
+        return Carbon::parse($value)->format('h:i A');
+    }
+
+    public function getToAttribute($value)
+    {
+        return Carbon::parse($value)->format('h:i A');
+    }
+
+    public function getDurationAttribute($value)
+    {
+        return Carbon::parse($this->to)->diffInMinutes(Carbon::parse($this->from));
+    }
+
     public function getAttendantDoctorAttribute()
     {
-        return $this->attendantDoctor();
+        return intval(auth()->id()) === intval($this->doctor_id);
+    }
+
+    public function attendantDoctor()
+    {
+        return intval(auth()->id()) === intval($this->doctor_id);
+    }
+
+    public function getCreatorAttribute()
+    {
+        return intval(auth()->id()) === intval($this->user_id);
     }
 
     public function getDescriptionPreviewAttribute()
@@ -187,5 +238,31 @@ class Appointment extends Model
       $descr_preview = substr($this->patient_info, 0, 100);
       
       return strlen($this->patient_info) > 100 ? $descr_preview .'...':$this->patient_info;
+    }
+
+    public function getStatusTextAttribute()
+    {
+      return strval($this->statusText());
+    }
+
+    public function getStatusTextColorAttribute()
+    {
+      return strval($this->statusTextColor());
+    }
+
+    public function statusTextOutput()
+    {        
+      /*# Throw this into components that cannot accept string format below
+        <span class="{{$appointment->status_text_color}} text-bold">
+            <i class="fa fa-info-circle"></i>&nbsp;
+            {{$appointment->status_text}}
+        </span>
+      */
+      $str  = '<span class="'. $this->status_text_color .' text-bold">';
+      $str .= '<i class="fa fa-info-circle"></i>&nbsp;';
+      $str .= $this->status_text;
+      $str .= '</span>';
+
+      echo $str;
     }
 }

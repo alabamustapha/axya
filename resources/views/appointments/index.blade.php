@@ -33,8 +33,8 @@
         <tr>
             <td>{{$appointment->day}} </td>
             <td>
-                <a href="{{route('appointments.show', $appointment)}}" style="color:inherit;">
-                    {{$appointment->statusText()}}
+                <a href="{{route('appointments.show', $appointment)}}">
+                    {{$appointment->statusTextOutput()}}
                 </a>
             </td>
             <td>
