@@ -176,6 +176,7 @@ Vue.component('prescription', __webpack_require__(206));
 Vue.component('drug', __webpack_require__(209));
 Vue.component('edit-prescription', __webpack_require__(212));
 Vue.component('appointment-form', __webpack_require__(215));
+Vue.component('appointment-details', __webpack_require__(219));
 
 Vue.component('pagination', __webpack_require__(218));
 
@@ -77605,6 +77606,425 @@ module.exports = '\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u20
 
 /******/ })["default"];
 //# sourceMappingURL=laravel-vue-pagination.common.js.map
+
+/***/ }),
+/* 219 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(21)
+/* script */
+var __vue_script__ = __webpack_require__(220)
+/* template */
+var __vue_template__ = __webpack_require__(221)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/appointments/AppointmentDetails.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-ef0dcafa", Component.options)
+  } else {
+    hotAPI.reload("data-v-ef0dcafa", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 220 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['appointment']
+
+  // methods: {
+  //   loadAppointmentPage() {
+  //     axios.get('/appointment/'+ appointment.id)
+  //     .then(({ data }) => (this.form.fill(data)));
+  //     // axios.get('api/users')
+  //     //     .then(({ data }) => (this.users = data.data)); // ES6 equivalent
+  //   },
+  // },
+
+  // created() {
+  //   this.loadAppointmentPage();
+  //   Event.$on('RefreshPage', () => {
+  //       this.loadAppointmentPage();
+  //   });
+  // }
+});
+
+/***/ }),
+/* 221 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "d-block m-auto text-center bg-white" }, [
+      _c("div", { staticClass: "text-left shadow-lg p-3 mb-3" }, [
+        _c("h6", { attrs: { title: "appointment status" } }, [
+          _c(
+            "span",
+            {
+              staticClass: "text-bold",
+              class: _vm.appointment.status_text_color
+            },
+            [
+              _c("i", { staticClass: "fa fa-info-circle" }),
+              _vm._v(
+                " \n          " +
+                  _vm._s(_vm.appointment.status_text) +
+                  "\n        "
+              )
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c("hr"),
+        _vm._v(" "),
+        _c("p", [_vm._v(_vm._s(_vm.appointment.patient_info))])
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "card" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-body p-2" }, [
+        _c("ul", { staticClass: "list-unstyled" }, [
+          _c("li", { staticClass: "tf-flex p-1" }, [
+            _vm._m(1),
+            _vm._v(" "),
+            _c("span", { staticClass: "text-bold" }, [
+              _vm._v(_vm._s(_vm.appointment.day))
+            ])
+          ]),
+          _vm._v(" "),
+          _c("li", { staticClass: "tf-flex p-1" }, [
+            _vm._m(2),
+            _vm._v(" "),
+            _c("span", { staticClass: "text-bold" }, [
+              _c("span", {
+                domProps: { textContent: _vm._s(_vm.appointment.start_time) }
+              }),
+              _vm._v("\n              - \n            "),
+              _c("span", {
+                domProps: { textContent: _vm._s(_vm.appointment.end_time) }
+              })
+            ])
+          ]),
+          _vm._v(" "),
+          _c("li", { staticClass: "tf-flex p-1" }, [
+            _vm._m(3),
+            _vm._v(" "),
+            _c("span", { staticClass: "text-bold" }, [
+              _c("span", [_vm._v(_vm._s(_vm.appointment.duration))])
+            ])
+          ]),
+          _vm._v(" "),
+          _vm._m(4),
+          _vm._v(" "),
+          _c("hr"),
+          _vm._v(" "),
+          _c("p", { attrs: { title: "Appointment status" } }, [
+            _vm._v(_vm._s(_vm.appointment.status_text))
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "card-footer" }, [
+        _c("ul", { staticClass: "list-unstyled" }, [
+          _vm.appointment.attendant_doctor
+            ? _c("span", [_vm._m(5), _vm._v(" "), _vm._m(6)])
+            : _vm.appointment.creator
+              ? _c("span", [_vm._m(7), _vm._v(" "), _vm._m(8)])
+              : _vm._e(),
+          _vm._v(" "),
+          _vm.appointment.schedule_is_past
+            ? _c("span", [
+                _vm._m(9),
+                _vm._v(" "),
+                _vm.appointment.creator
+                  ? _c("li", { staticClass: "text-bold" }, [_vm._m(10)])
+                  : _vm._e()
+              ])
+            : _vm._e()
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "card-header bg-primary text-center p-2 mb-0" },
+      [
+        _c("span", { staticClass: "h4" }, [_vm._v("Appointment Details")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-tools" }, [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-tool",
+              attrs: { type: "button", "data-widget": "collapse" }
+            },
+            [_c("i", { staticClass: "fa fa-minus" })]
+          )
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", [
+      _c("i", { staticClass: "fa fa-calendar" }),
+      _vm._v(" Date")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", [
+      _c("i", { staticClass: "fa fa-clock" }),
+      _vm._v(" Time")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", [
+      _c("i", { staticClass: "fa fa-stopwatch" }),
+      _vm._v(" Duration")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", { staticClass: "tf-flex p-1" }, [
+      _c("span", [_c("i", { staticClass: "fa fa-donate" }), _vm._v(" Fee")]),
+      _vm._v(" "),
+      _c("span", { staticClass: "text-bold" }, [
+        _c(
+          "span",
+          {
+            staticClass: "badge badge-secondary badge-pill",
+            staticStyle: { "font-size": "14px" }
+          },
+          [_vm._v("\n            $ ")]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", [
+      _c("button", { staticClass: "btn btn-sm my-1 btn-primary" }, [
+        _vm._v("Accept & Confirm")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", [
+      _c("button", { staticClass: "btn btn-sm my-1 btn-danger" }, [
+        _vm._v("Reject")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", [
+      _c("button", { staticClass: "btn btn-sm my-1 btn-primary" }, [
+        _vm._v("Pay Consultation Fee")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", [
+      _c("button", { staticClass: "btn btn-sm my-1 btn-danger" }, [
+        _vm._v("Cancel")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", [
+      _c("button", { staticClass: "btn btn-sm my-1 btn-secondary" }, [
+        _vm._v("Appointment Completed?")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("button", { staticClass: "btn btn-sm my-1 btn-info mb-3" }, [
+      _c("i", { staticClass: "fa fa-star" }),
+      _vm._v(" Rate This Doctor")
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-ef0dcafa", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

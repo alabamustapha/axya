@@ -12,7 +12,9 @@ class Appointment extends Model
 
     protected $dates = ['day','sealed_at'];
 
-    protected $appends = ['attendant_doctor','creator','description_preview','link','duration','status_text_color','status_text'];
+    // protected $with = ['doctor'];
+
+    protected $appends = ['attendant_doctor','creator','description_preview','link','duration','status_text_color','status_text', 'schedule_is_past','start_time','end_time',];
 
     protected $fillable = [
       'status','slug','user_id','doctor_id','day','from','to','patient_info','sealed_at','type','address','phone',
@@ -53,7 +55,7 @@ class Appointment extends Model
 
         static::creating(function ($appointment) {
             $appointment->user_id = auth()->id();
-            $str = str_slug($this->day) . auth()->user()->slug;
+            $str = str_slug($appointment->day) .'-'. auth()->user()->slug;
             $appointment->slug = substr($str, 0, 50);
         });
     }
@@ -191,33 +193,55 @@ class Appointment extends Model
     }
 
 
-    /**** ~API Candidates~****/
+    /****** ~ API Candidates ~ ******/
 
     public function getLinkAttribute()
     {
       return route('appointments.show', $this);
-    }
+    }    
 
+
+    #~~ Time/Schedule Related
+    #------------------------------------------------#
     public function getDayAttribute($value)
     {
         return Carbon::parse($value)->format('M d, Y');
     }
 
-    public function getFromAttribute($value)
+    // 'From' Time Segment Only
+    public function getStartTimeAttribute()
     {
-        return Carbon::parse($value)->format('h:i A');
+        return Carbon::parse($this->from)->format('h:i A');
     }
 
-    public function getToAttribute($value)
+    // 'To' Time Segment Only
+    public function getEndTimeAttribute()
     {
-        return Carbon::parse($value)->format('h:i A');
+        return Carbon::parse($this->to)->format('h:i A');
     }
 
-    public function getDurationAttribute($value)
+    public function getDurationAttribute()
     {
-        return Carbon::parse($this->to)->diffInMinutes(Carbon::parse($this->from));
+        $duration  = Carbon::parse($this->end_time)->diffInMinutes(Carbon::parse($this->start_time));
+        
+        $hour_duration = floor($duration / 60);
+        $hour_hand = $hour_duration > 0 ? $hour_duration .' hour' : '';
+
+        $mins_duration = $duration % 60;
+        $mins_hand = $mins_duration > 0 ? $mins_duration .' minutes' : '';
+
+        return $hour_hand .' '. $mins_hand;
     }
 
+    // Appointment time and duration is now in the past.
+    public function getScheduleIsPastAttribute($value)
+    {
+        return Carbon::now() > Carbon::parse($this->to);
+    }
+
+
+    #~~ Doctor/Patient Related
+    #------------------------------------------------#
     public function getAttendantDoctorAttribute()
     {
         return intval(auth()->id()) === intval($this->doctor_id);
@@ -239,7 +263,11 @@ class Appointment extends Model
       
       return strlen($this->patient_info) > 100 ? $descr_preview .'...':$this->patient_info;
     }
+    
 
+
+    #~~ Status Related
+    #------------------------------------------------#
     public function getStatusTextAttribute()
     {
       return strval($this->statusText());

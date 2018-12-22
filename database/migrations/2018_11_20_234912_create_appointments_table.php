@@ -20,8 +20,8 @@ class CreateAppointmentsTable extends Migration
             $table->integer('user_id')->unsigned()->index();
             $table->integer('doctor_id')->unsigned()->index();
             $table->date('day');
-            $table->time('from')->nullable();
-            $table->time('to')->nullable();
+            $table->datetime('from')->nullable();
+            $table->datetime('to')->nullable();
             $table->text('patient_info')->nullable();
             $table->datetime('sealed_at')->nullable();
 

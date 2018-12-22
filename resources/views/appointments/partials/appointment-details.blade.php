@@ -31,12 +31,12 @@
 
       <li class="tf-flex p-1">
         <span><i class="fa fa-clock"></i> Time</span>
-        <span class="text-bold">{{$appointment->from}} - {{$appointment->to}}</span>
+        <span class="text-bold">{{$appointment->start_time}} - {{$appointment->end_time}}</span>
       </li>
 
       <li class="tf-flex p-1">
         <span><i class="fa fa-stopwatch"></i> Duration</span>
-        <span class="text-bold"><span>{{ $appointment->duration }} mins</span></span>
+        <span class="text-bold"><span>{{ $appointment->duration }}</span></span>
       </li>
 
       <li class="tf-flex p-1">

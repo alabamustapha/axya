@@ -92,6 +92,7 @@ Vue.component('prescription',     require('./components/Prescription.vue'));
 Vue.component('drug',             require('./components/Drug.vue'));
 Vue.component('edit-prescription',require('./components/EditPrescription.vue'));
 Vue.component('appointment-form', require('./components/appointments/AppointmentForm.vue'));
+Vue.component('appointment-details', require('./components/appointments/AppointmentDetails.vue'));
 
 Vue.component('pagination', require('laravel-vue-pagination'));
 
