@@ -21,7 +21,10 @@ class Appointment extends Model
     ];
 
     protected $fillable = [
-      'status','slug','user_id','doctor_id','day','from','to','patient_info','sealed_at','type','address','phone', // 'rated (0|1)' with Reviews (user_id, dr_id & appmt_id composite key/unique)
+      'slug','user_id','doctor_id','patient_info',
+      'day','from','to','sealed_at',
+      'status','type','address','phone',
+      // 'reviewed (0|1)' with Reviews (user_id, dr_id & appmt_id composite key/unique)
     ];
 
     /**
@@ -125,11 +128,25 @@ class Appointment extends Model
         $this->update();
     }
 
+    public function absconded()
+    {
+        // Patient did not make payment till schedule elapsed.
+        // Cron: Auto-cancelled by system after schedule elapses.
+        $this->status = '6';
+        $this->update();
+    }
+    public function autocancel()
+    {
+        // Doctor did not confirm 1-hour to scheduled time.
+        // Cron: Auto-cancelled by system after schedule elapses.
+        $this->status = '7';
+        $this->update();
+    }
 
 
-    /**
-     * Was completed successfully.
-     */
+
+    #~~ Status Related Scopes
+    #------------------------------------------------#
     public function scopeUncompleted($query)
     {
         // All uncompleted Appointments.
@@ -166,6 +183,16 @@ class Appointment extends Model
         // Fee paid, awaiting appointment time.
         return $query->where('status', '5');
     }
+    public function scopeAbscond($query)
+    {
+        // Patient did not make payment till schedule elapsed.
+        return $query->where('status', '6');
+    }
+    public function scopeAutocanceled($query)
+    {
+        // Doctor did not confirm 1-hour to scheduled time.
+        return $query->where('status', '7');
+    }
 
 
     /*<!---------------- Update Doctor Application Status ---------------->*/
@@ -182,9 +209,9 @@ class Appointment extends Model
         
         5 => 'Fee paid, awaiting appointment time.',
 
-        // 6 => '<span class="orange"><i class="fa fa-info-circle"></i>&nbsp; Schedule change suggestion by doctor.',
+        6 => 'Schedule time elapsed! Patient absconded.',// Payment not made by patient
 
-        // 7 => '<span class="teal"><i class="fa fa-info-circle red"></i>&nbsp; Another doctor recommended',
+        7 => 'Doctor did not confirm 1-hour to scheduled time.',
     );
 
     public static $appointmentStatusColor = array(
@@ -200,9 +227,9 @@ class Appointment extends Model
         
         5 => 'orange',
 
-        // 6 => '<span class="orange"><i class="fa fa-info-circle"></i>&nbsp; Schedule change suggestion by doctor.',
+        6 => 'red',
 
-        // 7 => '<span class="teal"><i class="fa fa-info-circle red"></i>&nbsp; Another doctor recommended',
+        7 => 'red',
     );
 
     // If the status code is not in the provided list above return the default '0'.
@@ -227,11 +254,11 @@ class Appointment extends Model
 
 
     /****** ~ API Candidates ~ ******/
-
+    /****** ------------------ ******/
     public function getLinkAttribute()
     {
       return route('appointments.show', $this);
-    }    
+    }
 
 
     #~~ Time/Schedule Related
@@ -270,11 +297,6 @@ class Appointment extends Model
     public function getScheduleIsPastAttribute($value)
     {
         return Carbon::now() > Carbon::parse($this->to);
-    }
-
-    public function getPendingYetAttribute()
-    {
-        return $this->status != '1' && $this->status != '5';
     }
 
 

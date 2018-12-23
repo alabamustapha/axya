@@ -76447,98 +76447,83 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   data: function data() {
     return {
-      status: this.appointment.status
+      // appointment: this.appointment,
+      status: this.appointment.status,
+      status_text: this.appointment.status_text,
+      status_text_color: this.appointment.status_text_color
     };
   },
 
 
   methods: {
-    appointmentCompleted: function appointmentCompleted(slug) {
+    appointmentCompleted: function appointmentCompleted() {
       var _this = this;
 
       // Appointment/Consultation completed successfully.
       if (confirm('Is this appointment completed?')) {
         this.$Progress.start();
-        axios.patch('/appointments/' + slug + '/complete').then(function () {
+        axios.patch('/appointments/' + this.appointment.slug + '/complete').then(function () {
           _this.status = '1';
-          toast({
-            type: 'success',
-            title: 'Appointment completed successfully.'
-          });
-          _this.$Progess.finish();
+          toast({ type: 'success', title: 'Appointment completed successfully.' });
+          _this.$Progress.finish();
         });
       }
     },
-    acceptAppointment: function acceptAppointment(slug) {
+    acceptAppointment: function acceptAppointment() {
       var _this2 = this;
 
       //Confirmed, awaiting fees payment
       if (confirm('Accept this appointment?')) {
         this.$Progress.start();
-        axios.patch('/appointments/' + slug + '/accept').then(function () {
+        axios.patch('/appointments/' + this.appointment.slug + '/accept').then(function () {
           _this2.status = '2';
-          toast({
-            type: 'success',
-            title: 'Appointment accepted.'
-          });
-          _this2.$Progess.finish();
+          toast({ type: 'success', title: 'Appointment accepted.' });
+          _this2.$Progress.finish();
         });
       }
     },
-    rejectAppointment: function rejectAppointment(slug) {
+    rejectAppointment: function rejectAppointment() {
       var _this3 = this;
 
       // Rejected by doctor
       this.$Progress.start();
-      axios.patch('/appointments/' + slug + '/reject').then(function () {
+      axios.patch('/appointments/' + this.appointment.slug + '/reject').then(function () {
         _this3.status = '3';
-        toast({
-          type: 'success',
-          title: 'Appointment rejected.'
-        });
-        _this3.$Progess.finish();
+        toast({ type: 'success', title: 'Appointment rejected.' });
+        _this3.$Progress.finish();
       });
     },
-    cancelAppointment: function cancelAppointment(slug) {
+    cancelAppointment: function cancelAppointment() {
       var _this4 = this;
 
       // Cancelled by patient
       this.$Progress.start();
-      axios.patch('/appointments/' + slug + '/cancel').then(function () {
+      axios.patch('/appointments/' + this.appointment.slug + '/cancel').then(function () {
         _this4.status = '4';
-        toast({
-          type: 'success',
-          title: 'Appointment cancelled.'
-        });
-        _this4.$Progess.finish();
+        toast({ type: 'success', title: 'Appointment cancelled.' });
+        _this4.$Progress.finish();
       });
     },
-    payConsultationFee: function payConsultationFee(slug) {
+    payConsultationFee: function payConsultationFee() {
       var _this5 = this;
 
       // Fee paslug, awaiting appointment time.
       this.$Progress.start();
-      axios.patch('/appointments/' + slug + '/payfee').then(function () {
+      axios.patch('/appointments/' + this.appointment.slug + '/payfee').then(function () {
         _this5.status = '5';
-        toast({
-          type: 'success',
-          title: '....'
-        });
-        _this5.$Progess.finish();
+        toast({ type: 'success', title: 'Payment successful.' });
+        _this5.$Progress.finish();
       });
     },
-    appointmentDoctorRating: function appointmentDoctorRating(slug) {
+    appointmentDoctorRating: function appointmentDoctorRating() {
       var _this6 = this;
 
       // Create a (new Review)
       // Update average rating for doctor directly in profile
       this.$Progress.start();
       axios.post('/reviews').then(function () {
-        toast({
-          type: 'success',
-          title: 'Doctor rating submitted successfully.'
-        });
-        _this6.$Progess.finish();
+        toast({ type: 'success', title: 'Doctor rating submitted successfully.' });
+        _this6.$Progress.finish();
       });
     }
   }
@@ -76634,18 +76619,14 @@ var render = function() {
       _c("div", { staticClass: "card-footer" }, [
         _c("ul", { staticClass: "list-unstyled" }, [
           _c("span", [
-            _vm.appointment.attendant_doctor && _vm.appointment.status == "0"
+            _vm.appointment.attendant_doctor && _vm.status == "0"
               ? _c("span", [
                   _c("li", [
                     _c(
                       "button",
                       {
                         staticClass: "btn btn-sm my-1 btn-primary",
-                        on: {
-                          click: function($event) {
-                            _vm.acceptAppointment(_vm.appointment.slug)
-                          }
-                        }
+                        on: { click: _vm.acceptAppointment }
                       },
                       [
                         _vm._v(
@@ -76660,11 +76641,7 @@ var render = function() {
                       "button",
                       {
                         staticClass: "btn btn-sm my-1 btn-danger",
-                        on: {
-                          click: function($event) {
-                            _vm.rejectAppointment(_vm.appointment.slug)
-                          }
-                        }
+                        on: { click: _vm.rejectAppointment }
                       },
                       [_vm._v("Reject Appointment")]
                     )
@@ -76674,34 +76651,26 @@ var render = function() {
             _vm._v(" "),
             _vm.appointment.creator
               ? _c("span", [
-                  _vm.appointment.status == "2"
+                  _vm.status == "2"
                     ? _c("li", [
                         _c(
                           "button",
                           {
                             staticClass: "btn btn-sm my-1 btn-primary",
-                            on: {
-                              click: function($event) {
-                                _vm.payConsultationFee(_vm.appointment.slug)
-                              }
-                            }
+                            on: { click: _vm.payConsultationFee }
                           },
                           [_vm._v("Pay Consultation Fee")]
                         )
                       ])
                     : _vm._e(),
                   _vm._v(" "),
-                  _vm.appointment.status == "0"
+                  _vm.status == "0" && !_vm.appointment.schedule_is_past
                     ? _c("li", { staticClass: "mb-2" }, [
                         _c(
                           "button",
                           {
                             staticClass: "btn btn-sm my-1 btn-danger",
-                            on: {
-                              click: function($event) {
-                                _vm.cancelAppointment(_vm.appointment.slug)
-                              }
-                            }
+                            on: { click: _vm.cancelAppointment }
                           },
                           [_vm._v("Cancel Appointment")]
                         )
@@ -76713,24 +76682,22 @@ var render = function() {
           _vm._v(" "),
           _vm.appointment.schedule_is_past
             ? _c("span", [
-                !_vm.appointment.status == "1"
+                _vm.status == "5"
                   ? _c("li", [
                       _c(
                         "button",
                         {
                           staticClass: "btn btn-sm my-1 btn-secondary",
-                          on: {
-                            click: function($event) {
-                              _vm.appointmentCompleted(_vm.appointment.slug)
-                            }
-                          }
+                          on: { click: _vm.appointmentCompleted }
                         },
                         [_vm._v("Appointment Completed?")]
                       )
                     ])
                   : _vm._e(),
                 _vm._v(" "),
-                _vm.appointment.creator && _vm.appointment.status == "1"
+                _vm.appointment.creator &&
+                _vm.status == "1" &&
+                !_vm.appointment.reviewed
                   ? _c("li", { staticClass: "text-bold" }, [
                       _vm._m(5),
                       _vm._v(" "),

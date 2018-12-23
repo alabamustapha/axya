@@ -66,40 +66,40 @@
       <div class="card-footer">
         <ul class="list-unstyled">
           <span>
-            <span v-if="appointment.attendant_doctor && appointment.status == '0'">
+            <span v-if="appointment.attendant_doctor && status == '0'">
               <!-- <li class="border-bottom pb-1 mb-2">Doctor Section</li> -->
               <li>
                 <button class="btn btn-sm my-1 btn-primary"
-                  @click="acceptAppointment(appointment.slug)">
+                  @click="acceptAppointment">
                   Accept Appointment
                 </button>
               </li>
               <li class="mb-2">
                 <button class="btn btn-sm my-1 btn-danger"
-                  @click="rejectAppointment(appointment.slug)">Reject Appointment</button>
+                  @click="rejectAppointment">Reject Appointment</button>
               </li>
             </span>
 
             <span v-if="appointment.creator">
               <!-- <li class="border-bottom pb-1 mb-2">Patient Section</li> -->
-              <li v-if="appointment.status == '2'">
+              <li v-if="status == '2'">
                 <button class="btn btn-sm my-1 btn-primary"
-                  @click="payConsultationFee(appointment.slug)">Pay Consultation Fee</button>
+                  @click="payConsultationFee">Pay Consultation Fee</button>
               </li>
-              <li v-if="appointment.status == '0'" class="mb-2">
+              <li v-if="status == '0' && !appointment.schedule_is_past" class="mb-2">
                 <button class="btn btn-sm my-1 btn-danger"
-                  @click="cancelAppointment(appointment.slug)">Cancel Appointment</button>
+                  @click="cancelAppointment">Cancel Appointment</button>
               </li>  
             </span>
           </span>
 
           <span v-if="appointment.schedule_is_past">
-            <li v-if="! appointment.status == '1'">
+            <li v-if="status == '5'">
               <button class="btn btn-sm my-1 btn-secondary" 
-                @click="appointmentCompleted(appointment.slug)">Appointment Completed?</button>
+                @click="appointmentCompleted">Appointment Completed?</button>
             </li>
 
-            <li class="text-bold" v-if="appointment.creator && appointment.status == '1'"><!--  && appointment.rated == '0' -->
+            <li class="text-bold" v-if="appointment.creator && status == '1' && !appointment.reviewed">
               <button class="btn btn-sm my-1 btn-info mb-3"><i class="fa fa-star"></i> Rate This Doctor</button>
               <br>
               
@@ -119,93 +119,78 @@
 
     data() {
       return {
-        status: this.appointment.status,
+        // appointment: this.appointment,
+        status            : this.appointment.status,
+        status_text       : this.appointment.status_text,
+        status_text_color : this.appointment.status_text_color,
       };
     },
 
     methods: {      
-      appointmentCompleted(slug) { 
+      appointmentCompleted() { 
         // Appointment/Consultation completed successfully.
         if (confirm('Is this appointment completed?')){
           this.$Progress.start();
-          axios.patch('/appointments/'+ slug +'/complete')
+          axios.patch('/appointments/'+ this.appointment.slug +'/complete')
           .then(()=> {
             this.status = '1';
-            toast({
-              type: 'success',
-              title: 'Appointment completed successfully.'
-            });
-            this.$Progess.finish();
+            toast({ type: 'success', title: 'Appointment completed successfully.'});
+            this.$Progress.finish();
           })
         }
       },
       
-      acceptAppointment(slug) { 
+      acceptAppointment() { 
         //Confirmed, awaiting fees payment
         if (confirm('Accept this appointment?')){
           this.$Progress.start();
-          axios.patch('/appointments/'+ slug +'/accept')
+          axios.patch('/appointments/'+ this.appointment.slug +'/accept')
           .then(()=> {
             this.status = '2';
-            toast({
-              type: 'success',
-              title: 'Appointment accepted.'
-            });
-            this.$Progess.finish();
+            toast({ type: 'success', title: 'Appointment accepted.'});
+            this.$Progress.finish();
           })
         }
       },
-      rejectAppointment(slug) { 
+      rejectAppointment() { 
         // Rejected by doctor
         this.$Progress.start();
-        axios.patch('/appointments/'+ slug +'/reject')
+        axios.patch('/appointments/'+ this.appointment.slug +'/reject')
         .then(()=> {
           this.status = '3';
-          toast({
-            type: 'success',
-            title: 'Appointment rejected.'
-          });
-          this.$Progess.finish();
+          toast({ type: 'success', title: 'Appointment rejected.'});
+          this.$Progress.finish();
         })
       },
-      cancelAppointment(slug) { 
+      cancelAppointment() { 
         // Cancelled by patient
         this.$Progress.start();
-        axios.patch('/appointments/'+ slug +'/cancel')
+        axios.patch('/appointments/'+ this.appointment.slug +'/cancel')
         .then(()=> {
           this.status = '4';
-          toast({
-            type: 'success',
-            title: 'Appointment cancelled.'
-          });
-          this.$Progess.finish();
+          toast({ type: 'success', title: 'Appointment cancelled.'});
+          this.$Progress.finish();
         })
       },
 
-      payConsultationFee(slug) { 
+      payConsultationFee() { 
         // Fee paslug, awaiting appointment time.
         this.$Progress.start();
-        axios.patch('/appointments/'+ slug +'/payfee')
+        axios.patch('/appointments/'+ this.appointment.slug +'/payfee')
         .then(()=> {
           this.status = '5';
-          toast({
-            type: 'success',
-            title: '....'
-          });
-          this.$Progess.finish();
+          toast({ type: 'success', title: 'Payment successful.'});
+          this.$Progress.finish();
         })
       },
-      appointmentDoctorRating(slug) {
+      appointmentDoctorRating() {
         // Create a (new Review)
         // Update average rating for doctor directly in profile
         this.$Progress.start();
         axios.post('/reviews')
         .then(()=> {
-          toast({
-            type: 'success',
-            title: 'Doctor rating submitted successfully.'
-          });
-          this.$Progess.finish();
+          toast({ type: 'success', title: 'Doctor rating submitted successfully.'});
+          this.$Progress.finish();
         })
       },
 

@@ -14,42 +14,55 @@ class AppointmentStatusController extends Controller
         $this->middleware('auth');
         $this->middleware('verified');
         $this->middleware('doctor')->only('accept','reject');
-        // $this->middleware('admin')->only('index');
     }
 
     public function complete(Request $request, Appointment $appointment)
     {
+        $this->authorize('edit', $appointment);
         $appointment->activateComplete();
-
         return response(['message' => 'Appointment/Consultation completed successfully.']);
     }
 
     public function accept(Request $request, Appointment $appointment)
     {
+        $this->authorize('edit', $appointment);
         $appointment->activateAccept();
-
         return response(['message' => 'Appointment accepted successfully.']);
     }
 
     public function reject(Request $request, Appointment $appointment)
     {
+        $this->authorize('edit', $appointment);
         $appointment->activateReject();
-
         return response(['message' => 'Appointment rejected.']);
     }
 
     public function cancel(Request $request, Appointment $appointment)
     {
+        $this->authorize('edit', $appointment);
         $appointment->activateCancel();
-
         return response(['message' => 'Appointment canceled.']);
     }
 
     public function payFee(Request $request, Appointment $appointment)
     {
+        $this->authorize('edit', $appointment);
         // $appointment->activateFeePayment();
         $appointment->activateFeePayment();
-
         return response(['message' => 'Appointment consultation fee paid.']);
+    }
+
+    public function abscond(Request $request, Appointment $appointment)
+    {
+        $appointment->absconded();
+        // $appointment->user()->penalize();
+        return response(['message' => 'Appointment absconded by patient.']);
+    }
+
+    public function autocancel(Request $request, Appointment $appointment)
+    {
+        $appointment->autocancel();
+        // $appointment->doctor()->penalize();
+        return response(['message' => 'Appointment auto-cancelled by system after schedule elapses.']);
     }
 }
