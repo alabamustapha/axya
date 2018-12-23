@@ -129,6 +129,7 @@ class PrescriptionsFeatureTest extends TestCase
         $this
             ->actingAs($this->doc_user)
             ->post(route('prescriptions.store'), $this->data)
+            ->assertStatus(302)
             ;
 
         $this->assertDatabaseHas('prescriptions', $this->data);
@@ -168,14 +169,14 @@ class PrescriptionsFeatureTest extends TestCase
         $this->assertDatabaseHas('prescriptions', $updated_data);
     }
 
-    /** @test */
-    public function delete_a_prescription_can_be_removed()
-    {
-        $this
-            ->actingAs($this->doc_user)
-            ->delete(route('prescriptions.destroy', $this->prescription))
-            ;
+    // /** @test */
+    // public function delete_a_prescription_can_be_removed()
+    // {
+    //     $this
+    //         ->actingAs($this->doc_user)
+    //         ->delete(route('prescriptions.destroy', $this->prescription))
+    //         ;
 
-        $this->assertDatabaseMissing('prescriptions', $this->prescription->toArray());
-    }
+    //     $this->assertDatabaseMissing('prescriptions', $this->prescription->toArray());
+    // }
 }

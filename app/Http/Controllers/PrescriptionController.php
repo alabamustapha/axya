@@ -196,32 +196,34 @@ class PrescriptionController extends Controller
                 $drug->delete();
             }
 
-            foreach ($request->drugs as $drug) {
-                // Previous drugs and new additions are persisted to the DB.
-                // dd($drug);
-                if (isset($drug['id'])){
-                    $drg = Drug::find($drug['id']);
+            if($request->drugs){
+                foreach ($request->drugs as $drug) {
+                    // Previous drugs and new additions are persisted to the DB.
+                    // dd($drug);
+                    if (isset($drug['id'])){
+                        $drg = Drug::find($drug['id']);
 
-                    $drg->update([
-                      // 'prescription_id' => $prescription->id,
-                      'name'    => $drug['name'],
-                      // 'texture' => $drug['texture'],
-                      'dosage'  => $drug['dosage'],
-                      'manufacturer' => $drug['manufacturer'],
-                      'usage'   => $drug['usage'],
-                      // 'comment'   => $drug['comment'],
-                    ]);
-                }
-                else{
-                    Drug::create([
-                      'prescription_id' => $prescription->id,
-                      'name'    => $drug['name'],
-                      'texture' => $drug['texture'],
-                      'dosage'  => $drug['dosage'],
-                      'manufacturer' => $drug['manufacturer'],
-                      'usage'   => $drug['usage'],
-                      // 'comment'   => $drug['comment'],
-                    ]);
+                        $drg->update([
+                          // 'prescription_id' => $prescription->id,
+                          'name'    => $drug['name'],
+                          // 'texture' => $drug['texture'],
+                          'dosage'  => $drug['dosage'],
+                          'manufacturer' => $drug['manufacturer'],
+                          'usage'   => $drug['usage'],
+                          // 'comment'   => $drug['comment'],
+                        ]);
+                    }
+                    else{
+                        Drug::create([
+                          'prescription_id' => $prescription->id,
+                          'name'    => $drug['name'],
+                          'texture' => $drug['texture'],
+                          'dosage'  => $drug['dosage'],
+                          'manufacturer' => $drug['manufacturer'],
+                          'usage'   => $drug['usage'],
+                          // 'comment'   => $drug['comment'],
+                        ]);
+                    }
                 }
             }
 
@@ -249,16 +251,10 @@ class PrescriptionController extends Controller
     {
         $this->authorize('delete', $prescription);
 
-        $prescription->delete();
-        $message = 'Prescription deleted successfully';
+        if ($prescription->delete()) {
+            $message = 'Prescription deleted successfully';
 
-        // if ($prescription->delete()) {
-        //     if ($request->expectsJson()) {
-        //         return response(['message' => $message]);
-        //     }
-        // }
-
-        flash($message)->info();
-        return redirect()->route('appointments.show', $prescription->appointment);
+            return response(['message' => $message], 204);
+        }
     }
 }
