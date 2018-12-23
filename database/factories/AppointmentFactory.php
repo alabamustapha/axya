@@ -18,6 +18,7 @@ $factory->define(App\Appointment::class, function (Faker $faker) {
 
       'patient_info' => $faker->paragraphs(1,3),
       'sealed_at' => $faker->dateTimeBetween('-50 day', '-1day'),
+      'reviewed'  => $faker->boolean(40),
       
       'type'      => $faker->randomElement(['Online','Home']),
       'address'   => $faker->address,

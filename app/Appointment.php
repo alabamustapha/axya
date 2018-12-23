@@ -16,7 +16,7 @@ class Appointment extends Model
 
     protected $appends = [
         'attendant_doctor','creator','description_preview','link',
-        'duration','status_text_color','status_text','schedule_is_past',
+        'duration','status_text_color','status_text','schedule_is_past','reviewed',
         'start_time','end_time',
     ];
 
@@ -24,7 +24,7 @@ class Appointment extends Model
       'slug','user_id','doctor_id','patient_info',
       'day','from','to','sealed_at',
       'status','type','address','phone',
-      // 'reviewed (0|1)' with Reviews (user_id, dr_id & appmt_id composite key/unique)
+      'reviewed',// 'reviewed (0|1)' with Reviews (user_id, dr_id & appmt_id composite key/unique)
     ];
 
     /**
@@ -85,6 +85,11 @@ class Appointment extends Model
     public function doctor()
     {
         return $this->belongsTo(Doctor::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
     }
 
 
@@ -297,6 +302,11 @@ class Appointment extends Model
     public function getScheduleIsPastAttribute($value)
     {
         return Carbon::now() > Carbon::parse($this->to);
+    }
+    // Appointment doctor not reviewed yet
+    public function getReviewedAttribute($value)
+    {
+        return (bool) $this->reviewed == '1';
     }
 
 
