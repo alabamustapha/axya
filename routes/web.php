@@ -42,6 +42,7 @@ Route::resource('messages',    'MessageController')->only('index','store','destr
 Route::resource('prescriptions','PrescriptionController');
 Route::get('dr-prescriptions',  'PrescriptionController@drindex')->name('dr_prescriptions');
 Route::resource('drugs',       'DrugController');
+Route::resource('reviews',     'ReviewController');
 
 Route::get('schedules/{doctor}/{day}', 'ScheduleController@schedules');
 

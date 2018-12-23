@@ -389,6 +389,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Image::class);
     }
 
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
     public function documents()//uploaded_documents()
     {
         return $this->hasMany(Document::class, 'user_id');

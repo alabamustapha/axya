@@ -40,14 +40,14 @@ class Specialty extends Model
         return 'slug';
     }
 
-    public static function boot()
-    {
-        parent::boot();
+    // public static function boot()
+    // {
+    //     parent::boot();
 
-        static::creating(function ($specialty) {
-            $specialty->user_id = auth()->id();
-        });
-    }
+    //     static::creating(function ($specialty) {
+    //         $specialty->user_id = auth()->id();
+    //     });
+    // }
 
     // public function doctors()
     // {

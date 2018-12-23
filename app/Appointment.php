@@ -56,16 +56,16 @@ class Appointment extends Model
         return 'slug';
     }
 
-    public static function boot()
-    {
-        parent::boot();
+    // public static function boot()
+    // {
+    //     parent::boot();
 
-        static::creating(function ($appointment) {
-            $appointment->user_id = auth()->id();
-            $str = str_slug($appointment->day) .'-'. auth()->user()->slug;
-            $appointment->slug = substr($str, 0, 50);
-        });
-    }
+    //     static::creating(function ($appointment) {
+    //         $appointment->user_id = auth()->id();
+    //         $str = str_slug($appointment->day) .'-'. auth()->user()->slug;
+    //         $appointment->slug = substr($str, 0, 50);
+    //     });
+    // }
 
     public function documents()
     {
@@ -304,9 +304,9 @@ class Appointment extends Model
         return Carbon::now() > Carbon::parse($this->to);
     }
     // Appointment doctor not reviewed yet
-    public function getReviewedAttribute($value)
+    public function getReviewedAttribute()
     {
-        return (bool) $this->reviewed == '1';
+        return (bool) $this->review == '1';
     }
 
 
