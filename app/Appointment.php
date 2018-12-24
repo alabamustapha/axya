@@ -16,8 +16,10 @@ class Appointment extends Model
 
     protected $appends = [
         'attendant_doctor','creator','description_preview','link',
-        'duration','status_text_color','status_text','schedule_is_past','reviewed',
-        'start_time','end_time',
+        'schedule','duration','start_time','end_time',
+        'status_text_color','status_text',
+        'schedule_is_past','reviewed',
+
     ];
 
     protected $fillable = [
@@ -290,12 +292,20 @@ class Appointment extends Model
         $duration  = Carbon::parse($this->end_time)->diffInMinutes(Carbon::parse($this->start_time));
         
         $hour_duration = floor($duration / 60);
-        $hour_hand = $hour_duration > 0 ? $hour_duration .' hour' : '';
+        $hour_hand = $hour_duration > 0 ? $hour_duration .'hr' : '';
 
         $mins_duration = $duration % 60;
-        $mins_hand = $mins_duration > 0 ? $mins_duration .' minutes' : '';
+        $mins_hand = $mins_duration > 0 ? $mins_duration .'mins' : '';
 
         return $hour_hand .' '. $mins_hand;
+    }
+
+    // Appointment time and duration is now in the past.
+    public function getScheduleAttribute($value)
+    {
+        $schedule = $this->start_time .' - '. $this->end_time;
+
+        return $schedule;
     }
 
     // Appointment time and duration is now in the past.

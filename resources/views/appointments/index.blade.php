@@ -12,7 +12,11 @@
 @section('content')
 
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-    <h1 class="h2">Patient Appointments Dashboard</h1>
+    @if (Request::path() == 'appointments')
+        <h2>User Appointments</h2>
+    @else
+        <h2>Doctor Appointments</h2>
+    @endif
 </div>
 
 
@@ -21,8 +25,9 @@
         <thead>
         <tr>
             <th>Date</th>
+            <th>Schedule</th>
             <th>Status</th>
-            <th>Doctor</th>
+            <th>Name</th>
             <th><i class="fa fa-stethoscope"></i>&nbsp; Specialty</th>
             <th>View Details</th>
         </tr>
@@ -31,14 +36,19 @@
         
         @forelse($appointments as $appointment)
         <tr>
-            <td>{{$appointment->day}} </td>
+            <td>{{$appointment->day}}</td>
+            <td title="{{$appointment->duration}}">{{$appointment->schedule}}</td>
             <td>
                 <a href="{{route('appointments.show', $appointment)}}">
                     {{$appointment->statusTextOutput()}}
                 </a>
             </td>
             <td>
-                <a href="{{route('doctors.show', $appointment->doctor)}}" style="color:inherit;">{{$appointment->doctor->user->name}}</a>
+                @if($appointment->creator)
+                    <span title="Doctor Name"><a href="{{route('doctors.show', $appointment->doctor)}}" style="color:inherit;">{{$appointment->doctor->user->name}}</a></span>
+                @else
+                    <span title="User Name"><a href="{{route('users.show', $appointment->user)}}" style="color:inherit;">{{$appointment->user->name}}</a></span>
+                @endif
             </td>
             <td>
                 <a href="{{route('specialties.show', $appointment->doctor->specialty)}}" style="color:inherit;">{{$appointment->doctor->specialty->name}}</a>

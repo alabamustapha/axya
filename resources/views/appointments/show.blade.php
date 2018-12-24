@@ -10,9 +10,9 @@
     <div class="col-sm-4 bg-primary text-secondary p-2 text-small" style="max-height: 80vh;display: block;overflow-y: scroll;">
       
       <div><!-- Appointment Details Section -->
-        {{-- @include('appointments.partials.appointment-details') --}}
+        @include('appointments.partials.appointment-details')
 
-        <appointment-details :appointment="{{$appointment}}"></appointment-details>
+        {{-- <appointment-details :appointment="{{$appointment}}"></appointment-details> --}}
       </div>
 
       <div><!-- Doctor/Patient Profile Section -->
