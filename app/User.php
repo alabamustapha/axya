@@ -482,32 +482,45 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function doctors()
     {
-        // // $doctorIds = $this->appointments()//Completed() // Scope on Appointment Class
-        // //                   ->pluck('doctor_id')
-        // //                   ->toArray();
+        $ids = $this->appointments()
+                  // \App\Appointment::where('user_id', $this->id)
+                  ->completed()
+                  ->pluck('doctor_id')
+                  ->toArray()
+                  ;
+        $doctorIds = array_unique($ids);
 
-        // // return Doctor::whereIn('id', $doctorIds);//->get();
+        return Doctor::whereIn('id', $doctorIds)->get();
 
-        // return $this->hasManyThrough(Doctor::class, Appointment::class, 'doctor_id', 'user_id');
-
-        // // return $this->hasManyThrough(Prescription::class, Appointment::class, 'user_id', 'appointment_id');
+        // return $this->hasManyThrough(Doctor::class, Appointment::class, 'user_id', 'user_id')
+        //     ->whereHas('appointments', function($query){
+        //         $query->where('user_id', $this->id)
+        //               // ->completed()
+        //         ;
+        //     });
     }
 
 
+    public function getDoctorsAttribute()
+    {
+        return $this->doctors();
+    }
 
-    // /**
-    //  * Get all doctors that has attended to this user before.
-    //  * 
-    //  * @return array
-    //  */
-    // public function inPastAttendantDoctors()
-    // {
-    //     $doctorIds = $this->doctors()
-    //                       ->pluck('id')
-    //                       ->toArray();
 
-    //     return in_array(request()->user->id, $doctorIds);
-    // }
+    /**
+     * Get all doctors that has attended to this user before.
+     * 
+     * @return array
+     */
+    public function inPastAttendantDoctors()
+    {
+        $ids = $this->doctors()
+                    ->pluck('id')->toArray();
+
+        $doctorIds = array_unique($ids);
+
+        return in_array(request()->user->id, $doctorIds);
+    }
 
 
 

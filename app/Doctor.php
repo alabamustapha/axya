@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -140,14 +141,19 @@ class Doctor extends Model
 
     public function patients()
     {
-        // $patientIds = $this->appointments()
-        //                   ->successful() // Scope on Appointment Class
-        //                   ->pluck('user_id')
-        //                   ->toArray();
+        $ids = $this->appointments()
+                ->completed()
+                ->pluck('user_id')
+                ->toArray()
+                ;
+        $patientIds = array_unique($ids);
 
-        // return App\User::whereIn('id', $patientIds)->get();
-        // // return $this->hasMany(Doctor::class);
-        return $this->hasMany(User::class, 'id');
+        return User::whereIn('id', $patientIds)->get();
+    }
+
+    public function getPatientsAttribute()
+    {
+        return $this->patients();
     }
 
     /**
