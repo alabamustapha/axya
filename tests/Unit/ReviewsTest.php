@@ -32,7 +32,7 @@ class ReviewsTest extends TestCase
     {
         $this->assertTrue(Schema::hasColumns('reviews', 
           [
-            'id','user_id','doctor_id','appointment_id','comment'
+            'id','user_id','doctor_id','appointment_id','comment','rating'
           ]), 1);
     }
 

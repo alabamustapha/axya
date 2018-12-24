@@ -33,7 +33,7 @@ class ReviewsFeatureTest extends TestCase
             'doctor_id'      => $this->doctor->id,
             'appointment_id' => $this->appointment->id,
             'comment'        => $this->faker->sentences(1,3),
-            // 'rating'         => $this->faker->randomElement([1,2,3,4,5]),
+            'rating'         => $this->faker->randomElement([1,2,3,4,5]),
         ];
     } 
 
@@ -76,6 +76,7 @@ class ReviewsFeatureTest extends TestCase
             'doctor_id'      => $appointment->doctor_id,
             'appointment_id' => $appointment->id,
             'comment'        => $this->faker->sentences(1,3),
+            'rating'         => $this->faker->randomElement([1,2,3,4,5]),
         ];
 
         $this
@@ -98,6 +99,7 @@ class ReviewsFeatureTest extends TestCase
             'doctor_id'      => $appointment->doctor_id,
             'appointment_id' => $appointment->id,
             'comment'        => $this->faker->sentences(1,3),
+            'rating'         => $this->faker->randomElement([1,2,3,4,5]),
         ];
 
         $this
@@ -138,6 +140,7 @@ class ReviewsFeatureTest extends TestCase
             'doctor_id'      => $appointment->doctor_id,
             'appointment_id' => $appointment->id,
             'comment'        => $this->faker->sentence,
+            'rating'         => $this->faker->randomElement([1,2,3,4,5]),
         ]);
 
         // Update the Review's details
@@ -146,6 +149,7 @@ class ReviewsFeatureTest extends TestCase
             'doctor_id'      => $appointment->doctor_id,
             'appointment_id' => $appointment->id,
             'comment'        => $this->faker->sentences(3,5),
+            'rating'         => $this->faker->randomElement([1,2,3,4,5]),
         ]; 
 
         $this
