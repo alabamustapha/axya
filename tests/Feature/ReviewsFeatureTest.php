@@ -33,6 +33,7 @@ class ReviewsFeatureTest extends TestCase
             'doctor_id'      => $this->doctor->id,
             'appointment_id' => $this->appointment->id,
             'comment'        => $this->faker->sentences(1,3),
+            // 'rating'         => $this->faker->randomElement([1,2,3,4,5]),
         ];
     } 
 
@@ -68,7 +69,7 @@ class ReviewsFeatureTest extends TestCase
         $user = factory(User::class)->states('unverified')->create();
         
         // An appointment/user-doctor necessitates creating new Appointment always
-        $appointment = factory(Review::class)->create([ 'user_id'   => $user->id ]);
+        $appointment = factory(Appointment::class)->create([ 'user_id'   => $user->id ]);
         
         $data = [
             'user_id'        => $appointment->user_id,
@@ -90,7 +91,7 @@ class ReviewsFeatureTest extends TestCase
     public function store_a_review_can_be_created_by_a_verified_user()
     {
         $user = factory(User::class)->states('verified')->create();
-        $appointment = factory(Review::class)->create([ 'user_id'   => $user->id] );
+        $appointment = factory(Appointment::class)->create([ 'user_id'   => $user->id] );
 
         $data = [
             'user_id'        => $appointment->user_id,
@@ -108,11 +109,26 @@ class ReviewsFeatureTest extends TestCase
         $this->assertDatabaseHas('reviews', $data);
     }
 
+    /**  @test */
+    public function update_an_appointment_gets_reviewed_attribute_updated_after_its_review_is_created()
+    {
+        $this
+            ->actingAs($this->user)
+            ->post(route('reviews.store'), $this->data)
+            ->assertStatus(201) // rq->expectsJson()
+            ;
+
+        $this->assertDatabaseHas('appointments', [ 
+            'id' => $this->appointment->id, 
+            'reviewed'   => '1'
+        ]);
+    }
+
     /** @test */
     public function update_a_review_can_be_updated()
     {
         $user = factory(User::class)->states('verified')->create();
-        $appointment = factory(Review::class)->create([ 'user_id'   => $user->id] );
+        $appointment = factory(Appointment::class)->create([ 'user_id'   => $user->id] );
 
         $this->actingAs($user);
 

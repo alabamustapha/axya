@@ -67,6 +67,7 @@ class ReviewController extends Controller
         $review = Review::create($request->all());
 
         if ($review){
+            $review->appointment()->update(['reviewed' => true]);
 
             $message = 'Review created successfully.';
 

@@ -49,6 +49,7 @@ $factory->state(App\User::class, 'normal', function (Faker $faker) { return [ 'a
 $factory->state(App\User::class, 'verified', function (Faker $faker) {
     return [
         'acl' => '3',
+        'blocked' => '0',
         'email_verified_at' => Carbon::parse('-1 day'), 
     ];
 });
@@ -56,6 +57,7 @@ $factory->state(App\User::class, 'verified', function (Faker $faker) {
 $factory->state(App\User::class, 'unverified', function (Faker $faker) {
     return [
         'acl' => '3',
+        'blocked' => '0',
         'email_verified_at' => null, 
     ];
 });
@@ -63,6 +65,7 @@ $factory->state(App\User::class, 'unverified', function (Faker $faker) {
 $factory->state(App\User::class, 'staff', function (Faker $faker) {
     return [
         'acl' => '2',
+        'blocked' => '0',
         'email_verified_at' => Carbon::parse('-1 day'),
     ];
 });
@@ -70,6 +73,7 @@ $factory->state(App\User::class, 'staff', function (Faker $faker) {
 $factory->state(App\User::class, 'admin', function (Faker $faker) {
     return [
         'acl' => '1',
+        'blocked' => '0',
         'email_verified_at' => Carbon::parse('-1 day'),
     ];
 });
@@ -77,6 +81,7 @@ $factory->state(App\User::class, 'admin', function (Faker $faker) {
 $factory->state(App\User::class, 'superadmin', function (Faker $faker) {
     return [
         'acl' => '5',
+        'blocked' => '0',
         'email_verified_at' => Carbon::parse('-1 day'),
     ];
 });
