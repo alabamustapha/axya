@@ -24,9 +24,9 @@ class ReviewRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id'        => 'required|integer|exists:users,id',
+            // 'user_id'        => 'required|integer|exists:users,id',
             'doctor_id'      => 'required|integer|exists:doctors,id',
-            // 'appointment_id' => 'required|integer|exists:appointments,id',
+            'appointment_id' => 'required|integer|exists:appointments,id',
             'comment'        => 'required|string|max:255',
             'rating'         => 'required|in:1,2,3,4,5',
         ];

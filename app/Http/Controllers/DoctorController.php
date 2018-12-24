@@ -8,6 +8,7 @@ use App\Document;
 use App\Notifications\Applications\ApplicationAcceptedNotification;
 use App\Schedule;
 use App\Specialty;
+use App\Review;
 use App\Workplace;
 use Carbon\Carbon;
 use App\Http\Requests\DoctorUpdateRequest;
@@ -184,6 +185,7 @@ class DoctorController extends Controller
                              ;
         $current_workplace = $doctor->currentWorkplace();
         $specialties = Specialty::all();
+        $reviews     = Review::where('doctor_id', $doctor->id)->latest()->paginate('10');
 
         return view('doctors.show', compact('doctor','workplaces','certificates',
             'sun_schedules',
@@ -194,7 +196,8 @@ class DoctorController extends Controller
             'fri_schedules',
             'sat_schedules',
             'current_workplace',
-            'specialties'
+            'specialties',
+            'reviews'
         ));
     }
 

@@ -64,15 +64,23 @@ class ReviewController extends Controller
     {
         $this->authorize('create', Review::class);
 
+        $request->merge(['user_id' => auth()->id(),'rating' => 3]);
+
         $review = Review::create($request->all());
 
         if ($review){
             $review->appointment()->update(['reviewed' => true]);
+            
+            $message = 'Review submitted successfully.';
 
-            $message = 'Review created successfully.';
+            if ($request->expectsJson()){
+                return response(['message' => $message], 201);
+            }
 
-            return response(['message' => $message], 201);
+            flash($message)->success();
+            return redirect()->route('doctors.show', $review->doctor);
         }
+
     }
 
     /**
