@@ -105,7 +105,7 @@ class ReviewsFeatureTest extends TestCase
         $this
             ->actingAs($user)
             ->post(route('reviews.store'), $data)
-            ->assertStatus(201) // rq->expectsJson()
+            // ->assertStatus(201) // rq->expectsJson()
             ;
 
         $this->assertDatabaseHas('reviews', $data);
@@ -117,7 +117,7 @@ class ReviewsFeatureTest extends TestCase
         $this
             ->actingAs($this->user)
             ->post(route('reviews.store'), $this->data)
-            ->assertStatus(201) // rq->expectsJson()
+            // ->assertStatus(201) // rq->expectsJson()
             ;
 
         $this->assertDatabaseHas('appointments', [ 

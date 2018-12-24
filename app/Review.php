@@ -24,4 +24,9 @@ class Review extends Model
     {
         return $this->belongsTo(Appointment::class);
     }
+
+    public function getCreatedAtAttribute($value)
+    {
+        return \Carbon\Carbon::parse($value)->format('h:ma M-d, Y');
+    }
 }

@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Appointment;
+use App\Review;
 use App\User;
 use App\Doctor;
 use App\Specialty;
@@ -23,6 +25,36 @@ class DoctorsFeatureTest extends TestCase
         $this->doctor    = factory(Doctor::class)->create(['user_id'=> $this->dr_user->id]);
         $this->admin     = factory(User::class)->states('admin')->create();
     } 
+
+    /** @test */
+    public function show_a_doctors_profile_can_be_viewed_by_all_users()
+    {
+        $this
+            // ->actingAs($this->user)
+            ->get(route('doctors.show', $this->doctor))
+            ->assertStatus(200)
+            ->assertSee($this->doctor->name)
+            ->assertSee($this->doctor->specialty->name)
+            ->assertSee($this->doctor->rate)
+            ;
+    }
+
+    /** @test */
+    public function show_a_doctors_reviews_can_be_seen_on_the_profile_page()
+    {
+        $appointment = factory(Appointment::class)->create([ 'doctor_id'   => $this->doctor->id] );
+
+        // Create a Review
+        $review = factory(Review::class)->create([ 'appointment_id' => $appointment->id, ]);
+
+        $this
+            // ->actingAs($this->user)
+            ->get(route('doctors.show', $this->doctor))
+            ->assertStatus(200)
+            ->assertSee($review->user->name)
+            ->assertSee($review->comment)
+            ;
+    }
 
     /** @test */
     public function update_a_doctor_can_be_updated()

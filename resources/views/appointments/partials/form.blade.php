@@ -17,7 +17,7 @@
 
               <div class="card-body">
 
-                <form action="{{ route('reviews.store') }}" method="post">
+                <form action="{{ route('appointments.store') }}" method="post">
                   {{ csrf_field() }}  
                     
                   <div class="form-group text-center">

@@ -64,7 +64,7 @@ class ReviewController extends Controller
     {
         $this->authorize('create', Review::class);
 
-        $request->merge(['user_id' => auth()->id(),'rating' => 3]);
+        $request->merge(['user_id' => auth()->id()]);
 
         $review = Review::create($request->all());
 

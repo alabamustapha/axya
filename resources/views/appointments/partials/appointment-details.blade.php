@@ -78,7 +78,7 @@
         <li class="text-bold">
           <button class="btn btn-sm my-1 btn-info mb-3"><i class="fa fa-star"></i> Rate This Doctor</button>
           
-          @include('doctors.partials.rating-form')
+          @include('doctors.partials.review-form')
         </li>
         @endif
       {{-- @endif --}}

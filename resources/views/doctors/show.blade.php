@@ -95,19 +95,7 @@
       <div class="col-md-5">
 
         <!-- Reviews Section -->
-        <div class="card card-dark">
-          <div class="card-header">
-            <h3 class="card-title">Reviews</h3>
-          </div>
-          <div class="card-body box-profile">
-
-            <ul class="list-group list-group-unbordered mb-0">
-              <li class="list-group-item p-1">John Doe <span class="muted">Such a great professional. ****</span></li>
-              <li class="list-group-item p-1">Jason Doe <span class="muted">The consultation was breathtaking. ****</span></li>
-              <li class="list-group-item p-1">Jane Doe <span class="muted">I got good value for the money. ****</span></li>
-            </ul>
-          </div>
-        </div>  
+        @include('doctors.partials._review-section')  
         <!-- /.card --> 
 
       </div>
