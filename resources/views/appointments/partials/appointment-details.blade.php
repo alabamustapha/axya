@@ -78,7 +78,37 @@
         <li class="text-bold">
           <button class="btn btn-sm my-1 btn-info mb-3"><i class="fa fa-star"></i> Rate This Doctor</button>
           
-          @include('doctors.partials.review-form')
+          @if ($appointment->reviewed == '1')
+            @include('doctors.partials.review-form')
+          @else
+            <span>
+              <span class="tf-flex">
+                <span>{{$review->user->name}}:</span>
+
+                @auth
+                  @if(Auth::id() == $review->user_id)
+                    <button class="btn btn-link btn-sm" title="Update this review">
+                      <i class="fa fa-cog"></i>
+                    </button>
+                  @endif
+                @endauth
+              </span>
+
+              <dfn class="text-muted">{{$review->comment}}</dfn> <br> 
+
+              <span class="tf-flex" style="font-size: 10px;">
+                <span>
+                  @for($i=1; $i <= $review->rating; $i++)
+                    <i class="fa fa-star text-info"></i>
+                  @endfor
+                  @for($i=1; $i <= (5 - $review->rating); $i++)
+                    <i class="fa fa-star text-black-50"></i>
+                  @endfor
+                </span>
+                <span>{{$review->created_at}}</span>
+              </span>
+            </span>
+          @endif
         </li>
         @endif
       {{-- @endif --}}

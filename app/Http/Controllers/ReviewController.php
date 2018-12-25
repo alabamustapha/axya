@@ -69,7 +69,7 @@ class ReviewController extends Controller
         $review = Review::create($request->all());
 
         if ($review){
-            $review->appointment()->update(['reviewed' => true]);
+            $review->appointment()->update(['reviewed' => '1']);
             
             $message = 'Review submitted successfully.';
 
@@ -78,7 +78,7 @@ class ReviewController extends Controller
             }
 
             flash($message)->success();
-            return redirect()->route('doctors.show', $review->doctor);
+            return redirect()->back();//route('doctors.show', $review->doctor);
         }
 
     }

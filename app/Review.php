@@ -27,6 +27,6 @@ class Review extends Model
 
     public function getCreatedAtAttribute($value)
     {
-        return \Carbon\Carbon::parse($value)->format('h:ma M-d, Y');
+        return \Carbon\Carbon::parse($value)->format('M d, Y');//format('h:ma M-d, Y');
     }
 }
