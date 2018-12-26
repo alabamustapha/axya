@@ -75,12 +75,10 @@
         </li>
 
         @if ($appointment->creator)
-        <li class="text-bold">
-          <button class="btn btn-sm my-1 btn-info mb-3"><i class="fa fa-star"></i> Rate This Doctor</button>
+        <li>
+          @if ($appointment->reviewed)
+            <h6 class="py-2 border-bottom border-top font-weight-bold">Appointment Review</h6>
           
-          @if ($appointment->reviewed == '1')
-            @include('doctors.partials.review-form')
-          @else
             <span>
               <span class="tf-flex">
                 <span>{{$review->user->name}}:</span>
@@ -99,7 +97,7 @@
               <span class="tf-flex" style="font-size: 10px;">
                 <span>
                   @for($i=1; $i <= $review->rating; $i++)
-                    <i class="fa fa-star text-info"></i>
+                    <i class="fa fa-star text-dark"></i>
                   @endfor
                   @for($i=1; $i <= (5 - $review->rating); $i++)
                     <i class="fa fa-star text-black-50"></i>
@@ -108,6 +106,10 @@
                 <span>{{$review->created_at}}</span>
               </span>
             </span>
+          @else
+            <button class="btn btn-sm my-1 btn-info mb-3"><i class="fa fa-star"></i> Rate This Doctor</button>
+
+            @include('doctors.partials.review-form')
           @endif
         </li>
         @endif

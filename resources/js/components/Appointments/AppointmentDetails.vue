@@ -99,12 +99,99 @@
                 @click="appointmentCompleted">Appointment Completed?</button>
             </li>
 
-            <li class="text-bold" v-if="appointment.creator && status == '1' && !appointment.reviewed">
-              <button class="btn btn-sm my-1 btn-info mb-3"><i class="fa fa-star"></i> Rate This Doctor</button>
-              <br>
+            <li v-if="status == '1'">
+              <span v-if="appointment.creator && reviewed == '0'">
+                <button class="btn btn-sm my-1 btn-info mb-3"><i class="fa fa-star"></i> Rate This Doctor</button>
+                <br>
+                
+                <!-- @include('doctors.partials.rating-form') -->
+                <form @submit.prevent="createReview" 
+                  class="mb-2 p-3 bg-dark d-block text-center" 
+                  style="border-radius: 4px;">
+                  <h5 class="border-bottom p-2">Rate This Service</h5>
+
+                  <span class="d-inline-block mb-3">Star Rating: 
+                    <br>
+                    <small>(1 = lowest, highest = 5)</small>
+                  </span>
+
+                  <div class="table-responsive">
+                    <small class="text-muted mb-2">
+                      <span class="tf-flex text-center text-muted mb-3" :class="{ 'is-invalid': form.errors.has('rating') }">
+
+                        <label class="px-2 mr-1 bg-light rating-pad" title="Very Unsatisfactory">
+                          <input value="1" type="radio" v-model="form.rating" name="rating" id="rating-1" class="d-block" required>
+                          <span class="fa fa-star text-primary p-0 m-0"></span>
+                          <br> 1
+                        </label>
+
+                        <label class="px-2 mr-1 bg-light rating-pad" title="Unsatisfatory">
+                          <input value="2" type="radio" v-model="form.rating" name="rating" id="rating-2" class="d-block" required>
+                          <span class="fa fa-star text-primary p-0 m-0"></span>
+                          <br> 2
+                        </label>
+
+                        <label class="px-2 mr-1 bg-light rating-pad" title="Just Ok">
+                          <input value="3" type="radio" v-model="form.rating" name="rating" id="rating-3" class="d-block" required>
+                          <span class="fa fa-star text-primary p-0 m-0"></span>
+                          <br> 3
+                        </label>
+
+                        <label class="px-2 mr-1 bg-light rating-pad" title="Satisfactory">
+                          <input value="4" type="radio" v-model="form.rating" name="rating" id="rating-4" class="d-block" required>
+                          <span class="fa fa-star text-primary p-0 m-0"></span>
+                          <br> 4
+                        </label>
+
+                        <label class="px-2 mr-0 bg-light rating-pad" title="Excellent! Very Satisfactory">
+                          <input value="5" type="radio" v-model="form.rating" name="rating" id="rating-5" class="d-block" required>
+                          <span class="fa fa-star text-primary p-0 m-0"></span>
+                          <br> 5
+                        </label>
+                      </span>
+                      <has-error :form="form" field="rating"></has-error> 
+                    </small>
+                  </div>
+
+                  <textarea v-model="form.comment" name="comment" id="comment" 
+                    style="min-height: 70px; max-height: 170px;" 
+                    class="form-control form-control-sm mb-2" :class="{ 'is-invalid': form.errors.has('comment') }"
+                    placeholder="write your comment"
+                    required></textarea>
+                  <has-error :form="form" field="comment"></has-error>
+
+                  <button class="btn btn-sm my-1 btn-info">Submit Review</button>
+                </form>
+              </span>
+
+              <span v-if="reviewed == '1'">                
+                <h6 class="py-2 border-bottom border-top font-weight-bold">Appointment Review</h6>
               
-              <!-- @include('doctors.partials.rating-form') -->
-              ('Doctors Rating Form Here')
+                <span>
+                  <span class="tf-flex">
+                    <span v-text="review.author"></span>
+
+                    <!-- @auth
+                      @if(Auth::id() == $review.user_id)
+                        <button class="btn btn-link btn-sm" title="Update this review">
+                          <i class="fa fa-cog"></i>
+                        </button>
+                      @endif
+                    @endauth -->
+                  </span>
+
+                  <dfn class="text-muted" v-text="review.comment"></dfn> <br> 
+
+                  <span class="tf-flex" style="font-size: 10px;">
+                    <span>
+                        <i class="fa fa-star text-dark" v-for="i in review.rating"></i>
+
+                        <i class="fa fa-star text-black-50" v-for="i in (5 - review.rating)"></i>
+                    </span>
+                    <span v-text="review.created_at"></span>
+                  </span>
+                </span>
+              </span>
             </li>
           </span>
         </ul>
@@ -115,18 +202,49 @@
 
 <script>
   export default {
-    props: ['appointment'],
+    props: ['appointment', 'review'],
 
     data() {
       return {
-        // appointment: this.appointment,
-        status            : this.appointment.status,
-        status_text       : this.appointment.status_text,
+        reviewed    : this.appointment.reviewed,
+        status      : this.appointment.status,
+        status_text : this.appointment.status_text,
         status_text_color : this.appointment.status_text_color,
-      };
+
+        form: new Form({
+          id        : '',
+          doctor_id : this.appointment.doctor_id,
+          appointment_id: this.appointment.id,
+          rating    : '',
+          comment   : ''
+        })
+      }
     },
 
-    methods: {      
+
+    methods: {
+      createReview() {
+        this.$Progress.start();
+        this.form.post('/reviews')
+        .then(() => {
+          // Event.$emit('RefreshPage');
+          // router.push({ path: 'appointments' });
+          this.reviewed = '1';
+          toast({
+              type: 'success',              
+              title: 'Review submitted successfully.'
+          });
+          this.$Progress.finish();            
+        })
+        .catch(() => {
+          toast({
+              type: 'fail',
+              title: 'Something went wrong! Try again later.'
+          });
+          this.$Progress.fail();
+        });
+      },
+
       appointmentCompleted() { 
         // Appointment/Consultation completed successfully.
         if (confirm('Is this appointment completed?')){

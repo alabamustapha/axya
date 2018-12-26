@@ -190,6 +190,8 @@
     background: transparent;
 }
 
+.rating-pad {border-radius:4px; cursor: pointer;}
+
 i.fa,
 i.fas {
   min-width:15px;

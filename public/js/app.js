@@ -76441,89 +76441,205 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['appointment'],
+  props: ['appointment', 'review'],
 
   data: function data() {
     return {
-      // appointment: this.appointment,
+      reviewed: this.appointment.reviewed,
       status: this.appointment.status,
       status_text: this.appointment.status_text,
-      status_text_color: this.appointment.status_text_color
+      status_text_color: this.appointment.status_text_color,
+
+      form: new Form({
+        id: '',
+        doctor_id: this.appointment.doctor_id,
+        appointment_id: this.appointment.id,
+        rating: '',
+        comment: ''
+      })
     };
   },
 
 
   methods: {
-    appointmentCompleted: function appointmentCompleted() {
+    createReview: function createReview() {
       var _this = this;
+
+      this.$Progress.start();
+      this.form.post('/reviews').then(function () {
+        // Event.$emit('RefreshPage');
+        // router.push({ path: 'appointments' });
+        _this.reviewed = '1';
+        toast({
+          type: 'success',
+          title: 'Review submitted successfully.'
+        });
+        _this.$Progress.finish();
+      }).catch(function () {
+        toast({
+          type: 'fail',
+          title: 'Something went wrong! Try again later.'
+        });
+        _this.$Progress.fail();
+      });
+    },
+    appointmentCompleted: function appointmentCompleted() {
+      var _this2 = this;
 
       // Appointment/Consultation completed successfully.
       if (confirm('Is this appointment completed?')) {
         this.$Progress.start();
         axios.patch('/appointments/' + this.appointment.slug + '/complete').then(function () {
-          _this.status = '1';
+          _this2.status = '1';
           toast({ type: 'success', title: 'Appointment completed successfully.' });
-          _this.$Progress.finish();
+          _this2.$Progress.finish();
         });
       }
     },
     acceptAppointment: function acceptAppointment() {
-      var _this2 = this;
+      var _this3 = this;
 
       //Confirmed, awaiting fees payment
       if (confirm('Accept this appointment?')) {
         this.$Progress.start();
         axios.patch('/appointments/' + this.appointment.slug + '/accept').then(function () {
-          _this2.status = '2';
+          _this3.status = '2';
           toast({ type: 'success', title: 'Appointment accepted.' });
-          _this2.$Progress.finish();
+          _this3.$Progress.finish();
         });
       }
     },
     rejectAppointment: function rejectAppointment() {
-      var _this3 = this;
+      var _this4 = this;
 
       // Rejected by doctor
       this.$Progress.start();
       axios.patch('/appointments/' + this.appointment.slug + '/reject').then(function () {
-        _this3.status = '3';
+        _this4.status = '3';
         toast({ type: 'success', title: 'Appointment rejected.' });
-        _this3.$Progress.finish();
+        _this4.$Progress.finish();
       });
     },
     cancelAppointment: function cancelAppointment() {
-      var _this4 = this;
+      var _this5 = this;
 
       // Cancelled by patient
       this.$Progress.start();
       axios.patch('/appointments/' + this.appointment.slug + '/cancel').then(function () {
-        _this4.status = '4';
+        _this5.status = '4';
         toast({ type: 'success', title: 'Appointment cancelled.' });
-        _this4.$Progress.finish();
+        _this5.$Progress.finish();
       });
     },
     payConsultationFee: function payConsultationFee() {
-      var _this5 = this;
+      var _this6 = this;
 
       // Fee paslug, awaiting appointment time.
       this.$Progress.start();
       axios.patch('/appointments/' + this.appointment.slug + '/payfee').then(function () {
-        _this5.status = '5';
+        _this6.status = '5';
         toast({ type: 'success', title: 'Payment successful.' });
-        _this5.$Progress.finish();
+        _this6.$Progress.finish();
       });
     },
     appointmentDoctorRating: function appointmentDoctorRating() {
-      var _this6 = this;
+      var _this7 = this;
 
       // Create a (new Review)
       // Update average rating for doctor directly in profile
       this.$Progress.start();
       axios.post('/reviews').then(function () {
         toast({ type: 'success', title: 'Doctor rating submitted successfully.' });
-        _this6.$Progress.finish();
+        _this7.$Progress.finish();
       });
     }
   }
@@ -76695,17 +76811,460 @@ var render = function() {
                     ])
                   : _vm._e(),
                 _vm._v(" "),
-                _vm.appointment.creator &&
-                _vm.status == "1" &&
-                !_vm.appointment.reviewed
-                  ? _c("li", { staticClass: "text-bold" }, [
-                      _vm._m(5),
+                _vm.status == "1"
+                  ? _c("li", [
+                      _vm.appointment.creator && _vm.reviewed == "0"
+                        ? _c("span", [
+                            _vm._m(5),
+                            _vm._v(" "),
+                            _c("br"),
+                            _vm._v(" "),
+                            _c(
+                              "form",
+                              {
+                                staticClass:
+                                  "mb-2 p-3 bg-dark d-block text-center",
+                                staticStyle: { "border-radius": "4px" },
+                                on: {
+                                  submit: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.createReview($event)
+                                  }
+                                }
+                              },
+                              [
+                                _c("h5", { staticClass: "border-bottom p-2" }, [
+                                  _vm._v("Rate This Service")
+                                ]),
+                                _vm._v(" "),
+                                _vm._m(6),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "table-responsive" }, [
+                                  _c(
+                                    "small",
+                                    { staticClass: "text-muted mb-2" },
+                                    [
+                                      _c(
+                                        "span",
+                                        {
+                                          staticClass:
+                                            "tf-flex text-center text-muted mb-3",
+                                          class: {
+                                            "is-invalid": _vm.form.errors.has(
+                                              "rating"
+                                            )
+                                          }
+                                        },
+                                        [
+                                          _c(
+                                            "label",
+                                            {
+                                              staticClass:
+                                                "px-2 mr-1 bg-light rating-pad",
+                                              attrs: {
+                                                title: "Very Unsatisfactory"
+                                              }
+                                            },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.form.rating,
+                                                    expression: "form.rating"
+                                                  }
+                                                ],
+                                                staticClass: "d-block",
+                                                attrs: {
+                                                  value: "1",
+                                                  type: "radio",
+                                                  name: "rating",
+                                                  id: "rating-1",
+                                                  required: ""
+                                                },
+                                                domProps: {
+                                                  checked: _vm._q(
+                                                    _vm.form.rating,
+                                                    "1"
+                                                  )
+                                                },
+                                                on: {
+                                                  change: function($event) {
+                                                    _vm.$set(
+                                                      _vm.form,
+                                                      "rating",
+                                                      "1"
+                                                    )
+                                                  }
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c("span", {
+                                                staticClass:
+                                                  "fa fa-star text-primary p-0 m-0"
+                                              }),
+                                              _vm._v(" "),
+                                              _c("br"),
+                                              _vm._v(
+                                                " 1\n                      "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "label",
+                                            {
+                                              staticClass:
+                                                "px-2 mr-1 bg-light rating-pad",
+                                              attrs: { title: "Unsatisfatory" }
+                                            },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.form.rating,
+                                                    expression: "form.rating"
+                                                  }
+                                                ],
+                                                staticClass: "d-block",
+                                                attrs: {
+                                                  value: "2",
+                                                  type: "radio",
+                                                  name: "rating",
+                                                  id: "rating-2",
+                                                  required: ""
+                                                },
+                                                domProps: {
+                                                  checked: _vm._q(
+                                                    _vm.form.rating,
+                                                    "2"
+                                                  )
+                                                },
+                                                on: {
+                                                  change: function($event) {
+                                                    _vm.$set(
+                                                      _vm.form,
+                                                      "rating",
+                                                      "2"
+                                                    )
+                                                  }
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c("span", {
+                                                staticClass:
+                                                  "fa fa-star text-primary p-0 m-0"
+                                              }),
+                                              _vm._v(" "),
+                                              _c("br"),
+                                              _vm._v(
+                                                " 2\n                      "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "label",
+                                            {
+                                              staticClass:
+                                                "px-2 mr-1 bg-light rating-pad",
+                                              attrs: { title: "Just Ok" }
+                                            },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.form.rating,
+                                                    expression: "form.rating"
+                                                  }
+                                                ],
+                                                staticClass: "d-block",
+                                                attrs: {
+                                                  value: "3",
+                                                  type: "radio",
+                                                  name: "rating",
+                                                  id: "rating-3",
+                                                  required: ""
+                                                },
+                                                domProps: {
+                                                  checked: _vm._q(
+                                                    _vm.form.rating,
+                                                    "3"
+                                                  )
+                                                },
+                                                on: {
+                                                  change: function($event) {
+                                                    _vm.$set(
+                                                      _vm.form,
+                                                      "rating",
+                                                      "3"
+                                                    )
+                                                  }
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c("span", {
+                                                staticClass:
+                                                  "fa fa-star text-primary p-0 m-0"
+                                              }),
+                                              _vm._v(" "),
+                                              _c("br"),
+                                              _vm._v(
+                                                " 3\n                      "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "label",
+                                            {
+                                              staticClass:
+                                                "px-2 mr-1 bg-light rating-pad",
+                                              attrs: { title: "Satisfactory" }
+                                            },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.form.rating,
+                                                    expression: "form.rating"
+                                                  }
+                                                ],
+                                                staticClass: "d-block",
+                                                attrs: {
+                                                  value: "4",
+                                                  type: "radio",
+                                                  name: "rating",
+                                                  id: "rating-4",
+                                                  required: ""
+                                                },
+                                                domProps: {
+                                                  checked: _vm._q(
+                                                    _vm.form.rating,
+                                                    "4"
+                                                  )
+                                                },
+                                                on: {
+                                                  change: function($event) {
+                                                    _vm.$set(
+                                                      _vm.form,
+                                                      "rating",
+                                                      "4"
+                                                    )
+                                                  }
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c("span", {
+                                                staticClass:
+                                                  "fa fa-star text-primary p-0 m-0"
+                                              }),
+                                              _vm._v(" "),
+                                              _c("br"),
+                                              _vm._v(
+                                                " 4\n                      "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "label",
+                                            {
+                                              staticClass:
+                                                "px-2 mr-0 bg-light rating-pad",
+                                              attrs: {
+                                                title:
+                                                  "Excellent! Very Satisfactory"
+                                              }
+                                            },
+                                            [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: _vm.form.rating,
+                                                    expression: "form.rating"
+                                                  }
+                                                ],
+                                                staticClass: "d-block",
+                                                attrs: {
+                                                  value: "5",
+                                                  type: "radio",
+                                                  name: "rating",
+                                                  id: "rating-5",
+                                                  required: ""
+                                                },
+                                                domProps: {
+                                                  checked: _vm._q(
+                                                    _vm.form.rating,
+                                                    "5"
+                                                  )
+                                                },
+                                                on: {
+                                                  change: function($event) {
+                                                    _vm.$set(
+                                                      _vm.form,
+                                                      "rating",
+                                                      "5"
+                                                    )
+                                                  }
+                                                }
+                                              }),
+                                              _vm._v(" "),
+                                              _c("span", {
+                                                staticClass:
+                                                  "fa fa-star text-primary p-0 m-0"
+                                              }),
+                                              _vm._v(" "),
+                                              _c("br"),
+                                              _vm._v(
+                                                " 5\n                      "
+                                              )
+                                            ]
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c("has-error", {
+                                        attrs: {
+                                          form: _vm.form,
+                                          field: "rating"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ]),
+                                _vm._v(" "),
+                                _c("textarea", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: _vm.form.comment,
+                                      expression: "form.comment"
+                                    }
+                                  ],
+                                  staticClass:
+                                    "form-control form-control-sm mb-2",
+                                  class: {
+                                    "is-invalid": _vm.form.errors.has("comment")
+                                  },
+                                  staticStyle: {
+                                    "min-height": "70px",
+                                    "max-height": "170px"
+                                  },
+                                  attrs: {
+                                    name: "comment",
+                                    id: "comment",
+                                    placeholder: "write your comment",
+                                    required: ""
+                                  },
+                                  domProps: { value: _vm.form.comment },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        _vm.form,
+                                        "comment",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("has-error", {
+                                  attrs: { form: _vm.form, field: "comment" }
+                                }),
+                                _vm._v(" "),
+                                _c(
+                                  "button",
+                                  { staticClass: "btn btn-sm my-1 btn-info" },
+                                  [_vm._v("Submit Review")]
+                                )
+                              ],
+                              1
+                            )
+                          ])
+                        : _vm._e(),
                       _vm._v(" "),
-                      _c("br"),
-                      _vm._v(" "),
-                      _vm._v(
-                        "\n            ('Doctors Rating Form Here')\n          "
-                      )
+                      _vm.reviewed == "1"
+                        ? _c("span", [
+                            _c(
+                              "h6",
+                              {
+                                staticClass:
+                                  "py-2 border-bottom border-top font-weight-bold"
+                              },
+                              [_vm._v("Appointment Review")]
+                            ),
+                            _vm._v(" "),
+                            _c("span", [
+                              _c("span", { staticClass: "tf-flex" }, [
+                                _c("span", {
+                                  domProps: {
+                                    textContent: _vm._s(_vm.review.author)
+                                  }
+                                })
+                              ]),
+                              _vm._v(" "),
+                              _c("dfn", {
+                                staticClass: "text-muted",
+                                domProps: {
+                                  textContent: _vm._s(_vm.review.comment)
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("br"),
+                              _vm._v(" "),
+                              _c(
+                                "span",
+                                {
+                                  staticClass: "tf-flex",
+                                  staticStyle: { "font-size": "10px" }
+                                },
+                                [
+                                  _c(
+                                    "span",
+                                    [
+                                      _vm._l(_vm.review.rating, function(i) {
+                                        return _c("i", {
+                                          staticClass: "fa fa-star text-dark"
+                                        })
+                                      }),
+                                      _vm._v(" "),
+                                      _vm._l(5 - _vm.review.rating, function(
+                                        i
+                                      ) {
+                                        return _c("i", {
+                                          staticClass:
+                                            "fa fa-star text-black-50"
+                                        })
+                                      })
+                                    ],
+                                    2
+                                  ),
+                                  _vm._v(" "),
+                                  _c("span", {
+                                    domProps: {
+                                      textContent: _vm._s(_vm.review.created_at)
+                                    }
+                                  })
+                                ]
+                              )
+                            ])
+                          ])
+                        : _vm._e()
                     ])
                   : _vm._e()
               ])
@@ -76792,6 +77351,17 @@ var staticRenderFns = [
     return _c("button", { staticClass: "btn btn-sm my-1 btn-info mb-3" }, [
       _c("i", { staticClass: "fa fa-star" }),
       _vm._v(" Rate This Doctor")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "d-inline-block mb-3" }, [
+      _vm._v("Star Rating: \n                  "),
+      _c("br"),
+      _vm._v(" "),
+      _c("small", [_vm._v("(1 = lowest, highest = 5)")])
     ])
   }
 ]

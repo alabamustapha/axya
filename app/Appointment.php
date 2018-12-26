@@ -18,7 +18,7 @@ class Appointment extends Model
         'attendant_doctor','creator','description_preview','link',
         'schedule','duration','start_time','end_time',
         'status_text_color','status_text',
-        'schedule_is_past','reviewed',
+        'schedule_is_past',
 
     ];
 
@@ -312,11 +312,6 @@ class Appointment extends Model
     public function getScheduleIsPastAttribute($value)
     {
         return Carbon::now() > Carbon::parse($this->to);
-    }
-    // Appointment doctor not reviewed yet
-    public function getReviewedAttribute()
-    {
-        return (bool) $this->review == '1';
     }
 
 
