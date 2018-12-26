@@ -12,7 +12,7 @@
       <div><!-- Appointment Details Section -->
         {{-- @include('appointments.partials.appointment-details') --}}
 
-        <appointment-details :appointment="{{$appointment}}" :review="{{$review}}"></appointment-details>
+        <appointment-details :appointment="{{$appointment}}"></appointment-details>
       </div>
 
       <div><!-- Doctor/Patient Profile Section -->

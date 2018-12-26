@@ -19,7 +19,7 @@ class Appointment extends Model
         'schedule','duration','start_time','end_time',
         'status_text_color','status_text',
         'schedule_is_past',
-
+        'rating',
     ];
 
     protected $fillable = [
@@ -89,9 +89,9 @@ class Appointment extends Model
         return $this->belongsTo(Doctor::class);
     }
 
-    public function reviews()
+    public function review()
     {
-        return $this->hasMany(Review::class);
+        return $this->hasOne(Review::class);
     }
 
 
@@ -343,6 +343,11 @@ class Appointment extends Model
 
     #~~ Status Related
     #------------------------------------------------#
+    public function getRatingAttribute()
+    {
+      return $this->review ? intval($this->review->rating) : 0;
+    }
+
     public function getStatusTextAttribute()
     {
       return strval($this->statusText());

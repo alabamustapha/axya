@@ -22,7 +22,7 @@ class CreateReviewsTable extends Migration
             $table->integer('appointment_id')->unsigned();
             $table->timestamps();
 
-            $table->unique(['id','user_id','doctor_id','appointment_id']);
+            $table->unique(['user_id','doctor_id','appointment_id']);
 
             // OnDelete Cascade should be re-accessed to decide if to retain when related models are deleted
             // Also, a default dummy model should stand in if no deletion is planned.

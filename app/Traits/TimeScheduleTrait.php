@@ -48,7 +48,7 @@ trait TimeScheduleTrait
         // dd($from,$to);
 
         $request->merge([
-            // 'user_id' => auth()->id(), // booted()
+            'user_id' => auth()->id(), // booted()
             'from' => $from,
             'to'   => $to,
         ]);

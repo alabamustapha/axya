@@ -114,14 +114,25 @@ class ReviewsFeatureTest extends TestCase
     /**  @test */
     public function update_an_appointment_gets_reviewed_attribute_updated_after_its_review_is_created()
     {
+        $user = factory(User::class)->states('verified')->create();
+        $appointment = factory(Appointment::class)->create([ 'user_id'   => $user->id] );
+
+        $data = [
+            'user_id'        => $appointment->user_id,
+            'doctor_id'      => $appointment->doctor_id,
+            'appointment_id' => $appointment->id,
+            'comment'        => $this->faker->sentences(1,3),
+            'rating'         => $this->faker->randomElement([1,2,3,4,5]),
+        ];
+
         $this
-            ->actingAs($this->user)
-            ->post(route('reviews.store'), $this->data)
+            ->actingAs($user)
+            ->post(route('reviews.store'), $data)
             // ->assertStatus(201) // rq->expectsJson()
             ;
 
         $this->assertDatabaseHas('appointments', [ 
-            'id' => $this->appointment->id, 
+            'id' => $appointment->id, 
             'reviewed'   => '1'
         ]);
     }

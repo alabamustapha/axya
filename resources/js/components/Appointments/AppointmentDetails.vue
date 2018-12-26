@@ -1,20 +1,12 @@
 <template>
   <div class="container">
     
-    <div class="d-block m-auto text-center bg-white">
+    <div class="d-block m-auto text-center bg-white rounded">
 
-      <div class="text-left shadow-lg p-3 mb-3">
-        <h6 title="appointment status">
-          <!-- {{appointment.statusTextOutput()}} -->
-          <span :class="appointment.status_text_color" class="text-bold">
-            <i class="fa fa-info-circle"></i>&nbsp;
-            {{appointment.status_text}}
-          </span>
-        </h6>
-
-        <hr>
+      <div class="text-left shadow-lg p-3 mb-3" title="Appointment Description">
+        <h5 title="appointment status" class="pb-2 border-bottom">Description</h5>
         
-        <p>{{appointment.patient_info}}</p>
+        <p class="text-small">{{appointment.patient_info}}</p>
       </div>
     </div>
 
@@ -59,7 +51,14 @@
           </li>
 
           <hr>
-          <p title="Appointment status">{{appointment.status_text}}</p>
+          <li title="Appointment Status">
+            <span class="h6">Status: </span>
+
+            <span :class="appointment.status_text_color" class="text-bold">
+              <i class="fa fa-info-circle pr-0 mr-0"></i>
+              <span v-text="appointment.status_text"></span>
+            </span>
+          </li>
         </ul>
       </div>
 
@@ -93,8 +92,8 @@
             </span>
           </span>
 
-          <span v-if="appointment.schedule_is_past">
-            <li v-if="status == '5'">
+          <span>
+            <li v-if="status == '5' && appointment.schedule_is_past">
               <button class="btn btn-sm my-1 btn-secondary" 
                 @click="appointmentCompleted">Appointment Completed?</button>
             </li>
@@ -169,7 +168,7 @@
               
                 <span>
                   <span class="tf-flex">
-                    <span v-text="review.author"></span>
+                    <span v-text="review.author"></span><!--  v-text="appointment.user.name" -->
 
                     <!-- @auth
                       @if(Auth::id() == $review.user_id)
@@ -184,9 +183,9 @@
 
                   <span class="tf-flex" style="font-size: 10px;">
                     <span>
-                        <i class="fa fa-star text-dark" v-for="i in review.rating"></i>
+                        <i class="fa fa-star text-dark" v-for="i in rating"></i>
 
-                        <i class="fa fa-star text-black-50" v-for="i in (5 - review.rating)"></i>
+                        <i class="fa fa-star text-black-50" v-for="i in alt_rating"></i>
                     </span>
                     <span v-text="review.created_at"></span>
                   </span>
@@ -202,10 +201,13 @@
 
 <script>
   export default {
-    props: ['appointment', 'review'],
+    props: ['appointment'],
 
     data() {
       return {
+        review    : this.appointment.review,
+        rating    : this.appointment.rating,
+        alt_rating: 5 - this.appointment.rating,
         reviewed    : this.appointment.reviewed,
         status      : this.appointment.status,
         status_text : this.appointment.status_text,
@@ -221,26 +223,20 @@
       }
     },
 
-
     methods: {
       createReview() {
         this.$Progress.start();
         this.form.post('/reviews')
         .then(() => {
-          // Event.$emit('RefreshPage');
-          // router.push({ path: 'appointments' });
+          this.review = this.form;
           this.reviewed = '1';
-          toast({
-              type: 'success',              
-              title: 'Review submitted successfully.'
-          });
+          this.rating = this.review.rating;
+          this.alt_rating = (5 - this.rating);
+          toast({type: 'success',title: 'Review submitted successfully.'});
           this.$Progress.finish();            
         })
         .catch(() => {
-          toast({
-              type: 'fail',
-              title: 'Something went wrong! Try again later.'
-          });
+          toast({type: 'fail',title: 'Something went wrong! Try again later.'});
           this.$Progress.fail();
         });
       },
@@ -298,16 +294,6 @@
         .then(()=> {
           this.status = '5';
           toast({ type: 'success', title: 'Payment successful.'});
-          this.$Progress.finish();
-        })
-      },
-      appointmentDoctorRating() {
-        // Create a (new Review)
-        // Update average rating for doctor directly in profile
-        this.$Progress.start();
-        axios.post('/reviews')
-        .then(()=> {
-          toast({ type: 'success', title: 'Doctor rating submitted successfully.'});
           this.$Progress.finish();
         })
       },
