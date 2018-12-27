@@ -6,7 +6,7 @@
       <div class="text-left shadow-lg p-3 mb-3" title="Appointment Description">
         <h5 title="appointment status" class="pb-2 border-bottom">Description</h5>
         
-        <p class="text-small">{{appointment.patient_info}}</p>
+        <p class="text-small">{{appointment.description}}</p>
       </div>
     </div>
 

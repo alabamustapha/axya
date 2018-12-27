@@ -23,7 +23,7 @@ class Appointment extends Model
     ];
 
     protected $fillable = [
-      'slug','user_id','doctor_id','patient_info',
+      'slug','user_id','doctor_id','description',
       'day','from','to','sealed_at',
       'status','type','address','phone',
       'reviewed',// 'reviewed (0|1)' with Reviews (user_id, dr_id & appmt_id composite key/unique)
@@ -334,9 +334,9 @@ class Appointment extends Model
 
     public function getDescriptionPreviewAttribute()
     {
-      $descr_preview = substr($this->patient_info, 0, 100);
+      $descr_preview = substr($this->description, 0, 100);
       
-      return strlen($this->patient_info) > 100 ? $descr_preview .'...':$this->patient_info;
+      return strlen($this->description) > 100 ? $descr_preview .'...':$this->description;
     }
     
 

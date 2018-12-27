@@ -73182,13 +73182,13 @@ var render = function() {
           "div",
           {
             staticClass: "card-title",
-            attrs: { title: _vm.appointment.patient_info }
+            attrs: { title: _vm.appointment.description }
           },
           [
             _vm._m(0),
             _vm._v(" "),
             _c("p", { staticStyle: { "font-size": "12px" } }, [
-              _vm._v(_vm._s(_vm.appointment.patient_info))
+              _vm._v(_vm._s(_vm.appointment.description))
             ])
           ]
         )
@@ -74844,9 +74844,7 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
-            _c("p", [
-              _vm._v(_vm._s(_vm.prescription.appointment.patient_info))
-            ]),
+            _c("p", [_vm._v(_vm._s(_vm.prescription.appointment.description))]),
             _vm._v(" "),
             _c("div", [
               _c("i", { staticClass: "fa fa-user-md" }),
@@ -75788,7 +75786,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         day: '',
         from: '',
         to: '',
-        patient_info: '',
+        description: '',
         type: '',
         address: '',
         phone: ''
@@ -76188,32 +76186,32 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.form.patient_info,
-                    expression: "form.patient_info"
+                    value: _vm.form.description,
+                    expression: "form.description"
                   }
                 ],
                 staticClass: "form-control",
-                class: { "is-invalid": _vm.form.errors.has("patient_info") },
+                class: { "is-invalid": _vm.form.errors.has("description") },
                 staticStyle: { "min-height": "120px", "max-height": "150px" },
                 attrs: {
-                  name: "patient_info",
-                  id: "patient_info",
+                  name: "description",
+                  id: "description",
                   placeholder: "description for booking this appointment",
                   required: ""
                 },
-                domProps: { value: _vm.form.patient_info },
+                domProps: { value: _vm.form.description },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.form, "patient_info", $event.target.value)
+                    _vm.$set(_vm.form, "description", $event.target.value)
                   }
                 }
               }),
               _vm._v(" "),
               _c("has-error", {
-                attrs: { form: _vm.form, field: "patient_info" }
+                attrs: { form: _vm.form, field: "description" }
               })
             ],
             1
@@ -76731,7 +76729,7 @@ var render = function() {
           ),
           _vm._v(" "),
           _c("p", { staticClass: "text-small" }, [
-            _vm._v(_vm._s(_vm.appointment.patient_info))
+            _vm._v(_vm._s(_vm.appointment.description))
           ])
         ]
       )

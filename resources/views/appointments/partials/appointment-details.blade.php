@@ -8,7 +8,7 @@
 
     <hr>
     
-    <p>{{$appointment->patient_info}}</p>
+    <p>{{$appointment->description}}</p>
   </div>
 </div>
 

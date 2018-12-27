@@ -22,7 +22,7 @@ class AppointmentsFeatureTest extends TestCase
         $this->specialty   = factory(Specialty::class)->create();
         $this->doctor      = factory(Doctor::class)->create();
         $this->appointment = factory(Appointment::class)->create(['user_id' => $this->user->id]);
-        $this->sub_patient_info = substr($this->appointment->patient_info, 0,100);
+        $this->sub_description = substr($this->appointment->description, 0,100);
 
         $this->user2       = factory(User::class)->states('verified')->create();
         $this->appointment2= factory(Appointment::class)->create(['user_id' => $this->user2->id]);
@@ -35,7 +35,7 @@ class AppointmentsFeatureTest extends TestCase
             'user_id'     => $this->user2->id,
             'slug'        => $this->user2->slug,
             'doctor_id'   => $this->doctor->id,
-            'patient_info'=> 'Reiciendis inventore et omnis non asperiores.',
+            'description'=> 'Reiciendis inventore et omnis non asperiores.',
 
             'day'         => '2018-12-23 10:00:00',
             'from'        => '05:00 AM',
@@ -52,7 +52,7 @@ class AppointmentsFeatureTest extends TestCase
             ->assertStatus(200)
             // ->assertSee($this->appointment->statusText())
             ->assertSee($this->appointment->doctor->name)
-            ->assertSee($this->sub_patient_info)
+            ->assertSee($this->sub_description)
             ;
     }
 
@@ -67,7 +67,7 @@ class AppointmentsFeatureTest extends TestCase
             ->assertSee($this->appointment->doctor->name)
             ->assertSee($this->appointment->from)
             ->assertSee($this->appointment->to)
-            ->assertSee($this->sub_patient_info)
+            ->assertSee($this->sub_description)
             ;
     }
 
@@ -82,7 +82,7 @@ class AppointmentsFeatureTest extends TestCase
             ->assertStatus(403)
             ->assertDontSee($this->appointment->from)
             ->assertDontSee($this->appointment->to)
-            ->assertDontSee($this->sub_patient_info)
+            ->assertDontSee($this->sub_description)
             ;
     }
 
@@ -95,7 +95,7 @@ class AppointmentsFeatureTest extends TestCase
             'type'        => 'Online',
             'user_id'     => $user->id,
             'doctor_id'   => $this->doctor->id,
-            'patient_info'=> $this->faker->sentence,
+            'description'=> $this->faker->sentence,
 
             'day'         => $this->faker->dateTimeBetween('-50 day', '-1day'),
             'from'        => '05:00 AM',
@@ -124,7 +124,7 @@ class AppointmentsFeatureTest extends TestCase
     //         'user_id'     => $user->id,
     //         'slug'        => str_slug(date('Y-m-d')). $user->slug,
     //         'doctor_id'   => $this->doctor->id,
-    //         'patient_info'=> $this->faker->sentence,
+    //         'description'=> $this->faker->sentence,
 
     //         'day'         => '2018-12-23 10:00:00',
     //         'from'        => '05:00 AM', // issue is here <= Concatenation to 2400
@@ -158,7 +158,7 @@ class AppointmentsFeatureTest extends TestCase
 
             'user_id'     => $user->id,
             'doctor_id'   => $this->doctor->id,
-            'patient_info'=> $this->faker->sentence,
+            'description'=> $this->faker->sentence,
 
             'day'         => $this->faker->dateTimeBetween('-30 day', '-1day'),
             'from'        => '06:00 AM',
