@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\URL;
 
 class RegisterController extends Controller
 {
@@ -105,6 +106,9 @@ class RegisterController extends Controller
         event(new Registered($user = $this->create($request->all())));
 
         $user->notify(new AccountVerificationNotification($user));
+
+        $verLink = URL::temporarySignedRoute('verification.verify', \Carbon\Carbon::now()->addMinutes(60), ['id' => $user->id]);
+        $user->update([ 'verification_link' => $verLink, ]);
         
         flash('A verification link was sent to '. $user->email .', kindly verify your account with the link. Update your profile details completely for a wider access on '. config('app.name') .'.')->info()->important();
 
