@@ -276,7 +276,7 @@ class Doctor extends Model
 
         $average_rating = $this->appointments()->reviewed()->avg('rating');
 
-        $rated = $average_rating ? round($average_rating, 2) . '/5': 'no ratings yet';
+        $rated = $average_rating ? round($average_rating, 2) . '/5': 'no rating';
 
         $rating = $rated . ' ('. $total_reviews .')';
         
@@ -285,7 +285,7 @@ class Doctor extends Model
 
     public function getRatingDigitAttribute()
     {
-        $average_rating = $this->appointments()->reviewed()->avg('rating');
+        $average_rating = intval($this->appointments()->reviewed()->avg('rating'));
 
         return $average_rating;
     }
@@ -302,7 +302,7 @@ class Doctor extends Model
 
     public function getAvatarAttribute()
     {
-        return $this->user->avatar;
+        return $this->dummyAvatar();//$this->user->avatar;
     }
 
     public function getPracticeYearsAttribute()

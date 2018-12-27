@@ -9,9 +9,11 @@
     <link rel="icon" href="images/favicon.png" type="image/png" >
 
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
+    <link rel="stylesheet" href="{{asset('css/all.css')}}">
+    <link rel="stylesheet" href="{{asset('css/custom/override.css')}}">
 
     <!-- BOOTSTRAP STYLE -->
-    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    {{-- <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet"> --}}
 
     <!-- MAIN STYLE -->
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
@@ -23,6 +25,7 @@
     
     @yield('styles')
 
+    <script src="{{ asset('js/app.js') }}" defer></script>
     <script>
         @auth
           window.user = @json(auth()->user());
@@ -83,17 +86,26 @@
                                 <div class="intro-text">
                                    <h1>Premium Healthcare Platform</h1> 
                                 </div>
+
                                 <form action="" method="post">
                                     <div class="search-area">
                                         <div class="search-box">
-                                            <input type="search" name="search" id="search" placeholder="search doctors, illness, topics etc">
+                                            <input 
+                                                v-model="search"
+                                                @keyup="searchForQuery"
+                                                type="search"
+                                                name="search" id="search"
+                                                aria-label="Search" 
+                                                placeholder="search doctors, illness, topics, cities etc">
                                         </div>
                                        
-                                        <button type="submit" class="search-icon"> <i class="fa fa-search fa-lg"></i></button>
-                                                
+                                        <button @click="searchForQuery" type="submit" class="search-icon">
+                                            <i class="fa fa-search fa-lg"></i>
+                                        </button>                                                
                                     </div>
                                 </form>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -108,6 +120,7 @@
                     <!-- page option section -->
                     <div class="page-content-body opt">
                         <div class="page-dos">
+                            <searches></searches>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="page-dos-head">
@@ -167,11 +180,11 @@
                                         <span class="ratings">
                                             <span>
                                               @for($i=1; $i <= $doctor->rating_digit; $i++)
-                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star pr-0 mr-0"></i>
                                               @endfor
 
                                               @for($i=1; $i <= (5 - $doctor->rating_digit); $i++)
-                                                <i class="fas fa-star text-muted"></i>
+                                                <i class="fas fa-star pr-0 mr-0 text-muted"></i>
                                               @endfor
                                             </span>
 
@@ -272,7 +285,8 @@
                 <div class="container">
                     <div class="footer-copyright  text-theme-blue">
 
-                        <span>AXYA  © 2018 Made with ❤ by <a href="https://redehub.com.ng" class="text-theme-blue">redehub.com.ng</a></span>
+                        <strong>{{config('app.name')}} &copy; {{ date('Y') }}</strong>
+
                     </div>
                 </div>
             </footer>

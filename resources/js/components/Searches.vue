@@ -1,5 +1,5 @@
 <template>
-  <div class="container" v-show="specialties.data || doctors.data || tags.data || users.data" style="z-index: 2000;">
+  <div class="container" v-show="specialties.data || doctors.data || tags.data || users.data">
     <div class="row justify-content-center">
       <div class="col">
         <div class="card shadow-none text-left">
@@ -25,10 +25,10 @@
                   <div v-if="doctors.data != undefined && doctors.data.length">
                     <div class="p-1" v-for="doctor in doctors.data" :key="doctor.id">
                       
-                      <span>
+                      <span class="text-small">
                         <div class="mb-0 clearfix">
                           <a :href="doctor.link">
-                            <img :src="doctor.user.avatar" class="text-sm-center" style="display:inline-block;width:80px;height: 80px; float:left" alt="Doctor Image" :title="doctor.user.name +' avatar'">
+                            <img :src="doctor.avatar" class="text-sm-center" style="display:inline-block;width:80px;height: 80px; float:left" alt="Doctor Image" :title="doctor.user.name">
                           </a>
 
                           <div class="pl-2 text-left ml-2 ml-sm-0 ml-lg-2 d-flex flex-column justify-content-between h-100">
@@ -63,22 +63,17 @@
                             <a :href="doctor.specialty.link" class="text-muted text-truncate" v-text="doctor.specialty.name" :title="doctor.specialty.name"></a>
                             <span class="text-muted text-truncate" v-text="doctor.location" :title="doctor.location"></span>
 
-                            <div class="d-flex flex-row justify-content-between w-100 mb-1 text-truncate" :title="doctor.user.name +'\'s current rating'">
-                              <small class="text-muted">
-                                  <span class="fa fa-star text-primary p-0 m-0"></span>
-                                  <span class="fa fa-star text-primary p-0 m-0"></span>
-                                  <span class="fa fa-star text-primary p-0 m-0"></span>
-                                  <span class="fa fa-star text-primary p-0 m-0"></span>
-                                  <span class="fa fa-star text-primary p-0 m-0"></span>
-                              </small>
-                              <span>&nbsp;12(5)</span>
-                            </div>
-
                           </div>
                         </div>
-                        <a :href="doctor.user.link" class="btn btn-primary btn-sm btn-block" :title="'View '+ doctor.user.name +'\'s profile to book an appointment.'">
-                          <i class="fa fa-user-md"></i>&nbsp; View Profile
-                        </a>
+                        <div class="pb-1 text-truncate tf-flex" title="Current rating">
+                          <span>
+                              <i class="fas fa-star pr-0 mr-0" v-for="i in doctor.rating_digit"></i>
+
+                              <i class="fas fa-star pr-0 mr-0 text-light" v-for="i in (5 - doctor.rating_digit)"></i>
+                          </span>
+
+                          <span>{{ doctor.rating }}</span>
+                        </div>
                       </span>
 
                     </div>
@@ -103,7 +98,7 @@
                   <i class="fa fa-tags"></i>&nbsp; Keyword/Tags
                 </div>
 
-                <div class="card-body p-2">
+                <div class="card-body p-2 text-small">
                   <div v-if="tags.data != undefined && tags.data.length">
                     <div class="p-1 my-2 mx-0 short-content-bg" v-for="tag in tags.data" :key="tag.id">
 
@@ -133,7 +128,7 @@
                 <div class="card-header">
                   <i class="fa fa-tags"></i>&nbsp; Specialties
                 </div>
-                <div class="card-body p-2">
+                <div class="card-body p-2 text-small">
                   <div v-if="specialties.data != undefined && specialties.data.length">
                     <div class="p-1" v-for="specialty in specialties.data" :key="specialty.id">
 
@@ -163,7 +158,7 @@
                 <div class="card-header">
                   <i class="fa fa-users"></i>&nbsp; Users
                 </div>
-                <div class="card-body p-2">
+                <div class="card-body p-2 text-small">
                   <div v-if="users.data != undefined && users.data.length">
                     <div class="p-1" v-for="user in users.data" :key="user.id">
                       
