@@ -168,24 +168,27 @@
               
                 <span>
                   <span class="tf-flex">
-                    <span v-text="review.author"></span><!--  v-text="appointment.user.name" -->
+                    <span v-text="appointment.user.name"></span><!--  v-text="review.author" -->
 
-                    <!-- @auth
-                      @if(Auth::id() == $review.user_id)
-                        <button class="btn btn-link btn-sm" title="Update this review">
-                          <i class="fa fa-cog"></i>
-                        </button>
-                      @endif
-                    @endauth -->
+                    <button class="btn btn-link btn-sm" title="Update this review" v-if="$acl.isLoggedIn() && $acl.user.id == appointment.user.id">
+                      <i class="fa fa-cog"></i>
+                    </button>
                   </span>
 
                   <dfn class="text-muted" v-text="review.comment"></dfn> <br> 
 
-                  <span class="tf-flex" style="font-size: 10px;">
+                  <span class="tf-flex text-small" v-if="reviewed == '1'">
                     <span>
-                        <i class="fa fa-star text-dark" v-for="i in rating"></i>
+                        <span><i class="fa fa-star text-dark" v-for="i in rating"></i></span>
 
-                        <i class="fa fa-star text-black-50" v-for="i in alt_rating"></i>
+                        <span><i class="fa fa-star text-black-50" v-for="i in alt_rating"></i></span>
+
+                        <!-- 
+                          # A RangeError is nagging on these computed methods. Working 80% b4.
+                          <span><i class="fa fa-star text-dark" v-for="i in compRating"></i></span>
+
+                          <span><i class="fa fa-star text-black-50" v-for="i in altRating"></i></span
+                        -->
                     </span>
                     <span v-text="review.created_at"></span>
                   </span>
@@ -210,8 +213,6 @@
         alt_rating: 5 - this.appointment.rating,
         reviewed    : this.appointment.reviewed,
         status      : this.appointment.status,
-        status_text : this.appointment.status_text,
-        status_text_color : this.appointment.status_text_color,
 
         form: new Form({
           id        : '',
@@ -224,6 +225,18 @@
     },
 
     computed: {
+      // A RangeError is nagging on this computed methods. Working 80% b4.
+      // compRating(){
+      //   return (this.rating == 'undefined' || this.rating == NaN) 
+      //       ? 0 
+      //       : parseInt(this.form.rating);
+      // },
+      // altRating(){
+      //   return (this.alt_rating == 'undefined' || this.alt_rating == NaN) 
+      //       ? 5 
+      //       : (5 - parseInt(this.form.rating));
+      // },
+
       appointmentStatusText() {
         // switch (this.status){
           if (this.status == 0){ var statusText = 'Awaiting doctor\'s confirmation'; }
@@ -257,9 +270,6 @@
         this.$Progress.start();
         this.form.post('/reviews')
         .then(() => {
-          this.status_text = this.appointmentStatusText;
-          this.status_text_color = this.appointmentStatusTextColor;
-
           this.review = this.form;
           this.reviewed = '1';
 
@@ -335,9 +345,9 @@
     },
 
     // created() {
-    //   this.loadAppointmentPage();
+    //   this.loadAppointmentMessages();
     //   Event.$on('RefreshPage', () => {
-    //       this.loadAppointmentPage();
+    //       this.loadAppointmentMessages();
     //   });
     // }
   }

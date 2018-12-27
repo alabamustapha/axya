@@ -76525,6 +76525,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['appointment'],
@@ -76536,8 +76539,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       alt_rating: 5 - this.appointment.rating,
       reviewed: this.appointment.reviewed,
       status: this.appointment.status,
-      status_text: this.appointment.status_text,
-      status_text_color: this.appointment.status_text_color,
 
       form: new Form({
         id: '',
@@ -76551,6 +76552,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
   computed: {
+    // A RangeError is nagging on this computed methods. Working 80% b4.
+    // compRating(){
+    //   return (this.rating == 'undefined' || this.rating == NaN) 
+    //       ? 0 
+    //       : parseInt(this.form.rating);
+    // },
+    // altRating(){
+    //   return (this.alt_rating == 'undefined' || this.alt_rating == NaN) 
+    //       ? 5 
+    //       : (5 - parseInt(this.form.rating));
+    // },
+
     appointmentStatusText: function appointmentStatusText() {
       // switch (this.status){
       if (this.status == 0) {
@@ -76617,9 +76630,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       this.$Progress.start();
       this.form.post('/reviews').then(function () {
-        _this.status_text = _this.appointmentStatusText;
-        _this.status_text_color = _this.appointmentStatusTextColor;
-
         _this.review = _this.form;
         _this.reviewed = '1';
 
@@ -76695,9 +76705,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   }
 
   // created() {
-  //   this.loadAppointmentPage();
+  //   this.loadAppointmentMessages();
   //   Event.$on('RefreshPage', () => {
-  //       this.loadAppointmentPage();
+  //       this.loadAppointmentMessages();
   //   });
   // }
 });
@@ -77260,9 +77270,21 @@ var render = function() {
                           _c("span", { staticClass: "tf-flex" }, [
                             _c("span", {
                               domProps: {
-                                textContent: _vm._s(_vm.review.author)
+                                textContent: _vm._s(_vm.appointment.user.name)
                               }
-                            })
+                            }),
+                            _vm._v(" "),
+                            _vm.$acl.isLoggedIn() &&
+                            _vm.$acl.user.id == _vm.appointment.user.id
+                              ? _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-link btn-sm",
+                                    attrs: { title: "Update this review" }
+                                  },
+                                  [_c("i", { staticClass: "fa fa-cog" })]
+                                )
+                              : _vm._e()
                           ]),
                           _vm._v(" "),
                           _c("dfn", {
@@ -77274,38 +77296,40 @@ var render = function() {
                           _vm._v(" "),
                           _c("br"),
                           _vm._v(" "),
-                          _c(
-                            "span",
-                            {
-                              staticClass: "tf-flex",
-                              staticStyle: { "font-size": "10px" }
-                            },
-                            [
-                              _c(
+                          _vm.reviewed == "1"
+                            ? _c(
                                 "span",
+                                { staticClass: "tf-flex text-small" },
                                 [
-                                  _vm._l(_vm.rating, function(i) {
-                                    return _c("i", {
-                                      staticClass: "fa fa-star text-dark"
-                                    })
-                                  }),
+                                  _c("span", [
+                                    _c(
+                                      "span",
+                                      _vm._l(_vm.rating, function(i) {
+                                        return _c("i", {
+                                          staticClass: "fa fa-star text-dark"
+                                        })
+                                      })
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "span",
+                                      _vm._l(_vm.alt_rating, function(i) {
+                                        return _c("i", {
+                                          staticClass:
+                                            "fa fa-star text-black-50"
+                                        })
+                                      })
+                                    )
+                                  ]),
                                   _vm._v(" "),
-                                  _vm._l(_vm.alt_rating, function(i) {
-                                    return _c("i", {
-                                      staticClass: "fa fa-star text-black-50"
-                                    })
+                                  _c("span", {
+                                    domProps: {
+                                      textContent: _vm._s(_vm.review.created_at)
+                                    }
                                   })
-                                ],
-                                2
-                              ),
-                              _vm._v(" "),
-                              _c("span", {
-                                domProps: {
-                                  textContent: _vm._s(_vm.review.created_at)
-                                }
-                              })
-                            ]
-                          )
+                                ]
+                              )
+                            : _vm._e()
                         ])
                       ])
                     : _vm._e()
