@@ -54,9 +54,9 @@
           <li title="Appointment Status">
             <span class="h6">Status: </span>
 
-            <span :class="appointment.status_text_color" class="text-bold">
+            <span :class="appointmentStatusTextColor" class="text-bold">
               <i class="fa fa-info-circle pr-0 mr-0"></i>
-              <span v-text="appointment.status_text"></span>
+              <span v-text="appointmentStatusText"></span>
             </span>
           </li>
         </ul>
@@ -223,15 +223,49 @@
       }
     },
 
+    computed: {
+      appointmentStatusText() {
+        // switch (this.status){
+          if (this.status == 0){ var statusText = 'Awaiting doctor\'s confirmation'; }
+          if (this.status == 1){ var statusText = 'Success'; }
+          if (this.status == 2){ var statusText = 'Appointment accepted by doctor. Awaits fee payment'; }
+          if (this.status == 3){ var statusText = 'Rejected by doctor!'; }
+          if (this.status == 4){ var statusText = 'Cancelled by patient!'; }          
+          if (this.status == 5){ var statusText = 'Fee paid, awaiting appointment time.'; }
+          if (this.status == 6){ var statusText = 'Schedule time elapsed! Patient absconded.'; }
+          if (this.status == 7){ var statusText = 'Doctor did not confirm 1-hour to scheduled time.'; }
+        // }
+        return statusText;
+      },
+      appointmentStatusTextColor() {
+        // switch (this.status){
+          if (this.status == 0){ var statusColor = 'indigo'; }
+          if (this.status == 1){ var statusColor = 'teal'; }
+          if (this.status == 2){ var statusColor = 'orange'; }
+          if (this.status == 3){ var statusColor = 'red'; }
+          if (this.status == 4){ var statusColor = 'red'; }          
+          if (this.status == 5){ var statusColor = 'orange'; }
+          if (this.status == 6){ var statusColor = 'red'; }
+          if (this.status == 7){ var statusColor = 'red'; }
+        // }
+        return statusColor;
+      }
+    },
+
     methods: {
       createReview() {
         this.$Progress.start();
         this.form.post('/reviews')
         .then(() => {
+          this.status_text = this.appointmentStatusText;
+          this.status_text_color = this.appointmentStatusTextColor;
+
           this.review = this.form;
           this.reviewed = '1';
+
           this.rating = this.review.rating;
           this.alt_rating = (5 - this.rating);
+
           toast({type: 'success',title: 'Review submitted successfully.'});
           this.$Progress.finish();            
         })

@@ -76552,16 +76552,82 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
 
 
+  computed: {
+    appointmentStatusText: function appointmentStatusText() {
+      // switch (this.status){
+      if (this.status == 0) {
+        var statusText = 'Awaiting doctor\'s confirmation';
+      }
+      if (this.status == 1) {
+        var statusText = 'Success';
+      }
+      if (this.status == 2) {
+        var statusText = 'Appointment accepted by doctor. Awaits fee payment';
+      }
+      if (this.status == 3) {
+        var statusText = 'Rejected by doctor!';
+      }
+      if (this.status == 4) {
+        var statusText = 'Cancelled by patient!';
+      }
+      if (this.status == 5) {
+        var statusText = 'Fee paid, awaiting appointment time.';
+      }
+      if (this.status == 6) {
+        var statusText = 'Schedule time elapsed! Patient absconded.';
+      }
+      if (this.status == 7) {
+        var statusText = 'Doctor did not confirm 1-hour to scheduled time.';
+      }
+      // }
+      return statusText;
+    },
+    appointmentStatusTextColor: function appointmentStatusTextColor() {
+      // switch (this.status){
+      if (this.status == 0) {
+        var statusColor = 'indigo';
+      }
+      if (this.status == 1) {
+        var statusColor = 'teal';
+      }
+      if (this.status == 2) {
+        var statusColor = 'orange';
+      }
+      if (this.status == 3) {
+        var statusColor = 'red';
+      }
+      if (this.status == 4) {
+        var statusColor = 'red';
+      }
+      if (this.status == 5) {
+        var statusColor = 'orange';
+      }
+      if (this.status == 6) {
+        var statusColor = 'red';
+      }
+      if (this.status == 7) {
+        var statusColor = 'red';
+      }
+      // }
+      return statusColor;
+    }
+  },
+
   methods: {
     createReview: function createReview() {
       var _this = this;
 
       this.$Progress.start();
       this.form.post('/reviews').then(function () {
+        _this.status_text = _this.appointmentStatusText;
+        _this.status_text_color = _this.appointmentStatusTextColor;
+
         _this.review = _this.form;
         _this.reviewed = '1';
+
         _this.rating = _this.review.rating;
         _this.alt_rating = 5 - _this.rating;
+
         toast({ type: 'success', title: 'Review submitted successfully.' });
         _this.$Progress.finish();
       }).catch(function () {
@@ -76717,13 +76783,13 @@ var render = function() {
               "span",
               {
                 staticClass: "text-bold",
-                class: _vm.appointment.status_text_color
+                class: _vm.appointmentStatusTextColor
               },
               [
                 _c("i", { staticClass: "fa fa-info-circle pr-0 mr-0" }),
                 _vm._v(" "),
                 _c("span", {
-                  domProps: { textContent: _vm._s(_vm.appointment.status_text) }
+                  domProps: { textContent: _vm._s(_vm.appointmentStatusText) }
                 })
               ]
             )
