@@ -126,12 +126,12 @@
         </fieldset>
 
         <div class="form-group text-center">
-          <textarea v-model="form.patient_info" name="patient_info" 
-            id="patient_info" style="min-height: 120px;max-height: 150px;" 
+          <textarea v-model="form.description" name="description" 
+            id="description" style="min-height: 120px;max-height: 150px;" 
             placeholder="description for booking this appointment" 
-            class="form-control" :class="{ 'is-invalid': form.errors.has('patient_info') }" 
+            class="form-control" :class="{ 'is-invalid': form.errors.has('description') }" 
             required></textarea>
-              <has-error :form="form" field="patient_info"></has-error> 
+              <has-error :form="form" field="description"></has-error> 
         </div> 
 
         <div class="form-group">
@@ -160,7 +160,7 @@
           day       : '',
           from      : '',
           to        : '',
-          patient_info: '',
+          description: '',
           type      : '',
           address   : '',
           phone     : ''

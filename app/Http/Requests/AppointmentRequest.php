@@ -30,7 +30,7 @@ class AppointmentRequest extends FormRequest
             'phone'     => 'nullable|required_if:type,Home|string',
 
             'doctor_id' => 'required|integer|exists:doctors,id',
-            'patient_info' => 'required|string|max:1500',
+            'description' => 'required|string|max:1500',
 
             'from'      => 'required|date_format:h:i A',
             'to'        => 'required|date_format:h:i A|after:from',

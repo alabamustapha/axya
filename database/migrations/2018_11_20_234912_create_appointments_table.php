@@ -22,7 +22,7 @@ class CreateAppointmentsTable extends Migration
             $table->date('day');
             $table->datetime('from')->nullable();
             $table->datetime('to')->nullable();
-            $table->text('patient_info')->nullable();
+            $table->text('description')->nullable();
             $table->datetime('sealed_at')->nullable();
             $table->tinyInteger('rating')->nullable();
             $table->boolean('reviewed')->default(0);

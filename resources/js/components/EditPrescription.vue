@@ -19,7 +19,7 @@
               </span>
             </div>
 
-            <p>{{ prescription.appointment.patient_info }}</p>
+            <p>{{ prescription.appointment.description }}</p>
 
             <div>
               <i class="fa fa-user-md"></i> Doctor: 

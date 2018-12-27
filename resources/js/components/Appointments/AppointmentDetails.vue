@@ -6,7 +6,7 @@
       <div class="text-left shadow-lg p-3 mb-3" title="Appointment Description">
         <h5 title="appointment status" class="pb-2 border-bottom">Description</h5>
         
-        <p class="text-small">{{appointment.patient_info}}</p>
+        <p class="text-small">{{appointment.description}}</p>
       </div>
     </div>
 
@@ -54,9 +54,9 @@
           <li title="Appointment Status">
             <span class="h6">Status: </span>
 
-            <span :class="appointment.status_text_color" class="text-bold">
+            <span :class="appointmentStatusTextColor" class="text-bold">
               <i class="fa fa-info-circle pr-0 mr-0"></i>
-              <span v-text="appointment.status_text"></span>
+              <span v-text="appointmentStatusText"></span>
             </span>
           </li>
         </ul>
@@ -168,24 +168,27 @@
               
                 <span>
                   <span class="tf-flex">
-                    <span v-text="review.author"></span><!--  v-text="appointment.user.name" -->
+                    <span v-text="appointment.user.name"></span><!--  v-text="review.author" -->
 
-                    <!-- @auth
-                      @if(Auth::id() == $review.user_id)
-                        <button class="btn btn-link btn-sm" title="Update this review">
-                          <i class="fa fa-cog"></i>
-                        </button>
-                      @endif
-                    @endauth -->
+                    <button class="btn btn-link btn-sm" title="Update this review" v-if="$acl.isLoggedIn() && $acl.user.id == appointment.user.id">
+                      <i class="fa fa-cog"></i>
+                    </button>
                   </span>
 
                   <dfn class="text-muted" v-text="review.comment"></dfn> <br> 
 
-                  <span class="tf-flex" style="font-size: 10px;">
+                  <span class="tf-flex text-small" v-if="reviewed == '1'">
                     <span>
-                        <i class="fa fa-star text-dark" v-for="i in rating"></i>
+                        <span><i class="fa fa-star text-dark" v-for="i in rating"></i></span>
 
-                        <i class="fa fa-star text-black-50" v-for="i in alt_rating"></i>
+                        <span><i class="fa fa-star text-black-50" v-for="i in alt_rating"></i></span>
+
+                        <!-- 
+                          # A RangeError is nagging on these computed methods. Working 80% b4.
+                          <span><i class="fa fa-star text-dark" v-for="i in compRating"></i></span>
+
+                          <span><i class="fa fa-star text-black-50" v-for="i in altRating"></i></span
+                        -->
                     </span>
                     <span v-text="review.created_at"></span>
                   </span>
@@ -210,8 +213,6 @@
         alt_rating: 5 - this.appointment.rating,
         reviewed    : this.appointment.reviewed,
         status      : this.appointment.status,
-        status_text : this.appointment.status_text,
-        status_text_color : this.appointment.status_text_color,
 
         form: new Form({
           id        : '',
@@ -223,6 +224,47 @@
       }
     },
 
+    computed: {
+      // A RangeError is nagging on this computed methods. Working 80% b4.
+      // compRating(){
+      //   return (this.rating == 'undefined' || this.rating == NaN) 
+      //       ? 0 
+      //       : parseInt(this.form.rating);
+      // },
+      // altRating(){
+      //   return (this.alt_rating == 'undefined' || this.alt_rating == NaN) 
+      //       ? 5 
+      //       : (5 - parseInt(this.form.rating));
+      // },
+
+      appointmentStatusText() {
+        // switch (this.status){
+          if (this.status == 0){ var statusText = 'Awaiting doctor\'s confirmation'; }
+          if (this.status == 1){ var statusText = 'Success'; }
+          if (this.status == 2){ var statusText = 'Appointment accepted by doctor. Awaits fee payment'; }
+          if (this.status == 3){ var statusText = 'Rejected by doctor!'; }
+          if (this.status == 4){ var statusText = 'Cancelled by patient!'; }          
+          if (this.status == 5){ var statusText = 'Fee paid, awaiting appointment time.'; }
+          if (this.status == 6){ var statusText = 'Schedule time elapsed! Patient absconded.'; }
+          if (this.status == 7){ var statusText = 'Doctor did not confirm 1-hour to scheduled time.'; }
+        // }
+        return statusText;
+      },
+      appointmentStatusTextColor() {
+        // switch (this.status){
+          if (this.status == 0){ var statusColor = 'indigo'; }
+          if (this.status == 1){ var statusColor = 'teal'; }
+          if (this.status == 2){ var statusColor = 'orange'; }
+          if (this.status == 3){ var statusColor = 'red'; }
+          if (this.status == 4){ var statusColor = 'red'; }          
+          if (this.status == 5){ var statusColor = 'orange'; }
+          if (this.status == 6){ var statusColor = 'red'; }
+          if (this.status == 7){ var statusColor = 'red'; }
+        // }
+        return statusColor;
+      }
+    },
+
     methods: {
       createReview() {
         this.$Progress.start();
@@ -230,8 +272,10 @@
         .then(() => {
           this.review = this.form;
           this.reviewed = '1';
+
           this.rating = this.review.rating;
           this.alt_rating = (5 - this.rating);
+
           toast({type: 'success',title: 'Review submitted successfully.'});
           this.$Progress.finish();            
         })
@@ -301,9 +345,9 @@
     },
 
     // created() {
-    //   this.loadAppointmentPage();
+    //   this.loadAppointmentMessages();
     //   Event.$on('RefreshPage', () => {
-    //       this.loadAppointmentPage();
+    //       this.loadAppointmentMessages();
     //   });
     // }
   }

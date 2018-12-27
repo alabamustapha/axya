@@ -73182,13 +73182,13 @@ var render = function() {
           "div",
           {
             staticClass: "card-title",
-            attrs: { title: _vm.appointment.patient_info }
+            attrs: { title: _vm.appointment.description }
           },
           [
             _vm._m(0),
             _vm._v(" "),
             _c("p", { staticStyle: { "font-size": "12px" } }, [
-              _vm._v(_vm._s(_vm.appointment.patient_info))
+              _vm._v(_vm._s(_vm.appointment.description))
             ])
           ]
         )
@@ -74844,9 +74844,7 @@ var render = function() {
               ])
             ]),
             _vm._v(" "),
-            _c("p", [
-              _vm._v(_vm._s(_vm.prescription.appointment.patient_info))
-            ]),
+            _c("p", [_vm._v(_vm._s(_vm.prescription.appointment.description))]),
             _vm._v(" "),
             _c("div", [
               _c("i", { staticClass: "fa fa-user-md" }),
@@ -75788,7 +75786,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         day: '',
         from: '',
         to: '',
-        patient_info: '',
+        description: '',
         type: '',
         address: '',
         phone: ''
@@ -76188,32 +76186,32 @@ var render = function() {
                   {
                     name: "model",
                     rawName: "v-model",
-                    value: _vm.form.patient_info,
-                    expression: "form.patient_info"
+                    value: _vm.form.description,
+                    expression: "form.description"
                   }
                 ],
                 staticClass: "form-control",
-                class: { "is-invalid": _vm.form.errors.has("patient_info") },
+                class: { "is-invalid": _vm.form.errors.has("description") },
                 staticStyle: { "min-height": "120px", "max-height": "150px" },
                 attrs: {
-                  name: "patient_info",
-                  id: "patient_info",
+                  name: "description",
+                  id: "description",
                   placeholder: "description for booking this appointment",
                   required: ""
                 },
-                domProps: { value: _vm.form.patient_info },
+                domProps: { value: _vm.form.description },
                 on: {
                   input: function($event) {
                     if ($event.target.composing) {
                       return
                     }
-                    _vm.$set(_vm.form, "patient_info", $event.target.value)
+                    _vm.$set(_vm.form, "description", $event.target.value)
                   }
                 }
               }),
               _vm._v(" "),
               _c("has-error", {
-                attrs: { form: _vm.form, field: "patient_info" }
+                attrs: { form: _vm.form, field: "description" }
               })
             ],
             1
@@ -76527,6 +76525,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['appointment'],
@@ -76538,8 +76539,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       alt_rating: 5 - this.appointment.rating,
       reviewed: this.appointment.reviewed,
       status: this.appointment.status,
-      status_text: this.appointment.status_text,
-      status_text_color: this.appointment.status_text_color,
 
       form: new Form({
         id: '',
@@ -76552,6 +76551,79 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
 
 
+  computed: {
+    // A RangeError is nagging on this computed methods. Working 80% b4.
+    // compRating(){
+    //   return (this.rating == 'undefined' || this.rating == NaN) 
+    //       ? 0 
+    //       : parseInt(this.form.rating);
+    // },
+    // altRating(){
+    //   return (this.alt_rating == 'undefined' || this.alt_rating == NaN) 
+    //       ? 5 
+    //       : (5 - parseInt(this.form.rating));
+    // },
+
+    appointmentStatusText: function appointmentStatusText() {
+      // switch (this.status){
+      if (this.status == 0) {
+        var statusText = 'Awaiting doctor\'s confirmation';
+      }
+      if (this.status == 1) {
+        var statusText = 'Success';
+      }
+      if (this.status == 2) {
+        var statusText = 'Appointment accepted by doctor. Awaits fee payment';
+      }
+      if (this.status == 3) {
+        var statusText = 'Rejected by doctor!';
+      }
+      if (this.status == 4) {
+        var statusText = 'Cancelled by patient!';
+      }
+      if (this.status == 5) {
+        var statusText = 'Fee paid, awaiting appointment time.';
+      }
+      if (this.status == 6) {
+        var statusText = 'Schedule time elapsed! Patient absconded.';
+      }
+      if (this.status == 7) {
+        var statusText = 'Doctor did not confirm 1-hour to scheduled time.';
+      }
+      // }
+      return statusText;
+    },
+    appointmentStatusTextColor: function appointmentStatusTextColor() {
+      // switch (this.status){
+      if (this.status == 0) {
+        var statusColor = 'indigo';
+      }
+      if (this.status == 1) {
+        var statusColor = 'teal';
+      }
+      if (this.status == 2) {
+        var statusColor = 'orange';
+      }
+      if (this.status == 3) {
+        var statusColor = 'red';
+      }
+      if (this.status == 4) {
+        var statusColor = 'red';
+      }
+      if (this.status == 5) {
+        var statusColor = 'orange';
+      }
+      if (this.status == 6) {
+        var statusColor = 'red';
+      }
+      if (this.status == 7) {
+        var statusColor = 'red';
+      }
+      // }
+      return statusColor;
+    }
+  },
+
   methods: {
     createReview: function createReview() {
       var _this = this;
@@ -76560,8 +76632,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.form.post('/reviews').then(function () {
         _this.review = _this.form;
         _this.reviewed = '1';
+
         _this.rating = _this.review.rating;
         _this.alt_rating = 5 - _this.rating;
+
         toast({ type: 'success', title: 'Review submitted successfully.' });
         _this.$Progress.finish();
       }).catch(function () {
@@ -76631,9 +76705,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   }
 
   // created() {
-  //   this.loadAppointmentPage();
+  //   this.loadAppointmentMessages();
   //   Event.$on('RefreshPage', () => {
-  //       this.loadAppointmentPage();
+  //       this.loadAppointmentMessages();
   //   });
   // }
 });
@@ -76665,7 +76739,7 @@ var render = function() {
           ),
           _vm._v(" "),
           _c("p", { staticClass: "text-small" }, [
-            _vm._v(_vm._s(_vm.appointment.patient_info))
+            _vm._v(_vm._s(_vm.appointment.description))
           ])
         ]
       )
@@ -76717,13 +76791,13 @@ var render = function() {
               "span",
               {
                 staticClass: "text-bold",
-                class: _vm.appointment.status_text_color
+                class: _vm.appointmentStatusTextColor
               },
               [
                 _c("i", { staticClass: "fa fa-info-circle pr-0 mr-0" }),
                 _vm._v(" "),
                 _c("span", {
-                  domProps: { textContent: _vm._s(_vm.appointment.status_text) }
+                  domProps: { textContent: _vm._s(_vm.appointmentStatusText) }
                 })
               ]
             )
@@ -77196,9 +77270,21 @@ var render = function() {
                           _c("span", { staticClass: "tf-flex" }, [
                             _c("span", {
                               domProps: {
-                                textContent: _vm._s(_vm.review.author)
+                                textContent: _vm._s(_vm.appointment.user.name)
                               }
-                            })
+                            }),
+                            _vm._v(" "),
+                            _vm.$acl.isLoggedIn() &&
+                            _vm.$acl.user.id == _vm.appointment.user.id
+                              ? _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-link btn-sm",
+                                    attrs: { title: "Update this review" }
+                                  },
+                                  [_c("i", { staticClass: "fa fa-cog" })]
+                                )
+                              : _vm._e()
                           ]),
                           _vm._v(" "),
                           _c("dfn", {
@@ -77210,38 +77296,40 @@ var render = function() {
                           _vm._v(" "),
                           _c("br"),
                           _vm._v(" "),
-                          _c(
-                            "span",
-                            {
-                              staticClass: "tf-flex",
-                              staticStyle: { "font-size": "10px" }
-                            },
-                            [
-                              _c(
+                          _vm.reviewed == "1"
+                            ? _c(
                                 "span",
+                                { staticClass: "tf-flex text-small" },
                                 [
-                                  _vm._l(_vm.rating, function(i) {
-                                    return _c("i", {
-                                      staticClass: "fa fa-star text-dark"
-                                    })
-                                  }),
+                                  _c("span", [
+                                    _c(
+                                      "span",
+                                      _vm._l(_vm.rating, function(i) {
+                                        return _c("i", {
+                                          staticClass: "fa fa-star text-dark"
+                                        })
+                                      })
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "span",
+                                      _vm._l(_vm.alt_rating, function(i) {
+                                        return _c("i", {
+                                          staticClass:
+                                            "fa fa-star text-black-50"
+                                        })
+                                      })
+                                    )
+                                  ]),
                                   _vm._v(" "),
-                                  _vm._l(_vm.alt_rating, function(i) {
-                                    return _c("i", {
-                                      staticClass: "fa fa-star text-black-50"
-                                    })
+                                  _c("span", {
+                                    domProps: {
+                                      textContent: _vm._s(_vm.review.created_at)
+                                    }
                                   })
-                                ],
-                                2
-                              ),
-                              _vm._v(" "),
-                              _c("span", {
-                                domProps: {
-                                  textContent: _vm._s(_vm.review.created_at)
-                                }
-                              })
-                            ]
-                          )
+                                ]
+                              )
+                            : _vm._e()
                         ])
                       ])
                     : _vm._e()

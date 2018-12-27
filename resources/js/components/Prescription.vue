@@ -2,9 +2,9 @@
   <div>
       <div class="card shadow">
         <div class="card-header">
-          <div class="card-title" :title="appointment.patient_info">
+          <div class="card-title" :title="appointment.description">
             <h5 class="border-bottom"><i class="fa fa-prescription"></i>&nbsp; Prescription for:</h5>
-            <p style="font-size:12px;">{{ appointment.patient_info }}</p>
+            <p style="font-size:12px;">{{ appointment.description }}</p>
           </div>
         </div>
 

@@ -6,7 +6,7 @@
           <i class="fa fa-info"></i> Consultation Reason: 
         </span>
         <p>
-          {{ $prescription->appointment->patient_info }}
+          {{ $prescription->appointment->description }}
         </p>
       </div>
 

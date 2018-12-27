@@ -114,11 +114,11 @@
                   </fieldset>
 
                   <div class="form-group text-center">
-                    <textarea name="patient_info" id="patient_info" style="min-height: 120px;max-height: 150px;" placeholder="write your intention for booking an appointment with {{$doctor->name}}" class="form-control{{ $errors->has('patient_info') ? ' is-invalid' : '' }}" required>{{old('patient_info')}}</textarea>
+                    <textarea name="description" id="description" style="min-height: 120px;max-height: 150px;" placeholder="write your intention for booking an appointment with {{$doctor->name}}" class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}" required>{{old('description')}}</textarea>
 
-                    @if ($errors->has('patient_info'))
+                    @if ($errors->has('description'))
                         <span class="invalid-feedback" role="alert">
-                            <strong>{{ $errors->first('patient_info') }}</strong>
+                            <strong>{{ $errors->first('description') }}</strong>
                         </span>
                     @endif
                   </div> 
