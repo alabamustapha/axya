@@ -13,6 +13,22 @@
                     <i class="fa fa-user-md"></i> {{ $doctor->specialty->name }}
                   </span>
                 </li>
+                <li class="pb-1" title="Current rating">
+                  <span>
+                    <i class="fa fa-star text-light"></i> 
+                    <span>
+                      @for($i=1; $i <= $doctor->rating_digit; $i++)
+                        <i class="fas fa-star"></i>
+                      @endfor
+                      
+                      @for($i=1; $i <= (5 - $doctor->rating_digit); $i++)
+                        <i class="fas fa-star text-light"></i>
+                      @endfor
+                    </span>
+
+                    <span class="text-bold">{{ $doctor->rating }}</span>
+                  </span>
+                </li>
 
                 @if(Auth::check() && (Auth::user()->can('edit', $doctor) || Auth::user()->is_admin))
                 <li class="pb-1" title="Email">

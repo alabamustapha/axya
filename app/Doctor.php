@@ -16,7 +16,7 @@ class Doctor extends Model
 
     protected $with = ['specialty'];
 
-    protected $appends = ['name','link','avatar','practice_years',];
+    protected $appends = ['name','link','avatar','practice_years','rating','rating_digit'];
 
     public function user()
     {
@@ -177,8 +177,8 @@ class Doctor extends Model
 
     public function dummyAvatar()
     {
-      $img = 'dummy_avatar'. random_int(1, 8) .'.jpg';
-      return config('app.url').'/images/doctor_images/' . $img;
+      $img = 'a'. random_int(1, 8) .'.jpg';
+      return config('app.url').'/images/' . $img;
     }
 
     /**
@@ -269,6 +269,26 @@ class Doctor extends Model
     }
 
     /**** ~API Candidates~****/
+
+    public function getRatingAttribute()
+    {
+        $total_reviews = $this->appointments()->reviewed()->get()->count();
+
+        $average_rating = $this->appointments()->reviewed()->avg('rating');
+
+        $rated = $average_rating ? round($average_rating, 2) . '/5': 'no ratings yet';
+
+        $rating = $rated . ' ('. $total_reviews .')';
+        
+        return $rating;
+    }
+
+    public function getRatingDigitAttribute()
+    {
+        $average_rating = $this->appointments()->reviewed()->avg('rating');
+
+        return $average_rating;
+    }
 
     public function getNameAttribute()
     {

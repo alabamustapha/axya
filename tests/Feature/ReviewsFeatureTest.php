@@ -112,7 +112,7 @@ class ReviewsFeatureTest extends TestCase
     }
 
     /**  @test */
-    public function update_an_appointment_gets_reviewed_attribute_updated_after_its_review_is_created()
+    public function update_an_appointment_gets_reviewed_and_rating_attributes_updated_after_its_review_is_created()
     {
         $user = factory(User::class)->states('verified')->create();
         $appointment = factory(Appointment::class)->create([ 'user_id'   => $user->id] );
@@ -133,6 +133,7 @@ class ReviewsFeatureTest extends TestCase
 
         $this->assertDatabaseHas('appointments', [ 
             'id' => $appointment->id, 
+            'rating'   => $data['rating'],
             'reviewed'   => '1'
         ]);
     }

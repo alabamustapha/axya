@@ -24,9 +24,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $doctors = Doctor::isActive()->get()->take(9);
+        $doctors = Doctor::isActive()->inRandomOrder()->get()->take(3);
         
-        return view('welcome', compact('doctors'));
+        return view('welcome_2', compact('doctors'));
     }
     
     // public function search($path)

@@ -24,6 +24,7 @@ class CreateAppointmentsTable extends Migration
             $table->datetime('to')->nullable();
             $table->text('patient_info')->nullable();
             $table->datetime('sealed_at')->nullable();
+            $table->tinyInteger('rating')->nullable();
             $table->boolean('reviewed')->default(0);
 
             $table->enum('type', ['Online', 'Home'])->default('Online');

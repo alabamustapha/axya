@@ -7,7 +7,8 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name') }} - @yield ('title')</title>
+    <link rel="icon" href="images/favicon.png" type="image/png" >
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -25,6 +26,7 @@
     <link href="{{ asset('css/all.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custom/welcome.css') }}" rel="stylesheet">
     <link href="{{ asset('css/custom/override.css') }}" rel="stylesheet">
+    <link href="{{asset('css/custom/style.css')}}" rel="stylesheet">
     
     @yield('styles')
 
@@ -58,6 +60,7 @@
     </script>
     <script src="{{asset('js/vendor/jquery-2.0.3.js')}}"></script>
     <script src="{{asset('js/custom.js')}}"></script>
+    <script src="{{asset('js/main.js')}}"></script>
 
     @yield('scripts')
 </body>

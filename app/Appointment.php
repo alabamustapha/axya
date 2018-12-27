@@ -19,14 +19,13 @@ class Appointment extends Model
         'schedule','duration','start_time','end_time',
         'status_text_color','status_text',
         'schedule_is_past',
-        'rating',
     ];
 
     protected $fillable = [
       'slug','user_id','doctor_id','patient_info',
       'day','from','to','sealed_at',
       'status','type','address','phone',
-      'reviewed',// 'reviewed (0|1)' with Reviews (user_id, dr_id & appmt_id composite key/unique)
+      'rating','reviewed',// 'reviewed (0|1)' with Reviews (user_id, dr_id & appmt_id composite key/unique)
     ];
 
     /**
@@ -201,6 +200,11 @@ class Appointment extends Model
         return $query->where('status', '7');
     }
 
+    public function scopeReviewed($query)
+    {
+        // Consultation completed successfully and is reviewed by patient.
+        return $query->where('reviewed', '1');
+    }
 
     /*<!---------------- Update Doctor Application Status ---------------->*/
     public static $appointmentStatus = array(
@@ -343,9 +347,10 @@ class Appointment extends Model
 
     #~~ Status Related
     #------------------------------------------------#
-    public function getRatingAttribute()
+    public function getRatingAttribute($value)
     {
-      return $this->review ? intval($this->review->rating) : 0;
+      // return $this->review ? intval($this->review->rating) : 0;
+      return $value ?: 0;
     }
 
     public function getStatusTextAttribute()

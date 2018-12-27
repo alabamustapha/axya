@@ -69,7 +69,7 @@ class ReviewController extends Controller
         $review = Review::create($request->all());
 
         if ($review){
-            $review->appointment()->update(['reviewed' => '1']);
+            $review->appointment()->update(['rating' => $request->rating,'reviewed' => '1']);
             
             $message = 'Review submitted successfully.';
 

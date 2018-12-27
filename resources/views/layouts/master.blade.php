@@ -8,11 +8,15 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name') }} - @yield ('title')</title>
+    <link rel="icon" href="images/favicon.png" type="image/png" >
 
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link rel="stylesheet" href="{{asset('css/all.css')}}">
+
     <link rel="stylesheet" href="{{asset('css/custom/override.css')}}">
+    <link rel="stylesheet" href="{{asset('css/custom/style.css')}}">
+
     <link rel="stylesheet" href="{{asset('css/vendor/pikaday.css')}}">
     <link rel="stylesheet" href="{{asset('css/vendor/jquery.timepicker.css')}}">
     {{-- 
@@ -99,6 +103,7 @@
     <!-- REQUIRED SCRIPTS -->
     <script src="{{asset('js/app.js')}}"></script>
     <script src="{{asset('js/custom.js')}}"></script>
+    <script src="{{asset('js/main.js')}}"></script>
     <script src="{{asset('js/vendor/moment.min.js')}}"></script>
     <script src="{{asset('js/vendor/pikaday.js')}}"></script>
     {{-- 
