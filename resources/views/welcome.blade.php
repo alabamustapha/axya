@@ -64,6 +64,11 @@
                                     <li class="nav-item">
                                         <a class="nav-link" href="#">Contact Us</a>
                                     </li>
+                                    <li class="nav-item dropdown">
+
+                                        @include('layouts.partials.dynamic-breadcrumb')
+
+                                    </li>
                                     @guest
                                         <li class="nav-item">
                                             <a class="nav-link sign-in" href="#" data-toggle="modal" data-target="#sign-in-up-modal">Sign in</a>

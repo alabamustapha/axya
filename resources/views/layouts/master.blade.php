@@ -61,10 +61,6 @@
               @endif
             @endauth
 
-            <nav aria-label="breadcrumb" class="my-0">                
-              @include('layouts.partials.dynamic-breadcrumb')
-            </nav>
-
             @include('layouts.partials.notifications')
 
             <searches></searches>

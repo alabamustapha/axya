@@ -21,6 +21,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">Contact Us</a>
                 </li>
+                <li class="nav-item dropdown">
+
+                    @include('layouts.partials.dynamic-breadcrumb')
+
+                </li>
                 @guest                    
                     @if (   request()->url() !== route('login' ) 
                         &&  request()->url() !== route('register'))

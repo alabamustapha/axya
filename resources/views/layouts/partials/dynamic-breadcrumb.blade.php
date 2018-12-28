@@ -1,28 +1,32 @@
 
-  <ol class="breadcrumb py-1 px-3 mb-1" style="border-top-right-radius: 10px;border-top-left-radius: 10px;">
-    <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+<a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+    <span>Resources</span>
+    <span class="caret"></span>
+</a>
+
+<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" aria-labelledby="navbarDropdown">
     @if (Request::path() == 'specialties')
-      <li class="breadcrumb-item active" aria-current="page"><b>Specialties</b></li>
+      <a href="#" class="dropdown-item"><b>Specialties</b></a>
     @else
-      <li class="breadcrumb-item"><a href="{{ route('specialties.index') }}">Specialties</a></li>
+      <a href="{{ route('specialties.index') }}" class="dropdown-item">Specialties</a>
     @endif
 
     @if (Request::is('specialties/*'))
-      <li class="breadcrumb-item active" aria-current="page"><b>{{ $specialty->name }}</b></li>
+      <a href="#" class="dropdown-item"><b>{{ $specialty->name }}</b></a>
     @endif
 
     @if (Request::is('tags/*'))
-      <li class="breadcrumb-item"><a href="{{ route('specialties.show', $tag->specialty) }}">{{ $tag->specialty->name }}</a></li>
-      <li class="breadcrumb-item active" aria-current="page"><b>{{ $tag->name }}</b></li>
+      <a href="{{ route('specialties.show', $tag->specialty) }}" class="dropdown-item">{{ $tag->specialty->name }}</a>
+      <a href="#" class="dropdown-item"><b>{{ $tag->name }}</b></a>
     @endif
 
     @if (Request::path() == 'tags')
-      <li class="breadcrumb-item active" aria-current="page"><b>Tags</b></li>
+      <a href="#" class="dropdown-item"><b>Tags</b></a>
     @else
-      <li class="breadcrumb-item"><a href="{{ route('tags.index') }}">Tags</a></li>
+      <a class="dropdown-item" href="{{ route('tags.index') }}">Tags</a>
     @endif
     
     @auth
-      <li class="breadcrumb-item"><a href="{{ route('appointments.index') }}">Appointments</a></li>
+      <a class="dropdown-item" href="{{ route('appointments.index') }}">Appointments</a>
     @endauth
-  </ol>
+</div>
