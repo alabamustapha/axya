@@ -2,30 +2,32 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name') }} - @yield ('title')</title>
     <link rel="icon" href="images/favicon.png" type="image/png" >
 
+    <!-- Styles -->
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
-    {{-- <link rel="stylesheet" href="{{asset('css/all.css')}}">
-
-    <link rel="stylesheet" href="{{asset('css/custom/override.css')}}">
-
+    {{--
     <link rel="stylesheet" href="{{asset('css/vendor/pikaday.css')}}">
-    <link rel="stylesheet" href="{{asset('css/vendor/jquery.timepicker.css')}}"> --}}
+    <link rel="stylesheet" href="{{asset('css/vendor/jquery.timepicker.css')}}"> 
+    --}}
     
+    <link rel="stylesheet" href="{{asset('css/vendor/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/custom/dashboard.css')}}">
     <link rel="stylesheet" href="{{asset('css/custom/style.css')}}">
+
+    @yield('styles')
 
     <!-- fonts -->
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
-
-    @yield('styles')
 
     <script>
       @auth
@@ -49,14 +51,14 @@
               @if (! Request::is('appointments/*'))
                 @if (Auth::user()->isAccountOwner())
                     <h4 class="pt-2 text-center">
-                      @if (Auth::user()->application_status == '0')
+                      {{-- @if (Auth::user()->application_status == '0')
                         Are you a <i class="fa fa-user-md"></i> Medical Doctor? 
                         <a class="btn btn-success btn-lg" href="{{route('doctors.create')}}">Register Here!</a>
 
-                      @else
+                      @else --}}
 
                         {{ Auth::user()->applicationStatus() }}
-                      @endif
+                      {{-- @endif --}}
                     </h4>
                 @endif
               @endif
@@ -64,7 +66,15 @@
 
             @include('layouts.partials.notifications')
 
-            <searches></searches>
+
+            <div class="search-container">
+              <div class="search-close mb-0 pb-0">
+                <span class="s-close">&times;</span>
+              </div>
+                  
+                  <searches></searches>
+
+            </div>
 
             <router-view></router-view>
 
@@ -85,7 +95,7 @@
       </div><!-- #/wrapper -->
     </div><!-- #/id -->
 
-    <!-- REQUIRED SCRIPTS -->
+    <!-- SCRIPTS -->
     <script src="{{asset('js/app.js')}}"></script>
 
     <script src="{{asset('js/vendor/moment.min.js')}}"></script>
@@ -107,8 +117,89 @@
       picker.gotoToday();
     </script>
 
+
+    <!-- inline scripts -->
+
+    <!-- SEARCH RESULT SCRIPT -->
+    <script>
+
+        $(document).ready(function () {
+
+            /**
+            * SCRIPT TO SHOW THE SEARCH RESULT AREA
+            */
+
+            let $searchBox = $('#search');
+            // create the overlay and append to body
+            let $searchOverlay = $("<div id='search-overlay'></div>");
+            $('body').append($searchOverlay);
+
+            function removeSearchResult() {
+                $('.search-container').removeClass('search-active'),
+                    $('#search-result').fadeOut(500),
+                    $('.search-close').fadeOut(500),
+                    $searchOverlay.fadeOut(500),
+                    $('.search-icon').removeClass('bg-white text-theme-blue'),
+                    $searchBox.val("");
+            }
+
+            function showSearchResult() {
+                $searchOverlay.fadeIn(500);
+
+                // push search-container up wards
+                $('.search-container').addClass('search-active');
+
+                // display the search list and close btn
+
+                $('#search-result').fadeIn(500);
+                $('.search-close').fadeIn(500);
+
+                // change search icon style
+                $('.search-icon').addClass('bg-white text-theme-blue');
+            }
+            // show on keypress to search
+
+            $searchBox.on('keypress', showSearchResult);
+            $('button.search-icon').click(function (event) {
+                event.preventDefault();
+                showSearchResult();
+            });
+            $searchBox.click(function () {
+                if ($searchBox.val() == "") {
+                    console.log('empty');
+                } else {
+                    console.log('not empty');
+
+                }
+
+            });
+
+            $('.s-close').click(removeSearchResult);
+
+            $searchBox.on('keyup', function () {
+                if ($(this).val() == "") {
+                    removeSearchResult();
+                }
+            });
+
+
+            /**
+            * SCRIPT TO DISPLAY RESULTS
+            */
+
+            //search query
+
+            $searchBox.on('keyup', function () {
+                let searchQuery = $searchBox.val();
+                $('.result-title').text('Search Result for ' + searchQuery);
+            })
+
+        });
+
+    </script>
+
     @guest
-      <!-- inline script -->
+      <!-- SIGN UP SCRIPT -->
       <script>        
         $(document).ready(function(){
            let $docAcct = $('#doc-acct');

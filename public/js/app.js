@@ -70716,57 +70716,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      searches: {},
+      // searches: {},
       doctors: {},
-      tags: {},
-      users: {},
-      specialties: {}
+      tags: {}
+      // users   : {},
     };
   },
 
@@ -70807,36 +70764,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return _this2.tags = data;
       });
     },
-    searchSpecialties: function searchSpecialties() {
-      var _this3 = this;
 
-      // $parent needed to access the root instance at ...resources\js\app.js
-      var query = this.$parent.search;
-      var searchUrl = appUrl + '/searches/specialties?q=';
+    // searchUsers() {
+    //   // $parent needed to access the root instance at ...resources\js\app.js
+    //   let query = this.$parent.search;
+    //   const searchUrl = appUrl +'/searches/users?q=';
 
-      axios.get(searchUrl + query).then(function (_ref3) {
-        var data = _ref3.data;
-        return _this3.specialties = data;
-      });
-    },
-    searchUsers: function searchUsers() {
-      var _this4 = this;
-
-      // $parent needed to access the root instance at ...resources\js\app.js
-      var query = this.$parent.search;
-      var searchUrl = appUrl + '/searches/users?q=';
-
-      axios.get(searchUrl + query).then(function (_ref4) {
-        var data = _ref4.data;
-        return _this4.users = data;
-      });
-    },
+    //   axios.get(searchUrl + query)
+    //   .then(({data}) => (this.users = data))
+    // },
 
 
     /*~~~~ PAGINATION OF MODELS ~~~~*/
     /*******************************/
     doctorsPagination: function doctorsPagination() {
-      var _this5 = this;
+      var _this3 = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
@@ -70844,11 +70786,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var searchUrl = appUrl + '/searches/doctors?q=';
 
       axios.get(searchUrl + query + '&page=' + page).then(function (response) {
-        _this5.doctors = response.data;
+        _this3.doctors = response.data;
       });
     },
     tagsPagination: function tagsPagination() {
-      var _this6 = this;
+      var _this4 = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
@@ -70856,31 +70798,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var searchUrl = appUrl + '/searches/tags?q=';
 
       axios.get(searchUrl + query + '&page=' + page).then(function (response) {
-        _this6.tags = response.data;
-      });
-    },
-    specialtiesPagination: function specialtiesPagination() {
-      var _this7 = this;
-
-      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-
-      var query = this.$parent.search;
-      var searchUrl = appUrl + '/searches/specialties?q=';
-
-      axios.get(searchUrl + query + '&page=' + page).then(function (response) {
-        _this7.specialties = response.data;
-      });
-    },
-    usersPagination: function usersPagination() {
-      var _this8 = this;
-
-      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-
-      var query = this.$parent.search;
-      var searchUrl = appUrl + '/searches/users?q=';
-
-      axios.get(searchUrl + query + '&page=' + page).then(function (response) {
-        _this8.users = response.data;
+        _this4.tags = response.data;
       });
     }
   },
@@ -70888,13 +70806,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   /**~~~~ LOAD ON NEW SEARCH ~~~~*/
   /*******************************/
   created: function created() {
-    var _this9 = this;
+    var _this5 = this;
 
     Event.$on('search_stuff', function () {
-      _this9.searchDoctors();
-      _this9.searchTags();
-      _this9.searchSpecialties();
-      _this9.searchUsers();
+      _this5.searchDoctors();
+      _this5.searchTags();
+      // this.searchUsers();
     });
   }
 });
@@ -70914,580 +70831,224 @@ var render = function() {
         {
           name: "show",
           rawName: "v-show",
-          value:
-            _vm.specialties.data ||
-            _vm.doctors.data ||
-            _vm.tags.data ||
-            _vm.users.data,
-          expression:
-            "specialties.data || doctors.data || tags.data || users.data"
+          value: _vm.doctors.data || _vm.tags.data,
+          expression: "doctors.data || tags.data"
         }
       ],
       staticClass: "container"
     },
     [
-      _c("div", { staticClass: "row justify-content-center" }, [
-        _c("div", { staticClass: "col" }, [
-          _c("div", { staticClass: "card shadow-none text-left" }, [
+      _c("div", { staticClass: " shadow ", attrs: { id: "search-result" } }, [
+        _c("div", { staticClass: "result" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _vm._m(1),
+          _vm._v(" "),
+          _c("div", { staticClass: "result-body" }, [
             _c(
               "div",
-              { staticClass: "card-header bg-primary text-center p-2" },
+              { staticClass: "tab-content", attrs: { id: "myTabContent" } },
               [
-                _c("span", [
-                  _vm._v("Results found for "),
-                  _c("b", { staticClass: "h4" }, [
-                    _vm._v(_vm._s(this.$parent.search))
-                  ])
-                ]),
-                _vm._v(" "),
-                _vm._m(0)
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "card-body", attrs: { id: "search-list" } },
-              [
-                _c("div", { staticClass: "card-deck" }, [
-                  _c(
-                    "div",
-                    { staticClass: "card card-primary shadow-none mx-1" },
-                    [
-                      _vm._m(1),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "card-body p-2" }, [
-                        _vm.doctors.data != undefined && _vm.doctors.data.length
-                          ? _c(
+                _c(
+                  "div",
+                  {
+                    staticClass: "tab-pane fade show active",
+                    attrs: {
+                      id: "doctor",
+                      role: "tabpanel",
+                      "aria-labelledby": "doctor-tab"
+                    }
+                  },
+                  [
+                    _vm.doctors.data != undefined && _vm.doctors.data.length
+                      ? _c(
+                          "div",
+                          _vm._l(_vm.doctors.data, function(doctor) {
+                            return _c(
                               "div",
-                              _vm._l(_vm.doctors.data, function(doctor) {
-                                return _c(
-                                  "div",
-                                  { key: doctor.id, staticClass: "p-1" },
-                                  [
-                                    _c("span", { staticClass: "text-small" }, [
-                                      _c(
-                                        "div",
-                                        { staticClass: "mb-0 clearfix" },
-                                        [
-                                          _c(
-                                            "a",
-                                            { attrs: { href: doctor.link } },
-                                            [
-                                              _c("img", {
-                                                staticClass: "text-sm-center",
-                                                staticStyle: {
-                                                  display: "inline-block",
-                                                  width: "80px",
-                                                  height: "80px",
-                                                  float: "left"
-                                                },
-                                                attrs: {
-                                                  src: doctor.avatar,
-                                                  alt: "Doctor Image",
-                                                  title: doctor.user.name
-                                                }
-                                              })
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "div",
-                                            {
-                                              staticClass:
-                                                "pl-2 text-left ml-2 ml-sm-0 ml-lg-2 d-flex flex-column justify-content-between h-100"
-                                            },
-                                            [
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "d-flex flex-row justify-content-between w-100 text-truncate"
-                                                },
-                                                [
-                                                  _c(
-                                                    "a",
-                                                    {
-                                                      staticClass:
-                                                        "users-list-name",
-                                                      attrs: {
-                                                        href: doctor.link,
-                                                        title: doctor.user.name
-                                                      }
-                                                    },
-                                                    [
-                                                      _vm._v(
-                                                        _vm._s(doctor.user.name)
-                                                      )
-                                                    ]
-                                                  ),
-                                                  _vm._v(" "),
-                                                  _vm.$acl.isSuperAdmin()
-                                                    ? _c(
-                                                        "div",
-                                                        {
-                                                          attrs: {
-                                                            title:
-                                                              "Admin " +
-                                                              doctor.user.name
-                                                          }
-                                                        },
-                                                        [
-                                                          _vm._m(2, true),
-                                                          _vm._v(" "),
-                                                          _vm._m(3, true)
-                                                        ]
-                                                      )
-                                                    : _vm._e()
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c("a", {
-                                                staticClass:
-                                                  "text-muted text-truncate",
-                                                attrs: {
-                                                  href: doctor.specialty.link,
-                                                  title: doctor.specialty.name
-                                                },
-                                                domProps: {
-                                                  textContent: _vm._s(
-                                                    doctor.specialty.name
-                                                  )
-                                                }
-                                              }),
-                                              _vm._v(" "),
-                                              _c("span", {
-                                                staticClass:
-                                                  "text-muted text-truncate",
-                                                attrs: {
-                                                  title: doctor.location
-                                                },
-                                                domProps: {
-                                                  textContent: _vm._s(
-                                                    doctor.location
-                                                  )
-                                                }
-                                              })
-                                            ]
-                                          )
-                                        ]
-                                      ),
-                                      _vm._v(" "),
-                                      _c(
-                                        "div",
-                                        {
-                                          staticClass:
-                                            "p-1 text-truncate tf-flex",
-                                          attrs: { title: "Current rating" }
-                                        },
-                                        [
-                                          _c(
-                                            "span",
-                                            [
-                                              _vm._l(
-                                                doctor.rating_digit,
-                                                function(i) {
-                                                  return _c("i", {
-                                                    staticClass:
-                                                      "fas fa-star pr-0 mr-0"
-                                                  })
-                                                }
-                                              ),
-                                              _vm._v(" "),
-                                              _vm._l(
-                                                5 - doctor.rating_digit,
-                                                function(i) {
-                                                  return _c("i", {
-                                                    staticClass:
-                                                      "fas fa-star pr-0 mr-0 orange"
-                                                  })
-                                                }
-                                              )
-                                            ],
-                                            2
-                                          ),
-                                          _vm._v(" "),
-                                          _c("span", [
-                                            _vm._v(_vm._s(doctor.rating))
-                                          ])
-                                        ]
-                                      )
-                                    ])
-                                  ]
-                                )
-                              })
-                            )
-                          : _c("div", { staticClass: "short-content-bg" }, [
-                              _vm._v("\n                  0 results for "),
-                              _c("b", [_vm._v(_vm._s(this.$parent.search))]),
-                              _vm._v(" in "),
-                              _c("em", { staticClass: "text-bold" }, [
-                                _vm._v("doctors")
-                              ]),
-                              _vm._v(".\n                ")
-                            ])
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass: "card-footer text-center mb-0 pb-1 px-2"
-                        },
-                        [
-                          _c(
-                            "div",
-                            {
-                              staticClass: "table-responsive tp-scrollbar m-0"
-                            },
-                            [
-                              _c(
-                                "div",
-                                { staticStyle: { "flex-flow": "nowrap" } },
-                                [
-                                  _c("pagination", {
-                                    attrs: { data: _vm.doctors },
-                                    on: {
-                                      "pagination-change-page":
-                                        _vm.doctorsPagination
-                                    }
+                              { key: doctor.id, staticClass: "d-r result-row" },
+                              [
+                                _c("div", { staticClass: "img-side" }, [
+                                  _c("img", {
+                                    staticClass: "img-fluid rounded-circle",
+                                    attrs: { src: doctor.avatar, alt: "" }
                                   })
-                                ],
-                                1
-                              )
-                            ]
-                          )
-                        ]
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "card card-secondary shadow-none mx-1" },
-                    [
-                      _vm._m(4),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "card-body p-2 text-small" }, [
-                        _vm.tags.data != undefined && _vm.tags.data.length
-                          ? _c(
-                              "div",
-                              _vm._l(_vm.tags.data, function(tag) {
-                                return _c(
-                                  "div",
-                                  {
-                                    key: tag.id,
-                                    staticClass:
-                                      "p-1 my-2 mx-0 short-content-bg"
-                                  },
-                                  [
-                                    _c("span", [
-                                      _c("a", {
-                                        staticClass: "text-bold",
-                                        attrs: {
-                                          href: tag.link,
-                                          title:
-                                            tag.name +
-                                            " - " +
-                                            tag.specialty.name
-                                        },
-                                        domProps: {
-                                          textContent: _vm._s(tag.name)
-                                        }
-                                      }),
-                                      _vm._v(
-                                        "\n                        |  \n                      "
-                                      ),
-                                      _c("span", {
-                                        staticClass: "text-dark",
-                                        domProps: {
-                                          textContent: _vm._s(
-                                            tag.description_preview
-                                          )
-                                        }
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "info-side" }, [
+                                  _c("div", { staticClass: "doc" }, [
+                                    _c("span", {
+                                      staticClass: "d-block h2",
+                                      domProps: {
+                                        textContent: _vm._s(doctor.name)
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _vm.$acl.isSuperAdmin()
+                                      ? _c(
+                                          "div",
+                                          {
+                                            attrs: {
+                                              title: "Admin " + doctor.user.name
+                                            }
+                                          },
+                                          [
+                                            _vm._m(2, true),
+                                            _vm._v(" "),
+                                            _vm._m(3, true)
+                                          ]
+                                        )
+                                      : _vm._e(),
+                                    _vm._v(" "),
+                                    _c("span", {
+                                      staticClass:
+                                        "d-block occupation text-muted",
+                                      domProps: {
+                                        textContent: _vm._s(doctor.location)
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("span", {
+                                      staticClass: "occupation",
+                                      domProps: {
+                                        textContent: _vm._s(
+                                          doctor.specialty.name
+                                        )
+                                      }
+                                    })
+                                  ]),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    { staticClass: "ratings" },
+                                    _vm._l(doctor.rating_digit, function(i) {
+                                      return _c("i", {
+                                        staticClass: "fas fa-star"
                                       })
-                                    ])
-                                  ]
-                                )
-                              })
-                            )
-                          : _c("div", { staticClass: "short-content-bg" }, [
-                              _vm._v("\n                  0 results for "),
-                              _c("b", [_vm._v(_vm._s(this.$parent.search))]),
-                              _vm._v(" in "),
-                              _c("em", { staticClass: "text-bold" }, [
-                                _vm._v("keywords")
-                              ]),
-                              _vm._v(".\n                ")
-                            ])
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass: "card-footer text-center mb-0 pb-1 px-2"
-                        },
-                        [
-                          _c(
-                            "div",
-                            {
-                              staticClass: "table-responsive tp-scrollbar m-0"
-                            },
-                            [
-                              _c(
-                                "div",
-                                { staticStyle: { "flex-flow": "nowrap" } },
-                                [
-                                  _c("pagination", {
-                                    attrs: { data: _vm.tags },
-                                    on: {
-                                      "pagination-change-page":
-                                        _vm.tagsPagination
-                                    }
-                                  })
-                                ],
-                                1
-                              )
-                            ]
-                          )
-                        ]
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "card card-secondary shadow-none mx-1" },
-                    [
-                      _vm._m(5),
-                      _vm._v(" "),
-                      _c("div", { staticClass: "card-body p-2 text-small" }, [
-                        _vm.specialties.data != undefined &&
-                        _vm.specialties.data.length
-                          ? _c(
-                              "div",
-                              _vm._l(_vm.specialties.data, function(specialty) {
-                                return _c(
-                                  "div",
-                                  { key: specialty.id, staticClass: "p-1" },
-                                  [
-                                    _c(
-                                      "span",
-                                      { attrs: { title: specialty.name } },
-                                      [
-                                        _c("a", {
-                                          staticClass: "text-bold",
-                                          attrs: { href: specialty.link },
-                                          domProps: {
-                                            textContent: _vm._s(specialty.name)
-                                          }
-                                        }),
-                                        _vm._v(
-                                          "\n                        |  \n                      "
-                                        ),
-                                        _c("span", {
-                                          staticClass: "text-dark",
-                                          domProps: {
-                                            textContent: _vm._s(
-                                              specialty.description_preview
-                                            )
-                                          }
-                                        })
-                                      ]
-                                    )
-                                  ]
-                                )
-                              })
-                            )
-                          : _c("div", { staticClass: "short-content-bg" }, [
-                              _vm._v("\n                  0 results for "),
-                              _c("b", [_vm._v(_vm._s(this.$parent.search))]),
-                              _vm._v(" in "),
-                              _c("em", { staticClass: "text-bold" }, [
-                                _vm._v("specialties")
-                              ]),
-                              _vm._v(".\n                ")
-                            ])
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          staticClass: "card-footer text-center mb-0 pb-1 px-2"
-                        },
-                        [
-                          _c(
-                            "div",
-                            {
-                              staticClass: "table-responsive tp-scrollbar m-0"
-                            },
-                            [
-                              _c(
-                                "div",
-                                { staticStyle: { "flex-flow": "nowrap" } },
-                                [
-                                  _c("pagination", {
-                                    attrs: { data: _vm.specialties },
-                                    on: {
-                                      "pagination-change-page":
-                                        _vm.specialtiesPagination
-                                    }
-                                  })
-                                ],
-                                1
-                              )
-                            ]
-                          )
-                        ]
-                      )
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _vm.$acl.isSuperAdmin()
-                    ? _c(
-                        "div",
-                        { staticClass: "card card-primary shadow-none mx-1" },
-                        [
-                          _vm._m(6),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            { staticClass: "card-body p-2 text-small" },
-                            [
-                              _vm.users.data != undefined &&
-                              _vm.users.data.length
-                                ? _c(
-                                    "div",
-                                    _vm._l(_vm.users.data, function(user) {
-                                      return _c(
-                                        "div",
-                                        { key: user.id, staticClass: "p-1" },
-                                        [
-                                          _c(
-                                            "span",
-                                            { attrs: { title: user.name } },
-                                            [
-                                              _c(
-                                                "a",
-                                                { attrs: { href: user.link } },
-                                                [
-                                                  _c("img", {
-                                                    staticClass:
-                                                      "text-sm-center",
-                                                    staticStyle: {
-                                                      display: "inline-block",
-                                                      width: "80px",
-                                                      height: "80px"
-                                                    },
-                                                    attrs: {
-                                                      src: user.avatar,
-                                                      alt: "Doctor Image"
-                                                    }
-                                                  })
-                                                ]
-                                              ),
-                                              _vm._v(" "),
-                                              _c(
-                                                "div",
-                                                {
-                                                  staticClass:
-                                                    "text-left ml-2 ml-sm-0 ml-lg-2 d-flex flex-column justify-content-between h-100"
-                                                },
-                                                [
-                                                  _c(
-                                                    "div",
-                                                    {
-                                                      staticClass:
-                                                        "d-flex flex-row justify-content-between w-100"
-                                                    },
-                                                    [
-                                                      _c(
-                                                        "a",
-                                                        {
-                                                          staticClass:
-                                                            "users-list-name",
-                                                          attrs: {
-                                                            href: user.link
-                                                          }
-                                                        },
-                                                        [
-                                                          _vm._v(
-                                                            _vm._s(user.name)
-                                                          )
-                                                        ]
-                                                      ),
-                                                      _vm._v(" "),
-                                                      _vm.$acl.isSuperAdmin()
-                                                        ? _c("div", [
-                                                            _vm._m(7, true),
-                                                            _vm._v(" "),
-                                                            _vm._m(8, true)
-                                                          ])
-                                                        : _vm._e()
-                                                    ]
-                                                  )
-                                                ]
-                                              )
-                                            ]
-                                          )
-                                        ]
-                                      )
                                     })
                                   )
-                                : _c(
-                                    "div",
-                                    { staticClass: "short-content-bg" },
-                                    [
-                                      _vm._v(
-                                        "\n                  0 results for "
-                                      ),
-                                      _c("b", [
-                                        _vm._v(_vm._s(this.$parent.search))
-                                      ]),
-                                      _vm._v(" in "),
-                                      _c("em", { staticClass: "text-bold" }, [
-                                        _vm._v("users")
-                                      ]),
-                                      _vm._v(".\n                ")
-                                    ]
-                                  )
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "div",
-                            {
-                              staticClass:
-                                "card-footer text-center mb-0 pb-1 px-2"
-                            },
-                            [
-                              _c(
-                                "div",
-                                {
-                                  staticClass:
-                                    "table-responsive tp-scrollbar m-0"
-                                },
-                                [
-                                  _c(
-                                    "div",
-                                    { staticStyle: { "flex-flow": "nowrap" } },
-                                    [
-                                      _c("pagination", {
-                                        attrs: { data: _vm.users },
-                                        on: {
-                                          "pagination-change-page":
-                                            _vm.usersPagination
-                                        }
-                                      })
-                                    ],
-                                    1
-                                  )
-                                ]
-                              )
-                            ]
-                          )
-                        ]
-                      )
-                    : _vm._e()
-                ])
+                                ])
+                              ]
+                            )
+                          })
+                        )
+                      : _c("div", { staticClass: "text-center p-3" }, [
+                          _vm._v("\n                  0 results for "),
+                          _c("b", [_vm._v(_vm._s(this.$parent.search))]),
+                          _vm._v(" in "),
+                          _c("em", { staticClass: "text-bold" }, [
+                            _vm._v("doctors")
+                          ]),
+                          _vm._v(".\n                ")
+                        ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "card-footer text-center mb-0 pb-1 px-2" },
+                      [
+                        _c(
+                          "div",
+                          { staticClass: "table-responsive tp-scrollbar m-0" },
+                          [
+                            _c(
+                              "div",
+                              { staticStyle: { "flex-flow": "nowrap" } },
+                              [
+                                _c("pagination", {
+                                  attrs: { data: _vm.doctors },
+                                  on: {
+                                    "pagination-change-page":
+                                      _vm.doctorsPagination
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ]
+                        )
+                      ]
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "tab-pane fade",
+                    attrs: {
+                      id: "tag",
+                      role: "tabpanel",
+                      "aria-labelledby": "tag-tab"
+                    }
+                  },
+                  [
+                    _vm.tags.data != undefined && _vm.tags.data.length
+                      ? _c(
+                          "div",
+                          _vm._l(_vm.tags.data, function(tag) {
+                            return _c(
+                              "div",
+                              { key: tag.id, staticClass: "result-row" },
+                              [
+                                _c("span", { staticClass: "tag" }, [
+                                  _c("a", {
+                                    attrs: {
+                                      href: tag.link,
+                                      title:
+                                        tag.name + " - " + tag.specialty.name
+                                    },
+                                    domProps: { textContent: _vm._s(tag.name) }
+                                  })
+                                ]),
+                                _vm._v(
+                                  "\n                     -  \n                    "
+                                ),
+                                _c("span", {
+                                  domProps: {
+                                    textContent: _vm._s(tag.description_preview)
+                                  }
+                                })
+                              ]
+                            )
+                          })
+                        )
+                      : _c("div", { staticClass: "text-center p-3" }, [
+                          _vm._v("\n                  0 results for "),
+                          _c("b", [_vm._v(_vm._s(this.$parent.search))]),
+                          _vm._v(" in "),
+                          _c("em", { staticClass: "text-bold" }, [
+                            _vm._v("tags")
+                          ]),
+                          _vm._v(".\n                ")
+                        ]),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "card-footer text-center mb-0 pb-1 px-2" },
+                      [
+                        _c(
+                          "div",
+                          { staticClass: "table-responsive tp-scrollbar m-0" },
+                          [
+                            _c(
+                              "div",
+                              { staticStyle: { "flex-flow": "nowrap" } },
+                              [
+                                _c("pagination", {
+                                  attrs: { data: _vm.tags },
+                                  on: {
+                                    "pagination-change-page": _vm.tagsPagination
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          ]
+                        )
+                      ]
+                    )
+                  ]
+                )
               ]
             )
           ])
@@ -71501,155 +71062,59 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-tools" }, [
+    return _c("div", { staticClass: "result-header text-center p-3" }, [
+      _c("span", { staticClass: "h4 result-title  text-darker" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "result-nav px-3 " }, [
       _c(
-        "button",
+        "ul",
         {
-          staticClass: "btn btn-tool",
-          attrs: { type: "button", "data-widget": "collapse" }
+          staticClass: "nav nav-tabs justify-content-center",
+          attrs: { id: "myTab", role: "tablist" }
         },
-        [_c("i", { staticClass: "fa fa-minus" })]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("i", { staticClass: "fa fa-user-md" }),
-      _vm._v("  Doctors\n              ")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "btn btn-sm dropdown-toggle d-inline",
-        attrs: {
-          id: "navbarDropdown",
-          href: "#",
-          role: "button",
-          "data-toggle": "dropdown",
-          "aria-haspopup": "true",
-          "aria-expanded": "false"
-        }
-      },
-      [_c("i", { staticClass: "fa fa-cog" })]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      {
-        staticClass: "dropdown-menu dropdown-menu-lg",
-        staticStyle: { "font-size": "12px" },
-        attrs: { "aria-labelledby": "navbarDropdown" }
-      },
-      [
-        _c(
-          "button",
-          {
-            staticClass: "dropdown-item",
-            attrs: {
-              type: "submit",
-              onclick:
-                "return confirm('You really want to demote this admin to STAFF?');",
-              title: "Demote Admin"
-            }
-          },
-          [
-            _c("i", { staticClass: "fa fa-user-tie teal" }),
-            _vm._v("  Upgrade to Admin\n                                  ")
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "dropdown-item",
-            attrs: {
-              type: "submit",
-              onclick:
-                "return confirm('You really want to demote this admin to NORMAL User?');",
-              title: "Demote Admin"
-            }
-          },
-          [
-            _c("i", { staticClass: "fa fa-user-tag indigo" }),
-            _vm._v("  Upgrade to Staff\n                                  ")
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "dropdown-item",
-            attrs: {
-              type: "submit",
-              onclick:
-                "return confirm('You really want to demote this admin to NORMAL User?');",
-              title: "Demote Admin"
-            }
-          },
-          [
-            _c("i", { staticClass: "fa fa-user-slash orange" }),
-            _vm._v(
-              "  Demote to Normal User\n                                  "
+        [
+          _c("li", { staticClass: "nav-item" }, [
+            _c(
+              "a",
+              {
+                staticClass: "nav-link active",
+                attrs: {
+                  id: "doctor-tab",
+                  "data-toggle": "tab",
+                  href: "#doctor",
+                  role: "tab",
+                  "aria-controls": "doctor",
+                  "aria-selected": "true"
+                }
+              },
+              [_vm._v("Doctor")]
             )
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "button",
-          {
-            staticClass: "dropdown-item",
-            attrs: {
-              type: "submit",
-              onclick:
-                "return confirm('You really want to demote this admin to NORMAL User?');",
-              title: "Demote Admin"
-            }
-          },
-          [
-            _c("i", { staticClass: "fa fa-ban red" }),
-            _vm._v("  Block/Suspend\n                                  ")
-          ]
-        )
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("i", { staticClass: "fa fa-tags" }),
-      _vm._v("  Keyword/Tags\n              ")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("i", { staticClass: "fa fa-tags" }),
-      _vm._v("  Specialties\n              ")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("i", { staticClass: "fa fa-users" }),
-      _vm._v("  Users\n              ")
+          ]),
+          _vm._v(" "),
+          _c("li", { staticClass: "nav-item" }, [
+            _c(
+              "a",
+              {
+                staticClass: "nav-link",
+                attrs: {
+                  id: "tag-tab",
+                  "data-toggle": "tab",
+                  href: "#tag",
+                  role: "tab",
+                  "aria-controls": "tag",
+                  "aria-selected": "false"
+                }
+              },
+              [_vm._v("Keyword/Tag")]
+            )
+          ])
+        ]
+      )
     ])
   },
   function() {

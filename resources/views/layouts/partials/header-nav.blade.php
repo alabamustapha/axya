@@ -54,7 +54,25 @@
 
                     </li>
                 @endguest
-            </ul>            
+            </ul>
+            <form action="" method="post" class="form-inline">
+                <div class="search-area m-0">
+                    <div class="search-box">
+                        <input 
+                            v-model="search"
+                            @keyup="searchForQuery"
+                            type="search"
+                            name="search" id="search"
+                            aria-label="Search" 
+                            placeholder="search doctors, illness, topics, cities etc">
+                    </div>
+            
+                    <button @click="searchForQuery" type="submit" class="search-icon bg-theme-blue">
+                        <i class="fa fa-search "></i>
+                    </button>
+            
+                </div>
+            </form>
         </div>
     </div>
 </nav>

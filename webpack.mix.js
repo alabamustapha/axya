@@ -15,6 +15,7 @@ mix.js('resources/js/app.js', 'public/js')//[,'public/js/custom.js','public/js/p
    .sass('resources/sass/app.scss', 'public/css')
    .styles([
     'public/css/vendor/font-awesome.min.css',
+    'public/css/vendor/bootstrap.min.css',
     'public/css/custom/dashboard.css',
     'public/css/custom/aesthetics.css',
     'public/css/custom/override.css'
