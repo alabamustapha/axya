@@ -70712,10 +70712,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -70826,232 +70822,215 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    {
-      directives: [
-        {
-          name: "show",
-          rawName: "v-show",
-          value: _vm.doctors.data || _vm.tags.data,
-          expression: "doctors.data || tags.data"
-        }
-      ],
-      staticClass: "container"
-    },
+    { staticClass: " shadow ", attrs: { id: "search-result" } },
     [
-      _c("div", { staticClass: " shadow ", attrs: { id: "search-result" } }, [
-        _c("div", { staticClass: "result" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _vm._m(1),
-          _vm._v(" "),
-          _c("div", { staticClass: "result-body" }, [
-            _c(
-              "div",
-              { staticClass: "tab-content", attrs: { id: "myTabContent" } },
-              [
-                _c(
-                  "div",
-                  {
-                    staticClass: "tab-pane fade show active",
-                    attrs: {
-                      id: "doctor",
-                      role: "tabpanel",
-                      "aria-labelledby": "doctor-tab"
-                    }
-                  },
-                  [
-                    _vm.doctors.data != undefined && _vm.doctors.data.length
-                      ? _c(
-                          "div",
-                          _vm._l(_vm.doctors.data, function(doctor) {
-                            return _c(
-                              "div",
-                              { key: doctor.id, staticClass: "d-r result-row" },
-                              [
-                                _c("div", { staticClass: "img-side" }, [
-                                  _c("img", {
-                                    staticClass: "img-fluid rounded-circle",
-                                    attrs: { src: doctor.avatar, alt: "" }
+      _c("div", { staticClass: "result" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _vm._m(1),
+        _vm._v(" "),
+        _c("div", { staticClass: "result-body" }, [
+          _c(
+            "div",
+            { staticClass: "tab-content", attrs: { id: "myTabContent" } },
+            [
+              _c(
+                "div",
+                {
+                  staticClass: "tab-pane fade show active",
+                  attrs: {
+                    id: "doctor",
+                    role: "tabpanel",
+                    "aria-labelledby": "doctor-tab"
+                  }
+                },
+                [
+                  _vm.doctors.data != undefined && _vm.doctors.data.length
+                    ? _c(
+                        "div",
+                        _vm._l(_vm.doctors.data, function(doctor) {
+                          return _c(
+                            "div",
+                            { key: doctor.id, staticClass: "d-r result-row" },
+                            [
+                              _c("div", { staticClass: "img-side" }, [
+                                _c("img", {
+                                  staticClass: "img-fluid rounded-circle",
+                                  attrs: { src: doctor.avatar, alt: "" }
+                                })
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "info-side" }, [
+                                _c("div", { staticClass: "doc" }, [
+                                  _c("span", {
+                                    staticClass: "d-block h2",
+                                    domProps: {
+                                      textContent: _vm._s(doctor.name)
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _vm.$acl.isSuperAdmin()
+                                    ? _c(
+                                        "div",
+                                        {
+                                          attrs: {
+                                            title: "Admin " + doctor.user.name
+                                          }
+                                        },
+                                        [
+                                          _vm._m(2, true),
+                                          _vm._v(" "),
+                                          _vm._m(3, true)
+                                        ]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _c("span", {
+                                    staticClass:
+                                      "d-block occupation text-muted",
+                                    domProps: {
+                                      textContent: _vm._s(doctor.location)
+                                    }
+                                  }),
+                                  _vm._v(" "),
+                                  _c("span", {
+                                    staticClass: "occupation",
+                                    domProps: {
+                                      textContent: _vm._s(doctor.specialty.name)
+                                    }
                                   })
                                 ]),
                                 _vm._v(" "),
-                                _c("div", { staticClass: "info-side" }, [
-                                  _c("div", { staticClass: "doc" }, [
-                                    _c("span", {
-                                      staticClass: "d-block h2",
-                                      domProps: {
-                                        textContent: _vm._s(doctor.name)
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _vm.$acl.isSuperAdmin()
-                                      ? _c(
-                                          "div",
-                                          {
-                                            attrs: {
-                                              title: "Admin " + doctor.user.name
-                                            }
-                                          },
-                                          [
-                                            _vm._m(2, true),
-                                            _vm._v(" "),
-                                            _vm._m(3, true)
-                                          ]
-                                        )
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    _c("span", {
-                                      staticClass:
-                                        "d-block occupation text-muted",
-                                      domProps: {
-                                        textContent: _vm._s(doctor.location)
-                                      }
-                                    }),
-                                    _vm._v(" "),
-                                    _c("span", {
-                                      staticClass: "occupation",
-                                      domProps: {
-                                        textContent: _vm._s(
-                                          doctor.specialty.name
-                                        )
-                                      }
+                                _c(
+                                  "span",
+                                  { staticClass: "ratings" },
+                                  _vm._l(doctor.rating_digit, function(i) {
+                                    return _c("i", {
+                                      staticClass: "fas fa-star"
                                     })
-                                  ]),
-                                  _vm._v(" "),
-                                  _c(
-                                    "span",
-                                    { staticClass: "ratings" },
-                                    _vm._l(doctor.rating_digit, function(i) {
-                                      return _c("i", {
-                                        staticClass: "fas fa-star"
-                                      })
-                                    })
-                                  )
-                                ])
-                              ]
-                            )
-                          })
-                        )
-                      : _c("div", { staticClass: "text-center p-3" }, [
-                          _vm._v("\n                  0 results for "),
-                          _c("b", [_vm._v(_vm._s(this.$parent.search))]),
-                          _vm._v(" in "),
-                          _c("em", { staticClass: "text-bold" }, [
-                            _vm._v("doctors")
-                          ]),
-                          _vm._v(".\n                ")
-                        ]),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "card-footer text-center mb-0 pb-1 px-2" },
-                      [
-                        _c(
-                          "div",
-                          { staticClass: "table-responsive tp-scrollbar m-0" },
-                          [
-                            _c(
-                              "div",
-                              { staticStyle: { "flex-flow": "nowrap" } },
-                              [
-                                _c("pagination", {
-                                  attrs: { data: _vm.doctors },
-                                  on: {
-                                    "pagination-change-page":
-                                      _vm.doctorsPagination
-                                  }
-                                })
-                              ],
-                              1
-                            )
-                          ]
-                        )
-                      ]
-                    )
-                  ]
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass: "tab-pane fade",
-                    attrs: {
-                      id: "tag",
-                      role: "tabpanel",
-                      "aria-labelledby": "tag-tab"
-                    }
-                  },
-                  [
-                    _vm.tags.data != undefined && _vm.tags.data.length
-                      ? _c(
-                          "div",
-                          _vm._l(_vm.tags.data, function(tag) {
-                            return _c(
-                              "div",
-                              { key: tag.id, staticClass: "result-row" },
-                              [
-                                _c("span", { staticClass: "tag" }, [
-                                  _c("a", {
-                                    attrs: {
-                                      href: tag.link,
-                                      title:
-                                        tag.name + " - " + tag.specialty.name
-                                    },
-                                    domProps: { textContent: _vm._s(tag.name) }
                                   })
-                                ]),
-                                _vm._v(
-                                  "\n                     -  \n                    "
-                                ),
-                                _c("span", {
-                                  domProps: {
-                                    textContent: _vm._s(tag.description_preview)
-                                  }
-                                })
-                              ]
-                            )
-                          })
-                        )
-                      : _c("div", { staticClass: "text-center p-3" }, [
-                          _vm._v("\n                  0 results for "),
-                          _c("b", [_vm._v(_vm._s(this.$parent.search))]),
-                          _vm._v(" in "),
-                          _c("em", { staticClass: "text-bold" }, [
-                            _vm._v("tags")
-                          ]),
-                          _vm._v(".\n                ")
+                                )
+                              ])
+                            ]
+                          )
+                        })
+                      )
+                    : _c("div", { staticClass: "text-center p-3" }, [
+                        _vm._v("\n            0 results for "),
+                        _c("b", [_vm._v(_vm._s(this.$parent.search))]),
+                        _vm._v(" in "),
+                        _c("em", { staticClass: "text-bold" }, [
+                          _vm._v("doctors")
                         ]),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "card-footer text-center mb-0 pb-1 px-2" },
-                      [
-                        _c(
-                          "div",
-                          { staticClass: "table-responsive tp-scrollbar m-0" },
-                          [
-                            _c(
-                              "div",
-                              { staticStyle: { "flex-flow": "nowrap" } },
-                              [
-                                _c("pagination", {
-                                  attrs: { data: _vm.tags },
-                                  on: {
-                                    "pagination-change-page": _vm.tagsPagination
-                                  }
+                        _vm._v(".\n          ")
+                      ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "card-footer text-center mb-0 pb-1 px-2" },
+                    [
+                      _c(
+                        "div",
+                        { staticClass: "table-responsive tp-scrollbar m-0" },
+                        [
+                          _c(
+                            "div",
+                            { staticStyle: { "flex-flow": "nowrap" } },
+                            [
+                              _c("pagination", {
+                                attrs: { data: _vm.doctors },
+                                on: {
+                                  "pagination-change-page":
+                                    _vm.doctorsPagination
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ]
+                      )
+                    ]
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                {
+                  staticClass: "tab-pane fade",
+                  attrs: {
+                    id: "tag",
+                    role: "tabpanel",
+                    "aria-labelledby": "tag-tab"
+                  }
+                },
+                [
+                  _vm.tags.data != undefined && _vm.tags.data.length
+                    ? _c(
+                        "div",
+                        _vm._l(_vm.tags.data, function(tag) {
+                          return _c(
+                            "div",
+                            { key: tag.id, staticClass: "result-row" },
+                            [
+                              _c("span", { staticClass: "tag" }, [
+                                _c("a", {
+                                  attrs: {
+                                    href: tag.link,
+                                    title: tag.name + " - " + tag.specialty.name
+                                  },
+                                  domProps: { textContent: _vm._s(tag.name) }
                                 })
-                              ],
-                              1
-                            )
-                          ]
-                        )
-                      ]
-                    )
-                  ]
-                )
-              ]
-            )
-          ])
+                              ]),
+                              _vm._v("\n               -  \n              "),
+                              _c("span", {
+                                domProps: {
+                                  textContent: _vm._s(tag.description_preview)
+                                }
+                              })
+                            ]
+                          )
+                        })
+                      )
+                    : _c("div", { staticClass: "text-center p-3" }, [
+                        _vm._v("\n            0 results for "),
+                        _c("b", [_vm._v(_vm._s(this.$parent.search))]),
+                        _vm._v(" in "),
+                        _c("em", { staticClass: "text-bold" }, [
+                          _vm._v("tags")
+                        ]),
+                        _vm._v(".\n          ")
+                      ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "card-footer text-center mb-0 pb-1 px-2" },
+                    [
+                      _c(
+                        "div",
+                        { staticClass: "table-responsive tp-scrollbar m-0" },
+                        [
+                          _c(
+                            "div",
+                            { staticStyle: { "flex-flow": "nowrap" } },
+                            [
+                              _c("pagination", {
+                                attrs: { data: _vm.tags },
+                                on: {
+                                  "pagination-change-page": _vm.tagsPagination
+                                }
+                              })
+                            ],
+                            1
+                          )
+                        ]
+                      )
+                    ]
+                  )
+                ]
+              )
+            ]
+          )
         ])
       ])
     ]
@@ -71162,7 +71141,7 @@ var staticRenderFns = [
           },
           [
             _c("i", { staticClass: "fa fa-user-tie teal" }),
-            _vm._v("  Upgrade to Admin\n                                ")
+            _vm._v("  Upgrade to Admin\n                          ")
           ]
         ),
         _vm._v(" "),
@@ -71179,7 +71158,7 @@ var staticRenderFns = [
           },
           [
             _c("i", { staticClass: "fa fa-user-tag indigo" }),
-            _vm._v("  Upgrade to Staff\n                                ")
+            _vm._v("  Upgrade to Staff\n                          ")
           ]
         ),
         _vm._v(" "),
@@ -71196,7 +71175,7 @@ var staticRenderFns = [
           },
           [
             _c("i", { staticClass: "fa fa-user-slash orange" }),
-            _vm._v("  Demote to Normal User\n                                ")
+            _vm._v("  Demote to Normal User\n                          ")
           ]
         ),
         _vm._v(" "),
@@ -71213,7 +71192,7 @@ var staticRenderFns = [
           },
           [
             _c("i", { staticClass: "fa fa-ban red" }),
-            _vm._v("  Block/Suspend\n                                ")
+            _vm._v("  Block/Suspend\n                          ")
           ]
         )
       ]
