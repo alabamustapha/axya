@@ -65,11 +65,11 @@
 
                           </div>
                         </div>
-                        <div class="pb-1 text-truncate tf-flex" title="Current rating">
+                        <div class="p-1 text-truncate tf-flex" title="Current rating">
                           <span>
                               <i class="fas fa-star pr-0 mr-0" v-for="i in doctor.rating_digit"></i>
 
-                              <i class="fas fa-star pr-0 mr-0 text-light" v-for="i in (5 - doctor.rating_digit)"></i>
+                              <i class="fas fa-star pr-0 mr-0 orange" v-for="i in (5 - doctor.rating_digit)"></i>
                           </span>
 
                           <span>{{ doctor.rating }}</span>

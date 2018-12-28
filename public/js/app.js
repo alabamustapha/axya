@@ -71076,7 +71076,7 @@ var render = function() {
                                         "div",
                                         {
                                           staticClass:
-                                            "pb-1 text-truncate tf-flex",
+                                            "p-1 text-truncate tf-flex",
                                           attrs: { title: "Current rating" }
                                         },
                                         [
@@ -71098,7 +71098,7 @@ var render = function() {
                                                 function(i) {
                                                   return _c("i", {
                                                     staticClass:
-                                                      "fas fa-star pr-0 mr-0 text-light"
+                                                      "fas fa-star pr-0 mr-0 orange"
                                                   })
                                                 }
                                               )
