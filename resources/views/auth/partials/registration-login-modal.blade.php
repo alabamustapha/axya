@@ -1,48 +1,43 @@
-<div class="modal text-center p-0" tabindex="-1" role="dialog" id="regLoginForm" style="display:none;">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content bg-danger">
-      
-      <div class="modal-header px-3 pt-2 pb-0 mb-0" style="padding: 0.5rem; border-bottom: none;">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
 
-      <div class="modal-body p-2 mt-1 mb-0"> 
-        {{-- @include('auth.partials.registration-login-form') --}}
-        <div class="card bg-transparent mb-0">
-          <div class="card-body">
+@if (   request()->url() !== route('login' ) 
+    &&  request()->url() !== route('register'))
+    <!-- SIGN IN / SIGN UP POP UP -->
+    <div class="modal fade" id="sign-in-up-modal" tabindex="-1" role="dialog" aria-labelledby="signInSignUpPopup" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <ul class="nav nav-tabs sign-in-up-tab" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="sign-in-tab" data-toggle="tab" href="#sign-in" role="tab" aria-controls="sign-in" aria-selected="true">Sign in</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="register-tab" data-toggle="tab" href="#register" role="tab" aria-controls="register" aria-selected="false">Register</a>
+                        </li>
+                       
+                    </ul>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="sign-in" role="tabpanel" aria-labelledby="sign-in-tab">
+                            <div class="sign-in-form d-flex justify-content-center">
+                                        
+                                @include('users.forms.login')
 
-            <div id="toggle-tabs" class="clearfix mb-2 border-bottom" style="margin: 0 auto;">
-                <div class="btn btn-sm mb-2" id="login" style="min-width:120px;"><i class="fa fa-sign-in-alt"></i> Sign In</div>
-                <div class="btn btn-sm mb-2" id="regform" style="min-width:120px;"><i class="fa fa-user-plus"></i> Sign Up</div>
-            </div>  
-
-            <div class="row">
-
-              @if (request()->url() !== route('login'))
-
-                  <div class="col-sm-12" id="login-form">
-
-                      @include('users.forms.login')
-
-                  </div>
-
-              @endif
-
-              @if (request()->url() !== route('register'))
-
-                  <div class="col-sm-12" id="reg-form" style="display:none;">
-                      
-                      @include('users.forms.register')
-                      
-                  </div>
-
-              @endif
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
+                            <div class="sign-in-form d-flex justify-content-center">
+                                        
+                                @include('users.forms.register')
+                            
+                            </div>
+                        </div>
+                    </div>
+                </div>               
             </div>
-          </div>
         </div>
-      </div> <!-- modal-body -->    
     </div>
-  </div> <!-- modal-dialog -->
-</div>
+@endif

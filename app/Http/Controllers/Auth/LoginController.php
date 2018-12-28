@@ -41,9 +41,7 @@ class LoginController extends Controller
     
     public function login(Request $request)
     {
-        $remember = $request->remember;
-
-        if (Auth::attempt([ 'email' => $request->email, 'password' => $request->password], $remember)) {
+        if (Auth::attempt([ 'email' => $request->email, 'password' => $request->password])) {
 
             if (isset(request()->ref)){
                 // Prevent double slash '//' if referring page is welcome page.

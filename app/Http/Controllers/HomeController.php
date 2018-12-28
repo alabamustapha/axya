@@ -26,16 +26,6 @@ class HomeController extends Controller
     {
         $doctors = Doctor::isActive()->inRandomOrder()->get()->take(3);
         
-        return view('welcome_2', compact('doctors'));
+        return view('welcome', compact('doctors'));
     }
-    
-    // public function search($path)
-    // {
-    //     return view('layouts.master');
-    // }
-
-    // public function home()
-    // {
-    //     return view('home');
-    // }
 }

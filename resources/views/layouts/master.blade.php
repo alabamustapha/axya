@@ -11,7 +11,6 @@
     <link rel="icon" href="images/favicon.png" type="image/png" >
 
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <link rel="stylesheet" href="{{asset('css/all.css')}}">
 
     <link rel="stylesheet" href="{{asset('css/custom/override.css')}}">
@@ -23,6 +22,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css"> 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/timepicker@1.11.14/jquery.timepicker.css">
     --}}
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
     @yield('styles')
 
@@ -34,44 +34,38 @@
       window.appUrl  = @json(config('app.url'));
     </script>
   </head>
-  <body class="hold-transition sidebar-mini">
+  <body>
 
-    <div class="wrapper" id="app">
+    <div id="app">
+      <div id="wrapper">
 
-      @include('layouts.partials.dashboard-navbar-sidebar')
-
-      <!-- Content Wrapper. Contains page content -->
-      <div class="content-wrapper" style="min-height:80vh;">
-
+        @include('layouts.partials.header-nav')
+        
         <!-- Main content -->
         <div class="content">
-
           <div class="container">
-            <div class="col bg-white p-0 mt-0 text-center">
-              @auth
-                @if (! Request::is('appointments/*'))
-                  @if (Auth::user()->isAccountOwner())
-                      <h4 class="pt-2">
-                        @if (Auth::user()->application_status == '0')
-                          Are you a <i class="fa fa-user-md"></i> Medical Doctor? 
-                          <a class="btn btn-success btn-lg" href="{{route('doctors.create')}}">Register Here!</a>
-                        @else
-                          {{ Auth::user()->applicationStatus() }}
-                        @endif
-                      </h4>
-                  @endif
+            @auth
+              @if (! Request::is('appointments/*'))
+                @if (Auth::user()->isAccountOwner())
+                    <h4 class="pt-2 text-center">
+                      @if (Auth::user()->application_status == '0')
+                        Are you a <i class="fa fa-user-md"></i> Medical Doctor? 
+                        <a class="btn btn-success btn-lg" href="{{route('doctors.create')}}">Register Here!</a>
+
+                      @else
+
+                        {{ Auth::user()->applicationStatus() }}
+                      @endif
+                    </h4>
                 @endif
-              @endauth
+              @endif
+            @endauth
 
-              <nav aria-label="breadcrumb" class="my-0">                
-                @include('layouts.partials.dynamic-breadcrumb')
-              </nav>
-            </div>
-          </div>
+            <nav aria-label="breadcrumb" class="my-0">                
+              @include('layouts.partials.dynamic-breadcrumb')
+            </nav>
 
-          @include('layouts.partials.notifications')
-
-          <div class="container-fluid">
+            @include('layouts.partials.notifications')
 
             <searches></searches>
 
@@ -79,40 +73,30 @@
 
             @yield('content')
             
-          </div><!-- /.container-fluid -->
+          </div><!-- /.container -->
         </div>
-      </div>
 
-      {{-- 
-      <footer class="main-footer">
-        <!-- Default to the left -->
-        <strong>Copyright &copy; 2014-{{date('Y')}} <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
-      </footer> 
-      --}}
-                
-      @guest
+        @include('layouts.partials.footer')
+                  
+        @guest
 
-          @include('auth.partials.registration-login-modal')
+            @include('auth.partials.registration-login-modal')
 
-      @endguest
+        @endguest
 
-      <vue-progress-bar></vue-progress-bar>
-    </div>
-    <!-- ./wrapper -->
+        <vue-progress-bar></vue-progress-bar>
+      </div><!-- #/wrapper -->
+    </div><!-- #/id -->
 
     <!-- REQUIRED SCRIPTS -->
     <script src="{{asset('js/app.js')}}"></script>
-    <script src="{{asset('js/custom.js')}}"></script>
-    <script src="{{asset('js/main.js')}}"></script>
+
     <script src="{{asset('js/vendor/moment.min.js')}}"></script>
     <script src="{{asset('js/vendor/pikaday.js')}}"></script>
-    {{-- 
-      <script src="https://momentjs.com/downloads/moment.min.js"></script> 
-      <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
-    --}}
-    <script>
-      $('div.alert').not('.alert-important').delay(7000).fadeOut(350);
-    </script>
+    
+    <script src="{{asset('js/custom.js')}}"></script>
+    <script src="{{asset('js/main.js')}}"></script>
+    <script> $('div.alert').not('.alert-important').delay(7000).fadeOut(350); </script>
 
     <script>
       // https://github.com/Pikaday/Pikaday ..Customization..
@@ -125,6 +109,40 @@
       });
       picker.gotoToday();
     </script>
+
+    @guest
+      <!-- inline script -->
+      <script>        
+        $(document).ready(function(){
+           let $docAcct = $('#doc-acct');
+           let $patAcct = $('#pat-acct');
+           let selectColor = "btn-theme-blue";
+
+           function hasSelectedColor(theClass) {
+               return theClass.hasClass(selectColor);
+           }
+
+           function toggleColorChange(theClass){
+                if (hasSelectedColor(theClass)) {
+                    theClass.removeClass(selectColor);
+
+               } else {
+                  
+                   $('.acct-type').find('.btn-theme-blue').removeClass(selectColor); 
+
+                   theClass.addClass(selectColor);
+               }
+           }
+
+           $docAcct.click(function(){
+               toggleColorChange($(this));               
+           })
+           $patAcct.click(function(){
+               toggleColorChange($(this));               
+           })
+        });        
+      </script>
+    @endguest
 
     @yield('scripts')
   </body>

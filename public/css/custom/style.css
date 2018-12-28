@@ -161,7 +161,7 @@ nav.main-nav{
     font-size: 1rem;
     padding-left: .8rem;
 }
-.sign-in-form input{
+/* .sign-in-form input{
     color: #282626;
     border: 1px solid #292477;
     box-sizing: border-box;
@@ -171,7 +171,7 @@ nav.main-nav{
 }
 .sign-in-form input:focus{
     box-shadow: 0px 0px 17px rgba(0, 0, 0, 0.199);
-}
+} */
 .acct-type{
     padding: 2rem 0;
 }
@@ -191,6 +191,27 @@ nav.main-nav{
 .acct-type .acct:hover{
      background: #788096;
 }
+
+/*--------------------------------------------
+    FORM
+----------------------------------------------*/
+.form-auth{
+    margin: 4rem 0;
+}
+.form-default{
+    border: 1px solid #302C2C;
+    box-sizing: border-box;
+    border-radius: 4px;
+    color: #302C2C;
+}
+
+.form-default:focus{
+    box-shadow: 0px 0px 17px rgba(0, 0, 0, 0.199);
+    outline: none;
+    border: 1px solid #209fd9;
+}
+
+
 
 /*--------------------------------------------
     INTRO
