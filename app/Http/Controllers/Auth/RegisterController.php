@@ -54,17 +54,19 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-                'name'     => 'required|string|max:255',
+                'firstname'     => 'required|string|max:255',
+                'lastname'     => 'required|string|max:255',
                 'email'    => 'required|string|email|max:255|unique:users',
-                'gender'   => 'required|in:Male,Female,Other',
+                // 'gender'   => 'required|in:Male,Female,Other',
                 'password' => 'required|string|min:6|confirmed',
-                'dob'      => 'required|date|max:10',
-                'terms'    => 'required|boolean',            
+                // 'dob'      => 'required|date|max:10',
+                // 'terms'    => 'required|boolean',  
+                'is_doctor' => 'required|boolean',   
             ],
             [
-                'gender.required' => 'You must select your gender',
-                'gender.in'       => 'You can only choose from the avaiable gender select options.',
-                'terms.required'  => 'You must accept the terms and conditions to be able to use our services.',
+                // 'gender.required' => 'You must select your gender',
+                // 'gender.in'       => 'You can only choose from the available gender select options.',
+                // 'terms.required'  => 'You must accept the terms and conditions to be able to use our services.',
         ]);
     }
 
@@ -77,15 +79,18 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         // $is_doctor = isset($data['is_doctor']) && $data['is_doctor'] == 1 ? 1 : 0;
+
+        $fullname = $data['firstname'] .' '. $data['lastname'];
         
         $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'gender' => $data['gender'],
-            'password' => Hash::make($data['password']),
-            'dob'   =>  $data['dob'],
-            'terms' =>  $data['terms'],
+            'name'      => $fullname,
+            'email'     => $data['email'],
+            'password'  => Hash::make($data['password']),
+            // 'gender'  => $data['gender'],
+            // 'dob'    =>  $data['dob'],
+            // 'terms'  =>  $data['terms'],
             // 'is_doctor' => $is_doctor,
+            'is_doctor' => $data['is_doctor'],
         ]);
 
         return $user;

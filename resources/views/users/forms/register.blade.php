@@ -109,45 +109,85 @@
  --}}
 
 
-<form>
+<form method="POST" action="{{ route('register') }}">
+    @csrf
     <div class="row">
         <div class="col-sm-6">
             <div class="form-group">
-                <label for="fname">First Name</label>
-                <input type="text" class="form-control form-default"  placeholder="John">
-            
+                <label for="firstname">First Name</label>
+                <input type="text" name="firstname" id="firstname" class="form-control form-default{{ $errors->has('firstname') ? ' is-invalid' : '' }}" value="{{ old('firstname') }}" placeholder="John" required autofocus>
+
+                @if ($errors->has('firstname'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $errors->first('firstname') }}</strong>
+                    </span>
+                @endif
             </div>
         </div>
         <div class="col-sm-6">
             <div class="form-group">
-                <label for="lname">Last Name</label>
-                <input type="text" class="form-control form-default"  placeholder="Doe">
-            
+                <label for="lastname">Last Name</label>
+                <input type="text" name="lastname" id="lastname" class="form-control form-default{{ $errors->has('lastname') ? ' is-invalid' : '' }}" value="{{ old('lastname') }}" placeholder="Doe" required>
+
+                @if ($errors->has('lastname'))
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $errors->first('lastname') }}</strong>
+                    </span>
+                @endif
             </div>
         </div>
     </div>
     <div class="form-group">
-        <label for="username">Email</label>
-        <input type="email" class="form-control form-default"  placeholder="johndoe@example.com">
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" class="form-control form-default{{ $errors->has('email') ? ' is-invalid' : '' }}" value="{{ old('email') }}"  placeholder="johndoe@example.com" required>
 
+        @if ($errors->has('email'))
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $errors->first('email') }}</strong>
+            </span>
+        @endif
     </div>
     <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" class="form-control form-default"  placeholder="Password">
+        <input type="password" name="password" id="password" class="form-control form-default{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="Password" required>
+
+        @if ($errors->has('password'))
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $errors->first('password') }}</strong>
+            </span>
+        @endif
+    </div>
+    <div class="form-group">
+        <label for="password_confirmation">Confirm Password</label>
+        <input type="password" name="password_confirmation" id="password_confirmation" class="form-control form-default" placeholder="Confirm password" required>
     </div>
     <div class="acct-type">
-        <div class="row">
+        <div class="row" class="form-control">
             <div class="col-sm-6">
-                <div id="doc-acct" class=" acct">
-                     I WANT TO ATTEND TO PATIENTS
+                <div id="doc-acct" class="acct form-check form-check-inline">
+                    
+                    <input value="1" type="radio" name="is_doctor" id="is_doctor" class="form-check-input{{ $errors->has('is_doctor') ? ' is-invalid' : '' }}" required>
+                    <label for="is_doctor" class="form-check-label text-small">
+                        I WANT TO ATTEND TO PATIENTS
+                    </label>
                 </div>
             </div>
             <div class="col-sm-6">
-                <div id="pat-acct" class="acct">
-                     I WANT TO MEET WITH A DOCTOR
+                <div id="pat-acct" class="acct form-check form-check-inline">
+                
+                <input value="0" type="radio" name="is_doctor" id="is_doctor2" class="form-check-input" required>
+                <label for="is_doctor2" class="form-check-label text-small">
+                    I WANT TO MEET WITH A DOCTOR
+                </label>
                 </div>
             </div>
         </div>
+
+        @if ($errors->has('is_doctor'))
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $errors->first('is_doctor') }}</strong>
+            </span>
+        @endif
     </div>
     <div class="text-center">
         <button type="submit" class="btn btn-theme-blue rounded-pill px-4">Submit</button>

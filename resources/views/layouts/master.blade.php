@@ -11,18 +11,19 @@
     <link rel="icon" href="images/favicon.png" type="image/png" >
 
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
-    <link rel="stylesheet" href="{{asset('css/all.css')}}">
+    {{-- <link rel="stylesheet" href="{{asset('css/all.css')}}">
 
     <link rel="stylesheet" href="{{asset('css/custom/override.css')}}">
-    <link rel="stylesheet" href="{{asset('css/custom/style.css')}}">
 
     <link rel="stylesheet" href="{{asset('css/vendor/pikaday.css')}}">
-    <link rel="stylesheet" href="{{asset('css/vendor/jquery.timepicker.css')}}">
-    {{-- 
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css"> 
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/timepicker@1.11.14/jquery.timepicker.css">
-    --}}
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{asset('css/vendor/jquery.timepicker.css')}}"> --}}
+    
+    <link rel="stylesheet" href="{{asset('css/custom/style.css')}}">
+
+    <!-- fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
 
     @yield('styles')
 
