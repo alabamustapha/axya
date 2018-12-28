@@ -98,3 +98,5 @@ Route::get('/{user}/notifs', 'NotificationsController@index')->name('notificatio
 Route::get('/{user}/notifications', 'NotificationsController@display')->name('notifications.display');
 
 Route::get('/{user}', 'UserController@show')->name('users.show');
+Route::post('/verify_resend', 'UserController@resend')->name('verify_resend');
+Route::post('/email_verified', 'UserController@verified')->name('email_verified');

@@ -3,27 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserUpdateRequest;
+use App\Image;
 use App\Notifications\AccountVerificationNotification;
 use App\Notifications\PasswordChangeNotification;
-use App\Traits\ImageProcessing;
 use App\Traits\CustomSluggableTrait;
+use App\Traits\ImageProcessing;
 use App\User;
 use Auth;
-use App\Image;
 use Carbon\Carbon;
+use Illuminate\Foundation\Auth\VerifiesEmails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
-    use ImageProcessing, CustomSluggableTrait;
+    use ImageProcessing, CustomSluggableTrait, VerifiesEmails;
 
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('patient'); // Prevents viewing another user's profile
+        $this->middleware('patient')->except('resend','verified'); // Prevents viewing another user's profile
         $this->middleware('verified')->only(['changePassword']);
     }
 
@@ -165,5 +167,44 @@ class UserController extends Controller
         $user->delete();
 
         return redirect()->route('users.index');
+    }
+
+    /**
+     * Resend the email verification notification.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     * @from   \Illuminate\Foundation\Auth\VerifiesEmails
+     */
+    public function resend(Request $request)
+    {
+        if ($request->user()->hasVerifiedEmail()) {
+            return redirect($this->redirectPath());
+        }
+
+        $user = auth()->user();
+        $verLink = URL::temporarySignedRoute('verification.verify', Carbon::now()->addMinutes(60), ['id' => $user->id]);
+
+        $user->update([ 'verification_link' => $verLink, ]);
+        $request->user()->sendEmailVerificationNotification();
+
+        return back()->with('resent', true);
+    }
+
+    /**
+     * Mark the given user's email as verified.
+     *
+     * @return bool
+     */
+    public function verified()
+    {
+        $user = auth()->user();
+        $user->email_verified_at = Carbon::now();
+        $user->verification_link = null;
+        $user->save();
+        
+        flash('Congratulations! Account verification successful.')->success();
+
+        return back();
     }
 }
