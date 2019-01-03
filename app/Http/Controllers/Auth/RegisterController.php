@@ -33,7 +33,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/user-dashboard';
 
     /**
      * Create a new controller instance.
@@ -118,7 +118,7 @@ class RegisterController extends Controller
         flash('A verification link was sent to '. $user->email .', kindly verify your account with the link. Update your profile details completely for a wider access on '. config('app.name') .'.')->info()->important();
 
         Auth::login($user);
-        return redirect()->route('users.show', $user);
+        return redirect()->route('user_dashboard');
     }
     
 }

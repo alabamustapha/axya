@@ -27,7 +27,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/user-dashboard';
 
     /**
      * Create a new controller instance.
@@ -53,7 +53,7 @@ class LoginController extends Controller
                 return redirect($expected_path);
             }
 
-            return redirect()->route('users.show', Auth::user());
+            return redirect()->route('user_dashboard');
         }
         
         $request->session()->flash('error', 'We could not sign you in, check your login credentials and try again.');
