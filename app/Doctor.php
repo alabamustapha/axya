@@ -14,7 +14,7 @@ class Doctor extends Model
 
     protected $dates = ['verified_at','subscription_ends_at','first_appointment'];
 
-    protected $with = ['specialty'];
+    protected $with = ['specialty','user'];
 
     protected $appends = ['name','link','avatar','practice_years','rating','rating_digit'];
 

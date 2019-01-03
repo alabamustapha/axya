@@ -223,6 +223,8 @@ class Appointment extends Model
         6 => 'Schedule time elapsed! Patient absconded.',// Payment not made by patient
 
         7 => 'Doctor did not confirm 1-hour to scheduled time.',
+
+        8 => 'Something fishy.',
     );
 
     public static $appointmentStatusColor = array(
@@ -241,9 +243,11 @@ class Appointment extends Model
         6 => 'red',
 
         7 => 'red',
+
+        8 => 'red',
     );
 
-    // If the status code is not in the provided list above return the default '0'.
+    // If the status code is not in the provided list above return 'something fishy'.
     public function statusText() 
     {
         $status = ($this->status > (sizeof(self::$appointmentStatus) - 1) || $this->status < 0) 

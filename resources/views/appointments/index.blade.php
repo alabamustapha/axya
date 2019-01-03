@@ -36,8 +36,16 @@
         
         @forelse($appointments as $appointment)
         <tr>
-            <td>{{$appointment->day}}</td>
-            <td title="{{$appointment->duration}}">{{$appointment->schedule}}</td>
+            <td>
+                <a href="{{route('appointments.show', $appointment)}}" style="color:inherit;"> 
+                    {{$appointment->day}}
+                </a>
+            </td>
+            <td title="{{$appointment->duration}}">
+                <a href="{{route('appointments.show', $appointment)}}" style="color:inherit;"> 
+                    {{$appointment->schedule}}
+                </a>
+            </td>
             <td>
                 <a href="{{route('appointments.show', $appointment)}}">
                     {{$appointment->statusTextOutput()}}
@@ -45,7 +53,7 @@
             </td>
             <td>
                 @if($appointment->creator)
-                    <span title="Doctor Name"><a href="{{route('doctors.show', $appointment->doctor)}}" style="color:inherit;">{{$appointment->doctor->user->name}}</a></span>
+                    <span title="Doctor Name"><a href="{{route('doctors.show', $appointment->doctor)}}" style="color:inherit;">{{$appointment->doctor->name}}</a></span>
                 @else
                     <span title="User Name"><a href="{{route('users.show', $appointment->user)}}" style="color:inherit;">{{$appointment->user->name}}</a></span>
                 @endif

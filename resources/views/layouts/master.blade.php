@@ -18,9 +18,14 @@
     <link rel="stylesheet" href="{{asset('css/vendor/jquery.timepicker.css')}}"> 
     --}}
     
-    <link rel="stylesheet" href="{{asset('css/vendor/bootstrap.min.css')}}">
-    <link rel="stylesheet" href="{{asset('css/custom/dashboard.css')}}">
+    <!-- BOOTSTRAP STYLE -->
+    {{-- <link rel="stylesheet" href="{{asset('css/vendor/bootstrap.min.css')}}">     --}}
+    <!-- FULLCALENDAR STYLE -->
+    <link rel="stylesheet" href="{{asset('css/vendor/fullcalendar.min.css')}}">
+    <!-- MAIN STYLE -->
     <link rel="stylesheet" href="{{asset('css/custom/style.css')}}">
+    <!-- DASHBOARD STYLE -->
+    <link rel="stylesheet" href="{{asset('css/custom/dashboard.css')}}">
 
     @yield('styles')
 
@@ -100,6 +105,8 @@
 
     <script src="{{asset('js/vendor/moment.min.js')}}"></script>
     <script src="{{asset('js/vendor/pikaday.js')}}"></script>
+    <!-- full Calender js -->
+    <script src="{{asset('js/vendor/fullcalendar.min.js')}}"></script>
     
     <script src="{{asset('js/custom.js')}}"></script>
     <script src="{{asset('js/main.js')}}"></script>
@@ -119,6 +126,38 @@
 
 
     <!-- inline scripts -->
+
+    <!-- Full Calendar SCRIPT -->
+    <script>
+      $(document).ready(function () {
+
+            // page is now ready, initialize the calendar...
+
+           $('#calendar').fullCalendar({
+             height: 500,
+           
+            dayClick: function (date, jsEvent, view) {
+                
+                   alert('Clicked on: ' + date.format());
+
+               },
+            events: [
+                   {
+                       title: 'Appointment',
+                       start: '2019-01-03T13:13:55.008',
+                       end: '2019-01-03T13:13:55.008'
+                   },
+                   {
+                       title: 'Event Title2',
+                       start: '2019-01-05T13:13:55-0400',
+                       end: '2019-01-05T13:13:55-0400'
+                   }
+               ]
+              
+          });
+            
+        });
+    </script>
 
     <!-- SEARCH RESULT SCRIPT -->
     <script>

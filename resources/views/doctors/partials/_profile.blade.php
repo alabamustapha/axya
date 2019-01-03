@@ -1,11 +1,11 @@
 
                 <div class="card mr-1 shadow-sm" style="min-width: 18rem;max-width: 18rem;">
                     <div style="display:block;min-height: 200px;height: 200px;overflow: hidden;">
-                        <img class="card-img-top" src="{{ $doctor->dummyAvatar()/*$doctor->user->avatar*/ }}" alt="{{ $doctor->user->name }}" style="display:block;min-height: 200px;">
+                        <img class="card-img-top" src="{{ $doctor->dummyAvatar()/*$doctor->avatar*/ }}" alt="{{ $doctor->name }}" style="display:block;min-height: 200px;">
                     </div>
                     <div class="card-body">
                         <h5 class="card-title d-block text-truncate">
-                            <a href="{{route('doctors.show', $doctor->user)}}">{{ $doctor->user->name }}</a>
+                            <a href="{{route('doctors.show', $doctor->user)}}">{{ $doctor->name }}</a>
                         </h5>
                         <h6 class="card-subtitle mb-2 text-muted">
                             <a href="#" style="color: inherit;">{{ $doctor->specialty->name }}</a>

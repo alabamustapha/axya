@@ -23,7 +23,7 @@
     @if (Request::path() == 'tags')
       <a href="#" class="dropdown-item"><b>Tags</b></a>
     @else
-      <a class="dropdown-item" href="{{ route('tags.index') }}">Tags</a>
+      <a class="dropdown-item" href="{{ route('tags.index') }}">Keywords</a>
     @endif
     
     @auth

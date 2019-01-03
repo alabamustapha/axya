@@ -12,6 +12,11 @@
                 <li class="nav-item active">
                     <a class="nav-link" href="{{route('home')}}">Home</a>
                 </li>
+                <li class="nav-item dropdown">
+
+                    @include('layouts.partials.dynamic-breadcrumb')
+
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">About</a>
                 </li>
@@ -20,11 +25,6 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Contact Us</a>
-                </li>
-                <li class="nav-item dropdown">
-
-                    @include('layouts.partials.dynamic-breadcrumb')
-
                 </li>
                 @guest                    
                     @if (   request()->url() !== route('login' ) 
@@ -55,24 +55,26 @@
                     </li>
                 @endguest
             </ul>
-            <form action="" method="post" class="form-inline">
-                <div class="search-area m-0">
-                    <div class="search-box">
-                        <input 
-                            v-model="search"
-                            @keyup="searchForQuery"
-                            type="search"
-                            name="search" id="search"
-                            aria-label="Search" 
-                            placeholder="search doctors, illness, topics, cities etc">
+            {{-- 
+                <form action="" method="post" class="form-inline">
+                    <div class="search-area m-0">
+                        <div class="search-box">
+                            <input 
+                                v-model="search"
+                                @keyup="searchForQuery"
+                                type="search"
+                                name="search" id="search"
+                                aria-label="Search" 
+                                placeholder="search doctors, illness, topics, cities etc">
+                        </div>
+                
+                        <button @click="searchForQuery" type="submit" class="search-icon bg-theme-blue">
+                            <i class="fa fa-search "></i>
+                        </button>
+                
                     </div>
-            
-                    <button @click="searchForQuery" type="submit" class="search-icon bg-theme-blue">
-                        <i class="fa fa-search "></i>
-                    </button>
-            
-                </div>
-            </form>
+                </form> 
+            --}}
         </div>
     </div>
 </nav>
