@@ -1,27 +1,10 @@
-@extends('layouts.dashboard')
+@extends('layouts.master')
 
 @section('title', Auth::user()->name .' Dashboard')
 
 @section('content')
 
-  <div id="content-navbar">
-    <div class="container-fluid">
-      <div class="bg-light py-3 d-flex">
-  
-        <button type="button" id="sidebarCollapse" class="btn btn-theme-blue navbar-btn">
-          <i class="fa fa-align-left"></i>
-          <!-- Shrink Sidebar -->
-        </button>
-
-        <a class="crumb h4 text-theme-blue text-uppercase">
-          My Appointments
-        </a>          
-  
-      </div>
-    </div>
-    <!-- end container fluid -->
-  </div>
-  <!-- end content navbar -->
+@section('page-title', 'My Appointments')
 
   <!-- end breadcrumbs -->
 
