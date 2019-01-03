@@ -84,8 +84,18 @@
                           </ul>
 
                           <form class="form-inline">
-                              <input class="form-control mr-sm-2 m-0 border-0 rounded search-form" type="search" placeholder="Search..." aria-label="Search">
-                              
+                              <input
+                                v-model="search"
+                                @keyup="searchForQuery"
+                                type="search"
+                                name="search" id="search"
+                                aria-label="Search" 
+                                placeholder="search..."
+                                class="form-control mr-sm-2 m-0 border-0 rounded search-form" >
+                
+                                {{-- <button @click="searchForQuery" type="submit" class="search-icon bg-theme-blue">
+                                    <i class="fa fa-search "></i>
+                                </button>  --}}                             
                           </form>
                           <a  class="buttom-nav-toggler text-white ml-2" data-toggle="collapse" href="#extra-buttom-nav" role="button" aria-expanded="false" aria-controls="extra-buttom-nav">
                               <i class="fas fa-bars fa-2x"></i>
@@ -238,14 +248,9 @@
               @if (! Request::is('appointments/*'))
                 @if (Auth::user()->isAccountOwner())
                     <h4 class="pt-2 text-center">
-                      {{-- @if (Auth::user()->application_status == '0')
-                        Are you a <i class="fa fa-user-md"></i> Medical Doctor? 
-                        <a class="btn btn-success btn-lg" href="{{route('doctors.create')}}">Register Here!</a>
 
-                      @else --}}
+                      {{ Auth::user()->applicationStatus() }}
 
-                        {{ Auth::user()->applicationStatus() }}
-                      {{-- @endif --}}
                     </h4>
                 @endif
               @endif
@@ -259,7 +264,7 @@
                 <span class="s-close">&times;</span>
               </div>
                   
-                  <searches></searches>
+              <searches></searches>
 
             </div>
 
