@@ -6,7 +6,9 @@
   </button>
 
   <span class="crumb h4 text-theme-blue text-uppercase">
+
     @yield('page-title')
+
   </span>          
 
 </div>

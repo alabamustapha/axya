@@ -24,8 +24,8 @@
     </div>
 
   @else
-  
-    @if (! Request::is('appointments/*'))
+
+    @if (! Request::is('appointments/*') && ! Request::is('doctors/create'))
       @if (Auth::user()->isAccountOwner())
           <h4 class="pt-2 text-center">
 
