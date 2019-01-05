@@ -163,29 +163,28 @@
     </div>
     <div class="acct-type">
         <div class="row" class="form-control">
-            <div class="col-sm-6">
-                <div id="doc-acct" class="acct form-check form-check-inline">
-                    
-                    <input value="1" type="radio" name="is_doctor" id="is_doctor" class="form-check-input{{ $errors->has('is_doctor') ? ' is-invalid' : '' }}" required>
-                    <label for="is_doctor" class="form-check-label text-small">
+            {{-- <div class="col-sm-6">            --}}
+                    <label for="as_doctor" class="col-sm-6 form-check-label" style="font-size: 12px;">
+                <div id="doc-acct" class="acct form-check form-check-inline">       
+                    <input value="1" type="radio" name="as_doctor" id="as_doctor" class="form-check-input{{ $errors->has('as_doctor') ? ' is-invalid' : '' }}" required> <br>
                         I WANT TO ATTEND TO PATIENTS
-                    </label>
                 </div>
-            </div>
-            <div class="col-sm-6">
+                    </label>
+            {{-- </div> --}}
+            {{-- <div class=""> --}}
+                    <label for="as_doctor2" class="col-sm-6 form-check-label" style="font-size: 12px;">
                 <div id="pat-acct" class="acct form-check form-check-inline">
                 
-                <input value="0" type="radio" name="is_doctor" id="is_doctor2" class="form-check-input" required>
-                <label for="is_doctor2" class="form-check-label text-small">
-                    I WANT TO MEET WITH A DOCTOR
-                </label>
+                    <input value="0" type="radio" name="as_doctor" id="as_doctor2" class="form-check-input" required> <br>
+                        I WANT TO MEET WITH A DOCTOR
                 </div>
-            </div>
+                    </label>
+            {{-- </div> --}}
         </div>
 
-        @if ($errors->has('is_doctor'))
+        @if ($errors->has('as_doctor'))
             <span class="invalid-feedback" role="alert">
-                <strong>{{ $errors->first('is_doctor') }}</strong>
+                <strong>{{ $errors->first('as_doctor') }}</strong>
             </span>
         @endif
     </div>

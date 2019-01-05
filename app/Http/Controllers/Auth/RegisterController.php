@@ -61,7 +61,7 @@ class RegisterController extends Controller
                 'password' => 'required|string|min:6|confirmed',
                 // 'dob'      => 'required|date|max:10',
                 // 'terms'    => 'required|boolean',  
-                'is_doctor' => 'required|boolean',   
+                'as_doctor' => 'required|boolean',   
             ],
             [
                 // 'gender.required' => 'You must select your gender',
@@ -78,19 +78,19 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        // $is_doctor = isset($data['is_doctor']) && $data['is_doctor'] == 1 ? 1 : 0;
+        // $as_doctor = isset($data['as_doctor']) && $data['as_doctor'] == 1 ? 1 : 0;
 
-        $fullname = $data['firstname'] .' '. $data['lastname'];
+        $name = ucwords($data['firstname']) .' '. ucwords($data['lastname']);
         
         $user = User::create([
-            'name'      => $fullname,
+            'name'      => $name,
             'email'     => $data['email'],
             'password'  => Hash::make($data['password']),
             // 'gender'  => $data['gender'],
             // 'dob'    =>  $data['dob'],
             // 'terms'  =>  $data['terms'],
             // 'is_doctor' => $is_doctor,
-            'is_doctor' => $data['is_doctor'],
+            'as_doctor' => $data['as_doctor'],
         ]);
 
         return $user;

@@ -31,8 +31,9 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     protected $fillable = [
         'name','slug','email','password','address','phone',
-        'gender','avatar','blocked','dob','weight','height','allergies','chronics','last_four','terms','application_retry_at',
-        'verification_link',
+        'gender','avatar','blocked','dob','weight','height','allergies','chronics',
+        'last_four','terms','application_retry_at',
+        'verification_link','as_doctor'
     ];
 
     /**
@@ -263,14 +264,14 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function type() 
     {
-        if ($this->acl == '1' || $this->acl == '5'){
+        if ($this->acl == '1'){
             return 'Admin';
         } 
         elseif ($this->acl == '2'){
             return 'Staff';
         }
         elseif ($this->acl == '3'){
-            return 'Normal';
+            return 'User';
         }
     }
 

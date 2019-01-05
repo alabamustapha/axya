@@ -1,13 +1,4 @@
 @auth
-  @if (! Request::is('appointments/*'))
-    @if (Auth::user()->isAccountOwner())
-        <h4 class="pt-2 text-center">
-
-          {{ Auth::user()->applicationStatus() }}
-
-        </h4>
-    @endif
-  @endif
 
   <!-- Verification nag -->
   @unless(Auth::user()->is_verified)
@@ -31,6 +22,18 @@
         </div>
       </div>
     </div>
+
+  @else
+  
+    @if (! Request::is('appointments/*'))
+      @if (Auth::user()->isAccountOwner())
+          <h4 class="pt-2 text-center">
+
+            {{ Auth::user()->applicationStatus() }}
+
+          </h4>
+      @endif
+    @endif
   @endunless
 @endauth
 

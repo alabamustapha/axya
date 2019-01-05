@@ -32,7 +32,7 @@ class UsersTest extends TestCase
         [
             'id','name','slug','email','email_verified_at','address','phone',
             'gender','avatar','acl','application_status','blocked','dob','weight','height',
-            'allergies','chronics','password','last_four','terms'
+            'allergies','chronics','password','last_four','terms','as_doctor'
         ]), 1);
     }
 
@@ -73,11 +73,11 @@ class UsersTest extends TestCase
         $this->assertInstanceOf(Doctor::class, $this->user->doctor); 
     }
 
-    // /** @test */
-    // public function a_user_has_many_doctors()
-    // {
-    //     $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->user->doctors); 
-    // }
+    /** @test */
+    public function a_user_has_many_doctors()
+    {
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->user->doctors); 
+    }
 
     /** @test */
     public function a_user_has_many_appointments()
