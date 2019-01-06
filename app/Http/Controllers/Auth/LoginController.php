@@ -56,7 +56,7 @@ class LoginController extends Controller
             return redirect()->route('user_dashboard');
         }
         
-        $request->session()->flash('error', 'We could not sign you in, check your login credentials and try again.');
+        flash('We could not sign you in, check your login credentials and try again.')->error();
         return redirect()->back();
     }
 

@@ -4,11 +4,11 @@
 @section('page-title', 'Register As A Doctor')
 
 @section('content')
-{{-- 
+ 
     <div class="col-md-6 offset-md-3">      
         @include('doctors.forms.apply')        
     </div>
---}}
-    @include('doctors.forms.register')
+
+    {{-- @include('doctors.forms.register') --}}
 
 @endsection

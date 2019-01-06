@@ -25,28 +25,18 @@
                                     <div class="row">
                                         <div class="col-sm-6">
                                             <div class="form-group">
-                                                <label for="fname">First Name</label>
-                                                <input type="text" class="form-control" placeholder="John">
+                                                <label for="fname">Name</label>
+                                                <input type="text" class="form-control" value="{{Auth::user()->name}}" readonly>
                                     
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div class="form-group">
-                                                <label for="lname">Last Name</label>
-                                                <input type="text" class="form-control" placeholder="Doe">
-                                    
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                   <div class="row">
-                                       <div class="col-sm-6">
-                                            <div class="form-group">
-                                                <label for="username">Username / Email</label>
-                                                <input type="email" class="form-control" placeholder="johndoe@example.com">
+                                                <label for="username">Email</label>
+                                                <input type="email" class="form-control" value="{{Auth::user()->email}}" placeholder="johndoe@example.com" required>
                                             
                                             </div>
-                                       </div>
+                                        </div>
                                    </div>
                                 </div>
                             </div>

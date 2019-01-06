@@ -19,6 +19,25 @@
         }
       });
       picker.gotoToday();
+      // Fix repetition by regex match (datepicker + anything) and add programatically if necessary.  
+      
+      var picker = new Pikaday({ 
+        field: document.getElementById('datepicker2'),
+        format: 'Y-M-D',
+        onSelect: function() {
+          console.log(this.getMoment().format('Y-M-D'));
+        }
+      });
+      picker.gotoToday();
+
+      var picker = new Pikaday({ 
+        field: document.getElementById('datepicker3'),
+        format: 'Y-M-D',
+        onSelect: function() {
+          console.log(this.getMoment().format('Y-M-D'));
+        }
+      });
+      picker.gotoToday();
     </script>
 
 

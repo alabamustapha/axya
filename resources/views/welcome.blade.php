@@ -41,18 +41,30 @@
                 <div class="trans-box">
                     <nav class="navbar navbar-expand-lg main-nav">
                         <div class="container-fluid">
-                            <a class="navbar-brand" href="#"><img src="images/axya-logo.png"  class="img-fluid" alt="axya logo"></a>
+                            <a class="navbar-brand" href="#"><img src="images/axya-logo.png"  class="img-fluid" alt="axya logo" style="max-height:100px;"></a>
                             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                                aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="navbar-toggler-icon"></span>
+                            aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon">
+                                    <svg width="40" height="25" viewBox="0 0 40 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M0 0H40V4H0V0Z" fill="white" />
+                                        <path d="M0.5 10.5H35.5V14.5H0.5V10.5Z" fill="white" />
+                                        <path d="M0 21H40V25H0V21Z" fill="white" />
+                                    </svg>
+
+                                </span>
                             </button>
-                        
+                            
                             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                                 <ul class="navbar-nav ml-auto">
                                     <li class="nav-item active">
                                         <a class="nav-link" href="{{route('home')}}">Home
                                             <span class="sr-only">(current)</span>
                                         </a>
+                                    </li>
+                                    <li class="nav-item dropdown">
+
+                                        @include('layouts.partials.dynamic-breadcrumb')
+
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="#">About</a>
@@ -62,11 +74,6 @@
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="#">Contact Us</a>
-                                    </li>
-                                    <li class="nav-item dropdown">
-
-                                        @include('layouts.partials.dynamic-breadcrumb')
-
                                     </li>
                                     @guest
                                         <li class="nav-item">

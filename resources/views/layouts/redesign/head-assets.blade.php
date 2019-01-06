@@ -10,8 +10,8 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
-    {{--
     <link rel="stylesheet" href="{{asset('css/vendor/pikaday.css')}}">
+    {{--
     <link rel="stylesheet" href="{{asset('css/vendor/jquery.timepicker.css')}}"> 
     --}}
     

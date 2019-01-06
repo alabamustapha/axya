@@ -41,9 +41,12 @@
                       <div class="col-md-6">
                         <label for="day">Select Day <small>(yyyy-mm-dd)</small></label>
                         <input type="hidden" name="doctor_id" value="{{$doctor->id}}">
-                        <input type="text" name="day" minlength="10" maxlength="15" min="{{date('Y-m-d')}}"
-                           id="datepicker" value="{{old('day')}}" placeholder="{{date('Y-m-d')}}" autocomplete="off" 
-                          id="day" class="form-control{{ $errors->has('day') ? ' is-invalid' : '' }}" 
+                        <input name="day" value="{{old('day')}}" 
+                          type="text" id="datepicker"
+                          {{-- type="date" id="day"  --}}
+                          minlength="10" maxlength="15" min="{{date('Y-m-d')}}"
+                          placeholder="{{date('Y-m-d')}}" autocomplete="off" 
+                          class="form-control{{ $errors->has('day') ? ' is-invalid' : '' }}" 
                           required>
 
                         @if ($errors->has('day'))

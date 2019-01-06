@@ -83,8 +83,14 @@
                                           </div>
                                           <a href="{{route('user_dashboard')}}" class="opt-item">
                                             <i class="fa fa-tachometer-alt"></i>&nbsp; {{ __('Dashboard') }}</a>
+                                          @if (Auth::user()->is_doctor)
+                                          <a href="{{route('doctors.show', Auth::user())}}" class="opt-item">
+                                            <i class="fa fa-user-md"></i>&nbsp; {{ __('Doctor Profile') }}
+                                          </a>
+                                          @endif
                                           <a href="{{route('users.show', Auth::user())}}" class="opt-item">
-                                            <i class="fa fa-user"></i>&nbsp; {{ __('Profile') }}</a>
+                                            <i class="fa fa-user"></i>&nbsp; {{ __('Profile') }}
+                                          </a>
                                          
                                           <a href="#" class="opt-item">Account</a>
                                           <a href="#" class="opt-item">Payment Option</a>
