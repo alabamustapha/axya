@@ -32,7 +32,7 @@ class DoctorsTest extends TestCase
           [
             'id','user_id','email','phone','slug','about',
             'main_language','second_language','other_languages',
-            'country_id','state_id','home_address','work_address',
+            'country_id','state_id','home_address','work_address','location',
             'rate','session','first_appointment','available','subscription_ends_at',
             'graduate_school','degree','residency','specialty_id',
             'verified_at','verified_by'

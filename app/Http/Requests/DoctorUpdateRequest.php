@@ -26,7 +26,6 @@ class DoctorUpdateRequest extends FormRequest
         $rules = [];
 
         $rules = array_merge($rules, [
-            'rate'           => 'required|numeric|between:5.00,1500.00',
             'available'      => 'required|boolean',
             'specialty_id'   => 'required|integer|exists:specialties,id',
             // // 'specialties'    => 'required|array|max:3',
@@ -45,6 +44,7 @@ class DoctorUpdateRequest extends FormRequest
             'state_id'       => 'nullable|integer',//|exists:states,id
             'home_address'   => 'nullable|string|max:255',
             'work_address'   => 'nullable|string|max:255',
+            'location'       => 'nullable|string|max:255',
             // Work
             'session'        => 'required|integer',
             // Education
@@ -55,10 +55,10 @@ class DoctorUpdateRequest extends FormRequest
 
         $rules = app()->environment('testing')
             ? array_merge($rules, [
-                'rate'       => 'required|integer',
+                'rate'       => 'required|numeric',
             ])
             : array_merge($rules, [
-                'rate'       => 'required|between:5,9999.99',
+                'rate'       => 'required|numeric|between:5,1500.00',
             ]);
 
         return $rules;

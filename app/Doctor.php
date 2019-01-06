@@ -14,7 +14,7 @@ class Doctor extends Model
         // Language
         'main_language','second_language','other_languages',
         // Location
-        'country_id','state_id','home_address','work_address',
+        'country_id','state_id','home_address','work_address','location',
         // Work
         'rate','session','first_appointment','available','subscription_ends_at',
         // Education

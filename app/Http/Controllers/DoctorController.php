@@ -20,8 +20,8 @@ class DoctorController extends Controller
     {
         $this->middleware('auth')->except('index','show');
         $this->middleware('application')->only('create');
-        // $this->middleware('verified')->only('create','store');
-        // $this->middleware('doctor')->except('index','show');
+        $this->middleware('verified')->except('index','show');
+        $this->middleware('doctor')->only('edit','update','destroy');
     }
 
     /**
@@ -210,7 +210,15 @@ class DoctorController extends Controller
      */
     public function edit(Doctor $doctor)
     {
-        //
+        $specialties = Specialty::all();
+        $current_workplace = $doctor->currentWorkplace();
+        $workplaces  = $doctor->workplaces()
+                             ->orderBy('start_date', 'desc')
+                             ->orderBy('end_date', 'desc')
+                             ->get()
+                             ;
+
+        return view('doctors.edit', compact('doctor','specialties','current_workplace','workplaces','states','countries','languages'));
     }
 
     /**
@@ -224,7 +232,12 @@ class DoctorController extends Controller
     {
         $this->authorize('edit', $doctor);
 
-        $doctor->updateCurrentWorkplace($request);
+        $doctor->updateCurrentWorkplace($request);   
+
+        // $state   = State::find($request->state_id)->name;
+        // $country = Country::find($request->country_id)->name;
+        // $location= $state  .', '. $country;
+        // $request->merge(['location' => $location]);
 
         if ($doctor->update($request->all())){
             flash('Offical profile updated successfully')->success();
