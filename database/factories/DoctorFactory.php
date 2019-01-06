@@ -22,8 +22,17 @@ $factory->define(App\Doctor::class, function (Faker $faker) {
       'subscription_ends_at' => $faker->dateTimeBetween('-5 day', '30 day'),
       'verified_by'      => App\User::all()->random()->id,
       'verified_at'      => $faker->dateTimeBetween('-50 day', '-16 minute'),
-      'location'         => $faker->address,
+      'work_address'     => $faker->address,
       'email'            => $faker->email,
       'phone'            => $faker->e164PhoneNumber,
+
+
+      'main_language'    => $faker->randomElement(['1','2','3','4']),
+      'country_id'       => $faker->randomElement(['1','2']),
+      'rate'             => $faker->numberBetween(5,100),
+      'session'          => $faker->numberBetween(30,100),
+      // Education
+      'graduate_school'  => $faker->catchPhrase,
+      'degree'           => $faker->sentence,
     ];
 });

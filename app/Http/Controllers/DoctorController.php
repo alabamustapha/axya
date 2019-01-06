@@ -65,6 +65,7 @@ class DoctorController extends Controller
         $doctor->user_id      = $appl->user_id;
         $doctor->specialty_id = $appl->specialty_id;
         $doctor->first_appointment = $appl->first_appointment;
+        $doctor->work_address = $appl->workplace_address;
         $doctor->slug         = $appl->user->slug;
         $doctor->verified_at  = Carbon::now();
         $doctor->verified_by  = auth()->id();

@@ -66,14 +66,22 @@ class DoctorsFeatureTest extends TestCase
 
         // Update the Doctor's details
         $updated_data = [           
-            'rate'         => 10.56,//$this->faker->numberBetween(5.00,100.00),
-            'available'    => $this->faker->randomElement([0,1]),
-            'specialty_id' => $specialty2->id,
-            'workplace_id' => $workplace2->id,
-            'phone'        => $this->faker->e164Phonenumber,
-            'email'        => $this->faker->email,
-            'about'        => $this->faker->sentence,
-            'location'     => $this->faker->address,
+            'rate'           => 10.56,//$this->faker->numberBetween(5.00,100.00),
+            'available'      => $this->faker->randomElement([0,1]),
+            'specialty_id'   => $specialty2->id,
+            'workplace_id'   => $workplace2->id,
+            'phone'          => $this->faker->e164Phonenumber,
+            'email'          => $this->faker->email,
+            'about'          => $this->faker->sentence,
+            'work_address'   => $this->faker->address,
+
+            'main_language'  => $this->faker->randomElement([1,2,3,4]),
+            'country_id'     => $this->faker->randomElement([1,2]),
+            'rate'           => $this->faker->numberBetween(5,9999),
+            'session'        => $this->faker->numberBetween(30,100),
+            // Education
+            'graduate_school'=> $this->faker->catchPhrase,
+            'degree'         => $this->faker->sentence,
         ]; 
         $data_edited = $updated_data;
         unset($data_edited['workplace_id']);

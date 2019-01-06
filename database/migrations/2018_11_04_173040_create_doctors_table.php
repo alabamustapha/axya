@@ -15,17 +15,38 @@ class CreateDoctorsTable extends Migration
     public function up()
     {
         Schema::create('doctors', function (Blueprint $table) {
+            // Profile
             $table->integer('id')->unique()->unsigned();
             $table->integer('user_id')->unique()->unsigned();
-            $table->integer('specialty_id')->unsigned();
-            $table->date('first_appointment');
+            $table->string('email', 100)->nullable();
+            $table->string('phone', 50)->nullable();
             $table->string('slug')->index();
             $table->text('about')->nullable();
 
-            $table->string('rate')->default('5.00'); // per Hour min.
-            $table->string('graduate_school')->nullable();
+            // Language
+            $table->integer('main_language')->unsigneed()->default('ro');
+            $table->integer('second_language')->unsigned()->nullable();
+            $table->string('other_languages')->nullable();
+
+            // Location
+            $table->integer('country_id')->unsigned()->nullable();
+            $table->integer('state_id')->unsigned()->nullable();
+            $table->string('home_address')->nullable();
+            $table->string('work_address')->nullable();
+
+            // Work
+            $table->string('rate')->default('5.00'); // $ per session
+            $table->integer('session')->default('30');// In Minutes
+            $table->date('first_appointment');
             $table->boolean('available')->default(0); // 0:Available, 1:Not Available.
             $table->timestamp('subscription_ends_at')->nullable();
+
+            // Education
+            $table->string('graduate_school')->nullable();
+            $table->string('degree')->nullable();
+            $table->string('residency')->nullable();
+            $table->integer('specialty_id')->unsigned();
+
             $table->timestamps();
             $table->timestamp('verified_at')->nullable();
             $table->integer('verified_by')->unsigned()->nullable();
@@ -36,9 +57,6 @@ class CreateDoctorsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('verified_by')->references('id')->on('users')->onDelete('cascade');
 
-            $table->string('location')->nullable();
-            $table->string('email', 100)->nullable();
-            $table->string('phone', 50)->nullable();
             // $table->foreign('specialty_id')->references('id')->on('specialties')->onDelete('cascade');
         });
 

@@ -9,7 +9,18 @@ use Illuminate\Database\Eloquent\Model;
 class Doctor extends Model
 {
     protected $fillable = [
-      'id','user_id','slug','about','rate','specialty_id','first_appointment','graduate_school','available','subscription_ends_at','verified_at','verified_by','location','email','phone'
+        // Profile
+        'id','user_id','email','phone','slug','about',
+        // Language
+        'main_language','second_language','other_languages',
+        // Location
+        'country_id','state_id','home_address','work_address',
+        // Work
+        'rate','session','first_appointment','available','subscription_ends_at',
+        // Education
+        'graduate_school','degree','residency','specialty_id',
+        // Others
+        'verified_at','verified_by'
     ];
 
     protected $dates = ['verified_at','subscription_ends_at','first_appointment'];
