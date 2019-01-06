@@ -162,11 +162,11 @@
         <input type="password" name="password_confirmation" id="password_confirmation" class="form-control form-default" placeholder="Confirm password" required>
     </div>
     <div class="acct-type">
-        <div class="row" class="form-control">
+        <div class="row" class="form-control{{ $errors->has('as_doctor') ? ' is-invalid' : '' }}">
             {{-- <div class="col-sm-6">            --}}
                     <label for="as_doctor" class="col-sm-6 form-check-label" style="font-size: 12px;">
                 <div id="doc-acct" class="acct form-check form-check-inline">       
-                    <input value="1" type="radio" name="as_doctor" id="as_doctor" class="form-check-input{{ $errors->has('as_doctor') ? ' is-invalid' : '' }}" required> <br>
+                    <input value="1" type="radio" name="as_doctor" id="as_doctor" class="form-check-input" required> <br>
                         I WANT TO ATTEND TO PATIENTS
                 </div>
                     </label>

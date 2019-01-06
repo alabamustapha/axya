@@ -25,6 +25,13 @@
     <link rel="stylesheet" href="{{asset('css/custom/dashboard.css')}}">
 
     @yield('styles')
+    <style>
+        .form-section textarea {
+            border: 1px solid #302C2C;
+            box-sizing: border-box;
+            border-radius: 4px;
+        }
+    </style>
 
     <!-- fonts -->
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">

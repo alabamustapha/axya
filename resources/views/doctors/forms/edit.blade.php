@@ -32,7 +32,7 @@
     </div>
 
     <div class="form-group row">
-        <label for="rate" class="col-md-4 col-form-label text-md-right">{{ __('Availability') }}</label>
+        <label for="available" class="col-md-4 col-form-label text-md-right">{{ __('Availability') }}</label>
 
         <div class="col-md-7">
           <div class="form-check form-check-inline">
@@ -96,7 +96,7 @@
         <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Official Phone') }}</label>
 
         <div class="col-md-7">
-            <input id="phone" type="tel" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" value="{{ old('phone') ?: $doctor->phone }}" placeholder="your phone address">
+            <input id="phone" type="tel" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" value="{{ old('phone') ?: $doctor->phone }}" placeholder="your phone number">
 
             @if ($errors->has('phone'))
                 <span class="invalid-feedback" role="alert">

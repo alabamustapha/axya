@@ -28,10 +28,14 @@
                   <button onclick="return false;" class="dropdown-item" title="Update Profile" data-toggle="modal" data-target="#updateProfessionalProfileForm">
                     <i class="fa fa-edit mr-1"></i>&nbsp; Edit Profile
                   </button>
+
+                  <a class="dropdown-item" href="{{route('doctors.edit', $doctor)}}">
+                    <i class="fa fa-edit mr-1"></i>&nbsp; Edit Profile 2
+                  </a>
               
                   @if ($doctor->user->hasUploadedAvatar())
                       <a href="{{route('user.avatar.delete', $doctor->user)}}" class="dropdown-item" title="Remove Avatar" onclick="return confirm('Do you want to remove current avatar?');">
-                      <i class="fa fa-trash text-light"></i>
+                      <i class="fa fa-trash"></i>
                     </a>
                   @endif
                 </div>

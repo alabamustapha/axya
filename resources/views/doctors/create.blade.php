@@ -5,10 +5,8 @@
 
 @section('content')
  
-    <div class="col-md-6 offset-md-3">      
+    <div class="col-sm-8 offset-sm-2">      
         @include('doctors.forms.apply')        
     </div>
-
-    {{-- @include('doctors.forms.register') --}}
 
 @endsection
