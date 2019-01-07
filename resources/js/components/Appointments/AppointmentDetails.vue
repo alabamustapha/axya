@@ -45,7 +45,7 @@
             <span><i class="fa fa-donate"></i> Fee</span>
             <span class="text-bold">
               <span style="font-size: 14px;" class="badge badge-secondary badge-pill">
-              $ <!--{{appointment.doctor.rate}}-->
+                ${{appointment.fee}}
               </span>
             </span>
           </li>

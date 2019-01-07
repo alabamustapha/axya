@@ -76212,7 +76212,26 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _vm._m(4),
+          _c("li", { staticClass: "tf-flex p-1" }, [
+            _vm._m(4),
+            _vm._v(" "),
+            _c("span", { staticClass: "text-bold" }, [
+              _c(
+                "span",
+                {
+                  staticClass: "badge badge-secondary badge-pill",
+                  staticStyle: { "font-size": "14px" }
+                },
+                [
+                  _vm._v(
+                    "\n              $" +
+                      _vm._s(_vm.appointment.fee) +
+                      "\n            "
+                  )
+                ]
+              )
+            ])
+          ]),
           _vm._v(" "),
           _c("hr"),
           _vm._v(" "),
@@ -76828,19 +76847,9 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("li", { staticClass: "tf-flex p-1" }, [
-      _c("span", [_c("i", { staticClass: "fa fa-donate" }), _vm._v(" Fee")]),
-      _vm._v(" "),
-      _c("span", { staticClass: "text-bold" }, [
-        _c(
-          "span",
-          {
-            staticClass: "badge badge-secondary badge-pill",
-            staticStyle: { "font-size": "14px" }
-          },
-          [_vm._v("\n            $ ")]
-        )
-      ])
+    return _c("span", [
+      _c("i", { staticClass: "fa fa-donate" }),
+      _vm._v(" Fee")
     ])
   },
   function() {

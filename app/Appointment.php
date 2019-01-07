@@ -16,7 +16,7 @@ class Appointment extends Model
 
     protected $appends = [
         'attendant_doctor','creator','description_preview','link',
-        'schedule','duration','start_time','end_time',
+        'schedule','duration','start_time','end_time','fee',
         'status_text_color','status_text',
         'schedule_is_past',
     ];
@@ -306,6 +306,17 @@ class Appointment extends Model
         $mins_hand = $mins_duration > 0 ? $mins_duration .'mins' : '';
 
         return $hour_hand .' '. $mins_hand;
+    }
+
+    public function getFeeAttribute()
+    {
+        $duration  = Carbon::parse($this->end_time)->diffInMinutes(Carbon::parse($this->start_time));
+
+        $no_of_sessions = ceil($duration / $this->doctor->session);
+
+        $fee           = $no_of_sessions * $this->doctor->rate;
+
+        return $fee;
     }
 
     // Appointment time and duration is now in the past.

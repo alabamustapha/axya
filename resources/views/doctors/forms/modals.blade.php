@@ -1,5 +1,6 @@
 
     @if ($doctor->user->isAccountOwner())
+      <!-- Doctor Profile Update Form-->
       <div class="modal" tabindex="-1" role="dialog" id="updateProfessionalProfileForm" style="display:none;" aria-labelledby="updateProfessionalProfileFormLabel" aria-hidden="true">
         <div class="modal-dialog modal-md" role="document">
           <div class="modal-content">
@@ -15,7 +16,9 @@
           </div> <!-- modal-content -->    
         </div>
       </div>
+      <!-- END - Doctor Profile Update Form-->
 
+      <!-- New Workplace Form-->
       <div class="modal" tabindex="-1" role="dialog" id="createWorkplaceForm" style="display:none;" aria-labelledby="createWorkplaceFormLabel" aria-hidden="true">
         <div class="modal-dialog modal-md modal-dialog-centered" role="document">
           <div class="modal-content px-0 pb-0 bg-transparent shadow-none">
@@ -31,7 +34,9 @@
           </div>
         </div>
       </div>
+      <!-- END - New Workplace Form-->
 
+      <!-- Avatar Update Form-->
       <div class="modal" tabindex="-1" role="dialog" id="updateAvatarForm" style="display:none;" aria-labelledby="updateAvatarFormLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
           <div class="modal-content px-3">
@@ -70,7 +75,9 @@
           </div>
         </div>
       </div>
+      <!-- END - Avatar Update Form-->
 
+      <!-- Schedule Update Form-->
       <div class="modal" tabindex="-1" role="dialog" id="updateScheduleForm" style="display:none;" aria-labelledby="updateScheduleFormLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
           <div class="modal-content px-3">
@@ -111,8 +118,10 @@
           </div>
         </div>
       </div>
+      <!-- END - Schedule Update Form-->
     @endif
 
+    <!-- Appointment Form-->
     <div class="modal" tabindex="-1" role="dialog" id="appointmentForm" style="display:none;" aria-labelledby="appointmentFormLabel" aria-hidden="true">
       <div class="modal-dialog modal-md" role="document">
         <div class="modal-content px-0 pb-0 bg-transparent shadow-none">
@@ -129,3 +138,4 @@
         </div>
       </div>
     </div>
+    <!-- END - Appointment Form-->

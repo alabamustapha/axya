@@ -9551,6 +9551,7 @@ body,
   .main-header {
     -webkit-transition: margin-left 0.3s ease-in-out;
     transition: margin-left 0.3s ease-in-out;
+    margin-left: 250px;
     z-index: 3000;
   }
 }

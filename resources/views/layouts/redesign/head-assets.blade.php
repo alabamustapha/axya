@@ -10,10 +10,9 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
+    <link rel="stylesheet" href="{{asset('css/all.css')}}">
     <link rel="stylesheet" href="{{asset('css/vendor/pikaday.css')}}">
-    {{--
-    <link rel="stylesheet" href="{{asset('css/vendor/jquery.timepicker.css')}}"> 
-    --}}
+    
     
     <!-- BOOTSTRAP STYLE -->
     {{-- <link rel="stylesheet" href="{{asset('css/vendor/bootstrap.min.css')}}">     --}}
