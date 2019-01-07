@@ -95,7 +95,7 @@ class AppointmentsFeatureTest extends TestCase
             'type'        => 'Online',
             'user_id'     => $user->id,
             'doctor_id'   => $this->doctor->id,
-            'description'=> $this->faker->sentence,
+            'description' => $this->faker->sentence,
 
             'day'         => $this->faker->dateTimeBetween('-50 day', '-1day'),
             'from'        => '05:00 AM',
@@ -111,33 +111,40 @@ class AppointmentsFeatureTest extends TestCase
         $this->assertDatabaseMissing('appointments', $data);
     }
 
-    // /**  @test */
-    // public function store_an_appointment_can_be_created_by_a_verified_user()
-    // {
-    //     $user = factory(User::class)->states('verified')->create();
+    /**  @test */
+    public function store_an_appointment_can_be_created_by_a_verified_user()
+    {
+        $user = factory(User::class)->states('verified')->create();
 
-    //     $data = [ 
-    //         'type'        => 'Home',
-    //         'phone'       => $this->faker->e164PhoneNumber,
-    //         'address'     => $this->faker->address,
+        $data = [ 
+            'type'        => 'Home',
+            'phone'       => $this->faker->e164PhoneNumber,
+            'address'     => $this->faker->address,
 
-    //         'user_id'     => $user->id,
-    //         'slug'        => str_slug(date('Y-m-d')). $user->slug,
-    //         'doctor_id'   => $this->doctor->id,
-    //         'description'=> $this->faker->sentence,
+            'user_id'     => $user->id,
+            'slug'        => str_slug(date('Y-m-d')). $user->slug,
+            'doctor_id'   => $this->doctor->id,
+            'description'=> $this->faker->sentence,
 
-    //         'day'         => '2018-12-23 10:00:00',
-    //         'from'        => '05:00 AM', // issue is here <= Concatenation to 2400
-    //         'to'          => '11:00 PM', // issue is here <= Concatenation to 2400
-    //     ];
+            'day'         => date('Y-m-d'),
+            'from'        => '05:00 AM',
+            'to'          => '11:00 PM',
+        ];
+        // Caters for Concatenation to 2400 ::formatHourTo2400();
+        $data_edited = $data;
+        $data_edited = array_merge($data_edited, [
+            'day'         => date('Y-m-d') .' 00:00:00',
+            'from'        => date('Y-m-d') .' 05:00',
+            'to'          => date('Y-m-d') .' 23:00',
+        ]);
 
-    //     $this
-    //         ->actingAs($user)
-    //         ->post(route('appointments.store'), $data)
-    //         ;
+        $this
+            ->actingAs($user)
+            ->post(route('appointments.store'), $data)
+            ;
 
-    //     $this->assertDatabaseHas('appointments', $data);
-    // }
+        $this->assertDatabaseHas('appointments', $data_edited);
+    }
 
     /** @test */
     public function update_an_appointment_can_be_updated()
@@ -160,18 +167,24 @@ class AppointmentsFeatureTest extends TestCase
             'doctor_id'   => $this->doctor->id,
             'description'=> $this->faker->sentence,
 
-            'day'         => $this->faker->dateTimeBetween('-30 day', '-1day'),
+            'day'         => date('Y-m-d'),
             'from'        => '06:00 AM',
             'to'          => '12:00 PM',
         ]; 
+        // Caters for Concatenation to 2400 ::formatHourTo2400();
+        $data_edited = $updated_data;
+        $data_edited = array_merge($data_edited, [
+            'day'         => date('Y-m-d') .' 00:00:00',
+            'from'        => date('Y-m-d') .' 06:00',
+            'to'          => date('Y-m-d') .' 12:00',
+        ]);
 
         $this
             ->patch(route('appointments.update', $appointment), $updated_data)
-            // ->assertStatus(200) // rq->expectsJson()
             ->assertStatus(302)
             ;
 
-        $this->assertDatabaseHas('appointments', $updated_data);
+        $this->assertDatabaseHas('appointments', $data_edited);
     }
 
     /** @test */

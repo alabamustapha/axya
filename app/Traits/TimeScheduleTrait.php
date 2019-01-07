@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 trait TimeScheduleTrait
@@ -9,9 +10,15 @@ trait TimeScheduleTrait
     // Convert appointment time to 24 hours format.
     public function formatHourTo2400(Request $request)
     {
-        $__to = explode(' ', $request->to); reset($__to);
+        // Convert all time requests to h:i A format at backend. 
+        // Makes parsing for create and Update work the same way.
+        $rq_to   = Carbon::parse($request->to)->format('h:i A');
+        $rq_from = Carbon::parse($request->from)->format('h:i A');
+        $rq_day  = Carbon::parse($request->day)->format('Y-m-d');
+
+        $__to = explode(' ', $rq_to); reset($__to);
         $to = current($__to);
-        $__from = explode(' ', $request->from); reset($__from);
+        $__from = explode(' ', $rq_from); reset($__from);
         $from = current($__from);
 
         if (end($__to) == 'PM'){
@@ -42,10 +49,13 @@ trait TimeScheduleTrait
             $from = $formatedHour .':'. $mins_segment;
         }
 
-        // Convert time to Schedule Day + Time.
-        $from = $request->day .' '. $from;
-        $to   = $request->day .' '. $to; 
-        // dd($from,$to);
+        // Convert time to Schedule Day + Time. (Y-m-d h:i A)
+        $from = $rq_day .' '. $from;
+        $to   = $rq_day .' '. $to; 
+        // dd(
+        //     $request->from,$request->to, $rq_from,$rq_to,
+        //     $__from,$__to, $from,$to, $rq_day
+        // );
 
         $request->merge([
             'user_id' => auth()->id(), // booted()

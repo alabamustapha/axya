@@ -37,7 +37,7 @@ class Appointment extends Model
     {
         return [
             'slug' => [
-                'source'    => ['day', 'user.slug'],
+                'source'    => ['user.slug','doctor.slug'],//'day', 
                 'maxLength' => 50,
             ]
         ];
@@ -281,6 +281,12 @@ class Appointment extends Model
     public function getDayAttribute($value)
     {
         return Carbon::parse($value)->format('M d, Y');
+    }
+
+    // Formatted for edit form.
+    public function getDayEditAttribute($value)
+    {
+        return Carbon::parse($this->day)->format('Y-m-d');
     }
 
     // 'From' Time Segment Only

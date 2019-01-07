@@ -181,6 +181,7 @@ class AppointmentController extends Controller
         $this->authorize('create', Appointment::class);
 
         $this->formatHourTo2400($request);
+        // dd($request->all());//,
 
         $appointment = Appointment::create($request->all());
 
@@ -226,7 +227,11 @@ class AppointmentController extends Controller
     {
         // $this->authorize('edit', $appointment);
 
-        $request->merge(['user_id' => auth()->id()]);
+        $this->formatHourTo2400($request);
+
+        // $request->merge(['user_id' => auth()->id()]);
+        // dd($request->all());//,
+        // dd($appointment->update($request->all()));
 
         if ($appointment->update($request->all())){
             $message = 'Appointment updated successfully.';

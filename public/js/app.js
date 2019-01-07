@@ -75960,6 +75960,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['appointment'],
@@ -76233,6 +76236,8 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
+          _vm._m(5),
+          _vm._v(" "),
           _c("hr"),
           _vm._v(" "),
           _c("li", { attrs: { title: "Appointment Status" } }, [
@@ -76338,7 +76343,7 @@ var render = function() {
               ? _c("li", [
                   _vm.appointment.creator && _vm.reviewed == "0"
                     ? _c("span", [
-                        _vm._m(5),
+                        _vm._m(6),
                         _vm._v(" "),
                         _c("br"),
                         _vm._v(" "),
@@ -76359,7 +76364,7 @@ var render = function() {
                               _vm._v("Rate This Service")
                             ]),
                             _vm._v(" "),
-                            _vm._m(6),
+                            _vm._m(7),
                             _vm._v(" "),
                             _c("div", { staticClass: "table-responsive" }, [
                               _c(
@@ -76850,6 +76855,25 @@ var staticRenderFns = [
     return _c("span", [
       _c("i", { staticClass: "fa fa-donate" }),
       _vm._v(" Fee")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", { staticClass: "tf-flex p-1" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary btn-sm btn-block col",
+          attrs: {
+            "data-toggle": "modal",
+            "data-target": "#appointmentForm",
+            title: "Book Appointment"
+          }
+        },
+        [_c("i", { staticClass: "fa fa-edit" }), _vm._v(" Edit Appointment")]
+      )
     ])
   },
   function() {

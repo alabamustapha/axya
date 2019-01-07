@@ -49,6 +49,9 @@
               </span>
             </span>
           </li>
+          <li class="tf-flex p-1">
+            <button class="btn btn-primary btn-sm btn-block col" data-toggle="modal" data-target="#appointmentForm" title="Book Appointment"><i class="fa fa-edit"></i> Edit Appointment</button>
+          </li>
 
           <hr>
           <li title="Appointment Status">
