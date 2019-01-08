@@ -167,6 +167,36 @@ class Doctor extends Model
         return $this->patients();
     }
 
+
+    /**
+     * Get all doctors that has attended to this user before.
+     * 
+     * @return array
+     */
+    public function inPastPatients()
+    {
+        $ids = $this->patients()
+                    ->pluck('id')->toArray();
+
+        $patientIds = array_unique($ids);
+
+        return in_array(request()->user->id, $patientIds);
+    }
+
+    public function inAllPatients()
+    {
+        $ids = $this->appointments()
+                  ->pluck('user_id')
+                  ->toArray()
+                  ;
+
+        $patientIds = array_unique($ids);
+
+        return in_array(request()->user->id, $patientIds);
+    }
+
+
+
     /**
      * Route key
      * 

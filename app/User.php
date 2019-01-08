@@ -515,10 +515,22 @@ class User extends Authenticatable implements MustVerifyEmail
      * 
      * @return array
      */
-    public function inPastAttendantDoctors()
+    public function inPastAttendingDoctors()
     {
         $ids = $this->doctors()
                     ->pluck('id')->toArray();
+
+        $doctorIds = array_unique($ids);
+
+        return in_array(request()->user->id, $doctorIds);
+    }
+
+    public function inAllAttendingDoctors()
+    {
+        $ids = $this->appointments()
+                  ->pluck('doctor_id')
+                  ->toArray()
+                  ;
 
         $doctorIds = array_unique($ids);
 

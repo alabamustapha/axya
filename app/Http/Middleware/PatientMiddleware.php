@@ -16,12 +16,15 @@ class PatientMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check() 
+        if  (Auth::check() 
             && ((Auth::id() == request()->user->id) 
-                // || Auth::user()->isAdmin() 
-                // || Auth::user()->inPastAttendantDoctors()
-            )) {
-            return $next($request);
+                || Auth::user()->isAdmin()
+                // Currently accessed user is a patient to logged in doctor.
+                || (Auth::user()->is_doctor && Auth::user()->doctor->inAllPatients())
+               )
+            )
+        { 
+            return $next($request); 
         }
         return abort('403');
     }
