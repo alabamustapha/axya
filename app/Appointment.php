@@ -68,6 +68,11 @@ class Appointment extends Model
     //     });
     // }
 
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
     public function documents()
     {
         return $this->morphMany(Document::class, 'documentable');

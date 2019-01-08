@@ -67,4 +67,10 @@ class AppointmentsTest extends TestCase
     {
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->appointment->prescriptions); 
     }
+
+    /** @test */
+    public function an_appointment_has_many_transactions()
+    {
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->user->transactions); 
+    }
 }
