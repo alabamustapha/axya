@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Carbon\Carbon;
 use App\Appointment;
 use App\Transaction;
 use Illuminate\Http\Request;
@@ -109,7 +110,10 @@ class TransactionController extends Controller
         // $response = $response_from_pymt_processor;
 
         if ($response == 'success'){
-            $transaction->update(['status' => '1']);
+            $transaction->update([
+                'status' => '1',
+                'confirmed_at' => Carbon::now(),
+            ]);
             
             $transaction->appointment->activateFeePayment(); 
 

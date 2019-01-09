@@ -8,8 +8,10 @@ class Transaction extends Model
 {
     protected $appends = ['status_text','status_indicator'];
 
+    protected $dates = ['confirmed_at','cancelled_at' ];
+
     protected $fillable = [      
-        'id','user_id','doctor_id','appointment_id',
+        'user_id','doctor_id','appointment_id',
         // Money Related
         'amount','currency',
         // Transaction Related

@@ -136,4 +136,42 @@ class TransactionsFeatureTest extends TestCase
     //         ;
     // }
 
+    // /**  @test */
+    // public function store_a_transaction_can_be_created_by_a_verified_user()
+    // {
+    //     $user        = factory(User::class)->states('verified')->create();
+    //     $appointment = factory(Appointment::class)->create();
+    //     $data = [ 
+    //         'user_id'       => $user->id,
+    //         'doctor_id'     => $appointment->doctor_id,
+    //         'appointment_id'=> $appointment->id,
+    //         'amount'        => $appointment->doctor->rate * $appointment->sessions,
+    //         'transaction_id'=> $appointment->makeTransactionId(),
+    //         'status'        => '2',
+    //         // 'currency'      => ,
+    //         // 'channel'       => ,
+    //         // 'processor_id'  => ,
+    //         // 'processor_trxn_id' => ,
+    //     ];
+
+    //     $this
+    //         ->actingAs($user)
+    //         ->post(route('transactions.store'), $data)
+    //         ;
+
+    //     $this->assertDatabaseHas('transactions', $data);
+    // }
+
+    // /** @test */
+    // public function update_a_transaction_payment_satatus_can_be_updated()
+    // {
+    //     // $user = factory(User::class)->states('verified')->create();
+    //     // create appointment
+    //     // create transaction
+    //     // make payment
+    //     // ensure appropriate transaction attributes get updated
+    //     // check transactions db for implemented update
+    //     // ensure appropriate appointment attributes get updated
+    //     // check appointments db for implemented update
+    // }
 }
