@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Appointment;
 use App\Transaction;
 use Illuminate\Http\Request;
@@ -12,7 +13,8 @@ class TransactionController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('verified');
-        // $this->middleware('patient')->only('show');
+        // $this->middleware('patient');
+        $this->middleware('admin')->only('admindex');
     }
 
     /**
@@ -20,14 +22,30 @@ class TransactionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(User $user)
     {
-        // $this->authorize('view', Transaction::class);
-
-        $transactions = Transaction::where('user_id', auth()->id())
+        $transactions = Transaction::where('user_id', $user->id)
                                     ->latest()
                                     ->paginate(15);
         return view('transactions.index', compact('transactions'));
+    }
+
+    public function drindex(User $user)
+    {
+        // $this->authorize('doctor permitted?', Transaction::class);
+
+        $transactions = Transaction::where('doctor_id', $user->id)
+                                    ->latest()
+                                    ->paginate(15);
+        return view('transactions.doctor', compact('transactions'));
+    }
+
+    public function admindex()
+    {
+        // Display/Group by Date...
+        $transactions = Transaction::latest()
+                                    ->paginate(15);
+        return view('transactions.admin', compact('transactions'));
     }
 
     /**
