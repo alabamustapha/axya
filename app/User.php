@@ -95,7 +95,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function isAccountOwner()
     {
-        return $this->id === auth()->id();
+        return $this->id == auth()->id();
     }
 
     /**

@@ -49,8 +49,13 @@
               </span>
             </span>
           </li>
-          <li class="tf-flex p-1">
-            <button class="btn btn-primary btn-sm btn-block col" data-toggle="modal" data-target="#appointmentForm" title="Book Appointment"><i class="fa fa-edit"></i> Edit Appointment</button>
+          <li class="tf-flex p-1" v-if="appointment.creator">
+            <button 
+              class="btn btn-sm btn-block btn-primary col" 
+              data-toggle="modal" data-target="#appointmentForm" 
+              title="Book Appointment">
+              <i class="fa fa-edit"></i> Edit Appointment
+            </button>
           </li>
 
           <hr>
@@ -85,8 +90,15 @@
             <span v-if="appointment.creator">
               <!-- <li class="border-bottom pb-1 mb-2">Patient Section</li> -->
               <li v-if="status == '2'">
-                <button class="btn btn-sm my-1 btn-primary"
-                  @click="payConsultationFee">Pay Consultation Fee</button>
+                <button
+                  class="btn btn-sm btn-block btn-warning" 
+                  data-toggle="modal" data-target="#appointmentTransactionForm" 
+                  title="New Transaction">
+                    <i class="fa fa-transaction"></i>&nbsp; Pay Consultation Fee
+                </button>
+
+                <!-- <button class="btn btn-sm my-1 btn-primary"
+                  @click="payConsultationFee">Pay Consultation Fee</button> -->
               </li>
               <li v-if="status == '0' && !appointment.schedule_is_past" class="mb-2">
                 <button class="btn btn-sm my-1 btn-danger"

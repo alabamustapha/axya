@@ -17,6 +17,7 @@ class PatientMiddleware
     public function handle($request, Closure $next)
     {
         if  (Auth::check() 
+            // && ((Auth::user()->isAccountOwner()) 
             && ((Auth::id() == request()->user->id) 
                 || Auth::user()->isAdmin()
                 // Currently accessed user is a patient to logged in doctor.

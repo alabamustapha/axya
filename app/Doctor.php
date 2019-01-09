@@ -218,7 +218,7 @@ class Doctor extends Model
      */
     public function isAccountOwner()
     {
-        return $this->id === auth()->id();
+        return $this->id == auth()->id();
     }
 
     public function dummyAvatar()

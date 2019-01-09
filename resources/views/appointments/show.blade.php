@@ -205,6 +205,24 @@
       </div>
     </div>
     <!-- END - Appointment Form-->
+
+    <!-- Appointment Transaction Form-->
+    <div class="modal" tabindex="-1" role="dialog" id="appointmentTransactionForm" style="display:none;" aria-labelledby="appointmentTransactionFormLabel" aria-hidden="true">
+      <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content px-0 pb-0 shadow-none">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 5px 15px 0px;margin:10px auto -25px">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <br>
+          <div class="modal-body">
+
+            @include('transactions.partials.create-form')
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END - Appointment Transaction Form-->
   @endif
 </div>
 

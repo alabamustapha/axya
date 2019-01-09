@@ -16,7 +16,7 @@ class Appointment extends Model
 
     protected $appends = [
         'attendant_doctor','creator','description_preview','link',
-        'schedule','duration','start_time','end_time','fee',
+        'schedule','duration','start_time','end_time','fee','no_of_sessions',
         'status_text_color','status_text',
         'schedule_is_past',
     ];
@@ -280,6 +280,10 @@ class Appointment extends Model
       return route('appointments.show', $this);
     }
 
+    public function makeTransactionId() {
+        return strtoupper('con'. date('Ymd') .'-'. str_random(18));
+    }
+
 
     #~~ Time/Schedule Related
     #------------------------------------------------#
@@ -319,14 +323,19 @@ class Appointment extends Model
         return $hour_hand .' '. $mins_hand;
     }
 
-    public function getFeeAttribute()
+    public function getNoOfSessionsAttribute()
     {
         $duration  = Carbon::parse($this->end_time)->diffInMinutes(Carbon::parse($this->start_time));
 
         $no_of_sessions = ceil($duration / $this->doctor->session);
 
-        $fee           = $no_of_sessions * $this->doctor->rate;
+        return $no_of_sessions;
+    }
 
+    public function getFeeAttribute()
+    {
+        $fee = $this->no_of_sessions * $this->doctor->rate;
+        
         return $fee;
     }
 
