@@ -18,7 +18,7 @@ class Appointment extends Model
         'attendant_doctor','creator','description_preview','link',
         'schedule','duration','start_time','end_time','fee','no_of_sessions',
         'status_text_color','status_text',
-        'schedule_is_past',
+        'schedule_is_past','within_booking_time_limit'
     ];
 
     protected $fillable = [
@@ -287,6 +287,12 @@ class Appointment extends Model
 
     #~~ Time/Schedule Related
     #------------------------------------------------#
+    public function getWithinBookingTimeLimitAttribute($value)
+    {
+        // All bookings must be done 1 hour before appointment starts.
+        return Carbon::now() < Carbon::parse($this->from)->subHour();
+    }
+
     public function getDayAttribute($value)
     {
         return Carbon::parse($value)->format('M d, Y');

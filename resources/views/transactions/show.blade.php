@@ -21,6 +21,24 @@
                             <img src="{{$transaction->user->avatar}}" height="55" alt="user avatar" class="rounded-circle">
                             <a href="{{route('users.show', $transaction->user)}}">{{$transaction->user->name}}</a>
                         </span>
+
+                        {{-- @if (Auth::user()->is_admin) --}}
+                        @unless ($transaction->status == '1')
+                            <span>
+                                @if ($transaction->status == '2')
+                                <a href="{{route('mockedPayment', $transaction)}}" class="btn btn-sm btn-block btn-warning">
+                                    Mock Pay Now
+                                </a>
+                                @endif
+                                @if ($transaction->status == '3' && $transaction->appointment->within_booking_time_limit)
+                                    <a href="{{route('mockedPayment', $transaction)}}" class="btn btn-sm btn-block btn-success">
+                                        Retry Payment
+                                    </a>
+                                @endif
+                            </span>
+                        @endunless
+                        {{-- @endif --}}
+
                         <span>
                             <span class="text-muted mb-2" style="font-size: 1rem;">Doctor <small>(${{$transaction->doctor->rate}})</small></span>
                             <br>

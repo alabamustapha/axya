@@ -68,6 +68,8 @@ class TransactionController extends Controller
     {
         $this->authorize('create', Transaction::class);
 
+        $request->validate(['appointment_id' => 'required|integer|exists:appointment,id']);
+
         $appointment = Appointment::find($request->appointment_id);
 
         $request->merge([
@@ -75,12 +77,12 @@ class TransactionController extends Controller
             'doctor_id'     => $appointment->doctor_id,
             'appointment_id'=> $appointment->id,
             'amount'        => $appointment->fee,
+            'transaction_id'=> $appointment->makeTransactionId(),
+            'status'        => '2',
             // 'currency'      => ,
             // 'channel'       => ,
-            'transaction_id'=> $appointment->makeTransactionId(),
             // 'processor_id'  => ,
             // 'processor_trxn_id' => ,
-            'status'        => '2'
         ]);
         
         $transaction = Transaction::create($request->all());
@@ -96,6 +98,38 @@ class TransactionController extends Controller
         }
 
         return redirect()->route('appointments.show', $transaction->appointment);
+    }
+
+    public function mockedPayment(Transaction $transaction)
+    {
+        $response = array_rand(['success' => 1,'failed' => 0]);
+        // dd($response);
+        // $response = $response_from_pymt_processor;
+
+        if ($response == 'success'){
+            $transaction->update(['status' => '1']);
+            
+            $transaction->appointment->activateFeePayment(); 
+
+            // Notify concerned parties of success.
+            $transaction->user->notify(new TransactionSuccessfulNotification($transaction->user, $transaction));
+            $transaction->doctor->user->notify(new TransactionSuccessfulNotification($transaction->doctor->user, $transaction));
+            
+            flash('Payment was successful, notification has been sent to the attending doctor.')->success(); 
+
+            return redirect()->route('transactions.show', $transaction);
+        }
+        else {
+            // No need to change status on appointment model, status quo maintained.
+            $transaction->update(['status' => '3']);
+
+            // Notify patient of failure. 
+            $transaction->user->notify(new TransactionFailedNotification($transaction->user, $transaction));
+
+            flash('Payment was not successful, try again')->error();
+
+            return redirect()->route('transactions.show', $transaction);
+        }
     }
 
     /**

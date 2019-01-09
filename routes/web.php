@@ -47,6 +47,7 @@ Route::resource('transactions','TransactionController')->except('index');;
 Route::get('/{user}/transactions',  'TransactionController@index')->name('transactions.index');
 Route::get('/{user}/dr-transactions',  'TransactionController@drindex')->name('dr_transactions');
 Route::get('adm-transactions', 'TransactionController@admindex')->name('adm_transactions');
+Route::get('mockedPayment/{transaction}', 'TransactionController@mockedPayment')->name('mockedPayment');
 
 Route::get('schedules/{doctor}/{day}', 'ScheduleController@schedules');
 
