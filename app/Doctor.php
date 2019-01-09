@@ -54,6 +54,11 @@ class Doctor extends Model
         return $this->hasMany(Transaction::class);
     }
 
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class);
+    }
+
     public function documents()
     {
         return $this->morphMany(Document::class, 'documentable');
