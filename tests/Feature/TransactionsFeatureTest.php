@@ -36,7 +36,7 @@ class TransactionsFeatureTest extends TestCase
     {
         $this
             ->actingAs($this->user)
-            ->get(route('transactions.index'))
+            ->get(route('transactions.index', $this->transaction->user))
             ->assertStatus(200)
             ->assertSee($this->transaction->user->name)
             ->assertSee($this->transaction->doctor->name)
@@ -76,6 +76,7 @@ class TransactionsFeatureTest extends TestCase
         $this
             ->actingAs($doc)
             ->get(route('transactions.show', $transaction))
+            // ->dump()
             ->assertStatus(200)
             ->assertSee($transaction->user->name)
             ->assertSee($transaction->doctor->name)

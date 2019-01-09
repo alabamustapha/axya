@@ -75,7 +75,9 @@
 
                     <blockquote class="blockquote">
                         <footer class="blockquote-footer">
-                            <cite title="{{$transaction->appointment->schedule}}">{{$transaction->appointment->schedule}}</cite>, {{$transaction->appointment->day}}
+                            <cite title="{{$transaction->appointment->schedule}}">
+                                <i class="fa fa-stopwatch"></i>&nbsp; {{$transaction->appointment->schedule}}
+                            </cite>, {{$transaction->appointment->day}}
                         </footer>
                     </blockquote>
                 </div>
