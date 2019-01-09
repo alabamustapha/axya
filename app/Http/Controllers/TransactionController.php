@@ -6,6 +6,8 @@ use App\User;
 use App\Appointment;
 use App\Transaction;
 use Illuminate\Http\Request;
+use App\Notifications\Transactions\TransactionFailedNotification;
+use App\Notifications\Transactions\TransactionSuccessfulNotification;
 
 class TransactionController extends Controller
 {
