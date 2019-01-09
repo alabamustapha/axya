@@ -24,6 +24,8 @@
   @empty
     <div class="empty-list">You have 0 prescriptions at the moment</div>
   @endforelse
+    
+  <div class="text-center py-3">{{ $prescriptions->appends(request()->query())->links() }}</div>
 </div>
 
 @endsection

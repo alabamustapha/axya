@@ -29,7 +29,9 @@
                 <p>{{$review->user->name}}</p>
             </div>
         @empty
-            <divclass="empty-list">No {{ request()->status }} reviews at this time</div>
+            <div class="empty-list">No {{ request()->status }} reviews at this time</div>
         @endforelse
+    
+        <div class="text-center py-3">{{ $reviews->appends(request()->query())->links() }}</div>
     </div>
 @endsection

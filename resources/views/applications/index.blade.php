@@ -46,6 +46,9 @@
             </td>
         </tr>
         @endforeach
+            <tr>
+                <td colspan="3" class="text-center py-3">{{ $applications->appends(request()->query())->links() }}</td>
+            </tr>
         </tbody>
     </table>
 </div>

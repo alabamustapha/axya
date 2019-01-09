@@ -35,43 +35,46 @@
         <tbody>
         
         @forelse($appointments as $appointment)
-        <tr>
-            <td>
-                <a href="{{route('appointments.show', $appointment)}}" style="color:inherit;"> 
-                    {{$appointment->day}}
-                </a>
-            </td>
-            <td title="{{$appointment->duration}}">
-                <a href="{{route('appointments.show', $appointment)}}" style="color:inherit;"> 
-                    {{$appointment->schedule}}
-                </a>
-            </td>
-            <td>
-                <a href="{{route('appointments.show', $appointment)}}">
-                    {{$appointment->statusTextOutput()}}
-                </a>
-            </td>
-            <td>
-                @if($appointment->creator)
-                    <span title="Doctor Name"><a href="{{route('doctors.show', $appointment->doctor)}}" style="color:inherit;">{{$appointment->doctor->name}}</a></span>
-                @else
-                    <span title="User Name"><a href="{{route('users.show', $appointment->user)}}" style="color:inherit;">{{$appointment->user->name}}</a></span>
-                @endif
-            </td>
-            <td>
-                <a href="{{route('specialties.show', $appointment->doctor->specialty)}}" style="color:inherit;">{{$appointment->doctor->specialty->name}}</a>
-            </td>
-            <td>
-                <a href="{{route('appointments.show', $appointment)}}" style="color:inherit;">                    
-                    <span><i class="fa fa-file"></i>&nbsp; {{ $appointment->description_preview }}</span>
-                </a>
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    <a href="{{route('appointments.show', $appointment)}}" style="color:inherit;"> 
+                        {{$appointment->day}}
+                    </a>
+                </td>
+                <td title="{{$appointment->duration}}">
+                    <a href="{{route('appointments.show', $appointment)}}" style="color:inherit;"> 
+                        {{$appointment->schedule}}
+                    </a>
+                </td>
+                <td>
+                    <a href="{{route('appointments.show', $appointment)}}">
+                        {{$appointment->statusTextOutput()}}
+                    </a>
+                </td>
+                <td>
+                    @if($appointment->creator)
+                        <span title="Doctor Name"><a href="{{route('doctors.show', $appointment->doctor)}}" style="color:inherit;">{{$appointment->doctor->name}}</a></span>
+                    @else
+                        <span title="User Name"><a href="{{route('users.show', $appointment->user)}}" style="color:inherit;">{{$appointment->user->name}}</a></span>
+                    @endif
+                </td>
+                <td>
+                    <a href="{{route('specialties.show', $appointment->doctor->specialty)}}" style="color:inherit;">{{$appointment->doctor->specialty->name}}</a>
+                </td>
+                <td>
+                    <a href="{{route('appointments.show', $appointment)}}" style="color:inherit;">                    
+                        <span><i class="fa fa-file"></i>&nbsp; {{ $appointment->description_preview }}</span>
+                    </a>
+                </td>
+            </tr>
         @empty
             <tr>
                 <td colspan="5" class="empty-list">No {{ request()->status }} appointments at this time</td>
             </tr>
         @endforelse
+            <tr>
+                <td colspan="5" class="text-center py-3">{{ $appointments->appends(request()->query())->links() }}</td>
+            </tr>
         </tbody>
     </table>
 </div>

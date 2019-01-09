@@ -17,7 +17,9 @@
 
           <p class="empty-list">0 notifications at this time.</p>
 
-        @endforelse        
+        @endforelse  
+    
+          <div class="text-center py-3">{{ $notifications->appends(request()->query())->links() }}</div>      
       </div>      
     </div>
   </div>

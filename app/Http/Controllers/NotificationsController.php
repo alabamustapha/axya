@@ -19,7 +19,7 @@ class NotificationsController extends Controller
 
     public function display()
     {
-        $notifications = auth()->user()->unreadNotifications()->get();
+        $notifications = auth()->user()->unreadNotifications()->paginate(20);
 
         return view('notifications.index', compact('notifications'));
     }
