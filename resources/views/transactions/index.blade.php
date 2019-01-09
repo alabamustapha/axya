@@ -2,45 +2,81 @@
 
 @section('title', Auth::user()->name .' Transactions Dashboard')
 
-@section('page-title', ' Transactions Dashboard')
+@section('page-title', 'Pateint Transactions Dashboard')
 
 @section('content')
 
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-    <h1 class="h2">Transactions Dashboard</h1>
-</div>
-
-<div class="card">
     @forelse($transactions as $transaction)
-        <div class="card-body">
-            <h5 class="card-title tf-flex">
-                <span>
-                    Patient <br>
-                    <a href="{{route('users.show', $transaction->user)}}">{{$transaction->user->name}}</a>
-                </span>
-                <span>
-                    Doctor <br>
-                    <a href="{{route('doctors.show', $transaction->doctor)}}">{{$transaction->doctor->name}}</a>
-                </span>
-            </h5>
+        <div class="card shadow-none mb-4">
+            <div class="card-body pb-0">
+                <p class="tf-flex">
+                    <kbd><i class="fa fa-clock"></i> Created: {{$transaction->created_at}}</kbd>
 
-            <h6 class="card-subtitle mb-2 text-muted border-bottom px-2 tf-flex">
-                {{$transaction->transaction_id}} - {{$transaction->amount}}
-            </h6>
-            <p class="card-text">
-                {{$transaction->appointment->description}}
-            </p>
+                    <kbd class="bg-info"><a href="{{route('transactions.show', $transaction)}}" class="card-link"><i class="fa fa-eye"></i> View Transaction</a></kbd>
+                </p>
 
-        </div>
-        <div class="card-footer text-muted">
-            <p>{{$transaction->status}}</p>
-            <a href="{{route('transactions.show', $transaction)}}" class="card-link">View</a>
-        </div>
+                <h5 class="card-title tf-flex text-center pb-3 mb-3 border-bottom">
+                    <span>
+                        <span class="text-muted mb-2" style="font-size: 1rem;">Patient</span>
+                        <br>
+
+                        <img src="{{$transaction->user->avatar}}" height="45" alt="user avatar" class="rounded-circle">
+                        <a href="{{route('users.show', $transaction->user)}}">{{$transaction->user->name}}</a>
+                    </span>
+                    <span>
+                        <span class="text-muted mb-2" style="font-size: 1rem;">Doctor <small>(${{$transaction->doctor->rate}})</small></span>
+                        <br>
+
+                        <img src="{{$transaction->doctor->avatar}}" height="45" alt="doctor avatar" class="rounded-circle">
+                        <a href="{{route('doctors.show', $transaction->doctor)}}">{{$transaction->doctor->name}}</a>
+                    </span>
+                </h5>
+
+                <div class="mb-3 border-bottom">
+                    <h2>
+                        <div class="tf-flex mb-3">
+                            <span class="border p-2">
+                                <span class="text-muted" style="font-size: 1rem;">Amount:</span>
+                                <span class="text-bold">${{$transaction->appointment->fee}}</span>
+                            </span>
+                            <span class="border p-2">
+                                <span class="text-muted" style="font-size: 1rem;">Sessions:</span>
+                                <span class="text-bold">{{$transaction->appointment->no_of_sessions}}</span>
+                            </span>
+
+                            <span class="border p-2">
+                                <span class="text-muted" style="font-size: 1rem;">Duration:</span>
+                                <span class="text-bold">{{$transaction->appointment->duration}}</span>
+                            </span>
+                        </div>
+                    </h2>
+                </div>
+
+                <div class="card-text pb-3">
+                    <span class="text-muted">Description:&nbsp;</span>
+                    {{$transaction->appointment->description}}
+                </div>
+
+                <blockquote class="blockquote">
+                    <footer class="blockquote-footer">
+                        <cite title="{{$transaction->appointment->schedule}}">{{$transaction->appointment->schedule}}</cite>, {{$transaction->appointment->day}}
+                    </footer>
+                </blockquote>
+            </div>
+            <div class="card-footer text-bold text-white bg-{{$transaction->status_indicator}}">
+                <span class="text-muted text-sm">
+                    Status:&nbsp;
+                </span>
+                 
+                {{$transaction->status_text}}
+            </div>
+        </div> 
     @empty
         
-        <div class="empty-list">No transactions at this time</div>
+        <div class="col empty-list">No transactions at this time</div>
 
     @endforelse
-</div>
+    
+    <div class="text-center py-3">{{ $transactions->appends(request()->query())->links() }}</div>
 
 @endsection

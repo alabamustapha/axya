@@ -6,31 +6,68 @@
 
 @section('content')
 
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-    <h1 class="h2">Transaction {{$transaction->transaction_id}}</h1>
-</div>
 
-<div class="card">
-    <div class="card-body">
-        <h5 class="card-title tf-flex">
-            <span>
-                Patient <br>
-                <a href="{{route('users.show', $transaction->user)}}">{{$transaction->user->name}}</a>
-            </span>
-            <span>
-                Doctor <br>
-                <a href="{{route('doctors.show', $transaction->doctor)}}">{{$transaction->doctor->name}}</a>
-            </span>
-        </h5>
+            <div class="card shadow-none">
+                <div class="card-body pb-0">
+                    <p class="text-center">
+                        <kbd><i class="fa fa-clock"></i> Created: {{$transaction->created_at}}</kbd>
+                    </p>
 
-        <h6 class="card-subtitle mb-2 text-muted border-bottom px-2 tf-flex">
-            {{$transaction->transaction_id}} - {{$transaction->amount}}
-        </h6>
-        <p class="card-text">
-            {{$transaction->appointment->description}}
-        </p>
-    </div>
-    <div class="card-footer text-muted">{{$transaction->status}}</div>
-</div>
+                    <h5 class="card-title tf-flex text-center pb-3 mb-3 border-bottom">
+                        <span>
+                            <span class="text-muted mb-2" style="font-size: 1rem;">Patient</span>
+                            <br>
+
+                            <img src="{{$transaction->user->avatar}}" height="55" alt="user avatar" class="rounded-circle">
+                            <a href="{{route('users.show', $transaction->user)}}">{{$transaction->user->name}}</a>
+                        </span>
+                        <span>
+                            <span class="text-muted mb-2" style="font-size: 1rem;">Doctor <small>(${{$transaction->doctor->rate}})</small></span>
+                            <br>
+
+                            <img src="{{$transaction->doctor->avatar}}" height="55" alt="doctor avatar" class="rounded-circle">
+                            <a href="{{route('doctors.show', $transaction->doctor)}}">{{$transaction->doctor->name}}</a>
+                        </span>
+                    </h5>
+
+                    <div class="mb-3 border-bottom">
+                        <h2>
+                            <div class="tf-flex mb-3">
+                                <span class="border p-2">
+                                    <span class="text-muted" style="font-size: 1rem;">Amount:</span>
+                                    <span class="text-bold">${{$transaction->appointment->fee}}</span>
+                                </span>
+                                <span class="border p-2">
+                                    <span class="text-muted" style="font-size: 1rem;">Sessions:</span>
+                                    <span class="text-bold">{{$transaction->appointment->no_of_sessions}}</span>
+                                </span>
+
+                                <span class="border p-2">
+                                    <span class="text-muted" style="font-size: 1rem;">Duration:</span>
+                                    <span class="text-bold">{{$transaction->appointment->duration}}</span>
+                                </span>
+                            </div>
+                        </h2>
+                    </div>
+
+                    <div class="card-text pb-3">
+                        <span class="text-muted">Description:&nbsp;</span>
+                        {{$transaction->appointment->description}}
+                    </div>
+
+                    <blockquote class="blockquote">
+                        <footer class="blockquote-footer">
+                            <cite title="{{$transaction->appointment->schedule}}">{{$transaction->appointment->schedule}}</cite>, {{$transaction->appointment->day}}
+                        </footer>
+                    </blockquote>
+                </div>
+                <div class="card-footer text-bold text-white bg-{{$transaction->status_indicator}}">
+                    <span class="text-muted text-sm">
+                        Status:&nbsp;
+                    </span>
+                     
+                    {{$transaction->status_text}}
+                </div>
+            </div> 
 
 @endsection

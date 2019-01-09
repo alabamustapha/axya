@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Transaction extends Model
 {
+    protected $appends = ['status_text','status_indicator'];
+
     protected $fillable = [      
         'id','user_id','doctor_id','appointment_id',
         // Money Related
@@ -29,5 +31,36 @@ class Transaction extends Model
     public function appointment()
     {
         return $this->belongsTo(Appointment::class);
+    }
+
+    /**
+     * Route key
+     * 
+     * @return string
+     */
+    public function getRouteKeyName(){
+        return 'transaction_id';
+    }
+
+    public function getStatusTextAttribute()
+    {
+        if ($this->status == '1'){
+            $status = 'Success';
+        } else {
+            $status = $this->status == '2' ? 'Ongoing':'Unsuccessful';
+        }
+
+        return $status;
+    }
+
+    public function getStatusIndicatorAttribute()
+    {
+        if ($this->status == '1'){
+            $status = 'success';
+        } else {
+            $status = $this->status == '2' ? 'warning':'danger';
+        }
+
+        return $status;
     }
 }
