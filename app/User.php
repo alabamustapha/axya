@@ -305,7 +305,9 @@ class User extends Authenticatable implements MustVerifyEmail
                 Your information has been <b>verified</b>, your application is <b>accepted</b> 
                 <br>
                 You can now attend to patients and receive appointments on this platform after subscription.
-                <a href="#" class="btn btn-primary btn-sm">Subscribe now to begin</a>.
+                <button class="btn btn-primary btn-sm" 
+                  data-toggle="modal" data-target="#newSubscriptionForm" 
+                  title="New Subscription">Subscribe Now</button>.
               </small>',
 
         3 => '<span class="orange text-bold"><i class="fa fa-info-circle"></i>&nbsp; Ongoing Verification</span>

@@ -65,6 +65,28 @@
       @guest
           @include('auth.partials.registration-login-modal')
       @endguest
+      
+      @auth
+        @if (Auth::user()->is_doctor)
+          <!-- Appointment Subscription Form-->
+          <div class="modal" tabindex="-1" role="dialog" id="newSubscriptionForm" style="display:none;" aria-labelledby="newSubscriptionFormLabel" aria-hidden="true">
+            <div class="modal-dialog modal-md" role="document">
+              <div class="modal-content px-0 pb-0 shadow-none">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 5px 15px 0px;margin:10px auto -25px">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                <br>
+                <div class="modal-body">
+
+                  @include('subscriptions.partials.create-form')
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- END - Appointment Subscription Form-->
+        @endif 
+      @endauth
   </div><!-- #/id -->
 
     <!-- SCRIPTS -->

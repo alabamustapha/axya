@@ -187,4 +187,49 @@
       </script>
     @endguest
 
+    @auth
+      @if (Auth::user()->is_doctor)
+        <!-- New Subscription SCRIPT -->
+        <script>
+            $(document).ready(function () {  
+              /**
+               * Get the values of the appropriate fields
+              /******************************************************/
+              $('#type,#multiple').on('change',function(e){
+                var type            = $('#type').val();
+                var multiple        = $('#multiple').val();
+                // hexdec
+                // var weekly_rate     = parseInt($('#weekly_rate').val(), 16); hidden field
+                // var monthly_rate    = parseInt($('#monthly_rate').val(), 16);
+                // var yearly_rate     = parseInt($('#yearly_rate').val(), 16);
+
+                if (type != '3' && type != '2' && type != '1') {
+                  $('#type').attr('autofocus', true);
+                  $('#type').val('1');
+                }
+
+                var type_text= type == '3' ? 'year(s)' :(type == '2' ? 'month(s)' : 'week(s)');
+                var type_fee = type == '3' ? 4500      :(type == '2' ? 390        : 100);
+                console.log(type_fee);
+
+                var calc_amount     = type_fee * multiple;
+
+                // Display selection section
+                if ((type != undefined && type.length) && (multiple != undefined && multiple.length)) {
+                  $('#selection').css('display', 'block');
+                  $('#sel_type').html(type_text);
+                  $('#sel_multiple').html(multiple);
+                  $('#amount').html(calc_amount);
+                } else { 
+                  $('#sel_type').val();
+                  $('#sel_multiple').val();
+                  $('#amount').val();
+                  $('#selection').css('display', 'none');
+                }
+              });
+            });
+        </script>
+      @endif
+    @endauth
+
     @yield('scripts')
