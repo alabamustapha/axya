@@ -30,7 +30,7 @@ class SubscriptionsTest extends TestCase
     {
         $this->assertTrue(Schema::hasColumns('subscriptions', 
           [
-            'id','user_id','doctor_id','type','start','end',
+            'id','user_id','doctor_id','type','start','end','multiple','days',
             'amount','currency',
             'channel','transaction_id','processor_id','processor_trxn_id','status',
             'confirmed_at','cancelled_at',

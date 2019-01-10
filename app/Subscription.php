@@ -11,7 +11,7 @@ class Subscription extends Model
     protected $dates = ['confirmed_at','cancelled_at' ];
 
     protected $fillable = [      
-        'user_id','doctor_id','type','start','end',
+        'user_id','doctor_id','type','start','end','multiple','days',
         // Money Related
         'amount','currency',
         // Transaction Related
@@ -32,5 +32,9 @@ class Subscription extends Model
 
     public function makeTransactionId() {
         return strtoupper('SUB'. date('Ymd') .'-'. str_random(18));
+    }
+    
+    public function getRouteKeyName(){
+        return 'transaction_id';
     }
 }

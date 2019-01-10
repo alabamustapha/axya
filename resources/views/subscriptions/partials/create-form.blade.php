@@ -11,9 +11,9 @@
                         <label for="type">Subscription Type</label>
                         <select name="type" id="type" class="form-control" required>
                             <option>Select Type</option>
-                            <option value="1">Weekly - $100</option>
-                            <option value="2">Monthly - $390</option>
-                            <option value="3">Yearly - $4,500</option>
+                            <option value="1">Weekly</option>
+                            <option value="2">Monthly</option>
+                            <option value="3">Yearly</option>
                         </select>
                     </div>
 
@@ -33,6 +33,11 @@
                             <span class="text-secondary">Total Amount: </span>
                             <span>
                                 $<span id="amount" class="text-dark text-bold"></span>
+                                <br>
+                                <span class="text-sm">
+                                    $<span id="discounted" class="text-dark"></span>&nbsp;
+                                    <span class="text-muted">saved!</span>
+                                </span>
                             </span>
                         </div>
                     </div>
@@ -40,6 +45,10 @@
 
                 <blockquote class="blockquote">
                     <footer class="blockquote-footer">
+                        @if (Auth::user()->is_doctor && Auth::user()->doctor->is_subscribed)
+                            Your current subscription expires by: <strong>{{Auth::user()->doctor->subscription_ends_at->format('D M d, Y')}}</strong>
+                            <br>
+                        @endif
                         You can only attend to patients and receive appointments with an active subscription. 
                     </footer>
                 </blockquote>
@@ -48,7 +57,13 @@
 
         @csrf
         {{-- <input type="hidden" name="doctor_id" value="{{$doctor->id}}"> --}}
-        <button type="submit" class="btn btn-lg btn-block btn-info">Subscribe Now</button>
+        <button type="submit" class="btn btn-lg btn-block btn-info">
+            @if (Auth::user()->is_doctor && Auth::user()->doctor->is_subscribed)                
+                Extend Current Subscription?
+            @else
+                Subscribe Now
+            @endif
+        </button>
         <input type="hidden" name="w_rate" value="{{--md5($app->subscription_weekly_rate)--}}">
         <input type="hidden" name="m_rate" value="{{--md5($app->subscription_monthly_rate)--}}">
         <input type="hidden" name="y_rate" value="{{--md5($app->subscription_yearly_rate)--}}">

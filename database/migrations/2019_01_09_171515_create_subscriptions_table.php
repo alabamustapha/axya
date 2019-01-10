@@ -20,6 +20,8 @@ class CreateSubscriptionsTable extends Migration
             $table->integer('type')->unsigned();
             $table->datetime('start')->nullable();
             $table->datetime('end')->nullable();
+            $table->integer('multiple')->unsigned()->nullable();
+            $table->integer('days')->unsigned()->nullable();
 
             // Money Related
             $table->integer('amount')->default(0);        // Amount Paid

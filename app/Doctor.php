@@ -27,7 +27,7 @@ class Doctor extends Model
 
     protected $with = ['specialty','user'];
 
-    protected $appends = ['name','link','avatar','practice_years','rating','rating_digit'];
+    protected $appends = ['name','link','avatar','practice_years','rating','rating_digit','adjusted_subscription_end','is_subscribed'];
 
     public function user()
     {
@@ -262,7 +262,7 @@ class Doctor extends Model
      */
     public function is_subscribed()
     {
-        return (bool) $this->subscription_ends_at > Carbon::now();
+        return $this->subscription_ends_at > Carbon::now();
     }
     public function subscriptionStatus()
     {
@@ -321,6 +321,11 @@ class Doctor extends Model
 
     /**** ~API Candidates~****/
 
+    public function getIsSubscribedAttribute()
+    {
+        return $this->is_subscribed();
+    }
+
     public function getRatingAttribute()
     {
         $total_reviews = $this->appointments()->reviewed()->get()->count();
@@ -369,5 +374,10 @@ class Doctor extends Model
     public function getPhoneAttribute($value)
     {
       return (! is_null($value)) ? $value: $this->user->phone;
+    }
+
+    public function getAdjustedSubscriptionEndAttribute()
+    {
+      return is_null($this->subscription_ends_at) ? Carbon::parse(Carbon::now())->subSeconds(1) : $this->subscription_ends_at;
     }
 }

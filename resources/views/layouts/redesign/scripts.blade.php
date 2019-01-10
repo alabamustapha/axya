@@ -209,21 +209,42 @@
                 }
 
                 var type_text= type == '3' ? 'year(s)' :(type == '2' ? 'month(s)' : 'week(s)');
-                var type_fee = type == '3' ? 4500      :(type == '2' ? 390        : 100);
-                console.log(type_fee);
+                // var type_fee = type == '3' ? 4500      :(type == '2' ? 390        : 100);
+                // console.log(type_fee);
 
-                var calc_amount     = type_fee * multiple;
+                // var calc_amount     = type_fee * multiple;
+
+
+                var app_weekly_rate      = 100;
+                var app_monthly_discount = 5; //5% Got from admin setting.
+                var app_yearly_discount  = 8; //8% Got from admin setting. Cost higher for yearly discount...Ratify soon
+                var monthly_discount     = (app_monthly_discount / 100); // = 0.05;
+                var yearly_discount      = (app_yearly_discount / 100);  // = 0.08;
+ 
+                var typeWeeksCount = type == '3' ?  52 : (type == '2' ?  4 : 1); // For Discount & fee Calculation
+                var typeDaysCount  = type == '3' ? 365 : (type == '2' ? 30 : 7); // For Sub start & end date Calculation.
+                var typeDiscount   = type == '3' ? yearly_discount : (type == '2' ? monthly_discount : 0.0); // Yearly 8%, Monthly 5%, Weekly 0%.
+
+                var discount       =  app_weekly_rate * typeWeeksCount * typeDiscount;
+                var typeFee        = (app_weekly_rate * typeWeeksCount) - discount;
+                console.log(typeFee);
+
+                var discount_saved     = discount * multiple;
+                var subscriptionAmount = typeFee * multiple;
+
 
                 // Display selection section
                 if ((type != undefined && type.length) && (multiple != undefined && multiple.length)) {
                   $('#selection').css('display', 'block');
                   $('#sel_type').html(type_text);
                   $('#sel_multiple').html(multiple);
-                  $('#amount').html(calc_amount);
+                  $('#amount').html(subscriptionAmount);
+                  $('#discounted').html(discount_saved);
                 } else { 
                   $('#sel_type').val();
                   $('#sel_multiple').val();
                   $('#amount').val();
+                  $('#discounted').val();
                   $('#selection').css('display', 'none');
                 }
               });
