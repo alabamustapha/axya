@@ -26,9 +26,10 @@
 
     @else
 
-      @if (! Request::is('appointments/*') && ! Request::is('doctors/create'))
-        @if (Auth::user()->isAccountOwner())
+      @if (Auth::user()->is_potential_doctor && Auth::user()->isAccountOwner())
+        @if (! Request::is('appointments/*') && ! Request::is('doctors/create')))
             <h4 class="pt-2 text-center">
+              {{-- Extract this to a view for doctors personal notifications only. --}}
 
               {{ Auth::user()->applicationStatus() }}
 
@@ -36,6 +37,7 @@
         @endif
       @endif
     @endunless
+    
   @endauth
 @endif
 

@@ -22,7 +22,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ]; 
 
-    protected $appends = ['link','is_verified','is_superadmin','is_admin','is_staff','is_doctor'];
+    protected $appends = ['link','is_verified','is_superadmin','is_admin','is_staff','is_doctor','is_potential_doctor'];
 
     /**
      * The attributes that are mass assignable.
@@ -295,6 +295,8 @@ class User extends Authenticatable implements MustVerifyEmail
               <hr> 
               <small style="font-size:12px;">
                 Notifications and updates on professional stuffs.
+                <br>
+                <small class="red"><em>You may recieve appiontment from patients now.</em></small>
                 <br>
                 <small class="red"><em>You must be <b>subscribed</b> to appear in search results.</em></small>
               </small>',
@@ -578,5 +580,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getIsDoctorAttribute() 
     {
         return $this->isDoctor(); 
+    }
+
+    public function getIsPotentialDoctorAttribute() 
+    {
+        return $this->as_doctor == '1' && $this->application_status != '1';
     }
 }
