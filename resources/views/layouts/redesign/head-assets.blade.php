@@ -11,7 +11,12 @@
     <!-- Styles -->
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <link rel="stylesheet" href="{{asset('css/all.css')}}">
-    <link rel="stylesheet" href="{{asset('css/vendor/pikaday.css')}}">
+    @if (app()->environment('production'))
+        {{-- Get all vendor styles from CDN --}}
+        <link rel="stylesheet" href="{{asset('css/vendor/pikaday.css')}}">
+    @else
+        <link rel="stylesheet" href="{{asset('css/vendor/pikaday.css')}}">
+    @endif
     
     
     <!-- BOOTSTRAP STYLE -->

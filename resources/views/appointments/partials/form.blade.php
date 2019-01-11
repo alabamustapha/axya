@@ -89,24 +89,24 @@
                       </div>
                     </div>
 
-                    <div id="deal" class="p-2 my-2 text-left" style="border-radius:4px;border:1px solid #ccc;font-size: 12px;display: none;">
-                      <div>
-                        <span class="border-bottom text-uppercase">Total Duration</span> <br>
-                        <span class="tf-flex">
-                          <strong id="duration"></strong>
-                          <kbd><span id="no_of_sessions"></span> sessions @ {{$doctor->session}}mins/session</kbd>
+                    <div id="deal" class="my-2 p-2 table-responsive" style="border-radius:4px;border:1px solid #ccc;font-size: 12px;display: none;">
+                      <div class="tf-flex">
+                        <span class="border p-1">
+                            <span class="text-muted" style="font-size: 1rem;">Fee:</span> <br>
+                            <kbd>$<strong id="cost"></strong></kbd>
                         </span>
-                      </div>
+                        <span class="border p-1">
+                            <span class="text-muted" style="font-size: 1rem;">Sessions:</span> <br>
+                            <kbd><strong id="no_of_sessions"></strong></kbd>
+                        </span>
 
-                      <div>
-                        <span class="border-bottom text-uppercase">Total Fee</span> <br>
-                        <span class="tf-flex">
-                          <span>$<strong id="cost"></strong></span>
-                          <kbd>@ ${{$doctor->rate}}/session</kbd>
+                        <span class="border p-1">
+                            <span class="text-muted" style="font-size: 1rem;">Duration:</span> <br>
+                            <kbd><strong id="duration"></strong></kbd>
                         </span>
+                        <input id="session" value="{{$doctor->session}}" type="hidden">
+                        <input id="rate" value="{{$doctor->rate}}" type="hidden">
                       </div>
-                      <input id="session" value="{{$doctor->session}}" type="hidden">
-                      <input id="rate" value="{{$doctor->rate}}" type="hidden">
                     </div>
                   </div> 
 

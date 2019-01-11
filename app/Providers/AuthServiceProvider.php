@@ -27,6 +27,7 @@ class AuthServiceProvider extends ServiceProvider
         'App\Review'        => 'App\Policies\ReviewPolicy',
         'App\Schedule'      => 'App\Policies\SchedulePolicy',
         'App\Specialty'     => 'App\Policies\SpecialtyPolicy',
+        'App\Subscription'  => 'App\Policies\SubscriptionPolicy',
         'App\Tag'           => 'App\Policies\TagPolicy',
         'App\Transaction'   => 'App\Policies\TransactionPolicy',
         'App\User'          => 'App\Policies\UserPolicy',

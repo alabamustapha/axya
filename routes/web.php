@@ -43,11 +43,16 @@ Route::resource('prescriptions','PrescriptionController');
 Route::get('dr-prescriptions',  'PrescriptionController@drindex')->name('dr_prescriptions');
 Route::resource('drugs',       'DrugController');
 Route::resource('reviews',     'ReviewController');
-Route::resource('transactions','TransactionController')->except('index');;
-Route::get('/{user}/transactions',  'TransactionController@index')->name('transactions.index');
-Route::get('/{user}/dr-transactions',  'TransactionController@drindex')->name('dr_transactions');
-Route::get('adm-transactions', 'TransactionController@admindex')->name('adm_transactions');
+Route::resource('transactions',       'TransactionController')->except('index');
+Route::get('/{user}/transactions',    'TransactionController@index')->name('transactions.index');
+Route::get('/{user}/dr-transactions', 'TransactionController@drindex')->name('dr_transactions');
+Route::get('adm-transactions',        'TransactionController@admindex')->name('adm_transactions');
 Route::get('mockedPayment/{transaction}', 'TransactionController@mockedPayment')->name('mockedPayment');
+
+Route::resource('subscriptions',      'SubscriptionController')->except('index');
+Route::get('/{user}/subscriptions',   'SubscriptionController@index')->name('subscriptions.index');
+Route::get('adm-subscriptions',       'SubscriptionController@admindex')->name('adm_subscriptions');
+Route::get('mockedSubPayment/{subscription}', 'SubscriptionController@mockedPayment')->name('mockedSubPayment');
 
 Route::get('schedules/{doctor}/{day}', 'ScheduleController@schedules');
 
