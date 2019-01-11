@@ -16,7 +16,6 @@ class SubscriptionController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('verified');
-        // $this->middleware('doctor');
         $this->middleware('admin')->only('admindex');
     }
 
@@ -27,7 +26,11 @@ class SubscriptionController extends Controller
      */
     public function index(User $user)
     {
-        $subscriptions = Subscription::where('user_id', $user->id)
+        if (! ($user->id == auth()->id()) || $user->is_admin){
+            abort('403');
+        }
+
+        $subscriptions = Subscription::where('doctor_id', $user->id)
                                     ->latest()
                                     ->paginate(15);
         return view('subscriptions.index', compact('subscriptions'));
@@ -62,8 +65,11 @@ class SubscriptionController extends Controller
         // $this->authorize('create', Subscription::class);
 
         $request->validate([
-            'type'     => 'required|integer',//|exists:subscription_categories,id',
+            'type'     => 'required|integer|in:1,2,3',//|exists:subscription_categories,id',
             'multiple' => 'required|integer',
+        ],[
+            'type.integer' => '',
+            'type.in' => 'The selected subscription type is invalid.',
         ]);
 
         $transactionId = strtoupper('SUB'. date('Ymd') .'-'. str_random(18));
@@ -73,13 +79,15 @@ class SubscriptionController extends Controller
         $monthly_discount     = ($app_monthly_discount / 100); // = 0.05;
         $yearly_discount      = ($app_yearly_discount / 100);  // = 0.08;
 
-        $typeWeeksCount = $request->type == '3' ?  48 : ($request->type == '2' ?  4 : 1); // For Discount & fee Calculation (Adjusted: 48wks from 52wks based on discounting descrepancies).
-        $typeDaysCount  = $request->type == '3' ? 365 : ($request->type == '2' ? 30 : 7); // For Sub start & end date Calculation.
+        $typeWeeksCount = $request->type == '3' ?  48 : ($request->type == '2' ?  4 : 1); // Discount+Fee Calculation (Adjusted: 48wks from 52wks based on discounting descrepancies).
+        $typeDaysCount  = $request->type == '3' ? 365 : ($request->type == '2' ? 30 : 7); // Sub start+End date Calculation.
         $typeDiscount   = $request->type == '3' ? $yearly_discount : ($request->type == '2' ? $monthly_discount : 0.0); // Yearly 8%, Monthly 5%, Weekly 0%.
         
+        // Get a unit Discount for a type
         $discount       =  $app_weekly_rate * $typeWeeksCount * $typeDiscount;
         $typeFee        = ($app_weekly_rate * $typeWeeksCount) - $discount;
 
+        // Get total Fee for present subscription by multiplying the multiple.
         $subscriptionAmount = $typeFee * $request->multiple;
         $noOfDays       = $typeDaysCount * $request->multiple; // No of days subscription will last.
         // dd(
@@ -101,8 +109,8 @@ class SubscriptionController extends Controller
             'user_id'       => auth()->id(),
             'doctor_id'     => auth()->id(),
 
-            'type'          => $request->type,    // Not needed but for future reference.
-            'multiple'      => $request->multiple,// Not needed but for future reference.
+            'type'          => $request->type,    // For future reference.
+            'multiple'      => $request->multiple,// For future reference.
             'days'          => $noOfDays, // Used internally to adjust Subscription Start and End dates.
 
             'amount'        => $subscriptionAmount,
@@ -156,6 +164,10 @@ class SubscriptionController extends Controller
                 'available' => '1',
                 'subscription_ends_at' => $subscription_end,
             ]); 
+            
+            $subscription->user->update([
+                'application_status' => '1',
+            ]); 
 
             // Notify concerned parties of success.
             $subscription->user->notify(new SubscriptionSuccessfulNotification($subscription->user, $subscription));
@@ -186,6 +198,8 @@ class SubscriptionController extends Controller
      */
     public function show(Subscription $subscription)
     {
+        $this->authorize('view', $subscription);
+        
         return view('subscriptions.show', compact('subscription'));
     }
 
