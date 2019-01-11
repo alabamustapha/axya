@@ -55,7 +55,7 @@
         // Calculate duration, no of sessions and consultation fee.
         var duration_basic = mmto.diff(mmfrom, 'minutes');
         var no_of_sessions = Math.ceil(duration_basic / doctor_session);
-        var duration       = mmto.diff(mmfrom, 'minutes') +"minutes";
+        var duration       = mmto.diff(mmfrom, 'minutes') +" mins";
         var cost           = no_of_sessions * doctor_rate;
 
         // Display calculated appointment deal section with user interaction.
