@@ -49,9 +49,10 @@ Route::get('/{user}/dr-transactions', 'TransactionController@drindex')->name('dr
 Route::get('adm-transactions',        'TransactionController@admindex')->name('adm_transactions');
 Route::get('mockedPayment/{transaction}', 'TransactionController@mockedPayment')->name('mockedPayment');
 
-Route::resource('subscriptions',      'SubscriptionController');
+Route::resource('subscriptions',      'SubscriptionController')->except('index');
+Route::get('/{user}/subscriptions',   'SubscriptionController@index')->name('subscriptions.index');
 Route::get('adm-subscriptions',       'SubscriptionController@admindex')->name('adm_subscriptions');
-Route::get('mockedPayment/{subscription}', 'SubscriptionController@mockedPayment')->name('mockedPayment');
+Route::get('mockedSubPayment/{subscription}', 'SubscriptionController@mockedPayment')->name('mockedSubPayment');
 
 Route::get('schedules/{doctor}/{day}', 'ScheduleController@schedules');
 

@@ -209,7 +209,7 @@
                 // var monthly_rate    = parseInt($('#monthly_rate').val(), 16);
                 // var yearly_rate     = parseInt($('#yearly_rate').val(), 16);
 
-                if (type != '3' && type != '2' && type != '1') {
+                if ((type != '3' && type != '2' && type != '1') || isNaN(type)) {
                   $('#type').attr('autofocus', true);
                   $('#type').val('1');
                   var type = $('#type').val();

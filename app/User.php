@@ -33,7 +33,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name','slug','email','password','address','phone',
         'gender','avatar','blocked','dob','weight','height','allergies','chronics',
         'last_four','terms','application_retry_at',
-        'verification_link','as_doctor'
+        'verification_link','as_doctor','application_status',
     ];
 
     /**

@@ -3,7 +3,7 @@
         <h2>{{title_case('Subscription Form')}}</h2>
     </div>
 
-    <form action="{{route('subscriptions.store')}}" method="post">
+    <form action="{{route('subscriptions.store')}}" method="post" id="subscription-form">
         <div class="card shadow-none">
             <div class="card-body pb-0">
                 <div class="card-text">
@@ -57,7 +57,7 @@
 
         @csrf
         {{-- <input type="hidden" name="doctor_id" value="{{$doctor->id}}"> --}}
-        <button type="submit" class="btn btn-lg btn-block btn-info" onclick="return confirm('Go ahead and make payment for a new subscription?');">
+        <button type="submit" id="subscribe" class="btn btn-lg btn-block btn-info" onclick="return confirm('Go ahead and make payment for a new subscription?');">
             @if (Auth::check() && Auth::user()->is_doctor && Auth::user()->doctor->is_subscribed)
                 Extend Current Subscription?
             @else
