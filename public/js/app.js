@@ -70712,6 +70712,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -70854,20 +70862,50 @@ var render = function() {
                             { key: doctor.id, staticClass: "d-r result-row" },
                             [
                               _c("div", { staticClass: "img-side" }, [
-                                _c("img", {
-                                  staticClass: "img-fluid rounded-circle",
-                                  attrs: { src: doctor.avatar, alt: "" }
-                                })
+                                _c(
+                                  "a",
+                                  {
+                                    staticStyle: { color: "inherit" },
+                                    attrs: {
+                                      href: doctor.link,
+                                      title:
+                                        doctor.name +
+                                        " - " +
+                                        doctor.specialty.name
+                                    }
+                                  },
+                                  [
+                                    _c("img", {
+                                      staticClass: "img-fluid rounded-circle",
+                                      attrs: { src: doctor.avatar, alt: "" }
+                                    })
+                                  ]
+                                )
                               ]),
                               _vm._v(" "),
                               _c("div", { staticClass: "info-side" }, [
                                 _c("div", { staticClass: "doc" }, [
-                                  _c("span", {
-                                    staticClass: "d-block h2",
-                                    domProps: {
-                                      textContent: _vm._s(doctor.name)
-                                    }
-                                  }),
+                                  _c(
+                                    "a",
+                                    {
+                                      staticStyle: { color: "inherit" },
+                                      attrs: {
+                                        href: doctor.link,
+                                        title:
+                                          doctor.name +
+                                          " - " +
+                                          doctor.specialty.name
+                                      }
+                                    },
+                                    [
+                                      _c("span", {
+                                        staticClass: "d-block h2",
+                                        domProps: {
+                                          textContent: _vm._s(doctor.name)
+                                        }
+                                      })
+                                    ]
+                                  ),
                                   _vm._v(" "),
                                   _vm.$acl.isSuperAdmin()
                                     ? _c(
@@ -70893,23 +70931,48 @@ var render = function() {
                                     }
                                   }),
                                   _vm._v(" "),
-                                  _c("span", {
-                                    staticClass: "occupation",
-                                    domProps: {
-                                      textContent: _vm._s(doctor.specialty.name)
-                                    }
-                                  })
+                                  _c(
+                                    "a",
+                                    {
+                                      staticStyle: { color: "inherit" },
+                                      attrs: {
+                                        href: doctor.specialty.link,
+                                        title: doctor.specialty.name
+                                      }
+                                    },
+                                    [
+                                      _c("span", {
+                                        staticClass: "occupation",
+                                        domProps: {
+                                          textContent: _vm._s(
+                                            doctor.specialty.name
+                                          )
+                                        }
+                                      })
+                                    ]
+                                  )
                                 ]),
                                 _vm._v(" "),
-                                _c(
-                                  "span",
-                                  { staticClass: "ratings" },
-                                  _vm._l(doctor.rating_digit, function(i) {
-                                    return _c("i", {
-                                      staticClass: "fas fa-star"
+                                _c("span", { staticClass: "ratings" }, [
+                                  _c(
+                                    "a",
+                                    {
+                                      staticStyle: { color: "inherit" },
+                                      attrs: {
+                                        href: doctor.link + "#reviews",
+                                        title:
+                                          doctor.name +
+                                          " - " +
+                                          doctor.specialty.name
+                                      }
+                                    },
+                                    _vm._l(doctor.rating_digit, function(i) {
+                                      return _c("i", {
+                                        staticClass: "fas fa-star"
+                                      })
                                     })
-                                  })
-                                )
+                                  )
+                                ])
                               ])
                             ]
                           )

@@ -24,11 +24,15 @@
             <div v-if="doctors.data != undefined && doctors.data.length">
               <div class="d-r result-row" v-for="doctor in doctors.data" :key="doctor.id">
                 <div class="img-side">
-                  <img :src="doctor.avatar" class="img-fluid rounded-circle" alt="">
+                  <a :href="doctor.link" :title="doctor.name +' - '+ doctor.specialty.name" style="color:inherit;">
+                    <img :src="doctor.avatar" class="img-fluid rounded-circle" alt="">
+                  </a>
                 </div>
                 <div class="info-side">
                   <div class="doc">
-                    <span class="d-block h2" v-text="doctor.name"></span>
+                    <a :href="doctor.link" :title="doctor.name +' - '+ doctor.specialty.name" style="color:inherit;">
+                      <span class="d-block h2" v-text="doctor.name"></span>
+                    </a>
 
                       <div v-if="$acl.isSuperAdmin()" :title="'Admin '+ doctor.user.name">
                         <button id="navbarDropdown" class="btn btn-sm dropdown-toggle d-inline" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -55,10 +59,14 @@
                       </div>
 
                     <span class="d-block occupation text-muted" v-text="doctor.location"></span>
-                    <span class="occupation" v-text="doctor.specialty.name"></span>
+                    <a :href="doctor.specialty.link" :title="doctor.specialty.name" style="color:inherit;">
+                      <span class="occupation" v-text="doctor.specialty.name"></span>
+                    </a>
                   </div>
                   <span class="ratings">
-                    <i class="fas fa-star" v-for="i in doctor.rating_digit"></i>
+                    <a :href="doctor.link +'#reviews'" :title="doctor.name +' - '+ doctor.specialty.name" style="color:inherit;">
+                      <i class="fas fa-star" v-for="i in doctor.rating_digit"></i>
+                    </a>
                   </span>
                 </div>
               </div>

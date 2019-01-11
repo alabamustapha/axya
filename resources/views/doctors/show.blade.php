@@ -100,7 +100,7 @@
         
       </div>
 
-      <div class="col-md-5">
+      <div class="col-md-5" id="reviews">
 
         <!-- Reviews Section -->
         @include('doctors.partials._review-section')  
