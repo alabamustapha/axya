@@ -1,9 +1,16 @@
     <script src="{{asset('js/app.js')}}"></script>
 
-    <script src="{{asset('js/vendor/moment.min.js')}}"></script>
-    <script src="{{asset('js/vendor/pikaday.js')}}"></script>
-    <!-- full Calender js -->
-    <script src="{{asset('js/vendor/fullcalendar.min.js')}}"></script>
+    @if (app()->environment('production'))
+      {{-- Get all vendor scripts from CDN --}}
+      <script src="{{asset('js/vendor/moment.min.js')}}"></script>
+      <script src="{{asset('js/vendor/pikaday.js')}}"></script>
+      <script src="{{asset('js/vendor/fullcalendar.min.js')}}"></script>
+    @else
+      <script src="{{asset('js/vendor/moment.min.js')}}"></script>
+      <script src="{{asset('js/vendor/pikaday.js')}}"></script>
+      <!-- full Calender js -->
+      <script src="{{asset('js/vendor/fullcalendar.min.js')}}"></script>
+    @endif
     
     <script src="{{asset('js/custom.js')}}"></script>
     <script src="{{asset('js/main.js')}}"></script>
@@ -186,9 +193,8 @@
         });        
       </script>
     @endguest
-
-    @auth
-      @if (Auth::user()->is_doctor)
+    
+    @if (Auth::check() && Auth::user()->is_doctor)
         <!-- New Subscription SCRIPT -->
         <script>
             $(document).ready(function () {  
@@ -250,7 +256,6 @@
               });
             });
         </script>
-      @endif
-    @endauth
+    @endif
 
     @yield('scripts')
