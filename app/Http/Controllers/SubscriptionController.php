@@ -73,7 +73,7 @@ class SubscriptionController extends Controller
         $monthly_discount     = ($app_monthly_discount / 100); // = 0.05;
         $yearly_discount      = ($app_yearly_discount / 100);  // = 0.08;
 
-        $typeWeeksCount = $request->type == '3' ?  52 : ($request->type == '2' ?  4 : 1); // For Discount & fee Calculation
+        $typeWeeksCount = $request->type == '3' ?  48 : ($request->type == '2' ?  4 : 1); // For Discount & fee Calculation (Adjusted: 48wks from 52wks based on discounting descrepancies).
         $typeDaysCount  = $request->type == '3' ? 365 : ($request->type == '2' ? 30 : 7); // For Sub start & end date Calculation.
         $typeDiscount   = $request->type == '3' ? $yearly_discount : ($request->type == '2' ? $monthly_discount : 0.0); // Yearly 8%, Monthly 5%, Weekly 0%.
         

@@ -201,7 +201,7 @@
               /**
                * Get the values of the appropriate fields
               /******************************************************/
-              $('#type,#multiple').on('change',function(e){
+              $('#type,#multiple').on('click change',function(e){
                 var type            = $('#type').val();
                 var multiple        = $('#multiple').val();
                 // hexdec
@@ -212,9 +212,17 @@
                 if (type != '3' && type != '2' && type != '1') {
                   $('#type').attr('autofocus', true);
                   $('#type').val('1');
+                  var type = $('#type').val();
+                }
+                if (multiple < 1 || isNaN(multiple)) {
+                  // Prevent negative numbers of non-number inputs.
+                  $('#multiple').attr('autofocus', true);
+                  $('#multiple').val('1');
+                  var multiple = $('#multiple').val();
                 }
 
-                var type_text= type == '3' ? 'year(s)' :(type == '2' ? 'month(s)' : 'week(s)');
+                var pluralize= (multiple > 1) ? 's':'';
+                var type_text= (type == '3') ? 'year'+ pluralize :(type == '2' ? 'month'+ pluralize : 'week'+ pluralize);
                 // var type_fee = type == '3' ? 4500      :(type == '2' ? 390        : 100);
                 // console.log(type_fee);
 
@@ -227,7 +235,7 @@
                 var monthly_discount     = (app_monthly_discount / 100); // = 0.05;
                 var yearly_discount      = (app_yearly_discount / 100);  // = 0.08;
  
-                var typeWeeksCount = type == '3' ?  52 : (type == '2' ?  4 : 1); // For Discount & fee Calculation
+                var typeWeeksCount = type == '3' ?  48 : (type == '2' ?  4 : 1); // For Discount & fee Calculation (Adjusted: 48wks from 52wks based on discounting descrepancies).
                 var typeDaysCount  = type == '3' ? 365 : (type == '2' ? 30 : 7); // For Sub start & end date Calculation.
                 var typeDiscount   = type == '3' ? yearly_discount : (type == '2' ? monthly_discount : 0.0); // Yearly 8%, Monthly 5%, Weekly 0%.
 

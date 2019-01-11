@@ -45,7 +45,7 @@
 
                 <blockquote class="blockquote">
                     <footer class="blockquote-footer">
-                        @if (Auth::user()->is_doctor && Auth::user()->doctor->is_subscribed)
+                        @if (Auth::check() && Auth::user()->is_doctor && Auth::user()->doctor->is_subscribed)
                             Your current subscription expires by: <strong>{{Auth::user()->doctor->subscription_ends_at->format('D M d, Y')}}</strong>
                             <br>
                         @endif
@@ -57,8 +57,8 @@
 
         @csrf
         {{-- <input type="hidden" name="doctor_id" value="{{$doctor->id}}"> --}}
-        <button type="submit" class="btn btn-lg btn-block btn-info">
-            @if (Auth::user()->is_doctor && Auth::user()->doctor->is_subscribed)                
+        <button type="submit" class="btn btn-lg btn-block btn-info" onclick="return confirm('Go ahead and make payment for a new subscription?');">
+            @if (Auth::check() && Auth::user()->is_doctor && Auth::user()->doctor->is_subscribed)
                 Extend Current Subscription?
             @else
                 Subscribe Now

@@ -1,14 +1,19 @@
 <form method="POST" action="{{ route('login') }}">
     @csrf
-                
+          {{--dd(url()->previous(),request()->url())--}}      
     @if (   request()->url() !== route('login' )
         &&  request()->url() !== route('logout') 
         &&  request()->url() !== route('register')
+        /* 
+        && url()->previous() !== route('login') 
+        && url()->previous() !== route('logout') 
+        && url()->previous() !== route('register') */
         )
         @php 
-            $current_url = request()->url();
+            // $target_url = request()->url() === route('login' ) ? request()->url() : (url()->previous() ?: request()->url());
+            $target_url = request()->url();
             
-            $url = explode(config('app.url'), $current_url); 
+            $url = explode(config('app.url'), $target_url); 
             $ref = end($url);
         @endphp
         {{-- Use regular expression to add the #anchor to this later --}}
