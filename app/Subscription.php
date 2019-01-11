@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Subscription extends Model
 {
-    protected $appends = ['status_text','status_indicator'];
+    protected $appends = ['status_text','status_indicator','type_text'];
 
     protected $dates = ['confirmed_at','cancelled_at' ];
 
@@ -30,11 +30,39 @@ class Subscription extends Model
         return $this->belongsTo(Doctor::class);
     }
 
-    public function makeTransactionId() {
+    public function makeTransactionId() 
+    {
         return strtoupper('SUB'. date('Ymd') .'-'. str_random(18));
     }
     
     public function getRouteKeyName(){
         return 'transaction_id';
+    }
+    
+    public function getTypeTextAttribute()
+    {
+        return $this->type == '3' ? 'yearly' :($this->type == '2' ? 'monthly' : 'weekly');
+    }
+
+    public function getStatusTextAttribute()
+    {
+        if ($this->status == '1'){
+            $status = 'Success';
+        } else {
+            $status = $this->status == '2' ? 'Ongoing':'Unsuccessful';
+        }
+
+        return $status;
+    }
+
+    public function getStatusIndicatorAttribute()
+    {
+        if ($this->status == '1'){
+            $status = 'success';
+        } else {
+            $status = $this->status == '2' ? 'warning':'danger';
+        }
+
+        return $status;
     }
 }

@@ -27,7 +27,7 @@
                             <span>
                                 @if ($transaction->status == '2')
                                 <a href="{{route('mockedPayment', $transaction)}}" class="btn btn-sm btn-block btn-warning">
-                                    Mock Pay Now
+                                    Mock Payment Now
                                 </a>
                                 @endif
                                 @if ($transaction->status == '3' && $transaction->appointment->within_booking_time_limit)
