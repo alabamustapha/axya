@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Appointment;
 use App\Notifications\Applications\ApplicationReceivedNotification;
+use App\Notifications\Appointments\AppointmentAcceptedNotification;
 use App\Notifications\Appointments\AppointmentBookedNotification;
 use Illuminate\Http\Request;
 
@@ -27,6 +28,8 @@ class AppointmentStatusController extends Controller
     {
         $this->authorize('edit', $appointment);
         $appointment->activateAccept();
+
+        $appointment->user->notify(new AppointmentAcceptedNotification($appointment->user, $appointment));
         return response(['message' => 'Appointment accepted successfully.']);
     }
 
@@ -34,6 +37,8 @@ class AppointmentStatusController extends Controller
     {
         $this->authorize('edit', $appointment);
         $appointment->activateReject();
+        
+        // $appointment->user->notify(new AppointmentRejetedNotification($appointment->user, $appointment));
         return response(['message' => 'Appointment rejected.']);
     }
 
@@ -63,6 +68,8 @@ class AppointmentStatusController extends Controller
     {
         $appointment->autocancel();
         // $appointment->doctor()->penalize();
+        
+        // $appointment->user->notify(new AppointmentCanceledNotification($appointment->user, $appointment));
         return response(['message' => 'Appointment auto-cancelled by system after schedule elapses.']);
     }
 }
