@@ -27,7 +27,7 @@ class Doctor extends Model
 
     protected $with = ['specialty','user'];
 
-    protected $appends = ['name','link','avatar','practice_years','rating','rating_digit','adjusted_subscription_end','is_subscribed'];
+    protected $appends = ['name','link','avatar','practice_years','rating','rating_digit','adjusted_subscription_end','is_subscribed','patients_count'];
 
     public function user()
     {
@@ -175,6 +175,11 @@ class Doctor extends Model
     public function getPatientsAttribute()
     {
         return $this->patients();
+    }
+
+    public function getPatientsCountAttribute()
+    {
+        return $this->patients()->count();
     }
 
 
