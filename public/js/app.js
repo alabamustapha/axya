@@ -76038,6 +76038,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['appointment'],
@@ -76311,8 +76324,26 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
+          _c("li", { staticClass: "tf-flex p-1" }, [
+            _vm._m(5),
+            _vm._v(" "),
+            _c("span", { staticClass: "text-bold" }, [
+              _c("span", [_vm._v(_vm._s(_vm.appointment.illness_duration))])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("li", { staticClass: "tf-flex p-1" }, [
+            _vm._m(6),
+            _vm._v(" "),
+            _c("span", { staticClass: "text-sm" }, [
+              _c("span", [_vm._v(_vm._s(_vm.appointment.illness_history))])
+            ])
+          ]),
+          _vm._v(" "),
+          _vm._m(7),
+          _vm._v(" "),
           _vm.appointment.creator
-            ? _c("li", { staticClass: "tf-flex p-1" }, [_vm._m(5)])
+            ? _c("li", { staticClass: "tf-flex p-1" }, [_vm._m(8)])
             : _vm._e(),
           _vm._v(" "),
           _c("hr"),
@@ -76373,7 +76404,7 @@ var render = function() {
             _vm._v(" "),
             _vm.appointment.creator
               ? _c("span", [
-                  _vm.status == "2" ? _c("li", [_vm._m(6)]) : _vm._e(),
+                  _vm.status == "2" ? _c("li", [_vm._m(9)]) : _vm._e(),
                   _vm._v(" "),
                   _vm.status == "0" && !_vm.appointment.schedule_is_past
                     ? _c("li", { staticClass: "mb-2" }, [
@@ -76409,7 +76440,7 @@ var render = function() {
               ? _c("li", [
                   _vm.appointment.creator && _vm.reviewed == "0"
                     ? _c("span", [
-                        _vm._m(7),
+                        _vm._m(10),
                         _vm._v(" "),
                         _c("br"),
                         _vm._v(" "),
@@ -76430,7 +76461,7 @@ var render = function() {
                               _vm._v("Rate This Service")
                             ]),
                             _vm._v(" "),
-                            _vm._m(8),
+                            _vm._m(11),
                             _vm._v(" "),
                             _c("div", { staticClass: "table-responsive" }, [
                               _c(
@@ -76927,6 +76958,30 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("span", [
+      _c("i", { staticClass: "fa fa-bed" }),
+      _vm._v(" Illness Duration")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", [
+      _c("i", { staticClass: "fa fa-history" }),
+      _vm._v(" Illness History")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", [_c("hr")])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c(
       "button",
       {
@@ -76950,7 +77005,7 @@ var staticRenderFns = [
     return _c(
       "button",
       {
-        staticClass: "btn btn-sm btn-block btn-warning",
+        staticClass: "btn btn-lg btn-block btn-warning",
         attrs: {
           "data-toggle": "modal",
           "data-target": "#appointmentTransactionForm",
@@ -76958,7 +77013,7 @@ var staticRenderFns = [
         }
       },
       [
-        _c("i", { staticClass: "fa fa-transaction" }),
+        _c("i", { staticClass: "fa fa-handshake" }),
         _vm._v("  Pay Consultation Fee\n              ")
       ]
     )

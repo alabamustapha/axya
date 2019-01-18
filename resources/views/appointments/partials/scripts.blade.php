@@ -15,7 +15,7 @@
       /**
        * Home visitation field hidden by default
       /******************************************************/
-      $('#type').on('change',function(e){
+      $('#appointment_type').on('change',function(e){
           console.log(e);
           var type = e.target.value;
 
@@ -31,8 +31,8 @@
       });
 
       // If End time is behind start time or fee is negative, reject input and hide.
-      $('#type').prop('checked',function(e){
-        if ($('#type').val() == 'Home') {
+      $('#appointment_type').prop('checked',function(e){
+        if ($('#appointment_type').val() == 'Home') {
           $('#home-visitation').css('display', 'block');
         } else {
           $('#home-visitation').css('display', 'none');

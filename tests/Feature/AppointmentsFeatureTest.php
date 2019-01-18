@@ -165,7 +165,10 @@ class AppointmentsFeatureTest extends TestCase
 
             'user_id'     => $user->id,
             'doctor_id'   => $this->doctor->id,
-            'description'=> $this->faker->sentence,
+            'description' => $this->faker->sentence,
+            
+            'illness_duration' => '2 weeks',
+            'illness_history'  => $this->faker->sentence,
 
             'day'         => date('Y-m-d'),
             'from'        => '06:00 AM',

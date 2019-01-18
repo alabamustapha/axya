@@ -49,6 +49,19 @@
               </span>
             </span>
           </li>
+
+          <li class="tf-flex p-1">
+            <span><i class="fa fa-bed"></i> Illness Duration</span>
+            <span class="text-bold"><span>{{ appointment.illness_duration }}</span></span>
+          </li>
+
+          <li class="tf-flex p-1">
+            <span><i class="fa fa-history"></i> Illness History</span>
+            <span class="text-sm"><span>{{ appointment.illness_history }}</span></span>
+          </li>
+          <li>
+            <hr>
+          </li>
           <li class="tf-flex p-1" v-if="appointment.creator">
             <button 
               class="btn btn-sm btn-block btn-primary col" 
@@ -91,10 +104,10 @@
               <!-- <li class="border-bottom pb-1 mb-2">Patient Section</li> -->
               <li v-if="status == '2'">
                 <button
-                  class="btn btn-sm btn-block btn-warning" 
+                  class="btn btn-lg btn-block btn-warning" 
                   data-toggle="modal" data-target="#appointmentTransactionForm" 
                   title="New Transaction">
-                    <i class="fa fa-transaction"></i>&nbsp; Pay Consultation Fee
+                    <i class="fa fa-handshake"></i>&nbsp; Pay Consultation Fee
                 </button>
 
                 <!-- <button class="btn btn-sm my-1 btn-primary"

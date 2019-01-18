@@ -17,6 +17,9 @@ $factory->define(App\Appointment::class, function (Faker $faker) {
       'to'        => $faker->time('H:i', '11:00 pm'), // 'H:i:s'
 
       'description' => $faker->paragraphs(1,3),
+      'illness_duration' => $faker->randomElement(['1 week','2 days','3 months']),
+      'illness_history'  => $faker->sentences(1,5),
+
       'sealed_at' => $faker->dateTimeBetween('-50 day', '-1day'),
       'reviewed'  => $faker->boolean(40),
       

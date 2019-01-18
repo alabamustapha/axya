@@ -23,6 +23,7 @@ class Appointment extends Model
 
     protected $fillable = [
       'slug','user_id','doctor_id','description',
+      'illness_duration','illness_history',
       'day','from','to','sealed_at',
       'status','type','address','phone',
       'rating','reviewed',// 'reviewed (0|1)' with Reviews (user_id, dr_id & appmt_id composite key/unique)

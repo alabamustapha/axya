@@ -9,7 +9,7 @@
                     <br>
 
                     <span class="badge badge-secondary badge-pill text-bold">
-                      ${{ $doctor->rate }} / hour
+                      ${{ $doctor->rate }} / session ({{$doctor->session}})
                     </span>
                   </span>
                 </div>
@@ -24,8 +24,8 @@
                     <div class="row">
 
                       <div class="col-md-6">
-                        <label for="type">Type</label>
-                        <select id="type" name="type" class="form-control{{ $errors->has('type') ? ' is-invalid' : '' }}" required>
+                        <label for="appointment_type">Type</label>
+                        <select id="appointment_type" name="type" class="form-control{{ $errors->has('type') ? ' is-invalid' : '' }}" required>
                           <option value="">Appointment Type</option>
                           <option value="Online" {{old('type') == 'Online' ? 'selected':''}}>Online</option>
                           <option value="Home" {{old('type') == 'Home' ? 'selected':''}}>Home</option>
@@ -39,7 +39,7 @@
                       </div>
 
                       <div class="col-md-6">
-                        <label for="day">Select Day <small>(yyyy-mm-dd)</small></label>
+                        <label for="day">Select Day</label>
                         <input type="hidden" name="doctor_id" value="{{$doctor->id}}">
                         <input name="day" value="{{old('day')}}" 
                           type="text" id="datepicker"
@@ -137,7 +137,7 @@
                   </fieldset>
 
                   <div class="form-group text-center">
-                    <textarea name="description" id="description" style="min-height: 120px;max-height: 150px;" placeholder="write your intention for booking an appointment with {{$doctor->name}}" class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}" required>{{old('description')}}</textarea>
+                    <textarea name="description" id="description" style="min-height: 120px;max-height: 150px;" placeholder="Describe in details why you are requesting this appointment" class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}" required>{{old('description')}}</textarea>
 
                     @if ($errors->has('description'))
                         <span class="invalid-feedback" role="alert">

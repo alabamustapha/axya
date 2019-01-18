@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Appointment;
 use App\Doctor;
 use App\Http\Requests\AppointmentRequest;
+use App\Http\Requests\AppointmentUpdateRequest;
 use App\Notifications\Applications\ApplicationReceivedNotification;
 use App\Notifications\Appointments\AppointmentBookedNotification;
 use App\Traits\TimeScheduleTrait;
@@ -223,7 +224,7 @@ class AppointmentController extends Controller
      * @param  \App\Appointment  $appointment
      * @return \Illuminate\Http\Response
      */
-    public function update(AppointmentRequest $request, Appointment $appointment)
+    public function update(AppointmentUpdateRequest $request, Appointment $appointment)
     {
         // $this->authorize('edit', $appointment);
 
@@ -236,11 +237,11 @@ class AppointmentController extends Controller
         if ($appointment->update($request->all())){
             $message = 'Appointment updated successfully.';
 
+            flash($message)->success();
             if ($request->expectsJson()){
                 return response(['message' => $message]);
             }
         
-            flash($message)->success();
             return redirect()->route('appointments.show', $appointment);
         }
 
