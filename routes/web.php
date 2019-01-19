@@ -13,11 +13,22 @@
 
 // Route::get('/', function () { return view('welcome'); })->name('home');
 Route::get('/', 'HomeController@index')->name('home');
+
 Route::get('/nova');
 
 // Route::get('{path}', 'HomeController@search')->where('path', '([A-z\d-\/_.]+)?');
 
 Auth::routes(['verify' => true]);
+
+// ---- ADMIN RELATED ---------------->
+Route::prefix('admin')->group(function(){
+  Route::get('login', 'AppAdminController@adminLoginForm')->name('admin.login');
+  Route::get('password', 'AppAdminController@adminPasswordForm')->name('admin.password');
+  Route::post('login', 'AppAdminController@adminLogin')->name('admin.login');
+  Route::patch('logout', 'AppAdminController@adminLogout')->name('admin.logout');
+  Route::patch('password', 'AppAdminController@adminPassword')->name('admin.password');
+});
+// ---- ADMIN RELATED ---------------->
 
 // ---- APPOINTMENT RELATED ---------------->
 Route::prefix('appointments')->group(function(){

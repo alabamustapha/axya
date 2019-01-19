@@ -22,7 +22,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ]; 
 
-    protected $appends = ['link','is_verified','is_superadmin','is_admin','is_staff','is_doctor','is_potential_doctor'];
+    protected $appends = ['link','is_verified','is_superadmin','is_admin_user','is_admin','is_staff','is_doctor','is_potential_doctor'];
 
     /**
      * The attributes that are mass assignable.
@@ -34,6 +34,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'gender','avatar','blocked','dob','weight','height','allergies','chronics',
         'last_four','terms','application_retry_at',
         'verification_link','as_doctor','application_status',
+        'admin_mode','admin_password',
     ];
 
     /**
@@ -203,14 +204,56 @@ class User extends Authenticatable implements MustVerifyEmail
         return $query->where('acl', '2');
     }
 
-    public function isSuperAdmin() 
+
+
+    /**
+     * A Super Admin but not signed in as ADMIN
+     * 
+     * @return  boolean
+     */
+    public function isSuperAdminUser() 
     {
-        return $this->is_verified && $this->acl == '5';
+        return $this->is_verified && ($this->acl == '5');
     }
 
+    /**
+     * A Basic Admin but not signed in as ADMIN
+     * 
+     * @return  boolean
+     */
+    public function isAdminUser() 
+    {
+        return $this->is_verified && ($this->acl == '1' || $this->isSuperAdminUser());
+    }
+
+    /**
+     * Check the ADMIN LOG IN status of this user.
+     * 
+     * @return  boolean
+     */
+    public function isLoggedInAsAdmin() 
+    {
+        return (bool) $this->admin_mode;
+    }
+
+    /**
+     * A Super Admin and is signed in as ADMIN
+     * 
+     * @return  boolean
+     */
+    public function isSuperAdmin() 
+    {
+        return $this->isSuperAdminUser() && $this->isLoggedInAsAdmin();
+    }
+
+    /**
+     * A Basic Admin and is signed in as ADMIN
+     * 
+     * @return  boolean
+     */
     public function isAdmin() 
     {
-        return $this->is_verified && ($this->acl == '1' || $this->isSuperAdmin());
+        return $this->isAdminUser() && $this->isLoggedInAsAdmin();
 
         // return $this->is_verified && app()->environment('local') 
         //     ? (
@@ -562,6 +605,12 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->isVerified();
     }
+
+    public function getIsAdminUserAttribute() 
+    {
+        return $this->isAdminUser();
+    }
+
     public function getIsSuperAdminAttribute() 
     {
         return $this->isSuperAdmin();

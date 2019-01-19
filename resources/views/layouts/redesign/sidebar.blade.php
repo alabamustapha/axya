@@ -12,6 +12,43 @@
               </div>
 
               <ul class="nav flex-sm-column">
+                  @if (Auth::user()->is_admin)
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{route('dashboard-main')}}">
+                            <span class="icon fa fa-dashboard"></span>
+                            <span class="navlink-active">Admin Dashboard</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                      <a class="nav-link" href="{{ route('admin.logout') }}"
+                      onclick="event.preventDefault();
+                      document.getElementById('admin-logout-form').submit();">
+                          <i class="icon fa fa-sign-out-alt red"></i>
+                          <span>{{ __('Admin Sign Out') }}</span>
+                      </a>
+
+                      <form id="admin-logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
+                          @csrf
+                          {{method_field('PATCH')}}
+                      </form>
+                    </li>
+                  @elseif (Auth::user()->is_admin_user)
+                    <li class="nav-item">
+                      @if (is_null(Auth::user()->admin_password))
+                        <a class="nav-link" href="{{route('admin.password')}}">
+                            <span class="icon fa fa-key"></span>
+                            <span class="navlink-active">New Admin Password</span>
+                        </a>
+                      @else
+                        <a class="nav-link" href="{{route('admin.login')}}">
+                            <span class="icon fa fa-user-tie"></span>
+                            <span class="navlink-active">Admin Login</span>
+                        </a>
+                      @endif
+                    </li>
+                  @endif
+
                   <li class="nav-item">
                       <a class="nav-link" href="{{route('appointments.index')}}">
                           <span class="icon">

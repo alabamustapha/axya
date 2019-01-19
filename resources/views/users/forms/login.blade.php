@@ -30,7 +30,7 @@
         @endif
     </div>
     <div class="form-group">
-        <label for="password">{{ __('Password?') }}</label>
+        <label for="password">{{ __('Password') }}</label>
         <input type="password" name="password" class="form-control form-default{{ $errors->has('password') ? ' is-invalid' : '' }}" placeholder="Password" required>
 
         @if ($errors->has('password'))

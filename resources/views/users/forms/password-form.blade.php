@@ -7,10 +7,13 @@
     </div>
 
     <div class="form-group row">
-        <label for="old_password" class="col-md-4 col-form-label text-md-right">{{ __('Old Password') }}</label>
+        <label for="old_password" class="col-md-4 col-form-label text-md-right">{{ __('Current Password') }}</label>
 
         <div class="col-md-6">
-            <input id="old_password" type="password" minlength="6" class="form-control{{ $errors->has('old_password') ? ' is-invalid' : '' }}" name="old_password" placeholder="old password" required>
+            <input id="old_password" type="password" minlength="6" class="form-control{{ $errors->has('old_password') ? ' is-invalid' : '' }}" name="old_password" placeholder="old password" aria-describedby="oldPasswordHelp" required>
+            <small id="oldPasswordHelp" class="form-text text-muted">
+                <em>Enter your current password correctly</em>.
+            </small>
 
             @if ($errors->has('old_password'))
                 <span class="invalid-feedback" role="alert">
@@ -24,7 +27,10 @@
         <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('New Password') }}</label>
 
         <div class="col-md-6">
-            <input id="password" type="password" minlength="6" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" placeholder="new password" required>
+            <input id="password" type="password" minlength="6" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" placeholder="new password" aria-describedby="passwordHelp" required>
+            <small id="passwordHelp" class="form-text text-muted">
+                Must be at least <strong>6 characters long</strong>.
+            </small>
 
             @if ($errors->has('password'))
                 <span class="invalid-feedback" role="alert">

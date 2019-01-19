@@ -60,4 +60,21 @@ class LoginController extends Controller
         return redirect()->back();
     }
 
+
+    // SEE AuthenticatesUsers@logout
+    public function logout(Request $request)
+    {
+        // $this->collectLogoutData(); // Activate User Device Details
+
+        if (Auth::check()) {
+            Auth::user()->isLoggedInAsAdmin() 
+                ? Auth::user()->update(['admin_mode' => 0]) 
+                : false;
+        }
+
+        Auth::logout();
+
+        return redirect('/'); //->route('doctors.index') 
+    }
+
 }
