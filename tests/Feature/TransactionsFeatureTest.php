@@ -66,7 +66,12 @@ class TransactionsFeatureTest extends TestCase
     /** @test */
     public function show_a_transaction_can_be_viewed_attending_doctor() 
     {
-        $doc      = factory(User::class)->states('verified')->create();
+        $doc_user = factory(User::class)->states('verified')->create();
+        $doc      = factory(Doctor::class)->create([
+                        'id'               => $doc_user->id,
+                        'user_id'          => $doc_user->id,
+                    ]);
+
         $appointment= factory(Appointment::class)->create([
             'doctor_id'     => $doc->id,    // Attending Doctor
         ]);
@@ -74,9 +79,8 @@ class TransactionsFeatureTest extends TestCase
             'appointment_id'=> $appointment->id
         ]);
         $this
-            ->actingAs($doc)
+            ->actingAs($doc_user)
             ->get(route('transactions.show', $transaction))
-            // ->dump()
             ->assertStatus(200)
             ->assertSee($transaction->user->name)
             ->assertSee($transaction->doctor->name)

@@ -331,7 +331,7 @@ class Appointment extends Model
     }
 
     public function getNoOfSessionsAttribute()
-    {
+    {//dd($this->doctor);
         $duration  = Carbon::parse($this->end_time)->diffInMinutes(Carbon::parse($this->start_time));
 
         $no_of_sessions = ceil($duration / $this->doctor->session);

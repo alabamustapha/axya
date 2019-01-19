@@ -10,6 +10,11 @@ class SubscriptionPolicy
 {
     use HandlesAuthorization;
 
+    public function index(User $user)
+    {
+        return (($user->id == auth()->id()) || $user->is_admin);
+    }
+
     public function view(User $user, Subscription $subscription)
     {
         return ($user->is_doctor && $user->id == $subscription->doctor_id) || $user->is_admin;

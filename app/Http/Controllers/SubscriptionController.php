@@ -26,9 +26,7 @@ class SubscriptionController extends Controller
      */
     public function index(User $user)
     {
-        if (! ($user->id == auth()->id()) || $user->is_admin){
-            abort('403');
-        }
+        $this->authorize('index', Subscription::class); 
 
         $subscriptions = Subscription::where('doctor_id', $user->id)
                                     ->latest()
