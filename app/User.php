@@ -234,6 +234,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function isLoggedInAsAdmin() 
     {
         return (bool) $this->admin_mode;
+        // return (bool) ($this->admin_mode && !is_null($this->admin_password));
     }
 
     /**

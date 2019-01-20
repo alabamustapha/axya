@@ -9,32 +9,17 @@
             <div class="row justify-content-center">
                 <div class="col-md-6">
                     <div class="card shadow">
-                        <div class="card-header bg-white">
-                            <span class="card-title h2"><i class="fa fa-info-circle"></i> Admin Sign In</span>
+                        <div class="card-header bg-white p-4">
+                            <label class="text-center h4"><i class="fa fa-info-circle"></i> {{ __('Admin Sign In') }}</label> 
                             {{-- <p>To gain access to the Admin sections sign in with this form</p> --}}
                         </div>
                         <div class="card-body">
 
                             <form method="POST" action="{{ route('admin.login') }}">
                                 @csrf
-                                      {{--dd(url()->previous(),request()->url())--}}      
-                                @if (   
-                                    /* request()->url() !== route('admin.login' )  && */
-                                      
-                                    url()->previous() !== route('admin.login')
-                                    )
-                                    @php 
-                                        // $target_url = request()->url() === route('login' ) ? request()->url() : (url()->previous() ?: request()->url());
-                                        $target_url = url()->previous();//request()->url();//
-                                        
-                                        $url = explode(config('app.url'), $target_url); 
-                                        $ref = end($url);
-                                    @endphp
-                                    {{-- Use regular expression to add the #anchor to this later --}}
-                                    <input type="hidden" name="ref" value="{{ $ref }}">
-                                @endif
+
                                 <div class="form-group">
-                                    <label for="email">{{ __('Admin Email') }}</label>
+                                    <label for="email" class="col-form-label-sm">{{ __('Admin Email') }}</label>
                                     <input type="email" name="email" class="form-control form-default{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="johndoe@example.com" autofocus required>
 
                                     @if ($errors->has('email'))
@@ -44,7 +29,7 @@
                                     @endif
                                 </div>
                                 <div class="form-group">
-                                    <label for="admin_password">{{ __('Admin Password') }}</label>
+                                    <label for="admin_password" class="col-form-label-sm">{{ __('Admin Password') }}</label>
                                     <input type="password" name="admin_password" class="form-control form-default{{ $errors->has('admin_password') ? ' is-invalid' : '' }}" placeholder="Password" required>
 
                                     @if ($errors->has('admin_password'))
@@ -59,7 +44,7 @@
                                     <div class="form-group">
                                         <ul class="list-inline">
                                             <li class="list-inline-item">
-                                                <a class="btn btn-link" href="{{-- route('admin_password.request') --}}">
+                                                <a class="btn btn-link" href="{{ route('admin.password.reset-email-form') }}">
                                                     {{ __('Forgot Your Admin Password?') }}
                                                 </a>
                                             </li>

@@ -23,10 +23,32 @@ Auth::routes(['verify' => true]);
 // ---- ADMIN RELATED ---------------->
 Route::prefix('admin')->group(function(){
   Route::get('login', 'AppAdminController@adminLoginForm')->name('admin.login');
-  Route::get('password', 'AppAdminController@adminPasswordForm')->name('admin.password');
   Route::post('login', 'AppAdminController@adminLogin')->name('admin.login');
   Route::patch('logout', 'AppAdminController@adminLogout')->name('admin.logout');
-  Route::patch('password', 'AppAdminController@adminPassword')->name('admin.password');
+
+  // Form: New Admin password change or change from Old to New password.
+  Route::get('password', 'AppAdminController@passwordNewOrChangeForm')->name('admin.password');
+
+  // Script: New Admin password change or change from Old to New password.
+  Route::patch('password', 'AppAdminController@passwordNewOrChange')->name('admin.password');
+
+
+  // ----  PASSWORD RESET RELATED ---------------->
+  // 1. Form: To collect email for verification.
+  Route::get('password-reset-form', 'AppAdminController@passwordResetEmailForm')->name('admin.password.reset-email-form');
+
+  // 2. Script: To verify email and send Password Reset Link.
+  Route::patch('password-reset-link', 'AppAdminController@passwordResetEmailLink')->name('admin.password.reset-email-link');
+
+  // 3. Script: Links in from mail, verifies correctness of reset link payload and redirects to new password creation form.
+  Route::get('password-reset-verify', 'AppAdminController@passwordResetEmailLinkVerify')->name('admin.password.reset-email-verify');
+
+  // 4. Form: New password creation form.
+  Route::get('password-reset-change', 'AppAdminController@passwordResetChangeForm')->name('admin.password.reset-change-form');
+
+  // 5. Script: UPDATEs new password for admin.
+  Route::patch('password-reset-change', 'AppAdminController@passwordResetChange')->name('admin.password.reset-change');
+  // ---- ! PASSWORD RESET RELATED ---------------->
 });
 // ---- ADMIN RELATED ---------------->
 
