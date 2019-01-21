@@ -10,6 +10,7 @@
       <script src="{{asset('js/vendor/pikaday.js')}}"></script>
       <!-- full Calender js -->
       <script src="{{asset('js/vendor/fullcalendar.min.js')}}"></script>
+      <script src="{{asset('js/vendor/shuffle.min.js')}}"></script>
     @endif
     
     <script src="{{asset('js/custom.js')}}"></script>

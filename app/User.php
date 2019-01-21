@@ -226,6 +226,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->is_verified && ($this->acl == '1' || $this->isSuperAdminUser());
     }
 
+    public function isAdministrator() 
+    {
+        return $this->isAdminUser() || $this->isSuperAdminUser();
+    }
+
     /**
      * Check the ADMIN LOG IN status of this user.
      * 

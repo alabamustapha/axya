@@ -11,16 +11,18 @@
   <section class="main-content mt-40">
     <div class="container-fluid">
       <div class="wrapper-content">
-        <div class="row">
+        <div class="content">
+          <div class="row">
 
-          <div class="col-lg-9">
-            <div id="calendar">
-              <!-- calendar injected here -->
+            <div class="col-md-9">
+              <div id="calendar">
+                <!-- calendar injected here -->
+              </div>
             </div>
+
+            <div class="col-md-3"></div>
+
           </div>
-
-          <div class="col-lg-3"></div>
-
         </div>
       </div>
     </div>
