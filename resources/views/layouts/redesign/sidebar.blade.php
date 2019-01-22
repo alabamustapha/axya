@@ -21,25 +21,56 @@
         </a>
         <ul id="adminSubmenu" class=" collapse sub-menu nav flex-sm-column">
           <li class="nav-item">
-            <a href="{{route('dashboard-main')}}" class="nav-link">
+            
+            <a href="{{route('dashboard-users')}}" class="nav-link" title="User/Patient Management">
+              <span class="icon">
+                <i class="fa fa-users"></i>
+              </span>
+              <span class="navlink-active">Users</span>
+            </a>
+            
+            <a href="{{route('dashboard-doctors')}}" class="nav-link" title="Doctor Management">
+              <span class="icon">
+                <i class="fa fa-user-md"></i>
+              </span>
+              <span class="navlink-active">Doctors</span>
+            </a>
+            
+            <a href="{{--route('adm_apointments')--}}" class="nav-link" title="Appointment Management">
+              <span class="icon">
+                <i class="fa fa-calendar-alt"></i>
+              </span>
+              <span class="navlink-active">Appointments</span>
+            </a>
+            
+            <a href="{{route('adm_subscriptions')}}" class="nav-link" title="Subscription Management">
+              <span class="icon">
+                <i class="fa fa-rss"></i>
+              </span>
+              <span class="navlink-active">Subscriptions</span>
+            </a>
+
+            <a href="{{route('adm_transactions')}}" class="nav-link" title="Payment/Transaction Management">
+              <span class="icon">
+                <i class="fa fa-handshake"></i>
+              </span>
+              <span class="navlink-active">Payments</span>
+            </a>
+
+            <hr class="py-1 m-0">
+
+            <a href="{{--route('app-settings')--}}" class="nav-link" title="App General Settings">
+              <span class="icon">
+                <i class="fa fa-cogs"></i>
+              </span>
+              <span class="navlink-active">App Settings</span>
+            </a>
+
+            <a href="{{route('dashboard-main')}}" class="nav-link" title="View Dashboard">
               <span class="icon">
                 <i class="fa fa-tachometer-alt"></i>
               </span>
               <span class="navlink-active">App Dashboard</span>
-            </a>
-
-            <a href="{{route('adm_transactions')}}" class="nav-link">
-              <span class="icon">
-                <i class="fa fa-handshake"></i>
-              </span>
-              <span class="navlink-active">Transactions</span>
-            </a>
-            
-            <a href="{{route('adm_subscriptions')}}" class="nav-link">
-              <span class="icon">
-                <i class="fa fa-money-bill-alt"></i>
-              </span>
-              <span class="navlink-active">Subscriptions</span>
             </a>
 
             <a href="{{ route('admin.logout') }}" class="nav-link"
