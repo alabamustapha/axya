@@ -39,12 +39,24 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
     
+
+    /**
+     * Logs user out of the app.
+     * @see AuthenticatesUsers@login
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Http\JsonResponse
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function login(Request $request)
     {
         if (Auth::attempt([ 'email' => $request->email, 'password' => $request->password])) {
 
+            $this->logOutAsAdmin();
+
             if (isset(request()->ref)){
-                // Prevent double slash '//' if referring page is welcome page.
+                // Prevent double slash '//' if referring url is '/'.
                 $refUrl = (request()->ref === '/') ? '' : request()->ref;
 
                 // Reconstruct referring page and redirect appropriately.
@@ -61,20 +73,35 @@ class LoginController extends Controller
     }
 
 
-    // SEE AuthenticatesUsers@logout
+    /**
+     * Logs user out of the app.
+     * @see AuthenticatesUsers@logout
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function logout(Request $request)
     {
-        // $this->collectLogoutData(); // Activate User Device Details
-
-        if (Auth::check()) {
-            Auth::user()->isLoggedInAsAdmin() 
-                ? Auth::user()->update(['admin_mode' => 0]) 
-                : false;
-        }
+        $this->logOutAsAdmin();
 
         Auth::logout();
 
         return redirect('/'); //->route('doctors.index') 
+    }
+
+
+    /**
+     * If user is admin/staff and is logged in as admin, log him out. 
+     * Persistent admin log in could be due to session expiration.
+     *
+     * @return void
+     */
+    public function logOutAsAdmin()
+    {
+        if (Auth::check() && (Auth::user()->isAdmin() || Auth::user()->isStaff())) 
+        {
+            Auth::user()->update(['admin_mode' => 0]);
+        }
     }
 
 }

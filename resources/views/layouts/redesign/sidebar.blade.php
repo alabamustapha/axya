@@ -58,7 +58,7 @@
           </li>
         </ul>
       </li>
-    @elseif (Auth::user()->is_admin_user)
+    @elseif (Auth::user()->is_administrator)
       <li class="nav-item">
 
         <a class="nav-link" data-toggle="collapse" href="#adminSubmenu" role="button" aria-expanded="false" aria-controls="adminSubmenu">

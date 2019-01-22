@@ -22,7 +22,12 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ]; 
 
-    protected $appends = ['link','is_verified','is_superadmin','is_admin_user','is_admin','is_staff','is_doctor','is_potential_doctor'];
+    protected $appends = ['link','is_verified',
+      'is_superadmin','is_admin','is_staff',
+      'is_superadmin','is_admin','is_staff',
+      'is_administrator','is_staff_user',
+      'is_doctor','is_potential_doctor',
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -226,6 +231,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->is_verified && ($this->acl == '1' || $this->isSuperAdminUser());
     }
 
+    /**
+     * A Staff but not signed in as STAFF-ADMIN
+     * 
+     * @return  boolean
+     */
+    public function isStaffUser() 
+    {
+        return $this->is_verified && ($this->acl == '2' || $this->isAdminUser()); 
+    }
+
     public function isAdministrator() 
     {
         return $this->isAdminUser() || $this->isSuperAdminUser();
@@ -238,8 +253,8 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function isLoggedInAsAdmin() 
     {
-        return (bool) $this->admin_mode;
-        // return (bool) ($this->admin_mode && !is_null($this->admin_password));
+        // return (bool) $this->admin_mode;
+        return (bool) ($this->admin_mode && !is_null($this->admin_password));
     }
 
     /**
@@ -276,7 +291,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function isStaff() 
     {
-        return $this->is_verified && ($this->acl == '2' || $this->isAdmin());        
+        return $this->isStaffUser() && $this->isLoggedInAsAdmin();        
     }
 
 
@@ -612,9 +627,14 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->isVerified();
     }
 
-    public function getIsAdminUserAttribute() 
+    public function getIsStaffUserAttribute() 
     {
-        return $this->isAdminUser();
+        return $this->isStaffUser();
+    }
+
+    public function getIsAdministratorAttribute() 
+    {
+        return $this->isAdministrator();
     }
 
     public function getIsSuperAdminAttribute() 
