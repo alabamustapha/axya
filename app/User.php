@@ -51,6 +51,12 @@ class User extends Authenticatable implements MustVerifyEmail
         'password', 'remember_token', 'acl', 'last_four',
     ];
 
+    public function notifications()
+    {
+        return $this->morphMany(Notification::class, 'notifiable')
+                            ->orderBy('created_at', 'desc');
+    }
+
     /**
      * Return the sluggable configuration array for this model.
      *
