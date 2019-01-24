@@ -28,8 +28,9 @@ class User extends Authenticatable implements MustVerifyEmail
       'is_administrator','is_staff_user',
       'is_doctor','is_potential_doctor',
       'type','status',
-      'transactions_count','appointments_count',
-      'transactions_list','appointments_list',
+      'appointments_count','transactions_count','subscriptions_count',
+      'appointments_list','transactions_list','subscriptions_list','prescriptions_list',
+      'completed_appointments_list','upcoming_appointments_list','pending_appointments_list',
     ];
 
     /**
@@ -685,14 +686,36 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
 
-    public function getTransactionsListAttribute() 
-    {
-        return route('transactions.index', $this);
-    }
-
+    # Appiontments Related
     public function getAppointmentsListAttribute() 
     {
         return route('appointments.index', $this);
+    }
+
+    public function getCompletedAppointmentsListAttribute() 
+    {
+        return route('appointments.index', ['user'=> $this, 'status' => 'success']);
+    }
+
+    public function getUpcomingAppointmentsListAttribute() 
+    {
+        return route('appointments.index', ['user'=> $this, 'status' => 'awaiting-appointment-time']);
+    }    
+
+    public function getPendingAppointmentsListAttribute() 
+    {
+        return route('appointments.index', ['user'=> $this, 'status' => 'awaiting-confirmation']);
+    }
+
+
+    public function getPrescriptionsListAttribute() 
+    {
+        return route('prescriptions.index', $this);
+    }
+
+    public function getTransactionsListAttribute() 
+    {
+        return route('transactions.index', $this);
     }
 
     public function getSubscriptionsListAttribute() 

@@ -27,6 +27,6 @@
     @endif
     
     @auth
-      <a class="dropdown-item" href="{{ route('appointments.index') }}">Appointments</a>
+      <a class="dropdown-item" href="{{ Auth::user()->appointments_list }}">Appointments</a>
     @endauth
 </div>

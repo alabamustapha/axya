@@ -27,7 +27,14 @@ class Doctor extends Model
 
     protected $with = ['specialty','user'];
 
-    protected $appends = ['name','link','avatar','practice_years','rating','rating_digit','adjusted_subscription_end','is_subscribed','patients_count'];
+    protected $appends = [
+      'name','link','avatar','practice_years',
+      'rating','rating_digit',
+      'adjusted_subscription_end','is_subscribed','patients_count',
+      'appointments_count','transactions_count','subscriptions_count',
+      'appointments_list','transactions_list','subscriptions_list','prescriptions_list',
+      'completed_appointments_list','upcoming_appointments_list','pending_appointments_list',
+    ];
 
     public function user()
     {
@@ -384,5 +391,61 @@ class Doctor extends Model
     public function getAdjustedSubscriptionEndAttribute()
     {
       return is_null($this->subscription_ends_at) ? Carbon::parse(Carbon::now())->subSeconds(1) : $this->subscription_ends_at;
+    }
+
+
+
+
+
+    # Appiontments Related
+    public function getAppointmentsListAttribute() 
+    {
+        return route('dr_appointments', $this);
+    }
+
+    public function getCompletedAppointmentsListAttribute() 
+    {
+        return route('dr_appointments', ['doctor'=> $this, 'status' => 'success']);
+    }
+
+    public function getUpcomingAppointmentsListAttribute() 
+    {
+        return route('dr_appointments', ['doctor'=> $this, 'status' => 'awaiting-appointment-time']);
+    }    
+
+    public function getPendingAppointmentsListAttribute() 
+    {
+        return route('dr_appointments', ['doctor'=> $this, 'status' => 'awaiting-confirmation']);
+    }
+
+
+    public function getPrescriptionsListAttribute() 
+    {
+        return route('dr_prescriptions', $this);
+    }
+
+    public function getTransactionsListAttribute() 
+    {
+        return route('dr_transactions', $this);
+    }
+
+    public function getSubscriptionsListAttribute() 
+    {
+        return route('subscriptions.index', $this);
+    }
+
+    public function getTransactionsCountAttribute() 
+    {
+        return $this->transactions()->whereStatus(1)->count();
+    }
+
+    public function getAppointmentsCountAttribute() 
+    {
+        return $this->appointments()->whereStatus(1)->count();
+    }
+
+    public function getSubscriptionsCountAttribute() 
+    {
+        return $this->subscriptions()->whereStatus(1)->count();
     }
 }
