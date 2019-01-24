@@ -69,28 +69,32 @@
                     {{$admin->name}}
                   </a>
 
-                  <span class="text-muted">{{$admin->type()}}</span><br>
-
                   <span>
-                    <button id="navbarDropdown" class="btn btn-sm dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-cog"></i>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown">
-                      <form method="post" action="{{ route('make-staff', $admin) }}">
-                        @csrf
-                        {{method_field('PATCH')}}
-                        <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to STAFF?');" title="Demote Admin">
-                          <i class="fa fa-user-tag orange"></i>&nbsp; Demote to Staff
-                        </button>
-                      </form>
-                      <form method="post" action="{{ route('make-normal', $admin) }}">
-                        @csrf
-                        {{method_field('PATCH')}}
-                        <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
-                          <i class="fa fa-user-slash red"></i>&nbsp; Demote to Normal User
-                        </button>
-                      </form>
-                    </div>
+                    <span class="text-muted">{{$admin->type()}}</span>
+
+                    @if (Auth::user()->is_super_admin)
+                    <span>
+                      <button id="navbarDropdown" class="btn btn-sm dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="fa fa-cog"></i>
+                      </button>
+                      <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown">
+                        <form method="post" action="{{ route('make-staff', $admin) }}">
+                          @csrf
+                          {{method_field('PATCH')}}
+                          <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to STAFF?');" title="Demote Admin">
+                            <i class="fa fa-user-tag orange"></i>&nbsp; Demote to Staff
+                          </button>
+                        </form>
+                        <form method="post" action="{{ route('make-normal', $admin) }}">
+                          @csrf
+                          {{method_field('PATCH')}}
+                          <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
+                            <i class="fa fa-user-slash red"></i>&nbsp; Demote to Normal User
+                          </button>
+                        </form>
+                      </div>
+                    </span>
+                    @endif
                   </span>
                 </span>
               </div>
@@ -139,28 +143,32 @@
                     {{$staff->name}}
                   </a>
 
-                  <span class="text-muted">{{$staff->type()}}</span><br>
+                   <span>
+                    <span class="text-muted">{{$staff->type()}}</span>
 
-                  <span>
-                    <button id="navbarDropdown" class="btn btn-sm dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-cog"></i>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown">
-                      <form method="post" action="{{ route('make-admin', $staff) }}">
-                        @csrf
-                        {{method_field('PATCH')}}
-                        <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this staff to ADMIN?');" title="Upgrade Staff">
-                          <i class="fa fa-user-tie teal"></i>&nbsp; Upgrade to Admin
-                        </button>
-                      </form>
-                      <form method="post" action="{{ route('make-normal', $staff) }}">
-                        @csrf
-                        {{method_field('PATCH')}}
-                        <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this staff to NORMAL User?');" title="Demote Staff">
-                          <i class="fa fa-user-slash red"></i>&nbsp; Demote to Normal User
-                        </button>
-                      </form>
-                    </div>
+                    @if (Auth::user()->is_super_admin)
+                    <span>
+                      <button id="navbarDropdown" class="btn btn-sm dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <i class="fa fa-cog"></i>
+                      </button>
+                      <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown">
+                        <form method="post" action="{{ route('make-admin', $staff) }}">
+                          @csrf
+                          {{method_field('PATCH')}}
+                          <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this staff to ADMIN?');" title="Upgrade Staff">
+                            <i class="fa fa-user-tie teal"></i>&nbsp; Upgrade to Admin
+                          </button>
+                        </form>
+                        <form method="post" action="{{ route('make-normal', $staff) }}">
+                          @csrf
+                          {{method_field('PATCH')}}
+                          <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this staff to NORMAL User?');" title="Demote Staff">
+                            <i class="fa fa-user-slash red"></i>&nbsp; Demote to Normal User
+                          </button>
+                        </form>
+                      </div>
+                    </span>
+                    @endif
                   </span>
                 </span>
               </div>

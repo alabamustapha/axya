@@ -65,23 +65,29 @@ $factory->state(App\User::class, 'unverified', function (Faker $faker) {
 $factory->state(App\User::class, 'staff', function (Faker $faker) {
     return [
         'acl' => '2',
+        'admin_mode' => 1,
         'blocked' => '0',
         'email_verified_at' => Carbon::parse('-1 day'),
+        'admin_password' => 'secret',
     ];
 });
 
 $factory->state(App\User::class, 'admin', function (Faker $faker) {
     return [
         'acl' => '1',
+        'admin_mode' => 1,
         'blocked' => '0',
         'email_verified_at' => Carbon::parse('-1 day'),
+        'admin_password' => 'secret',
     ];
 });
 
 $factory->state(App\User::class, 'superadmin', function (Faker $faker) {
     return [
         'acl' => '5',
+        'admin_mode' => 1,
         'blocked' => '0',
         'email_verified_at' => Carbon::parse('-1 day'),
+        'admin_password' => 'secret',
     ];
 });

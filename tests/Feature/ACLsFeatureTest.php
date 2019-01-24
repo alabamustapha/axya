@@ -26,6 +26,7 @@ class ACLsFeatureTest extends TestCase
 
         // Create a User 
         $user = factory(User::class)->states('verified')->create();
+        // $user->makeAdmin();
 
         // Update the User's details
         $updated_data = [ 'id' => $user->id, 'acl' => '1']; 

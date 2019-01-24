@@ -22,53 +22,64 @@
         <ul id="adminSubmenu" class=" collapse sub-menu nav flex-sm-column">
           <li class="nav-item">
             
+            <a href="{{route('dashboard-admins')}}" class="nav-link" title="User/Patient Management">
+              <span class="icon">
+                <i class="fa fa-user-tie yellow"></i>
+              </span>
+              <span class="navlink-active">Admin Users</span>
+            </a>
+            
             <a href="{{route('dashboard-users')}}" class="nav-link" title="User/Patient Management">
               <span class="icon">
-                <i class="fa fa-users"></i>
+                <i class="fa fa-users yellow"></i>
               </span>
               <span class="navlink-active">Users</span>
             </a>
             
             <a href="{{route('dashboard-doctors')}}" class="nav-link" title="Doctor Management">
               <span class="icon">
-                <i class="fa fa-user-md"></i>
+                <i class="fa fa-user-md yellow"></i>
               </span>
               <span class="navlink-active">Doctors</span>
             </a>
+
+            <hr class="py-1 m-0">
             
             <a href="{{--route('adm_apointments')--}}" class="nav-link" title="Appointment Management">
               <span class="icon">
-                <i class="fa fa-calendar-alt"></i>
+                <i class="fa fa-calendar-alt yellow"></i>
               </span>
               <span class="navlink-active">Appointments</span>
             </a>
             
             <a href="{{route('adm_subscriptions')}}" class="nav-link" title="Subscription Management">
               <span class="icon">
-                <i class="fa fa-rss"></i>
+                <i class="fa fa-rss yellow"></i>
               </span>
               <span class="navlink-active">Subscriptions</span>
             </a>
 
             <a href="{{route('adm_transactions')}}" class="nav-link" title="Payment/Transaction Management">
               <span class="icon">
-                <i class="fa fa-handshake"></i>
+                <i class="fa fa-handshake yellow"></i>
               </span>
               <span class="navlink-active">Payments</span>
             </a>
 
             <hr class="py-1 m-0">
 
+            @if (Auth::user()->is_super_admin)
             <a href="{{--route('app-settings')--}}" class="nav-link" title="App General Settings">
               <span class="icon">
-                <i class="fa fa-cogs"></i>
+                <i class="fa fa-cogs yellow"></i>
               </span>
               <span class="navlink-active">App Settings</span>
             </a>
+            @endif
 
             <a href="{{route('dashboard-main')}}" class="nav-link" title="View Dashboard">
               <span class="icon">
-                <i class="fa fa-tachometer-alt"></i>
+                <i class="fa fa-tachometer-alt yellow"></i>
               </span>
               <span class="navlink-active">App Dashboard</span>
             </a>
@@ -77,7 +88,7 @@
             onclick="event.preventDefault();
             document.getElementById('admin-logout-form').submit();">
               <span class="icon">
-                <i class="fa fa-sign-out-alt red"></i>
+                <i class="fa fa-sign-out-alt yellow"></i>
               </span>
               <span>{{ __('Admin Sign Out') }}</span>
             </a>
