@@ -9,7 +9,7 @@
     <!-- Left col -->
     <div class="col-md-9">
       <!-- MAP & BOX PANE -->
-      <div class="card text-center shadow-none">
+      <div class="card text-center shadow-none mb-4">
         <div class="card-header bg-secondary">
           <h3 class="card-title text-bold pt-3">All Registered Users</h3>
 
@@ -20,25 +20,50 @@
           </div>
         </div>
         <!-- /.card-header -->
-        <div class="card-body p-0 mb-4 shadow-sm">
+        <div class="card-body p-0">
           <div class="d-md-flex">
             <div class="p-4 flex-1" style="overflow: hidden">
               
               <div class="display-1 tf-flex">
                 <i class="fa fa-users col-sm-3"></i>
-                <span class="col-sm-9">{{ $users_count }}</span>
+                <span class="col-sm-9 text-bold">{{ $users_count }}</span>
               </div>
 
             </div>
           </div><!-- /.d-md-flex -->
         </div>
         <!-- /.card-body -->
+        <div class="card-footer">
+          <div class="mb-3">
+            <form @submit.prevent="searchForUser" class="form-inline">
+              <div class="form-group mb-2 d-inline-block w-100">
+                <input
+                  v-model="search"
+                  @keyup="searchForUser"
+                  type="search" name="search"
+                  placeholder="search users..." aria-label="Search Users" 
+                  class="form-control form-control-lg text-center w-100 bg-dark" id="userSearchForm">
+    
+              </div>        
+              <button @click="searchForUser" type="submit" class="btn btn-primary d-block mx-auto">
+                  <i class="fa fa-search "></i> Search
+              </button>                    
+            </form>
+          </div>
 
-        <h3 class="text-bold pt-3 mt-3 pb-2 bg-secondary">
+          <div class="bg-light">
+            <user-search></user-search>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <div class="h4 text-center text-bold p-3 bg-secondary rounded-top">
           <i class="fa fa-check-double"></i>
-          Verification Statistics
-        </h3>
-        <div class="row mx-1">
+          <strong>Verification Statistics</strong>
+        </div>
+        <div class="row">
           <div class="col-md-6">
             <!-- small box -->
             <div class="small-box shadow">
@@ -89,12 +114,14 @@
             </div>
           </div>
         </div>
+      </div>
 
-        <h3 class="text-bold pt-3 mt-3 pb-2 bg-secondary">
+      <div class="mb-4">
+        <div class="h4 text-center text-bold p-3 bg-secondary rounded-top">
           <i class="fa fa-venus-mars"></i>
-          Gender Statistics
-        </h3>
-        <div class="row mx-1">
+          <strong>Gender Statistics</strong>
+        </div>
+        <div class="row">
           <div class="col-md-6">
             <!-- small box -->
             <div class="small-box shadow">
@@ -164,8 +191,8 @@
           </div>
           <!-- ./col -->
         </div>
+        <!-- /.row mx-1 -->
       </div>
-      <!-- /.card -->
 
 
       <div class="row">
@@ -178,7 +205,7 @@
             <!-- /.card-header -->
             <div class="card-body p-0">
               <ul class="users-list clearfix">                
-                @foreach(\App\User::latest()->take(8)->get() as $user)
+                @foreach($latest_users as $user)
                 <li title="{{$user->name}}">
                   <img src="{{$user->avatar}}" width="80" alt="User Image">
                   <a class="users-list-name" href="{{route('users.show', $user)}}">{{$user->name}}</a>

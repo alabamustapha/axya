@@ -77199,16 +77199,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -77286,10 +77276,10 @@ var render = function() {
     },
     [
       _vm.$acl.isSuperAdmin()
-        ? _c("div", { staticClass: "card card-primary shadow-none mx-1" }, [
+        ? _c("div", { staticClass: "card shadow-none mx-1" }, [
             _c("div", { staticClass: "card-header" }, [
               _c("i", { staticClass: "fa fa-users" }),
-              _vm._v("  Users found for "),
+              _vm._v("  Users found for the query: "),
               _c("b", { staticClass: "h4" }, [
                 _vm._v(_vm._s(this.$parent.search))
               ])
@@ -77441,11 +77431,11 @@ var render = function() {
                     )
                   ])
                 : _c("div", { staticClass: "short-content-bg" }, [
-                    _vm._v("\n                 0 results for "),
+                    _vm._v("\n        0 results for "),
                     _c("b", [_vm._v(_vm._s(this.$parent.search))]),
                     _vm._v(" in "),
                     _c("em", { staticClass: "text-bold" }, [_vm._v("users")]),
-                    _vm._v(".\n               ")
+                    _vm._v(".\n      ")
                   ])
             ]),
             _vm._v(" "),
@@ -77523,7 +77513,7 @@ var staticRenderFns = [
           },
           [
             _c("i", { staticClass: "fa fa-user-tie teal" }),
-            _vm._v("  Upgrade to Admin\n                                 ")
+            _vm._v("  Upgrade to Admin\n                        ")
           ]
         ),
         _vm._v(" "),
@@ -77540,7 +77530,7 @@ var staticRenderFns = [
           },
           [
             _c("i", { staticClass: "fa fa-user-tag indigo" }),
-            _vm._v("  Upgrade to Staff\n                                 ")
+            _vm._v("  Upgrade to Staff\n                        ")
           ]
         ),
         _vm._v(" "),
@@ -77557,7 +77547,7 @@ var staticRenderFns = [
           },
           [
             _c("i", { staticClass: "fa fa-user-slash orange" }),
-            _vm._v("  Demote to Normal User\n                                 ")
+            _vm._v("  Demote to Normal User\n                        ")
           ]
         ),
         _vm._v(" "),
@@ -77574,7 +77564,7 @@ var staticRenderFns = [
           },
           [
             _c("i", { staticClass: "fa fa-ban red" }),
-            _vm._v("  Block/Suspend\n                                 ")
+            _vm._v("  Block/Suspend\n                        ")
           ]
         )
       ]
