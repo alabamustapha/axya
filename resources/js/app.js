@@ -94,6 +94,7 @@ Vue.component('edit-prescription',require('./components/EditPrescription.vue'));
 Vue.component('appointment-form', require('./components/appointments/AppointmentForm.vue'));
 Vue.component('appointment-details', require('./components/appointments/AppointmentDetails.vue'));
 Vue.component('user-search',      require('./components/UserSearch.vue'));
+Vue.component('doctor-search',    require('./components/DoctorSearch.vue'));
 
 Vue.component('pagination', require('laravel-vue-pagination'));
 
@@ -110,6 +111,10 @@ const app = new Vue({
 
       searchForUser: _.debounce(() => {
         Event.$emit('search_user');
+      }, 750),
+
+      searchForDoctor: _.debounce(() => {
+        Event.$emit('search_doctor');
       }, 750)
 
       // Used with @keyup.enter

@@ -28,7 +28,7 @@ class Doctor extends Model
     protected $with = ['specialty','user'];
 
     protected $appends = [
-      'name','link','avatar','practice_years',
+      'name','link','avatar','practice_years','is_active','availability_text',
       'rating','rating_digit',
       'adjusted_subscription_end','is_subscribed','patients_count',
       'appointments_count','transactions_count','subscriptions_count',
@@ -298,7 +298,7 @@ class Doctor extends Model
 
     public function availabilityText()
     {
-      echo $this->is_active()
+      return $this->is_active()
               ? 'available'
               : 'unavailable'
               ;
@@ -447,5 +447,15 @@ class Doctor extends Model
     public function getSubscriptionsCountAttribute() 
     {
         return $this->subscriptions()->whereStatus(1)->count();
+    }
+
+    public function getIsActiveAttribute() 
+    {
+        return $this->is_active();
+    }
+
+    public function getAvailabilityTextAttribute() 
+    {
+        return $this->availabilityText();
     }
 }

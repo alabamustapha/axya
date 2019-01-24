@@ -33,7 +33,7 @@
                               @endguest
                           </ul>
 
-                          <form class="form-inline">
+                          <form @submit.prevent="searchForQuery" class="form-inline">
                               <input
                                 v-model="search"
                                 @keyup="searchForQuery"
