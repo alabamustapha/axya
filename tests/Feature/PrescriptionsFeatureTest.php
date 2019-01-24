@@ -45,7 +45,7 @@ class PrescriptionsFeatureTest extends TestCase
     {
         $this
             ->actingAs($this->user)
-            ->get(route('prescriptions.index'))
+            ->get(route('prescriptions.index', $this->prescription->user))
             ->assertStatus(200)
             ->assertSee($this->prescription->doctor->name)
             ->assertSee($this->prescription->usage)
@@ -59,7 +59,7 @@ class PrescriptionsFeatureTest extends TestCase
     {
         $this
             ->actingAs($this->doc_user)
-            ->get(route('dr_prescriptions'))
+            ->get(route('dr_prescriptions', $this->prescription->doctor))
             ->assertStatus(200)
             ->assertSee($this->prescription->doctor->name)
             ->assertSee($this->prescription->usage)
