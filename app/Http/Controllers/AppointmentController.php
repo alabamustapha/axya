@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Appointment;
 use App\Doctor;
+use App\User;
 use App\Http\Requests\AppointmentRequest;
 use App\Http\Requests\AppointmentUpdateRequest;
 use App\Notifications\Applications\ApplicationReceivedNotification;
@@ -19,6 +20,7 @@ class AppointmentController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('verified');
+        $this->middleware('patient')->only('index');
         $this->middleware('doctor')->only('drindex');
         // $this->middleware('admin')->only('index');
     }
@@ -28,9 +30,9 @@ class AppointmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(User $user)
     {
-        $user = auth()->user();
+        // $user = auth()->user();
 
         switch (request()->status) {
             case 'awaiting-confirmation': // 0.: New appointment, awaiting doctor's confirmation.
@@ -95,7 +97,7 @@ class AppointmentController extends Controller
                 break;
         }
 
-        return view('appointments.index', compact('appointments'));
+        return view('appointments.index', compact('user','appointments'));
     }
     
     /**
@@ -103,9 +105,9 @@ class AppointmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function drindex()
+    public function drindex(Doctor $doctor)
     {
-        $doctor = Doctor::find(auth()->id());
+        // $doctor = Doctor::find(auth()->id());
 
         switch (request()->status) {
             case 'awaiting-confirmation': // 0.: New appointment, awaiting doctor's confirmation.
@@ -168,7 +170,7 @@ class AppointmentController extends Controller
                          ;
                 break;
         }
-        return view('appointments.index', compact('appointments'));
+        return view('appointments.index', compact('doctor','appointments'));
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Doctor;
 use Carbon\Carbon;
 use App\Appointment;
 use App\Transaction;
@@ -16,7 +17,7 @@ class TransactionController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('verified');
-        // $this->middleware('patient');
+        $this->middleware('patient')->only('index');
         $this->middleware('admin')->only('admindex');
     }
 
@@ -30,17 +31,17 @@ class TransactionController extends Controller
         $transactions = Transaction::where('user_id', $user->id)
                                     ->latest()
                                     ->paginate(15);
-        return view('transactions.index', compact('transactions'));
+        return view('transactions.index', compact('user','transactions'));
     }
 
-    public function drindex(User $user)
+    public function drindex(Doctor $doctor)
     {
         // $this->authorize('doctor permitted?', Transaction::class);
 
-        $transactions = Transaction::where('doctor_id', $user->id)
+        $transactions = Transaction::where('doctor_id', $doctor->id)
                                     ->latest()
                                     ->paginate(15);
-        return view('transactions.doctor', compact('transactions'));
+        return view('transactions.doctor', compact('doctor','transactions'));
     }
 
     public function admindex()

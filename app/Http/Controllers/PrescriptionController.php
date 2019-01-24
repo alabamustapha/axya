@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Doctor;
+use App\User;
 use App\Drug;
 use App\Http\Requests\PrescriptionRequest;
 use App\Message;
@@ -15,6 +16,7 @@ class PrescriptionController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('verified');
+        $this->middleware('patient')->only('index');
         $this->middleware('doctor')->except('index','show');
         // $this->middleware('admin')->only('index');
     }
@@ -24,9 +26,9 @@ class PrescriptionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(User $user)
     {
-        $user = auth()->user();
+        // $user = auth()->user();
 
         switch (request()->status) {
             case 'active': // Prescription is still active.
@@ -51,12 +53,12 @@ class PrescriptionController extends Controller
                 break;
         }
 
-        return view('prescriptions.index', compact('prescriptions'));
+        return view('prescriptions.index', compact('user','prescriptions'));
     }
-    public function drindex()
+    public function drindex(Doctor $doctor)
     {
         
-        $doctor = Doctor::find(auth()->id());
+        // $doctor = Doctor::find(auth()->id());
 
         switch (request()->status) {
             case 'active': // Prescription is still active.
@@ -81,7 +83,7 @@ class PrescriptionController extends Controller
                 break;
         }
 
-        return view('prescriptions.index', compact('prescriptions'));
+        return view('prescriptions.index', compact('doctor','prescriptions'));
     }
 
     /**

@@ -21,7 +21,7 @@ class PatientMiddleware
             && ((Auth::id() == request()->user->id) 
                 || Auth::user()->isAdmin()
                 // Currently accessed user is a patient to logged in doctor.
-                || (Auth::user()->is_doctor && Auth::user()->doctor->inAllPatients())
+                || (Auth::user()->isDoctor() && Auth::user()->doctor->inAllPatients())
                )
             )
         { 

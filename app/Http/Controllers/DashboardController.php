@@ -40,6 +40,8 @@ class DashboardController extends Controller
     public function users()
     {
         $users_count            = User::all()->count();
+        $latest_users           = User::latest()->take(8)->get();
+
         $verified_users_count   = User::verified()->count();
         $unverified_users_count = User::notverified()->count();
 
@@ -56,6 +58,8 @@ class DashboardController extends Controller
 
         return view('admin.dashboard.users', compact(
             'users_count',
+            'latest_users',
+            
             'verified_users_count',
             'unverified_users_count',
 

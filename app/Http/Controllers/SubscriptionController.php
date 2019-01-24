@@ -31,7 +31,7 @@ class SubscriptionController extends Controller
         $subscriptions = Subscription::where('doctor_id', $user->id)
                                     ->latest()
                                     ->paginate(15);
-        return view('subscriptions.index', compact('subscriptions'));
+        return view('subscriptions.index', compact('user','subscriptions'));
     }
 
     public function admindex()
