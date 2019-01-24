@@ -22,30 +22,25 @@ Auth::routes(['verify' => true]);
 
 // ---- ADMIN RELATED ---------------->
 Route::prefix('admin')->group(function(){
-  Route::get('login', 'AppAdminController@adminLoginForm')->name('admin.login');
-  Route::post('login', 'AppAdminController@adminLogin')->name('admin.login');
-  Route::patch('logout', 'AppAdminController@adminLogout')->name('admin.logout');
+  Route::get('login',     'AppAdminController@adminLoginForm')->name('admin.login');
+  Route::post('login',    'AppAdminController@adminLogin')->name('admin.login');
+  Route::patch('logout',  'AppAdminController@adminLogout')->name('admin.logout');
 
   // Form: New Admin password change or change from Old to New password.
-  Route::get('password', 'AppAdminController@passwordNewOrChangeForm')->name('admin.password');
-
+  Route::get('password',                'AppAdminController@passwordNewOrChangeForm')->name('admin.password');
   // Script: New Admin password change or change from Old to New password.
-  Route::patch('password', 'AppAdminController@passwordNewOrChange')->name('admin.password');
+  Route::patch('password',              'AppAdminController@passwordNewOrChange')->name('admin.password');
 
 
   // ----  PASSWORD RESET RELATED ---------------->
   // 1. Form: To collect email for verification.
-  Route::get('password-reset-form', 'AppAdminController@passwordResetEmailForm')->name('admin.password.reset-email-form');
-
+  Route::get('password-reset-form',     'AppAdminController@passwordResetEmailForm')->name('admin.password.reset-email-form');
   // 2. Script: To verify email and send Password Reset Link.
-  Route::patch('password-reset-link', 'AppAdminController@passwordResetEmailLink')->name('admin.password.reset-email-link');
-
+  Route::patch('password-reset-link',   'AppAdminController@passwordResetEmailLink')->name('admin.password.reset-email-link');
   // 3. Script: Links in from mail, verifies correctness of reset link payload and redirects to new password creation form.
-  Route::get('password-reset-verify', 'AppAdminController@passwordResetEmailLinkVerify')->name('admin.password.reset-email-verify');
-
+  Route::get('password-reset-verify',   'AppAdminController@passwordResetEmailLinkVerify')->name('admin.password.reset-email-verify');
   // 4. Form: New password creation form.
-  Route::get('password-reset-change', 'AppAdminController@passwordResetChangeForm')->name('admin.password.reset-change-form');
-
+  Route::get('password-reset-change',   'AppAdminController@passwordResetChangeForm')->name('admin.password.reset-change-form');
   // 5. Script: UPDATEs new password for admin.
   Route::patch('password-reset-change', 'AppAdminController@passwordResetChange')->name('admin.password.reset-change');
   // ---- ! PASSWORD RESET RELATED ---------------->
@@ -62,84 +57,97 @@ Route::patch('/{appointment}/payfee',  'AppointmentStatusController@payFee')->na
 });
 // ---- APPOINTMENT RELATED ---------------->
 
-Route::resource('specialties', 'SpecialtyController')->except('create','edit');
-Route::resource('tags',        'TagController')->except('create','edit');
-Route::resource('workplaces',  'WorkplaceController')->only('store','update','destroy');
-Route::resource('applications','ApplicationController');
-Route::resource('doctors',     'DoctorController');
-Route::resource('documents',   'DocumentController');
-Route::resource('schedules',   'ScheduleController')->only('store','update','destroy');
-Route::resource('appointments','AppointmentController');
-Route::get('dr-appointments',  'AppointmentController@drindex')->name('dr_appointments');
-Route::resource('messages',    'MessageController')->only('index','store','destroy');
-Route::resource('prescriptions','PrescriptionController');
-Route::get('dr-prescriptions',  'PrescriptionController@drindex')->name('dr_prescriptions');
-Route::resource('drugs',       'DrugController');
-Route::resource('reviews',     'ReviewController');
-Route::resource('transactions',       'TransactionController')->except('index');
-Route::get('/{user}/transactions',    'TransactionController@index')->name('transactions.index');
-Route::get('/{user}/dr-transactions', 'TransactionController@drindex')->name('dr_transactions');
-Route::get('adm-transactions',        'TransactionController@admindex')->name('adm_transactions');
-Route::get('mockedPayment/{transaction}', 'TransactionController@mockedPayment')->name('mockedPayment');
+Route::resource('specialties',   'SpecialtyController')->except('create','edit');
+Route::resource('tags',          'TagController')->except('create','edit');
+Route::resource('workplaces',    'WorkplaceController')->only('store','update','destroy');
+Route::resource('applications',  'ApplicationController');
+Route::resource('doctors',       'DoctorController');
+Route::resource('documents',     'DocumentController');
+Route::resource('schedules',     'ScheduleController')->only('store','update','destroy');
+Route::resource('appointments',  'AppointmentController')->except('index');
+Route::resource('messages',      'MessageController')->only('index','store','destroy');
+Route::resource('prescriptions', 'PrescriptionController')->except('index');
+Route::resource('drugs',         'DrugController');
+Route::resource('reviews',       'ReviewController');
+Route::resource('transactions',  'TransactionController')->except('index');
+Route::resource('subscriptions', 'SubscriptionController')->except('index');
 
-Route::resource('subscriptions',      'SubscriptionController')->except('index');
-Route::get('/{user}/subscriptions',   'SubscriptionController@index')->name('subscriptions.index');
+Route::get('adm-transactions',        'TransactionController@admindex')->name('adm_transactions');
 Route::get('adm-subscriptions',       'SubscriptionController@admindex')->name('adm_subscriptions');
+Route::get('mockedPayment/{transaction}', 'TransactionController@mockedPayment')->name('mockedPayment');
 Route::get('mockedSubPayment/{subscription}', 'SubscriptionController@mockedPayment')->name('mockedSubPayment');
+Route::get('applications/{application}/show-file', 'ApplicationController@showFile')->name('showFile');
+
+Route::prefix('{user}')->group(function(){
+  Route::get('/appointments',    'AppointmentController@index')->name('appointments.index');
+  Route::get('/prescriptions',   'PrescriptionController@index')->name('prescriptions.index');
+  Route::get('/transactions',    'TransactionController@index')->name('transactions.index');
+  Route::get('/subscriptions',   'SubscriptionController@index')->name('subscriptions.index');
+});
+Route::prefix('{doctor}')->group(function(){
+  Route::get('/dr-appointments',   'AppointmentController@drindex')->name('dr_appointments');
+  Route::get('/dr-prescriptions',  'PrescriptionController@drindex')->name('dr_prescriptions');
+  Route::get('/dr-transactions',   'TransactionController@drindex')->name('dr_transactions');  
+});
 
 Route::get('schedules/{doctor}/{day}', 'ScheduleController@schedules');
 
 
 // ---- ADMIN ACL RELATED ---------------->
-Route::prefix('make')->group(function(){
-Route::patch('/{user}/admin', 'AppAdminController@makeAdmin')->name('make-admin');
-Route::patch('/{user}/staff', 'AppAdminController@makeStaff')->name('make-staff');
-Route::patch('/{user}/normal','AppAdminController@makeNormal')->name('make-normal');
+Route::prefix('make/{user}')->group(function(){
+Route::patch('/admin', 'AppAdminController@makeAdmin')->name('make-admin');
+Route::patch('/staff', 'AppAdminController@makeStaff')->name('make-staff');
+Route::patch('/normal','AppAdminController@makeNormal')->name('make-normal');
 });
 // ---- ADMIN ACL RELATED ---------------->
 
 
 
 Route::prefix('dashboard')->group(function(){
-  Route::get('/',        'DashboardController@index')->name('dashboard-main');
-  Route::get('/users',  'DashboardController@users')->name('dashboard-users');
-  Route::get('/doctors','DashboardController@doctors')->name('dashboard-doctors');
-  Route::get('/admins', 'DashboardController@admins')->name('dashboard-admins');
+  Route::get('/',             'DashboardController@index')->name('dashboard-main');
+  Route::get('/users',        'DashboardController@users')->name('dashboard-users');
+  Route::get('/doctors',      'DashboardController@doctors')->name('dashboard-doctors');
+  Route::get('/admins',       'DashboardController@admins')->name('dashboard-admins');
   Route::get('/transactions', 'DashboardController@transactions')->name('dashboard-transactions');  
 });
-Route::get('applications/{application}/show-file', 'ApplicationController@showFile')->name('showFile');
 
-Route::get('searches',        'SearchController@index')->name('search');
-Route::get('searches/doctors','SearchController@doctors')->name('search.doctors');
-Route::get('searches/tags',   'SearchController@tags')->name('search.tags');
-Route::get('searches/specialties', 'SearchController@specialties')->name('search.specialties');
-Route::get('searches/users',  'SearchController@users')->name('search.users');
+Route::prefix('searches')->group(function(){
+  Route::get('/',            'SearchController@index')->name('search');
+  Route::get('/doctors',     'SearchController@doctors')->name('search.doctors');
+  Route::get('/tags',        'SearchController@tags')->name('search.tags');
+  Route::get('/specialties', 'SearchController@specialties')->name('search.specialties');
+  Route::get('/users',       'SearchController@users')->name('search.users');
+});
 
 
 
 // ---- IMAGE UPLOADS RELATED ---------------->
-Route::patch('{user}/image-upload', 'UserController@imageUpload')->name('image.upload');
+Route::prefix('{user}')->group(function(){
+  Route::patch('/image-upload',     'UserController@imageUpload')->name('image.upload');
+  Route::patch('/avatar-upload',    'UserController@avatarUpload')->name('user.avatar.upload');
+  Route::get('/avatar-delete',      'UserController@avatarDelete')->name('user.avatar.delete');
+});
 
-Route::patch('{user}/avatar-upload', 'UserController@avatarUpload')->name('user.avatar.upload');
-Route::get('{user}/avatar-delete', 'UserController@avatarDelete')->name('user.avatar.delete');
-
-Route::get('image/{image}', 'ImageController@destroy')->name('image.destroy');
+Route::get('image/{image}',         'ImageController@destroy')->name('image.destroy');
 //!---- IMAGE UPLOADS RELATED ---------------->
 
-Route::get('user-dashboard', 'PatientController@dashboard')->name('user_dashboard');
+Route::get('user-dashboard',        'PatientController@dashboard')->name('user_dashboard');
 Route::get('admin-dashboard', function(){return view('admin.dashboard');})->name('admin_dashboard')->middleware('auth');
 
-Route::patch('/{user}/allergies',  'UserController@updateAllergies')->name('allergies.update');
-Route::patch('/{user}/chronics',  'UserController@updateChronics')->name('chronics.update');
-Route::patch('/{user}/change-password',  'UserController@changePassword')->name('password.update');
+Route::prefix('{user}')->group(function(){
+  Route::patch('/allergies',        'UserController@updateAllergies')->name('allergies.update');
+  Route::patch('/chronics',         'UserController@updateChronics')->name('chronics.update');
+  Route::patch('/change-password',  'UserController@changePassword')->name('password.update');
 
-Route::get('/{user}/edit',   'UserController@edit')->name('users.edit');
-Route::patch('/{user}',      'UserController@update')->name('users.update');
-Route::delete('/{user}',     'UserController@destroy')->name('users.destroy');
+  Route::get('/edit',           'UserController@edit')->name('users.edit');
+  Route::patch('/',             'UserController@update')->name('users.update');
+  Route::delete('/',            'UserController@destroy')->name('users.destroy');
 
-Route::get('/{user}/notifs', 'NotificationsController@index')->name('notifications.index');
-Route::get('/{user}/notifications', 'NotificationsController@display')->name('notifications.display');
+  Route::get('/notifs',         'NotificationsController@index')->name('notifications.index');
+  Route::get('/notifications',  'NotificationsController@display')->name('notifications.display');
 
-Route::get('/{user}', 'UserController@show')->name('users.show');
-Route::post('/verify_resend', 'UserController@resend')->name('verify_resend');
-Route::post('/email_verified', 'UserController@verified')->name('email_verified');
+  Route::get('/',               'UserController@show')->name('users.show');
+});
+
+Route::post('/verify_resend',   'UserController@resend')->name('verify_resend');
+Route::post('/email_verified',  'UserController@verified')->name('email_verified');

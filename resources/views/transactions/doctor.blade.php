@@ -1,8 +1,8 @@
 @extends('layouts.master')
 
-@section('title', Auth::user()->name .' Doctor Transactions Dashboard')
+@section('title', $doctor->name .' - Doctors Transaction Dashboard')
 
-@section('page-title', 'Doctor Transactions Dashboard')
+@section('page-title', 'Transaction Dashboard - Doctor')
 
 @section('content')
 

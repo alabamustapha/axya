@@ -1,8 +1,8 @@
 @extends('layouts.master')
 
-@section('title', Auth::user()->name .' Subscriptions Dashboard')
+@section('title', $user->name .' - Subscriptions Dashboard')
 
-@section('page-title', 'Pateint Subscriptions Dashboard')
+@section('page-title', 'Subscriptions Dashboard for '. $user->name)
 
 @section('content')
 

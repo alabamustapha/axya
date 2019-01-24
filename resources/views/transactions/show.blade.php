@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', Auth::user()->name .' Transaction '. $transaction->transaction_id)
+@section('title', $transaction->user->name .' Transaction '. $transaction->transaction_id)
 
 @section('page-title', 'Transaction '. $transaction->transaction_id)
 
@@ -22,7 +22,7 @@
                             <a href="{{route('users.show', $transaction->user)}}">{{$transaction->user->name}}</a>
                         </span>
 
-                        {{-- @if (Auth::user()->is_admin) --}}
+                        {{-- @if ($user->is_admin) --}}
                         @unless ($transaction->status == '1')
                             <span>
                                 @if ($transaction->status == '2')

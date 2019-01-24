@@ -1,24 +1,22 @@
 @extends('layouts.master')
 
 @section('title')
-    {{-- @if (Request::is('appointments/*')) --}}
-    @if (Request::path() == 'appointments')
-        User Appointments Index
+    @if (Request::is('*/dr-appointments'))
+        {{$doctor->name}} - Doctors Appointment Index
     @else
-        Doctor Appointments Index
+        {{$user->name}} - Appointments Index
+    @endif
+@endsection
+
+@section('page-title')
+    @if (Request::is('*/dr-appointments'))
+        Doctor Appointments - <strong>{{$doctor->name}}</strong>
+    @else
+        Appointments - <strong>{{$user->name}}</strong>
     @endif
 @endsection
 
 @section('content')
-
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-    @if (Request::path() == 'appointments')
-        <h2>User Appointments</h2>
-    @else
-        <h2>Doctor Appointments</h2>
-    @endif
-</div>
-
 
 <div class="table-responsive tp-scrollbar">
     <table class="table table-striped table-sm">
@@ -35,6 +33,7 @@
         <tbody>
         
         @forelse($appointments as $appointment)
+            @if($appointment->creator || (Auth::user()->doctor == $appointment->doctor) || Auth::user()->isAdmin())
             <tr>
                 <td>
                     <a href="{{route('appointments.show', $appointment)}}" style="color:inherit;"> 
@@ -52,10 +51,10 @@
                     </a>
                 </td>
                 <td>
-                    @if($appointment->creator)
-                        <span title="Doctor Name"><a href="{{route('doctors.show', $appointment->doctor)}}" style="color:inherit;">{{$appointment->doctor->name}}</a></span>
+                    @if($appointment->creator || (Auth::user()->isDoctor() && Auth::user()->doctor != $appointment->doctor) || Auth::user()->isAdmin())
+                        <span title="Doctor name"><a href="{{route('doctors.show', $appointment->doctor)}}" style="color:inherit;">{{$appointment->doctor->name}}</a></span>
                     @else
-                        <span title="User Name"><a href="{{route('users.show', $appointment->user)}}" style="color:inherit;">{{$appointment->user->name}}</a></span>
+                        <span title="Patient name"><a href="{{route('users.show', $appointment->user)}}" style="color:inherit;">{{$appointment->user->name}}</a></span>
                     @endif
                 </td>
                 <td>
@@ -67,6 +66,7 @@
                     </a>
                 </td>
             </tr>
+            @endif
         @empty
             <tr>
                 <td colspan="5" class="empty-list">No {{ request()->status }} appointments at this time</td>

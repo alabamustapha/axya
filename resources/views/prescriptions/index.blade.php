@@ -1,20 +1,22 @@
 @extends('layouts.master')
 
 @section('title')
-    {{-- @if (Request::is('appointments/*')) --}}
-    @if (Request::path() == 'prescriptions')
-        User Prescriptions Index
-    @else
-        Doctor Prescriptions Index
+    @if (Request::is('*/dr-prescriptions'))
+        {{$doctor->name}} - Doctors Prescription Index
+    @elseif (Request::is('*/prescriptions'))
+        {{$user->name}} - Prescriptions Index
+    @endif
+@endsection
+
+@section('page-title')
+    @if (Request::is('*/dr-prescriptions'))
+        Doctor Prescriptions - <strong>{{$doctor->name}}</strong>
+    @elseif (Request::is('*/prescriptions'))
+        Prescription Index - <strong>{{$user->name}}</strong>
     @endif
 @endsection
 
 @section('content')
-
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-  <h1 class="h2">Prescriptions Dashboard</h1>
-</div>
-
 
 <div class="table-responsive tp-scrollbar">
         
