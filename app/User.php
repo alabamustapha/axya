@@ -29,6 +29,7 @@ class User extends Authenticatable implements MustVerifyEmail
       'is_doctor','is_potential_doctor',
       'type','status',
       'transactions_count','appointments_count',
+      'transactions_list','appointments_list',
     ];
 
     /**
@@ -682,21 +683,21 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->status();
     }
-    
+
 
     public function getTransactionsListAttribute() 
     {
-        return route('transactions', $this);
+        return route('transactions.index', $this);
     }
 
     public function getAppointmentsListAttribute() 
     {
-        return route('appointments', $this);
+        return route('appointments.index', $this);
     }
 
     public function getSubscriptionsListAttribute() 
     {
-        return route('subscriptions', $this);
+        return route('subscriptions.index', $this);
     }
 
     public function getTransactionsCountAttribute() 

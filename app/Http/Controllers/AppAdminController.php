@@ -261,6 +261,8 @@ class AppAdminController extends Controller
     {
         $user = User::whereSlug($user->slug)->first();
 
+        if ($user->isSuperAdminUser() ) { return back(); }
+
         if (! $user->is_verified) {
             flash('This user\'s account has not been verified. A user must be verified to become a staff.');
             return back();
@@ -280,6 +282,8 @@ class AppAdminController extends Controller
     public function makeNormal(Request $request, User $user)
     {
         $user = User::whereSlug($user->slug)->first();
+
+        if ($user->isSuperAdminUser() ) { return back(); }
 
         $user->makeOrdinaryMember();
 

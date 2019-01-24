@@ -77207,6 +77207,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -77346,6 +77348,50 @@ var render = function() {
                                   ),
                                   _vm._v(" "),
                                   _c(
+                                    "a",
+                                    {
+                                      staticClass:
+                                        "list-group-item list-group-item-action p-1 text-primary text-truncate tf-flex",
+                                      attrs: { href: user.transactions_list }
+                                    },
+                                    [
+                                      _c("span", [_vm._v("Transactions:")]),
+                                      _vm._v(" "),
+                                      _c(
+                                        "span",
+                                        { staticClass: "badge badge-info" },
+                                        [
+                                          _vm._v(
+                                            _vm._s(user.transactions_count)
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "a",
+                                    {
+                                      staticClass:
+                                        "list-group-item list-group-item-action p-1 text-primary text-truncate tf-flex",
+                                      attrs: { href: user.appointments_list }
+                                    },
+                                    [
+                                      _c("span", [_vm._v("Appointments:")]),
+                                      _vm._v(" "),
+                                      _c(
+                                        "span",
+                                        { staticClass: "badge badge-info" },
+                                        [
+                                          _vm._v(
+                                            _vm._s(user.appointments_count)
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
                                     "span",
                                     {
                                       staticClass: "list-group-item p-1 tf-flex"
@@ -77371,90 +77417,6 @@ var render = function() {
                                             : " green"
                                         },
                                         [_vm._v(_vm._s(user.status))]
-                                      )
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "a",
-                                    {
-                                      staticClass:
-                                        "list-group-item list-group-item-action p-1 text-primary text-truncate",
-                                      attrs: { href: user.transactions_index }
-                                    },
-                                    [
-                                      _c("span", [
-                                        _vm._v("Transactions: "),
-                                        _c(
-                                          "span",
-                                          { staticClass: "badge badge-info" },
-                                          [
-                                            _vm._v(
-                                              _vm._s(user.transactions_count)
-                                            )
-                                          ]
-                                        )
-                                      ])
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "a",
-                                    {
-                                      staticClass:
-                                        "list-group-item list-group-item-action p-1 text-primary text-truncate",
-                                      attrs: { href: user.appointments_index }
-                                    },
-                                    [
-                                      _c("span", [
-                                        _vm._v("Appointments: "),
-                                        _c(
-                                          "span",
-                                          { staticClass: "badge badge-info" },
-                                          [
-                                            _vm._v(
-                                              _vm._s(user.appointments_count)
-                                            )
-                                          ]
-                                        )
-                                      ])
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "span",
-                                    {
-                                      staticClass: "list-group-item p-1 tf-flex"
-                                    },
-                                    [
-                                      _vm._v("Transactions: "),
-                                      _c(
-                                        "span",
-                                        { staticClass: "badge badge-info" },
-                                        [
-                                          _vm._v(
-                                            _vm._s(user.transactions_count)
-                                          )
-                                        ]
-                                      )
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "span",
-                                    {
-                                      staticClass: "list-group-item p-1 tf-flex"
-                                    },
-                                    [
-                                      _vm._v("Appointments: "),
-                                      _c(
-                                        "span",
-                                        { staticClass: "badge badge-info" },
-                                        [
-                                          _vm._v(
-                                            _vm._s(user.appointments_count)
-                                          )
-                                        ]
                                       )
                                     ]
                                   ),

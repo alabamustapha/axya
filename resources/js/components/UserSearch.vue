@@ -31,17 +31,19 @@
                             <a class="list-group-item list-group-item-action p-1 text-primary text-truncate" :href="user.link">
                               <span>{{user.name}}</span>
                             </a>
+                            <a class="list-group-item list-group-item-action p-1 text-primary text-truncate tf-flex" :href="user.transactions_list">
+                              <span>Transactions:</span>
+                              <span class="badge badge-info">{{user.transactions_count}}</span>
+                            </a>
+                            <a class="list-group-item list-group-item-action p-1 text-primary text-truncate tf-flex" :href="user.appointments_list">
+                              <span>Appointments:</span>
+                              <span class="badge badge-info">{{user.appointments_count}}</span>
+                            </a>
                             
                             <span class="list-group-item p-1 tf-flex">Type: <strong>{{user.type}}</strong></span>
                             <span class="list-group-item p-1 tf-flex">Status: <strong :class="user.blocked ? ' red':' green'">{{user.status}}</strong></span>
-                            <a class="list-group-item list-group-item-action p-1 text-primary text-truncate" :href="user.transactions_index">
-                              <span>Transactions: <span class="badge badge-info">{{user.transactions_count}}</span></span>
-                            </a>
-                            <a class="list-group-item list-group-item-action p-1 text-primary text-truncate" :href="user.appointments_index">
-                              <span>Appointments: <span class="badge badge-info">{{user.appointments_count}}</span></span>
-                            </a>
-                            <span class="list-group-item p-1 tf-flex">Transactions: <span class="badge badge-info">{{user.transactions_count}}</span></span>
-                            <span class="list-group-item p-1 tf-flex">Appointments: <span class="badge badge-info">{{user.appointments_count}}</span></span>
+                            <!-- <span class="list-group-item p-1 tf-flex">Transactions: <span class="badge badge-info">{{user.transactions_count}}</span></span>
+                            <span class="list-group-item p-1 tf-flex">Appointments: <span class="badge badge-info">{{user.appointments_count}}</span></span> -->
                             <span class="list-group-item p-1" v-if="$acl.isSuperAdmin()">
 
                               <button id="navbarDropdown" class="btn btn-sm btn-block btn-dark text-left dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
