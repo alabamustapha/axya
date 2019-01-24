@@ -24,9 +24,11 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected $appends = ['link','is_verified',
       'is_superadmin','is_admin','is_staff',
-      'is_superadmin','is_admin','is_staff',
+      // 'is_superadmin_user','is_admin_user','is_staff_user',
       'is_administrator','is_staff_user',
       'is_doctor','is_potential_doctor',
+      'type','status',
+      'transactions_count','appointments_count',
     ];
 
     /**
@@ -337,11 +339,14 @@ class User extends Authenticatable implements MustVerifyEmail
         if ($this->acl == '1'){
             return 'Admin';
         } 
+        elseif ($this->acl == '5'){
+            return 'Admin*';
+        } 
         elseif ($this->acl == '2'){
             return 'Staff';
         }
         elseif ($this->acl == '3'){
-            return 'User';
+            return 'Normal';
         }
     }
 
@@ -458,7 +463,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function status() 
     {
-        return $this->blocked ? 'Banned':'Active';
+        return $this->blocked ? 'Blocked':'Active';
     }
 
     public function images()
@@ -666,5 +671,46 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getIsPotentialDoctorAttribute() 
     {
         return $this->as_doctor == '1' && $this->application_status != '1';
+    }
+
+    public function getTypeAttribute() 
+    {
+        return $this->type();
+    }
+
+    public function getStatusAttribute() 
+    {
+        return $this->status();
+    }
+    
+
+    public function getTransactionsListAttribute() 
+    {
+        return route('transactions', $this);
+    }
+
+    public function getAppointmentsListAttribute() 
+    {
+        return route('appointments', $this);
+    }
+
+    public function getSubscriptionsListAttribute() 
+    {
+        return route('subscriptions', $this);
+    }
+
+    public function getTransactionsCountAttribute() 
+    {
+        return $this->transactions()->whereStatus(1)->count();
+    }
+
+    public function getAppointmentsCountAttribute() 
+    {
+        return $this->appointments()->whereStatus(1)->count();
+    }
+
+    public function getSubscriptionsCountAttribute() 
+    {
+        return $this->subscriptions()->whereStatus(1)->count();
     }
 }

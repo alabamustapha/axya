@@ -30380,7 +30380,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(139);
-module.exports = __webpack_require__(199);
+module.exports = __webpack_require__(202);
 
 
 /***/ }),
@@ -30489,8 +30489,9 @@ Vue.component('drug', __webpack_require__(186));
 Vue.component('edit-prescription', __webpack_require__(189));
 Vue.component('appointment-form', __webpack_require__(192));
 Vue.component('appointment-details', __webpack_require__(195));
+Vue.component('user-search', __webpack_require__(198));
 
-Vue.component('pagination', __webpack_require__(198));
+Vue.component('pagination', __webpack_require__(201));
 
 var app = new Vue({
     el: '#app',
@@ -30501,6 +30502,10 @@ var app = new Vue({
     methods: {
         searchForQuery: _.debounce(function () {
             Event.$emit('search_stuff');
+        }, 750),
+
+        searchForUser: _.debounce(function () {
+            Event.$emit('search_user');
         }, 750)
 
         // Used with @keyup.enter
@@ -77050,6 +77055,581 @@ if (false) {
 
 /***/ }),
 /* 198 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(199)
+/* template */
+var __vue_template__ = __webpack_require__(200)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/UserSearch.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-e37c7704", Component.options)
+  } else {
+    hotAPI.reload("data-v-e37c7704", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 199 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      users: {}
+    };
+  },
+
+
+  methods: {
+
+    /** ~~~~ MAKE NEW SEARCHES ~~~~*/
+    /*******************************/
+    searchUsers: function searchUsers() {
+      var _this = this;
+
+      // $parent needed to access the root instance at ...resources\js\app.js
+      var query = this.$parent.search;
+      var searchUrl = appUrl + '/searches/users?q=';
+
+      axios.get(searchUrl + query).then(function (_ref) {
+        var data = _ref.data;
+        return _this.users = data;
+      });
+    },
+
+
+    /*~~~~ PAGINATION OF MODELS ~~~~*/
+    /*******************************/
+    usersPagination: function usersPagination() {
+      var _this2 = this;
+
+      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+      var query = this.$parent.search;
+      var searchUrl = appUrl + '/searches/users?q=';
+
+      axios.get(searchUrl + query + '&page=' + page).then(function (response) {
+        _this2.users = response.data;
+      });
+    }
+  },
+
+  /**~~~~ LOAD ON NEW SEARCH ~~~~*/
+  /*******************************/
+  created: function created() {
+    var _this3 = this;
+
+    Event.$on('search_user', function () {
+      _this3.searchUsers();
+    });
+  }
+});
+
+/***/ }),
+/* 200 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      directives: [
+        {
+          name: "show",
+          rawName: "v-show",
+          value: _vm.users.data,
+          expression: "users.data"
+        }
+      ],
+      staticClass: "container"
+    },
+    [
+      _vm.$acl.isSuperAdmin()
+        ? _c("div", { staticClass: "card card-primary shadow-none mx-1" }, [
+            _c("div", { staticClass: "card-header" }, [
+              _c("i", { staticClass: "fa fa-users" }),
+              _vm._v("  Users found for "),
+              _c("b", { staticClass: "h4" }, [
+                _vm._v(_vm._s(this.$parent.search))
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-body p-1 text-small" }, [
+              _vm.users.data != undefined && _vm.users.data.length
+                ? _c("div", [
+                    _c(
+                      "div",
+                      { staticClass: "card-columns" },
+                      _vm._l(_vm.users.data, function(user) {
+                        return _c("div", { key: user.id, staticClass: "p-1" }, [
+                          _c("div", { staticClass: "card shadow-none" }, [
+                            _c(
+                              "div",
+                              {
+                                staticClass:
+                                  "card-body p-1 text-center text-sm",
+                                attrs: { title: user.name }
+                              },
+                              [
+                                _c("div", { staticClass: "list-group" }, [
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass:
+                                        "list-group-item p-1 text-center"
+                                    },
+                                    [
+                                      _c("a", { attrs: { href: user.link } }, [
+                                        _c("img", {
+                                          staticClass: "rounded",
+                                          staticStyle: {
+                                            display: "block",
+                                            width: "80px",
+                                            height: "80px"
+                                          },
+                                          attrs: {
+                                            src: user.avatar,
+                                            alt: "Doctor Image"
+                                          }
+                                        })
+                                      ])
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "a",
+                                    {
+                                      staticClass:
+                                        "list-group-item list-group-item-action p-1 text-primary text-truncate",
+                                      attrs: { href: user.link }
+                                    },
+                                    [_c("span", [_vm._v(_vm._s(user.name))])]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "list-group-item p-1 tf-flex"
+                                    },
+                                    [
+                                      _vm._v("Type: "),
+                                      _c("strong", [_vm._v(_vm._s(user.type))])
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "list-group-item p-1 tf-flex"
+                                    },
+                                    [
+                                      _vm._v("Status: "),
+                                      _c(
+                                        "strong",
+                                        {
+                                          class: user.blocked
+                                            ? " red"
+                                            : " green"
+                                        },
+                                        [_vm._v(_vm._s(user.status))]
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "a",
+                                    {
+                                      staticClass:
+                                        "list-group-item list-group-item-action p-1 text-primary text-truncate",
+                                      attrs: { href: user.transactions_index }
+                                    },
+                                    [
+                                      _c("span", [
+                                        _vm._v("Transactions: "),
+                                        _c(
+                                          "span",
+                                          { staticClass: "badge badge-info" },
+                                          [
+                                            _vm._v(
+                                              _vm._s(user.transactions_count)
+                                            )
+                                          ]
+                                        )
+                                      ])
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "a",
+                                    {
+                                      staticClass:
+                                        "list-group-item list-group-item-action p-1 text-primary text-truncate",
+                                      attrs: { href: user.appointments_index }
+                                    },
+                                    [
+                                      _c("span", [
+                                        _vm._v("Appointments: "),
+                                        _c(
+                                          "span",
+                                          { staticClass: "badge badge-info" },
+                                          [
+                                            _vm._v(
+                                              _vm._s(user.appointments_count)
+                                            )
+                                          ]
+                                        )
+                                      ])
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "list-group-item p-1 tf-flex"
+                                    },
+                                    [
+                                      _vm._v("Transactions: "),
+                                      _c(
+                                        "span",
+                                        { staticClass: "badge badge-info" },
+                                        [
+                                          _vm._v(
+                                            _vm._s(user.transactions_count)
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "span",
+                                    {
+                                      staticClass: "list-group-item p-1 tf-flex"
+                                    },
+                                    [
+                                      _vm._v("Appointments: "),
+                                      _c(
+                                        "span",
+                                        { staticClass: "badge badge-info" },
+                                        [
+                                          _vm._v(
+                                            _vm._s(user.appointments_count)
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  ),
+                                  _vm._v(" "),
+                                  _vm.$acl.isSuperAdmin()
+                                    ? _c(
+                                        "span",
+                                        { staticClass: "list-group-item p-1" },
+                                        [
+                                          _vm._m(0, true),
+                                          _vm._v(" "),
+                                          _vm._m(1, true)
+                                        ]
+                                      )
+                                    : _vm._e()
+                                ])
+                              ]
+                            )
+                          ])
+                        ])
+                      })
+                    )
+                  ])
+                : _c("div", { staticClass: "short-content-bg" }, [
+                    _vm._v("\n                 0 results for "),
+                    _c("b", [_vm._v(_vm._s(this.$parent.search))]),
+                    _vm._v(" in "),
+                    _c("em", { staticClass: "text-bold" }, [_vm._v("users")]),
+                    _vm._v(".\n               ")
+                  ])
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "card-footer text-center mb-0 pb-1 px-2" },
+              [
+                _c(
+                  "div",
+                  { staticClass: "table-responsive tp-scrollbar m-0" },
+                  [
+                    _c(
+                      "div",
+                      { staticStyle: { "flex-flow": "nowrap" } },
+                      [
+                        _c("pagination", {
+                          attrs: { data: _vm.users },
+                          on: { "pagination-change-page": _vm.usersPagination }
+                        })
+                      ],
+                      1
+                    )
+                  ]
+                )
+              ]
+            )
+          ])
+        : _vm._e()
+    ]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "btn btn-sm btn-block btn-dark text-left dropdown-toggle",
+        attrs: {
+          id: "navbarDropdown",
+          href: "#",
+          role: "button",
+          "data-toggle": "dropdown",
+          "aria-haspopup": "true",
+          "aria-expanded": "false"
+        }
+      },
+      [_c("i", { staticClass: "fa fa-cog" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "span",
+      {
+        staticClass: "dropdown-menu dropdown-menu-lg",
+        staticStyle: { "font-size": "12px" },
+        attrs: { "aria-labelledby": "navbarDropdown" }
+      },
+      [
+        _c(
+          "button",
+          {
+            staticClass: "dropdown-item",
+            attrs: {
+              type: "submit",
+              onclick:
+                "return confirm('You really want to demote this admin to STAFF?');",
+              title: "Demote Admin"
+            }
+          },
+          [
+            _c("i", { staticClass: "fa fa-user-tie teal" }),
+            _vm._v("  Upgrade to Admin\n                                 ")
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "dropdown-item",
+            attrs: {
+              type: "submit",
+              onclick:
+                "return confirm('You really want to demote this admin to NORMAL User?');",
+              title: "Demote Admin"
+            }
+          },
+          [
+            _c("i", { staticClass: "fa fa-user-tag indigo" }),
+            _vm._v("  Upgrade to Staff\n                                 ")
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "dropdown-item",
+            attrs: {
+              type: "submit",
+              onclick:
+                "return confirm('You really want to demote this admin to NORMAL User?');",
+              title: "Demote Admin"
+            }
+          },
+          [
+            _c("i", { staticClass: "fa fa-user-slash orange" }),
+            _vm._v("  Demote to Normal User\n                                 ")
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "button",
+          {
+            staticClass: "dropdown-item",
+            attrs: {
+              type: "submit",
+              onclick:
+                "return confirm('You really want to demote this admin to NORMAL User?');",
+              title: "Demote Admin"
+            }
+          },
+          [
+            _c("i", { staticClass: "fa fa-ban red" }),
+            _vm._v("  Block/Suspend\n                                 ")
+          ]
+        )
+      ]
+    )
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-e37c7704", module.exports)
+  }
+}
+
+/***/ }),
+/* 201 */
 /***/ (function(module, exports) {
 
 module.exports =
@@ -78355,7 +78935,7 @@ module.exports = '\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u20
 //# sourceMappingURL=laravel-vue-pagination.common.js.map
 
 /***/ }),
-/* 199 */
+/* 202 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

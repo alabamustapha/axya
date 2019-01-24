@@ -1,6 +1,7 @@
 @extends('layouts.master')
 
-@section('title', 'Admin Stat. Dashboard')
+@section('title', 'Admin Dashboard')
+@section('page-title', 'Admin Dashboard')
 
 @section('content')
 
@@ -10,7 +11,7 @@
       <div class="row">
         <div class="col-md-12">
           <!-- small box -->
-          <div class="small-box bg-info">
+          <div class="small-box bg-info p-1">
             <div class="inner pt-5">
               <div class="row">
                 <div class="col-sm-5">
@@ -23,7 +24,27 @@
                 </div>
               </div>
             </div>
-            <p href="#" class="small-box-footer">&nbsp;</p>
+            <div class="small-box-footer p-2">
+
+              <form @submit.prevent="searchForUser" class="form-inline">
+                <div class="form-group mb-2 d-inline-block w-100">
+                  <input
+                    v-model="search"
+                    @keyup="searchForUser"
+                    type="search" name="search"
+                    placeholder="search users..." aria-label="Search Users" 
+                    class="form-control form-control-lg text-center w-100" id="userSearchForm">
+      
+                </div>        
+                <button @click="searchForUser" type="submit" class="btn btn-primary d-block mx-auto">
+                    <i class="fa fa-search "></i> Search
+                </button>                    
+              </form>
+            </div>
+
+            <div class="bg-light">
+              <user-search></user-search>
+            </div>
           </div>
         </div>
         <!-- ./col -->
