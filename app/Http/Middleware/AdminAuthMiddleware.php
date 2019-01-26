@@ -16,7 +16,7 @@ class AdminAuthMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->isAdminUser() && !Auth::user()->isLoggedInAsAdmin()) {
+        if (Auth::check() && Auth::user()->isAdministrator()) {
             return $next($request);
         }
         elseif (Auth::check() && Auth::user()->isAdmin()) {

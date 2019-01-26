@@ -16,6 +16,7 @@ class SubscriptionController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('verified');
+        $this->middleware('doctor-admin')->only('index','show');
         $this->middleware('admin')->only('admindex');
     }
 
