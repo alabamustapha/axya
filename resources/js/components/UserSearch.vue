@@ -24,21 +24,24 @@
                       </a>
                     </span>
                     <a class="list-group-item list-group-item-action p-1 text-primary text-truncate" :href="user.link">
-                      <span>{{user.name}}</span>
+                      <span><i class="fa fa-user-md"></i>&nbsp; {{user.name}}</span>
                     </a>
                     <a class="list-group-item list-group-item-action p-1 text-primary text-truncate tf-flex" :href="user.transactions_list">
-                      <span>Transactions:</span>
+                      <span><i class="fa fa-handshake"></i>&nbsp; Transactions:</span>
                       <span class="badge badge-info">{{user.transactions_count}}</span>
                     </a>
                     <a class="list-group-item list-group-item-action p-1 text-primary text-truncate tf-flex" :href="user.appointments_list">
-                      <span>Appointments:</span>
+                      <span><i class="fa fa-calendar-alt"></i>&nbsp; Appointments:</span>
                       <span class="badge badge-info">{{user.appointments_count}}</span>
                     </a>
                     
-                    <span class="list-group-item p-1 tf-flex">Type: <strong>{{user.type}}</strong></span>
-                    <span class="list-group-item p-1 tf-flex">Status: <strong :class="user.blocked ? ' red':' green'">{{user.status}}</strong></span>
-                    <!-- <span class="list-group-item p-1 tf-flex">Transactions: <span class="badge badge-info">{{user.transactions_count}}</span></span>
-                    <span class="list-group-item p-1 tf-flex">Appointments: <span class="badge badge-info">{{user.appointments_count}}</span></span> -->
+                    <span class="list-group-item p-1 tf-flex">
+                      <span><i class="fa fa-user-check"></i>&nbsp; Type:</span> <strong>{{user.type}}</strong>
+                    </span>
+                    <span class="list-group-item p-1 tf-flex">
+                      <span><i class="fa fa-info-circle"></i>&nbsp; Status:</span> <strong :class="user.blocked ? ' red':' green'">{{user.status}}</strong>
+                    </span>
+
                     <span class="list-group-item p-1" v-if="$acl.isSuperAdmin()">
 
                       <button id="navbarDropdown" class="btn btn-sm btn-block btn-dark text-left dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -46,21 +49,36 @@
                       </button>
                       <span class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown" style="font-size:12px;">
 
-                          <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to STAFF?');" title="Demote Admin">
-                            <i class="fa fa-user-tie teal"></i>&nbsp; Upgrade to Admin
-                          </button>
+                          <span class="d-block" v-if="user.is_administrator || user.is_staff_user">
+                            <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
+                              <i class="fa fa-user-slash orange"></i>&nbsp; Demote to Normal User
+                            </button>
+                          </span>
 
-                          <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
-                            <i class="fa fa-user-tag indigo"></i>&nbsp; Upgrade to Staff
-                          </button>
+                          <span class="d-block" v-else>
+                            <span class="d-block" v-if="user.is_administrator">
+                              <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to STAFF?');" title="Demote Admin">
+                                <i class="fa fa-user-tie teal"></i>&nbsp; Upgrade to Admin
+                              </button>
+                            </span>
 
-                          <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
-                            <i class="fa fa-user-slash orange"></i>&nbsp; Demote to Normal User
-                          </button>
+                            <span class="d-block" v-else>
+                              <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
+                                <i class="fa fa-user-tag indigo"></i>&nbsp; Upgrade to Staff
+                              </button>
+                            </span>
+                          </span>
 
-                          <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
-                            <i class="fa fa-ban red"></i>&nbsp; Block/Suspend
-                          </button>
+                          <span class="d-block" v-if="user.blocked">
+                            <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
+                              <i class="fa fa-ban green"></i>&nbsp; UnBlock
+                            </button>
+                          </span>
+                          <span class="d-block" v-else>
+                            <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
+                              <i class="fa fa-ban red"></i>&nbsp; Block
+                            </button>
+                          </span>
                       </span>
 
                     </span>

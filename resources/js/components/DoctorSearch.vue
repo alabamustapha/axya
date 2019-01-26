@@ -3,7 +3,7 @@
 
     <div class="card shadow-none mx-1" v-if="$acl.isSuperAdmin()">
       <div class="card-header">
-        <i class="fa fa-doctors"></i>&nbsp; Doctors found for the query: <b class="h4">{{this.$parent.search}}</b>
+        <i class="fa fa-user-md"></i>&nbsp; Doctors found for the query: <b class="h4">{{this.$parent.search}}</b>
       </div>
 
       <div class="card-body p-1 text-small">
@@ -24,27 +24,31 @@
                       </a>
                     </span>
                     <a class="list-group-item list-group-item-action p-1 text-primary text-truncate" :href="doctor.link">
-                      <span>{{doctor.name}}</span>
+                      <span><i class="fa fa-user-md"></i>&nbsp; {{doctor.name}}</span>
                     </a>
                     <a class="list-group-item list-group-item-action p-1 text-primary text-truncate tf-flex" :href="doctor.transactions_list">
-                      <span>Transactions:</span>
+                      <span><i class="fa fa-handshake"></i>&nbsp; Transactions:</span>
                       <span class="badge badge-info">{{doctor.transactions_count}}</span>
                     </a>
                     <a class="list-group-item list-group-item-action p-1 text-primary text-truncate tf-flex" :href="doctor.completed_appointments_list">
-                      <span>Appointments:</span>
+                      <span><i class="fa fa-calendar-alt"></i>&nbsp; Appointments:</span>
                       <span class="badge badge-info">{{doctor.appointments_count}}</span>
                     </a>
                     <a class="list-group-item list-group-item-action p-1 text-primary text-truncate tf-flex" :href="doctor.subscriptions_list">
-                      <span>Subscriptions:</span>
+                      <span><i class="fa fa-rss"></i>&nbsp; Subscriptions:</span>
                       <span class="badge badge-info">{{doctor.subscriptions_count}}</span>
                     </a>
                     <a class="list-group-item list-group-item-action p-1 text-primary text-truncate tf-flex" :href="doctor.patients_list">
-                      <span>Patients:</span>
+                      <span><i class="fa fa-diagnoses"></i>&nbsp; Patients:</span>
                       <span class="badge badge-info">{{doctor.patients_count}}</span>
                     </a>
                     
-                    <span class="list-group-item p-1 tf-flex">Rating: <strong>{{doctor.rating}}</strong></span>
-                    <span class="list-group-item p-1 tf-flex">Status: <strong :class="doctor.is_active ? ' green':' red'">{{doctor.availability_text}}</strong></span>
+                    <span class="list-group-item p-1 tf-flex">
+                      <span><i class="fa fa-star"></i>&nbsp; Rating:</span> <strong>{{doctor.rating}}</strong>
+                    </span>
+                    <span class="list-group-item p-1 tf-flex">
+                      <span><i class="fa fa-info-circle"></i>&nbsp; Status:</span> <strong :class="doctor.is_active ? ' green':' red'">{{doctor.availability_text}}</strong>
+                    </span>
 
                     <span class="list-group-item p-1" v-if="$acl.isSuperAdmin()">
 
@@ -53,21 +57,24 @@
                       </button>
                       <span class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown" style="font-size:12px;">
 
-                          <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to STAFF?');" title="Demote Admin">
-                            <i class="fa fa-doctor-tie teal"></i>&nbsp; Upgrade to Admin
+                          <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL Doctor?');" title="Withdraw license on this app">
+                            <i class="fa fa-doctor-slash orange"></i>&nbsp; Revoke License
+                          </button>
+                          <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL Doctor?');" title="Withdraw license on this app">
+                            <i class="fa fa-doctor-slash teal"></i>&nbsp; Restore License
                           </button>
 
-                          <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL Doctor?');" title="Demote Admin">
-                            <i class="fa fa-doctor-tag indigo"></i>&nbsp; Upgrade to Staff
-                          </button>
+                          <span v-if="doctor.blocked">
+                            <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL Doctor?');" title="Demote Admin">
+                              <i class="fa fa-ban green"></i>&nbsp; UnBlock
+                            </button>
+                          </span>
+                          <span v-else>
+                            <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL Doctor?');" title="Demote Admin">
+                              <i class="fa fa-ban red"></i>&nbsp; Block
+                            </button>
+                          </span>
 
-                          <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL Doctor?');" title="Demote Admin">
-                            <i class="fa fa-doctor-slash orange"></i>&nbsp; Demote to Normal Doctor
-                          </button>
-
-                          <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL Doctor?');" title="Demote Admin">
-                            <i class="fa fa-ban red"></i>&nbsp; Block/Suspend
-                          </button>
                       </span>
 
                     </span>
