@@ -95,9 +95,9 @@ Route::get('schedules/{doctor}/{day}', 'ScheduleController@schedules');
 
 // ---- ADMIN ACL RELATED ---------------->
 Route::prefix('make/{user}')->group(function(){
-Route::patch('/admin', 'AppAdminController@makeAdmin')->name('make-admin');
-Route::patch('/staff', 'AppAdminController@makeStaff')->name('make-staff');
-Route::patch('/normal','AppAdminController@makeNormal')->name('make-normal');
+  Route::patch('/admin', 'AppAdminController@makeAdmin')->name('make-admin');
+  Route::patch('/staff', 'AppAdminController@makeStaff')->name('make-staff');
+  Route::patch('/normal','AppAdminController@makeNormal')->name('make-normal');
 });
 // ---- ADMIN ACL RELATED ---------------->
 
@@ -108,7 +108,10 @@ Route::prefix('dashboard')->group(function(){
   Route::get('/users',        'DashboardController@users')->name('dashboard-users');
   Route::get('/doctors',      'DashboardController@doctors')->name('dashboard-doctors');
   Route::get('/admins',       'DashboardController@admins')->name('dashboard-admins');
-  Route::get('/transactions', 'DashboardController@transactions')->name('dashboard-transactions');  
+  Route::get('/transactions', 'DashboardController@transactions')->name('dashboard-transactions');
+  
+  Route::get('/list-admins',  'DashboardController@listAdmins')->name('list-admins');
+  Route::get('/list-staffs',  'DashboardController@listStaffs')->name('list-staffs');
 });
 
 Route::prefix('searches')->group(function(){

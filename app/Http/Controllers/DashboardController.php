@@ -121,4 +121,19 @@ class DashboardController extends Controller
     {
         return view('admin.dashboard.transactions');
     }
+
+
+    public function listAdmins()
+    {
+        $admins = User::whereIn('acl', [1,5])->orderBy('name')->paginate(10);
+
+        return response()->json($admins);
+    }
+
+    public function listStaffs()
+    {
+        $staffs = User::whereIn('acl', [2])->orderBy('name')->paginate(10);
+
+        return response()->json($staffs);
+    }
 }

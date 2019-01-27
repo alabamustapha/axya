@@ -79,6 +79,9 @@
           </div>
 
           <div class="mb-4">
+
+            {{-- <admin-list></admin-list> --}}
+
             @forelse ($admins as $admin)
             <div class="px-3 py-1">
               <div class="row" title="{{$admin->name}}">
@@ -102,14 +105,14 @@
                         <form method="post" action="{{ route('make-staff', $admin) }}">
                           @csrf
                           {{method_field('PATCH')}}
-                          <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to STAFF?');" title="Demote Admin">
+                          <button type="submit" class="dropdown-item btn-sm" onclick="return confirm('You really want to demote this admin to STAFF?');" title="Demote Admin">
                             <i class="fa fa-user-tag orange"></i>&nbsp; Demote to Staff
                           </button>
                         </form>
                         <form method="post" action="{{ route('make-normal', $admin) }}">
                           @csrf
                           {{method_field('PATCH')}}
-                          <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
+                          <button type="submit" class="dropdown-item btn-sm" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
                             <i class="fa fa-user-slash red"></i>&nbsp; Demote to Normal User
                           </button>
                         </form>
@@ -153,6 +156,9 @@
           </div>
 
           <div class="mb-4">
+            
+            {{-- <staff-list></staff-list> --}}
+            
             @forelse ($staffs as $staff)
             <div class="px-3 py-1">
               <div class="row" title="{{$staff->name}}">
@@ -176,14 +182,14 @@
                         <form method="post" action="{{ route('make-admin', $staff) }}">
                           @csrf
                           {{method_field('PATCH')}}
-                          <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this staff to ADMIN?');" title="Upgrade Staff">
+                          <button type="submit" class="dropdown-item btn-sm" onclick="return confirm('You really want to demote this staff to ADMIN?');" title="Upgrade Staff">
                             <i class="fa fa-user-tie teal"></i>&nbsp; Upgrade to Admin
                           </button>
                         </form>
                         <form method="post" action="{{ route('make-normal', $staff) }}">
                           @csrf
                           {{method_field('PATCH')}}
-                          <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this staff to NORMAL User?');" title="Demote Staff">
+                          <button type="submit" class="dropdown-item btn-sm" onclick="return confirm('You really want to demote this staff to NORMAL User?');" title="Demote Staff">
                             <i class="fa fa-user-slash red"></i>&nbsp; Demote to Normal User
                           </button>
                         </form>

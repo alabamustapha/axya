@@ -4578,6 +4578,115 @@
 
 /***/ }),
 /* 1 */
+/***/ (function(module, exports) {
+
+/* globals __VUE_SSR_CONTEXT__ */
+
+// IMPORTANT: Do NOT use ES2015 features in this file.
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+module.exports = function normalizeComponent (
+  rawScriptExports,
+  compiledTemplate,
+  functionalTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier /* server only */
+) {
+  var esModule
+  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+  // ES6 modules interop
+  var type = typeof rawScriptExports.default
+  if (type === 'object' || type === 'function') {
+    esModule = rawScriptExports
+    scriptExports = rawScriptExports.default
+  }
+
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // render functions
+  if (compiledTemplate) {
+    options.render = compiledTemplate.render
+    options.staticRenderFns = compiledTemplate.staticRenderFns
+    options._compiled = true
+  }
+
+  // functional template
+  if (functionalTemplate) {
+    options.functional = true
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) { // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = injectStyles
+  }
+
+  if (hook) {
+    var functional = options.functional
+    var existing = functional
+      ? options.render
+      : options.beforeCreate
+
+    if (!functional) {
+      // inject component registration as beforeCreate hook
+      options.beforeCreate = existing
+        ? [].concat(existing, hook)
+        : [hook]
+    } else {
+      // for template-only hot-reload because in that case the render fn doesn't
+      // go through the normalizer
+      options._injectStyles = hook
+      // register for functioal component in vue file
+      options.render = function renderWithStyleInjection (h, context) {
+        hook.call(context)
+        return existing(h, context)
+      }
+    }
+  }
+
+  return {
+    esModule: esModule,
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4887,115 +4996,6 @@ module.exports = {
 
 
 /***/ }),
-/* 2 */
-/***/ (function(module, exports) {
-
-/* globals __VUE_SSR_CONTEXT__ */
-
-// IMPORTANT: Do NOT use ES2015 features in this file.
-// This module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle.
-
-module.exports = function normalizeComponent (
-  rawScriptExports,
-  compiledTemplate,
-  functionalTemplate,
-  injectStyles,
-  scopeId,
-  moduleIdentifier /* server only */
-) {
-  var esModule
-  var scriptExports = rawScriptExports = rawScriptExports || {}
-
-  // ES6 modules interop
-  var type = typeof rawScriptExports.default
-  if (type === 'object' || type === 'function') {
-    esModule = rawScriptExports
-    scriptExports = rawScriptExports.default
-  }
-
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // render functions
-  if (compiledTemplate) {
-    options.render = compiledTemplate.render
-    options.staticRenderFns = compiledTemplate.staticRenderFns
-    options._compiled = true
-  }
-
-  // functional template
-  if (functionalTemplate) {
-    options.functional = true
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = scopeId
-  }
-
-  var hook
-  if (moduleIdentifier) { // server build
-    hook = function (context) {
-      // 2.3 injection
-      context =
-        context || // cached call
-        (this.$vnode && this.$vnode.ssrContext) || // stateful
-        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-      // 2.2 with runInNewContext: true
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-        context = __VUE_SSR_CONTEXT__
-      }
-      // inject component styles
-      if (injectStyles) {
-        injectStyles.call(this, context)
-      }
-      // register component module identifier for async chunk inferrence
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier)
-      }
-    }
-    // used by ssr in case component is cached and beforeCreate
-    // never gets called
-    options._ssrRegister = hook
-  } else if (injectStyles) {
-    hook = injectStyles
-  }
-
-  if (hook) {
-    var functional = options.functional
-    var existing = functional
-      ? options.render
-      : options.beforeCreate
-
-    if (!functional) {
-      // inject component registration as beforeCreate hook
-      options.beforeCreate = existing
-        ? [].concat(existing, hook)
-        : [hook]
-    } else {
-      // for template-only hot-reload because in that case the render fn doesn't
-      // go through the normalizer
-      options._injectStyles = hook
-      // register for functioal component in vue file
-      options.render = function renderWithStyleInjection (h, context) {
-        hook.call(context)
-        return existing(h, context)
-      }
-    }
-  }
-
-  return {
-    esModule: esModule,
-    exports: scriptExports,
-    options: options
-  }
-}
-
-
-/***/ }),
 /* 3 */
 /***/ (function(module, exports) {
 
@@ -5029,7 +5029,7 @@ module.exports = g;
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 var normalizeHeaderName = __webpack_require__(147);
 
 var DEFAULT_CONTENT_TYPE = {
@@ -18287,7 +18287,7 @@ process.umask = function() { return 0; };
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 var settle = __webpack_require__(148);
 var buildURL = __webpack_require__(150);
 var parseHeaders = __webpack_require__(151);
@@ -30380,7 +30380,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(139);
-module.exports = __webpack_require__(205);
+module.exports = __webpack_require__(211);
 
 
 /***/ }),
@@ -30491,8 +30491,10 @@ Vue.component('appointment-form', __webpack_require__(192));
 Vue.component('appointment-details', __webpack_require__(195));
 Vue.component('user-search', __webpack_require__(198));
 Vue.component('doctor-search', __webpack_require__(201));
+Vue.component('admin-list', __webpack_require__(204));
+Vue.component('staff-list', __webpack_require__(207));
 
-Vue.component('pagination', __webpack_require__(204));
+Vue.component('pagination', __webpack_require__(210));
 
 var app = new Vue({
     el: '#app',
@@ -51666,7 +51668,7 @@ if (token) {
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 var bind = __webpack_require__(9);
 var Axios = __webpack_require__(146);
 var defaults = __webpack_require__(4);
@@ -51753,7 +51755,7 @@ function isSlowBuffer (obj) {
 
 
 var defaults = __webpack_require__(4);
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 var InterceptorManager = __webpack_require__(155);
 var dispatchRequest = __webpack_require__(156);
 
@@ -51838,7 +51840,7 @@ module.exports = Axios;
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 
 module.exports = function normalizeHeaderName(headers, normalizedName) {
   utils.forEach(headers, function processHeader(value, name) {
@@ -51918,7 +51920,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 
 function encode(val) {
   return encodeURIComponent(val).
@@ -51991,7 +51993,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 
 // Headers whose duplicates are ignored by node
 // c.f. https://nodejs.org/api/http.html#http_message_headers
@@ -52051,7 +52053,7 @@ module.exports = function parseHeaders(headers) {
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -52169,7 +52171,7 @@ module.exports = btoa;
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -52229,7 +52231,7 @@ module.exports = (
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 
 function InterceptorManager() {
   this.handlers = [];
@@ -52288,7 +52290,7 @@ module.exports = InterceptorManager;
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 var transformData = __webpack_require__(157);
 var isCancel = __webpack_require__(13);
 var defaults = __webpack_require__(4);
@@ -52381,7 +52383,7 @@ module.exports = function dispatchRequest(config) {
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 
 /**
  * Transform the data for a request or a response
@@ -70376,7 +70378,7 @@ if (typeof window !== 'undefined' && window.Sweetalert2){  window.Sweetalert2.ve
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(2)
+var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(173)
 /* template */
@@ -70495,7 +70497,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(2)
+var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(176)
 /* template */
@@ -71286,7 +71288,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(2)
+var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(179)
 /* template */
@@ -72239,7 +72241,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(2)
+var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(182)
 /* template */
@@ -72390,7 +72392,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(2)
+var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(184)
 /* template */
@@ -73293,7 +73295,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(2)
+var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(187)
 /* template */
@@ -73943,7 +73945,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(2)
+var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(190)
 /* template */
@@ -75081,7 +75083,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(2)
+var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(193)
 /* template */
@@ -75781,7 +75783,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(2)
+var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(196)
 /* template */
@@ -77063,7 +77065,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(2)
+var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(199)
 /* template */
@@ -77733,7 +77735,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(2)
+var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(202)
 /* template */
@@ -78433,6 +78435,790 @@ if (false) {
 
 /***/ }),
 /* 204 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(205)
+/* template */
+var __vue_template__ = __webpack_require__(206)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/Admin/AdminList.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-ee72b0dc", Component.options)
+  } else {
+    hotAPI.reload("data-v-ee72b0dc", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 205 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      admins: {}
+    };
+  },
+
+
+  methods: {
+
+    /**
+     * Demote this Admin to STAFF.
+     */
+    makeStaff: function makeStaff(user) {
+      var _this = this;
+
+      if (confirm('You really want to demote this admin to STAFF?')) {
+        this.$Progress.start();
+
+        axios.patch('/make/' + user.slug + '/staff').then(function () {
+          Event.$emit('list_admin');
+
+          toast({ type: 'success', title: user.name + ' made staff successfully.' });
+          _this.$Progress.finish();
+        }).catch(function () {
+          toast({ type: 'fail', title: 'An error occurred! Try again.' });
+          _this.$Progress.fail();
+        });
+      }
+    },
+
+
+    /**
+     * Demote this Admin a Normal User.
+     */
+    makeNormal: function makeNormal(user) {
+      var _this2 = this;
+
+      if (confirm('You really want to demote this admin to NORMAL User?')) {
+        this.$Progress.start();
+
+        axios.patch('/make/' + user.slug + '/normal').then(function () {
+          Event.$emit('list_admin');
+
+          toast({ type: 'success', title: user.name + ' made normal user successfully.' });
+          _this2.$Progress.finish();
+        }).catch(function () {
+          toast({ type: 'fail', title: 'An error occurred! Try again.' });
+          _this2.$Progress.fail();
+        });
+      }
+    },
+
+
+    /**
+     * LOAD ADMIN LISTS
+     */
+    listAdmins: function listAdmins() {
+      var _this3 = this;
+
+      axios.get('/dashboard/list-admins').then(function (_ref) {
+        var data = _ref.data;
+        return _this3.admins = data;
+      });
+    },
+
+
+    /**
+     * PAGINATION OF MODELS
+     */
+    adminsPagination: function adminsPagination() {
+      var _this4 = this;
+
+      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+      axios.get('/dashboard/list-admins' + '?page=' + page).then(function (response) {
+        _this4.admins = response.data;
+      });
+    }
+  },
+
+  /**
+   * LOAD ON NEW SEARCH 
+   */
+  created: function created() {
+    var _this5 = this;
+
+    this.listAdmins();
+    Event.$on('list_admin', function () {
+      _this5.listAdmins();
+    });
+  }
+});
+
+/***/ }),
+/* 206 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm.admins.data != undefined && _vm.admins.data.length
+      ? _c(
+          "div",
+          [
+            _vm._l(_vm.admins.data, function(admin) {
+              return _c("div", { key: admin.id }, [
+                _c("div", { staticClass: "px-3 py-1 text-sm" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "d-inline-block",
+                        attrs: { href: admin.link }
+                      },
+                      [
+                        _c("img", {
+                          staticStyle: { width: "80px", height: "80px" },
+                          attrs: { src: admin.avatar, alt: "Admin Avatar" }
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "d-inline-block text-left ml-2" },
+                      [
+                        _c("a", {
+                          attrs: { href: admin.link },
+                          domProps: { textContent: _vm._s(admin.name) }
+                        }),
+                        _vm._v(" "),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("span", [
+                          _c("span", {
+                            staticClass: "text-muted",
+                            domProps: { textContent: _vm._s(admin.type) }
+                          }),
+                          _vm._v(" "),
+                          _vm.$acl.isSuperAdmin()
+                            ? _c("span", [
+                                _vm._m(0, true),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "dropdown-menu dropdown-menu-lg",
+                                    attrs: {
+                                      "aria-labelledby": "navbarDropdown"
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "dropdown-item btn-sm",
+                                        attrs: { title: "Demote Admin" },
+                                        on: {
+                                          click: function($event) {
+                                            _vm.makeStaff(admin)
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "fa fa-user-tag orange"
+                                        }),
+                                        _vm._v(
+                                          "  Demote to Staff\n                    "
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "dropdown-item btn-sm",
+                                        attrs: { title: "Demote Admin" },
+                                        on: {
+                                          click: function($event) {
+                                            _vm.makeNormal(admin)
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "fa fa-user-slash red"
+                                        }),
+                                        _vm._v(
+                                          "  Demote to Normal User\n                    "
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ])
+                            : _vm._e()
+                        ])
+                      ]
+                    )
+                  ])
+                ])
+              ])
+            }),
+            _vm._v(" "),
+            _c("div", { staticClass: "text-center mb-0 pb-1 px-2" }, [
+              _c("div", { staticClass: "table-responsive tp-scrollbar m-0" }, [
+                _c(
+                  "div",
+                  { staticStyle: { "flex-flow": "nowrap" } },
+                  [
+                    _c("pagination", {
+                      attrs: { data: _vm.admins },
+                      on: { "pagination-change-page": _vm.adminsPagination }
+                    })
+                  ],
+                  1
+                )
+              ])
+            ])
+          ],
+          2
+        )
+      : _c("div", [
+          _c("span", { staticClass: "d-inline-block" }, [
+            _vm._v("\n      Loading admins...\n    ")
+          ]),
+          _vm._v(" "),
+          _vm._m(1)
+        ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "btn btn-sm dropdown-toggle",
+        attrs: {
+          id: "navbarDropdown",
+          href: "#",
+          role: "button",
+          "data-toggle": "dropdown",
+          "aria-haspopup": "true",
+          "aria-expanded": "false"
+        }
+      },
+      [_c("i", { staticClass: "fa fa-cog" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "d-inline-block fa-3x h5" }, [
+      _c("i", { staticClass: "fas fa-sync fa-spin" })
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-ee72b0dc", module.exports)
+  }
+}
+
+/***/ }),
+/* 207 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(208)
+/* template */
+var __vue_template__ = __webpack_require__(209)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/Admin/StaffList.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4f5f4623", Component.options)
+  } else {
+    hotAPI.reload("data-v-4f5f4623", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 208 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      staffs: {}
+    };
+  },
+
+
+  methods: {
+
+    /**
+     * Promote this Staff to ADMIN.
+     */
+    makeAdmin: function makeAdmin(user) {
+      var _this = this;
+
+      if (confirm('You really want to promote this staff to ADMIN?')) {
+        this.$Progress.start();
+
+        axios.patch('/make/' + user.slug + '/admin').then(function () {
+          Event.$emit('list_admin');
+
+          toast({ type: 'success', title: user.name + ' made admin successfully.' });
+          _this.$Progress.finish();
+        }).catch(function () {
+          toast({ type: 'fail', title: 'An error occurred! Try again.' });
+          _this.$Progress.fail();
+        });
+      }
+    },
+
+
+    /**
+     * Demote this Staff a Normal User.
+     */
+    makeNormal: function makeNormal(user) {
+      var _this2 = this;
+
+      if (confirm('You really want to demote this staff to NORMAL User?')) {
+        this.$Progress.start();
+
+        axios.patch('/make/' + user.slug + '/normal').then(function () {
+          Event.$emit('list_admin');
+
+          toast({ type: 'success', title: user.name + ' made normal user successfully.' });
+          _this2.$Progress.finish();
+        }).catch(function () {
+          toast({ type: 'fail', title: 'An error occurred! Try again.' });
+          _this2.$Progress.fail();
+        });
+      }
+    },
+
+
+    /**
+     * LOAD ADMIN LISTS
+     */
+    listStaffs: function listStaffs() {
+      var _this3 = this;
+
+      axios.get('/dashboard/list-staffs').then(function (_ref) {
+        var data = _ref.data;
+        return _this3.staffs = data;
+      });
+    },
+
+
+    /**
+     * PAGINATION OF MODELS
+     */
+    staffsPagination: function staffsPagination() {
+      var _this4 = this;
+
+      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+      axios.get('/dashboard/list-staffs' + '?page=' + page).then(function (response) {
+        _this4.staffs = response.data;
+      });
+    }
+  },
+
+  /**
+   * LOAD ON NEW SEARCH 
+   */
+  created: function created() {
+    var _this5 = this;
+
+    this.listStaffs();
+    Event.$on('list_admin', function () {
+      _this5.listStaffs();
+    });
+  }
+});
+
+/***/ }),
+/* 209 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm.staffs.data != undefined && _vm.staffs.data.length
+      ? _c(
+          "div",
+          [
+            _vm._l(_vm.staffs.data, function(staff) {
+              return _c("div", { key: staff.id }, [
+                _c("div", { staticClass: "px-3 py-1 text-sm" }, [
+                  _c("div", { staticClass: "row" }, [
+                    _c(
+                      "a",
+                      {
+                        staticClass: "d-inline-block",
+                        attrs: { href: staff.link }
+                      },
+                      [
+                        _c("img", {
+                          staticStyle: { width: "80px", height: "80px" },
+                          attrs: { src: staff.avatar, alt: "Staff Avatar" }
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "d-inline-block text-left ml-2" },
+                      [
+                        _c("a", {
+                          attrs: { href: staff.link },
+                          domProps: { textContent: _vm._s(staff.name) }
+                        }),
+                        _vm._v(" "),
+                        _c("br"),
+                        _vm._v(" "),
+                        _c("span", [
+                          _c("span", {
+                            staticClass: "text-muted",
+                            domProps: { textContent: _vm._s(staff.type) }
+                          }),
+                          _vm._v(" "),
+                          _vm.$acl.isSuperAdmin()
+                            ? _c("span", [
+                                _vm._m(0, true),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "dropdown-menu dropdown-menu-lg",
+                                    attrs: {
+                                      "aria-labelledby": "navbarDropdown"
+                                    }
+                                  },
+                                  [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "dropdown-item btn-sm",
+                                        attrs: { title: "Promote Staff" },
+                                        on: {
+                                          click: function($event) {
+                                            _vm.makeAdmin(staff)
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "fa fa-user-tie green"
+                                        }),
+                                        _vm._v(
+                                          "  Promote to Admin\n                    "
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "dropdown-item btn-sm",
+                                        attrs: { title: "Demote Staff" },
+                                        on: {
+                                          click: function($event) {
+                                            _vm.makeNormal(staff)
+                                          }
+                                        }
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass: "fa fa-user-slash red"
+                                        }),
+                                        _vm._v(
+                                          "  Demote to Normal User\n                    "
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                )
+                              ])
+                            : _vm._e()
+                        ])
+                      ]
+                    )
+                  ])
+                ])
+              ])
+            }),
+            _vm._v(" "),
+            _c("div", { staticClass: "text-center mb-0 pb-1 px-2" }, [
+              _c("div", { staticClass: "table-responsive tp-scrollbar m-0" }, [
+                _c(
+                  "div",
+                  { staticStyle: { "flex-flow": "nowrap" } },
+                  [
+                    _c("pagination", {
+                      attrs: { data: _vm.staffs },
+                      on: { "pagination-change-page": _vm.staffsPagination }
+                    })
+                  ],
+                  1
+                )
+              ])
+            ])
+          ],
+          2
+        )
+      : _c("div", [
+          _c("span", { staticClass: "d-inline-block" }, [
+            _vm._v("\n      Loading staffs...\n    ")
+          ]),
+          _vm._v(" "),
+          _vm._m(1)
+        ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "btn btn-sm dropdown-toggle",
+        attrs: {
+          id: "navbarDropdown",
+          href: "#",
+          role: "button",
+          "data-toggle": "dropdown",
+          "aria-haspopup": "true",
+          "aria-expanded": "false"
+        }
+      },
+      [_c("i", { staticClass: "fa fa-cog" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "d-inline-block fa-3x h5" }, [
+      _c("i", { staticClass: "fas fa-sync fa-spin" })
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-4f5f4623", module.exports)
+  }
+}
+
+/***/ }),
+/* 210 */
 /***/ (function(module, exports) {
 
 module.exports =
@@ -79738,7 +80524,7 @@ module.exports = '\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u20
 //# sourceMappingURL=laravel-vue-pagination.common.js.map
 
 /***/ }),
-/* 205 */
+/* 211 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
