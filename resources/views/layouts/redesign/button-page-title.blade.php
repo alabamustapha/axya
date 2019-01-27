@@ -5,7 +5,7 @@
     <!-- Shrink Sidebar -->
   </button>
 
-  <span class="crumb h4 text-theme-blue text-uppercase">
+  <span class="crumb h4 text-theme-blue text-titlecase mx-auto d-inline-block text-center">
 
     @yield('page-title')
 
