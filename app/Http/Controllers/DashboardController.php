@@ -24,15 +24,19 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        $admins_count           = User::whereIn('acl', [1,2,5])->get()->count();
         $users_count    = User::all()->count();
         $doctors_count  = Doctor::all()->count();
         // $completed_transactions_count  = Transaction::notverified()->count();
+        // $completed_subscriptions_count = Subscription::completed()->count();
         $completed_appointments_count = Appointment::completed()->count();
 
         return view('admin.dashboard.index', compact(
+            'admins_count',
             'users_count',
             'doctors_count',
             // 'completed_transactions_count',
+            // 'completed_subscriptions_count',
             'completed_appointments_count'
         ));
     }

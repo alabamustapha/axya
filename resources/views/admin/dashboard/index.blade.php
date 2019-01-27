@@ -145,6 +145,16 @@
 
     <div class="col-md-3 order-sm-2 order-1">
       <!-- Info Boxes Style 2 -->
+      <a href="{{route('dashboard-admins')}}" class="info-box mb-3 bg-light">
+        <span class="info-box-icon"><i class="fa fa-user-tie"></i></span>
+
+        <div class="info-box-content">
+          <span class="info-box-text">Admins</span>
+          <span class="info-box-number">{{ $admins_count }}</span>
+        </div>
+        <!-- /.info-box-content -->
+      </a>
+      <!-- /.info-box -->
       <div class="info-box mb-3 bg-info">
         <span class="info-box-icon"><i class="fa fa-users"></i></span>
 

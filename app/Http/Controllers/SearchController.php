@@ -68,7 +68,7 @@ class SearchController extends Controller
                    ->orWhere('location', 'like', "%$q%")
                    ->orWhere('about', 'like', "%$q%")
                    ->orWhereIn('specialty_id', $doc_specialty)
-                   ->paginate(5);
+                   ->paginate(6);
 
         return response()->json($results);
       }
@@ -108,7 +108,7 @@ class SearchController extends Controller
         $results = User::where('name', 'like', "%$q%")
                      ->orWhere('email', 'like', "%$q%")
                      ->orWhere('phone', 'like', "%$q%")
-                     ->paginate(5);//get();
+                     ->paginate(6);//get();
 
         return response()->json($results);
       }
