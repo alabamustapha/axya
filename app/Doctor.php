@@ -31,7 +31,7 @@ class Doctor extends Model
       'name','link','avatar','practice_years','is_active','availability_text',
       'rating','rating_digit',
       'adjusted_subscription_end','is_subscribed','patients_count',
-      'appointments_count','transactions_count','subscriptions_count',
+      'pending_appointments_count','appointments_count','transactions_count','subscriptions_count',
       'appointments_list','transactions_list','subscriptions_list','prescriptions_list',
       'completed_appointments_list','upcoming_appointments_list','pending_appointments_list',
     ];
@@ -442,6 +442,11 @@ class Doctor extends Model
     public function getAppointmentsCountAttribute() 
     {
         return $this->appointments()->whereStatus(1)->count();
+    }
+
+    public function getPendingAppointmentsCountAttribute() 
+    {
+        return $this->appointments()->whereStatus(0)->count();
     }
 
     public function getSubscriptionsCountAttribute() 
