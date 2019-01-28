@@ -9,6 +9,7 @@ class PatientMiddleware
 {
     /**
      * Handle an incoming request.
+     * Accessible to DOCTORS and their PATIENTS only.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
@@ -17,7 +18,6 @@ class PatientMiddleware
     public function handle($request, Closure $next)
     {
         if  (Auth::check() 
-            // && ((Auth::user()->isAccountOwner()) 
             && ((Auth::id() == request()->user()->id) 
                 || Auth::user()->isAdmin()
                 // Currently accessed user is a patient to logged in doctor.

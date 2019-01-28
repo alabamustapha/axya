@@ -9,6 +9,7 @@ class ApplicationMiddleware
 {
     /**
      * Handle an incoming request.
+     * Accessible to NEW POTENTIAL DOCTORs who have not applied as doctors yet.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
@@ -33,6 +34,6 @@ class ApplicationMiddleware
             flash('You are not allowed to re-apply at the moment, please do on/after <b>'. Auth::user()->application_retry_at->format('F d, Y') .'</b> with valid documents.')->important()->error();
         }
 
-        return redirect()->route('users.show', Auth::user());
+        return back();//redirect()->route('users.show', Auth::user());
     } 
 }

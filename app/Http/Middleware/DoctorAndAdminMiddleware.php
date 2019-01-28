@@ -9,6 +9,7 @@ class DoctorAndAdminMiddleware
 {
     /**
      * Handle an incoming request.
+     * Doctors and admins only are granted access.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next

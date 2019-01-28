@@ -9,6 +9,7 @@ class AdminAuthMiddleware
 {
     /**
      * Handle an incoming request.
+     * Accessible to admin users who are NOT SIGNED IN as admin yet.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
