@@ -112,9 +112,13 @@
 
         </div>
     @empty
-        
-        <div class="col empty-list">No subscriptions at this time</div>
+        <div class="text-center">
+            <div class="display-3"><i class="fa fa-rss"></i></div> 
 
+            <br>
+
+            <p>You have <strong>0</strong> subscriptions at this time.</p>
+        </div>
     @endforelse
     
     <div class="text-center py-3">{{ $subscriptions->appends(request()->query())->links() }}</div>

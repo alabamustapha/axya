@@ -34,7 +34,13 @@
         </tr>
         @empty
             <tr>
-                <td colspan="5" class="empty-list">No messages at this time</td>
+                <td colspan="5" class="empty-list">
+                    <div class="display-3"><i class="fa fa-paper-plane"></i></div> 
+
+                    <br>
+
+                    <p><strong>0</strong> messages at this time.</p>
+                </td>
             </tr>
         @endforelse
         </tbody>

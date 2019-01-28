@@ -8,7 +8,7 @@
       <div class="col-md-6 col-md-offset-3">
         <h1><i class="fa fa-bell"></i> Your Notifications <span style="font-size:.57em;">({{Auth::user()->unreadNotifications()->count()}})</span></h1>
 
-        @foreach ($dayStats as $notif)
+        @forelse ($dayStats as $notif)
 
           <div class="content">
             <div class="notification-block">
@@ -44,7 +44,17 @@
             </div>
           </div>
 
-        @endforeach 
+        @empty
+
+          <div class="text-center">
+            <div class="display-3"><i class="fa fa-bell"></i></div> 
+
+            <br>
+
+            <p><strong>0</strong> notifications at this time</p>
+          </div>
+
+        @endforelse 
       </div>      
     </div>
   </div>

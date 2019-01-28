@@ -24,7 +24,13 @@
     
     @include('prescriptions._card')
   @empty
-    <div class="empty-list">You have 0 prescriptions at the moment</div>
+    <div class="text-center">
+      <div class="display-3"><i class="fa fa-prescription"></i></div> 
+
+      <br>
+
+      <p>You have <strong>0</strong> prescriptions at this time.</p>
+    </div>
   @endforelse
     
   <div class="text-center py-3">{{ $prescriptions->appends(request()->query())->links() }}</div>

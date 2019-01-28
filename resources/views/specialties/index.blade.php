@@ -36,8 +36,12 @@
         </div>
       </div>
     @empty
-      <div class="empty-list bg-white my-1">
-        0 specialties at the moment
+      <div class="text-center">
+        <div class="display-3"><i class="fa fa-stethoscope"></i></div> 
+
+        <br>
+
+        <p>You have <strong>0</strong> specialties at this time.</p>
       </div>
 		@endforelse
 	</div>

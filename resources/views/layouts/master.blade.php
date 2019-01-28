@@ -33,7 +33,7 @@
           @endauth
         </nav>
 
-        <section id="content">
+        <section id="content" style="min-height: 80vh;">
 
           <div id="content-navbar">
             <div class="container-fluid">

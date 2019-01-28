@@ -69,7 +69,13 @@
             @endif
         @empty
             <tr>
-                <td colspan="5" class="empty-list">No {{ request()->status }} appointments at this time</td>
+                <td colspan="6" class="bg-white p-4 text-center">
+                    <div class="display-3"><i class="fa fa-calendar-alt"></i></div> 
+
+                    <br>
+
+                    <p><strong>0</strong> {{ request()->status }} appointments at this time.</p>
+                </td>
             </tr>
         @endforelse
             <tr>
