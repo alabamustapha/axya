@@ -19,6 +19,13 @@ class AppServiceProvider extends ServiceProvider
         view()->composer(['layouts.partials.dashboard-sidebar'], function($view){
             $view->with('applications_count', \App\Application::all()->count());
         });
+
+        view()->composer(['layouts.redesign.sidebar'], function($view){
+            $view->with('applications_count', \App\Application::all()->count());
+            $view->with('dr_appointments_count', \App\Appointment::where('doctor_id', auth()->id())
+                                                                 ->whereStatus('0')
+                                                                 ->get()->count());
+        });
     }
 
     /**

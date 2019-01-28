@@ -7,8 +7,6 @@
         <img src="{{Auth::user()->avatar}}" height="50" class="rounded-circle" alt="user avatar">
         <span class="online-status online"></span>
     </div>
-    <!-- <h3>Sublime Admin</h3>
-    <strong>SA</strong> -->
 </div>
 
 <ul class="nav flex-sm-column">
@@ -16,8 +14,13 @@
       <li class="nav-item">
 
         <a class="nav-link" data-toggle="collapse" href="#adminSubmenu" role="button" aria-expanded="false" aria-controls="adminSubmenu">
-          <i class="icon fa fa-th-list"></i>
-          <span class="navlink-active">Admin</span>
+          <span class="tf-flex">
+            <span>
+              <i class="icon fa fa-th-list"></i>
+              <span class="navlink-active">Admin</span>
+            </span>
+            <span style="font-size: 12px"><i class="fa fa-plus"></i></span>
+          </span>
         </a>
         <ul id="adminSubmenu" class=" collapse sub-menu nav flex-sm-column">
           <li class="nav-item">
@@ -43,9 +46,22 @@
               <span class="navlink-active">Doctors</span>
             </a>
 
+            <a href="{{route('applications.index')}}" class="nav-link tf-flex" title="Doctor Applications Management">
+              <span class="tf-flex">
+                <span>
+                  <span class="icon">
+                    <i class="fa fa-user-secret yellow"></i>
+                  </span>
+                  <span class="navlink-active">Dr. Applications</span>
+                </span>
+
+                <span class="badge badge-danger">{{$applications_count}}</span>
+              </span>
+            </a>
+
             <hr class="py-1 m-0">
             
-            <a href="{{--route('adm_apointments')--}}" class="nav-link" title="Appointment Management">
+            <a href="{{--route('adm_appointments')--}}" class="nav-link" title="Appointment Management">
               <span class="icon">
                 <i class="fa fa-calendar-alt yellow"></i>
               </span>
@@ -104,10 +120,13 @@
       <li class="nav-item">
 
         <a class="nav-link" data-toggle="collapse" href="#adminSubmenu" role="button" aria-expanded="false" aria-controls="adminSubmenu">
-          <span class="icon">
-            <i class="icon fa fa-th-list"></i>
+          <span class="tf-flex">
+            <span>
+              <i class="icon fa fa-th-list"></i>
+              <span class="navlink-active">Admin</span>
+            </span>
+            <span style="font-size: 12px"><i class="fa fa-plus"></i></span>
           </span>
-          <span class="navlink-active">Admin</span>
         </a>
 
         <ul id="adminSubmenu" class=" collapse sub-menu nav flex-sm-column">
@@ -133,8 +152,13 @@
       <li class="nav-item">
 
         <a class="nav-link" data-toggle="collapse" href="#doctorSubmenu" role="button" aria-expanded="false" aria-controls="doctorSubmenu">
-          <i class="icon fa fa-user-md"></i>
-          <span class="navlink-active">Doctor</span>
+          <span class="tf-flex">
+            <span>
+              <i class="icon fa fa-user-md"></i>
+              <span class="navlink-active">Doctor</span>
+            </span>
+            <span style="font-size: 12px"><i class="fa fa-plus"></i></span>
+          </span>
         </a>
         <ul id="doctorSubmenu" class=" collapse sub-menu nav flex-sm-column">
           <li class="nav-item">
@@ -145,11 +169,18 @@
               <span class="navlink-active">Profile</span>
             </a>
 
-            <a href="{{Auth::user()->doctor->appointments_list}}" class="nav-link">
-              <span class="icon">
-                <i class="fa fa-stopwatch"></i>
+            <a href="{{Auth::user()->doctor->appointments_list}}" class="nav-link tf-flex">
+              <span class="tf-flex">
+                <span>
+                  <span class="icon">
+                    <i class="fa fa-stopwatch"></i>
+                  </span>
+                  <span class="navlink-active">Appointments</span>
+                </span>
+                @if ($dr_appointments_count)
+                  <span class="badge badge-danger">{{$dr_appointments_count}}</span>
+                @endif
               </span>
-              <span class="navlink-active">Appointments</span>
             </a>
 
             <a href="{{Auth::user()->doctor->prescriptions_list}}" class="nav-link">
@@ -183,24 +214,29 @@
 
     <li class="nav-item">
       <a class="nav-link" data-toggle="collapse" href="#appointmentSubmenu" role="button" aria-expanded="false" aria-controls="appointmentSubmenu">
-        <span class="icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M2.85938 0H4.26562V1.45312H2.85938V0Z" fill="white" />
-              <path d="M5.67188 0H7.07812V1.45312H5.67188V0Z" fill="white" />
-              <path d="M8.48438 0H9.89062V1.45312H8.48438V0Z" fill="white" />
-              <path d="M11.2969 0H12.7031V1.45312H11.2969V0Z" fill="white" />
-              <path d="M14.1094 0H15.5156V1.45312H14.1094V0Z" fill="white" />
-              <path d="M16.9219 0H18.3281V1.45312H16.9219V0Z" fill="white" />
-              <path d="M19.7344 0H21.1406V1.45312H19.7344V0Z" fill="white" />
-              <path d="M21.1406 1.45312V4.26562H19.7344V1.45312H18.3281V4.26562H16.9219V1.45312H15.5156V4.26562H14.1094V1.45312H12.7031V4.26562H11.2969V1.45312H9.89062V4.26562H8.48438V1.45312H7.07812V4.26562H5.67188V1.45312H4.26562V4.26562H2.85938V1.45312H0V5.67188H24V1.45312H21.1406Z"
-                  fill="white" />
-              <path d="M11.2969 18.3281H12.7031V15.5156H15.5156V14.1094H12.7031V11.2969H11.2969V14.1094H8.48438V15.5156H11.2969V18.3281Z"
-                  fill="white" />
-              <path d="M0 24H24V7.07812H0V24ZM7.07812 12.7031H9.89062V9.89062H14.1094V12.7031H16.9219V16.9219H14.1094V19.7344H9.89062V16.9219H7.07812V12.7031Z"
-                  fill="white" />
-          </svg>
+        <span class="tf-flex">
+          <span>
+            <span class="icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M2.85938 0H4.26562V1.45312H2.85938V0Z" fill="white" />
+                  <path d="M5.67188 0H7.07812V1.45312H5.67188V0Z" fill="white" />
+                  <path d="M8.48438 0H9.89062V1.45312H8.48438V0Z" fill="white" />
+                  <path d="M11.2969 0H12.7031V1.45312H11.2969V0Z" fill="white" />
+                  <path d="M14.1094 0H15.5156V1.45312H14.1094V0Z" fill="white" />
+                  <path d="M16.9219 0H18.3281V1.45312H16.9219V0Z" fill="white" />
+                  <path d="M19.7344 0H21.1406V1.45312H19.7344V0Z" fill="white" />
+                  <path d="M21.1406 1.45312V4.26562H19.7344V1.45312H18.3281V4.26562H16.9219V1.45312H15.5156V4.26562H14.1094V1.45312H12.7031V4.26562H11.2969V1.45312H9.89062V4.26562H8.48438V1.45312H7.07812V4.26562H5.67188V1.45312H4.26562V4.26562H2.85938V1.45312H0V5.67188H24V1.45312H21.1406Z"
+                      fill="white" />
+                  <path d="M11.2969 18.3281H12.7031V15.5156H15.5156V14.1094H12.7031V11.2969H11.2969V14.1094H8.48438V15.5156H11.2969V18.3281Z"
+                      fill="white" />
+                  <path d="M0 24H24V7.07812H0V24ZM7.07812 12.7031H9.89062V9.89062H14.1094V12.7031H16.9219V16.9219H14.1094V19.7344H9.89062V16.9219H7.07812V12.7031Z"
+                      fill="white" />
+              </svg>
+            </span>
+            <span class="navlink-active">My Appointments</span>
+          </span>
+          <span style="font-size: 12px"><i class="fa fa-plus"></i></span>
         </span>
-        <span class="navlink-active">My Appointments</span>
       </a>
       <ul id="appointmentSubmenu" class=" collapse sub-menu nav flex-sm-column">
         <li class="nav-item">
