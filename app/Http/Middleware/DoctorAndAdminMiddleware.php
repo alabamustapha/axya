@@ -18,7 +18,7 @@ class DoctorAndAdminMiddleware
     {
         if (Auth::check()
             && (Auth::user()->isAdmin()
-                || (Auth::user()->isDoctor() && Auth::id() == request()->user->id))
+                || (Auth::user()->isDoctor() && Auth::id() == request()->user()->id))
             ) {
             return $next($request);
         }

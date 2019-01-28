@@ -18,7 +18,7 @@ class PatientMiddleware
     {
         if  (Auth::check() 
             // && ((Auth::user()->isAccountOwner()) 
-            && ((Auth::id() == request()->user->id) 
+            && ((Auth::id() == request()->user()->id) 
                 || Auth::user()->isAdmin()
                 // Currently accessed user is a patient to logged in doctor.
                 || (Auth::user()->isDoctor() && Auth::user()->doctor->inAllPatients())
