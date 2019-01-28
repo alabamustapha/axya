@@ -137,7 +137,7 @@ class Doctor extends Model
 
     public function currentWorkplace()
     {
-        return $this->hasMany(Workplace::class)->where('current', 1)->first();
+        return $this->workplaces()->where('current', 1)->first();
     }
 
     public function updateCurrentWorkplace($rq)
