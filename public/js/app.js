@@ -78661,11 +78661,40 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['admins_count'],
+
   data: function data() {
     return {
-      admins: {}
+      admins: {},
+      adminsCount: this.admins_count
     };
   },
 
@@ -78682,6 +78711,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.$Progress.start();
 
         axios.patch('/make/' + user.slug + '/staff').then(function () {
+          // this.adminsCount--;
           Event.$emit('list_admin');
 
           toast({ type: 'success', title: user.name + ' made staff successfully.' });
@@ -78704,6 +78734,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.$Progress.start();
 
         axios.patch('/make/' + user.slug + '/normal').then(function () {
+          // this.adminsCount--;
           Event.$emit('list_admin');
 
           toast({ type: 'success', title: user.name + ' made normal user successfully.' });
@@ -78765,140 +78796,197 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _vm.admins.data != undefined && _vm.admins.data.length
-      ? _c(
-          "div",
-          [
-            _vm._l(_vm.admins.data, function(admin) {
-              return _c("div", { key: admin.id }, [
-                _c("div", { staticClass: "px-3 py-1 text-sm" }, [
-                  _c("div", { staticClass: "row" }, [
-                    _c(
-                      "a",
-                      {
-                        staticClass: "d-inline-block",
-                        attrs: { href: admin.link }
-                      },
-                      [
-                        _c("img", {
-                          staticStyle: { width: "80px", height: "80px" },
-                          attrs: { src: admin.avatar, alt: "Admin Avatar" }
-                        })
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "d-inline-block text-left ml-2" },
-                      [
-                        _c("a", {
-                          attrs: { href: admin.link },
-                          domProps: { textContent: _vm._s(admin.name) }
-                        }),
-                        _vm._v(" "),
-                        _c("br"),
-                        _vm._v(" "),
-                        _c("span", [
-                          _c("span", {
-                            staticClass: "text-muted",
-                            domProps: { textContent: _vm._s(admin.type) }
-                          }),
-                          _vm._v(" "),
-                          _vm.$acl.isSuperAdmin()
-                            ? _c("span", [
-                                _vm._m(0, true),
-                                _vm._v(" "),
-                                _c(
-                                  "div",
-                                  {
-                                    staticClass:
-                                      "dropdown-menu dropdown-menu-lg",
-                                    attrs: {
-                                      "aria-labelledby": "navbarDropdown"
-                                    }
-                                  },
-                                  [
-                                    _c(
-                                      "button",
-                                      {
-                                        staticClass: "dropdown-item btn-sm",
-                                        attrs: { title: "Demote Admin" },
-                                        on: {
-                                          click: function($event) {
-                                            _vm.makeStaff(admin)
-                                          }
-                                        }
-                                      },
-                                      [
-                                        _c("i", {
-                                          staticClass: "fa fa-user-tag orange"
-                                        }),
-                                        _vm._v(
-                                          "  Demote to Staff\n                    "
-                                        )
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "button",
-                                      {
-                                        staticClass: "dropdown-item btn-sm",
-                                        attrs: { title: "Demote Admin" },
-                                        on: {
-                                          click: function($event) {
-                                            _vm.makeNormal(admin)
-                                          }
-                                        }
-                                      },
-                                      [
-                                        _c("i", {
-                                          staticClass: "fa fa-user-slash red"
-                                        }),
-                                        _vm._v(
-                                          "  Demote to Normal User\n                    "
-                                        )
-                                      ]
-                                    )
-                                  ]
-                                )
-                              ])
-                            : _vm._e()
-                        ])
-                      ]
-                    )
-                  ])
-                ])
-              ])
+    _c("div", { staticClass: "small-box bg-warning" }, [
+      _c("div", { staticClass: "inner" }, [
+        _c("div", { staticClass: "row" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-sm-7" }, [
+            _c("h1", {
+              staticClass: "font-weight-light",
+              domProps: { textContent: _vm._s(_vm.adminsCount) }
             }),
             _vm._v(" "),
-            _c("div", { staticClass: "text-center mb-0 pb-1 px-2" }, [
-              _c("div", { staticClass: "table-responsive tp-scrollbar m-0" }, [
+            _c("p", [_vm._v("Admins")])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _vm._m(1)
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "mb-4" }, [
+      _vm.admins.data != undefined && _vm.admins.data.length
+        ? _c(
+            "div",
+            [
+              _vm._l(_vm.admins.data, function(admin) {
+                return _c("div", { key: admin.id }, [
+                  _c("div", { staticClass: "px-3 py-1 text-sm" }, [
+                    _c("div", { staticClass: "row" }, [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "d-inline-block",
+                          attrs: { href: admin.link }
+                        },
+                        [
+                          _c("img", {
+                            staticStyle: { width: "80px", height: "80px" },
+                            attrs: { src: admin.avatar, alt: "Admin Avatar" }
+                          })
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "d-inline-block text-left ml-2" },
+                        [
+                          _c("a", {
+                            attrs: { href: admin.link },
+                            domProps: { textContent: _vm._s(admin.name) }
+                          }),
+                          _vm._v(" "),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("span", [
+                            _c("span", {
+                              staticClass: "text-muted",
+                              domProps: { textContent: _vm._s(admin.type) }
+                            }),
+                            _vm._v(" "),
+                            _vm.$acl.isSuperAdmin()
+                              ? _c("span", [
+                                  _vm._m(2, true),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "dropdown-menu dropdown-menu-lg",
+                                      attrs: {
+                                        "aria-labelledby": "navbarDropdown"
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "button",
+                                        {
+                                          staticClass: "dropdown-item btn-sm",
+                                          attrs: { title: "Demote Admin" },
+                                          on: {
+                                            click: function($event) {
+                                              _vm.makeStaff(admin)
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c("i", {
+                                            staticClass: "fa fa-user-tag orange"
+                                          }),
+                                          _vm._v(
+                                            "  Demote to Staff\n                    "
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "button",
+                                        {
+                                          staticClass: "dropdown-item btn-sm",
+                                          attrs: { title: "Demote Admin" },
+                                          on: {
+                                            click: function($event) {
+                                              _vm.makeNormal(admin)
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c("i", {
+                                            staticClass: "fa fa-user-slash red"
+                                          }),
+                                          _vm._v(
+                                            "  Demote to Normal User\n                    "
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                ])
+                              : _vm._e()
+                          ])
+                        ]
+                      )
+                    ])
+                  ])
+                ])
+              }),
+              _vm._v(" "),
+              _c("div", { staticClass: "text-center mb-0 pb-1 px-2" }, [
                 _c(
                   "div",
-                  { staticStyle: { "flex-flow": "nowrap" } },
+                  { staticClass: "table-responsive tp-scrollbar m-0" },
                   [
-                    _c("pagination", {
-                      attrs: { data: _vm.admins },
-                      on: { "pagination-change-page": _vm.adminsPagination }
-                    })
-                  ],
-                  1
+                    _c(
+                      "div",
+                      { staticStyle: { "flex-flow": "nowrap" } },
+                      [
+                        _c("pagination", {
+                          attrs: { data: _vm.admins },
+                          on: { "pagination-change-page": _vm.adminsPagination }
+                        })
+                      ],
+                      1
+                    )
+                  ]
                 )
               ])
-            ])
-          ],
-          2
-        )
-      : _c("div", [
-          _c("span", { staticClass: "d-inline-block" }, [
-            _vm._v("\n      Loading admins...\n    ")
-          ]),
-          _vm._v(" "),
-          _vm._m(1)
-        ])
+            ],
+            2
+          )
+        : _c("div", [
+            _c("span", { staticClass: "d-inline-block" }, [
+              _vm._v("\n      Loading admins...\n    ")
+            ]),
+            _vm._v(" "),
+            _vm._m(3)
+          ])
+    ])
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-sm-5" }, [
+      _c("i", { staticClass: "fa fa-user-tie display-3" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "p",
+      {
+        staticClass: "small-box-footer p-3 text-left text-dark",
+        staticStyle: { "font-size": "12px" }
+      },
+      [
+        _c("b", [_vm._v("ROLE:")]),
+        _vm._v(" "),
+        _c("br"),
+        _vm._v(
+          "\n            Oversees the day to day core activities of the site. "
+        ),
+        _c("br"),
+        _vm._v("\n            Delegates task to other members "),
+        _c("br"),
+        _vm._v("\n            Can access every part of the app.\n          ")
+      ]
+    )
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -79053,11 +79141,39 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['staffs_count'],
+
   data: function data() {
     return {
-      staffs: {}
+      staffs: {},
+      staffsCount: this.staffs_count
     };
   },
 
@@ -79074,6 +79190,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.$Progress.start();
 
         axios.patch('/make/' + user.slug + '/admin').then(function () {
+          // this.staffsCount--;
           Event.$emit('list_admin');
 
           toast({ type: 'success', title: user.name + ' made admin successfully.' });
@@ -79096,6 +79213,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.$Progress.start();
 
         axios.patch('/make/' + user.slug + '/normal').then(function () {
+          // this.staffsCount--;
           Event.$emit('list_admin');
 
           toast({ type: 'success', title: user.name + ' made normal user successfully.' });
@@ -79157,140 +79275,197 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _vm.staffs.data != undefined && _vm.staffs.data.length
-      ? _c(
-          "div",
-          [
-            _vm._l(_vm.staffs.data, function(staff) {
-              return _c("div", { key: staff.id }, [
-                _c("div", { staticClass: "px-3 py-1 text-sm" }, [
-                  _c("div", { staticClass: "row" }, [
-                    _c(
-                      "a",
-                      {
-                        staticClass: "d-inline-block",
-                        attrs: { href: staff.link }
-                      },
-                      [
-                        _c("img", {
-                          staticStyle: { width: "80px", height: "80px" },
-                          attrs: { src: staff.avatar, alt: "Staff Avatar" }
-                        })
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "div",
-                      { staticClass: "d-inline-block text-left ml-2" },
-                      [
-                        _c("a", {
-                          attrs: { href: staff.link },
-                          domProps: { textContent: _vm._s(staff.name) }
-                        }),
-                        _vm._v(" "),
-                        _c("br"),
-                        _vm._v(" "),
-                        _c("span", [
-                          _c("span", {
-                            staticClass: "text-muted",
-                            domProps: { textContent: _vm._s(staff.type) }
-                          }),
-                          _vm._v(" "),
-                          _vm.$acl.isSuperAdmin()
-                            ? _c("span", [
-                                _vm._m(0, true),
-                                _vm._v(" "),
-                                _c(
-                                  "div",
-                                  {
-                                    staticClass:
-                                      "dropdown-menu dropdown-menu-lg",
-                                    attrs: {
-                                      "aria-labelledby": "navbarDropdown"
-                                    }
-                                  },
-                                  [
-                                    _c(
-                                      "button",
-                                      {
-                                        staticClass: "dropdown-item btn-sm",
-                                        attrs: { title: "Promote Staff" },
-                                        on: {
-                                          click: function($event) {
-                                            _vm.makeAdmin(staff)
-                                          }
-                                        }
-                                      },
-                                      [
-                                        _c("i", {
-                                          staticClass: "fa fa-user-tie green"
-                                        }),
-                                        _vm._v(
-                                          "  Promote to Admin\n                    "
-                                        )
-                                      ]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "button",
-                                      {
-                                        staticClass: "dropdown-item btn-sm",
-                                        attrs: { title: "Demote Staff" },
-                                        on: {
-                                          click: function($event) {
-                                            _vm.makeNormal(staff)
-                                          }
-                                        }
-                                      },
-                                      [
-                                        _c("i", {
-                                          staticClass: "fa fa-user-slash red"
-                                        }),
-                                        _vm._v(
-                                          "  Demote to Normal User\n                    "
-                                        )
-                                      ]
-                                    )
-                                  ]
-                                )
-                              ])
-                            : _vm._e()
-                        ])
-                      ]
-                    )
-                  ])
-                ])
-              ])
+    _c("div", { staticClass: "small-box bg-danger" }, [
+      _c("div", { staticClass: "inner" }, [
+        _c("div", { staticClass: "row" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-sm-7" }, [
+            _c("h1", {
+              staticClass: "font-weight-light",
+              domProps: { textContent: _vm._s(_vm.staffsCount) }
             }),
             _vm._v(" "),
-            _c("div", { staticClass: "text-center mb-0 pb-1 px-2" }, [
-              _c("div", { staticClass: "table-responsive tp-scrollbar m-0" }, [
+            _c("p", [_vm._v("Staffs")])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _vm._m(1)
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "mb-4" }, [
+      _vm.staffs.data != undefined && _vm.staffs.data.length
+        ? _c(
+            "div",
+            [
+              _vm._l(_vm.staffs.data, function(staff) {
+                return _c("div", { key: staff.id }, [
+                  _c("div", { staticClass: "px-3 py-1 text-sm" }, [
+                    _c("div", { staticClass: "row" }, [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "d-inline-block",
+                          attrs: { href: staff.link }
+                        },
+                        [
+                          _c("img", {
+                            staticStyle: { width: "80px", height: "80px" },
+                            attrs: { src: staff.avatar, alt: "Staff Avatar" }
+                          })
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "d-inline-block text-left ml-2" },
+                        [
+                          _c("a", {
+                            attrs: { href: staff.link },
+                            domProps: { textContent: _vm._s(staff.name) }
+                          }),
+                          _vm._v(" "),
+                          _c("br"),
+                          _vm._v(" "),
+                          _c("span", [
+                            _c("span", {
+                              staticClass: "text-muted",
+                              domProps: { textContent: _vm._s(staff.type) }
+                            }),
+                            _vm._v(" "),
+                            _vm.$acl.isSuperAdmin()
+                              ? _c("span", [
+                                  _vm._m(2, true),
+                                  _vm._v(" "),
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "dropdown-menu dropdown-menu-lg",
+                                      attrs: {
+                                        "aria-labelledby": "navbarDropdown"
+                                      }
+                                    },
+                                    [
+                                      _c(
+                                        "button",
+                                        {
+                                          staticClass: "dropdown-item btn-sm",
+                                          attrs: { title: "Promote Staff" },
+                                          on: {
+                                            click: function($event) {
+                                              _vm.makeAdmin(staff)
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c("i", {
+                                            staticClass: "fa fa-user-tie green"
+                                          }),
+                                          _vm._v(
+                                            "  Promote to Admin\n                    "
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "button",
+                                        {
+                                          staticClass: "dropdown-item btn-sm",
+                                          attrs: { title: "Demote Staff" },
+                                          on: {
+                                            click: function($event) {
+                                              _vm.makeNormal(staff)
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _c("i", {
+                                            staticClass: "fa fa-user-slash red"
+                                          }),
+                                          _vm._v(
+                                            "  Demote to Normal User\n                    "
+                                          )
+                                        ]
+                                      )
+                                    ]
+                                  )
+                                ])
+                              : _vm._e()
+                          ])
+                        ]
+                      )
+                    ])
+                  ])
+                ])
+              }),
+              _vm._v(" "),
+              _c("div", { staticClass: "text-center mb-0 pb-1 px-2" }, [
                 _c(
                   "div",
-                  { staticStyle: { "flex-flow": "nowrap" } },
+                  { staticClass: "table-responsive tp-scrollbar m-0" },
                   [
-                    _c("pagination", {
-                      attrs: { data: _vm.staffs },
-                      on: { "pagination-change-page": _vm.staffsPagination }
-                    })
-                  ],
-                  1
+                    _c(
+                      "div",
+                      { staticStyle: { "flex-flow": "nowrap" } },
+                      [
+                        _c("pagination", {
+                          attrs: { data: _vm.staffs },
+                          on: { "pagination-change-page": _vm.staffsPagination }
+                        })
+                      ],
+                      1
+                    )
+                  ]
                 )
               ])
-            ])
-          ],
-          2
-        )
-      : _c("div", [
-          _c("span", { staticClass: "d-inline-block" }, [
-            _vm._v("\n      Loading staffs...\n    ")
-          ]),
-          _vm._v(" "),
-          _vm._m(1)
-        ])
+            ],
+            2
+          )
+        : _c("div", [
+            _c("span", { staticClass: "d-inline-block" }, [
+              _vm._v("\n      Loading staffs...\n    ")
+            ]),
+            _vm._v(" "),
+            _vm._m(3)
+          ])
+    ])
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "col-sm-5" }, [
+      _c("i", { staticClass: "fa fa-user-tag display-3" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "p",
+      {
+        staticClass: "small-box-footer p-3 text-left text-sm",
+        staticStyle: { "font-size": "12px" }
+      },
+      [
+        _c("b", [_vm._v("ROLE:")]),
+        _vm._v(" "),
+        _c("br"),
+        _vm._v(
+          "\n            Perform some delegated tasks on various sections of the app as authorized by the admin. "
+        ),
+        _c("br"),
+        _vm._v(
+          "\n            Have restricted access to some sections of the app.\n          "
+        )
+      ]
+    )
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

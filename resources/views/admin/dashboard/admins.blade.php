@@ -54,35 +54,10 @@
 
       <div class="row">
         <div class="col-md-6">
-          <!-- small box -->
-          <div class="small-box bg-warning">
-            <div class="inner">
-              <div class="row">
-                <div class="col-sm-5">
-                  <i class="fa fa-user-tie display-3"></i>
-                </div>
-                <div class="col-sm-7">
-                  <h1 class="font-weight-light">{{$admins->count()}}</h1>
 
-                  <p>Admins</p>
-                </div>
-              </div>
-            </div>
+            <admin-list :admins_count="{{$admins->count()}}" :staffs_count="{{$staffs->count()}}"></admin-list>
 
-            <p class="small-box-footer p-3 text-left text-dark" style="font-size: 12px;">
-              <b>ROLE:</b>
-              <br>
-              Oversees the day to day core activities of the site. <br>
-              Delegates task to other members <br>
-              Can access every part of the app.
-            </p>
-          </div>
-
-          <div class="mb-4">
-
-            {{-- <admin-list></admin-list> --}}
-
-            @forelse ($admins as $admin)
+            {{-- @forelse ($admins as $admin)
             <div class="px-3 py-1">
               <div class="row" title="{{$admin->name}}">
                 <a class="users-list-name" href="{{route('users.show', $admin)}}">
@@ -127,39 +102,14 @@
               <div class="empty-list">
                 0 staffs at the moment
               </div>
-            @endforelse
-          </div>
+            @endforelse --}}
         </div>
         <!-- ./col -->
         <div class="col-md-6">
-          <!-- small box -->
-          <div class="small-box bg-danger">
-            <div class="inner">
-              <div class="row">
-                <div class="col-sm-5">
-                  <i class="fa fa-user-tag display-3"></i>
-                </div>
-                <div class="col-sm-7">
-                  <h1 class="font-weight-light">{{$staffs->count()}}</h1>
-
-                  <p>Staffs</p>
-                </div>
-              </div>
-            </div>
-
-            <p class="small-box-footer p-3 text-left text-sm" style="font-size: 12px;">
-              <b>ROLE:</b>
-              <br>
-              Perform some delegated tasks on various sections of the app as authorized by the admin. <br>
-              Have restricted access to some sections of the app.
-            </p>
-          </div>
-
-          <div class="mb-4">
             
-            {{-- <staff-list></staff-list> --}}
+            <staff-list :staffs_count="{{$staffs->count()}}" :admins_count="{{$admins->count()}}"></staff-list>
             
-            @forelse ($staffs as $staff)
+            {{-- @forelse ($staffs as $staff)
             <div class="px-3 py-1">
               <div class="row" title="{{$staff->name}}">
                 <a class="users-list-name" href="{{route('users.show', $staff)}}">
@@ -204,8 +154,7 @@
               <div class="empty-list">
                 0 staffs at the moment
               </div>
-            @endforelse
-          </div>
+            @endforelse --}}
         </div>
         <!-- ./col -->
       </div> 

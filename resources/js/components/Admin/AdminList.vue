@@ -1,6 +1,31 @@
 <template>
   <div>
 
+          <!-- small box -->
+          <div class="small-box bg-warning">
+            <div class="inner">
+              <div class="row">
+                <div class="col-sm-5">
+                  <i class="fa fa-user-tie display-3"></i>
+                </div>
+                <div class="col-sm-7">
+                  <h1 class="font-weight-light" v-text="adminsCount"></h1>
+
+                  <p>Admins</p>
+                </div>
+              </div>
+            </div>
+
+            <p class="small-box-footer p-3 text-left text-dark" style="font-size: 12px;">
+              <b>ROLE:</b>
+              <br>
+              Oversees the day to day core activities of the site. <br>
+              Delegates task to other members <br>
+              Can access every part of the app.
+            </p>
+          </div>
+
+          <div class="mb-4">
     <div v-if="admins.data != undefined && admins.data.length">
       <div v-for="admin in admins.data" :key="admin.id">
         <div class="px-3 py-1 text-sm">
@@ -57,15 +82,19 @@
         <i class="fas fa-sync fa-spin"></i>
       </span>
     </div>
+          </div>
 
   </div>
 </template>
 
 <script>
   export default {
+    props: ['admins_count'],
+
     data() {
       return {
         admins   : {},
+        adminsCount: this.admins_count,
       }
     },
 
@@ -81,6 +110,7 @@
 
           axios.patch('/make/'+ user.slug +'/staff')
           .then(() => {
+            // this.adminsCount--;
             Event.$emit('list_admin');
 
             toast({type: 'success', title: user.name +' made staff successfully.'});
@@ -103,7 +133,8 @@
 
           axios.patch('/make/'+ user.slug +'/normal')
           .then(() => {
-            Event.$emit('list_admin')
+            // this.adminsCount--;
+            Event.$emit('list_admin');
 
             toast({type: 'success', title: user.name +' made normal user successfully.'});
             this.$Progress.finish();

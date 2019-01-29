@@ -242,9 +242,11 @@ class AppAdminController extends Controller
      */
     public function userCheck(Request $request, User $user)
     {
-        if ( $user->isSuperAdminUser() ) { return back(); }
+        if ( $user->isSuperAdminUser() ) { 
+            return abort(403);//response()->json( 'Super admin is unshakeable',  Response::HTTP_FORBIDDEN );//back(); = 403
+        }
 
-        return;
+        // return;
     }
 
     /**
@@ -265,8 +267,11 @@ class AppAdminController extends Controller
         }        
         $user->makeAdmin();
 
-        flash( '<b>'. $user->name .'\'s</b> access level changed to ADMIN Successfully' )->success();
-        return back(); 
+        $message = $user->name .'\'s</b> access level changed to ADMIN Successfully.';
+        return response()->json($message,  Response::HTTP_OK);//200
+
+        // flash( '<b>'. $user->name .'\'s</b> access level changed to ADMIN Successfully' )->success();
+        // return back(); 
     }
 
     public function makeStaff(Request $request, User $user)
@@ -285,8 +290,11 @@ class AppAdminController extends Controller
 
         $user->makeStaff();
 
-        flash( '<b>'. $user->name .'\'s</b> access level changed to STAFF Successfully' )->success();
-        return back(); 
+        $message = $user->name .'\'s</b> access level changed to STAFF Successfully.';
+        return response()->json($message,  Response::HTTP_OK);//200
+
+        // flash( '<b>'. $user->name .'\'s</b> access level changed to STAFF Successfully' )->success();
+        // return back(); 
     }
 
     public function makeNormal(Request $request, User $user)
@@ -295,8 +303,11 @@ class AppAdminController extends Controller
 
         $user->makeOrdinaryMember();
 
-        flash( '<b>'. $user->name .'\'s</b> access level changed to NORMAL Successfully' )->success();
-        return redirect()->back(); 
+        $message = $user->name .'\'s</b> access level changed to NORMAL Successfully.';
+        return response()->json($message,  Response::HTTP_OK);//200
+
+        // flash( '<b>'. $user->name .'\'s</b> access level changed to NORMAL Successfully' )->success();
+        // return redirect()->back(); 
     }
 
 

@@ -1,5 +1,29 @@
 <template>
   <div>
+          <!-- small box -->
+          <div class="small-box bg-danger">
+            <div class="inner">
+              <div class="row">
+                <div class="col-sm-5">
+                  <i class="fa fa-user-tag display-3"></i>
+                </div>
+                <div class="col-sm-7">
+                  <h1 class="font-weight-light" v-text="staffsCount"></h1>
+
+                  <p>Staffs</p>
+                </div>
+              </div>
+            </div>
+
+            <p class="small-box-footer p-3 text-left text-sm" style="font-size: 12px;">
+              <b>ROLE:</b>
+              <br>
+              Perform some delegated tasks on various sections of the app as authorized by the admin. <br>
+              Have restricted access to some sections of the app.
+            </p>
+          </div>
+
+          <div class="mb-4">
 
     <div v-if="staffs.data != undefined && staffs.data.length">
       <div v-for="staff in staffs.data" :key="staff.id">
@@ -57,15 +81,19 @@
         <i class="fas fa-sync fa-spin"></i>
       </span>
     </div>
+          </div>
 
   </div>
 </template>
 
 <script>
   export default {
+    props: ['staffs_count'],
+
     data() {
       return {
         staffs   : {},
+        staffsCount: this.staffs_count,
       }
     },
 
@@ -81,6 +109,7 @@
 
           axios.patch('/make/'+ user.slug +'/admin')
           .then(() => {
+            // this.staffsCount--;
             Event.$emit('list_admin');
 
             toast({type: 'success', title: user.name +' made admin successfully.'});
@@ -103,6 +132,7 @@
 
           axios.patch('/make/'+ user.slug +'/normal')
           .then(() => {
+            // this.staffsCount--;
             Event.$emit('list_admin')
 
             toast({type: 'success', title: user.name +' made normal user successfully.'});
