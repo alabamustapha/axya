@@ -77952,10 +77952,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -77967,10 +77963,56 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   methods: {
 
+    /**
+     * Block a user on the platform.
+     */
+    revokeLicense: function revokeLicense(doctor) {
+      var _this = this;
+
+      if (confirm('You really want to revoke this doctor\'s license?')) {
+        this.$Progress.start();
+
+        axios.patch('/' + doctor.slug + '/revoke').then(function () {
+          doctor.revoked = 1;
+          doctor.license_status = 'Revoked';
+
+          toast({ type: 'success', title: 'Dr. ' + doctor.name + '\'s license is now revoked on this platform.' });
+          _this.$Progress.finish();
+        }).catch(function () {
+          toast({ type: 'fail', title: 'An error occurred! Try again.' });
+          _this.$Progress.fail();
+        });
+      }
+    },
+
+
+    /**
+     * Block a doctor on the platform.
+     */
+    restoreLicense: function restoreLicense(doctor) {
+      var _this2 = this;
+
+      if (confirm('You really want to restore this doctor\'s license?')) {
+        this.$Progress.start();
+
+        axios.patch('/' + doctor.slug + '/restore').then(function () {
+          doctor.revoked = 0;
+          doctor.license_status = 'Active';
+
+          toast({ type: 'success', title: 'Dr. ' + doctor.name + '\'s license is now restored.' });
+          _this2.$Progress.finish();
+        }).catch(function () {
+          toast({ type: 'fail', title: 'An error occurred! Try again.' });
+          _this2.$Progress.fail();
+        });
+      }
+    },
+
+
     /** ~~~~ MAKE NEW SEARCHES ~~~~*/
     /*******************************/
     searchDoctors: function searchDoctors() {
-      var _this = this;
+      var _this3 = this;
 
       // $parent needed to access the root instance at ...resources\js\app.js
       var query = this.$parent.search;
@@ -77978,7 +78020,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       axios.get(searchUrl + query).then(function (_ref) {
         var data = _ref.data;
-        return _this.doctors = data;
+        return _this3.doctors = data;
       });
     },
 
@@ -77986,7 +78028,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     /*~~~~ PAGINATION OF MODELS ~~~~*/
     /*******************************/
     doctorsPagination: function doctorsPagination() {
-      var _this2 = this;
+      var _this4 = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
@@ -77994,7 +78036,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var searchUrl = appUrl + '/searches/doctors?q=';
 
       axios.get(searchUrl + query + '&page=' + page).then(function (response) {
-        _this2.doctors = response.data;
+        _this4.doctors = response.data;
       });
     }
   },
@@ -78002,10 +78044,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   /**~~~~ LOAD ON NEW SEARCH ~~~~*/
   /*******************************/
   created: function created() {
-    var _this3 = this;
+    var _this5 = this;
 
     Event.$on('search_doctor', function () {
-      _this3.searchDoctors();
+      _this5.searchDoctors();
     });
   }
 });
@@ -78243,6 +78285,31 @@ var render = function() {
                                       ]
                                     ),
                                     _vm._v(" "),
+                                    _c(
+                                      "span",
+                                      {
+                                        staticClass:
+                                          "list-group-item p-1 tf-flex"
+                                      },
+                                      [
+                                        _vm._m(6, true),
+                                        _vm._v(" "),
+                                        _c(
+                                          "strong",
+                                          {
+                                            class: doctor.revoked
+                                              ? " red"
+                                              : " green"
+                                          },
+                                          [
+                                            _vm._v(
+                                              _vm._s(doctor.license_status)
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    ),
+                                    _vm._v(" "),
                                     _vm.$acl.isSuperAdmin()
                                       ? _c(
                                           "span",
@@ -78250,7 +78317,7 @@ var render = function() {
                                             staticClass: "list-group-item p-1"
                                           },
                                           [
-                                            _vm._m(6, true),
+                                            _vm._m(7, true),
                                             _vm._v(" "),
                                             _c(
                                               "span",
@@ -78266,16 +78333,70 @@ var render = function() {
                                                 }
                                               },
                                               [
-                                                _vm._m(7, true),
-                                                _vm._v(" "),
-                                                _vm._m(8, true),
-                                                _vm._v(" "),
-                                                doctor.blocked
+                                                doctor.revoked
                                                   ? _c("span", [
-                                                      _vm._m(9, true)
+                                                      _c(
+                                                        "button",
+                                                        {
+                                                          staticClass:
+                                                            "dropdown-item",
+                                                          attrs: {
+                                                            type: "submit",
+                                                            title:
+                                                              "Restore license back to this doctor on this app"
+                                                          },
+                                                          on: {
+                                                            click: function(
+                                                              $event
+                                                            ) {
+                                                              _vm.restoreLicense(
+                                                                doctor
+                                                              )
+                                                            }
+                                                          }
+                                                        },
+                                                        [
+                                                          _c("i", {
+                                                            staticClass:
+                                                              "fa fa-id-card teal"
+                                                          }),
+                                                          _vm._v(
+                                                            "  Restore License\n                        "
+                                                          )
+                                                        ]
+                                                      )
                                                     ])
                                                   : _c("span", [
-                                                      _vm._m(10, true)
+                                                      _c(
+                                                        "button",
+                                                        {
+                                                          staticClass:
+                                                            "dropdown-item",
+                                                          attrs: {
+                                                            type: "submit",
+                                                            title:
+                                                              "Revoke license from this doctor on this app"
+                                                          },
+                                                          on: {
+                                                            click: function(
+                                                              $event
+                                                            ) {
+                                                              _vm.revokeLicense(
+                                                                doctor
+                                                              )
+                                                            }
+                                                          }
+                                                        },
+                                                        [
+                                                          _c("i", {
+                                                            staticClass:
+                                                              "fa fa-id-card orange"
+                                                          }),
+                                                          _vm._v(
+                                                            "  Revoke License\n                        "
+                                                          )
+                                                        ]
+                                                      )
                                                     ])
                                               ]
                                             )
@@ -78389,6 +78510,15 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("span", [
+      _c("i", { staticClass: "fa fa-id-card-alt" }),
+      _vm._v("  License:")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c(
       "button",
       {
@@ -78403,90 +78533,6 @@ var staticRenderFns = [
         }
       },
       [_c("i", { staticClass: "fa fa-cog" })]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "dropdown-item",
-        attrs: {
-          type: "submit",
-          onclick:
-            "return confirm('You really want to demote this admin to NORMAL Doctor?');",
-          title: "Withdraw license on this app"
-        }
-      },
-      [
-        _c("i", { staticClass: "fa fa-doctor-slash orange" }),
-        _vm._v("  Revoke License\n                        ")
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "dropdown-item",
-        attrs: {
-          type: "submit",
-          onclick:
-            "return confirm('You really want to demote this admin to NORMAL Doctor?');",
-          title: "Withdraw license on this app"
-        }
-      },
-      [
-        _c("i", { staticClass: "fa fa-doctor-slash teal" }),
-        _vm._v("  Restore License\n                        ")
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "dropdown-item",
-        attrs: {
-          type: "submit",
-          onclick:
-            "return confirm('You really want to demote this admin to NORMAL Doctor?');",
-          title: "Demote Admin"
-        }
-      },
-      [
-        _c("i", { staticClass: "fa fa-ban green" }),
-        _vm._v("  UnBlock\n                          ")
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "dropdown-item",
-        attrs: {
-          type: "submit",
-          onclick:
-            "return confirm('You really want to demote this admin to NORMAL Doctor?');",
-          title: "Demote Admin"
-        }
-      },
-      [
-        _c("i", { staticClass: "fa fa-ban red" }),
-        _vm._v("  Block\n                          ")
-      ]
     )
   }
 ]

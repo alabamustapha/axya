@@ -49,6 +49,9 @@
                     <span class="list-group-item p-1 tf-flex">
                       <span><i class="fa fa-info-circle"></i>&nbsp; Status:</span> <strong :class="doctor.is_active ? ' green':' red'">{{doctor.availability_text}}</strong>
                     </span>
+                    <span class="list-group-item p-1 tf-flex">
+                      <span><i class="fa fa-id-card-alt"></i>&nbsp; License:</span> <strong :class="doctor.revoked ? ' red':' green'">{{doctor.license_status}}</strong>
+                    </span>
 
                     <span class="list-group-item p-1" v-if="$acl.isSuperAdmin()">
 
@@ -57,23 +60,16 @@
                       </button>
                       <span class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown" style="font-size:12px;">
 
-                          <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL Doctor?');" title="Withdraw license on this app">
-                            <i class="fa fa-doctor-slash orange"></i>&nbsp; Revoke License
+                        <span v-if="doctor.revoked">
+                          <button type="submit" class="dropdown-item" @click="restoreLicense(doctor)" title="Restore license back to this doctor on this app">
+                            <i class="fa fa-id-card teal"></i>&nbsp; Restore License
                           </button>
-                          <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL Doctor?');" title="Withdraw license on this app">
-                            <i class="fa fa-doctor-slash teal"></i>&nbsp; Restore License
-                          </button>
-
-                          <span v-if="doctor.blocked">
-                            <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL Doctor?');" title="Demote Admin">
-                              <i class="fa fa-ban green"></i>&nbsp; UnBlock
-                            </button>
                           </span>
                           <span v-else>
-                            <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL Doctor?');" title="Demote Admin">
-                              <i class="fa fa-ban red"></i>&nbsp; Block
-                            </button>
-                          </span>
+                          <button type="submit" class="dropdown-item" @click="revokeLicense(doctor)" title="Revoke license from this doctor on this app">
+                            <i class="fa fa-id-card orange"></i>&nbsp; Revoke License
+                          </button>
+                        </span>
 
                       </span>
 
@@ -114,6 +110,52 @@
     },
 
     methods: {
+
+      /**
+       * Block a user on the platform.
+       */
+      revokeLicense(doctor) {
+
+        if (confirm('You really want to revoke this doctor\'s license?')){
+          this.$Progress.start();
+
+          axios.patch('/'+ doctor.slug + '/revoke')
+          .then(() => {
+            doctor.revoked = 1;
+            doctor.license_status = 'Revoked';
+
+            toast({type: 'success', title: 'Dr. '+ doctor.name +'\'s license is now revoked on this platform.'});
+            this.$Progress.finish();
+          })
+          .catch(() => {
+            toast({type: 'fail', title: 'An error occurred! Try again.'});
+            this.$Progress.fail();
+          });
+        }
+      },
+
+      /**
+       * Block a doctor on the platform.
+       */
+      restoreLicense(doctor) {
+
+        if (confirm('You really want to restore this doctor\'s license?')){
+          this.$Progress.start();
+
+          axios.patch('/'+ doctor.slug + '/restore')
+          .then(() => {
+            doctor.revoked = 0;
+            doctor.license_status = 'Active';
+
+            toast({type: 'success', title: 'Dr. '+ doctor.name +'\'s license is now restored.'});
+            this.$Progress.finish();
+          })
+          .catch(() => {
+            toast({type: 'fail', title: 'An error occurred! Try again.'});
+            this.$Progress.fail();
+          });
+        }
+      },
 
       /** ~~~~ MAKE NEW SEARCHES ~~~~*/
       /*******************************/
