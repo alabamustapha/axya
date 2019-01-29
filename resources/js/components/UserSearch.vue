@@ -39,7 +39,7 @@
                       <span><i class="fa fa-user-check"></i>&nbsp; Type:</span> <strong>{{user.type}}</strong>
                     </span>
                     <span class="list-group-item p-1 tf-flex">
-                      <span><i class="fa fa-info-circle"></i>&nbsp; Status:</span> <strong :class="user.blocked ? ' red':' green'">{{user.status}}</strong>
+                      <span><i class="fa fa-info-circle"></i>&nbsp; Status:</span> <strong :class="(user.blocked) ? ' red':' green'">{{user.status}}</strong>
                     </span>
 
                     <span class="list-group-item p-1" v-if="$acl.isSuperAdmin()">
@@ -70,12 +70,12 @@
                           </span>
 
                           <span class="d-block" v-if="user.blocked">
-                            <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
+                            <button type="submit" class="dropdown-item" @click="unblockUser(user)" title="Unblock user">
                               <i class="fa fa-ban green"></i>&nbsp; UnBlock
                             </button>
                           </span>
                           <span class="d-block" v-else>
-                            <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
+                            <button type="submit" class="dropdown-item" @click="blockUser(user)" title="Block user">
                               <i class="fa fa-ban red"></i>&nbsp; Block
                             </button>
                           </span>
@@ -114,10 +114,57 @@
     data() {
       return {
         users   : {},
+        blockedText: '',
       }
     },
 
     methods: {
+
+      /**
+       * Block a user on the platform.
+       */
+      blockUser(user) {
+
+        if (confirm('You really want to block this user?')){
+          this.$Progress.start();
+
+          axios.patch('/'+ user.slug + '/block')
+          .then(() => {
+            user.blocked = 1;
+            user.status = 'Blocked';
+
+            toast({type: 'success', title: user.name +' is now blocked on this platform.'});
+            this.$Progress.finish();
+          })
+          .catch(() => {
+            toast({type: 'fail', title: 'An error occurred! Try again.'});
+            this.$Progress.fail();
+          });
+        }
+      },
+
+      /**
+       * Block a user on the platform.
+       */
+      unblockUser(user) {
+
+        if (confirm('You really want to unblock this user?')){
+          this.$Progress.start();
+
+          axios.patch('/'+ user.slug + '/unblock')
+          .then(() => {
+            user.blocked = 0;
+            user.status = 'Active';
+
+            toast({type: 'success', title: user.name +' is now unblocked.'});
+            this.$Progress.finish();
+          })
+          .catch(() => {
+            toast({type: 'fail', title: 'An error occurred! Try again.'});
+            this.$Progress.fail();
+          });
+        }
+      },
 
       /** ~~~~ MAKE NEW SEARCHES ~~~~*/
       /*******************************/

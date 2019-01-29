@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Notifications\Admin\AdminPasswordResetNotification;
 use App\Notifications\Admin\AdminPasswordChangeNotification;
+use App\Notifications\Admin\AdminPasswordResetNotification;
 use App\User;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Symfony\Component\HttpFoundation\Response;
 
 class AppAdminController extends Controller
 {
@@ -299,14 +300,21 @@ class AppAdminController extends Controller
         return redirect()->back(); 
     }
 
+
+
+    /**
+     * User related blocks.
+     */
     public function blockUser(Request $request, User $user)
     {
         $this->userCheck($request, $user);
 
         $user->block();
 
-        flash( '<b>'. $user->name .' is now blocked on this platform.' )->success();
-        return redirect()->back(); 
+        return response()->json($user->name .' is now blocked on this platform.',  Response::HTTP_OK);//200
+
+        // flash( '<b>'. $user->name .' is now blocked on this platform.' )->success();
+        // return redirect()->back(); 
     }
 
     public function unblockUser(Request $request, User $user)
@@ -315,7 +323,9 @@ class AppAdminController extends Controller
 
         $user->unblock();
 
-        flash( '<b>'. $user->name .' is now unblocked on this platform.' )->success();
-        return redirect()->back(); 
+        return response()->json($user->name .' is now unblocked.',  Response::HTTP_OK);//200
+
+        // flash( '<b>'. $user->name .' is now unblocked.' )->success();
+        // return redirect()->back(); 
     }
 }

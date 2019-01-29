@@ -77228,17 +77228,64 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      users: {}
+      users: {},
+      blockedText: ''
     };
   },
 
 
   methods: {
 
+    /**
+     * Block a user on the platform.
+     */
+    blockUser: function blockUser(user) {
+      var _this = this;
+
+      if (confirm('You really want to block this user?')) {
+        this.$Progress.start();
+
+        axios.patch('/' + user.slug + '/block').then(function () {
+          user.blocked = 1;
+          user.status = 'Blocked';
+
+          toast({ type: 'success', title: user.name + ' is now blocked on this platform.' });
+          _this.$Progress.finish();
+        }).catch(function () {
+          toast({ type: 'fail', title: 'An error occurred! Try again.' });
+          _this.$Progress.fail();
+        });
+      }
+    },
+
+
+    /**
+     * Block a user on the platform.
+     */
+    unblockUser: function unblockUser(user) {
+      var _this2 = this;
+
+      if (confirm('You really want to unblock this user?')) {
+        this.$Progress.start();
+
+        axios.patch('/' + user.slug + '/unblock').then(function () {
+          user.blocked = 0;
+          user.status = 'Active';
+
+          toast({ type: 'success', title: user.name + ' is now unblocked.' });
+          _this2.$Progress.finish();
+        }).catch(function () {
+          toast({ type: 'fail', title: 'An error occurred! Try again.' });
+          _this2.$Progress.fail();
+        });
+      }
+    },
+
+
     /** ~~~~ MAKE NEW SEARCHES ~~~~*/
     /*******************************/
     searchUsers: function searchUsers() {
-      var _this = this;
+      var _this3 = this;
 
       // $parent needed to access the root instance at ...resources\js\app.js
       var query = this.$parent.search;
@@ -77246,7 +77293,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       axios.get(searchUrl + query).then(function (_ref) {
         var data = _ref.data;
-        return _this.users = data;
+        return _this3.users = data;
       });
     },
 
@@ -77254,7 +77301,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     /*~~~~ PAGINATION OF MODELS ~~~~*/
     /*******************************/
     usersPagination: function usersPagination() {
-      var _this2 = this;
+      var _this4 = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
@@ -77262,7 +77309,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var searchUrl = appUrl + '/searches/users?q=';
 
       axios.get(searchUrl + query + '&page=' + page).then(function (response) {
-        _this2.users = response.data;
+        _this4.users = response.data;
       });
     }
   },
@@ -77270,10 +77317,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   /**~~~~ LOAD ON NEW SEARCH ~~~~*/
   /*******************************/
   created: function created() {
-    var _this3 = this;
+    var _this5 = this;
 
     Event.$on('search_user', function () {
-      _this3.searchUsers();
+      _this5.searchUsers();
     });
   }
 });
@@ -77501,12 +77548,73 @@ var render = function() {
                                                 ? _c(
                                                     "span",
                                                     { staticClass: "d-block" },
-                                                    [_vm._m(8, true)]
+                                                    [
+                                                      _c(
+                                                        "button",
+                                                        {
+                                                          staticClass:
+                                                            "dropdown-item",
+                                                          attrs: {
+                                                            type: "submit",
+                                                            title:
+                                                              "Unblock user"
+                                                          },
+                                                          on: {
+                                                            click: function(
+                                                              $event
+                                                            ) {
+                                                              _vm.unblockUser(
+                                                                user
+                                                              )
+                                                            }
+                                                          }
+                                                        },
+                                                        [
+                                                          _c("i", {
+                                                            staticClass:
+                                                              "fa fa-ban green"
+                                                          }),
+                                                          _vm._v(
+                                                            "  UnBlock\n                          "
+                                                          )
+                                                        ]
+                                                      )
+                                                    ]
                                                   )
                                                 : _c(
                                                     "span",
                                                     { staticClass: "d-block" },
-                                                    [_vm._m(9, true)]
+                                                    [
+                                                      _c(
+                                                        "button",
+                                                        {
+                                                          staticClass:
+                                                            "dropdown-item",
+                                                          attrs: {
+                                                            type: "submit",
+                                                            title: "Block user"
+                                                          },
+                                                          on: {
+                                                            click: function(
+                                                              $event
+                                                            ) {
+                                                              _vm.blockUser(
+                                                                user
+                                                              )
+                                                            }
+                                                          }
+                                                        },
+                                                        [
+                                                          _c("i", {
+                                                            staticClass:
+                                                              "fa fa-ban red"
+                                                          }),
+                                                          _vm._v(
+                                                            "  Block\n                          "
+                                                          )
+                                                        ]
+                                                      )
+                                                    ]
                                                   )
                                             ]
                                           )
@@ -77675,48 +77783,6 @@ var staticRenderFns = [
       [
         _c("i", { staticClass: "fa fa-user-tag indigo" }),
         _vm._v("  Upgrade to Staff\n                            ")
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "dropdown-item",
-        attrs: {
-          type: "submit",
-          onclick:
-            "return confirm('You really want to demote this admin to NORMAL User?');",
-          title: "Demote Admin"
-        }
-      },
-      [
-        _c("i", { staticClass: "fa fa-ban green" }),
-        _vm._v("  UnBlock\n                          ")
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "dropdown-item",
-        attrs: {
-          type: "submit",
-          onclick:
-            "return confirm('You really want to demote this admin to NORMAL User?');",
-          title: "Demote Admin"
-        }
-      },
-      [
-        _c("i", { staticClass: "fa fa-ban red" }),
-        _vm._v("  Block\n                          ")
       ]
     )
   }
