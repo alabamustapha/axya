@@ -78689,12 +78689,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['admins_count'],
+  props: ['admins_count', 'staffs_count'],
 
   data: function data() {
     return {
       admins: {},
-      adminsCount: this.admins_count
+      adminsCount: this.admins_count,
+      staffsCount: this.staffs_count
     };
   },
 
@@ -78711,8 +78712,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.$Progress.start();
 
         axios.patch('/make/' + user.slug + '/staff').then(function () {
-          // this.adminsCount--;
-          Event.$emit('list_admin');
+          var admCount = _this.adminsCount - 1 >= 0 ? _this.adminsCount - 1 : 0;
+          var stfCount = _this.staffsCount + 1;
+
+          Event.$emit('list_admin', stfCount, admCount);
 
           toast({ type: 'success', title: user.name + ' made staff successfully.' });
           _this.$Progress.finish();
@@ -78734,8 +78737,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.$Progress.start();
 
         axios.patch('/make/' + user.slug + '/normal').then(function () {
-          // this.adminsCount--;
-          Event.$emit('list_admin');
+          // Reduce admins count by 1.
+          var admCount = _this2.adminsCount - 1 >= 0 ? _this2.adminsCount - 1 : 0;
+          Event.$emit('list_admin', admCount, _this2.staffsCount);
 
           toast({ type: 'success', title: user.name + ' made normal user successfully.' });
           _this2.$Progress.finish();
@@ -78781,7 +78785,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     var _this5 = this;
 
     this.listAdmins();
-    Event.$on('list_admin', function () {
+    Event.$on('list_admin', function (stfCount, admCount) {
+      _this5.staffsCount = stfCount;
+      _this5.adminsCount = admCount;
+
       _this5.listAdmins();
     });
   }
@@ -78885,7 +78892,7 @@ var render = function() {
                                             staticClass: "fa fa-user-tag orange"
                                           }),
                                           _vm._v(
-                                            "  Demote to Staff\n                    "
+                                            "  Demote to Staff\n                      "
                                           )
                                         ]
                                       ),
@@ -78906,7 +78913,7 @@ var render = function() {
                                             staticClass: "fa fa-user-slash red"
                                           }),
                                           _vm._v(
-                                            "  Demote to Normal User\n                    "
+                                            "  Demote to Normal User\n                      "
                                           )
                                         ]
                                       )
@@ -78946,7 +78953,7 @@ var render = function() {
           )
         : _c("div", [
             _c("span", { staticClass: "d-inline-block" }, [
-              _vm._v("\n      Loading admins...\n    ")
+              _vm._v("\n        Loading admins...\n      ")
             ]),
             _vm._v(" "),
             _vm._m(3)
@@ -78977,13 +78984,11 @@ var staticRenderFns = [
         _c("b", [_vm._v("ROLE:")]),
         _vm._v(" "),
         _c("br"),
-        _vm._v(
-          "\n            Oversees the day to day core activities of the site. "
-        ),
+        _vm._v("\n      Oversees the day to day core activities of the site. "),
         _c("br"),
-        _vm._v("\n            Delegates task to other members "),
+        _vm._v("\n      Delegates task to other members "),
         _c("br"),
-        _vm._v("\n            Can access every part of the app.\n          ")
+        _vm._v("\n      Can access every part of the app.\n    ")
       ]
     )
   },
@@ -79168,12 +79173,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['staffs_count'],
+  props: ['staffs_count', 'admins_count'],
 
   data: function data() {
     return {
       staffs: {},
-      staffsCount: this.staffs_count
+      staffsCount: this.staffs_count,
+      adminsCount: this.admins_count
     };
   },
 
@@ -79190,8 +79196,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.$Progress.start();
 
         axios.patch('/make/' + user.slug + '/admin').then(function () {
-          // this.staffsCount--;
-          Event.$emit('list_admin');
+          var admCount = _this.adminsCount + 1;
+          var stfCount = _this.staffsCount - 1 >= 0 ? _this.staffsCount - 1 : 0;
+
+          Event.$emit('list_admin', stfCount, admCount);
 
           toast({ type: 'success', title: user.name + ' made admin successfully.' });
           _this.$Progress.finish();
@@ -79213,8 +79221,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         this.$Progress.start();
 
         axios.patch('/make/' + user.slug + '/normal').then(function () {
-          // this.staffsCount--;
-          Event.$emit('list_admin');
+          // Reduce staffs count by 1.
+          var stfCount = _this2.staffsCount - 1 >= 0 ? _this2.staffsCount - 1 : 0;
+          Event.$emit('list_admin', stfCount, _this2.adminsCount);
 
           toast({ type: 'success', title: user.name + ' made normal user successfully.' });
           _this2.$Progress.finish();
@@ -79260,7 +79269,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     var _this5 = this;
 
     this.listStaffs();
-    Event.$on('list_admin', function () {
+    Event.$on('list_admin', function (stfCount, admCount) {
+      _this5.staffsCount = stfCount;
+      _this5.adminsCount = admCount;
+
       _this5.listStaffs();
     });
   }
@@ -79364,7 +79376,7 @@ var render = function() {
                                             staticClass: "fa fa-user-tie green"
                                           }),
                                           _vm._v(
-                                            "  Promote to Admin\n                    "
+                                            "  Promote to Admin\n                      "
                                           )
                                         ]
                                       ),
@@ -79385,7 +79397,7 @@ var render = function() {
                                             staticClass: "fa fa-user-slash red"
                                           }),
                                           _vm._v(
-                                            "  Demote to Normal User\n                    "
+                                            "  Demote to Normal User\n                      "
                                           )
                                         ]
                                       )
@@ -79425,7 +79437,7 @@ var render = function() {
           )
         : _c("div", [
             _c("span", { staticClass: "d-inline-block" }, [
-              _vm._v("\n      Loading staffs...\n    ")
+              _vm._v("\n        Loading staffs...\n      ")
             ]),
             _vm._v(" "),
             _vm._m(3)
@@ -79457,11 +79469,11 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("br"),
         _vm._v(
-          "\n            Perform some delegated tasks on various sections of the app as authorized by the admin. "
+          "\n      Perform some delegated tasks on various sections of the app as authorized by the admin. "
         ),
         _c("br"),
         _vm._v(
-          "\n            Have restricted access to some sections of the app.\n          "
+          "\n      Have restricted access to some sections of the app.\n    "
         )
       ]
     )
