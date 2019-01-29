@@ -129,6 +129,9 @@ Route::prefix('{user}')->group(function(){
   Route::patch('/image-upload',     'UserController@imageUpload')->name('image.upload');
   Route::patch('/avatar-upload',    'UserController@avatarUpload')->name('user.avatar.upload');
   Route::get('/avatar-delete',      'UserController@avatarDelete')->name('user.avatar.delete');
+  
+  Route::patch('/block','AppAdminController@blockUser')->name('block_user');
+  Route::patch('/unblock','AppAdminController@unblockUser')->name('unblock_user');
 });
 
 Route::get('image/{image}',         'ImageController@destroy')->name('image.destroy');

@@ -328,6 +328,18 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->update();
     }
 
+    public function block() 
+    {
+        $this->blocked = '1';
+        $this->update();
+    }
+
+    public function unblock() 
+    {
+        $this->blocked = '0';
+        $this->update();
+    }
+
 
     /* --- - User Roles - --- */
 

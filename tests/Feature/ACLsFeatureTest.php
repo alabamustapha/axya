@@ -17,6 +17,7 @@ class ACLsFeatureTest extends TestCase
 
         // Create a Super Admin
         $this->superadmin = factory(User::class)->states('superadmin')->create();
+        $this->admin = factory(User::class)->states('admin')->create();
     } 
 
     /** @test */
@@ -135,6 +136,44 @@ class ACLsFeatureTest extends TestCase
             ->patch(route('make-staff', $admin), $updated_data)
             // ->assertStatus(302) // ->assertStatus(200)
             // ->assertRedirect(route('dashboard-admins'))
+            ;
+
+        $this->assertDatabaseHas('users', $updated_data);
+    }
+
+
+
+    /** @test */
+    public function update_a_user_can_be_blocked()
+    {
+        $this->actingAs($this->admin);
+
+        // Create a User
+        $user = factory(User::class)->create(['blocked' => '0']);
+
+        // Block the user
+        $updated_data = [ 'id' => $user->id, 'blocked' => '1']; 
+
+        $this
+            ->patch(route('block_user', $user), $updated_data)
+            ;
+
+        $this->assertDatabaseHas('users', $updated_data);
+    }
+
+    /** @test */
+    public function update_a_user_can_be_unblocked()
+    {
+        $this->actingAs($this->admin);
+
+        // Create a User
+        $user = factory(User::class)->create(['blocked' => '1']);
+
+        // Unblock the user
+        $updated_data = [ 'id' => $user->id, 'blocked' => '0']; 
+
+        $this
+            ->patch(route('unblock_user', $user), $updated_data)
             ;
 
         $this->assertDatabaseHas('users', $updated_data);

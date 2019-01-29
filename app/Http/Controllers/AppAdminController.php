@@ -236,11 +236,23 @@ class AppAdminController extends Controller
 
 
     /**
+     * Check if user is available and not superadmin.
+     */
+    public function userCheck(Request $request, User $user)
+    {        
+        $user = User::whereSlug($user->slug)->first();
+        
+        if ( $user->isSuperAdminUser() ) { return back(); }
+
+        return;
+    }
+
+    /**
      *
      */
     public function makeAdmin(Request $request, User $user)
     {        
-        $user = User::whereSlug($user->slug)->first();
+        $this->userCheck($request, $user);
 
         if (! $user->is_verified) {
             flash('This user\'s account has not been verified. A user must be verified to become an admin.');
@@ -259,9 +271,7 @@ class AppAdminController extends Controller
 
     public function makeStaff(Request $request, User $user)
     {
-        $user = User::whereSlug($user->slug)->first();
-
-        if ($user->isSuperAdminUser() ) { return back(); }
+        $this->userCheck($request, $user);
 
         if (! $user->is_verified) {
             flash('This user\'s account has not been verified. A user must be verified to become a staff.');
@@ -281,13 +291,31 @@ class AppAdminController extends Controller
 
     public function makeNormal(Request $request, User $user)
     {
-        $user = User::whereSlug($user->slug)->first();
-
-        if ($user->isSuperAdminUser() ) { return back(); }
+        $this->userCheck($request, $user);
 
         $user->makeOrdinaryMember();
 
         flash( '<b>'. $user->name .'\'s</b> access level changed to NORMAL Successfully' )->success();
+        return redirect()->back(); 
+    }
+
+    public function blockUser(Request $request, User $user)
+    {
+        $this->userCheck($request, $user);
+
+        $user->block();
+
+        flash( '<b>'. $user->name .' is now blocked on this platform.' )->success();
+        return redirect()->back(); 
+    }
+
+    public function unblockUser(Request $request, User $user)
+    {
+        $this->userCheck($request, $user);
+
+        $user->unblock();
+
+        flash( '<b>'. $user->name .' is now unblocked on this platform.' )->success();
         return redirect()->back(); 
     }
 }
