@@ -246,7 +246,13 @@ class AppAdminController extends Controller
             return abort(403);//response()->json( 'Super admin is unshakeable',  Response::HTTP_FORBIDDEN );//back(); = 403
         }
 
-        // return;
+        if (! $user->is_verified) {
+            return abort(406);//HTTP_NOT_ACCEPTABLE = 406
+            // flash('This user\'s account has not been verified. A user must be verified to become an admin.');
+            // return back();
+        }
+
+        return;
     }
 
     /**
@@ -255,11 +261,6 @@ class AppAdminController extends Controller
     public function makeAdmin(Request $request, User $user)
     {        
         $this->userCheck($request, $user);
-
-        if (! $user->is_verified) {
-            flash('This user\'s account has not been verified. A user must be verified to become an admin.');
-            return back();
-        }
 
         if ($user->acl == '1') {
             flash( '<b>'. $user->name .'</b> is already an ADMIN' )->info();
@@ -277,11 +278,6 @@ class AppAdminController extends Controller
     public function makeStaff(Request $request, User $user)
     {
         $this->userCheck($request, $user);
-
-        if (! $user->is_verified) {
-            flash('This user\'s account has not been verified. A user must be verified to become a staff.');
-            return back();
-        }
 
         if ($user->acl == '2'){
             flash( '<b>'. $user->name .'</b> is already a STAFF' )->info();

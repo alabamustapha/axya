@@ -48,37 +48,22 @@
                           <i class="fa fa-cog"></i>
                       </button>
                       <span class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown" style="font-size:12px;">
+                        <span class="d-block" v-if="! user.is_administrator || ! user.is_staff_user">
+                          <button class="dropdown-item" @click="makeStaff(user)" title="Promote to Staff">
+                            <i class="fa fa-user-tag indigo"></i>&nbsp; Upgrade to Staff
+                          </button>
+                        </span>
 
-                          <span class="d-block" v-if="user.is_administrator || user.is_staff_user">
-                            <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
-                              <i class="fa fa-user-slash orange"></i>&nbsp; Demote to Normal User
-                            </button>
-                          </span>
-
-                          <span class="d-block" v-else>
-                            <span class="d-block" v-if="user.is_administrator">
-                              <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to STAFF?');" title="Demote Admin">
-                                <i class="fa fa-user-tie teal"></i>&nbsp; Upgrade to Admin
-                              </button>
-                            </span>
-
-                            <span class="d-block" v-else>
-                              <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
-                                <i class="fa fa-user-tag indigo"></i>&nbsp; Upgrade to Staff
-                              </button>
-                            </span>
-                          </span>
-
-                          <span class="d-block" v-if="user.blocked">
-                            <button type="submit" class="dropdown-item" @click="unblockUser(user)" title="Unblock user">
-                              <i class="fa fa-ban green"></i>&nbsp; UnBlock
-                            </button>
-                          </span>
-                          <span class="d-block" v-else>
-                            <button type="submit" class="dropdown-item" @click="blockUser(user)" title="Block user">
-                              <i class="fa fa-ban red"></i>&nbsp; Block
-                            </button>
-                          </span>
+                        <span class="d-block" v-if="user.blocked">
+                          <button class="dropdown-item" @click="unblockUser(user)" title="Unblock user">
+                            <i class="fa fa-ban green"></i>&nbsp; UnBlock
+                          </button>
+                        </span>
+                        <span class="d-block" v-else>
+                          <button class="dropdown-item" @click="blockUser(user)" title="Block user">
+                            <i class="fa fa-ban red"></i>&nbsp; Block
+                          </button>
+                        </span>
                       </span>
 
                     </span>
@@ -111,14 +96,42 @@
 
 <script>
   export default {
+    props: ['admins_count','staffs_count'],
+
     data() {
       return {
         users   : {},
         blockedText: '',
+        adminsCount: this.admins_count,
+        staffsCount: this.staffs_count,
       }
     },
 
     methods: {
+
+      /**
+       * Demote this Admin to STAFF.
+       */
+      makeStaff(user) {
+
+        if (confirm('You really want to promote this user to STAFF?')){
+          this.$Progress.start();
+
+          axios.patch('/make/'+ user.slug +'/staff')
+          .then(() => {
+            var stfCount = this.staffsCount + 1;
+
+            Event.$emit( 'list_admin', stfCount,  this.adminsCount );
+
+            toast({type: 'success', title: user.name +' made staff successfully.'});
+            this.$Progress.finish();
+          })
+          .catch(() => {
+            toast({type: 'fail', title: 'An error occurred! Try again.'});
+            this.$Progress.fail();
+          });
+        }
+      },
 
       /**
        * Block a user on the platform.

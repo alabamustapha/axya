@@ -24,6 +24,11 @@ class AppServiceProvider extends ServiceProvider
             $view->with('applications_count', \App\Application::all()->count());
             // $view->with('transactions_count', \App\Transaction::all()->count());
         });
+
+        view()->composer(['admin.dashboard.users'], function($view){
+            $view->with('admins_count', \App\User::whereIn('acl', ['1','5'])->count());
+            $view->with('staffs_count', \App\User::whereIn('acl', ['2'])->count());
+        });
     }
 
     /**

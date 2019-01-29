@@ -77209,27 +77209,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['admins_count', 'staffs_count'],
+
   data: function data() {
     return {
       users: {},
-      blockedText: ''
+      blockedText: '',
+      adminsCount: this.admins_count,
+      staffsCount: this.staffs_count
     };
   },
 
@@ -77237,19 +77226,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   methods: {
 
     /**
-     * Block a user on the platform.
+     * Demote this Admin to STAFF.
      */
-    blockUser: function blockUser(user) {
+    makeStaff: function makeStaff(user) {
       var _this = this;
 
-      if (confirm('You really want to block this user?')) {
+      if (confirm('You really want to promote this user to STAFF?')) {
         this.$Progress.start();
 
-        axios.patch('/' + user.slug + '/block').then(function () {
-          user.blocked = 1;
-          user.status = 'Blocked';
+        axios.patch('/make/' + user.slug + '/staff').then(function () {
+          var stfCount = _this.staffsCount + 1;
 
-          toast({ type: 'success', title: user.name + ' is now blocked on this platform.' });
+          Event.$emit('list_admin', stfCount, _this.adminsCount);
+
+          toast({ type: 'success', title: user.name + ' made staff successfully.' });
           _this.$Progress.finish();
         }).catch(function () {
           toast({ type: 'fail', title: 'An error occurred! Try again.' });
@@ -77262,17 +77252,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     /**
      * Block a user on the platform.
      */
-    unblockUser: function unblockUser(user) {
+    blockUser: function blockUser(user) {
       var _this2 = this;
 
-      if (confirm('You really want to unblock this user?')) {
+      if (confirm('You really want to block this user?')) {
         this.$Progress.start();
 
-        axios.patch('/' + user.slug + '/unblock').then(function () {
-          user.blocked = 0;
-          user.status = 'Active';
+        axios.patch('/' + user.slug + '/block').then(function () {
+          user.blocked = 1;
+          user.status = 'Blocked';
 
-          toast({ type: 'success', title: user.name + ' is now unblocked.' });
+          toast({ type: 'success', title: user.name + ' is now blocked on this platform.' });
           _this2.$Progress.finish();
         }).catch(function () {
           toast({ type: 'fail', title: 'An error occurred! Try again.' });
@@ -77282,10 +77272,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
 
+    /**
+     * Block a user on the platform.
+     */
+    unblockUser: function unblockUser(user) {
+      var _this3 = this;
+
+      if (confirm('You really want to unblock this user?')) {
+        this.$Progress.start();
+
+        axios.patch('/' + user.slug + '/unblock').then(function () {
+          user.blocked = 0;
+          user.status = 'Active';
+
+          toast({ type: 'success', title: user.name + ' is now unblocked.' });
+          _this3.$Progress.finish();
+        }).catch(function () {
+          toast({ type: 'fail', title: 'An error occurred! Try again.' });
+          _this3.$Progress.fail();
+        });
+      }
+    },
+
+
     /** ~~~~ MAKE NEW SEARCHES ~~~~*/
     /*******************************/
     searchUsers: function searchUsers() {
-      var _this3 = this;
+      var _this4 = this;
 
       // $parent needed to access the root instance at ...resources\js\app.js
       var query = this.$parent.search;
@@ -77293,7 +77306,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       axios.get(searchUrl + query).then(function (_ref) {
         var data = _ref.data;
-        return _this3.users = data;
+        return _this4.users = data;
       });
     },
 
@@ -77301,7 +77314,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     /*~~~~ PAGINATION OF MODELS ~~~~*/
     /*******************************/
     usersPagination: function usersPagination() {
-      var _this4 = this;
+      var _this5 = this;
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
@@ -77309,7 +77322,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var searchUrl = appUrl + '/searches/users?q=';
 
       axios.get(searchUrl + query + '&page=' + page).then(function (response) {
-        _this4.users = response.data;
+        _this5.users = response.data;
       });
     }
   },
@@ -77317,10 +77330,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   /**~~~~ LOAD ON NEW SEARCH ~~~~*/
   /*******************************/
   created: function created() {
-    var _this5 = this;
+    var _this6 = this;
 
     Event.$on('search_user', function () {
-      _this5.searchUsers();
+      _this6.searchUsers();
     });
   }
 });
@@ -77513,36 +77526,44 @@ var render = function() {
                                               }
                                             },
                                             [
-                                              user.is_administrator ||
-                                              user.is_staff_user
+                                              !user.is_administrator ||
+                                              !user.is_staff_user
                                                 ? _c(
                                                     "span",
                                                     { staticClass: "d-block" },
-                                                    [_vm._m(5, true)]
-                                                  )
-                                                : _c(
-                                                    "span",
-                                                    { staticClass: "d-block" },
                                                     [
-                                                      user.is_administrator
-                                                        ? _c(
-                                                            "span",
-                                                            {
-                                                              staticClass:
-                                                                "d-block"
-                                                            },
-                                                            [_vm._m(6, true)]
+                                                      _c(
+                                                        "button",
+                                                        {
+                                                          staticClass:
+                                                            "dropdown-item",
+                                                          attrs: {
+                                                            title:
+                                                              "Promote to Staff"
+                                                          },
+                                                          on: {
+                                                            click: function(
+                                                              $event
+                                                            ) {
+                                                              _vm.makeStaff(
+                                                                user
+                                                              )
+                                                            }
+                                                          }
+                                                        },
+                                                        [
+                                                          _c("i", {
+                                                            staticClass:
+                                                              "fa fa-user-tag indigo"
+                                                          }),
+                                                          _vm._v(
+                                                            "  Upgrade to Staff\n                        "
                                                           )
-                                                        : _c(
-                                                            "span",
-                                                            {
-                                                              staticClass:
-                                                                "d-block"
-                                                            },
-                                                            [_vm._m(7, true)]
-                                                          )
+                                                        ]
+                                                      )
                                                     ]
-                                                  ),
+                                                  )
+                                                : _vm._e(),
                                               _vm._v(" "),
                                               user.blocked
                                                 ? _c(
@@ -77555,7 +77576,6 @@ var render = function() {
                                                           staticClass:
                                                             "dropdown-item",
                                                           attrs: {
-                                                            type: "submit",
                                                             title:
                                                               "Unblock user"
                                                           },
@@ -77575,7 +77595,7 @@ var render = function() {
                                                               "fa fa-ban green"
                                                           }),
                                                           _vm._v(
-                                                            "  UnBlock\n                          "
+                                                            "  UnBlock\n                        "
                                                           )
                                                         ]
                                                       )
@@ -77591,7 +77611,6 @@ var render = function() {
                                                           staticClass:
                                                             "dropdown-item",
                                                           attrs: {
-                                                            type: "submit",
                                                             title: "Block user"
                                                           },
                                                           on: {
@@ -77610,7 +77629,7 @@ var render = function() {
                                                               "fa fa-ban red"
                                                           }),
                                                           _vm._v(
-                                                            "  Block\n                          "
+                                                            "  Block\n                        "
                                                           )
                                                         ]
                                                       )
@@ -77721,69 +77740,6 @@ var staticRenderFns = [
         }
       },
       [_c("i", { staticClass: "fa fa-cog" })]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "dropdown-item",
-        attrs: {
-          type: "submit",
-          onclick:
-            "return confirm('You really want to demote this admin to NORMAL User?');",
-          title: "Demote Admin"
-        }
-      },
-      [
-        _c("i", { staticClass: "fa fa-user-slash orange" }),
-        _vm._v("  Demote to Normal User\n                          ")
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "dropdown-item",
-        attrs: {
-          type: "submit",
-          onclick:
-            "return confirm('You really want to demote this admin to STAFF?');",
-          title: "Demote Admin"
-        }
-      },
-      [
-        _c("i", { staticClass: "fa fa-user-tie teal" }),
-        _vm._v("  Upgrade to Admin\n                            ")
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "dropdown-item",
-        attrs: {
-          type: "submit",
-          onclick:
-            "return confirm('You really want to demote this admin to NORMAL User?');",
-          title: "Demote Admin"
-        }
-      },
-      [
-        _c("i", { staticClass: "fa fa-user-tag indigo" }),
-        _vm._v("  Upgrade to Staff\n                            ")
-      ]
     )
   }
 ]

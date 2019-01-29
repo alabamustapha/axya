@@ -43,7 +43,7 @@
             </div>
 
             <div class="bg-light">
-              <user-search></user-search>
+              <user-search :admins_count="{{$admins->count()}}" :staffs_count="{{$staffs->count()}}"></user-search>
             </div>
           </div>
         </div>

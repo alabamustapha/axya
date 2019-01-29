@@ -52,7 +52,7 @@
           </div>
 
           <div class="bg-light">
-            <user-search></user-search>
+            <user-search :admins_count="{{$admins_count}}" :staffs_count="{{$staffs_count}}"></user-search>
           </div>
 
         </div>
