@@ -35,7 +35,7 @@ class DoctorsTest extends TestCase
             'country_id','state_id','home_address','work_address','location',
             'rate','session','first_appointment','available','subscription_ends_at',
             'graduate_school','degree','residency','specialty_id',
-            'verified_at','verified_by'
+            'verified_at','verified_by','revoked',
           ]), 1);
     }
 

@@ -8,19 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Doctor extends Model
 {
-    protected $fillable = [
-        // Profile
-        'id','user_id','email','phone','slug','about',
-        // Language
-        'main_language','second_language','other_languages',
-        // Location
-        'country_id','state_id','home_address','work_address','location',
-        // Work
-        'rate','session','first_appointment','available','subscription_ends_at',
-        // Education
-        'graduate_school','degree','residency','specialty_id',
-        // Others
-        'verified_at','verified_by'
+    protected $fillable = [        
+        'id','user_id','email','phone','slug','about',                          // Profile      
+        'main_language','second_language','other_languages',                    // Language        
+        'country_id','state_id','home_address','work_address','location',       // Location        
+        'rate','session','first_appointment','available','subscription_ends_at',// Work        
+        'graduate_school','degree','residency','specialty_id',                  // Education        
+        'verified_at','verified_by','revoked' // Others
     ];
 
     protected $dates = ['verified_at','subscription_ends_at','first_appointment'];
@@ -29,6 +23,7 @@ class Doctor extends Model
 
     protected $appends = [
       'name','link','avatar','practice_years','is_active','availability_text',
+      'license_status',
       'rating','rating_digit',
       'adjusted_subscription_end','is_subscribed','patients_count',
       'pending_appointments_count','appointments_count','transactions_count','subscriptions_count',
@@ -44,6 +39,18 @@ class Doctor extends Model
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function revokeLicense() 
+    {
+        $this->revoked = '1';
+        $this->update();
+    }
+
+    public function restoreLicense()
+    {
+        $this->revoked = '0';
+        $this->update();
     }
 
     // public function specialties()
@@ -462,5 +469,10 @@ class Doctor extends Model
     public function getAvailabilityTextAttribute() 
     {
         return $this->availabilityText();
+    }
+
+    public function getLicenseStatusAttribute()
+    {
+        return $this->revoked ? 'Revoked':'Active';
     }
 }

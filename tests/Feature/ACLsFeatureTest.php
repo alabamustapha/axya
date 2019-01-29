@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Doctor;
+use App\Specialty;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -178,4 +180,44 @@ class ACLsFeatureTest extends TestCase
 
         $this->assertDatabaseHas('users', $updated_data);
     }
+
+
+
+    // /** @test */
+    // public function update_a_doctors_license_can_be_revoked()
+    // {
+    //     // Create a Doctor
+    //     $dr_user   = factory(User::class)->states('verified')->create();
+    //     $specialty = factory(Specialty::class)->create();
+    //     $doctor    = factory(Doctor::class)->create(['id' =>$dr_user->id, 'revoked' => '0']);
+
+    //     // Revoke a doctor's license.
+    //     $updated_data = [ 'id' => $doctor->id, 'revoked' => '1']; 
+
+    //     $this
+    //         ->actingAs($this->admin)
+    //         ->patch(route('revoke_license', $doctor), $updated_data)
+    //         ;
+
+    //     $this->assertDatabaseHas('doctors', $updated_data);
+    // }
+
+    // /** @test */
+    // public function update_a_doctors_license_can_be_restored()
+    // {
+    //     // Create a Doctor
+    //     $dr_user   = factory(User::class)->states('verified')->create();
+    //     $specialty = factory(Specialty::class)->create();
+    //     $doctor    = factory(Doctor::class)->create(['id' =>$dr_user->id, 'revoked' => '1']);
+
+    //     // Restore a doctor's license.
+    //     $updated_data = [ 'id' => $doctor->id, 'revoked' => '0']; 
+
+    //     $this
+    //         ->actingAs($this->admin)
+    //         ->patch(route('restore_license', $doctor), $updated_data)
+    //         ;
+
+    //     $this->assertDatabaseHas('doctors', $updated_data);
+    // }
 }

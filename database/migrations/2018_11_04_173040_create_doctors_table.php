@@ -51,6 +51,7 @@ class CreateDoctorsTable extends Migration
             $table->timestamps();
             $table->timestamp('verified_at')->nullable();
             $table->integer('verified_by')->unsigned()->nullable();
+            $table->boolean('revoked')->default(0);
 
             $table->primary(['id', 'user_id']);
 

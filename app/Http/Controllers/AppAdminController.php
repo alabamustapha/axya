@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Doctor;
 use App\Notifications\Admin\AdminPasswordChangeNotification;
 use App\Notifications\Admin\AdminPasswordResetNotification;
 use App\User;
@@ -240,9 +241,7 @@ class AppAdminController extends Controller
      * Check if user is available and not superadmin.
      */
     public function userCheck(Request $request, User $user)
-    {        
-        $user = User::whereSlug($user->slug)->first();
-        
+    {
         if ( $user->isSuperAdminUser() ) { return back(); }
 
         return;
@@ -326,6 +325,34 @@ class AppAdminController extends Controller
         return response()->json($user->name .' is now unblocked.',  Response::HTTP_OK);//200
 
         // flash( '<b>'. $user->name .' is now unblocked.' )->success();
+        // return redirect()->back(); 
+    }
+
+
+
+    /**
+     * Revoke doctor's license.
+     */
+    public function licenseRevoke(Request $request, Doctor $doctor)
+    {
+        $doctor->revokeLicense();
+
+        return response()->json('Dr. '. $doctor->name .'\'s license is now revoked on this platform.',  Response::HTTP_OK);//200
+
+        // flash( '<b>dr. '. $doctor->name .' is now revokeed on this platform.' )->success();
+        // return redirect()->back(); 
+    }
+
+    /**
+     * Restore doctor's license.
+     */
+    public function licenseRestore(Request $request, Doctor $doctor)
+    {
+        $doctor->restoreLicense();
+
+        return response()->json('Dr. '. $doctor->name .'\'s license is now restored back on this platform.',  Response::HTTP_OK);//200
+
+        // flash( '<b>dr. '. $doctor->name .' is now unrevokeed on this platform.' )->success();
         // return redirect()->back(); 
     }
 }
