@@ -313,7 +313,9 @@ class AppAdminController extends Controller
      */
     public function blockUser(Request $request, User $user)
     {
-        $this->userCheck($request, $user);
+        if ( $user->isSuperAdminUser() ) { 
+            return abort(403);
+        }
 
         $user->block();
 
