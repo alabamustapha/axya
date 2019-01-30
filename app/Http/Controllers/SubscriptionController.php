@@ -7,11 +7,14 @@ use Carbon\Carbon;
 use App\Appointment;
 use App\Subscription;
 use Illuminate\Http\Request;
+use App\Traits\MobilpayTrait;
 use App\Notifications\Subscriptions\SubscriptionFailedNotification;
 use App\Notifications\Subscriptions\SubscriptionSuccessfulNotification;
 
 class SubscriptionController extends Controller
 {
+    use MobilpayTrait;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -122,71 +125,73 @@ class SubscriptionController extends Controller
 
         $this->mockedPayment($subscription);
 
-        if ($subscription) {
-            $msg = 'Subscription created successfully.';
+        // if ($subscription) {
+        //     $msg = 'Subscription created successfully.';
 
-            // flash($msg)->success();
+        //     // flash($msg)->success();
 
-            if (request()->expectsJson()) {
-                return response(['status' => $msg]);
-            }
-        }
+        //     if (request()->expectsJson()) {
+        //         return response(['status' => $msg]);
+        //     }
+        // }
 
-        // return redirect()->route('doctors.show', $subscription->doctor);
-        return redirect()->route('subscriptions.show', $subscription);
+        // // return redirect()->route('doctors.show', $subscription->doctor);
+        // return redirect()->route('subscriptions.show', $subscription);
     }
 
     public function mockedPayment(Subscription $subscription)
     {
-        $response = array_rand(['success' => 1,'failed' => 0]);
-        // dd($response);
-        // $response      = $response_from_pymt_processor;
+        $this->paymentRequest($subscription, auth()->user());
 
-        if ($response == 'success'){
-            $doctor = $subscription->doctor;
-            $subscription_end = Carbon::parse($doctor->adjusted_subscription_end)
-                                        ->addDays($subscription->days)
-                                        ;
+        // $response = array_rand(['success' => 1,'failed' => 0]);
+        // // dd($response);
+        // // $response      = $response_from_pymt_processor;
 
-            $subscription->update([
-                'start'        => $doctor->adjusted_subscription_end,
-                'end'          => $subscription_end,
-                'status'       => '1',
-                'confirmed_at' => Carbon::now(),
-                // 'currency'      => ,
-                // 'channel'       => ,
-                // 'processor_id'  => ,
-                // 'processor_trxn_id' => ,
-            ]);
+        // if ($response == 'success'){
+        //     $doctor = $subscription->doctor;
+        //     $subscription_end = Carbon::parse($doctor->adjusted_subscription_end)
+        //                                 ->addDays($subscription->days)
+        //                                 ;
+
+        //     $subscription->update([
+        //         'start'        => $doctor->adjusted_subscription_end,
+        //         'end'          => $subscription_end,
+        //         'status'       => '1',
+        //         'confirmed_at' => Carbon::now(),
+        //         // 'currency'      => ,
+        //         // 'channel'       => ,
+        //         // 'processor_id'  => ,
+        //         // 'processor_trxn_id' => ,
+        //     ]);
             
-            $doctor->update([
-                'available' => '1',
-                'subscription_ends_at' => $subscription_end,
-            ]); 
+        //     $doctor->update([
+        //         'available' => '1',
+        //         'subscription_ends_at' => $subscription_end,
+        //     ]); 
             
-            $subscription->user->update([
-                'application_status' => '1',
-            ]); 
+        //     $subscription->user->update([
+        //         'application_status' => '1',
+        //     ]); 
 
-            // Notify concerned parties of success.
-            $subscription->user->notify(new SubscriptionSuccessfulNotification($subscription->user, $subscription));
-            // $admin->notify(new SubscriptionSuccessfulNotification($admin->user, $subscription));
+        //     // Notify concerned parties of success.
+        //     $subscription->user->notify(new SubscriptionSuccessfulNotification($subscription->user, $subscription));
+        //     // $admin->notify(new SubscriptionSuccessfulNotification($admin->user, $subscription));
             
-            flash('Subscription transaction was successful.')->success(); 
+        //     flash('Subscription transaction was successful.')->success(); 
 
-            return redirect()->route('subscriptions.show', $subscription);
-        }
-        else {
-            // No need to change status on appointment model, status quo maintained.
-            $subscription->update(['status' => '3']);
+        //     return redirect()->route('subscriptions.show', $subscription);
+        // }
+        // else {
+        //     // No need to change status on appointment model, status quo maintained.
+        //     $subscription->update(['status' => '3']);
 
-            // Notify doctor of failure. 
-            $subscription->user->notify(new SubscriptionFailedNotification($subscription->user, $subscription));
+        //     // Notify doctor of failure. 
+        //     $subscription->user->notify(new SubscriptionFailedNotification($subscription->user, $subscription));
 
-            flash('Subscription transaction was not successful, try again')->error();
+        //     flash('Subscription transaction was not successful, try again')->error();
 
-            return redirect()->route('subscriptions.show', $subscription);
-        }
+        //     return redirect()->route('subscriptions.show', $subscription);
+        // }
     }
 
     /**

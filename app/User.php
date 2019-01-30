@@ -86,6 +86,20 @@ class User extends Authenticatable implements MustVerifyEmail
 
 
 
+    public function getFirstNameAttribute($value)
+    {
+      $fname = explode(' ', $this->name);
+
+      return current($fname);
+    }
+
+    public function getLastNameAttribute($value)
+    {
+       $lname = explode(' ', $this->name);
+       
+       return end($lname);
+    }
+
     public function getAvatarAttribute($value)
     {
         return (is_null($value) || $value == 'images/doc.jpg') 
