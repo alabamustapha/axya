@@ -151,7 +151,7 @@ class ACLsFeatureTest extends TestCase
         $this->actingAs($this->admin);
 
         // Create a User
-        $user = factory(User::class)->create(['blocked' => '0']);
+        $user = factory(User::class)->states('verified')->create(['blocked' => '0']);
 
         // Block the user
         $updated_data = [ 'id' => $user->id, 'blocked' => '1']; 
@@ -169,7 +169,7 @@ class ACLsFeatureTest extends TestCase
         $this->actingAs($this->admin);
 
         // Create a User
-        $user = factory(User::class)->create(['blocked' => '1']);
+        $user = factory(User::class)->states('verified')->create(['blocked' => '1']);
 
         // Unblock the user
         $updated_data = [ 'id' => $user->id, 'blocked' => '0']; 
@@ -189,7 +189,7 @@ class ACLsFeatureTest extends TestCase
     //     // Create a Doctor
     //     $dr_user   = factory(User::class)->states('verified')->create();
     //     $specialty = factory(Specialty::class)->create();
-    //     $doctor    = factory(Doctor::class)->create(['id' =>$dr_user->id, 'revoked' => '0']);
+    //     $doctor    = factory(Doctor::class)->states('active')->create(['id' =>$dr_user->id, 'revoked' => '0']);
 
     //     // Revoke a doctor's license.
     //     $updated_data = [ 'id' => $doctor->id, 'revoked' => '1']; 
@@ -208,7 +208,7 @@ class ACLsFeatureTest extends TestCase
     //     // Create a Doctor
     //     $dr_user   = factory(User::class)->states('verified')->create();
     //     $specialty = factory(Specialty::class)->create();
-    //     $doctor    = factory(Doctor::class)->create(['id' =>$dr_user->id, 'revoked' => '1']);
+    //     $doctor    = factory(Doctor::class)->states('active')->create(['id' =>$dr_user->id, 'revoked' => '1']);
 
     //     // Restore a doctor's license.
     //     $updated_data = [ 'id' => $doctor->id, 'revoked' => '0']; 

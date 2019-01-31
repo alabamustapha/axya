@@ -20,7 +20,7 @@ class AppointmentsFeatureTest extends TestCase
 
         $this->user        = factory(User::class)->states('verified')->create();
         $this->specialty   = factory(Specialty::class)->create();
-        $this->doctor      = factory(Doctor::class)->create();
+        $this->doctor      = factory(Doctor::class)->states('active')->create();
         $this->appointment = factory(Appointment::class)->create(['user_id' => $this->user->id]);
         $this->sub_description = substr($this->appointment->description, 0,100);
 
@@ -35,7 +35,7 @@ class AppointmentsFeatureTest extends TestCase
             'user_id'     => $this->user2->id,
             'slug'        => $this->user2->slug,
             'doctor_id'   => $this->doctor->id,
-            'description'=> 'Reiciendis inventore et omnis non asperiores.',
+            'description' => 'Reiciendis inventore et omnis non asperiores.',
 
             'day'         => '2018-12-23 10:00:00',
             'from'        => '05:00 AM',
@@ -157,6 +157,7 @@ class AppointmentsFeatureTest extends TestCase
         $appointment = factory(Appointment::class)->create([
             'user_id'     => $user->id,
             'doctor_id'   => $this->doctor->id,
+            'status'      => $this->faker->numberBetween(0,5),
         ]);
 
         // Update the Appointment's details

@@ -22,7 +22,7 @@ class DoctorsFeatureTest extends TestCase
 
         $this->dr_user   = factory(User::class)->states('verified')->create();
         $this->specialty = factory(Specialty::class)->create();
-        $this->doctor    = factory(Doctor::class)->create(['user_id'=> $this->dr_user->id]);
+        $this->doctor    = factory(Doctor::class)->states('active')->create(['user_id'=> $this->dr_user->id]);
         $this->admin     = factory(User::class)->states('admin')->create();
     } 
 

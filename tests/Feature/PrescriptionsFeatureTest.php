@@ -22,7 +22,7 @@ class PrescriptionsFeatureTest extends TestCase
         $this->user        = factory(User::class)->states('verified')->create();
         $this->doc_user    = factory(User::class)->states('verified')->create();
         $this->specialty   = factory(Specialty::class)->create();
-        $this->doctor      = factory(Doctor::class)->create([
+        $this->doctor      = factory(Doctor::class)->states('active')->create([
           'id'      => $this->doc_user->id,
           'user_id' => $this->doc_user->id
         ]);

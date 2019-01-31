@@ -22,7 +22,7 @@ class TransactionsFeatureTest extends TestCase
 
         $this->user       = factory(User::class)->states('verified')->create();
         $this->specialty  = factory(Specialty::class)->create();
-        $this->doctor     = factory(Doctor::class)->create();
+        $this->doctor     = factory(Doctor::class)->states('active')->create();
         $this->appointment= factory(Appointment::class)->create();
         $this->transaction= factory(Transaction::class)->create([
             'user_id'       => $this->user->id,      // Patient
@@ -67,7 +67,7 @@ class TransactionsFeatureTest extends TestCase
     public function show_a_transaction_can_be_viewed_attending_doctor() 
     {
         $doc_user = factory(User::class)->states('verified')->create();
-        $doc      = factory(Doctor::class)->create([
+        $doc      = factory(Doctor::class)->states('active')->create([
                         'id'               => $doc_user->id,
                         'user_id'          => $doc_user->id,
                     ]);

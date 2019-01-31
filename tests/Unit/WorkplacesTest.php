@@ -21,7 +21,7 @@ class WorkplacesTest extends TestCase
 
         $this->user       = factory(User::class)->create();
         $this->specialty  = factory(Specialty::class)->create();
-        $this->doctor     = factory(Doctor::class)->create();
+        $this->doctor     = factory(Doctor::class)->states('active')->create();
         $this->workplace  = factory(Workplace::class)->create();
     } 
 

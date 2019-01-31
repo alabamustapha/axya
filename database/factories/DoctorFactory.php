@@ -36,3 +36,16 @@ $factory->define(App\Doctor::class, function (Faker $faker) {
       'degree'           => $faker->sentence,
     ];
 });
+
+$factory->state(App\Doctor::class, 'active', function (Faker $faker) {
+    return [
+        'revoked' => '0', 
+        'available'=> '1',
+    ];
+});
+
+$factory->state(App\Doctor::class, 'suspended', function (Faker $faker) {
+    return [
+        'revoked' => '1', 
+    ];
+});

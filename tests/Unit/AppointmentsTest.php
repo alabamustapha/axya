@@ -23,7 +23,7 @@ class AppointmentsTest extends TestCase
 
         $this->user       = factory(User::class)->create();
         $this->specialty  = factory(Specialty::class)->create();
-        $this->doctor     = factory(Doctor::class)->create();
+        $this->doctor     = factory(Doctor::class)->states('active')->create();
         $this->appointment= factory(Appointment::class)->create();
         $this->image      = factory(Image::class)->create();
         $this->document   = factory(Document::class)->create();

@@ -23,7 +23,7 @@ class MessagesTest extends TestCase
 
         $this->user       = factory(User::class)->create();
         $this->specialty  = factory(Specialty::class)->create();
-        $this->doctor     = factory(Doctor::class)->create();
+        $this->doctor     = factory(Doctor::class)->states('active')->create();
         $this->appointment= factory(Appointment::class)->create();
         $this->message    = factory(Message::class)->create([
           'messageable_id'  => $this->appointment->id,
