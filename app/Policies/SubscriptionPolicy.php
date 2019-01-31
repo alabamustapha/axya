@@ -22,7 +22,10 @@ class SubscriptionPolicy
 
     public function create(User $user)
     {
-        return $user->is_doctor && $user->isVerified() && !$user->isSuspended();
+        return     $user->is_doctor 
+                && $user->isVerified() 
+                && $user->doctor->isActive() 
+                && !$user->isSuspended();
     }
 
     public function edit(User $user, Subscription $ubscription)

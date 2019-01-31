@@ -77931,6 +77931,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         axios.patch('/' + doctor.slug + '/revoke').then(function () {
           doctor.revoked = 1;
           doctor.license_status = 'Revoked';
+          doctor.is_active = false;
+          doctor.availability_text = 'unavailable';
 
           toast({ type: 'success', title: 'Dr. ' + doctor.name + '\'s license is now revoked on this platform.' });
           _this.$Progress.finish();
@@ -78295,7 +78297,7 @@ var render = function() {
                                                         "button",
                                                         {
                                                           staticClass:
-                                                            "dropdown-item",
+                                                            "dropdown-item d-inline-block",
                                                           attrs: {
                                                             type: "submit",
                                                             title:
@@ -78327,7 +78329,7 @@ var render = function() {
                                                         "button",
                                                         {
                                                           staticClass:
-                                                            "dropdown-item",
+                                                            "dropdown-item d-inline-block",
                                                           attrs: {
                                                             type: "submit",
                                                             title:

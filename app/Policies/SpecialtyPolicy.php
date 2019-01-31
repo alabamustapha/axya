@@ -24,7 +24,7 @@ class SpecialtyPolicy
      */
     public function create(User $user)
     {
-        return $user->isDoctor() || $user->isAdmin();
+        return $user->isAdmin();
     }
 
     /**
@@ -36,7 +36,7 @@ class SpecialtyPolicy
      */
     public function edit(User $user, Specialty $specialty)
     {
-        return ($specialty->user_id == auth()->id() && $user->isDoctor()) || $user->isAdmin();
+        return $user->isAdmin();
     }
 
     /**

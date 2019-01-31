@@ -61,12 +61,12 @@
                       <span class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown" style="font-size:12px;">
 
                         <span v-if="doctor.revoked">
-                          <button type="submit" class="dropdown-item" @click="restoreLicense(doctor)" title="Restore license back to this doctor on this app">
+                          <button type="submit" class="dropdown-item d-inline-block" @click="restoreLicense(doctor)" title="Restore license back to this doctor on this app">
                             <i class="fa fa-id-card teal"></i>&nbsp; Restore License
                           </button>
                           </span>
                           <span v-else>
-                          <button type="submit" class="dropdown-item" @click="revokeLicense(doctor)" title="Revoke license from this doctor on this app">
+                          <button type="submit" class="dropdown-item d-inline-block" @click="revokeLicense(doctor)" title="Revoke license from this doctor on this app">
                             <i class="fa fa-id-card orange"></i>&nbsp; Revoke License
                           </button>
                         </span>
@@ -123,6 +123,8 @@
           .then(() => {
             doctor.revoked = 1;
             doctor.license_status = 'Revoked';
+            doctor.is_active = false;
+            doctor.availability_text = 'unavailable';
 
             toast({type: 'success', title: 'Dr. '+ doctor.name +'\'s license is now revoked on this platform.'});
             this.$Progress.finish();

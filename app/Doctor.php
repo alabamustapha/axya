@@ -242,7 +242,7 @@ class Doctor extends Model
      */
     public function isAccountOwner()
     {
-        return $this->id == auth()->id();
+        return $this->id == request()->user()->id; // auth()->id();
     }
 
     public function dummyAvatar()
@@ -279,61 +279,77 @@ class Doctor extends Model
     /**
      * Has ongoing subscription.
      */
-    public function is_subscribed()
+    public function isSubscribed()
     {
         return $this->subscription_ends_at > Carbon::now();
     }
+
+    /**
+     * License withdrawn.
+     */
+    public function isSuspended()
+    {
+        return $this->revoked == '1';
+    }
+
+    public function isAvailable()
+    {
+        return $this->available == '1' && $this->revoked == '0';
+    }
+
+    /**
+     * Subscribed and Available for Appointments.
+     */
+    public function isActive()
+    {
+        return $this->isSubscribed() && $this->isAvailable();
+    }
+
     public function subscriptionStatus()
     {
-        echo $this->is_subscribed() 
-                  ? '<span class="green"title="You may accept appointments.">subscribed</span>'
-                  : '<span class="red" title="You cannot accept appointments at this time.">not subscribed</span>'
+        return $this->isSubscribed() 
+                  ? 'subscribed'
+                  : 'not subscribed'
                   ;
     }
-    public function scopeIsSubscribed($query)
+    public function scopeSubscribed($query)
     {
         return $query->where('subscription_ends_at', '>', Carbon::now());
+    }
+
+    public function scopeSuspended($query)
+    {
+        return $query->where('revoked', '1');
     }
 
     /**
      * Is Available for Appointments.
      */
-    public function scopeIsAvailable($query)
+    public function scopeAvailable($query)
     {
-        return $query->where('available', '1');
+        return $query->where('available', '1')
+                     ->where('revoked', '0')
+                     ;
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->subscribed()
+                     ->available()
+                     ;
     }
 
     public function availabilityText()
     {
-      return $this->is_active()
+      return $this->isActive()
               ? 'available'
               : 'unavailable'
               ;
     }
 
-    public function subsrciptionStatusText()
+    public function scopeSubscribedAndUnAvailable($query)
     {
-      return $this->is_subscribed()
-              ? 'available'
-              : 'unavailable'
-              ;
-    }
-
-    // /**
-    //  * Subscribed and Available for Appointments.
-    //  */
-    public function is_active()
-    {
-        return (bool) ($this->is_subscribed() && $this->available);
-    }
-    public function scopeIsActive($query)
-    {
-        return $query->isSubscribed()->isAvailable();
-    }
-
-    public function scopeIsSubscribedAndUnAvailable($query)
-    {
-        return $query->isSubscribed()
+        return $query->subscribed()
                      ->where('available', '0')
                      ;
     }
@@ -342,7 +358,7 @@ class Doctor extends Model
 
     public function getIsSubscribedAttribute()
     {
-        return $this->is_subscribed();
+        return $this->isSubscribed();
     }
 
     public function getRatingAttribute()
@@ -463,7 +479,7 @@ class Doctor extends Model
 
     public function getIsActiveAttribute() 
     {
-        return $this->is_active();
+        return $this->isActive();
     }
 
     public function getAvailabilityTextAttribute() 
