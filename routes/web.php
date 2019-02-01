@@ -72,6 +72,8 @@ Route::resource('reviews',       'ReviewController');
 Route::resource('transactions',  'TransactionController')->except('index');
 Route::resource('subscriptions', 'SubscriptionController')->except('index');
 
+Route::get('processor-response', 'PaymentController@paymentResponse')->name('processor-response');
+
 Route::get('adm-transactions',        'TransactionController@admindex')->name('adm_transactions');
 Route::get('adm-subscriptions',       'SubscriptionController@admindex')->name('adm_subscriptions');
 Route::get('mockedPayment/{transaction}', 'TransactionController@mockedPayment')->name('mockedPayment');
