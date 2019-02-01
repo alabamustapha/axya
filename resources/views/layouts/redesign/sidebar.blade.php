@@ -227,6 +227,36 @@
           </li>
         </ul>
       </li>
+    @elseif (Auth::user()->is_doctor_user)
+      <li class="nav-item">
+
+        <a class="nav-link" data-toggle="collapse" href="#adminSubmenu" role="button" aria-expanded="false" aria-controls="adminSubmenu">
+          <span class="tf-flex">
+            <span>
+              <i class="icon fa fa-user-md"></i>
+              <span class="navlink-active">Doctor</span>
+            </span>
+            <span style="font-size: 12px"><i class="fa fa-plus"></i></span>
+          </span>
+        </a>
+
+        <ul id="adminSubmenu" class=" collapse sub-menu nav flex-sm-column">
+          <li class="nav-item">
+
+            @if (is_null(Auth::user()->doctor_password))
+              <a href="{{route('doctor.password')}}" class="nav-link">
+                <span class="icon fa fa-key"></span>
+                <span class="navlink-active">New Doctor Password</span>
+              </a>
+            @else
+              <a href="{{route('doctor.login')}}" class="nav-link">
+                <span class="icon fa fa-user-tie"></span>
+                <span class="navlink-active">Doctor Login</span>
+              </a>
+            @endif
+          </li>
+        </ul>
+      </li>
     @endif
 
     @if (Auth::user()->isAdministrator() || Auth::user()->is_doctor)

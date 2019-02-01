@@ -8,6 +8,7 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Auth;
 use Laravel\Nova\Actions\Actionable;
 use Laravel\Passport\HasApiTokens;
 
@@ -24,8 +25,8 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected $appends = ['link','is_verified',
       'is_superadmin','is_admin','is_staff',
-      // 'is_superadmin_user','is_admin_user','is_staff_user',
-      'is_administrator','is_staff_user',
+      // 'is_superadmin_user','is_admin_user',
+      'is_administrator','is_staff_user','is_doctor_user',
       'is_doctor','is_potential_doctor',
       'type','status',
       'appointments_count','transactions_count','subscriptions_count',
@@ -43,7 +44,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'gender','avatar','blocked','dob','weight','height','allergies','chronics',
         'last_four','terms','application_retry_at',
         'verification_link','as_doctor','application_status',
-        'admin_mode','admin_password',
+        'admin_mode','admin_password','doctor_mode','doctor_password',
     ];
 
     /**
@@ -137,6 +138,26 @@ class User extends Authenticatable implements MustVerifyEmail
     public function isSuspended()
     {
         return $this->blocked == '1';
+    }
+
+
+    /**
+     * If user is admin/staff/doctor and is logged in as admin/doctor, log him out. 
+     * Persistent log in could be due to session expiration.
+     *
+     * @return void
+     */
+    public function logOutAsAdminOrDoctor()
+    {
+        if (Auth::check() && Auth::id() == $this->id) {
+            if ($this->isAdmin() || $this->isStaff()) {
+                $this->update(['admin_mode' => 0]);
+            }
+
+            if ($this->isDoctor()) {
+                $this->update(['doctor_mode' => 0]);
+            }
+        }
     }
 
     /**
@@ -257,6 +278,17 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * Check the DOCTOR LOG IN status of this user.
+     * 
+     * @return  boolean
+     */
+    public function isLoggedInAsDoctor() 
+    {
+        // return (bool) $this->admin_mode;
+        return (bool) ($this->doctor_mode && !is_null($this->doctor_password));
+    }
+
+    /**
      * Check the ADMIN LOG IN status of this user.
      * 
      * @return  boolean
@@ -364,9 +396,20 @@ class User extends Authenticatable implements MustVerifyEmail
         }
     }
 
+    /**
+     * A doctor but not logged in.
+     */
+    public function isDoctorUser() 
+     {
+         return (bool) $this->doctor()->count();
+     }
+
+    /**
+     * A doctor with active license and logged in.
+     */
     public function isDoctor() 
     {
-        return (bool) $this->doctor()->count();
+        return $this->isDoctorUser() && !$this->isSuspended() && $this->isLoggedInAsDoctor();
     }
 
     public function professionalType() 
@@ -680,6 +723,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getIsDoctorAttribute() 
     {
         return $this->isDoctor(); 
+    }
+ 
+    public function getIsDoctorUserAttribute() 
+    {
+        return $this->isDoctorUser(); 
     }
 
     public function getIsPotentialDoctorAttribute() 
