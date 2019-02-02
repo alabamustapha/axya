@@ -13,16 +13,27 @@
                     <i class="fa fa-user-md"></i> {{ $doctor->specialty->name }}
                   </span>
                 </li>
+                <li class="pb-1" title="Current rating">
+                  <span>
+                    <i class="fa fa-star text-light"></i> 
+                    <span>
+                      @for($i=1; $i <= $doctor->rating_digit; $i++)
+                        <i class="fas fa-star"></i>
+                      @endfor
+                      
+                      @for($i=1; $i <= (5 - $doctor->rating_digit); $i++)
+                        <i class="fas fa-star text-light"></i>
+                      @endfor
+                    </span>
+
+                    <span class="text-bold">{{ $doctor->rating }}</span>
+                  </span>
+                </li>
 
                 @if(Auth::check() && (Auth::user()->can('edit', $doctor) || Auth::user()->is_admin))
                 <li class="pb-1" title="Email">
                   <span>
                     <i class="fa fa-at"></i> {{$doctor->email}}
-                  </span>
-                </li>
-                <li class="pb-1" title="Phone">
-                  <span>
-                    <i class="fa fa-mobile"></i> {{$doctor->phone}}
                   </span>
                 </li>
                 @endif
@@ -32,23 +43,26 @@
             <hr>
 
             <ul class="list-group list-group-unbordered mb-3" style="font-size:90%">
-              <li class="list-group-item p-1 px-3 mt-0 border-top-0{{--  tf-flex --}}">
-                <b class="d-inline-block w-35"><i class="fa fa-procedures"></i> Patients Served</b> <a>{{$doctor->patients->count()}}</a>
+              <li class="list-group-item p-1 px-3 mt-0 border-top-0">
+                <b class="d-inline-block w-35"><i class="fa fa-procedures"></i> Patients Served</b> <a>{{$doctor->patients_count}}</a>
               </li>
-              <li class="list-group-item p-1 px-3{{--  tf-flex --}}">
-                <b class="d-inline-block w-35"><i class="fa fa-university"></i> Alma mater</b> <span>{{ $doctor->graduate_school }}</span>
+              <li class="list-group-item p-1 px-3">
+                <b class="d-inline-block w-35"><i class="fa fa-university"></i> Education</b> <span>{{ $doctor->graduate_school }}</span>
               </li>
-              <li class="list-group-item p-1 px-3{{--  tf-flex --}}">
+              <li class="list-group-item p-1 px-3">
                 <b class="d-inline-block w-35"><i class="fa fa-calendar-alt"></i> Availabilty</b> <span>{{$doctor->available ? 'Available':'Unavailable'}}</span>
               </li>
-              <li class="list-group-item p-1 px-3{{--  tf-flex --}}">
+              <li class="list-group-item p-1 px-3">
                 <b class="d-inline-block w-35"><i class="fa fa-calendar"></i> Practice Years</b> <span>{{$doctor->practice_years}} yrs</span>
               </li>
 
-              <li class="list-group-item p-1 px-3{{--  tf-flex --}}">
+              <li class="list-group-item p-1 px-3">
                 <b class="d-inline-block w-35"><i class="fa fa-map-marker"></i> Location</b> <span>{{$doctor->location}}</span>
               </li>
-              <li class="list-group-item p-1 px-3{{--  tf-flex --}}">
+              <li class="list-group-item p-1 px-3" title="Phone">
+                <b class="d-inline-block w-35"><i class="fa fa-mobile"></i> Contact Number</b> <span>{{$doctor->phone}}</span>
+              </li>
+              <li class="list-group-item p-1 px-3">
                 <b class="d-inline-block w-35"><i class="fa fa-hospital-alt"></i> Place of Work</b> 
                 <span>
                   @if($current_workplace)
@@ -58,7 +72,7 @@
                   @endif
                 </span>
               </li>
-              <li class="list-group-item p-1 px-3 border-bottom-0{{--  tf-flex --}}">
+              <li class="list-group-item p-1 px-3 border-bottom-0">
                 <b class="d-inline-block w-35"><i class="fa fa-info-circle"></i> About</b> <span> {{ $doctor->about }}</span>
               </li>
             </ul>

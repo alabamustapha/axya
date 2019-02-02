@@ -32,7 +32,7 @@
     </div>
 
     <div class="form-group row">
-        <label for="rate" class="col-md-4 col-form-label text-md-right">{{ __('Availability') }}</label>
+        <label for="available" class="col-md-4 col-form-label text-md-right">{{ __('Availability') }}</label>
 
         <div class="col-md-7">
           <div class="form-check form-check-inline">
@@ -80,7 +80,13 @@
             <select id="workplace_id" class="form-control{{ $errors->has('workplace_id') ? ' is-invalid' : '' }}" name="workplace_id" required>
                 <option value="">Select Workplace</option>
                 @foreach($workplaces as $workplace)
-                  <option value="{{$workplace->id}}" {{(old('workplace_id') == $workplace->id || $current_workplace->id == $workplace->id) ? 'selected':''}}>{{$workplace->name}}</option>
+                  <option value="{{$workplace->id}}" 
+                    {{(old('workplace_id') == $workplace->id 
+                        || 
+                        ($current_workplace ? $current_workplace->id == $workplace->id : null)) 
+                        ? 'selected':''}}>
+                    {{$workplace->name}}
+                </option>
                 @endforeach
             </select>
 
@@ -96,7 +102,7 @@
         <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Official Phone') }}</label>
 
         <div class="col-md-7">
-            <input id="phone" type="tel" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" value="{{ old('phone') ?: $doctor->phone }}" placeholder="your phone address">
+            <input id="phone" type="tel" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" value="{{ old('phone') ?: $doctor->phone }}" placeholder="your phone number">
 
             @if ($errors->has('phone'))
                 <span class="invalid-feedback" role="alert">

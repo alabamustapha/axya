@@ -18,10 +18,16 @@
                 
                 @guest
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        <a class="nav-link" href="{{ route('login') }}"
+                            onclick="return false;" id="login-trigger" data-toggle="modal" data-target="#regLoginForm">
+                            {{ __('Login') }}
+                        </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                        <a class="nav-link" href="{{ route('register') }}"
+                            onclick="return false;" id="register-trigger" data-toggle="modal" data-target="#regLoginForm">
+                            {{ __('Register') }}
+                        </a>
                     </li>
                 @else
                     <li class="nav-item">

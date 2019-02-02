@@ -2,24 +2,36 @@
 
 namespace App;
 
+use App\Doctor;
 use Carbon\Carbon;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Nova\Actions\Actionable;
 use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use Notifiable, Sluggable, HasApiTokens;
+    use Notifiable, Sluggable, HasApiTokens, Actionable;
 
     protected $dates = ['dob','application_retry_at'];
 
     protected $casts = [
         'dob' => 'date:Y-m-d',
+        'email_verified_at' => 'datetime',
     ]; 
 
-    protected $appends = ['link','is_verified','is_superadmin','is_admin','is_staff','is_doctor'];
+    protected $appends = ['link','is_verified',
+      'is_superadmin','is_admin','is_staff',
+      // 'is_superadmin_user','is_admin_user','is_staff_user',
+      'is_administrator','is_staff_user',
+      'is_doctor','is_potential_doctor',
+      'type','status',
+      'appointments_count','transactions_count','subscriptions_count',
+      'appointments_list','transactions_list','subscriptions_list','prescriptions_list',
+      'completed_appointments_list','upcoming_appointments_list','pending_appointments_list',
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -27,7 +39,11 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name','slug','email','password','address','phone','gender','avatar','blocked','dob','weight','height','allergies','chronics','last_four','terms','application_retry_at',
+        'name','slug','email','password','address','phone',
+        'gender','avatar','blocked','dob','weight','height','allergies','chronics',
+        'last_four','terms','application_retry_at',
+        'verification_link','as_doctor','application_status',
+        'admin_mode','admin_password',
     ];
 
     /**
@@ -38,6 +54,12 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $hidden = [
         'password', 'remember_token', 'acl', 'last_four',
     ];
+
+    public function notifications()
+    {
+        return $this->morphMany(Notification::class, 'notifiable')
+                            ->orderBy('created_at', 'desc');
+    }
 
     /**
      * Return the sluggable configuration array for this model.
@@ -89,7 +111,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function isAccountOwner()
     {
-        return $this->id === auth()->id();
+        return $this->id == auth()->id();
     }
 
     /**
@@ -99,16 +121,18 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function isVerified()
     {
-        return app()->environment('local')
-            ? ( 
-              !is_null($this->email_verified_at) || 
-              $this->email == 'cucuteanu@yahoo.com' || 
-              $this->email == 'alabamustapha@gmail.com' || 
-              $this->email == 'tonyfrenzy@gmail.com' || 
-              $this->email == 'solomoneyitene@gmail.com'
-              )
-            : !is_null($this->email_verified_at)
-            ;
+        return !is_null($this->email_verified_at);
+
+        // return app()->environment('local')
+        //     ? ( 
+        //       !is_null($this->email_verified_at) || 
+        //       $this->email == 'cucuteanu@yahoo.com' || 
+        //       $this->email == 'alabamustapha@gmail.com' || 
+        //       $this->email == 'tonyfrenzy@gmail.com' || 
+        //       $this->email == 'solomoneyitene@gmail.com'
+        //       )
+        //     : !is_null($this->email_verified_at)
+        //     ;
     }
     public function isSuspended()
     {
@@ -195,29 +219,89 @@ class User extends Authenticatable implements MustVerifyEmail
         return $query->where('acl', '2');
     }
 
-    public function isSuperAdmin() 
+
+
+    /**
+     * A Super Admin but not signed in as ADMIN
+     * 
+     * @return  boolean
+     */
+    public function isSuperAdminUser() 
     {
-        return $this->is_verified && $this->acl == '5';
+        return $this->is_verified && ($this->acl == '5');
     }
 
+    /**
+     * A Basic Admin but not signed in as ADMIN
+     * 
+     * @return  boolean
+     */
+    public function isAdminUser() 
+    {
+        return $this->is_verified && ($this->acl == '1' || $this->isSuperAdminUser());
+    }
+
+    /**
+     * A Staff but not signed in as STAFF-ADMIN
+     * 
+     * @return  boolean
+     */
+    public function isStaffUser() 
+    {
+        return $this->is_verified && ($this->acl == '2' || $this->isAdminUser()); 
+    }
+
+    public function isAdministrator() 
+    {
+        return $this->isAdminUser() || $this->isSuperAdminUser();
+    }
+
+    /**
+     * Check the ADMIN LOG IN status of this user.
+     * 
+     * @return  boolean
+     */
+    public function isLoggedInAsAdmin() 
+    {
+        // return (bool) $this->admin_mode;
+        return (bool) ($this->admin_mode && !is_null($this->admin_password));
+    }
+
+    /**
+     * A Super Admin and is signed in as ADMIN
+     * 
+     * @return  boolean
+     */
+    public function isSuperAdmin() 
+    {
+        return $this->isSuperAdminUser() && $this->isLoggedInAsAdmin();
+    }
+
+    /**
+     * A Basic Admin and is signed in as ADMIN
+     * 
+     * @return  boolean
+     */
     public function isAdmin() 
     {
-        return $this->is_verified && app()->environment('local') 
-            ? (
-              $this->acl == '1' || 
-              $this->isSuperAdmin() || 
-              $this->email == 'cucuteanu@yahoo.com' || 
-              $this->email == 'alabamustapha@gmail.com' || 
-              $this->email == 'tonyfrenzy@gmail.com' || 
-              $this->email == 'solomoneyitene@gmail.com' 
-              )
-            : $this->acl == '1' || $this->isSuperAdmin()
-            ;
+        return $this->isAdminUser() && $this->isLoggedInAsAdmin();
+
+        // return $this->is_verified && app()->environment('local') 
+        //     ? (
+        //       $this->acl == '1' || 
+        //       $this->isSuperAdmin() || 
+        //       $this->email == 'cucuteanu@yahoo.com' || 
+        //       $this->email == 'alabamustapha@gmail.com' || 
+        //       $this->email == 'tonyfrenzy@gmail.com' || 
+        //       $this->email == 'solomoneyitene@gmail.com' 
+        //       )
+        //     : $this->acl == '1' || $this->isSuperAdmin()
+        //     ;
     }
 
     public function isStaff() 
     {
-        return $this->is_verified && ($this->acl == '2' || $this->isAdmin());        
+        return $this->isStaffUser() && $this->isLoggedInAsAdmin();        
     }
 
 
@@ -244,6 +328,18 @@ class User extends Authenticatable implements MustVerifyEmail
         $this->update();
     }
 
+    public function block() 
+    {
+        $this->blocked = '1';
+        $this->update();
+    }
+
+    public function unblock() 
+    {
+        $this->blocked = '0';
+        $this->update();
+    }
+
 
     /* --- - User Roles - --- */
 
@@ -254,8 +350,11 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function type() 
     {
-        if ($this->acl == '1' || $this->acl == '5'){
+        if ($this->acl == '1'){
             return 'Admin';
+        } 
+        elseif ($this->acl == '5'){
+            return 'Admin*';
         } 
         elseif ($this->acl == '2'){
             return 'Staff';
@@ -279,12 +378,14 @@ class User extends Authenticatable implements MustVerifyEmail
     /*<!---------------- Update Doctor Application Status ---------------->*/
     public static $applicationStatus = array(
         0 => 'Are you a <i class="fa fa-user-md"></i> Medical Doctor? 
-              <a class="btn btn-success btn-sm" href="http://axya.he-healthy.ro/doctors/create">Register Here!</a>',
+              <a class="btn btn-success btn-sm" href="http://axya.be-healthy.ro/doctors/create">Register Here!</a>',
 
         1 => '<span class="teal text-bold"><i class="fa fa-info-circle"></i>&nbsp; Notifications</span>
               <hr> 
               <small style="font-size:12px;">
                 Notifications and updates on professional stuffs.
+                <br>
+                <small class="red"><em>You may recieve appiontment from patients now.</em></small>
                 <br>
                 <small class="red"><em>You must be <b>subscribed</b> to appear in search results.</em></small>
               </small>',
@@ -295,7 +396,9 @@ class User extends Authenticatable implements MustVerifyEmail
                 Your information has been <b>verified</b>, your application is <b>accepted</b> 
                 <br>
                 You can now attend to patients and receive appointments on this platform after subscription.
-                <a href="#" class="btn btn-primary btn-sm">Subscribe now to begin</a>.
+                <button class="btn btn-primary btn-sm" 
+                  data-toggle="modal" data-target="#newSubscriptionForm" 
+                  title="New Subscription">Subscribe Now</button>.
               </small>',
 
         3 => '<span class="orange text-bold"><i class="fa fa-info-circle"></i>&nbsp; Ongoing Verification</span>
@@ -374,12 +477,27 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function status() 
     {
-        return $this->blocked ? 'Banned':'Active';
+        return $this->blocked ? 'Blocked':'Active';
     }
 
     public function images()
     {
         return $this->hasMany(Image::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class);
     }
 
     public function documents()//uploaded_documents()
@@ -392,6 +510,11 @@ class User extends Authenticatable implements MustVerifyEmail
     //     return $this->morphMany(Document::class, 'documentable');
     // }
 
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
+
     public function application()
     {
         return $this->hasOne(Application::class);
@@ -402,22 +525,92 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(Doctor::class);
     }
 
+    public function prescriptions()
+    {
+        return $this->hasManyThrough(Prescription::class, Appointment::class, 'user_id', 'appointment_id');
+    }
+
     public function appointments()
     {
         return $this->hasMany(Appointment::class);
     }
 
-    public function doctors()
+    /**
+     * Appointment Status Related
+     */
+    public function appointmentsAwaitingConfirmation()
     {
-        // $doctorIds = $this->appointments()
-        //                   ->successful() // Scope on Appointment Class
-        //                   ->pluck('doctor_id')
-        //                   ->toArray();
-
-        // return App\Doctor::whereIn('id', $doctorIds)->get();
-        // // return $this->hasMany(Doctor::class);
+        // 0. New appointment, awaiting doctor's confirmation.
+        return $this->appointments()->AwaitingConfirmation();
+    }
+    public function appointmentsCompleted()
+    {
+        // 1. Appointment/Consultation completed successfully.
+        return $this->appointments()->Completed();
+    }
+    public function appointmentsConfirmed()
+    {
+        // 2. Confirmed, awaiting fees payment
+        return $this->appointments()->Confirmed();
+    }
+    public function appointmentsScheduleChangeSuggestion()
+    {
+        // 3. Schedule change suggestion by doctor
+        return $this->appointments()->ScheduleChangeSuggestion();
+    }
+    public function appointmentsRejected()
+    {
+        // 4. Rejected by doctor!
+        return $this->appointments()->Rejected();
+    }
+    public function appointmentsOtherDoctorRecommendation()
+    {
+        // 5. Another doctor recommended.
+        return $this->appointments()->OtherDoctorRecommendation();
+    }
+    public function appointmentsCancelled()
+    {
+        // 6. Cancelled by patient
+        return $this->appointments()->Cancelled();
+    }
+    public function appointmentsUncompleted()
+    {
+        // All uncompleted Appointments.
+        return $this->appointments()->Uncompleted();
+    }
+    public function appointmentsAwaitingAppointmentTime()
+    {
+        // Confirmed, payment made, awaiting appointment time.
+        return $this->appointments()->AwaitingAppointmentTime();
     }
 
+
+
+    public function doctors()
+    {
+        $ids = $this->appointments()
+                  // \App\Appointment::where('user_id', $this->id)
+                  ->completed()
+                  ->pluck('doctor_id')
+                  ->toArray()
+                  ;
+        $doctorIds = array_unique($ids);
+
+        return Doctor::whereIn('id', $doctorIds)->get();
+
+        // return $this->hasManyThrough(Doctor::class, Appointment::class, 'user_id', 'user_id')
+        //     ->whereHas('appointments', function($query){
+        //         $query->where('user_id', $this->id)
+        //               // ->completed()
+        //         ;
+        //     });
+    }
+
+
+    public function getDoctorsAttribute()
+    {
+        return $this->doctors();
+    }
 
 
     /**
@@ -425,11 +618,24 @@ class User extends Authenticatable implements MustVerifyEmail
      * 
      * @return array
      */
-    public function inPastAttendantDoctors()
+    public function inPastAttendingDoctors()
     {
-        $doctorIds = $this->doctors()
-                          ->pluck('id')
-                          ->toArray();
+        $ids = $this->doctors()
+                    ->pluck('id')->toArray();
+
+        $doctorIds = array_unique($ids);
+
+        return in_array(request()->user->id, $doctorIds);
+    }
+
+    public function inAllAttendingDoctors()
+    {
+        $ids = $this->appointments()
+                  ->pluck('doctor_id')
+                  ->toArray()
+                  ;
+
+        $doctorIds = array_unique($ids);
 
         return in_array(request()->user->id, $doctorIds);
     }
@@ -445,6 +651,17 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->isVerified();
     }
+
+    public function getIsStaffUserAttribute() 
+    {
+        return $this->isStaffUser();
+    }
+
+    public function getIsAdministratorAttribute() 
+    {
+        return $this->isAdministrator();
+    }
+
     public function getIsSuperAdminAttribute() 
     {
         return $this->isSuperAdmin();
@@ -463,5 +680,73 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getIsDoctorAttribute() 
     {
         return $this->isDoctor(); 
+    }
+
+    public function getIsPotentialDoctorAttribute() 
+    {
+        return $this->as_doctor == '1' && $this->application_status != '1';
+    }
+
+    public function getTypeAttribute() 
+    {
+        return $this->type();
+    }
+
+    public function getStatusAttribute() 
+    {
+        return $this->status();
+    }
+
+
+    # Appiontments Related
+    public function getAppointmentsListAttribute() 
+    {
+        return route('appointments.index', $this);
+    }
+
+    public function getCompletedAppointmentsListAttribute() 
+    {
+        return route('appointments.index', ['user'=> $this, 'status' => 'success']);
+    }
+
+    public function getUpcomingAppointmentsListAttribute() 
+    {
+        return route('appointments.index', ['user'=> $this, 'status' => 'awaiting-appointment-time']);
+    }    
+
+    public function getPendingAppointmentsListAttribute() 
+    {
+        return route('appointments.index', ['user'=> $this, 'status' => 'awaiting-confirmation']);
+    }
+
+
+    public function getPrescriptionsListAttribute() 
+    {
+        return route('prescriptions.index', $this);
+    }
+
+    public function getTransactionsListAttribute() 
+    {
+        return route('transactions.index', $this);
+    }
+
+    public function getSubscriptionsListAttribute() 
+    {
+        return route('subscriptions.index', $this);
+    }
+
+    public function getTransactionsCountAttribute() 
+    {
+        return $this->transactions()->whereStatus(1)->count();
+    }
+
+    public function getAppointmentsCountAttribute() 
+    {
+        return $this->appointments()->whereStatus(1)->count();
+    }
+
+    public function getSubscriptionsCountAttribute() 
+    {
+        return $this->subscriptions()->whereStatus(1)->count();
     }
 }

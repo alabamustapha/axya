@@ -9,7 +9,7 @@
     <!-- Left col -->
     <div class="col-md-9">
       <!-- MAP & BOX PANE -->
-      <div class="card text-center shadow-none">
+      <div class="card text-center shadow-none mb-4">
         <div class="card-header bg-secondary">
           <h3 class="card-title text-bold pt-3">Verified Doctors</h3>
 
@@ -20,20 +20,45 @@
           </div>
         </div>
         <!-- /.card-header -->
-        <div class="card-body p-0 mb-4 shadow-sm">
+        <div class="card-body p-0">
           <div class="d-md-flex">
             <div class="p-4 flex-1" style="overflow: hidden">
               
               <div class="display-1 tf-flex">
                 <i class="fa fa-user-md col-sm-3"></i>
-                <span class="col-sm-9">{{ $doctors_count }}</span>
+                <span class="col-sm-9 text-bold">{{ $doctors_count }}</span>
               </div>
 
             </div>
           </div><!-- /.d-md-flex -->
         </div>
         <!-- /.card-body -->
+        <div class="card-footer">
+          <div class="mb-3">
+            <form @submit.prevent="searchForDoctor" class="form-inline">
+              <div class="form-group mb-2 d-inline-block w-100">
+                <input
+                  v-model="search"
+                  @keyup="searchForDoctor"
+                  type="search" name="search"
+                  placeholder="search doctors..." aria-label="Search Doctors..." 
+                  class="form-control form-control-lg text-center w-100 bg-dark" id="doctorSearchForm">
+    
+              </div>        
+              <button @click="searchForDoctor" type="submit" class="btn btn-primary d-block mx-auto">
+                  <i class="fa fa-search "></i> Search
+              </button>                    
+            </form>
+          </div>
 
+          <div class="bg-light">
+            <doctor-search></doctor-search>
+          </div>
+
+        </div>
+      </div>
+      
+      <div>
         <h3 class="text-bold pt-3 mt-3 pb-2 bg-secondary">
           <i class="fa fa-venus-mars"></i>
           Gender Statistics

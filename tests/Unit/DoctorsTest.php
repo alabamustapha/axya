@@ -22,7 +22,7 @@ class DoctorsTest extends TestCase
         $this->image  = factory(Image::class)->create();
         $this->user   = factory(User::class)->create();
         $this->specialty = factory(Specialty::class)->create();
-        $this->doctor = factory(Doctor::class)->create();
+        $this->doctor = factory(Doctor::class)->states('active')->create();
     } 
 
     /** @test */
@@ -30,7 +30,12 @@ class DoctorsTest extends TestCase
     {
         $this->assertTrue(Schema::hasColumns('doctors', 
           [
-            'id','user_id','about','rate','specialty_id','first_appointment','graduate_school','verified_by','verified_at','location','email','phone'
+            'id','user_id','email','phone','slug','about',
+            'main_language','second_language','other_languages',
+            'country_id','state_id','home_address','work_address','location',
+            'rate','session','first_appointment','available','subscription_ends_at',
+            'graduate_school','degree','residency','specialty_id',
+            'verified_at','verified_by','revoked',
           ]), 1);
     }
 
@@ -46,11 +51,11 @@ class DoctorsTest extends TestCase
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->doctor->schedules); 
     }
 
-    /** @test */
-    public function a_doctor_has_many_patients()
-    {
-        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->doctor->patients); 
-    }
+    // /** @test */
+    // public function a_doctor_has_many_patients()
+    // {
+    //     $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->doctor->patients); 
+    // }
 
     /** @test */
     public function a_doctor_has_many_workplaces()
@@ -74,5 +79,23 @@ class DoctorsTest extends TestCase
     public function a_doctor_has_many_appointments()
     {
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->doctor->appointments); 
+    }
+
+    /** @test */
+    public function a_doctor_has_many_transactions()
+    {
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->doctor->transactions); 
+    }
+
+    /** @test */
+    public function a_doctor_has_many_subscriptions()
+    {
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->doctor->subscriptions); 
+    }
+
+    /** @test */
+    public function a_doctor_has_many_prescriptions_through_an_appointnment()
+    {
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->doctor->prescriptions); 
     }
 }

@@ -7,7 +7,7 @@ $factory->define(App\Appointment::class, function (Faker $faker) {
     $slug        = App\User::find($id)->slug;
 
     return [
-      'status'    => $faker->numberBetween(0,6),
+      'status'    => $faker->numberBetween(0,5),
       'user_id'   => $id,
       'slug'      => $slug,
       'doctor_id' => App\Doctor::all()->random()->id,
@@ -16,8 +16,12 @@ $factory->define(App\Appointment::class, function (Faker $faker) {
       'from'      => $faker->time('H:i', '5:00 am'), // 'H:i:s'
       'to'        => $faker->time('H:i', '11:00 pm'), // 'H:i:s'
 
-      'patient_info' => $faker->paragraphs(1,3),
+      'description' => $faker->paragraphs(1,3),
+      'illness_duration' => $faker->randomElement(['1 week','2 days','3 months']),
+      'illness_history'  => $faker->sentences(1,5),
+
       'sealed_at' => $faker->dateTimeBetween('-50 day', '-1day'),
+      'reviewed'  => $faker->boolean(40),
       
       'type'      => $faker->randomElement(['Online','Home']),
       'address'   => $faker->address,

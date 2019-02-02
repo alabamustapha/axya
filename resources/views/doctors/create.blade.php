@@ -1,13 +1,12 @@
 @extends('layouts.master')
 
-@section('title', 'Apply as a Doctor')
+@section('title', 'Medical Doctors Account Registration')
+@section('page-title', 'Register As A Doctor')
 
 @section('content')
-
-    <div class="col-md-6 offset-md-3">
-      
-        @include('doctors.forms.apply')
-        
+ 
+    <div class="col-sm-8 offset-sm-2">      
+        @include('doctors.forms.apply')        
     </div>
 
 @endsection

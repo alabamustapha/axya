@@ -26,14 +26,14 @@ class AppointmentRequest extends FormRequest
         $rules = [];
         $rules = array_merge($rules, [
             'type'      => 'required|in:Online,Home',
-            'address'   => 'required_if:type,Home|string',
-            'phone'     => 'required_if:type,Home|string',
+            'address'   => 'nullable|required_if:type,Home|string',
+            'phone'     => 'nullable|required_if:type,Home|string',
 
             'doctor_id' => 'required|integer|exists:doctors,id',
-            'patient_info' => 'required|string|max:1500',
+            'description' => 'required|string|max:1500',
 
-            'from'      => 'required|date_format:H:i',
-            'to'        => 'required|date_format:H:i|after:from',
+            'from'      => 'required|date_format:h:i A',
+            'to'        => 'required|date_format:h:i A|after:from',
         ]);
 
         $rules = app()->environment('testing')
@@ -42,7 +42,7 @@ class AppointmentRequest extends FormRequest
                 'day'       => 'required',//|string|max:19',
             ])
             : array_merge($rules, [
-                'day'       => 'required|date',
+                'day'       => 'required|date|after_or_equal:today',
             ]);
 
         return $rules;
@@ -60,10 +60,10 @@ class AppointmentRequest extends FormRequest
             'doctor_id.exists'   => 'A valid doctor must be selected.',
 
             'from.required'      => 'The appointment start time is required.',
-            'from.date_format'   => 'The appointment start time must be in the format: 10:23 PM.',
+            'from.date_format'   => 'The appointment from (start time) must be in the format: 10:23 PM.',
 
             'to.required'        => 'The appointment end time is required.',
-            'to.date_format'     => 'The appointment end time must be in the format: 10:23 PM.',
+            'to.date_format'     => 'The appointment to (end time) must be in the format: 10:23 PM.',
             'to.after'           => 'The appointment end time must be a time after start time. It might be a wrong AM/PM.',
         ];
     }

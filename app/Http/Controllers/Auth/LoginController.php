@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use Auth;
-use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 class LoginController extends Controller
@@ -26,7 +27,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/user-dashboard';
 
     /**
      * Create a new controller instance.
@@ -38,20 +39,69 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
     
-    // public function login(Request $request)
-    // {
-    //     $remember = $request->remember;
-    //     dd($remember);
 
-    //     if (Auth::attempt([ 'email' => $request->email, 'password' => $request->password], $remember)) {
+    /**
+     * Logs user out of the app.
+     * @see AuthenticatesUsers@login
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Http\JsonResponse
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function login(Request $request)
+    {
+        if (Auth::attempt([ 'email' => $request->email, 'password' => $request->password])) {
 
-    //         return redirect()->route('users.show', Auth::user());
+            $this->logOutAsAdmin();
 
-    //     }
+            if (isset(request()->ref)){
+                // Prevent double slash '//' if referring url is '/'.
+                $refUrl = (request()->ref === '/') ? '' : request()->ref;
+
+                // Reconstruct referring page and redirect appropriately.
+                $expected_path = config('app.url') . $refUrl;
+
+                return redirect($expected_path);
+            }
+
+            return redirect()->route('user_dashboard');
+        }
         
-    //     $request->session()->flash('error', 'We could not sign you in, check your login credentials and try again.');
-    //     return redirect()->back();
+        flash('We could not sign you in, check your login credentials and try again.')->error();
+        return redirect()->back();
+    }
 
-    // }
+
+    /**
+     * Logs user out of the app.
+     * @see AuthenticatesUsers@logout
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function logout(Request $request)
+    {
+        $this->logOutAsAdmin();
+
+        Auth::logout();
+
+        return redirect('/'); //->route('doctors.index') 
+    }
+
+
+    /**
+     * If user is admin/staff and is logged in as admin, log him out. 
+     * Persistent admin log in could be due to session expiration.
+     *
+     * @return void
+     */
+    public function logOutAsAdmin()
+    {
+        if (Auth::check() && (Auth::user()->isAdmin() || Auth::user()->isStaff())) 
+        {
+            Auth::user()->update(['admin_mode' => 0]);
+        }
+    }
 
 }

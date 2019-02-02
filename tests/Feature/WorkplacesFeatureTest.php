@@ -82,10 +82,10 @@ class WorkplacesFeatureTest extends TestCase
     /** @test */
     public function delete_a_workplace_can_be_removed_by_admin()
     {
-        $admin   = factory(User::class)->create(['acl' => '1']);
-        $this->actingAs($admin);
+        $admin   = factory(User::class)->states('admin')->create();
 
         $this
+            ->actingAs($admin)
             ->delete(route('workplaces.destroy', $this->workplace))
             ->assertStatus(302)
             // ->assertRedirect(route('doctors.show', $this->doc_user))

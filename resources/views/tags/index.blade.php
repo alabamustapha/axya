@@ -31,8 +31,12 @@
           </div>
         </a>
       @empty
-        <div class="empty-list bg-white">
-          0 tags at the moment
+        <div class="text-center">
+          <div class="display-3"><i class="fa fa-tags"></i></div> 
+
+          <br>
+
+          <p><strong>0</strong> tags at this time.</p>
         </div>
   		@endforelse
     </div>

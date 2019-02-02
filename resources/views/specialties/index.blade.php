@@ -25,7 +25,7 @@
                 {{ $specialty->name }}
                 <span class="pull-right" style="color: inherit;">
                   <span class="badge badge-dark badge-sm" title="Doctors with {{ $specialty->name }} specialty">
-                    {{ $specialty->doctorsCount() }}
+                    {{ $specialty->doctors_count }}
                     <small>Doctor(s)</small>
                   </span>
                 </span>
@@ -36,8 +36,12 @@
         </div>
       </div>
     @empty
-      <div class="empty-list bg-white my-1">
-        0 specialties at the moment
+      <div class="text-center">
+        <div class="display-3"><i class="fa fa-stethoscope"></i></div> 
+
+        <br>
+
+        <p>You have <strong>0</strong> specialties at this time.</p>
       </div>
 		@endforelse
 	</div>

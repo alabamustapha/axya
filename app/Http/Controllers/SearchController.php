@@ -57,12 +57,18 @@ class SearchController extends Controller
     {
       if (request()->q){
         $q = request()->q;
+
+        // Get Related Specialties.
+        $specialties = Specialty::where('name', 'like', "%$q%")->get();
+        // Get doctors based on specialties.
+        $doc_specialty = array_unique($specialties->pluck('id')->toArray());
         
         $results = Doctor::with('user')
                    ->where('slug', 'like', "%$q%")
                    ->orWhere('location', 'like', "%$q%")
                    ->orWhere('about', 'like', "%$q%")
-                   ->paginate(3);
+                   ->orWhereIn('specialty_id', $doc_specialty)
+                   ->paginate(6);
 
         return response()->json($results);
       }
@@ -75,7 +81,7 @@ class SearchController extends Controller
 
         $results = Tag::with('specialty')->where('name', 'like', "%$q%")
                      ->orWhere('description', 'like', "%$q%")
-                     ->paginate(10);
+                     ->paginate(15);
 
         return response()->json($results);
       }
@@ -102,7 +108,7 @@ class SearchController extends Controller
         $results = User::where('name', 'like', "%$q%")
                      ->orWhere('email', 'like', "%$q%")
                      ->orWhere('phone', 'like', "%$q%")
-                     ->paginate(5);//get();
+                     ->paginate(6);//get();
 
         return response()->json($results);
       }

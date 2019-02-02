@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Doctor;
+use App\Specialty;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -17,6 +19,7 @@ class ACLsFeatureTest extends TestCase
 
         // Create a Super Admin
         $this->superadmin = factory(User::class)->states('superadmin')->create();
+        $this->admin = factory(User::class)->states('admin')->create();
     } 
 
     /** @test */
@@ -26,6 +29,7 @@ class ACLsFeatureTest extends TestCase
 
         // Create a User 
         $user = factory(User::class)->states('verified')->create();
+        // $user->makeAdmin();
 
         // Update the User's details
         $updated_data = [ 'id' => $user->id, 'acl' => '1']; 
@@ -138,4 +142,82 @@ class ACLsFeatureTest extends TestCase
 
         $this->assertDatabaseHas('users', $updated_data);
     }
+
+
+
+    /** @test */
+    public function update_a_user_can_be_blocked()
+    {
+        $this->actingAs($this->admin);
+
+        // Create a User
+        $user = factory(User::class)->states('verified')->create(['blocked' => '0']);
+
+        // Block the user
+        $updated_data = [ 'id' => $user->id, 'blocked' => '1']; 
+
+        $this
+            ->patch(route('block_user', $user), $updated_data)
+            ;
+
+        $this->assertDatabaseHas('users', $updated_data);
+    }
+
+    /** @test */
+    public function update_a_user_can_be_unblocked()
+    {
+        $this->actingAs($this->admin);
+
+        // Create a User
+        $user = factory(User::class)->states('verified')->create(['blocked' => '1']);
+
+        // Unblock the user
+        $updated_data = [ 'id' => $user->id, 'blocked' => '0']; 
+
+        $this
+            ->patch(route('unblock_user', $user), $updated_data)
+            ;
+
+        $this->assertDatabaseHas('users', $updated_data);
+    }
+
+
+
+    // /** @test */
+    // public function update_a_doctors_license_can_be_revoked()
+    // {
+    //     // Create a Doctor
+    //     $dr_user   = factory(User::class)->states('verified')->create();
+    //     $specialty = factory(Specialty::class)->create();
+    //     $doctor    = factory(Doctor::class)->states('active')->create(['id' =>$dr_user->id, 'revoked' => '0']);
+
+    //     // Revoke a doctor's license.
+    //     $updated_data = [ 'id' => $doctor->id, 'revoked' => '1']; 
+
+    //     $this
+    //         ->actingAs($this->admin)
+    //         ->patch(route('revoke_license', $doctor), $updated_data)
+    //         ;
+
+    //     $this->assertDatabaseHas('doctors', $updated_data);
+    // }
+
+    // /** @test */
+    // public function update_a_doctors_license_can_be_restored()
+    // {
+    //     // Create a Doctor
+    //     $dr_user   = factory(User::class)->states('verified')->create();
+    //     $specialty = factory(Specialty::class)->create();
+    //     $doctor    = factory(Doctor::class)->states('active')->create(['id' =>$dr_user->id, 'revoked' => '1']);
+
+    //     // Restore a doctor's license.
+    //     $updated_data = [ 'id' => $doctor->id, 'revoked' => '0']; 
+
+    //     $this
+    //         ->actingAs($this->admin)
+    //         ->patch(route('restore_license', $doctor), $updated_data)
+    //         ;
+
+    //     $this->assertDatabaseHas('doctors', $updated_data);
+    // }
 }

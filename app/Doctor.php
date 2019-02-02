@@ -2,24 +2,55 @@
 
 namespace App;
 
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Doctor extends Model
 {
-    protected $fillable = [
-      'id','user_id','slug','about','rate','specialty_id','first_appointment','graduate_school','available','subscription_ends_at','verified_at','verified_by','location','email','phone'
+    protected $fillable = [        
+        'id','user_id','email','phone','slug','about',                          // Profile      
+        'main_language','second_language','other_languages',                    // Language        
+        'country_id','state_id','home_address','work_address','location',       // Location        
+        'rate','session','first_appointment','available','subscription_ends_at',// Work        
+        'graduate_school','degree','residency','specialty_id',                  // Education        
+        'verified_at','verified_by','revoked' // Others
     ];
 
     protected $dates = ['verified_at','subscription_ends_at','first_appointment'];
 
-    protected $with = ['specialty'];
+    protected $with = ['specialty','user'];
 
-    protected $appends = ['practice_years', 'link'];
+    protected $appends = [
+      'name','link','avatar','practice_years','is_active','availability_text',
+      'license_status',
+      'rating','rating_digit',
+      'adjusted_subscription_end','is_subscribed','patients_count',
+      'pending_appointments_count','appointments_count','transactions_count','subscriptions_count',
+      'appointments_list','transactions_list','subscriptions_list','prescriptions_list',
+      'completed_appointments_list','upcoming_appointments_list','pending_appointments_list',
+    ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    public function revokeLicense() 
+    {
+        $this->revoked = '1';
+        $this->update();
+    }
+
+    public function restoreLicense()
+    {
+        $this->revoked = '0';
+        $this->update();
     }
 
     // public function specialties()
@@ -32,14 +63,78 @@ class Doctor extends Model
         return $this->belongsTo(Specialty::class);
     }
 
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
+    }
+
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class);
+    }
+
     public function documents()
     {
         return $this->morphMany(Document::class, 'documentable');
     }
 
+    public function prescriptions()
+    {
+        return $this->hasManyThrough(Prescription::class, Appointment::class, 'doctor_id', 'appointment_id');
+    }
+
     public function appointments()
     {
-        return $this->hasMany(Appointment::class);
+        return $this->hasMany(Appointment::class);//, 'doctor_id'
+    }
+
+    /**
+     * Appointment Status Related
+     */
+    public function appointmentsAwaitingConfirmation()
+    {
+        // 0. New appointment, awaiting doctor's confirmation.
+        return $this->appointments()->AwaitingConfirmation();
+    }
+    public function appointmentsCompleted()
+    {
+        // 1. Appointment/Consultation completed successfully.
+        return $this->appointments()->Completed();
+    }
+    public function appointmentsConfirmed()
+    {
+        // 2. Confirmed, awaiting fees payment
+        return $this->appointments()->Confirmed();
+    }
+    public function appointmentsScheduleChangeSuggestion()
+    {
+        // 3. Schedule change suggestion by doctor
+        return $this->appointments()->ScheduleChangeSuggestion();
+    }
+    public function appointmentsRejected()
+    {
+        // 4. Rejected by doctor!
+        return $this->appointments()->Rejected();
+    }
+    public function appointmentsOtherDoctorRecommendation()
+    {
+        // 5. Another doctor recommended.
+        return $this->appointments()->OtherDoctorRecommendation();
+    }
+    public function appointmentsCancelled()
+    {
+        // 6. Cancelled by patient
+        return $this->appointments()->Cancelled();
+    }
+    public function appointmentsUncompleted()
+    {
+        // All uncompleted Appointments.
+        return $this->appointments()->Uncompleted();
+    }
+    public function appointmentsAwaitingAppointmentTime()
+    {
+        // Confirmed, payment made, awaiting appointment time.
+        return $this->appointments()->AwaitingAppointmentTime();
     }
 
     public function workplaces()
@@ -49,7 +144,7 @@ class Doctor extends Model
 
     public function currentWorkplace()
     {
-        return $this->hasMany(Workplace::class)->where('current', 1)->first();
+        return $this->workplaces()->where('current', 1)->first();
     }
 
     public function updateCurrentWorkplace($rq)
@@ -81,15 +176,55 @@ class Doctor extends Model
 
     public function patients()
     {
-        // $patientIds = $this->appointments()
-        //                   ->successful() // Scope on Appointment Class
-        //                   ->pluck('user_id')
-        //                   ->toArray();
+        $ids = $this->appointments()
+                ->completed()
+                ->pluck('user_id')
+                ->toArray()
+                ;
+        $patientIds = array_unique($ids);
 
-        // return App\User::whereIn('id', $patientIds)->get();
-        // // return $this->hasMany(Doctor::class);
-        return $this->hasMany(User::class, 'id');
+        return User::whereIn('id', $patientIds)->get();
     }
+
+    public function getPatientsAttribute()
+    {
+        return $this->patients();
+    }
+
+    public function getPatientsCountAttribute()
+    {
+        return $this->patients()->count();
+    }
+
+
+    /**
+     * Get all doctors that has attended to this user before.
+     * 
+     * @return array
+     */
+    public function inPastPatients()
+    {
+        $ids = $this->patients()
+                    ->pluck('id')->toArray();
+
+        $patientIds = array_unique($ids);
+
+        return in_array(request()->user->id, $patientIds);
+    }
+
+    public function inAllPatients()
+    {
+        $ids = $this->appointments()
+                  ->pluck('user_id')
+                  ->toArray()
+                  ;
+
+        $patientIds = array_unique($ids);
+
+        return in_array(request()->user->id, $patientIds);
+    }
+
+
 
     /**
      * Route key
@@ -107,13 +242,13 @@ class Doctor extends Model
      */
     public function isAccountOwner()
     {
-        return $this->id === auth()->id();
+        return $this->id == request()->user()->id; // auth()->id();
     }
 
     public function dummyAvatar()
     {
-      $img = 'dummy_avatar'. random_int(1, 8) .'.jpg';
-      return config('app.url').'/images/doctor_images/' . $img;
+      $img = 'a'. random_int(1, 8) .'.jpg';
+      return config('app.url').'/images/' . $img;
     }
 
     /**
@@ -144,62 +279,121 @@ class Doctor extends Model
     /**
      * Has ongoing subscription.
      */
-    public function is_subscribed()
+    public function isSubscribed()
     {
-        return (bool) $this->subscription_ends_at > Carbon::now();
+        return $this->subscription_ends_at > Carbon::now();
     }
+
+    /**
+     * License withdrawn.
+     */
+    public function isSuspended()
+    {
+        return $this->revoked == '1';
+    }
+
+    public function isAvailable()
+    {
+        return $this->available == '1' && $this->revoked == '0';
+    }
+
+    /**
+     * Subscribed and Available for Appointments.
+     */
+    public function isActive()
+    {
+        return $this->isSubscribed() && $this->isAvailable();
+    }
+
     public function subscriptionStatus()
     {
-        echo $this->is_subscribed() 
-                  ? '<span class="green"title="You may accept appointments.">subscribed</span>'
-                  : '<span class="red" title="You cannot accept appointments at this time.">not subscribed</span>'
+        return $this->isSubscribed() 
+                  ? 'subscribed'
+                  : 'not subscribed'
                   ;
     }
-    public function scopeIsSubscribed($query)
+    public function scopeSubscribed($query)
     {
         return $query->where('subscription_ends_at', '>', Carbon::now());
+    }
+
+    public function scopeSuspended($query)
+    {
+        return $query->where('revoked', '1');
     }
 
     /**
      * Is Available for Appointments.
      */
-    public function scopeIsAvailable($query)
+    public function scopeAvailable($query)
     {
-        return $query->where('available', '1');
+        return $query->where('available', '1')
+                     ->where('revoked', '0')
+                     ;
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->subscribed()
+                     ->available()
+                     ;
     }
 
     public function availabilityText()
     {
-      echo $this->is_active()
+      return $this->isActive()
               ? 'available'
               : 'unavailable'
               ;
     }
 
-    // /**
-    //  * Subscribed and Available for Appointments.
-    //  */
-    public function is_active()
+    public function scopeSubscribedAndUnAvailable($query)
     {
-        return (bool) ($this->is_subscribed() && $this->available);
-    }
-    public function scopeIsActive($query)
-    {
-        return $query->isSubscribed()->isAvailable();
-    }
-
-    public function scopeIsSubscribedAndUnAvailable($query)
-    {
-        return $query->isSubscribed()
+        return $query->subscribed()
                      ->where('available', '0')
                      ;
     }
 
     /**** ~API Candidates~****/
 
+    public function getIsSubscribedAttribute()
+    {
+        return $this->isSubscribed();
+    }
+
+    public function getRatingAttribute()
+    {
+        $total_reviews = $this->appointments()->reviewed()->get()->count();
+
+        $average_rating = $this->appointments()->reviewed()->avg('rating');
+
+        $rated = $average_rating ? round($average_rating, 2) . '/5': 'no rating';
+
+        $rating = $rated . ' ('. $total_reviews .')';
+        
+        return $rating;
+    }
+
+    public function getRatingDigitAttribute()
+    {
+        $average_rating = intval($this->appointments()->reviewed()->avg('rating'));
+
+        return $average_rating;
+    }
+
+    public function getNameAttribute()
+    {
+        return $this->user->name;
+    }
+
     public function getLinkAttribute()
     {
       return route('doctors.show', $this);
+    }
+
+    public function getAvatarAttribute()
+    {
+        return $this->dummyAvatar();//$this->user->avatar;
     }
 
     public function getPracticeYearsAttribute()
@@ -215,5 +409,86 @@ class Doctor extends Model
     public function getPhoneAttribute($value)
     {
       return (! is_null($value)) ? $value: $this->user->phone;
+    }
+
+    public function getAdjustedSubscriptionEndAttribute()
+    {
+      return is_null($this->subscription_ends_at) ? Carbon::parse(Carbon::now())->subSeconds(1) : $this->subscription_ends_at;
+    }
+
+
+
+
+
+    # Appiontments Related
+    public function getAppointmentsListAttribute() 
+    {
+        return route('dr_appointments', $this);
+    }
+
+    public function getCompletedAppointmentsListAttribute() 
+    {
+        return route('dr_appointments', ['doctor'=> $this, 'status' => 'success']);
+    }
+
+    public function getUpcomingAppointmentsListAttribute() 
+    {
+        return route('dr_appointments', ['doctor'=> $this, 'status' => 'awaiting-appointment-time']);
+    }    
+
+    public function getPendingAppointmentsListAttribute() 
+    {
+        return route('dr_appointments', ['doctor'=> $this, 'status' => 'awaiting-confirmation']);
+    }
+
+
+    public function getPrescriptionsListAttribute() 
+    {
+        return route('dr_prescriptions', $this);
+    }
+
+    public function getTransactionsListAttribute() 
+    {
+        return route('dr_transactions', $this);
+    }
+
+    public function getSubscriptionsListAttribute() 
+    {
+        return route('subscriptions.index', $this);
+    }
+
+    public function getTransactionsCountAttribute() 
+    {
+        return $this->transactions()->whereStatus(1)->count();
+    }
+
+    public function getAppointmentsCountAttribute() 
+    {
+        return $this->appointments()->whereStatus(1)->count();
+    }
+
+    public function getPendingAppointmentsCountAttribute() 
+    {
+        return $this->appointments()->whereStatus(0)->count();
+    }
+
+    public function getSubscriptionsCountAttribute() 
+    {
+        return $this->subscriptions()->whereStatus(1)->count();
+    }
+
+    public function getIsActiveAttribute() 
+    {
+        return $this->isActive();
+    }
+
+    public function getAvailabilityTextAttribute() 
+    {
+        return $this->availabilityText();
+    }
+
+    public function getLicenseStatusAttribute()
+    {
+        return $this->revoked ? 'Revoked':'Active';
     }
 }

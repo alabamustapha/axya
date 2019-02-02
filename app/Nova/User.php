@@ -2,11 +2,22 @@
 
 namespace App\Nova;
 
-use Laravel\Nova\Fields\ID;
+use App\Nova\Actions\MakeAdmin;
+use App\Nova\Filters\UserRole;
+use App\Nova\Filters\UserVerified;
+use App\Nova\Metrics\UsersCount;
+use App\Nova\Metrics\UsersTrend;
+use App\Nova\Metrics\UsersGenderPartition;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Avatar;
+use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Gravatar;
+use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Password;
+use Laravel\Nova\Fields\Select;
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Image;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Resource
 {
@@ -18,13 +29,6 @@ class User extends Resource
     public static $model = 'App\\User';
 
     /**
-     * The single value that should be used to represent the resource when being displayed.
-     *
-     * @var string
-     */
-    public static $title = 'name';
-
-    /**
      * The columns that should be searched.
      *
      * @var array
@@ -32,6 +36,16 @@ class User extends Resource
     public static $search = [
         'id', 'name', 'email',
     ];
+
+    public function title()
+    {
+        return $this->name .' - '. $this->type();
+    }
+
+    public function subtitle()
+    {
+        return $this->professionalType() .' - '. $this->status();
+    }
 
     /**
      * Get the fields displayed by the resource.
@@ -42,16 +56,16 @@ class User extends Resource
     public function fields(Request $request)
     {
         return [
-            ID::make()->sortable(),
-
+            // ID::make()->sortable(),
             Gravatar::make(),
+
+            // Avatar::make(),
 
             Text::make('Name')
                 ->sortable()
                 ->rules('required', 'max:255'),
 
             Text::make('Email')
-                ->sortable()
                 ->rules('required', 'email', 'max:254')
                 ->creationRules('unique:users,email')
                 ->updateRules('unique:users,email,{{resourceId}}'),
@@ -60,6 +74,39 @@ class User extends Resource
                 ->onlyOnForms()
                 ->creationRules('required', 'string', 'min:6')
                 ->updateRules('nullable', 'string', 'min:6'),
+
+            Text::make('Gender')
+                ->sortable(),
+
+            DateTime::make('Account Verified','email_verified_at')
+                // ->hiddenFromIndex()
+                ->onlyOnDetail()
+                ,
+
+            Select::make('User Type', 'acl')->options([
+                    'Admin'=> '1',
+                    'Staff'=> '2',
+                    'Normal'=> '3',
+                ])
+                ->onlyOnDetail()
+                ,
+
+            Select::make('Blocked')->options([
+                    'block'=> 'blocked',
+                    'unblock'=> 'unblocked',
+                ])
+                ->onlyOnDetail()
+                ,
+
+            // Avatar::make('Profile Photo')->disk('public'),
+
+            // Image::make('Profile Photo')
+            //     ->disk('public')
+            //     ->preview(function () {
+            //         return $this->avatar
+            //                     ? Storage::disk($this->disk)->url($this->avatar)
+            //                     : null;
+            //     }),
         ];
     }
 
@@ -71,7 +118,11 @@ class User extends Resource
      */
     public function cards(Request $request)
     {
-        return [];
+        return [
+            new UsersCount,
+            new UsersTrend,
+            new UsersGenderPartition,
+        ];
     }
 
     /**
@@ -82,7 +133,10 @@ class User extends Resource
      */
     public function filters(Request $request)
     {
-        return [];
+        return [
+            new UserVerified,
+            new UserRole,
+        ];
     }
 
     /**
@@ -104,6 +158,10 @@ class User extends Resource
      */
     public function actions(Request $request)
     {
-        return [];
+        return [
+            (new MakeAdmin)->canSee(function ($request){
+                return $request->user()->isSuperAdmin();
+            }),
+        ];
     }
 }

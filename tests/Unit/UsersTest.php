@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Doctor;
 use App\Image;
+use App\Message;
 use App\Specialty;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -21,7 +22,7 @@ class UsersTest extends TestCase
 
         $this->user = factory(User::class)->create();
         $this->specialty = factory(Specialty::class)->create();
-        $this->doctor = factory(Doctor::class)->create();
+        $this->doctor = factory(Doctor::class)->states('active')->create();
     }
 
     /** @test  */
@@ -31,7 +32,8 @@ class UsersTest extends TestCase
         [
             'id','name','slug','email','email_verified_at','address','phone',
             'gender','avatar','acl','application_status','blocked','dob','weight','height',
-            'allergies','chronics','password','last_four','terms'
+            'allergies','chronics','password','last_four','terms','as_doctor',
+            'admin_mode','admin_password',
         ]), 1);
     }
 
@@ -45,6 +47,17 @@ class UsersTest extends TestCase
     public function a_user_has_email_attribute()
     {
         $this->assertNotNull($this->user->email);
+    }
+
+    /** @test  */
+    public function a_user_has_many_messages()
+    {
+        // Method 1:
+        $message   = factory(Message::class)->create(['user_id' => $this->user->id]);        
+        $this->assertTrue($this->user->messages->contains($message));
+
+        // Method 2:
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->user->messages);
     }
 
     /** @test  */
@@ -71,5 +84,23 @@ class UsersTest extends TestCase
     public function a_user_has_many_appointments()
     {
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->user->appointments); 
+    }
+
+    /** @test */
+    public function a_user_has_many_transactions()
+    {
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->user->transactions); 
+    }
+
+    /** @test */
+    public function a_user_has_many_subscriptions()
+    {
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->user->subscriptions); 
+    }
+
+    /** @test */
+    public function a_user_has_many_prescriptions_through_an_appointnment()
+    {
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->user->prescriptions); 
     }
 }

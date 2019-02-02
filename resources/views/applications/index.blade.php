@@ -30,7 +30,7 @@
         </thead>
         <tbody>
         
-        @foreach($applications as $application)
+        @forelse($applications as $application)
         <tr>
             <td>
                 {{$application->user->name}}
@@ -45,7 +45,20 @@
                 {{$application->specialty->name}}
             </td>
         </tr>
-        @endforeach
+        @empty
+            <tr>
+                <td colspan="3" class="bg-white p-4 text-center">
+                    <div class="display-3"><i class="fa fa-user-secret"></i></div> 
+
+                    <br>
+
+                    <p><strong>0</strong> {{ request()->status }} applications at this time.</p>
+                </td>
+            </tr>
+        @endforelse
+            <tr>
+                <td colspan="3" class="text-center py-3">{{ $applications->appends(request()->query())->links() }}</td>
+            </tr>
         </tbody>
     </table>
 </div>

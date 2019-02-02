@@ -10,6 +10,12 @@ class TagPolicy
 {
     use HandlesAuthorization;
 
+    public function view(User $user)
+    {
+        # Used only within the Nova Admin Section.
+        return $user->isAdmin();
+    }
+
     /**
      * Determine whether the user can create specialties.
      *
@@ -18,7 +24,7 @@ class TagPolicy
      */
     public function create(User $user)
     {
-        return $user->isDoctor() || $user->isAdmin();
+        return $user->isAdmin();
     }
 
     /**
@@ -30,7 +36,7 @@ class TagPolicy
      */
     public function edit(User $user, Tag $tag)
     {
-        return ($tag->user_id == auth()->id() && $user->isDoctor()) || $user->isAdmin();
+        return $user->isAdmin();
     }
 
     /**

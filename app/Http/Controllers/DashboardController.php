@@ -14,7 +14,7 @@ class DashboardController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        // $this->middleware('admin');
+        $this->middleware('admin');
     }
 
     /**
@@ -24,15 +24,19 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        $admins_count           = User::whereIn('acl', [1,2,5])->get()->count();
         $users_count    = User::all()->count();
         $doctors_count  = Doctor::all()->count();
         // $completed_transactions_count  = Transaction::notverified()->count();
+        // $completed_subscriptions_count = Subscription::completed()->count();
         $completed_appointments_count = Appointment::completed()->count();
 
         return view('admin.dashboard.index', compact(
+            'admins_count',
             'users_count',
             'doctors_count',
             // 'completed_transactions_count',
+            // 'completed_subscriptions_count',
             'completed_appointments_count'
         ));
     }
@@ -40,6 +44,8 @@ class DashboardController extends Controller
     public function users()
     {
         $users_count            = User::all()->count();
+        $latest_users           = User::latest()->take(8)->get();
+
         $verified_users_count   = User::verified()->count();
         $unverified_users_count = User::notverified()->count();
 
@@ -56,6 +62,8 @@ class DashboardController extends Controller
 
         return view('admin.dashboard.users', compact(
             'users_count',
+            'latest_users',
+            
             'verified_users_count',
             'unverified_users_count',
 
@@ -116,5 +124,20 @@ class DashboardController extends Controller
     public function transactions()
     {
         return view('admin.dashboard.transactions');
+    }
+
+
+    public function listAdmins()
+    {
+        $admins = User::whereIn('acl', [1,5])->orderBy('name')->paginate(10);
+
+        return response()->json($admins);
+    }
+
+    public function listStaffs()
+    {
+        $staffs = User::whereIn('acl', [2])->orderBy('name')->paginate(10);
+
+        return response()->json($staffs);
     }
 }

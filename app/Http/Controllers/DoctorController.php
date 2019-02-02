@@ -8,6 +8,7 @@ use App\Document;
 use App\Notifications\Applications\ApplicationAcceptedNotification;
 use App\Schedule;
 use App\Specialty;
+use App\Review;
 use App\Workplace;
 use Carbon\Carbon;
 use App\Http\Requests\DoctorUpdateRequest;
@@ -19,8 +20,8 @@ class DoctorController extends Controller
     {
         $this->middleware('auth')->except('index','show');
         $this->middleware('application')->only('create');
-        // $this->middleware('verified')->only('create','store');
-        // $this->middleware('doctor')->except('index','show');
+        $this->middleware('verified')->except('index','show');
+        $this->middleware('doctor')->only('edit','update','destroy');
     }
 
     /**
@@ -64,6 +65,7 @@ class DoctorController extends Controller
         $doctor->user_id      = $appl->user_id;
         $doctor->specialty_id = $appl->specialty_id;
         $doctor->first_appointment = $appl->first_appointment;
+        $doctor->work_address = $appl->workplace_address;
         $doctor->slug         = $appl->user->slug;
         $doctor->verified_at  = Carbon::now();
         $doctor->verified_by  = auth()->id();
@@ -184,6 +186,7 @@ class DoctorController extends Controller
                              ;
         $current_workplace = $doctor->currentWorkplace();
         $specialties = Specialty::all();
+        $reviews     = Review::where('doctor_id', $doctor->id)->latest()->paginate('10');
 
         return view('doctors.show', compact('doctor','workplaces','certificates',
             'sun_schedules',
@@ -194,7 +197,8 @@ class DoctorController extends Controller
             'fri_schedules',
             'sat_schedules',
             'current_workplace',
-            'specialties'
+            'specialties',
+            'reviews'
         ));
     }
 
@@ -206,7 +210,15 @@ class DoctorController extends Controller
      */
     public function edit(Doctor $doctor)
     {
-        //
+        $specialties = Specialty::all();
+        $current_workplace = $doctor->currentWorkplace();
+        $workplaces  = $doctor->workplaces()
+                             ->orderBy('start_date', 'desc')
+                             ->orderBy('end_date', 'desc')
+                             ->get()
+                             ;
+
+        return view('doctors.edit', compact('doctor','specialties','current_workplace','workplaces','states','countries','languages'));
     }
 
     /**
@@ -220,7 +232,12 @@ class DoctorController extends Controller
     {
         $this->authorize('edit', $doctor);
 
-        $doctor->updateCurrentWorkplace($request);
+        $doctor->updateCurrentWorkplace($request);   
+
+        // $state   = State::find($request->state_id)->name;
+        // $country = Country::find($request->country_id)->name;
+        // $location= $state  .', '. $country;
+        // $request->merge(['location' => $location]);
 
         if ($doctor->update($request->all())){
             flash('Offical profile updated successfully')->success();

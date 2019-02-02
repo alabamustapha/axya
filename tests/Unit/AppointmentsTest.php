@@ -23,7 +23,7 @@ class AppointmentsTest extends TestCase
 
         $this->user       = factory(User::class)->create();
         $this->specialty  = factory(Specialty::class)->create();
-        $this->doctor     = factory(Doctor::class)->create();
+        $this->doctor     = factory(Doctor::class)->states('active')->create();
         $this->appointment= factory(Appointment::class)->create();
         $this->image      = factory(Image::class)->create();
         $this->document   = factory(Document::class)->create();
@@ -34,7 +34,8 @@ class AppointmentsTest extends TestCase
     {
         $this->assertTrue(Schema::hasColumns('appointments', 
           [
-            'id','status','slug','user_id','doctor_id','day','from','to','patient_info','sealed_at','type','address','phone'
+            'id','status','slug','user_id','doctor_id','day','from','to','description','sealed_at','reviewed','type','address','phone',
+            'illness_duration','illness_history',
           ]), 1);
     }
 
@@ -54,5 +55,23 @@ class AppointmentsTest extends TestCase
     public function an_appointment_has_many_documents()
     {
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->appointment->documents); 
+    }
+
+    /** @test */
+    public function an_appointment_morphs_many_messages()
+    {
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->appointment->messages); 
+    }
+
+    /** @test */
+    public function an_appointment_has_many_prescriptions()
+    {
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->appointment->prescriptions); 
+    }
+
+    /** @test */
+    public function an_appointment_has_many_transactions()
+    {
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->user->transactions); 
     }
 }

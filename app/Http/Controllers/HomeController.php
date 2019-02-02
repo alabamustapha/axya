@@ -24,18 +24,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $doctors = Doctor::isActive()->get()->take(9);
+        $doctors = Doctor::isActive()->inRandomOrder()->get()->take(3);
         
         return view('welcome', compact('doctors'));
-    }
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function search($path)
-    {
-        return view('layouts.master');
     }
 }

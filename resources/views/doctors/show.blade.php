@@ -2,6 +2,10 @@
 
 @section('title', $doctor->user->name .' - Doctors')
 
+@section('styles')    
+    <link rel="stylesheet" href="{{asset('css/vendor/jquery.timepicker.css')}}"> 
+@endsection
+
 @section('content')
 
   <div>
@@ -28,10 +32,14 @@
                   <button onclick="return false;" class="dropdown-item" title="Update Profile" data-toggle="modal" data-target="#updateProfessionalProfileForm">
                     <i class="fa fa-edit mr-1"></i>&nbsp; Edit Profile
                   </button>
+
+                  <a class="dropdown-item" href="{{route('doctors.edit', $doctor)}}">
+                    <i class="fa fa-edit mr-1"></i>&nbsp; Edit Profile 2
+                  </a>
               
                   @if ($doctor->user->hasUploadedAvatar())
                       <a href="{{route('user.avatar.delete', $doctor->user)}}" class="dropdown-item" title="Remove Avatar" onclick="return confirm('Do you want to remove current avatar?');">
-                      <i class="fa fa-trash text-light"></i>
+                      <i class="fa fa-trash"></i>
                     </a>
                   @endif
                 </div>
@@ -52,9 +60,13 @@
                   <i class="fa fa-calendar-check"></i>&nbsp; Book Appointment
                 </a>
               @else
-                <button class="btn btn-primary btn-sm btn-block col" onclick="alert('Log in now to book an appointment');" title="Book Appointment">
+                <a href="{{ route('login') }}"
+                  id="login-trigger" class="btn btn-primary btn-sm btn-block col" 
+                  onclick="alert('Log in now to book an appointment');return false;" 
+                  data-toggle="modal" data-target="#regLoginForm" 
+                  title="Log in now to book an appointment with {{$doctor->name}}">
                   <i class="fa fa-calendar-check"></i>&nbsp; Book Appointment
-                </button>
+                </a>
               @endauth
             </div>
 
@@ -88,22 +100,10 @@
         
       </div>
 
-      <div class="col-md-5">
+      <div class="col-md-5" id="reviews">
 
         <!-- Reviews Section -->
-        <div class="card card-dark">
-          <div class="card-header">
-            <h3 class="card-title">Reviews</h3>
-          </div>
-          <div class="card-body box-profile">
-
-            <ul class="list-group list-group-unbordered mb-0">
-              <li class="list-group-item p-1">John Doe <span class="muted">Such a great professional. ****</span></li>
-              <li class="list-group-item p-1">Jason Doe <span class="muted">The consultation was breathtaking. ****</span></li>
-              <li class="list-group-item p-1">Jane Doe <span class="muted">I got good value for the money. ****</span></li>
-            </ul>
-          </div>
-        </div>  
+        @include('doctors.partials._review-section')  
         <!-- /.card --> 
 
       </div>
@@ -116,4 +116,10 @@
     </div>
   </div>
 
+@endsection
+
+@section('scripts')
+
+  @include('appointments.partials.scripts')
+  
 @endsection

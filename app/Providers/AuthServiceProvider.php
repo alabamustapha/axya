@@ -16,16 +16,22 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         'App\Model' => 'App\Policies\ModelPolicy',
 
-        'App\Application'=> 'App\Policies\ApplicationPolicy',
-        'App\Appointment'=> 'App\Policies\AppointmentPolicy',
-        'App\Doctor'     => 'App\Policies\DoctorPolicy',
-        'App\Document'   => 'App\Policies\DocumentPolicy',
+        'App\Application'   => 'App\Policies\ApplicationPolicy',
+        'App\Appointment'   => 'App\Policies\AppointmentPolicy',
+        'App\Doctor'        => 'App\Policies\DoctorPolicy',
+        'App\Document'      => 'App\Policies\DocumentPolicy',
+        'App\Drug'          => 'App\Policies\DrugPolicy',
         // 'App\Image'      => 'App\Policies\ImagePolicy',
-        'App\Schedule'   => 'App\Policies\SchedulePolicy',
-        'App\Specialty'  => 'App\Policies\SpecialtyPolicy',
-        'App\Tag'        => 'App\Policies\TagPolicy',
-        'App\User'       => 'App\Policies\UserPolicy',
-        'App\Workplace'  => 'App\Policies\WorkplacePolicy',
+        'App\Message'       => 'App\Policies\MessagePolicy',
+        'App\Prescription'  => 'App\Policies\PrescriptionPolicy',
+        'App\Review'        => 'App\Policies\ReviewPolicy',
+        'App\Schedule'      => 'App\Policies\SchedulePolicy',
+        'App\Specialty'     => 'App\Policies\SpecialtyPolicy',
+        'App\Subscription'  => 'App\Policies\SubscriptionPolicy',
+        'App\Tag'           => 'App\Policies\TagPolicy',
+        'App\Transaction'   => 'App\Policies\TransactionPolicy',
+        'App\User'          => 'App\Policies\UserPolicy',
+        'App\Workplace'     => 'App\Policies\WorkplacePolicy',
     ];
 
     /**

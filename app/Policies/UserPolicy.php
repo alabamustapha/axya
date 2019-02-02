@@ -9,6 +9,12 @@ class UserPolicy
 {
     use HandlesAuthorization;
 
+    public function view(User $user)
+    {
+        # Used only within the Nova Admin Section.
+        return $user->isAdmin();
+    }
+
     /**
      * Determine whether the user can edit the profile.
      *

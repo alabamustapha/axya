@@ -11,6 +11,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\URL;
 
 class RegisterController extends Controller
 {
@@ -32,7 +33,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = '/user-dashboard';
 
     /**
      * Create a new controller instance.
@@ -53,17 +54,19 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-                'name'     => 'required|string|max:255',
+                'firstname'     => 'required|string|max:255',
+                'lastname'     => 'required|string|max:255',
                 'email'    => 'required|string|email|max:255|unique:users',
-                'gender'   => 'required|in:Male,Female,Other',
+                // 'gender'   => 'required|in:Male,Female,Other',
                 'password' => 'required|string|min:6|confirmed',
-                'dob'      => 'required|date|max:10',
-                'terms'    => 'required|boolean',            
+                // 'dob'      => 'required|date|max:10',
+                // 'terms'    => 'required|boolean',  
+                'as_doctor' => 'required|boolean',   
             ],
             [
-                'gender.required' => 'You must select your gender',
-                'gender.in'       => 'You can only choose from the avaiable gender select options.',
-                'terms.required'  => 'You must accept the terms and conditions to be able to use our services.',
+                // 'gender.required' => 'You must select your gender',
+                // 'gender.in'       => 'You can only choose from the available gender select options.',
+                // 'terms.required'  => 'You must accept the terms and conditions to be able to use our services.',
         ]);
     }
 
@@ -75,16 +78,19 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        // $is_doctor = isset($data['is_doctor']) && $data['is_doctor'] == 1 ? 1 : 0;
+        // $as_doctor = isset($data['as_doctor']) && $data['as_doctor'] == 1 ? 1 : 0;
+
+        $name = ucwords($data['firstname']) .' '. ucwords($data['lastname']);
         
         $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'gender' => $data['gender'],
-            'password' => Hash::make($data['password']),
-            'dob'   =>  $data['dob'],
-            'terms' =>  $data['terms'],
+            'name'      => $name,
+            'email'     => $data['email'],
+            'password'  => Hash::make($data['password']),
+            // 'gender'  => $data['gender'],
+            // 'dob'    =>  $data['dob'],
+            // 'terms'  =>  $data['terms'],
             // 'is_doctor' => $is_doctor,
+            'as_doctor' => $data['as_doctor'],
         ]);
 
         return $user;
@@ -105,11 +111,14 @@ class RegisterController extends Controller
         event(new Registered($user = $this->create($request->all())));
 
         $user->notify(new AccountVerificationNotification($user));
+
+        $verLink = URL::temporarySignedRoute('verification.verify', \Carbon\Carbon::now()->addMinutes(60), ['id' => $user->id]);
+        $user->update([ 'verification_link' => $verLink, ]);
         
         flash('A verification link was sent to '. $user->email .', kindly verify your account with the link. Update your profile details completely for a wider access on '. config('app.name') .'.')->info()->important();
 
         Auth::login($user);
-        return redirect()->route('users.show', $user);
+        return redirect()->route('user_dashboard');
     }
     
 }

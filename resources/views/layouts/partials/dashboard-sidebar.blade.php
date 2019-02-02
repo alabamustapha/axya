@@ -11,7 +11,7 @@
             <p>
               Admin Section
               @if ($applications_count)
-              <span class="badge bagde-danger px-1 text-bold bg-danger text-white" style="border-radius:4px;font-size: 9px;">
+              <span class="badge badge-danger">
                 {{$applications_count}}
               </span>
               @endif
@@ -37,6 +37,17 @@
                 </p>
               </a>
               <ul class="nav nav-treeview">
+
+                <li class="nav-item">
+                  <a href="/nova" class="nav-link">
+                  {{-- <router-link to="/dashboard-main" class="nav-link"> --}}
+                    <i class="nav-icon fa fa-chart-line green"></i>
+                    <p>
+                      Nova Main
+                    </p>
+                  {{-- </router-link> --}}
+                  </a>
+                </li>
 
                 <li class="nav-item">
                   <a href="{{route('dashboard-main')}}" class="nav-link">
@@ -96,7 +107,7 @@
                 <p>
                   Management
                   @if ($applications_count)
-                  <span class="badge bagde-danger px-1 text-bold bg-danger text-white" style="border-radius:4px;font-size: 9px;">
+                  <span class="badge badge-danger">
                     {{$applications_count}}
                   </span>
                   @endif
@@ -111,7 +122,7 @@
                     <p class="tf-flex">
                       Doctors
                       @if ($applications_count)
-                      <span class="badge bagde-danger px-1 text-bold bg-danger text-white right" style="border-radius:4px;font-size: 9px;">
+                      <span class="badge badge-danger right">
                         {{$applications_count}}
                       </span>
                       @endif
@@ -189,7 +200,7 @@
         </a>
         <ul class="nav nav-treeview">
           <li class="nav-item">
-            <a href="{{auth()->user()->isDoctor() ? route('doctors.show', auth()->user()) : '#'}}" class="nav-link">
+            <a href="{{auth()->user()->is_doctor ? route('doctors.show', auth()->user()) : '#'}}" class="nav-link">
             {{-- <router-link to="/doctors/:slug" class="nav-link"> --}}
               <i class="fa fa-user-md nav-icon orange"></i>
               <p>Professional Details</p>
@@ -197,7 +208,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{auth()->user()->is_doctor ? '#' : '#'}}" class="nav-link">
             {{-- <router-link to="/past-patients" class="nav-link"> --}}
               <i class="fa fa-procedures nav-icon orange"></i>
               <p>My Patients</p>
@@ -214,29 +225,31 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{auth()->user()->is_doctor ? route('dr_appointments', ['status'=> 'awaiting-appointment-time']) : '#'}}" class="nav-link">
                 {{-- <router-link to="/upcoming-appointments" class="nav-link"> --}}
                   <i class="fa fa-calendar-check nav-icon teal"></i>
                   <p class="tf-flex" title="Upcoming Appointments">
                   <span>Upcoming</span>
-                  <span class="badge bagde-danger right">5</span>
+                  <span class="badge badge-danger right">5</span>
                 </p>
                 {{-- </router-link> --}}
                 </a>
               </li>
               <li class="nav-item">
-                <router-link to="/pending-appointments" class="nav-link">
+                <a href="{{auth()->user()->is_doctor ? route('dr_appointments', ['status'=> 'awaiting-confirmation']) : '#'}}" class="nav-link">
+                {{-- <router-link to="/pending-appointments" class="nav-link"> --}}
                   <i class="fa fa-calendar-plus nav-icon teal"></i>
                   <p class="tf-flex" title="Pending Appointments">
                     <span>Pending</span>
-                    <span class="badge bagde-danger right">5</span>
+                    <span class="badge badge-danger right">5</span>
                   </p>
-                </router-link>
+                {{-- </router-link> --}}
+                </a>
               </li>
             </ul>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="{{auth()->user()->is_doctor ? '#' : '#'}}" class="nav-link">
               <i class="nav-icon fa fa-history orange"></i>
               <p>
                 My History
@@ -332,21 +345,45 @@
         </a>
         <ul class="nav nav-treeview">
           <li class="nav-item">
-            <router-link to="/patient-up-appointments" class="nav-link">
-              <i class="fa fa-calendar-check nav-icon cyan"></i>
+            <a href="{{route('appointments.index')}}" class="nav-link">
+            {{-- <router-link to="/patient-up-appointments" class="nav-link"> --}}
+              <i class="fa fa-calendar nav-icon cyan"></i>
               <p title="Upcoming Appointments">
-                Upcoming
-                <span class="badge bagde-danger right">5</span>
+                All
+                <span class="badge badge-danger right">{{--5--}}</span>
               </p>
-            </router-link>
+            {{-- </router-link> --}}
+            </a>
           </li>
           <li class="nav-item">
-            <a href="{{route('appointments.index')}}" class="nav-link">
-            {{-- <router-link to="/patient-pe-appointments" class="nav-link"> --}}
+            <a href="{{route('appointments.index', ['status'=> 'success'])}}" class="nav-link">
+            {{-- <router-link to="/patient-up-appointments" class="nav-link"> --}}
+              <i class="fa fa-calendar-check nav-icon cyan"></i>
+              <p title="Upcoming Appointments">
+                Completed
+                <span class="badge badge-danger right">{{--5--}}</span>
+              </p>
+            {{-- </router-link> --}}
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{route('appointments.index', ['status'=> 'confirmed'])}}" class="nav-link">
+            {{-- <router-link to="/patient-up-appointments" class="nav-link"> --}}
               <i class="fa fa-calendar-plus nav-icon cyan"></i>
+              <p title="Upcoming Appointments">
+                Upcoming
+                <span class="badge badge-danger right">{{--5--}}</span>
+              </p>
+            {{-- </router-link> --}}
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{{route('appointments.index', ['status'=> 'uncompleted'])}}" class="nav-link">
+            {{-- <router-link to="/patient-pe-appointments" class="nav-link"> --}}
+              <i class="fa fa-calendar-minus nav-icon cyan"></i>
               <p title=">Pending Appointments">
                 Pending
-                <span class="badge bagde-danger right">5</span>
+                <span class="badge badge-danger right">{{--5--}}</span>
               </p>
             {{-- </router-link> --}}
             </a>
@@ -389,10 +426,12 @@
         </a>
         <ul class="nav nav-treeview">
           <li class="nav-item">
-            <router-link to="/patient-up-appointments" class="nav-link">
+            <a href="{{route('messages.index')}}" class="nav-link">
+            {{-- <router-link to="/patient-up-appointments" class="nav-link"> --}}
               <i class="fa fa-envelope-open nav-icon gray"></i>
               <p>Inbox</p>
-            </router-link>
+            {{-- </router-link> --}}
+            </a>
           </li>
           <li class="nav-item">
             <router-link to="/patient-pe-appointments" class="nav-link">
@@ -426,7 +465,8 @@
     @else
 
       <li class="nav-item">
-        <a class="nav-link" href="{{ route('login') }}">
+        <a class="nav-link" href="{{ route('login') }}"
+            onclick="return false;" id="login-trigger" data-toggle="modal" data-target="#regLoginForm">
             <i class="nav-icon fa fa-sign-in-alt green"></i>
             <p>
               {{ __('Login') }}
@@ -434,7 +474,8 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{{ route('register') }}">
+        <a class="nav-link" href="{{ route('register') }}"
+                    onclick="return false;" id="register-trigger" data-toggle="modal" data-target="#regLoginForm">
             <i class="nav-icon fa fa-user-plus green"></i>
             <p>
               {{ __('Register') }}
