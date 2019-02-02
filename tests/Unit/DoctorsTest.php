@@ -22,7 +22,7 @@ class DoctorsTest extends TestCase
         $this->image  = factory(Image::class)->create();
         $this->user   = factory(User::class)->create();
         $this->specialty = factory(Specialty::class)->create();
-        $this->doctor = factory(Doctor::class)->create();
+        $this->doctor = factory(Doctor::class)->states('active')->create();
     } 
 
     /** @test */

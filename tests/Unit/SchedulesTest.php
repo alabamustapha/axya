@@ -22,7 +22,7 @@ class SchedulesTest extends TestCase
 
         $this->user      = factory(User::class)->create();
         $this->specialty = factory(Specialty::class)->create();
-        $this->doctor    = factory(Doctor::class)->create();
+        $this->doctor    = factory(Doctor::class)->states('active')->create();
         $this->day       = factory(Day::class)->create();
         $this->schedule  = factory(Schedule::class)->create();
     } 

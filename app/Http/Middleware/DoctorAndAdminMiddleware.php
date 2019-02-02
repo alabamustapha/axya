@@ -24,7 +24,7 @@ class DoctorAndAdminMiddleware
             return $next($request);
         }
         
-        return abort(403, 'Unathorized access.');
+        return abort(403, 'Unauthorized access.');
 
     } 
 }

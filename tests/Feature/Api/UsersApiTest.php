@@ -100,7 +100,7 @@ class UsersApiTest extends TestCase
     {
         $user       = factory(User::class)->states('verified')->create();
         $specialty  = factory(Specialty::class)->create();
-        $doctor     = factory(Doctor::class)->create([
+        $doctor     = factory(Doctor::class)->states('active')->create([
             'id'  => $user->id,
             'user_id'  => $user->id,
             'slug'     => $user->slug,
