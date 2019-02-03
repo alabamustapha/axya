@@ -14,6 +14,8 @@
 // Route::get('/', function () { return view('welcome'); })->name('home');
 Route::get('/', 'HomeController@index')->name('home');
 
+Route::get('/settings', '\QCod\AppSettings\Controllers\AppSettingController@index')->name('app-settings');
+
 Route::get('/nova');
 
 // Route::get('{path}', 'HomeController@search')->where('path', '([A-z\d-\/_.]+)?');

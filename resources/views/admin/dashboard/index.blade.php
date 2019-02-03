@@ -145,6 +145,15 @@
 
     <div class="col-md-3 order-sm-2 order-1">
       <!-- Info Boxes Style 2 -->
+      <a href="{{ route('app-settings') }}" class="info-box mb-3 bg-danger">
+        <span class="info-box-icon"><i class="fa fa-cogs"></i></span>
+
+        <div class="info-box-content d-flex flex-column justify-content-center align-content-center">
+          <span>App Settings</span>
+        </div>
+        <!-- /.info-box-content -->
+      </a>
+
       <a href="{{route('dashboard-admins')}}" class="info-box mb-3 bg-light">
         <span class="info-box-icon"><i class="fa fa-user-tie"></i></span>
 

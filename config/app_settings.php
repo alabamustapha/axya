@@ -28,7 +28,7 @@ return [
 
                 /* Application Motto */
                 [
-                    'name' => 'motto', 
+                    'name' => 'app_motto', 
                     'type' => 'text', 
                     'data_type' => 'string', 
                     'label' => 'App Motto', 
@@ -68,21 +68,23 @@ return [
                     'hint' => 'You can set the app support email here'
                 ],
 
-                /* Application Support Email */
+                /* Application Support Phone */
                 [
-                    'type' => 'number',
+                    'type' => 'tel',
                     'name' => 'app_phone',
                     'label' => 'Support Phone', 
-                    'placeholder' => 'Support Phone',
+                    'placeholder' => 'Support Phone Line',
                     'class' => 'form-control form-control-sm',
                     'style' => '', 
                     'rules' => 'nullable|string|max:50',
-                    'hint' => 'You can set the app support phone line here'
+                    'hint' => 'You can set the app support phone line here',
+                    'required' => 'required',
                 ],
 
                 
             ]
         ],
+
         'fees' => [
             'title' => 'Appoinment Fee Settings',
             'descriptions' => 'Minimum and maximum fees that can be charged hourly.',
@@ -150,6 +152,7 @@ return [
                 ]
             ]
         ],
+
         'more' => [
             'title' => 'More Settings',
             'descriptions' => 'Description of extra app settings.',
@@ -195,7 +198,7 @@ return [
     'submit_success_message' => 'Settings has been saved.',
 
     // Remove any setting which declaration removed later from sections
-    'remove_abandoned_settings' => false,
+    'remove_abandoned_settings' => true,
 
     // Controller to show and handle save setting
     'controller' => '\QCod\AppSettings\Controllers\AppSettingController',

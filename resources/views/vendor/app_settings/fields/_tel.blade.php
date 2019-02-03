@@ -1,6 +1,6 @@
-@component('app_settings::input_group', compact('field'))
+ @component('app_settings::input_group', compact('field'))
 
-    <input type="{{ $field['type'] }}"
+    <input type="tel"
            name="{{ $field['name'] }}"
            @if( $placeholder = array_get($field, 'placeholder') )
            placeholder="{{ $placeholder }}"
@@ -8,9 +8,7 @@
            value="{{ old($field['name'], \setting($field['name'])) }}"
            class="{{ array_get( $field, 'class', config('app_settings.input_class', 'form-control')) }} {{ $errors->has($field['name']) ? config('app_settings.input_invalid_class', 'is-invalid') : '' }}"
            @if( $styleAttr = array_get($field, 'style')) style="{{ $styleAttr }}" @endif
-           @if( $maxAttr = array_get($field, 'max')) max="{{ $maxAttr }}" @endif
-           @if( $minAttr = array_get($field, 'min')) min="{{ $minAttr }}" @endif
-           @if( $stepAttr = array_get($field, 'step')) step="{{ $stepAttr }}" @endif
+           @if( $maxlengthAttr = array_get($field, 'maxlength')) maxlength="{{ $maxlengthAttr }}" @endif
            @if( $requiredAttr = array_get($field, 'required')) required="{{ $requiredAttr }}" @endif
            id="{{ array_get($field, 'name') }}"
     >

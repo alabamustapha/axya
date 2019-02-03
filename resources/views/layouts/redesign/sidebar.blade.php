@@ -85,7 +85,7 @@
             <hr class="py-1 m-0">
 
             @if (Auth::user()->is_super_admin)
-            <a href="{{--route('app-settings')--}}" class="nav-link" title="App General Settings">
+            <a href="{{ route('app-settings') }}" class="nav-link" title="App General Settings">
               <span class="icon">
                 <i class="fa fa-cogs yellow"></i>
               </span>
