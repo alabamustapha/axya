@@ -5,11 +5,11 @@ namespace App\Http\Middleware;
 use Auth;
 use Closure;
 
-class AdminAuthMiddleware
+class DoctorGuestMiddleware
 {
     /**
      * Handle an incoming request.
-     * Accessible to admin users who are NOT SIGNED IN as admin yet.
+     * Accessible to doctor users who are NOT SIGNED IN as doctor yet.
      * Equivalent of GUEST in normal user.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -18,14 +18,14 @@ class AdminAuthMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->isAdministrator()) {
+        if (Auth::check() && Auth::user()->isDoctor()) {
             return $next($request);
         }
-        elseif (Auth::check() && Auth::user()->isAuthenticatedAdmin()) {
-            return redirect(route('dashboard-main'));
+        elseif (Auth::check() && Auth::user()->isAuthenticatedDoctor()) {
+            return redirect(route('dr_dashboard'));
         }
 
-        return redirect(route('admin.login'));
+        return redirect(route('doctor.login'));
     } 
 }
 

@@ -17,13 +17,12 @@ class AdminMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->isAdminUser()) {
-
-            if (Auth::user()->isLoggedInAsAdmin()) {
+        if (Auth::check() && Auth::user()->isAdmin()) {
+            if (Auth::user()->isAuthenticatedAdmin()) {
                 return $next($request);
             }
-            return redirect(route('admin.login'));
 
+            return redirect(route('admin.login'));
         }
 
         return abort('403', 'Unauthorized Access');

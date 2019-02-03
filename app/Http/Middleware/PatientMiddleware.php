@@ -19,6 +19,7 @@ class PatientMiddleware
     {
         if  (Auth::check() 
             && ((Auth::id() == request()->user()->id) 
+            // && ((Auth::user()->slug == \Route::input('user.slug'))
                 || Auth::user()->isAdmin()
                 // Currently accessed user is a patient to logged in doctor.
                 || (Auth::user()->isDoctor() && Auth::user()->doctor->inAllPatients())

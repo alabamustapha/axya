@@ -18,7 +18,12 @@ class DoctorMiddleware
     public function handle($request, Closure $next)
     {
         if (Auth::check() && Auth::user()->isDoctor()) {
-            return $next($request);
+
+            if (Auth::user()->isAuthenticatedDoctor()) {
+                return $next($request);
+            }
+
+            return redirect(route('doctor.login'));
         }
         
         return abort(403, 'Unathorized access.');//redirect()->route('home');

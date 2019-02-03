@@ -214,7 +214,7 @@ class AppointmentController extends Controller
         $this->authorize('edit', $appointment);
 
         $messages = $appointment->messages()->get();
-        $review   = $appointment->review;
+        $review   = $appointment->review()->first();
 
         return view('appointments.show', compact('appointment','messages','review'));
     }

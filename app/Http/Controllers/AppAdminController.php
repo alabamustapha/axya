@@ -266,6 +266,7 @@ class AppAdminController extends Controller
             flash( '<b>'. $user->name .'</b> is already an ADMIN' )->info();
             return back(); 
         }        
+        // $user->changeAclTo('admin');
         $user->makeAdmin();
 
         $message = $user->name .'\'s</b> access level changed to ADMIN Successfully.';
@@ -284,6 +285,7 @@ class AppAdminController extends Controller
             return back();
         }
 
+        // $user->changeAclTo('staff');
         $user->makeStaff();
 
         $message = $user->name .'\'s</b> access level changed to STAFF Successfully.';
@@ -297,6 +299,7 @@ class AppAdminController extends Controller
     {
         $this->userCheck($request, $user);
 
+        // $user->changeAclTo('normal');
         $user->makeOrdinaryMember();
 
         $message = $user->name .'\'s</b> access level changed to NORMAL Successfully.';
