@@ -17,14 +17,6 @@ class AdminMiddleware
      */
     public function handle($request, Closure $next)
     {
-        // dd(Auth::user()->isLoggedInAsAdmin());
-        // dd(Auth::user()->is_verified && (Auth::user()->acl == '1' || Auth::user()->isSuperAdminUser()),
-        // Auth::user()->is_verified,
-        // Auth::user()->acl == '1',
-        // Auth::user()->acl == '5',
-        // Auth::user()->isSuperAdminUser(), 
-        // (Auth::user()->acl == '1' || Auth::user()->isSuperAdminUser()), 
-        // Auth::user()->isAdminUser());
         if (Auth::check() && Auth::user()->isAdminUser()) {
 
             if (Auth::user()->isLoggedInAsAdmin()) {
@@ -33,15 +25,8 @@ class AdminMiddleware
             return redirect(route('admin.login'));
 
         }
-        else {
-            return abort('403', 'Unauthorized Access');
-        }
 
-        // if (Auth::check() && Auth::user()->isAdmin()) {
-        //     return $next($request);
-        // }
-        
-        // return abort(403);
+        return abort('403', 'Unauthorized Access');
     } 
 }
 
