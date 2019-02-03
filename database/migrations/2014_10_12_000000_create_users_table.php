@@ -40,6 +40,8 @@ class CreateUsersTable extends Migration
             $table->boolean('blocked')->default(0);
             $table->boolean('admin_mode')->default(0);
             $table->string('admin_password')->nullable();
+            $table->boolean('doctor_mode')->default(0);
+            $table->string('doctor_password')->nullable();
 
             // Other Details
             $table->tinyInteger('application_status')->default(0); // Tracks current status in doctor's application process.

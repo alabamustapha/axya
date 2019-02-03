@@ -53,7 +53,7 @@ class LoginController extends Controller
     {
         if (Auth::attempt([ 'email' => $request->email, 'password' => $request->password])) {
 
-            $this->logOutAsAdmin();
+            Auth::user()->logOutAsAdminOrDoctor();
 
             if (isset(request()->ref)){
                 // Prevent double slash '//' if referring url is '/'.
@@ -82,7 +82,7 @@ class LoginController extends Controller
      */
     public function logout(Request $request)
     {
-        $this->logOutAsAdmin();
+        Auth::user()->logOutAsAdminOrDoctor();
 
         Auth::logout();
 
@@ -90,18 +90,23 @@ class LoginController extends Controller
     }
 
 
-    /**
-     * If user is admin/staff and is logged in as admin, log him out. 
-     * Persistent admin log in could be due to session expiration.
-     *
-     * @return void
-     */
-    public function logOutAsAdmin()
-    {
-        if (Auth::check() && (Auth::user()->isAdmin() || Auth::user()->isStaff())) 
-        {
-            Auth::user()->update(['admin_mode' => 0]);
-        }
-    }
+    // /**
+    //  * If user is admin/staff and is logged in as admin, log him out. 
+    //  * Persistent admin log in could be due to session expiration.
+    //  *
+    //  * @return void
+    //  */
+    // public function logOutAsAdminOrDoctor()
+    // {
+    //     if (Auth::check() && (Auth::user()->isAdmin() || Auth::user()->isStaff())) 
+    //     {
+    //         Auth::user()->update(['admin_mode' => 0]);
+    //     }
+
+    //     if (Auth::check() && (Auth::user()->isDoctor())) 
+    //     {
+    //         Auth::user()->update(['doctor_mode' => 0]);
+    //     }
+    // }
 
 }

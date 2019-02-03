@@ -22,6 +22,30 @@ class DoctorController extends Controller
         $this->middleware('application')->only('create');
         $this->middleware('verified')->except('index','show');
         $this->middleware('doctor')->only('edit','update','destroy');
+        $this->middleware('doctoradmin')->only('dashboard','patients');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function dashboard(Doctor $doctor)
+    {
+
+        return view('doctors.dashboard', compact('doctor','reviews'));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function patients(Doctor $doctor)
+    {
+        $patients = $doctor->patients();
+
+        return view('doctors.patients', compact('patients'));
     }
 
     /**
