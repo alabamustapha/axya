@@ -17,7 +17,7 @@ class AppAdminController extends Controller
     {
         $this->middleware('auth');
         // $this->middleware('admin')->only('passwordNewOrChange','passwordNewOrChangeForm');//'adminLogout',
-        $this->middleware('adminauth')->except('makeAdmin','makeStaff','makeNormal');//->only('adminLogin','adminLoginForm','passwordResetEmail','passwordResetEmailLink','passwordResetEmailLinkVerify','passwordResetChangeForm','passwordResetChange');
+        $this->middleware('adminauth')->except('adminLogout','makeAdmin','makeStaff','makeNormal');
         $this->middleware('superadmin')->only('makeAdmin','makeStaff','makeNormal');
     }
 
