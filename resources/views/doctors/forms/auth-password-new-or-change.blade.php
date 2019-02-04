@@ -1,6 +1,9 @@
 @extends('layouts.master')
 
 @section('title', 'Doctor Account Password Update')
+@section('page-title')
+    <i class="fa fa-key"></i>&nbsp;  {{ __('Doctor Account Password Update') }}
+@endsection
 
 @section('content')
     <!-- SIGN IN / REGISTER -->
@@ -9,9 +12,6 @@
             <div class="row justify-content-center">
                 <div class="col-md-6">
                     <div class="card shadow">
-                        <div class="card-header bg-white p-4">
-                            <label class="text-center h4"><i class="fa fa-info-circle"></i> {{ __('Doctor Account Password Update') }}</label> 
-                        </div>
                         <div class="card-body">
 
                             <form method="POST" action="{{ route('doctor.password') }}">

@@ -2,7 +2,7 @@
 
 @section('title', 'App Main Dashboard')
 @section('page-title')
-    <i class="fa fa-chart"></i>&nbsp;  {{ __('App Dashboard') }}
+    <i class="fa fa-chart-bar"></i>&nbsp;  {{ __('App Dashboard') }}
 @endsection
 
 @section('content')

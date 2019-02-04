@@ -1,6 +1,9 @@
 @extends('layouts.master')
 
-@section('title', 'Doctor Account Password Update')
+@section('title', 'Doctor Account Password Reset Form')
+@section('page-title')
+    <i class="fa fa-key"></i>&nbsp;  {{ __('Doctor Account Password Reset') }}
+@endsection
 
 @section('content')
     <!-- SIGN IN / REGISTER -->
@@ -9,9 +12,6 @@
             <div class="row justify-content-center">
                 <div class="col-md-6">
                     <div class="card shadow">
-                        <div class="card-header bg-white p-4">
-                            <label class="text-center h4"><i class="fa fa-info-circle"></i> {{ __('Doctor Account Password Reset Form') }}</label> 
-                        </div>
                         <div class="card-body">
 
                             <form method="POST" action="{{ route('doctor.password.reset-email-link') }}">
@@ -23,7 +23,7 @@
                                 <div class="form-group">
                                     <div class="col">
 
-                                        <label for="email" class="col-form-label-sm">{{ __('Current Doctor Email') }}</label>
+                                        <label for="email" class="col-form-label-sm">{{ __('Email') }}</label>
                                         <input id="email" type="email" minlength="8" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" placeholder="email" aria-describedby="emailHelp" required>
                                         <small id="emailHelp" class="form-text text-muted">
                                             <em>Enter your current email correctly</em>.

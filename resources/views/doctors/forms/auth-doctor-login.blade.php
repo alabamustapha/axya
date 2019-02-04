@@ -1,6 +1,9 @@
 @extends('layouts.master')
 
 @section('title', 'Doctor Login')
+@section('page-title')
+    <i class="fa fa-sign-in-alt"></i>&nbsp;  {{ __('Doctor Sign In') }}
+@endsection
 
 @section('content')
     <!-- SIGN IN / REGISTER -->
@@ -9,16 +12,13 @@
             <div class="row justify-content-center">
                 <div class="col-md-6">
                     <div class="card shadow">
-                        <div class="card-header bg-white p-4">
-                            <label class="text-center h4"><i class="fa fa-info-circle"></i> {{ __('Doctor Sign In') }}</label> 
-                        </div>
                         <div class="card-body">
 
                             <form method="POST" action="{{ route('doctor.login') }}">
                                 @csrf
 
                                 <div class="form-group">
-                                    <label for="email" class="col-form-label-sm">{{ __('Doctor Email') }}</label>
+                                    <label for="email" class="col-form-label-sm">{{ __('Email') }}</label>
                                     <input type="email" name="email" class="form-control form-default{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="johndoe@example.com" autofocus required>
 
                                     @if ($errors->has('email'))
