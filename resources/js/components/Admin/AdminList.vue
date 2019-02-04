@@ -122,7 +122,7 @@
             this.$Progress.finish();
           })
           .catch(() => {
-            toast({type: 'fail', title: 'An error occurred! Try again.'});
+            toast({type: 'error', title: 'An error occurred! Try again.'});
             this.$Progress.fail();
           });
         }
@@ -148,7 +148,7 @@
             this.$Progress.finish();
           })
           .catch(() => {
-            toast({type: 'fail', title: 'An error occurred! Try again.'});
+            toast({type: 'error', title: 'An error occurred! Try again.'});
             this.$Progress.fail();
           });
         }

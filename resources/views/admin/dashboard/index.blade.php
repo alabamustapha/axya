@@ -30,7 +30,7 @@
                 </div>
               </a>
             </div>
-            <a href="{{route('dashboard-users')}}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="{{route('dashboard-users')}}" class="small-box-footer font-weight-bold">Users Management <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->
@@ -57,7 +57,7 @@
                 </div>
               </a>
             </div>
-            <a href="{{route('dashboard-doctors')}}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="{{route('dashboard-doctors')}}" class="small-box-footer">Doctors Management <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->
@@ -84,7 +84,7 @@
                 </div>
               </a>
             </div>
-            <a href="{{--route('dashboard-appointments')--}}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="{{--route('dashboard-appointments')--}}" class="small-box-footer">Appointments Management <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->
@@ -104,14 +104,14 @@
                     <i class="fa fa-rss display-3"></i>
                   </div>
                   <div class="col-sm-7">
-                    <h1 class="font-weight-light">---{{--$completed_subscriptons_count--}}</h1>
+                    <h1 class="font-weight-light">---{{--$completed_subscriptions_count--}}</h1>
 
                     <p>Subscriptions</p>
                   </div>
                 </div>
               </a>
             </div>
-            <a href="{{--route('dashboard-appointments')--}}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="{{--route('dashboard-appointments')--}}" class="small-box-footer">Subscriptions Management <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->
@@ -158,7 +158,7 @@
       </a>
       <!-- /.info-box -->
 
-      <a href="{{route('dashboard-admins')}}" class="info-box mb-3 bg-light">
+      <a href="{{route('dashboard-admins')}}" class="info-box mb-3 bg-warning">
         <span class="info-box-icon"><i class="fa fa-user-tie"></i></span>
 
         <div class="info-box-content">
@@ -169,9 +169,9 @@
       </a>
       <!-- /.info-box -->
 
-      <a href="{{--route('dashboard-admins')--}}" class="info-box mb-3 bg-light">
+      <a href="{{--route('dashboard-admins')--}}" class="info-box mb-3 bg-info">
         {{-- Link to FAQs, Privacy, TOS, Tags, Specialties etc updates --}}
-        <span class="info-box-icon"><i class="fa fa-text-right"></i></span>
+        <span class="info-box-icon"><i class="fa fa-rss-square"></i></span>
 
         <div class="info-box-content">
           <span class="info-box-text">App Contents</span>

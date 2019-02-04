@@ -30,11 +30,12 @@
                 </div>
                 <div class="info-side">
                   <div class="doc">
-                    <a :href="doctor.link" :title="doctor.name +' - '+ doctor.specialty.name" style="color:inherit;">
-                      <span class="d-block h2" v-text="doctor.name"></span>
-                    </a>
+                    <div class="d-block">
+                      <a class="d-inline-block" :href="doctor.link" :title="doctor.name +' - '+ doctor.specialty.name" style="color:inherit;">
+                        <span class="d-block h2" v-text="doctor.name"></span>
+                      </a>
 
-                      <div v-if="$acl.isSuperAdmin()" :title="'Admin '+ doctor.user.name">
+                      <div class="d-inline-block" v-if="$acl.isSuperAdmin()" :title="'Admin '+ doctor.user.name">
                         <button id="navbarDropdown" class="btn btn-sm dropdown-toggle d-inline" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-cog"></i>
                         </button>
@@ -57,6 +58,7 @@
                             </button>
                         </div>
                       </div>
+                    </div>
 
                     <span class="d-block occupation text-muted" v-text="doctor.location"></span>
                     <a :href="doctor.specialty.link" :title="doctor.specialty.name" style="color:inherit;">

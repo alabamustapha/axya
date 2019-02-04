@@ -308,7 +308,7 @@
           this.$Progress.finish();            
         })
         .catch(() => {
-          toast({type: 'fail',title: 'Something went wrong! Try again later.'});
+          toast({type: 'error',title: 'Something went wrong! Try again later.'});
           this.$Progress.fail();
         });
       },

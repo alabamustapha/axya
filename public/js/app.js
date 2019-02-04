@@ -70732,6 +70732,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -70897,43 +70899,47 @@ var render = function() {
                               _vm._v(" "),
                               _c("div", { staticClass: "info-side" }, [
                                 _c("div", { staticClass: "doc" }, [
-                                  _c(
-                                    "a",
-                                    {
-                                      staticStyle: { color: "inherit" },
-                                      attrs: {
-                                        href: doctor.link,
-                                        title:
-                                          doctor.name +
-                                          " - " +
-                                          doctor.specialty.name
-                                      }
-                                    },
-                                    [
-                                      _c("span", {
-                                        staticClass: "d-block h2",
-                                        domProps: {
-                                          textContent: _vm._s(doctor.name)
+                                  _c("div", { staticClass: "d-block" }, [
+                                    _c(
+                                      "a",
+                                      {
+                                        staticClass: "d-inline-block",
+                                        staticStyle: { color: "inherit" },
+                                        attrs: {
+                                          href: doctor.link,
+                                          title:
+                                            doctor.name +
+                                            " - " +
+                                            doctor.specialty.name
                                         }
-                                      })
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _vm.$acl.isSuperAdmin()
-                                    ? _c(
-                                        "div",
-                                        {
-                                          attrs: {
-                                            title: "Admin " + doctor.user.name
+                                      },
+                                      [
+                                        _c("span", {
+                                          staticClass: "d-block h2",
+                                          domProps: {
+                                            textContent: _vm._s(doctor.name)
                                           }
-                                        },
-                                        [
-                                          _vm._m(2, true),
-                                          _vm._v(" "),
-                                          _vm._m(3, true)
-                                        ]
-                                      )
-                                    : _vm._e(),
+                                        })
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _vm.$acl.isSuperAdmin()
+                                      ? _c(
+                                          "div",
+                                          {
+                                            staticClass: "d-inline-block",
+                                            attrs: {
+                                              title: "Admin " + doctor.user.name
+                                            }
+                                          },
+                                          [
+                                            _vm._m(2, true),
+                                            _vm._v(" "),
+                                            _vm._m(3, true)
+                                          ]
+                                        )
+                                      : _vm._e()
+                                  ]),
                                   _vm._v(" "),
                                   _c("span", {
                                     staticClass:
@@ -72664,7 +72670,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this.$Progress.finish();
       }).catch(function () {
         toast({
-          type: 'fail',
+          type: 'error',
           title: 'Something went wrong! Try again with correct details.'
         });
         _this.$Progress.fail();
@@ -74288,7 +74294,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this.$Progress.finish();
       }).catch(function () {
         toast({
-          type: 'fail',
+          type: 'error',
           title: 'Something went wrong! Try again with correct details.'
         });
         _this.$Progress.fail();
@@ -75318,7 +75324,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this.$Progress.finish();
       }).catch(function () {
         toast({
-          type: 'fail',
+          type: 'error',
           title: 'Something went wrong! Try again with correct details.'
         });
         _this.$Progress.fail();
@@ -77242,7 +77248,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           toast({ type: 'success', title: user.name + ' made staff successfully.' });
           _this.$Progress.finish();
         }).catch(function () {
-          toast({ type: 'fail', title: 'An error occurred! Try again.' });
+          toast({ type: 'error', title: 'An error occurred! Try again.' });
           _this.$Progress.fail();
         });
       }
@@ -77265,7 +77271,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           toast({ type: 'success', title: user.name + ' is now blocked on this platform.' });
           _this2.$Progress.finish();
         }).catch(function () {
-          toast({ type: 'fail', title: 'An error occurred! Try again.' });
+          toast({ type: 'error', title: 'An error occurred! Try again.' });
           _this2.$Progress.fail();
         });
       }
@@ -77288,7 +77294,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           toast({ type: 'success', title: user.name + ' is now unblocked.' });
           _this3.$Progress.finish();
         }).catch(function () {
-          toast({ type: 'fail', title: 'An error occurred! Try again.' });
+          toast({ type: 'error', title: 'An error occurred! Try again.' });
           _this3.$Progress.fail();
         });
       }
@@ -77937,7 +77943,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           toast({ type: 'success', title: 'Dr. ' + doctor.name + '\'s license is now revoked on this platform.' });
           _this.$Progress.finish();
         }).catch(function () {
-          toast({ type: 'fail', title: 'An error occurred! Try again.' });
+          toast({ type: 'error', title: 'An error occurred! Try again.' });
           _this.$Progress.fail();
         });
       }
@@ -77960,7 +77966,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           toast({ type: 'success', title: 'Dr. ' + doctor.name + '\'s license is now restored.' });
           _this2.$Progress.finish();
         }).catch(function () {
-          toast({ type: 'fail', title: 'An error occurred! Try again.' });
+          toast({ type: 'error', title: 'An error occurred! Try again.' });
           _this2.$Progress.fail();
         });
       }
@@ -78678,7 +78684,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           toast({ type: 'success', title: user.name + ' made staff successfully.' });
           _this.$Progress.finish();
         }).catch(function () {
-          toast({ type: 'fail', title: 'An error occurred! Try again.' });
+          toast({ type: 'error', title: 'An error occurred! Try again.' });
           _this.$Progress.fail();
         });
       }
@@ -78702,7 +78708,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           toast({ type: 'success', title: user.name + ' made normal user successfully.' });
           _this2.$Progress.finish();
         }).catch(function () {
-          toast({ type: 'fail', title: 'An error occurred! Try again.' });
+          toast({ type: 'error', title: 'An error occurred! Try again.' });
           _this2.$Progress.fail();
         });
       }
@@ -79162,7 +79168,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           toast({ type: 'success', title: user.name + ' made admin successfully.' });
           _this.$Progress.finish();
         }).catch(function () {
-          toast({ type: 'fail', title: 'An error occurred! Try again.' });
+          toast({ type: 'error', title: 'An error occurred! Try again.' });
           _this.$Progress.fail();
         });
       }
@@ -79186,7 +79192,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           toast({ type: 'success', title: user.name + ' made normal user successfully.' });
           _this2.$Progress.finish();
         }).catch(function () {
-          toast({ type: 'fail', title: 'An error occurred! Try again.' });
+          toast({ type: 'error', title: 'An error occurred! Try again.' });
           _this2.$Progress.fail();
         });
       }
