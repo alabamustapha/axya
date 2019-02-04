@@ -44,7 +44,7 @@ class AppDoctorController extends Controller
     }
 
     /**
-     *
+     * Log a doctor out of the doctor's dashboard.
      */
     public function doctorLogout(Request $request)
     {

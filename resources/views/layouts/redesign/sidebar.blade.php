@@ -27,21 +27,21 @@
             
             <a href="{{route('dashboard-admins')}}" class="nav-link" title="User/Patient Management">
               <span class="icon">
-                <i class="fa fa-user-tie yellow"></i>
+                <i class="fa fa-user-tie"></i>
               </span>
               <span class="navlink-active">Admin Users</span>
             </a>
             
             <a href="{{route('dashboard-users')}}" class="nav-link" title="User/Patient Management">
               <span class="icon">
-                <i class="fa fa-users yellow"></i>
+                <i class="fa fa-users"></i>
               </span>
               <span class="navlink-active">Users</span>
             </a>
             
             <a href="{{route('dashboard-doctors')}}" class="nav-link" title="Doctor Management">
               <span class="icon">
-                <i class="fa fa-user-md yellow"></i>
+                <i class="fa fa-user-md"></i>
               </span>
               <span class="navlink-active">Doctors</span>
             </a>
@@ -50,7 +50,7 @@
               <span class="tf-flex">
                 <span>
                   <span class="icon">
-                    <i class="fa fa-user-secret yellow"></i>
+                    <i class="fa fa-user-secret"></i>
                   </span>
                   <span class="navlink-active">Dr. Applications</span>
                 </span>
@@ -63,21 +63,21 @@
             
             <a href="{{--route('adm_appointments')--}}" class="nav-link" title="Appointment Management">
               <span class="icon">
-                <i class="fa fa-calendar-alt yellow"></i>
+                <i class="fa fa-calendar-alt"></i>
               </span>
               <span class="navlink-active">Appointments</span>
             </a>
             
             <a href="{{route('adm_subscriptions')}}" class="nav-link" title="Subscription Management">
               <span class="icon">
-                <i class="fa fa-rss yellow"></i>
+                <i class="fa fa-rss"></i>
               </span>
               <span class="navlink-active">Subscriptions</span>
             </a>
 
             <a href="{{route('adm_transactions')}}" class="nav-link" title="Payment/Transaction Management">
               <span class="icon">
-                <i class="fa fa-handshake yellow"></i>
+                <i class="fa fa-handshake"></i>
               </span>
               <span class="navlink-active">Payments</span>
             </a>
@@ -87,7 +87,7 @@
             @if (Auth::user()->is_super_admin)
             <a href="{{ route('app-settings') }}" class="nav-link" title="App General Settings">
               <span class="icon">
-                <i class="fa fa-cogs yellow"></i>
+                <i class="fa fa-cogs"></i>
               </span>
               <span class="navlink-active">App Settings</span>
             </a>
@@ -95,16 +95,16 @@
 
             <a href="{{route('dashboard-main')}}" class="nav-link" title="View Dashboard">
               <span class="icon">
-                <i class="fa fa-tachometer-alt yellow"></i>
+                <i class="fa fa-tachometer-alt"></i>
               </span>
               <span class="navlink-active">App Dashboard</span>
             </a>
 
-            <a href="{{ route('admin.logout') }}" class="nav-link"
+            <a href="#" class="nav-link"
             onclick="event.preventDefault();
             document.getElementById('admin-logout-form').submit();">
               <span class="icon">
-                <i class="fa fa-sign-out-alt yellow"></i>
+                <i class="fa fa-sign-out-alt"></i>
               </span>
               <span>{{ __('Admin Sign Out') }}</span>
             </a>
@@ -139,8 +139,8 @@
               </a>
             @else
               <a href="{{route('admin.login')}}" class="nav-link">
-                <span class="icon fa fa-user-tie"></span>
-                <span class="navlink-active">Admin Login</span>
+                <span class="icon fa fa-sign-in-alt"></span>
+                <span class="navlink-active">Admin Sign In</span>
               </a>
             @endif
           </li>
@@ -224,6 +224,27 @@
                 <span class="badge badge-danger">1</span>
               </span>
             </a>
+
+            <a href="{{route('dr_dashboard', Auth::user()->doctor)}}" class="nav-link" title="View Dashboard">
+              <span class="icon">
+                <i class="fa fa-tachometer-alt"></i>
+              </span>
+              <span class="navlink-active">Dr. Dashboard</span>
+            </a>
+
+            <a href="#" class="nav-link"
+            onclick="event.preventDefault();
+            document.getElementById('doctor-logout-form').submit();">
+              <span class="icon">
+                <i class="fa fa-sign-out-alt"></i>
+              </span>
+              <span>{{ __('Doctor Sign Out') }}</span>
+            </a>
+
+            <form id="doctor-logout-form" action="{{ route('doctor.logout') }}" method="POST" style="display: none;">
+              @csrf
+              {{method_field('PATCH')}}
+            </form> 
           </li>
         </ul>
       </li>
@@ -250,8 +271,8 @@
               </a>
             @else
               <a href="{{route('doctor.login')}}" class="nav-link">
-                <span class="icon fa fa-user-tie"></span>
-                <span class="navlink-active">Doctor Login</span>
+                <span class="icon fa fa-sign-in-alt"></span>
+                <span class="navlink-active">Doctor Sign In</span>
               </a>
             @endif
           </li>

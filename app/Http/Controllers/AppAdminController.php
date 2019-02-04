@@ -47,7 +47,7 @@ class AppAdminController extends Controller
     }
 
     /**
-     *
+     * Log an admin out of the admin dashboard.
      */
     public function adminLogout(Request $request)
     {
