@@ -10,7 +10,7 @@
 </div>
 
 <ul class="nav flex-sm-column">
-    @if (Auth::user()->is_admin)
+    @if (Auth::user()->is_authenticated_admin)
       <li class="nav-item">
 
         <a class="nav-link" data-toggle="collapse" href="#adminSubmenu" role="button" aria-expanded="false" aria-controls="adminSubmenu">
@@ -148,7 +148,7 @@
       </li>
     @endif
 
-    @if (Auth::user()->is_doctor)
+    @if (Auth::user()->is_authenticated_doctor)
       <li class="nav-item">
 
         <a class="nav-link" data-toggle="collapse" href="#doctorSubmenu" role="button" aria-expanded="false" aria-controls="doctorSubmenu">
@@ -227,10 +227,10 @@
           </li>
         </ul>
       </li>
-    @elseif (Auth::user()->is_doctor_user)
+    @elseif (Auth::user()->is_doctor)
       <li class="nav-item">
 
-        <a class="nav-link" data-toggle="collapse" href="#adminSubmenu" role="button" aria-expanded="false" aria-controls="adminSubmenu">
+        <a class="nav-link" data-toggle="collapse" href="#doctorSubmenu" role="button" aria-expanded="false" aria-controls="doctorSubmenu">
           <span class="tf-flex">
             <span>
               <i class="icon fa fa-user-md"></i>
@@ -240,7 +240,7 @@
           </span>
         </a>
 
-        <ul id="adminSubmenu" class=" collapse sub-menu nav flex-sm-column">
+        <ul id="doctorSubmenu" class=" collapse sub-menu nav flex-sm-column">
           <li class="nav-item">
 
             @if (is_null(Auth::user()->doctor_password))
@@ -259,7 +259,7 @@
       </li>
     @endif
 
-    @if (Auth::user()->isAdministrator() || Auth::user()->is_doctor)
+    @if (Auth::user()->is_administrator || Auth::user()->is_doctor)
       <li class="nav-item"><hr></li>
     @endif
 

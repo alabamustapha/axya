@@ -242,7 +242,7 @@ class AppAdminController extends Controller
      */
     public function userCheck(Request $request, User $user)
     {
-        if ( $user->isSuperAdminUser() ) { 
+        if ( $user->isSuperAdmin() ) { 
             return abort(403);//response()->json( 'Super admin is unshakeable',  Response::HTTP_FORBIDDEN );//back(); = 403
         }
 
@@ -266,8 +266,8 @@ class AppAdminController extends Controller
             flash( '<b>'. $user->name .'</b> is already an ADMIN' )->info();
             return back(); 
         }        
-        // $user->changeAclTo('admin');
-        $user->makeAdmin();
+        $user->changeAclTo('admin');
+        // $user->makeAdmin();
 
         $message = $user->name .'\'s</b> access level changed to ADMIN Successfully.';
         return response()->json($message,  Response::HTTP_OK);//200
@@ -284,9 +284,9 @@ class AppAdminController extends Controller
             flash( '<b>'. $user->name .'</b> is already a STAFF' )->info();
             return back();
         }
-
-        // $user->changeAclTo('staff');
-        $user->makeStaff();
+ 
+        $user->changeAclTo('staff');
+        // $user->makeStaff();
 
         $message = $user->name .'\'s</b> access level changed to STAFF Successfully.';
         return response()->json($message,  Response::HTTP_OK);//200
@@ -299,8 +299,8 @@ class AppAdminController extends Controller
     {
         $this->userCheck($request, $user);
 
-        // $user->changeAclTo('normal');
-        $user->makeOrdinaryMember();
+        $user->changeAclTo('normal');
+        // $user->makeOrdinaryMember();
 
         $message = $user->name .'\'s</b> access level changed to NORMAL Successfully.';
         return response()->json($message,  Response::HTTP_OK);//200
@@ -316,7 +316,7 @@ class AppAdminController extends Controller
      */
     public function blockUser(Request $request, User $user)
     {
-        if ( $user->isSuperAdminUser() ) { 
+        if ( $user->isSuperAdmin() ) { 
             return abort(403);
         }
 

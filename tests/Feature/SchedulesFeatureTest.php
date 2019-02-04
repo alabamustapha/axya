@@ -19,7 +19,7 @@ class SchedulesFeatureTest extends TestCase
     {
         parent::setUp();
         
-        $this->doc_user  = factory(User::class)->create();
+        $this->doc_user  = factory(User::class)->states(['verified','doctor'])->create();
         $this->specialty = factory(Specialty::class)->create();
         $this->doctor    = factory(Doctor::class)->states('active')->create(
                             [

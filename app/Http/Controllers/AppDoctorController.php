@@ -15,7 +15,7 @@ class AppDoctorController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('doctorauth');//->only('doctorLogin','doctorLoginForm','passwordResetEmail','passwordResetEmailLink','passwordResetEmailLinkVerify','passwordResetChangeForm','passwordResetChange');
+        $this->middleware('doctorguest');//->only('doctorLogin','doctorLoginForm','passwordResetEmail','passwordResetEmailLink','passwordResetEmailLinkVerify','passwordResetChangeForm','passwordResetChange');
     }
 
     /**
@@ -36,7 +36,7 @@ class AppDoctorController extends Controller
         if ($user->doctor_password === sha1($request->doctor_password)) {
             $user->update(['doctor_mode' => 1]);
 
-            return redirect()->route('dr_dashboard');
+            return redirect()->route('dr_dashboard', $user->doctor);
         }
         
         flash('We could not sign you in, check your login credentials and try again.')->error();

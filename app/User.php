@@ -25,6 +25,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     protected $appends = ['link','is_verified',
       'is_superadmin','is_admin','is_administrator','is_staff',
+      'is_authenticated_superadmin','is_authenticated_admin','is_authenticated_staff',
       'is_doctor','is_potential_doctor',
       'type','status',
       'appointments_count','transactions_count','subscriptions_count',
@@ -276,17 +277,6 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /**
-     * Check the DOCTOR LOG IN status of this user.
-     * 
-     * @return  boolean
-     */
-    public function isLoggedInAsDoctor() 
-    {
-        // return (bool) $this->admin_mode;
-        return (bool) ($this->doctor_mode && !is_null($this->doctor_password));
-    }
-
-    /**
      * Check the ADMIN LOG IN status of this user.
      * 
      * @return  boolean
@@ -369,44 +359,44 @@ class User extends Authenticatable implements MustVerifyEmail
      * 
      * @return null
      */
-    // public function changeAclTo($level) 
-    // {
-    //     switch ($level) {
-    //       case 'normal':
-    //         $this->acl = '3';
-    //         $this->update();
-    //         break;
-
-    //       case 'staff':
-    //         $this->acl = '2';
-    //         $this->update();
-    //         break;
-
-    //       case 'admin':
-    //         $this->acl = '1';
-    //         $this->update();
-    //         break;
-    //     }
-    //     // $this->update();
-    // } 
-
-    public function makeOrdinaryMember() 
+    public function changeAclTo($level) 
     {
-        $this->acl = '3';
+        switch ($level) {
+          case 'normal':
+            $this->acl = '3';
+            // $this->update();
+            break;
+
+          case 'staff':
+            $this->acl = '2';
+            // $this->update();
+            break;
+
+          case 'admin':
+            $this->acl = '1';
+            // $this->update();
+            break;
+        }
         $this->update();
     } 
 
-    public function makeStaff() 
-    {
-        $this->acl = '2';
-        $this->update();
-    }
+    // public function makeOrdinaryMember() 
+    // {
+    //     $this->acl = '3';
+    //     $this->update();
+    // } 
 
-    public function makeAdmin() 
-    {
-        $this->acl = '1';
-        $this->update();
-    }
+    // public function makeStaff() 
+    // {
+    //     $this->acl = '2';
+    //     $this->update();
+    // }
+
+    // public function makeAdmin() 
+    // {
+    //     $this->acl = '1';
+    //     $this->update();
+    // }
 
     public function block() 
     {

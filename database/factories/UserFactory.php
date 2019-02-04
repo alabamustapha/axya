@@ -91,3 +91,10 @@ $factory->state(App\User::class, 'superadmin', function (Faker $faker) {
         'admin_password' => 'secret',
     ];
 });
+
+$factory->state(App\User::class, 'doctor', function (Faker $faker) {
+    return [
+        'doctor_mode' => 1,
+        'doctor_password' => 'secret',
+    ];
+});

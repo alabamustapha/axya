@@ -19,10 +19,10 @@ class DoctorAndAdminMiddleware
     {
         if (Auth::check() && 
             (Auth::user()->isAdmin() 
-                || (Auth::user()->isDoctor() && Auth::user()->doctor == \Route::input('doctor'))
+                || (Auth::user()->isDoctor())// && Auth::user()->doctor == \Route::input('doctor'))
                 // || (Auth::user()->isDoctor() && Auth::id() == request()->user()->id))
                 // || (Auth::user()->slug == \Route::input('user.slug'))
-            ) {
+            )) {
 
             if (Auth::user()->isAuthenticatedAdmin() || Auth::user()->isAuthenticatedDoctor()) {
                 return $next($request);

@@ -254,7 +254,7 @@ class DoctorController extends Controller
      */
     public function update(DoctorUpdateRequest $request, Doctor $doctor)
     {
-        $this->authorize('edit', $doctor);
+        // $this->authorize('edit', $doctor);
 
         $doctor->updateCurrentWorkplace($request);   
 
