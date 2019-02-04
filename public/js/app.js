@@ -76180,7 +76180,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         toast({ type: 'success', title: 'Review submitted successfully.' });
         _this.$Progress.finish();
       }).catch(function () {
-        toast({ type: 'fail', title: 'Something went wrong! Try again later.' });
+        toast({ type: 'error', title: 'Something went wrong! Try again later.' });
         _this.$Progress.fail();
       });
     },

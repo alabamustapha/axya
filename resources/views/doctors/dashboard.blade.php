@@ -20,7 +20,7 @@
               <a href="{{route('dr_patients', $doctor)}}" style="color:inherit;">
                 <div class="row">
                   <div class="col-sm-5">
-                    <i class="fa fa-bed display-3"></i>
+                    <i class="fa fa-procedures display-3"></i>
                   </div>
                   <div class="col-sm-7">
                     <h1 class="font-weight-light">{{ $doctor->patients_count }}</h1>
@@ -67,7 +67,7 @@
       <div class="row">
         <div class="col-12">
           <!-- small box -->
-          <div class="small-box bg-secondary">
+          <div class="small-box bg-primary">
             <div class="inner pt-5 pb-2">
               <a href="{{ route('dr_prescriptions', $doctor) }}" style="color:inherit;">
                 <div class="row">
@@ -142,8 +142,20 @@
     </div>
 
     <div class="col-md-3 order-sm-2 order-1">
+      <div class="bg-light">
+        <div class="list-group">
+          <div class="list-group-item tf-flex" title="Your license on this platform is {{$doctor->revoked ? 'Revoked':'Active'}}">
+            <span class="font-weight-bold">License: </span>
+            <span class="d-inline-block bg-{{$doctor->revoked ? 'danger':'success'}}" style="width: 12px;height: 12px; border-radius:50%;"></span>
+          </div>
+
+          <div class="list-group-item tf-flex" title="You have {{$doctor->isSubscribed() ? 'Active':'Inactive'}} subscription on this platform">
+            <span class="font-weight-bold">Subscription: </span>
+            <span class="d-inline-block bg-{{$doctor->isSubscribed() ? 'success':'danger'}}" style="width: 12px;height: 12px; border-radius:50%;"></span>
+          </div>
+        </div>
+      </div>
       <h1>
-        License: <button class="btn btn-lg btn-{{$doctor->revoked ? 'danger':'success'}}">{{$doctor->revoked ? 'Revoked':'Active'}}</button>
       </h1>
     </div>
   </div>

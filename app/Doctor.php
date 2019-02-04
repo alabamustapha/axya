@@ -174,6 +174,14 @@ class Doctor extends Model
         return $this->hasMany(Schedule::class);
     }
 
+    public function hasSundaySchedule()   { return $this->schedules()->where('day_id', '1')->count(); }
+    public function hasMondaySchedule()   { return $this->schedules()->where('day_id', '2')->count(); }
+    public function hasTuesdaySchedule()  { return $this->schedules()->where('day_id', '3')->count(); }
+    public function hasWednesdaySchedule(){ return $this->schedules()->where('day_id', '4')->count(); }
+    public function hasThursdaySchedule() { return $this->schedules()->where('day_id', '5')->count(); }
+    public function hasFridaySchedule()   { return $this->schedules()->where('day_id', '6')->count(); }
+    public function hasSaturdaySchedule() { return $this->schedules()->where('day_id', '7')->count(); }
+
     public function patients()
     {
         $ids = $this->appointments()
