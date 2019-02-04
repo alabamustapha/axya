@@ -118,7 +118,7 @@ Route::prefix('{doctor}')->group(function(){
   Route::get('/dr-appointments', 'AppointmentController@drindex')->name('dr_appointments');
   Route::get('/dr-prescriptions','PrescriptionController@drindex')->name('dr_prescriptions');
   Route::get('/dr-transactions', 'TransactionController@drindex')->name('dr_transactions'); 
-  Route::get('/dr-patients',     'DoctorController@patients')->name('dr_patients'); 
+  Route::get('/patients',     'DoctorController@patients')->name('dr_patients'); 
   
   Route::patch('/revoke','AppDoctorController@licenseRevoke')->name('revoke_license');
   Route::patch('/restore','AppDoctorController@licenseRestore')->name('restore_license'); 
@@ -175,6 +175,7 @@ Route::get('user-dashboard',        'PatientController@dashboard')->name('user_d
 Route::get('admin-dashboard', function(){return view('admin.dashboard');})->name('admin_dashboard')->middleware('auth');
 
 Route::prefix('{user}')->group(function(){
+  Route::get('/doctors',            'UserController@doctors')->name('user.doctors'); 
   Route::patch('/allergies',        'UserController@updateAllergies')->name('allergies.update');
   Route::patch('/chronics',         'UserController@updateChronics')->name('chronics.update');
   Route::patch('/change-password',  'UserController@changePassword')->name('password.update');

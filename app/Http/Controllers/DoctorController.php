@@ -45,7 +45,7 @@ class DoctorController extends Controller
     {
         $patients = $doctor->patients();
 
-        return view('doctors.patients', compact('patients'));
+        return view('doctors.patients', compact('doctor','patients'));
     }
 
     /**

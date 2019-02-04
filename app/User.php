@@ -27,7 +27,7 @@ class User extends Authenticatable implements MustVerifyEmail
       'is_superadmin','is_admin','is_administrator','is_staff',
       'is_authenticated_superadmin','is_authenticated_admin','is_authenticated_staff',
       'is_doctor','is_potential_doctor',
-      'type','status',
+      'type','status','doctors_count',
       'appointments_count','transactions_count','subscriptions_count',
       'appointments_list','transactions_list','subscriptions_list','prescriptions_list',
       'completed_appointments_list','upcoming_appointments_list','pending_appointments_list',
@@ -156,6 +156,8 @@ class User extends Authenticatable implements MustVerifyEmail
             if ($this->isDoctor()) {
                 $this->update(['doctor_mode' => 0]);
             }
+
+            return;
         }
     }
 
@@ -283,7 +285,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function isLoggedInAsAdmin() 
     {
-        return (bool) ($this->admin_mode && !is_null($this->admin_password));
+        return (bool) ($this->admin_mode == '1' && !is_null($this->admin_password));
     }
 
     /**
@@ -330,7 +332,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function isLoggedInAsDoctor() 
     {
-        return (bool) ($this->doctor_mode && !is_null($this->doctor_password));
+        return (bool) ($this->doctor_mode == '1' && !is_null($this->doctor_password));
     }
 
     public function isDoctor() 
@@ -675,6 +677,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getDoctorsAttribute()
     {
         return $this->doctors();
+    }
+
+    public function getDoctorsCountAttribute()
+    {
+        return $this->doctors()->count();
     }
 
 

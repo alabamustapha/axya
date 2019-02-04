@@ -30,6 +30,18 @@ class UserController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function doctors(User $user)
+    {
+        $doctors = $user->doctors();
+
+        return view('users.doctors', compact('user','doctors'));
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param  \App\User $user
