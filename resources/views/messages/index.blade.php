@@ -1,12 +1,15 @@
 @extends('layouts.master')
 
 @section('title', 'User Messages Index')
+@section('page-title')
+    <i class="fa fa-comments"></i>&nbsp;  {{ __('Messages Dashboard') }}
+@endsection
 
 @section('content')
 
-<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+{{-- <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
     <h1 class="h2">Messages Dashboard</h1>
-</div>
+</div> --}}
 
 
 <div class="table-responsive tp-scrollbar">

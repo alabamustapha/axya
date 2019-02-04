@@ -1,6 +1,9 @@
 @extends('layouts.master')
 
-@section('title', 'Transactions Stat. Dashboard')
+@section('title', 'Transactions Management/Dashboard')
+@section('page-title')
+    <i class="fa fa-handshake"></i>&nbsp;  {{ __('Transactions Management') }}
+@endsection
 
 @section('content')
 

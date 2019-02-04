@@ -1,6 +1,9 @@
 @extends('layouts.master')
 
 @section('title', 'Admin Login')
+@section('page-title')
+    <i class="fa fa-user-tie"></i>&nbsp; {{ __('Admin Sign In') }}
+@endsection
 
 @section('content')
     <!-- SIGN IN / REGISTER -->
@@ -9,10 +12,6 @@
             <div class="row justify-content-center">
                 <div class="col-md-6">
                     <div class="card shadow">
-                        <div class="card-header bg-white p-4">
-                            <label class="text-center h4"><i class="fa fa-info-circle"></i> {{ __('Admin Sign In') }}</label> 
-                            {{-- <p>To gain access to the Admin sections sign in with this form</p> --}}
-                        </div>
                         <div class="card-body">
 
                             <form method="POST" action="{{ route('admin.login') }}">

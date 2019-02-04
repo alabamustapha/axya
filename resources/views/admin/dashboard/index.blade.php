@@ -1,6 +1,9 @@
 @extends('layouts.master')
 
 @section('title', 'App Main Dashboard')
+@section('page-title')
+    <i class="fa fa-chart"></i>&nbsp;  {{ __('App Dashboard') }}
+@endsection
 
 @section('content')
 
@@ -153,6 +156,7 @@
         </div>
         <!-- /.info-box-content -->
       </a>
+      <!-- /.info-box -->
 
       <a href="{{route('dashboard-admins')}}" class="info-box mb-3 bg-light">
         <span class="info-box-icon"><i class="fa fa-user-tie"></i></span>
@@ -164,55 +168,17 @@
         <!-- /.info-box-content -->
       </a>
       <!-- /.info-box -->
-      <div class="info-box mb-3 bg-info">
-        <span class="info-box-icon"><i class="fa fa-users"></i></span>
+
+      <a href="{{--route('dashboard-admins')--}}" class="info-box mb-3 bg-light">
+        {{-- Link to FAQs, Privacy, TOS, Tags, Specialties etc updates --}}
+        <span class="info-box-icon"><i class="fa fa-text-right"></i></span>
 
         <div class="info-box-content">
-          <span class="info-box-text">New Users</span>
-          <span class="info-box-number">---</span>
+          <span class="info-box-text">App Contents</span>
+          <span class="info-box-number">{{ $admins_count }}</span>
         </div>
         <!-- /.info-box-content -->
-      </div>
-      <!-- /.info-box -->
-      <div class="info-box mb-3 bg-success">
-        <span class="info-box-icon"><i class="fa fa-user-md"></i></span>
-
-        <div class="info-box-content">
-          <span class="info-box-text">New Doctors</span>
-          <span class="info-box-number">---</span>
-        </div>
-        <!-- /.info-box-content -->
-      </div>
-      <!-- /.info-box -->
-      <div class="info-box mb-3 bg-danger">
-        <span class="info-box-icon"><i class="fa fa-calendar-alt"></i></span>
-
-        <div class="info-box-content">
-          <span class="info-box-text">New Appointments</span>
-          <span class="info-box-number">---</span>
-        </div>
-        <!-- /.info-box-content -->
-      </div>
-      <!-- /.info-box -->
-      <div class="info-box mb-3 bg-secondary">
-        <span class="info-box-icon"><i class="fa fa-rss"></i></span>
-
-        <div class="info-box-content">
-          <span class="info-box-text">New Subscriptions</span>
-          <span class="info-box-number">---</span>
-        </div>
-        <!-- /.info-box-content -->
-      </div>
-      <!-- /.info-box -->
-      <div class="info-box mb-3 bg-warning">
-        <span class="info-box-icon"><i class="fa fa-handshake"></i></span>
-
-        <div class="info-box-content">
-          <span class="info-box-text">New Payments</span>
-          <span class="info-box-number">---</span>
-        </div>
-        <!-- /.info-box-content -->
-      </div>
+      </a>
       <!-- /.info-box -->
     </div>
   </div>

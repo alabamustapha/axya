@@ -2,7 +2,7 @@
 
 @section('title', $user->name .' - Subscriptions Dashboard')
 
-@section('page-title', 'Subscriptions Dashboard for '. $user->name)
+@section('page-title', 'Subscriptions by '. $user->name)
 
 @section('content')
 

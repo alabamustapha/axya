@@ -1,6 +1,9 @@
 @extends('layouts.master')
 
-@section('title', 'Doctors Stat. Dashboard')
+@section('title', 'Doctors Management/Dashboard')
+@section('page-title')
+    <i class="fa fa-user-md"></i>&nbsp;  {{ __('Doctors Management') }}
+@endsection
 
 @section('content')
 

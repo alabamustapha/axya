@@ -1,7 +1,9 @@
 @extends('layouts.master')
 
 @section('title', 'Admin Dashboard')
-@section('page-title', 'Admin Dashboard')
+@section('page-title')
+    <i class="fa fa-user-tie"></i>&nbsp;  {{ __('Administrators Management') }}
+@endsection
 
 @section('content')
 
