@@ -18,11 +18,15 @@ class DoctorGuestMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->isDoctor()) {
-            return $next($request);
-        }
-        elseif (Auth::check() && Auth::user()->isAuthenticatedDoctor()) {
-            return redirect(route('dr_dashboard'));
+        if (Auth::check() && Auth::user()->isDoctor()){
+
+            if (Auth::user()->isAuthenticatedDoctor()) {
+                return redirect(route('dr_dashboard', Auth::user()->doctor));
+            }
+            else {
+                return $next($request);
+            }
+
         }
 
         return redirect(route('doctor.login'));

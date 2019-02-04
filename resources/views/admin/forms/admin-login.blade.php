@@ -18,7 +18,7 @@
                                 @csrf
 
                                 <div class="form-group">
-                                    <label for="email" class="col-form-label-sm">{{ __('Admin Email') }}</label>
+                                    <label for="email" class="col-form-label-sm">{{ __('Email') }}</label>
                                     <input type="email" name="email" class="form-control form-default{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="johndoe@example.com" autofocus required>
 
                                     @if ($errors->has('email'))
