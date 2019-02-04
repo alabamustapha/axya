@@ -17,12 +17,19 @@ class DoctorAndAdminMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && 
-            (Auth::user()->isAdmin() 
-                || (Auth::user()->isDoctor())// && Auth::user()->doctor == \Route::input('doctor'))
-                // || (Auth::user()->isDoctor() && Auth::id() == request()->user()->id))
-                // || (Auth::user()->slug == \Route::input('user.slug'))
-            )) {
+        if (
+            Auth::check() && 
+                (
+                Auth::user()->isAdmin() || 
+                    (
+                        \Route::input('doctor') 
+                        ? ( Auth::user()->isDoctor() && 
+                            Auth::user()->doctor->slug == \Route::input('doctor.slug')) 
+                        : Auth::user()->isDoctor()
+                    )
+                )
+            )
+        {
 
             if (Auth::user()->isAuthenticatedAdmin() || Auth::user()->isAuthenticatedDoctor()) {
                 return $next($request);

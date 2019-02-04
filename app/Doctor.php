@@ -209,7 +209,7 @@ class Doctor extends Model
 
         $patientIds = array_unique($ids);
 
-        return in_array(request()->user->id, $patientIds);
+        return in_array(request()->user()->id, $patientIds);
     }
 
     public function inAllPatients()
@@ -221,7 +221,7 @@ class Doctor extends Model
 
         $patientIds = array_unique($ids);
 
-        return in_array(request()->user->id, $patientIds);
+        return in_array(request()->user()->id, $patientIds);
     }
 
 

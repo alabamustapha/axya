@@ -92,7 +92,7 @@
           <!-- small box -->
           <div class="small-box bg-secondary">
             <div class="inner pt-5 pb-2">
-              <a href="{{ route('dr_subscriptions', $doctor) }}" style="color:inherit;">
+              <a href="{{ route('subscriptions.index', $doctor) }}" style="color:inherit;">
                 <div class="row">
                   <div class="col-sm-5">
                     <i class="fa fa-rss display-3"></i>

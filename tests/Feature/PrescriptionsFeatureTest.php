@@ -20,7 +20,7 @@ class PrescriptionsFeatureTest extends TestCase
         parent::setUp();
 
         $this->user        = factory(User::class)->states('verified')->create();
-        $this->doc_user    = factory(User::class)->states('verified')->create();
+        $this->doc_user    = factory(User::class)->states(['verified','doctor'])->create();
         $this->specialty   = factory(Specialty::class)->create();
         $this->doctor      = factory(Doctor::class)->states('active')->create([
           'id'      => $this->doc_user->id,
@@ -28,7 +28,7 @@ class PrescriptionsFeatureTest extends TestCase
         ]);
         $this->appointment = factory(Appointment::class)->create([
           'user_id'   => $this->user->id,
-          'doctor_id' => $this->doc_user->id,
+          'doctor_id' => $this->doctor->user_id,
         ]);
 
         $this->prescription= factory(Prescription::class)->create(['appointment_id' => $this->appointment->id]);

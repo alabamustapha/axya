@@ -17,7 +17,7 @@ class TransactionController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('verified');
-        $this->middleware('patient')->only('index');
+        $this->middleware('patient')->only('index','drindex','show');
         $this->middleware('admin')->only('admindex');
     }
 
