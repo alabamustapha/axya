@@ -83,8 +83,6 @@ const router = new VueRouter({
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-
-Vue.component('example-component',require('./components/ExampleComponent.vue'));
 Vue.component('searches',         require('./components/Searches.vue'));
 Vue.component('schedule-list',    require('./components/ScheduleList.vue'));
 Vue.component('schedule',         require('./components/Schedule.vue'));

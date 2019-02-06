@@ -85,9 +85,25 @@
 
         </div>
 
-        <div class="short-content-bg" v-else>
-          0 results for <b>{{this.$parent.search}}</b> in <em class="text-bold">doctors</em>.
+        <div v-else>
+          <div class="text-center" v-show="!loading">
+            <div class="display-3"><i class="fa fa-user-md"></i></div> 
+
+            <br>
+
+            <p><strong>0</strong> results for <b>{{this.$parent.search}}</b> in <em class="text-bold">doctors</em>.</p>
+          </div>
         </div>
+
+        <div class="text-center" v-show="loading">
+          <span class="d-inline-block">
+            Searching doctors <i class="fa fa-user-md"></i> for <b>{{this.$parent.search}}</b>...
+          </span>
+          <span class="d-inline-block fa-3x h5">
+            <i class="fas fa-sync fa-spin"></i>
+          </span>
+        </div>
+        
       </div>
 
       <div class="card-footer text-center mb-0 pb-1 px-2">
@@ -105,6 +121,7 @@
   export default {
     data() {
       return {
+        loading : true,
         doctors   : {},
       }
     },
@@ -168,6 +185,7 @@
 
         axios.get(searchUrl + query)
         .then(({data}) => (this.doctors = data))
+        .then(() => { this.loading = false; })
       },
 
 

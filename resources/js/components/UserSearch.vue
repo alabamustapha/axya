@@ -78,9 +78,28 @@
 
         </div>
 
-        <div class="short-content-bg" v-else>
-          0 results for <b>{{this.$parent.search}}</b> in <em class="text-bold">users</em>.
+        <div v-else>
+          <div class="text-center" v-show="!loading">
+            <div class="display-3"><i class="fa fa-users"></i></div> 
+
+            <br>
+
+            <p><strong>0</strong> results for <b>{{this.$parent.search}}</b> in <em class="text-bold">users</em>.</p>
+          </div>
         </div>
+
+        <div class="text-center" v-show="loading">
+          <span class="d-inline-block">
+            Searching users <i class="fa fa-users"></i> for <b>{{this.$parent.search}}</b>...
+          </span>
+          <span class="d-inline-block fa-3x h5">
+            <i class="fas fa-sync fa-spin"></i>
+          </span>
+        </div>
+
+        <!-- <div class="short-content-bg" v-else>
+          0 results for <b>{{this.$parent.search}}</b> in <em class="text-bold">users</em>.
+        </div> -->
       </div>
 
       <div class="card-footer text-center mb-0 pb-1 px-2">
@@ -100,6 +119,7 @@
 
     data() {
       return {
+        loading : true,
         users   : {},
         blockedText: '',
         adminsCount: this.admins_count,
@@ -188,6 +208,7 @@
 
         axios.get(searchUrl + query)
         .then(({data}) => (this.users = data))
+        .then(() => { this.loading = false; })
       },
 
 

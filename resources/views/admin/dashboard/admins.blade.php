@@ -161,6 +161,16 @@
         <!-- ./col -->
       </div> 
     </div>
+
+    <div class="col-md-3 order-sm-2 order-1">
+      <nav>
+        
+        <!-- Admin Nav -->
+        @include('admin.partials.right-sidebar-nav')
+        
+      </nav>
+    </div>
+    <!-- /.col -->
   </div>
 </div>
 
