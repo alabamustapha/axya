@@ -81,14 +81,38 @@ return [
                     'required' => 'required',
                 ],
 
-                
+                /* Application Support Phone 2 */
+                [
+                    'type' => 'tel',
+                    'name' => 'app_phone_2',
+                    'label' => 'Support Phone 2', 
+                    'placeholder' => 'Support Phone Line 2',
+                    'class' => 'form-control form-control-sm',
+                    'style' => '', 
+                    'rules' => 'nullable|string|max:50',
+                    'hint' => '',
+                    'required' => 'required',
+                ],
+
+                [
+                    'type' => 'select',
+                    'name' => 'base_currency',
+                    'label' => 'Base Currency',
+                    'rules' => 'required',
+                    'options' => [
+                        'ron' => 'RON',
+                        'eur' => 'EUR',
+                        'gbp' => 'GBP',
+                        'usd' => 'USD',
+                    ]
+                ],
             ]
         ],
 
-        'fees' => [
-            'title' => 'Appoinment Fee Settings',
-            'descriptions' => 'Minimum and maximum fees that can be charged hourly.',
-            'icon' => 'fa fa-currency',
+        'subscriptions' => [
+            'title' => 'Doctor Subscription Settings',
+            'descriptions' => 'Percentage commision and others.',
+            'icon' => 'fa fa-rss',
 
             'inputs' => [/* Base Subscription */
                 [
@@ -120,6 +144,16 @@ return [
                     'max'  => 100,
                     'hint' => 'This is the base discount set on subscription fees in the app.'
                 ],
+                
+            ]
+        ],
+
+        'appointment_fees' => [
+            'title' => 'Appoinment Fee Settings',
+            'descriptions' => 'Minimum and maximum fees that can be charged hourly.',
+            'icon' => 'fa fa-calendar-alt',
+
+            'inputs' => [/* Base Subscription */
 
                 /* Min Appointment Fee */
                 [
@@ -149,6 +183,37 @@ return [
                     'step' => '0.01',
                     'min'  => 1.00,
                     'hint' => 'Maximum fee that can be charged hourly.'
+                ],
+
+                /* Admin Appointment Fee Commission */
+                [
+                    'name' => 'fee_commission',
+                    'type' => 'number',
+                    'data_type' => 'numeric',
+                    'label'=> '% Commission (eg 5%)',
+                    'placeholder' => '% commission',
+                    'class' => 'form-control form-control-sm', 
+                    'style' => '', 
+                    'rules' => 'required|between:0.00,100.00',
+                    'step' => '0.01',
+                    'min'  => 0.01,
+                    'max'  => 100.00,
+                    'hint' => 'Admin Appointment Fee Commission in %.'
+                ],
+
+                /* Time to Cancel */
+                [
+                    'name' => 'booking_countdown',
+                    'type' => 'number',
+                    'data_type' => 'numeric',
+                    'label'=> 'Cancel Booking After (Minutes)',
+                    'placeholder' => 'Minutes',
+                    'class' => 'form-control form-control-sm', 
+                    'style' => '', 
+                    'rules' => 'required|between:1,10000',
+                    'step' => '1',
+                    'min'  => 1,
+                    'hint' => 'Time to canceled a booked schedule if patient did not make payment.'
                 ]
             ]
         ],
