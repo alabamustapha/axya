@@ -110,8 +110,14 @@
               </table>
           </div>
           @empty
-              
-              <div class="col empty-list">No transactions at this time</div>
+
+              <div class="text-center">
+                <div class="display-3"><i class="fa fa-handshake"></i></div> 
+
+                <br>
+
+                <p><strong>0</strong> transactions at this time.</p>
+              </div>
 
           @endforelse
           

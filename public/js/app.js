@@ -78651,12 +78651,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['admins_count', 'staffs_count'],
 
   data: function data() {
     return {
+      loading: true,
       admins: {},
       adminsCount: this.admins_count,
       staffsCount: this.staffs_count
@@ -78724,6 +78735,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       axios.get('/dashboard/list-admins').then(function (_ref) {
         var data = _ref.data;
         return _this3.admins = data;
+      }).then(function () {
+        _this3.loading = false;
       });
     },
 
@@ -78916,12 +78929,37 @@ var render = function() {
             2
           )
         : _c("div", [
-            _c("span", { staticClass: "d-inline-block" }, [
-              _vm._v("\n        Loading admins...\n      ")
-            ]),
-            _vm._v(" "),
-            _vm._m(3)
-          ])
+            _c(
+              "div",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: !_vm.loading,
+                    expression: "!loading"
+                  }
+                ],
+                staticClass: "text-center"
+              },
+              [_vm._m(3), _vm._v(" "), _c("br"), _vm._v(" "), _vm._m(4)]
+            )
+          ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.loading,
+              expression: "loading"
+            }
+          ]
+        },
+        [_vm._m(5), _vm._v(" "), _vm._m(6)]
+      )
     ])
   ])
 }
@@ -78975,6 +79013,33 @@ var staticRenderFns = [
       },
       [_c("i", { staticClass: "fa fa-cog" })]
     )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "display-3" }, [
+      _c("i", { staticClass: "fa fa-user-tie" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _c("strong", [_vm._v("0")]),
+      _vm._v(" admins at this time.")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "d-inline-block" }, [
+      _vm._v("\n        Loading admins "),
+      _c("i", { staticClass: "fa fa-user-tie" }),
+      _vm._v("...\n      ")
+    ])
   },
   function() {
     var _vm = this
@@ -79135,12 +79200,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['staffs_count', 'admins_count'],
 
   data: function data() {
     return {
+      loading: true,
       staffs: {},
       staffsCount: this.staffs_count,
       adminsCount: this.admins_count
@@ -79208,6 +79284,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       axios.get('/dashboard/list-staffs').then(function (_ref) {
         var data = _ref.data;
         return _this3.staffs = data;
+      }).then(function () {
+        _this3.loading = false;
       });
     },
 
@@ -79400,12 +79478,37 @@ var render = function() {
             2
           )
         : _c("div", [
-            _c("span", { staticClass: "d-inline-block" }, [
-              _vm._v("\n        Loading staffs...\n      ")
-            ]),
-            _vm._v(" "),
-            _vm._m(3)
-          ])
+            _c(
+              "div",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: !_vm.loading,
+                    expression: "!loading"
+                  }
+                ],
+                staticClass: "text-center"
+              },
+              [_vm._m(3), _vm._v(" "), _c("br"), _vm._v(" "), _vm._m(4)]
+            )
+          ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.loading,
+              expression: "loading"
+            }
+          ]
+        },
+        [_vm._m(5), _vm._v(" "), _vm._m(6)]
+      )
     ])
   ])
 }
@@ -79461,6 +79564,33 @@ var staticRenderFns = [
       },
       [_c("i", { staticClass: "fa fa-cog" })]
     )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "display-3" }, [
+      _c("i", { staticClass: "fa fa-user-tag" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _c("strong", [_vm._v("0")]),
+      _vm._v(" staffs at this time.")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "d-inline-block" }, [
+      _vm._v("\n        Loading staffs "),
+      _c("i", { staticClass: "fa fa-user-tag" }),
+      _vm._v("...\n      ")
+    ])
   },
   function() {
     var _vm = this
