@@ -37,10 +37,13 @@ class SubscriptionController extends Controller
 
     public function admindex()
     {
+        $successful_subscriptions_count = Subscription::completed()->count();
+
         // Display/Group by Date...
         $subscriptions = Subscription::latest()
                                     ->paginate(15);
-        return view('subscriptions.admin', compact('subscriptions'));
+        return view('subscriptions.admin', compact('subscriptions','successful_subscriptions_count'));
+        // return view('admin.dashboard.subscriptions', compact('subscriptions','successful_subscriptions_count'));
     }
 
     /**
