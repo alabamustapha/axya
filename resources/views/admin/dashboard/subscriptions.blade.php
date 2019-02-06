@@ -156,9 +156,10 @@
     <!-- /.col -->
 
     
-    <div class="col-md-2 text-center">
+    <div class="col-md-2">
       <!-- Info Boxes Style 2 -->
       <div class="info-box mb-3 bg-success">
+        <span class="info-box-icon"><i class="fa"></i></span>
 
         <div class="info-box-content">
           <span class="info-box-text">Successful</span>
@@ -168,6 +169,7 @@
       </div>
       <!-- /.info-box -->
       <div class="info-box mb-3 bg-warning">
+        <span class="info-box-icon"><i class="fa"></i></span>
 
         <div class="info-box-content">
           <span class="info-box-text">Pending</span>
@@ -177,6 +179,7 @@
       </div>
       <!-- /.info-box -->
       <div class="info-box mb-3 bg-danger">
+        <span class="info-box-icon"><i class="fa"></i></span>
 
         <div class="info-box-content">
           <span class="info-box-text">Failed</span>

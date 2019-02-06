@@ -20,7 +20,7 @@
                   <i class="fa fa-users display-3"></i>
                 </div>
                 <div class="col-sm-7">
-                  <h1 class="font-weight-light">{{$admins->count() + $staffs->count()}}</h1>
+                  <h1 class="font-weight-light">{{$admins_count}}</h1>
 
                   <p>Staff and Admin Users</p>
                 </div>

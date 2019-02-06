@@ -112,8 +112,6 @@ Route::resource('reviews',       'ReviewController');
 Route::resource('transactions',  'TransactionController')->except('index');
 Route::resource('subscriptions', 'SubscriptionController')->except('index');
 
-Route::get('adm-transactions',        'TransactionController@admindex')->name('adm_transactions');
-Route::get('adm-subscriptions',       'SubscriptionController@admindex')->name('adm_subscriptions');
 Route::get('mockedPayment/{transaction}', 'TransactionController@mockedPayment')->name('mockedPayment');
 Route::get('mockedSubPayment/{subscription}', 'SubscriptionController@mockedPayment')->name('mockedSubPayment');
 Route::get('applications/{application}/show-file', 'ApplicationController@showFile')->name('showFile');
@@ -143,7 +141,14 @@ Route::prefix('dashboard')->group(function(){
   Route::get('/users',        'DashboardController@users')->name('dashboard-users');
   Route::get('/doctors',      'DashboardController@doctors')->name('dashboard-doctors');
   Route::get('/admins',       'DashboardController@admins')->name('dashboard-admins');
+
+  Route::get('adm-transactions',        'TransactionController@admindex')->name('adm_transactions');
+  Route::get('adm-subscriptions',       'SubscriptionController@admindex')->name('adm_subscriptions');
+  
   Route::get('/transactions', 'DashboardController@transactions')->name('dashboard-transactions');
+  Route::get('/subscriptions','DashboardController@subscriptions')->name('dashboard-subscriptions');
+
+  Route::get('/appointments', 'DashboardController@appointments')->name('dashboard-appointments');
   
   Route::get('/list-admins',  'DashboardController@listAdmins')->name('list-admins');
   Route::get('/list-staffs',  'DashboardController@listStaffs')->name('list-staffs');

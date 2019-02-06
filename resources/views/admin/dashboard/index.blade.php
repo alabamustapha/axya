@@ -98,20 +98,20 @@
           <!-- small box -->
           <div class="small-box bg-secondary">
             <div class="inner pt-5 pb-2">
-              <a href="{{--route('dashboard-subscriptons')--}}" style="color:inherit;">
+              <a href="{{route('adm_subscriptions')}}{{--route('dashboard-subscriptions')--}}" style="color:inherit;">
                 <div class="row">
                   <div class="col-sm-5">
                     <i class="fa fa-rss display-3"></i>
                   </div>
                   <div class="col-sm-7">
-                    <h1 class="font-weight-light">---{{--$completed_subscriptions_count--}}</h1>
+                    <h1 class="font-weight-light">{{ $successful_subscriptions_count }}</h1>
 
                     <p>Subscriptions</p>
                   </div>
                 </div>
               </a>
             </div>
-            <a href="{{--route('dashboard-appointments')--}}" class="small-box-footer">Subscriptions Management <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="{{route('adm_subscriptions')}}{{--route('dashboard-subscriptions')--}}" class="small-box-footer">Subscriptions Management <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->
@@ -125,20 +125,20 @@
           <!-- small box -->
           <div class="small-box bg-warning">
             <div class="inner pt-5 pb-2">
-              <a href="{{route('dashboard-transactions')}}" style="color:inherit;">
+              <a href="{{route('adm_transactions')}}{{--route('dashboard-transactions')--}}" style="color:inherit;">
                 <div class="row">
                   <div class="col-sm-5">
                     <i class="fa fa-handshake display-3"></i>
                   </div>
                   <div class="col-sm-7">
-                    <h1 class="font-weight-light">---{{--$completed_payments_count--}}</h1>
+                    <h1 class="font-weight-light">{{ $successful_transactions_count }}</h1>
 
-                    <p>Completed Payments</p>
+                    <p>Completed Transactions</p>
                   </div>
                 </div>
               </a>
             </div>
-            <a href="{{route('dashboard-transactions')}}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="{{route('adm_transactions')}}{{--route('dashboard-transactions')--}}" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
           </div>
         </div>
         <!-- ./col -->

@@ -11,54 +11,48 @@
   <div class="row">
     <!-- Left col -->
     <div class="col-md-9">
-      <!-- MAP & BOX PANE -->
-      <div class="card text-center shadow-none mb-4">
-        <div class="card-header bg-secondary">
-          <h3 class="card-title text-bold pt-3">Verified Doctors</h3>
+      <div class="order-sm-1 order-2 text-center">
+        <div class="row">
+          <div class="col-md-12">
+            <!-- small box -->
+            <div class="small-box bg-info p-1">
+              <div class="inner pt-5">
+                <div class="row">
+                  <div class="col-sm-5">
+                    <i class="fa fa-user-md display-3"></i>
+                  </div>
+                  <div class="col-sm-7">
+                    <h1 class="font-weight-light">{{$doctors_count}}</h1>
 
-          <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-widget="collapse">
-              <i class="fa fa-minus"></i>
-            </button>
-          </div>
-        </div>
-        <!-- /.card-header -->
-        <div class="card-body p-0">
-          <div class="d-md-flex">
-            <div class="p-4 flex-1" style="overflow: hidden">
-              
-              <div class="display-1 tf-flex">
-                <i class="fa fa-user-md col-sm-3"></i>
-                <span class="col-sm-9 text-bold">{{ $doctors_count }}</span>
+                    <p>Verified Doctors</p>
+                  </div>
+                </div>
+              </div>
+              <div class="small-box-footer p-2">
+                <form @submit.prevent="searchForDoctor" class="form-inline">
+                  <div class="form-group mb-2 d-inline-block w-100">
+                    <input
+                      v-model="search"
+                      @keyup="searchForDoctor"
+                      type="search" name="search"
+                      placeholder="search doctors..." aria-label="Search Doctors..." 
+                      class="form-control form-control-lg text-center w-100 bg-dark" id="doctorSearchForm">
+        
+                  </div>        
+                  <button @click="searchForDoctor" type="submit" class="btn btn-primary d-block mx-auto">
+                      <i class="fa fa-search "></i> Search
+                  </button>                    
+                </form>
               </div>
 
+              <div class="bg-light">
+                <doctor-search></doctor-search>
+              </div>
             </div>
-          </div><!-- /.d-md-flex -->
-        </div>
-        <!-- /.card-body -->
-        <div class="card-footer">
-          <div class="mb-3">
-            <form @submit.prevent="searchForDoctor" class="form-inline">
-              <div class="form-group mb-2 d-inline-block w-100">
-                <input
-                  v-model="search"
-                  @keyup="searchForDoctor"
-                  type="search" name="search"
-                  placeholder="search doctors..." aria-label="Search Doctors..." 
-                  class="form-control form-control-lg text-center w-100 bg-dark" id="doctorSearchForm">
-    
-              </div>        
-              <button @click="searchForDoctor" type="submit" class="btn btn-primary d-block mx-auto">
-                  <i class="fa fa-search "></i> Search
-              </button>                    
-            </form>
           </div>
-
-          <div class="bg-light">
-            <doctor-search></doctor-search>
-          </div>
-
+          <!-- ./col -->
         </div>
+        <!-- ./row -->
       </div>
       
       <div>
@@ -247,7 +241,7 @@
     <!-- /.col -->
 
     <div class="col-md-3">
-      <!-- Info Boxes Style 2 -->
+      {{-- <!-- Info Boxes Style 2 -->
       <div class="info-box mb-3 bg-warning">
         <span class="info-box-icon"><i class="fa"></i></span>
 
@@ -277,7 +271,7 @@
         </div>
         <!-- /.info-box-content -->
       </div>
-      <!-- /.info-box -->
+      <!-- /.info-box --> --}}
     </div>
     <!-- /.col -->
   </div>

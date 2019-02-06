@@ -15,7 +15,8 @@ class AppDoctorController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('doctorguest')->except('doctorLogout');
+        $this->middleware('doctorguest')->except('doctorLogout','licenseRevoke','licenseRestore');
+        $this->middleware('admin')->only('licenseRevoke','licenseRestore');
     }
 
     /**

@@ -10,6 +10,7 @@
 </div>
 
 <ul class="nav flex-sm-column">
+  {{Auth::user()->shipments}}
     @if (Auth::user()->is_authenticated_admin)
       <li class="nav-item">
 
@@ -68,18 +69,18 @@
               <span class="navlink-active">Appointments</span>
             </a>
             
-            <a href="{{route('adm_subscriptions')}}" class="nav-link" title="Subscription Management">
+            <a href="{{route('adm_subscriptions')}}{{--route('dashboard-subscriptions')--}}" class="nav-link" title="Subscription Management">
               <span class="icon">
                 <i class="fa fa-rss"></i>
               </span>
               <span class="navlink-active">Subscriptions</span>
             </a>
 
-            <a href="{{route('adm_transactions')}}" class="nav-link" title="Payment/Transaction Management">
+            <a href="{{route('adm_transactions')}}{{--route('dashboard-transactions')--}}" class="nav-link" title="Payment/Transaction Management">
               <span class="icon">
                 <i class="fa fa-handshake"></i>
               </span>
-              <span class="navlink-active">Payments</span>
+              <span class="navlink-active">Tranasctions</span>
             </a>
 
             <hr class="py-1 m-0">
@@ -135,7 +136,7 @@
             @if (is_null(Auth::user()->admin_password))
               <a href="{{route('admin.password')}}" class="nav-link">
                 <span class="icon fa fa-key"></span>
-                <span class="navlink-active">New Admin Password</span>
+                <span class="navlink-active">Create Admin Password</span>
               </a>
             @else
               <a href="{{route('admin.login')}}" class="nav-link">
@@ -267,7 +268,7 @@
             @if (is_null(Auth::user()->doctor_password))
               <a href="{{route('doctor.password')}}" class="nav-link">
                 <span class="icon fa fa-key"></span>
-                <span class="navlink-active">New Doctor Password</span>
+                <span class="navlink-active">Create Doctor Password</span>
               </a>
             @else
               <a href="{{route('doctor.login')}}" class="nav-link">
