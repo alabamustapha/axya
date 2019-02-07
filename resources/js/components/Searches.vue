@@ -30,11 +30,12 @@
                 </div>
                 <div class="info-side">
                   <div class="doc">
-                    <a :href="doctor.link" :title="doctor.name +' - '+ doctor.specialty.name" style="color:inherit;">
-                      <span class="d-block h2" v-text="doctor.name"></span>
-                    </a>
+                    <div class="d-block">
+                      <a class="d-inline-block" :href="doctor.link" :title="doctor.name +' - '+ doctor.specialty.name" style="color:inherit;">
+                        <span class="d-block h2" v-text="doctor.name"></span>
+                      </a>
 
-                      <div v-if="$acl.isSuperAdmin()" :title="'Admin '+ doctor.user.name">
+                      <div class="d-inline-block" v-if="$acl.isSuperAdmin()" :title="'Admin '+ doctor.user.name">
                         <button id="navbarDropdown" class="btn btn-sm dropdown-toggle d-inline" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-cog"></i>
                         </button>
@@ -57,6 +58,7 @@
                             </button>
                         </div>
                       </div>
+                    </div>
 
                     <span class="d-block occupation text-muted" v-text="doctor.location"></span>
                     <a :href="doctor.specialty.link" :title="doctor.specialty.name" style="color:inherit;">
@@ -71,8 +73,24 @@
                 </div>
               </div>
             </div>
-            <div class="text-center p-3" v-else>
-              0 results for <b>{{this.$parent.search}}</b> in <em class="text-bold">doctors</em>.
+
+            <div v-else>
+              <div class="text-center" v-show="!loading">
+                <div class="display-3"><i class="fa fa-user-md"></i></div> 
+
+                <br>
+
+                <p><strong>0</strong> results for <b>{{this.$parent.search}}</b> in <em class="text-bold">doctors</em>.</p>
+              </div>
+            </div>
+
+            <div class="text-center" v-show="loading">
+              <span class="d-inline-block">
+                Searching doctors <i class="fa fa-user-md"></i> for <b>{{this.$parent.search}}</b>...
+              </span>
+              <span class="d-inline-block fa-3x h5">
+                <i class="fas fa-sync fa-spin"></i>
+              </span>
             </div>
 
             <div class="card-footer text-center mb-0 pb-1 px-2">
@@ -94,8 +112,24 @@
                 <span v-text="tag.description_preview"></span>                         
               </div>
             </div>
-            <div class="text-center p-3" v-else>
-              0 results for <b>{{this.$parent.search}}</b> in <em class="text-bold">tags</em>.
+
+            <div v-else>
+              <div class="text-center" v-show="!loading">
+                <div class="display-3"><i class="fa fa-tags"></i></div> 
+
+                <br>
+
+                <p><strong>0</strong> results for <b>{{this.$parent.search}}</b> in <em class="text-bold">tags</em>.</p>
+              </div>
+            </div>
+
+            <div class="text-center" v-show="loading">
+              <span class="d-inline-block">
+                Searching keywords <i class="fa fa-tags"></i> for <b>{{this.$parent.search}}</b>...
+              </span>
+              <span class="d-inline-block fa-3x h5">
+                <i class="fas fa-sync fa-spin"></i>
+              </span>
             </div>
 
             <div class="card-footer text-center mb-0 pb-1 px-2">
@@ -189,6 +223,7 @@
   export default {
     data() {
       return {
+        loading : true,
         // searches: {},
         doctors : {},
         tags    : {},
@@ -209,7 +244,8 @@
         // axios.get(searchUrl + query +'&type=dr')
         axios.get(searchUrl + query)
         .then(({data}) => (this.doctors = data))
-        .then(()=>{
+        .then(() => { this.loading = false; })
+        .then(() =>{
           if(this.doctors.length){
             $('#search-list').css('display', 'block');//.show();
           }
@@ -225,6 +261,7 @@
 
         axios.get(searchUrl + query)
         .then(({data}) => (this.tags = data))
+        .then(() => { this.loading = false; })
       },
       // searchUsers() {
       //   // $parent needed to access the root instance at ...resources\js\app.js
@@ -233,6 +270,7 @@
 
       //   axios.get(searchUrl + query)
       //   .then(({data}) => (this.users = data))
+      //   .then(() => { this.loading = false; })
       // },
 
 

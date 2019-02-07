@@ -24,7 +24,7 @@ class TagPolicy
      */
     public function create(User $user)
     {
-        return $user->isDoctor() || $user->isAdmin();
+        return $user->isAdmin();
     }
 
     /**
@@ -36,7 +36,7 @@ class TagPolicy
      */
     public function edit(User $user, Tag $tag)
     {
-        return ($tag->user_id == auth()->id() && $user->isDoctor()) || $user->isAdmin();
+        return $user->isAdmin();
     }
 
     /**

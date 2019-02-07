@@ -19,9 +19,9 @@ class SubscriptionsFeatureTest extends TestCase
     {
         parent::setUp();
 
-        $this->user       = factory(User::class)->states('verified')->create();
+        $this->user       = factory(User::class)->states(['verified','doctor'])->create();
         $this->specialty  = factory(Specialty::class)->create();
-        $this->doctor     = factory(Doctor::class)->create();
+        $this->doctor     = factory(Doctor::class)->states('active')->create();
         $this->subscription= factory(Subscription::class)->create([
             'user_id'       => $this->user->id,      // Subscribing User
             'doctor_id'     => $this->doctor->id,    // Subscriber

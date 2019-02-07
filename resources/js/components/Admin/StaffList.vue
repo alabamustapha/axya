@@ -74,8 +74,18 @@
       </div>
 
       <div v-else>
+        <div class="text-center" v-show="!loading">
+          <div class="display-3"><i class="fa fa-user-tag"></i></div> 
+
+          <br>
+
+          <p><strong>0</strong> staffs at this time.</p>
+        </div>
+      </div>
+
+      <div v-show="loading">
         <span class="d-inline-block">
-          Loading staffs...
+          Loading staffs <i class="fa fa-user-tag"></i>...
         </span>
         <span class="d-inline-block fa-3x h5">
           <i class="fas fa-sync fa-spin"></i>
@@ -92,7 +102,8 @@
 
     data() {
       return {
-        staffs   : {},
+        loading    : true,
+        staffs     : {},
         staffsCount: this.staffs_count,
         adminsCount: this.admins_count,
       }
@@ -121,7 +132,7 @@
             this.$Progress.finish();
           })
           .catch(() => {
-            toast({type: 'fail', title: 'An error occurred! Try again.'});
+            toast({type: 'error', title: 'An error occurred! Try again.'});
             this.$Progress.fail();
           });
         }
@@ -147,7 +158,7 @@
             this.$Progress.finish();
           })
           .catch(() => {
-            toast({type: 'fail', title: 'An error occurred! Try again.'});
+            toast({type: 'error', title: 'An error occurred! Try again.'});
             this.$Progress.fail();
           });
         }
@@ -159,6 +170,9 @@
       listStaffs() {
         axios.get('/dashboard/list-staffs')
         .then(({data}) => (this.staffs = data))
+        .then(() => {
+          this.loading = false;
+        })
       },
 
       /**

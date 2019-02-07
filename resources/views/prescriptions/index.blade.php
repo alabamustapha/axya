@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('title')
-    @if (Request::is('*/dr-prescriptions'))
+    @if (Request::is('doctors/*/prescriptions'))
         {{$doctor->name}} - Doctors Prescription Index
     @elseif (Request::is('*/prescriptions'))
         {{$user->name}} - Prescriptions Index
@@ -9,7 +9,7 @@
 @endsection
 
 @section('page-title')
-    @if (Request::is('*/dr-prescriptions'))
+    @if (Request::is('doctors/*/prescriptions'))
         Doctor Prescriptions - <strong>{{$doctor->name}}</strong>
     @elseif (Request::is('*/prescriptions'))
         Prescription Index - <strong>{{$user->name}}</strong>

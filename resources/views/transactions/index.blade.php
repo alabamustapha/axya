@@ -2,7 +2,7 @@
 
 @section('title', $user->name .' - Transactions Dashboard')
 
-@section('page-title', 'Transaction Dashboard for '. $user->name)
+@section('page-title', 'Transactions by '. $user->name)
 
 @section('content')
 

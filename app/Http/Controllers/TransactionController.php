@@ -17,7 +17,7 @@ class TransactionController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('verified');
-        $this->middleware('patient')->only('index');
+        $this->middleware('patient')->only('index','drindex','show');
         $this->middleware('admin')->only('admindex');
     }
 
@@ -46,10 +46,13 @@ class TransactionController extends Controller
 
     public function admindex()
     {
+        $successful_transactions_count = Transaction::completed()->count();
+
         // Display/Group by Date...
         $transactions = Transaction::latest()
                                     ->paginate(15);
-        return view('transactions.admin', compact('transactions'));
+        return view('transactions.admin', compact('transactions','successful_transactions_count'));
+        // return view('admin.dashboard.transactions', compact('transactions','successful_transactions_count'));
     }
 
     /**

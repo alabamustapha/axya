@@ -1,6 +1,7 @@
 <?php
 
 use Faker\Generator as Faker;
+use Carbon\Carbon;
 
 $factory->define(App\Doctor::class, function (Faker $faker) {
     $id          = App\User::all()->random()->id;
@@ -34,5 +35,19 @@ $factory->define(App\Doctor::class, function (Faker $faker) {
       // Education
       'graduate_school'  => $faker->catchPhrase,
       'degree'           => $faker->sentence,
+    ];
+});
+
+$factory->state(App\Doctor::class, 'active', function (Faker $faker) {
+    return [
+        'revoked' => '0', 
+        'available'=> '1',
+        'subscription_ends_at'=> Carbon::parse(Carbon::now())->addYear(),
+    ];
+});
+
+$factory->state(App\Doctor::class, 'suspended', function (Faker $faker) {
+    return [
+        'revoked' => '1', 
     ];
 });

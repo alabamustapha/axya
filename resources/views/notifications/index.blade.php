@@ -1,12 +1,14 @@
 @extends('layouts.master')  
 
 @section('title', 'Notifications') 
+@section('page-title')
+    <i class="fa fa-bell"></i> Your Notifications <span style="font-size:.57em;">({{Auth::user()->unreadNotifications()->count()}})</span>
+@endsection
 
 @section('content')
   <div class="container"> 
     <div class="row">
       <div class="col-md-6 col-md-offset-3">
-        <h1><i class="fa fa-bell"></i> Your Notifications <span style="font-size:.57em;">({{Auth::user()->unreadNotifications()->count()}})</span></h1>
 
         @forelse ($dayStats as $notif)
 

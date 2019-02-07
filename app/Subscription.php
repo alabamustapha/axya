@@ -39,6 +39,11 @@ class Subscription extends Model
         return 'transaction_id';
     }
     
+    public function scopeCompleted($query) 
+    {
+        return $query->where('status', '1');
+    }
+    
     public function getTypeTextAttribute()
     {
         return $this->type == '3' ? 'yearly' :($this->type == '2' ? 'monthly' : 'weekly');

@@ -223,7 +223,7 @@
         })
         .catch(() => {
           toast({
-              type: 'fail',
+              type: 'error',
               title: 'Something went wrong! Try again with correct details.'
           });
           this.$Progress.fail();

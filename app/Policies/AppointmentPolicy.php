@@ -17,7 +17,7 @@ class AppointmentPolicy
 
     public function edit(User $user, Appointment $appointment)
     {
-        return $user->id == $appointment->user_id || $user->id == $appointment->doctor_id;
+        return $user->id == $appointment->user_id || ($user->id == $appointment->doctor_id && $appointment->doctor->isActive());
     }
 
     public function delete(User $user, Appointment $appointment)

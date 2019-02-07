@@ -1,61 +1,61 @@
 @extends('layouts.master')
 
-@section('title', 'Users Stat. Dashboard')
+@section('title', 'Users Management/Dashboard')
+@section('page-title')
+    <i class="fa fa-users"></i>&nbsp;  {{ __('Users Management') }}
+@endsection
 
 @section('content')
 
 <div class="container-fluid">
   <div class="row">
     <!-- Left col -->
-    <div class="col-md-9">
-      <!-- MAP & BOX PANE -->
-      <div class="card text-center shadow-none mb-4">
-        <div class="card-header bg-secondary">
-          <h3 class="card-title text-bold pt-3">All Registered Users</h3>
 
-          <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-widget="collapse">
-              <i class="fa fa-minus"></i>
-            </button>
-          </div>
-        </div>
-        <!-- /.card-header -->
-        <div class="card-body p-0">
-          <div class="d-md-flex">
-            <div class="p-4 flex-1" style="overflow: hidden">
-              
-              <div class="display-1 tf-flex">
-                <i class="fa fa-users col-sm-3"></i>
-                <span class="col-sm-9 text-bold">{{ $users_count }}</span>
+
+    <div class="col-md-9">
+      <div class="order-sm-1 order-2 text-center">
+        <div class="row">
+          <div class="col-md-12">
+            <!-- small box -->
+            <div class="small-box bg-info p-1">
+              <div class="inner pt-5">
+                <div class="row">
+                  <div class="col-sm-5">
+                    <i class="fa fa-users display-3"></i>
+                  </div>
+                  <div class="col-sm-7">
+                    <h1 class="font-weight-light">{{$users_count}}</h1>
+
+                    <p>All Registered Users</p>
+                  </div>
+                </div>
+              </div>
+              <div class="small-box-footer p-2">
+
+                <form @submit.prevent="searchForUser" class="form-inline">
+                  <div class="form-group mb-2 d-inline-block w-100">
+                    <input
+                      v-model="search"
+                      @keyup="searchForUser"
+                      type="search" name="search"
+                      placeholder="search users..." aria-label="Search Users" 
+                      class="form-control form-control-lg text-center w-100 bg-dark" id="userSearchForm">
+        
+                  </div>        
+                  <button @click="searchForUser" type="submit" class="btn btn-primary d-block mx-auto">
+                      <i class="fa fa-search "></i> Search
+                  </button>                    
+                </form>
               </div>
 
+              <div class="bg-light">
+              <user-search :admins_count="{{$admins_count}}" :staffs_count="{{$staffs_count}}"></user-search>
+              </div>
             </div>
-          </div><!-- /.d-md-flex -->
-        </div>
-        <!-- /.card-body -->
-        <div class="card-footer">
-          <div class="mb-3">
-            <form @submit.prevent="searchForUser" class="form-inline">
-              <div class="form-group mb-2 d-inline-block w-100">
-                <input
-                  v-model="search"
-                  @keyup="searchForUser"
-                  type="search" name="search"
-                  placeholder="search users..." aria-label="Search Users" 
-                  class="form-control form-control-lg text-center w-100 bg-dark" id="userSearchForm">
-    
-              </div>        
-              <button @click="searchForUser" type="submit" class="btn btn-primary d-block mx-auto">
-                  <i class="fa fa-search "></i> Search
-              </button>                    
-            </form>
           </div>
-
-          <div class="bg-light">
-            <user-search :admins_count="{{$admins_count}}" :staffs_count="{{$staffs_count}}"></user-search>
-          </div>
-
+          <!-- ./col -->
         </div>
+        <!-- ./row -->
       </div>
 
       <div class="mb-4">
@@ -226,37 +226,12 @@
     <!-- /.col -->
 
     <div class="col-md-3">
-      <!-- Info Boxes Style 2 -->
-      <div class="info-box mb-3 bg-warning">
-        <span class="info-box-icon"><i class="fa"></i></span>
-
-        <div class="info-box-content">
-          <span class="info-box-text">New Users Today</span>
-          <span class="info-box-number">---</span>
-        </div>
-        <!-- /.info-box-content -->
-      </div>
-      <!-- /.info-box -->
-      <div class="info-box mb-3 bg-success">
-        <span class="info-box-icon"><i class="fa"></i></span>
-
-        <div class="info-box-content">
-          <span class="info-box-text">New Users This Week</span>
-          <span class="info-box-number">---</span>
-        </div>
-        <!-- /.info-box-content -->
-      </div>
-      <!-- /.info-box -->
-      <div class="info-box mb-3 bg-danger">
-        <span class="info-box-icon"><i class="fa"></i></span>
-
-        <div class="info-box-content">
-          <span class="info-box-text">New Users This Month</span>
-          <span class="info-box-number">---</span>
-        </div>
-        <!-- /.info-box-content -->
-      </div>
-      <!-- /.info-box -->
+      <nav>
+        
+        <!-- Admin Nav -->
+        @include('admin.partials.right-sidebar-nav')
+        
+      </nav>
     </div>
     <!-- /.col -->
   </div>

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Doctor;
-use App\User;
-use App\Specialty;
 use App\Application;
 use App\Appointment;
+use App\Doctor;
+use App\Specialty;
+use App\Subscription;
+use App\Transaction;
+use App\User;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -30,6 +32,8 @@ class DashboardController extends Controller
         // $completed_transactions_count  = Transaction::notverified()->count();
         // $completed_subscriptions_count = Subscription::completed()->count();
         $completed_appointments_count = Appointment::completed()->count();
+        $successful_subscriptions_count = Subscription::completed()->count();
+        $successful_transactions_count = Transaction::completed()->count();
 
         return view('admin.dashboard.index', compact(
             'admins_count',
@@ -37,7 +41,9 @@ class DashboardController extends Controller
             'doctors_count',
             // 'completed_transactions_count',
             // 'completed_subscriptions_count',
-            'completed_appointments_count'
+            'completed_appointments_count',
+            'successful_subscriptions_count',
+            'successful_transactions_count'
         ));
     }
 
@@ -115,16 +121,39 @@ class DashboardController extends Controller
 
     public function admins()
     {
-        $admins = User::whereIn('acl', [1,5])->orderBy('name')->get();
-        $staffs = User::whereIn('acl', [2])->orderBy('name')->get();
+        $admins_count = User::whereIn('acl', [1,2,5])->get()->count();
+        $admins       = User::whereIn('acl', [1,5])->orderBy('name')->get();
+        $staffs       = User::whereIn('acl', [2])->orderBy('name')->get();
 
-        return view('admin.dashboard.admins', compact('admins','staffs'));
+        return view('admin.dashboard.admins', compact('admins','staffs','admins_count'));
+    }
+
+    public function subscriptions()
+    {
+        $successful_subscriptions_count = Subscription::completed()->count();
+
+        // Display/Group by Date...
+        $subscriptions = Subscription::latest()
+                                    ->paginate(15);
+        // return view('subscriptions.admin', compact('subscriptions'));
+        return view('admin.dashboard.subscriptions', compact('subscriptions','successful_subscriptions_count'));
     }
 
     public function transactions()
     {
-        return view('admin.dashboard.transactions');
+        $successful_transactions_count = Transaction::completed()->count();
+
+        // Display/Group by Date...
+        $transactions = Transaction::latest()
+                                    ->paginate(15);
+        // return view('transactions.admin', compact('transactions'));
+        return view('admin.dashboard.transactions', compact('transactions','successful_transactions_count'));
     }
+
+    // public function transactions()
+    // {
+    //     return view('admin.dashboard.transactions');
+    // }
 
 
     public function listAdmins()

@@ -8,6 +8,7 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Auth;
 use Laravel\Nova\Actions\Actionable;
 use Laravel\Passport\HasApiTokens;
 
@@ -23,11 +24,10 @@ class User extends Authenticatable implements MustVerifyEmail
     ]; 
 
     protected $appends = ['link','is_verified',
-      'is_superadmin','is_admin','is_staff',
-      // 'is_superadmin_user','is_admin_user','is_staff_user',
-      'is_administrator','is_staff_user',
+      'is_superadmin','is_admin','is_administrator','is_staff',
+      'is_authenticated_superadmin','is_authenticated_admin','is_authenticated_staff',
       'is_doctor','is_potential_doctor',
-      'type','status',
+      'type','status','doctors_count',
       'appointments_count','transactions_count','subscriptions_count',
       'appointments_list','transactions_list','subscriptions_list','prescriptions_list',
       'completed_appointments_list','upcoming_appointments_list','pending_appointments_list',
@@ -43,7 +43,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'gender','avatar','blocked','dob','weight','height','allergies','chronics',
         'last_four','terms','application_retry_at',
         'verification_link','as_doctor','application_status',
-        'admin_mode','admin_password',
+        'admin_mode','admin_password','doctor_mode','doctor_password',
     ];
 
     /**
@@ -153,6 +153,28 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->blocked == '1';
     }
 
+
+    /**
+     * If user is admin/staff/doctor and is logged in as admin/doctor, log him out. 
+     * Persistent log in could be due to session expiration.
+     *
+     * @return void
+     */
+    public function logOutAsAdminOrDoctor()
+    {
+        if (Auth::check() && Auth::id() == $this->id) {
+            if ($this->isAdmin() || $this->isStaff()) {
+                $this->update(['admin_mode' => 0]);
+            }
+
+            if ($this->isDoctor()) {
+                $this->update(['doctor_mode' => 0]);
+            }
+
+            return;
+        }
+    }
+
     /**
      * Is a male user.
      */
@@ -240,7 +262,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * 
      * @return  boolean
      */
-    public function isSuperAdminUser() 
+    public function isSuperAdmin() 
     {
         return $this->is_verified && ($this->acl == '5');
     }
@@ -250,9 +272,9 @@ class User extends Authenticatable implements MustVerifyEmail
      * 
      * @return  boolean
      */
-    public function isAdminUser() 
+    public function isAdmin() 
     {
-        return $this->is_verified && ($this->acl == '1' || $this->isSuperAdminUser());
+        return $this->is_verified && ($this->acl == '1' || $this->isSuperAdmin());
     }
 
     /**
@@ -260,14 +282,14 @@ class User extends Authenticatable implements MustVerifyEmail
      * 
      * @return  boolean
      */
-    public function isStaffUser() 
+    public function isStaff() 
     {
-        return $this->is_verified && ($this->acl == '2' || $this->isAdminUser()); 
+        return $this->is_verified && ($this->acl == '2' || $this->isAdmin()); 
     }
 
     public function isAdministrator() 
     {
-        return $this->isAdminUser() || $this->isSuperAdminUser();
+        return $this->isAdmin() || $this->isSuperAdmin();
     }
 
     /**
@@ -277,8 +299,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function isLoggedInAsAdmin() 
     {
-        // return (bool) $this->admin_mode;
-        return (bool) ($this->admin_mode && !is_null($this->admin_password));
+        return (bool) ($this->admin_mode == '1' && !is_null($this->admin_password));
     }
 
     /**
@@ -286,9 +307,9 @@ class User extends Authenticatable implements MustVerifyEmail
      * 
      * @return  boolean
      */
-    public function isSuperAdmin() 
+    public function isAuthenticatedSuperAdmin() 
     {
-        return $this->isSuperAdminUser() && $this->isLoggedInAsAdmin();
+        return $this->isSuperAdmin() && $this->isLoggedInAsAdmin();
     }
 
     /**
@@ -296,26 +317,56 @@ class User extends Authenticatable implements MustVerifyEmail
      * 
      * @return  boolean
      */
-    public function isAdmin() 
+    public function isAuthenticatedAdmin() 
     {
-        return $this->isAdminUser() && $this->isLoggedInAsAdmin();
+        return $this->isAdmin() && $this->isLoggedInAsAdmin();
 
         // return $this->is_verified && app()->environment('local') 
         //     ? (
         //       $this->acl == '1' || 
-        //       $this->isSuperAdmin() || 
+        //       $this->isAuthenticatedSuperAdmin() || 
         //       $this->email == 'cucuteanu@yahoo.com' || 
         //       $this->email == 'alabamustapha@gmail.com' || 
         //       $this->email == 'tonyfrenzy@gmail.com' || 
         //       $this->email == 'solomoneyitene@gmail.com' 
         //       )
-        //     : $this->acl == '1' || $this->isSuperAdmin()
+        //     : $this->acl == '1' || $this->isAuthenticatedSuperAdmin()
         //     ;
     }
 
-    public function isStaff() 
+    public function isAuthenticatedStaff() 
     {
-        return $this->isStaffUser() && $this->isLoggedInAsAdmin();        
+        return $this->isStaff() && $this->isLoggedInAsAdmin();        
+    }
+
+    /**
+     * Check the DOCTOR LOG IN status of this user.
+     * 
+     * @return  boolean
+     */
+    public function isLoggedInAsDoctor() 
+    {
+        return (bool) ($this->doctor_mode == '1' && !is_null($this->doctor_password));
+    }
+
+    public function isDoctor() 
+    {
+        return (bool) $this->doctor()->count();
+    }
+
+    public function isAuthenticatedDoctor() 
+    {
+        return $this->isDoctor() && $this->isLoggedInAsDoctor();        
+    }
+
+    public function isActiveDoctor() 
+    {
+        return $this->isDoctor() && $this->doctor()->isActive();
+    }
+
+    public function isSuspendedDoctor() 
+    {
+        return $this->isDoctor() && $this->doctor()->isSuspended();
     }
 
 
@@ -324,23 +375,44 @@ class User extends Authenticatable implements MustVerifyEmail
      * 
      * @return null
      */
-    public function makeOrdinaryMember() 
+    public function changeAclTo($level) 
     {
-        $this->acl = '3';
+        switch ($level) {
+          case 'normal':
+            $this->acl = '3';
+            // $this->update();
+            break;
+
+          case 'staff':
+            $this->acl = '2';
+            // $this->update();
+            break;
+
+          case 'admin':
+            $this->acl = '1';
+            // $this->update();
+            break;
+        }
         $this->update();
     } 
 
-    public function makeStaff() 
-    {
-        $this->acl = '2';
-        $this->update();
-    }
+    // public function makeOrdinaryMember() 
+    // {
+    //     $this->acl = '3';
+    //     $this->update();
+    // } 
 
-    public function makeAdmin() 
-    {
-        $this->acl = '1';
-        $this->update();
-    }
+    // public function makeStaff() 
+    // {
+    //     $this->acl = '2';
+    //     $this->update();
+    // }
+
+    // public function makeAdmin() 
+    // {
+    //     $this->acl = '1';
+    //     $this->update();
+    // }
 
     public function block() 
     {
@@ -376,11 +448,6 @@ class User extends Authenticatable implements MustVerifyEmail
         elseif ($this->acl == '3'){
             return 'Normal';
         }
-    }
-
-    public function isDoctor() 
-    {
-        return (bool) $this->doctor()->count();
     }
 
     public function professionalType() 
@@ -626,6 +693,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->doctors();
     }
 
+    public function getDoctorsCountAttribute()
+    {
+        return $this->doctors()->count();
+    }
+
 
     /**
      * Get all doctors that has attended to this user before.
@@ -655,7 +727,11 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
 
-
+    /**
+     * These getAttributes are API endpoint candidates.
+     * Gets better use with js frameworks.
+     * Called directly from the model to prevent unnecessary call to api.
+     */
     public function getLinkAttribute()
     {
       return route('users.show', $this);
@@ -666,14 +742,21 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->isVerified();
     }
 
-    public function getIsStaffUserAttribute() 
+
+    # Admin Auth Related
+    public function getIsAuthenticatedSuperAdminAttribute() 
     {
-        return $this->isStaffUser();
+        return $this->isAuthenticatedSuperAdmin();
     }
 
-    public function getIsAdministratorAttribute() 
+    public function getIsAuthenticatedAdminAttribute() 
     {
-        return $this->isAdministrator();
+        return $this->isAuthenticatedAdmin();
+    }
+
+    public function getIsAuthenticatedStaffAttribute() 
+    {
+        return $this->isAuthenticatedStaff(); 
     }
 
     public function getIsSuperAdminAttribute() 
@@ -686,20 +769,40 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->isAdmin();
     }
 
+    public function getIsAdministratorAttribute() 
+    {
+        return $this->isAdministrator();
+    }
+
     public function getIsStaffAttribute() 
     {
-        return $this->isStaff(); 
+        return $this->isStaff();
+    }
+
+
+
+    # Doctor Related
+    public function getIsAuthenticatedDoctorAttribute() 
+    {
+        return $this->isAuthenticatedDoctor();
     }
 
     public function getIsDoctorAttribute() 
     {
         return $this->isDoctor(); 
     }
+ 
+    public function getIsDoctorUserAttribute() 
+    {
+        return $this->isDoctorUser(); 
+    }
 
     public function getIsPotentialDoctorAttribute() 
     {
         return $this->as_doctor == '1' && $this->application_status != '1';
     }
+
+
 
     public function getTypeAttribute() 
     {

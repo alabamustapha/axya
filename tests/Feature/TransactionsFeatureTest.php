@@ -20,9 +20,9 @@ class TransactionsFeatureTest extends TestCase
     {
         parent::setUp();
 
-        $this->user       = factory(User::class)->states('verified')->create();
+        $this->user       = factory(User::class)->states(['verified','doctor'])->create();
         $this->specialty  = factory(Specialty::class)->create();
-        $this->doctor     = factory(Doctor::class)->create();
+        $this->doctor     = factory(Doctor::class)->states('active')->create();
         $this->appointment= factory(Appointment::class)->create();
         $this->transaction= factory(Transaction::class)->create([
             'user_id'       => $this->user->id,      // Patient
@@ -66,13 +66,15 @@ class TransactionsFeatureTest extends TestCase
     /** @test */
     public function show_a_transaction_can_be_viewed_attending_doctor() 
     {
-        $doc_user = factory(User::class)->states('verified')->create();
-        $doc      = factory(Doctor::class)->create([
+        // $user = factory(User::class)->states(['verified'])->create();
+        $doc_user = factory(User::class)->states(['verified','doctor'])->create();
+        $doc      = factory(Doctor::class)->states('active')->create([
                         'id'               => $doc_user->id,
                         'user_id'          => $doc_user->id,
                     ]);
 
         $appointment= factory(Appointment::class)->create([
+            'user_id'       => $this->user->id,   // Tranasction initiator
             'doctor_id'     => $doc->id,    // Attending Doctor
         ]);
         $transaction= factory(Transaction::class)->create([
@@ -109,20 +111,20 @@ class TransactionsFeatureTest extends TestCase
             ;
     }
 
-    // /** @test */
-    // public function show_a_transaction_cannot_be_viewed_by_unauthorized_users() 
-    // {
-    //     $user = factory(User::class)->states('verified')->create();
+    /** @test */
+    public function show_a_transaction_cannot_be_viewed_by_unauthorized_users() 
+    {
+        $user = factory(User::class)->states('verified')->create();
 
-    //     $this
-    //         ->actingAs($user)
-    //         ->get(route('transactions.show', $this->transaction))
-    //         // ->dump()
-    //         // ->assertStatus(302)
-    //         ->assertDontSee($this->transaction->user->name)
-    //         ->assertDontSee($this->transaction->doctor->name)
-    //         ;
-    // }
+        $this
+            ->actingAs($user)
+            ->get(route('transactions.show', $this->transaction))
+            // ->dump()
+            // ->assertStatus(302)
+            ->assertDontSee($this->transaction->user->name)
+            ->assertDontSee($this->transaction->doctor->name)
+            ;
+    }
 
     // /** @test */
     // public function show_a_new_transaction_form_contains_required_texts() 

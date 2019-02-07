@@ -27,7 +27,7 @@ class AppointmentUpdateRequest extends FormRequest
         
         $rules = [];
 
-        if ($appointment->status != '0'){
+        if (isset($appointment->status) && $appointment->status != '0'){
             $rules = array_merge($rules, [
                 'description' => 'required|string|max:1500',
                 

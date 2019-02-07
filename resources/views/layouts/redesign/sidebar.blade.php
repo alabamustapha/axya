@@ -10,7 +10,8 @@
 </div>
 
 <ul class="nav flex-sm-column">
-    @if (Auth::user()->is_admin)
+  {{Auth::user()->shipments}}
+    @if (Auth::user()->is_authenticated_admin)
       <li class="nav-item">
 
         <a class="nav-link" data-toggle="collapse" href="#adminSubmenu" role="button" aria-expanded="false" aria-controls="adminSubmenu">
@@ -24,70 +25,11 @@
         </a>
         <ul id="adminSubmenu" class=" collapse sub-menu nav flex-sm-column">
           <li class="nav-item">
-            
-            <a href="{{route('dashboard-admins')}}" class="nav-link" title="User/Patient Management">
-              <span class="icon">
-                <i class="fa fa-user-tie yellow"></i>
-              </span>
-              <span class="navlink-active">Admin Users</span>
-            </a>
-            
-            <a href="{{route('dashboard-users')}}" class="nav-link" title="User/Patient Management">
-              <span class="icon">
-                <i class="fa fa-users yellow"></i>
-              </span>
-              <span class="navlink-active">Users</span>
-            </a>
-            
-            <a href="{{route('dashboard-doctors')}}" class="nav-link" title="Doctor Management">
-              <span class="icon">
-                <i class="fa fa-user-md yellow"></i>
-              </span>
-              <span class="navlink-active">Doctors</span>
-            </a>
-
-            <a href="{{route('applications.index')}}" class="nav-link tf-flex" title="Doctor Applications Management">
-              <span class="tf-flex">
-                <span>
-                  <span class="icon">
-                    <i class="fa fa-user-secret yellow"></i>
-                  </span>
-                  <span class="navlink-active">Dr. Applications</span>
-                </span>
-
-                <span class="badge badge-danger">{{$applications_count}}</span>
-              </span>
-            </a>
-
-            <hr class="py-1 m-0">
-            
-            <a href="{{--route('adm_appointments')--}}" class="nav-link" title="Appointment Management">
-              <span class="icon">
-                <i class="fa fa-calendar-alt yellow"></i>
-              </span>
-              <span class="navlink-active">Appointments</span>
-            </a>
-            
-            <a href="{{route('adm_subscriptions')}}" class="nav-link" title="Subscription Management">
-              <span class="icon">
-                <i class="fa fa-rss yellow"></i>
-              </span>
-              <span class="navlink-active">Subscriptions</span>
-            </a>
-
-            <a href="{{route('adm_transactions')}}" class="nav-link" title="Payment/Transaction Management">
-              <span class="icon">
-                <i class="fa fa-handshake yellow"></i>
-              </span>
-              <span class="navlink-active">Payments</span>
-            </a>
-
-            <hr class="py-1 m-0">
 
             @if (Auth::user()->is_super_admin)
-            <a href="{{--route('app-settings')--}}" class="nav-link" title="App General Settings">
+            <a href="{{ route('app-settings') }}" class="nav-link" title="App General Settings">
               <span class="icon">
-                <i class="fa fa-cogs yellow"></i>
+                <i class="fa fa-cogs"></i>
               </span>
               <span class="navlink-active">App Settings</span>
             </a>
@@ -95,16 +37,18 @@
 
             <a href="{{route('dashboard-main')}}" class="nav-link" title="View Dashboard">
               <span class="icon">
-                <i class="fa fa-tachometer-alt yellow"></i>
+                <i class="fa fa-tachometer-alt"></i>
               </span>
               <span class="navlink-active">App Dashboard</span>
             </a>
 
-            <a href="{{ route('admin.logout') }}" class="nav-link"
+            <hr class="py-1 m-0">
+
+            <a href="#" class="nav-link"
             onclick="event.preventDefault();
             document.getElementById('admin-logout-form').submit();">
               <span class="icon">
-                <i class="fa fa-sign-out-alt yellow"></i>
+                <i class="fa fa-sign-out-alt"></i>
               </span>
               <span>{{ __('Admin Sign Out') }}</span>
             </a>
@@ -135,12 +79,12 @@
             @if (is_null(Auth::user()->admin_password))
               <a href="{{route('admin.password')}}" class="nav-link">
                 <span class="icon fa fa-key"></span>
-                <span class="navlink-active">New Admin Password</span>
+                <span class="navlink-active">Create Admin Password</span>
               </a>
             @else
               <a href="{{route('admin.login')}}" class="nav-link">
-                <span class="icon fa fa-user-tie"></span>
-                <span class="navlink-active">Admin Login</span>
+                <span class="icon fa fa-sign-in-alt"></span>
+                <span class="navlink-active">Admin Sign In</span>
               </a>
             @endif
           </li>
@@ -148,7 +92,7 @@
       </li>
     @endif
 
-    @if (Auth::user()->is_doctor)
+    @if (Auth::user()->is_authenticated_doctor)
       <li class="nav-item">
 
         <a class="nav-link" data-toggle="collapse" href="#doctorSubmenu" role="button" aria-expanded="false" aria-controls="doctorSubmenu">
@@ -224,12 +168,63 @@
                 <span class="badge badge-danger">1</span>
               </span>
             </a>
+
+            <a href="{{route('dr_dashboard', Auth::user()->doctor)}}" class="nav-link" title="View Dashboard">
+              <span class="icon">
+                <i class="fa fa-tachometer-alt"></i>
+              </span>
+              <span class="navlink-active">Dr. Dashboard</span>
+            </a>
+
+            <a href="#" class="nav-link"
+            onclick="event.preventDefault();
+            document.getElementById('doctor-logout-form').submit();">
+              <span class="icon">
+                <i class="fa fa-sign-out-alt"></i>
+              </span>
+              <span>{{ __('Doctor Sign Out') }}</span>
+            </a>
+
+            <form id="doctor-logout-form" action="{{ route('doctor.logout') }}" method="POST" style="display: none;">
+              @csrf
+              {{method_field('PATCH')}}
+            </form> 
+          </li>
+        </ul>
+      </li>
+    @elseif (Auth::user()->is_doctor)
+      <li class="nav-item">
+
+        <a class="nav-link" data-toggle="collapse" href="#doctorSubmenu" role="button" aria-expanded="false" aria-controls="doctorSubmenu">
+          <span class="tf-flex">
+            <span>
+              <i class="icon fa fa-user-md"></i>
+              <span class="navlink-active">Doctor</span>
+            </span>
+            <span style="font-size: 12px"><i class="fa fa-plus"></i></span>
+          </span>
+        </a>
+
+        <ul id="doctorSubmenu" class=" collapse sub-menu nav flex-sm-column">
+          <li class="nav-item">
+
+            @if (is_null(Auth::user()->doctor_password))
+              <a href="{{route('doctor.password')}}" class="nav-link">
+                <span class="icon fa fa-key"></span>
+                <span class="navlink-active">Create Doctor Password</span>
+              </a>
+            @else
+              <a href="{{route('doctor.login')}}" class="nav-link">
+                <span class="icon fa fa-sign-in-alt"></span>
+                <span class="navlink-active">Doctor Sign In</span>
+              </a>
+            @endif
           </li>
         </ul>
       </li>
     @endif
 
-    @if (Auth::user()->isAdministrator() || Auth::user()->is_doctor)
+    @if (Auth::user()->is_administrator || Auth::user()->is_doctor)
       <li class="nav-item"><hr></li>
     @endif
 

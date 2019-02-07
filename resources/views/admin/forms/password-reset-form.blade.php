@@ -1,6 +1,9 @@
 @extends('layouts.master')
 
 @section('title', 'Admin Account Password Update')
+@section('page-title')
+    <i class="fa fa-key"></i>&nbsp;  {{ __('Admin Account Password Reset Form') }}
+@endsection
 
 @section('content')
     <!-- SIGN IN / REGISTER -->
@@ -9,9 +12,6 @@
             <div class="row justify-content-center">
                 <div class="col-md-6">
                     <div class="card shadow">
-                        <div class="card-header bg-white p-4">
-                            <label class="text-center h4"><i class="fa fa-info-circle"></i> {{ __('Admin Account Password Reset Form') }}</label> 
-                        </div>
                         <div class="card-body">
 
                             <form method="POST" action="{{ route('admin.password.reset-email-link') }}">

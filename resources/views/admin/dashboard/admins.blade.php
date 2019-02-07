@@ -1,7 +1,9 @@
 @extends('layouts.master')
 
 @section('title', 'Admin Dashboard')
-@section('page-title', 'Admin Dashboard')
+@section('page-title')
+    <i class="fa fa-user-tie"></i>&nbsp;  {{ __('Administrators Management') }}
+@endsection
 
 @section('content')
 
@@ -18,7 +20,7 @@
                   <i class="fa fa-users display-3"></i>
                 </div>
                 <div class="col-sm-7">
-                  <h1 class="font-weight-light">{{$admins->count() + $staffs->count()}}</h1>
+                  <h1 class="font-weight-light">{{$admins_count}}</h1>
 
                   <p>Staff and Admin Users</p>
                 </div>
@@ -159,6 +161,16 @@
         <!-- ./col -->
       </div> 
     </div>
+
+    <div class="col-md-3 order-sm-2 order-1">
+      <nav>
+        
+        <!-- Admin Nav -->
+        @include('admin.partials.right-sidebar-nav')
+        
+      </nav>
+    </div>
+    <!-- /.col -->
   </div>
 </div>
 

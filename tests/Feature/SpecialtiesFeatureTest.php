@@ -20,7 +20,7 @@ class SpecialtiesFeatureTest extends TestCase
         
         $this->doc_user  = factory(User::class)->states('verified')->create();
         $this->specialty = factory(Specialty::class)->create(['name'=> $this->faker->word]);
-        $this->doctor    = factory(Doctor::class)->create([
+        $this->doctor    = factory(Doctor::class)->states('active')->create([
                     'id'      => $this->doc_user->id, 
                     'user_id' => $this->doc_user->id,
                 ]);
@@ -30,7 +30,7 @@ class SpecialtiesFeatureTest extends TestCase
         $this->data = [ 
             'name'       => $this->name, 
             'slug'       => str_slug($this->name),
-            'user_id'    => $this->doc_user->id, 
+            'user_id'    => $this->admin->id, 
             'description'=> $this->faker->sentence, 
         ];
     } 
@@ -55,10 +55,10 @@ class SpecialtiesFeatureTest extends TestCase
     }
 
     /**  @test */
-    public function store_a_specialty_can_be_created()
+    public function store_a_specialty_can_be_created_an_admin()
     {
         $this
-            ->actingAs($this->doc_user)
+            ->actingAs($this->admin)
             ->post(route('specialties.store'), $this->data)
             ->assertStatus(302)
             ->assertRedirect(route('specialties.index'))
@@ -123,27 +123,27 @@ class SpecialtiesFeatureTest extends TestCase
             ;
     }
 
-    /** @test */
-    public function a_doctor_can_see_the_create_form_section_on_specialty_index_page()
-    {
-        $name = $this->faker->word;
-        $specialty = factory(Specialty::class)->create([
-            'user_id' => $this->doc_user->id, 
-            'name'=> $name,
-            'slug'=> str_slug($name)
-        ]);
+    // /** @test */
+    // public function a_doctor_can_see_the_create_form_section_on_specialty_index_page()
+    // {
+    //     $name = $this->faker->word;
+    //     $specialty = factory(Specialty::class)->create([
+    //         'user_id' => $this->doc_user->id, 
+    //         'name'=> $name,
+    //         'slug'=> str_slug($name)
+    //     ]);
 
-        $this
-            ->actingAs($this->doc_user)
-            ->get(route('specialties.index'))
-            ->assertStatus(200)
-            ->assertSee('Add New Specialty')
-            ->assertSee('Add your specialty if not available of this platform yet.')
-            ;
-    }
+    //     $this
+    //         ->actingAs($this->doc_user)
+    //         ->get(route('specialties.index'))
+    //         ->assertStatus(200)
+    //         ->assertSee('Add New Specialty')
+    //         ->assertSee('Add your specialty if not available of this platform yet.')
+    //         ;
+    // }
 
     /** @test */
-    public function non_doctor_non_admin_cannot_see_the_create_form_section_on_specialty_index_page()
+    public function non_admin_cannot_see_the_create_form_section_on_specialty_index_page()
     {
         $user = factory(User::class)->states('normal')->create();
         $this
@@ -169,43 +169,43 @@ class SpecialtiesFeatureTest extends TestCase
             ;
     }
 
-    /** @test */
-    public function a_doctor_can_see_the_create_form_section_on_specialty_main_page()
-    {
-        $this
-            ->actingAs($this->doc_user)
-            ->get(route('specialties.show', $this->specialty))
-            ->assertStatus(200)
-            ->assertSee('Add New Keyword')
-            ;
-    }
+    // /** @test */
+    // public function a_doctor_can_see_the_create_form_section_on_specialty_main_page()
+    // {
+    //     $this
+    //         ->actingAs($this->doc_user)
+    //         ->get(route('specialties.show', $this->specialty))
+    //         ->assertStatus(200)
+    //         ->assertSee('Add New Keyword')
+    //         ;
+    // }
 
-    /** @test */
-    public function a_specialty_author_doctor_can_see_the_edit_form_section_on_specialty_main_page()
-    {
-        $this
-            ->actingAs($this->doc_user)
-            ->get(route('specialties.show', $this->specialty))
-            ->assertStatus(200)
-            ->assertSee('Update the Specialty:') // Within Modal Form
-            ;
-    }
+    // /** @test */
+    // public function a_specialty_author_doctor_can_see_the_edit_form_section_on_specialty_main_page()
+    // {
+    //     $this
+    //         ->actingAs($this->doc_user)
+    //         ->get(route('specialties.show', $this->specialty))
+    //         ->assertStatus(200)
+    //         ->assertSee('Update the Specialty:') // Within Modal Form
+    //         ;
+    // }
     
-    /** @test */
-    public function a_non_specialty_author_doctor_cannot_see_the_edit_form_section_on_specialty_main_page()
-    {
-        $user2     = factory(User::class)->states('verified')->create();
-        $doctor2   = factory(Doctor::class)->create([ 'id'      => $user2->id, 'user_id' => $user2->id ]);
-        $this
-            ->actingAs($user2)
-            ->get(route('specialties.show', $this->specialty))
-            ->assertStatus(200)
-            ->assertDontSee('Update the Specialty:') // Within Modal Form
-            ;
-    }
+    // /** @test */
+    // public function a_non_specialty_author_doctor_cannot_see_the_edit_form_section_on_specialty_main_page()
+    // {
+    //     $user2     = factory(User::class)->states('verified')->create();
+    //     $doctor2   = factory(Doctor::class)->states('active')->create([ 'id'      => $user2->id, 'user_id' => $user2->id ]);
+    //     $this
+    //         ->actingAs($user2)
+    //         ->get(route('specialties.show', $this->specialty))
+    //         ->assertStatus(200)
+    //         ->assertDontSee('Update the Specialty:') // Within Modal Form
+    //         ;
+    // }
 
     /** @test */
-    public function non_doctor_non_admin_cannot_see_the_edit_form_and_section_on_specialty_main_page()
+    public function non_admin_cannot_see_the_edit_form_and_section_on_specialty_main_page()
     {
         $user = factory(User::class)->states('normal')->create();
         $this

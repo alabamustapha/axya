@@ -68,7 +68,7 @@ $factory->state(App\User::class, 'staff', function (Faker $faker) {
         'admin_mode' => 1,
         'blocked' => '0',
         'email_verified_at' => Carbon::parse('-1 day'),
-        'admin_password' => 'secret',
+        'admin_password' => 'abcdefg',
     ];
 });
 
@@ -78,7 +78,7 @@ $factory->state(App\User::class, 'admin', function (Faker $faker) {
         'admin_mode' => 1,
         'blocked' => '0',
         'email_verified_at' => Carbon::parse('-1 day'),
-        'admin_password' => 'secret',
+        'admin_password' => 'abcdefg',
     ];
 });
 
@@ -88,6 +88,13 @@ $factory->state(App\User::class, 'superadmin', function (Faker $faker) {
         'admin_mode' => 1,
         'blocked' => '0',
         'email_verified_at' => Carbon::parse('-1 day'),
-        'admin_password' => 'secret',
+        'admin_password' => 'abcdefg',
+    ];
+});
+
+$factory->state(App\User::class, 'doctor', function (Faker $faker) {
+    return [
+        'doctor_mode' => 1,
+        'doctor_password' => 'abcdefg',
     ];
 });

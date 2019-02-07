@@ -10,6 +10,7 @@ class AdminAuthMiddleware
     /**
      * Handle an incoming request.
      * Accessible to admin users who are NOT SIGNED IN as admin yet.
+     * Equivalent of GUEST in normal user.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
@@ -17,14 +18,28 @@ class AdminAuthMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->isAdministrator()) {
-            return $next($request);
-        }
-        elseif (Auth::check() && Auth::user()->isAdmin()) {
-            return redirect(route('dashboard-main'));
+        if (Auth::check() && Auth::user()->isAdministrator()){
+
+            if (Auth::user()->isAuthenticatedAdmin()) {
+                return redirect(route('dashboard-main'));
+            }
+            else {
+                return $next($request);
+            }
+
         }
 
         return redirect(route('admin.login'));
+
+
+        // if (Auth::check() && Auth::user()->isAdministrator()) {
+        //     return $next($request);
+        // }
+        // elseif (Auth::check() && Auth::user()->isAuthenticatedAdmin()) {
+        //     return redirect(route('dashboard-main'));
+        // }
+
+        // return redirect(route('admin.login'));
     } 
 }
 

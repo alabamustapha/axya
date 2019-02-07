@@ -34,6 +34,11 @@ class Transaction extends Model
     {
         return $this->belongsTo(Appointment::class);
     }
+    
+    public function scopeCompleted($query) 
+    {
+        return $query->where('status', '1');
+    }
 
     /**
      * Route key

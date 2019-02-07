@@ -17,8 +17,14 @@ class SuperAdminMiddleware
     public function handle($request, Closure $next)
     {
         if (Auth::check() && Auth::user()->isSuperAdmin()) {
-            return $next($request);
+
+            if (Auth::user()->isAuthenticatedAdmin()) {
+                return $next($request);
+            }
+
+            return redirect(route('admin.login'));
         }
-        return abort(403);
+
+        return abort('403', 'Unauthorized Access');
     }
 }

@@ -61,12 +61,12 @@
                       <span class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown" style="font-size:12px;">
 
                         <span v-if="doctor.revoked">
-                          <button type="submit" class="dropdown-item" @click="restoreLicense(doctor)" title="Restore license back to this doctor on this app">
+                          <button type="submit" class="dropdown-item d-inline-block" @click="restoreLicense(doctor)" title="Restore license back to this doctor on this app">
                             <i class="fa fa-id-card teal"></i>&nbsp; Restore License
                           </button>
                           </span>
                           <span v-else>
-                          <button type="submit" class="dropdown-item" @click="revokeLicense(doctor)" title="Revoke license from this doctor on this app">
+                          <button type="submit" class="dropdown-item d-inline-block" @click="revokeLicense(doctor)" title="Revoke license from this doctor on this app">
                             <i class="fa fa-id-card orange"></i>&nbsp; Revoke License
                           </button>
                         </span>
@@ -85,9 +85,25 @@
 
         </div>
 
-        <div class="short-content-bg" v-else>
-          0 results for <b>{{this.$parent.search}}</b> in <em class="text-bold">doctors</em>.
+        <div v-else>
+          <div class="text-center" v-show="!loading">
+            <div class="display-3"><i class="fa fa-user-md"></i></div> 
+
+            <br>
+
+            <p><strong>0</strong> results for <b>{{this.$parent.search}}</b> in <em class="text-bold">doctors</em>.</p>
+          </div>
         </div>
+
+        <div class="text-center" v-show="loading">
+          <span class="d-inline-block">
+            Searching doctors <i class="fa fa-user-md"></i> for <b>{{this.$parent.search}}</b>...
+          </span>
+          <span class="d-inline-block fa-3x h5">
+            <i class="fas fa-sync fa-spin"></i>
+          </span>
+        </div>
+        
       </div>
 
       <div class="card-footer text-center mb-0 pb-1 px-2">
@@ -105,6 +121,7 @@
   export default {
     data() {
       return {
+        loading : true,
         doctors   : {},
       }
     },
@@ -123,12 +140,14 @@
           .then(() => {
             doctor.revoked = 1;
             doctor.license_status = 'Revoked';
+            doctor.is_active = false;
+            doctor.availability_text = 'unavailable';
 
             toast({type: 'success', title: 'Dr. '+ doctor.name +'\'s license is now revoked on this platform.'});
             this.$Progress.finish();
           })
           .catch(() => {
-            toast({type: 'fail', title: 'An error occurred! Try again.'});
+            toast({type: 'error', title: 'An error occurred! Try again.'});
             this.$Progress.fail();
           });
         }
@@ -151,7 +170,7 @@
             this.$Progress.finish();
           })
           .catch(() => {
-            toast({type: 'fail', title: 'An error occurred! Try again.'});
+            toast({type: 'error', title: 'An error occurred! Try again.'});
             this.$Progress.fail();
           });
         }
@@ -166,6 +185,7 @@
 
         axios.get(searchUrl + query)
         .then(({data}) => (this.doctors = data))
+        .then(() => { this.loading = false; })
       },
 
 
