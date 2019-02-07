@@ -1,9 +1,9 @@
 @php
-require_once 'Mobilpay/Payment/Request/Abstract.php';
-require_once 'Mobilpay/Payment/Request/Card.php';
-require_once 'Mobilpay/Payment/Request/Notify.php';
-require_once 'Mobilpay/Payment/Invoice.php';
-require_once 'Mobilpay/Payment/Address.php';
+// require_once 'Mobilpay/Payment/Request/Abstract.php';
+// require_once 'Mobilpay/Payment/Request/Card.php';
+// require_once 'Mobilpay/Payment/Request/Notify.php';
+// require_once 'Mobilpay/Payment/Invoice.php';
+// require_once 'Mobilpay/Payment/Address.php';
 
 $errorCode 		= 0;
 $errorType		= Mobilpay_Payment_Request_Abstract::CONFIRM_ERROR_TYPE_NONE;
@@ -15,7 +15,7 @@ if (strcasecmp($_SERVER['REQUEST_METHOD'], 'post') == 0)
 	{
 		#calea catre cheia privata
 		#cheia privata este generata de mobilpay, accesibil in Admin -> Conturi de comerciant -> Detalii -> Setari securitate
-		$privateKeyFilePath = 'i.e: /home/certificates/private.key';
+		$privateKeyFilePath = '/home/behealth/ssl/keys/live.'. env('MOBILPAY_SIGNATURE') .'private.key'; //'i.e: /home/certificates/private.key';
 		
 		try
 		{

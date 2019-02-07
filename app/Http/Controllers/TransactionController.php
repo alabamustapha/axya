@@ -91,17 +91,19 @@ class TransactionController extends Controller
         
         $transaction = Transaction::create($request->all());
 
-        if ($transaction) {
-            $msg = 'Transaction created successfully.';
+        return redirect()->route('mobilpay_pay', ['model'=> $transaction]);
 
-            flash($msg)->success();
+        // if ($transaction) {
+        //     $msg = 'Transaction created successfully.';
 
-            if (request()->expectsJson()) {
-                return response(['status' => $msg]);
-            }
-        }
+        //     flash($msg)->success();
 
-        return redirect()->route('appointments.show', $transaction->appointment);
+        //     if (request()->expectsJson()) {
+        //         return response(['status' => $msg]);
+        //     }
+        // }
+
+        // return redirect()->route('appointments.show', $transaction->appointment);
     }
 
     public function mockedPayment(Transaction $transaction)

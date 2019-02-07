@@ -107,6 +107,15 @@ Route::prefix('make/{user}')->group(function(){
 // ---- ADMIN ACL RELATED ---------------->
 
 
+// ---- MOBILPAY RELATED ---------------->
+Route::prefix('mobilpay')->group(function(){
+  Route::get('/{model}/pay',     'PaymentController@mobilpayRequestRedirect')->name('mobilpay_pay');
+  Route::post('/confirm', 'PaymentController@mobilpayConfirm')->name('mobilpay_confirm');
+  Route::post('/return',  'PaymentController@mobilpayReturn')->name('mobilpay_return');
+});
+// ---- MOBILPAY RELATED ---------------->
+
+
 
 Route::prefix('dashboard')->group(function(){
   Route::get('/',             'DashboardController@index')->name('dashboard-main');

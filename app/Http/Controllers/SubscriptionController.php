@@ -123,7 +123,9 @@ class SubscriptionController extends Controller
         
         $subscription = Subscription::create($request->all());
 
-        $this->mockedPayment($subscription);
+        // $this->mockedPayment($subscription);
+
+        return redirect()->route('mobilpay_pay', ['model'=> $subscription]);
 
         // if ($subscription) {
         //     $msg = 'Subscription created successfully.';
