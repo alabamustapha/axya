@@ -36,7 +36,17 @@
         ],
         "psr-4": {
             "App\\": "app/"
-        }
+        },
+        "files": [
+            "app/Libraries/Mobilpay/Payment/Invoice/Item.php",
+            "app/Libraries/Mobilpay/Payment/Request/Abstract.php",
+            "app/Libraries/Mobilpay/Payment/Request/Card.php",
+            "app/Libraries/Mobilpay/Payment/Request/Notify.php",
+            "app/Libraries/Mobilpay/Payment/Request/Sms.php",
+            "app/Libraries/Mobilpay/Payment/Address.php",
+            "app/Libraries/Mobilpay/Payment/Invoice.php",
+            "app/Libraries/Mobilpay/Payment/Request.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
