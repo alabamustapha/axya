@@ -91,7 +91,6 @@ return [
                     'style' => '', 
                     'rules' => 'nullable|string|max:50',
                     'hint' => '',
-                    'required' => 'required',
                 ],
 
                 [
@@ -100,11 +99,13 @@ return [
                     'label' => 'Base Currency',
                     'rules' => 'required',
                     'options' => [
-                        'ron' => 'RON',
-                        'eur' => 'EUR',
-                        'gbp' => 'GBP',
-                        'usd' => 'USD',
-                    ]
+                        ''    => 'Select Currency',
+                        'RON' => 'RON',
+                        'EUR' => 'EUR',
+                        'GBP' => 'GBP',
+                        'USD' => 'USD',
+                    ],
+                    'required' => 'required',
                 ],
             ]
         ],
@@ -131,10 +132,10 @@ return [
 
                 /* Base Discount */
                 [
-                    'name' => 'base_discount', //weekly
+                    'name' => 'monthly_discount', 
                     'type' => 'number',
                     'data_type' => 'numeric',
-                    'label'=> 'Base Discount on Subscriptions (%)',
+                    'label'=> '% Discount (Monthly)',
                     'placeholder' => '0.01 - 100',
                     'class' => 'form-control form-control-sm', 
                     'style' => '', 
@@ -142,7 +143,21 @@ return [
                     'step' => '0.01',
                     'min'  => 0.01,
                     'max'  => 100,
-                    'hint' => 'This is the base discount set on subscription fees in the app.'
+                    'hint' => 'Set discount for monthly subscribers.'
+                ],
+                [
+                    'name' => 'yearly_discount', 
+                    'type' => 'number',
+                    'data_type' => 'numeric',
+                    'label'=> '% Discount (Yearly)',
+                    'placeholder' => '0.01 - 100',
+                    'class' => 'form-control form-control-sm', 
+                    'style' => '', 
+                    'rules' => 'required|between:1.00,100',
+                    'step' => '0.01',
+                    'min'  => 0.01,
+                    'max'  => 100,
+                    'hint' => 'Set discount for yearly subscribers.'
                 ],
                 
             ]

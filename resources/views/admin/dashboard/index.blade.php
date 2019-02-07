@@ -148,6 +148,7 @@
 
     <div class="col-md-3 order-sm-2 order-1">
       <div>
+        @if (Auth::user()->isSuperAdmin())
         <!-- Info Boxes Style 2 -->
         <a href="{{ route('app-settings') }}" class="info-box mb-3 bg-danger">
           <span class="info-box-icon"><i class="fa fa-cogs"></i></span>
@@ -180,6 +181,7 @@
           <!-- /.info-box-content -->
         </a>
         <!-- /.info-box -->
+        @endif
 
         <a href="{{route('applications.index')}}" class="info-box mb-3 bg-primary">
           <span class="info-box-icon"><i class="fa fa-user-secret"></i></span>

@@ -61,7 +61,7 @@ $x509FilePath 	= '/home/behealth/ssl/certs/live.'. env('MOBILPAY_SIGNATURE') .'.
 	// $model->user->email,
 	// $model->user->phone,
 	// $details,
-	// setting('fee_commission'));
+	// setting('base_currency'));
 
 try
 {
@@ -84,7 +84,7 @@ try
 	#payment currency in ISO Code format; permitted values are RON, EUR, USD, MDL; please note that unless you have mobilPay permission to 
 	#process a currency different from RON, a currency exchange will occur from your currency to RON, using the official BNR exchange rate from that moment
 	#and the customer will be presented with the payment amount in a dual currency in the payment page, i.e N.NN RON (e.ee EUR)
-	$objPmReqCard->invoice->currency	= setting('currency');//'RON';
+	$objPmReqCard->invoice->currency	= setting('base_currency');//'RON';
 	$objPmReqCard->invoice->amount		= $model->amount;//'1.00';
 	#available installments number; if this parameter is present, only its value(s) will be available
 	//$objPmReqCard->invoice->installments= '2,3';

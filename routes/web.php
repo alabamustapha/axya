@@ -14,7 +14,7 @@
 // Route::get('/', function () { return view('welcome'); })->name('home');
 Route::get('/', 'HomeController@index')->name('home');
 
-Route::get('/settings', '\QCod\AppSettings\Controllers\AppSettingController@index')->name('app-settings');
+Route::get('/settings', '\QCod\AppSettings\Controllers\AppSettingController@index')->name('app-settings')->middleware('superadmin');
 
 Route::get('/nova');
 
