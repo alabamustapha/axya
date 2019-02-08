@@ -142,8 +142,8 @@ Route::prefix('make/{user}')->group(function(){
 // ---- MOBILPAY RELATED ---------------->
 Route::prefix('mobilpay')->group(function(){
   Route::get('/{model}/pay',     'PaymentController@mobilpayRequestRedirect')->name('mobilpay_pay');
-  Route::post('/confirm', 'PaymentController@mobilpayConfirm')->name('mobilpay_confirm');
-  Route::post('/return',  'PaymentController@mobilpayReturn')->name('mobilpay_return');
+  Route::get('/confirm', 'PaymentController@mobilpayConfirm')->name('mobilpay_confirm');
+  Route::get('/return',  'PaymentController@mobilpayReturn')->name('mobilpay_return');
 });
 // ---- MOBILPAY RELATED ---------------->
 
