@@ -53,8 +53,8 @@
 <h3> Implementation examples </ h3>
 
 <P> Thank you! </ P>
-<p> You made a payment for the product with the identifier: <br /> {{$ _GET ['orderId']}} </ p>
-<p> You received the payment result in confirmURL. Displays a message corresponding to the status of the command {{$ _GET ['orderId']}} </ p>
+<p> You made a payment for the product with the identifier: <br /> {{--$ _GET ['orderId']--}} </ p>
+<p> You received the payment result in confirmURL. Displays a message corresponding to the status of the command {{--$ _GET ['orderId']--}} </ p>
 -->
 
 <!-- 
