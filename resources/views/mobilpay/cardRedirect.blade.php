@@ -127,7 +127,7 @@ catch(Exception $e)
 @endphp
 <div class="span-15 prepend-1">
 <h3>Exemplu de implementare plata prin card</h3>
-@php if(!($e instanceof Exception)): @endphp
+@if(!($e instanceof Exception))
 <p>
 	<form name="frmPaymentRedirect" method="post" action="@php echo $paymentUrl; @endphp">
 	<input type="hidden" name="env_key" value="@php echo $objPmReqCard->getEnvKey(); @endphp"/>
@@ -144,9 +144,9 @@ catch(Exception $e)
 <script type="text/javascript" language="javascript">
 	window.setTimeout(document.frmPaymentRedirect.submit(), 5000);
 </script> -->
-@php else: @endphp
+@else
 <p><strong>@php echo $e->getMessage(); @endphp</strong></p>
-@php endif; @endphp
+@endif
 <br/>
 <br/>
 </body>
