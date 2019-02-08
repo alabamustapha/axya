@@ -127,25 +127,25 @@ catch(Exception $e)
 @endphp
 <div class="span-15 prepend-1">
 <h3>Exemplu de implementare plata prin card</h3>
-@if(!($e instanceof Exception))
-<p>
-	<form name="frmPaymentRedirect" method="post" action="@php echo $paymentUrl; @endphp">
-	<input type="hidden" name="env_key" value="@php echo $objPmReqCard->getEnvKey(); @endphp"/>
-	<input type="hidden" name="data" value="@php echo $objPmReqCard->getEncData(); @endphp"/>
-	<p>
-		Vei redirectat catre pagina de plati securizata a mobilpay.ro
-	</p>
-	<p>
-		Pentru a continua apasa <input type="image" src="images/mobilpay.gif" />
-	</p>
-	</form>
-</p>
-<!--
-<script type="text/javascript" language="javascript">
-	window.setTimeout(document.frmPaymentRedirect.submit(), 5000);
-</script> -->
+@if(isset($e) && ($e instanceof Exception))
+	<p><strong>{{ $e->getMessage() }}</strong></p>
 @else
-<p><strong>@php echo $e->getMessage(); @endphp</strong></p>
+	<p>
+		<form name="frmPaymentRedirect" method="post" action="{{ $paymentUrl }}">
+		<input type="hidden" name="env_key" value="{{ $objPmReqCard->getEnvKey() }}"/>
+		<input type="hidden" name="data" value="{{ $objPmReqCard->getEncData() }}"/>
+		<p>
+			Vei redirectat catre pagina de plati securizata a mobilpay.ro
+		</p>
+		<p>
+			Pentru a continua apasa <input type="image" src="images/mobilpay.gif" />
+		</p>
+		</form>
+	</p>
+	<!--
+	<script type="text/javascript" language="javascript">
+		window.setTimeout(document.frmPaymentRedirect.submit(), 5000);
+	</script> -->
 @endif
 <br/>
 <br/>
