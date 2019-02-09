@@ -5,6 +5,7 @@
 </a>
 
 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" aria-labelledby="navbarDropdown">
+      <a href="{{ route('doctors.index') }}" class="dropdown-item">Doctors</a>
     @if (Request::path() == 'specialties')
       <a href="#" class="dropdown-item"><b>Specialties</b></a>
     @else
@@ -25,8 +26,4 @@
     @else
       <a class="dropdown-item" href="{{ route('tags.index') }}">Keywords</a>
     @endif
-    
-    @auth
-      <a class="dropdown-item" href="{{ Auth::user()->appointments_list }}">Appointments</a>
-    @endauth
 </div>

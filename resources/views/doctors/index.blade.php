@@ -10,7 +10,7 @@
   <div class="row">
     <div class="col-md-9">
       @forelse ($doctors as $doctor)
-        <a class="search-item">
+        <a href="{{route('doctors.show', $doctor)}}" class="search-item">
             <img src="{{ $doctor->avatar }}" height="60" class="rounded-circle doc-img" alt="doctor's image">
 
             <!-- personal detail -->
@@ -21,10 +21,12 @@
 
             <!-- work detail -->
             <div id="w-d" class="search-cell">
-                <span class="name">{{ $doctor->work_address }}</span>
-                <span class="fee">Appt. fee - <strong>{{setting('currency')}}{{ $doctor->rate }}</strong> </span>
+                <span class="name mb-2">{{ $doctor->work_address }}</span>
+                <span class="fee">Appt. fee - <strong>{{setting('base_currency')}} {{ $doctor->rate }}</strong> </span>
             </div>
+
             <!-- schedule detail -->
+            {{--
             <div id="s-d" class="search-cell">
                 <ul class="nav flex-sm-row">
                     <li class="nav-item {{$doctor->hasSundaySchedule() ? 'has':''}}"   >S</li>
@@ -36,15 +38,19 @@
                     <li class="nav-item {{$doctor->hasSaturdaySchedule() ? 'has':''}}" >S</li>
                 </ul>
             </div>
+            --}}
 
             <!-- ratings -->
             <span class="ratings" class="search-cell">
               <span>
-                @for($i=1; $i <= $doctor->rating_digit; $i++)
+                @php
+                  // Reduce queries by 7
+                  $rating = $doctor->rating_digit;
+                @endphp
+                @for($i=1; $i <= $rating; $i++)
                   <i class="fa fa-star"></i>
                 @endfor
               </span>
-              <span>{{$doctor->created_at}}</span>
             </span>
         </a>
       @empty
