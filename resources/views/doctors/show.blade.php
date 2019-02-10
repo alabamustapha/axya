@@ -9,6 +9,65 @@
 @section('content')
 
   <div>
+    <div class="profile-container">
+      <div class="profile-img">
+          <img src="{{ $doctor->avatar }}" alt="profile image" class="img-fluid">
+
+          <div class="search-item">
+            <!-- schedule detail -->
+            <div id="s-d" class="search-cell w-100">
+                <ul class="nav flex-sm-row">
+                    <li class="nav-item mr-3">Available on:</li>
+                    <li class="nav-item {{$doctor->hasSundaySchedule() ? 'has':''}}"   >S</li>
+                    <li class="nav-item {{$doctor->hasMondaySchedule() ? 'has':''}}"   >M</li>
+                    <li class="nav-item {{$doctor->hasTuesdaySchedule() ? 'has':''}}"  >T</li>
+                    <li class="nav-item {{$doctor->hasWednesdaySchedule() ? 'has':''}}">W</li>
+                    <li class="nav-item {{$doctor->hasThursdaySchedule() ? 'has':''}}" >T</li>
+                    <li class="nav-item {{$doctor->hasFridaySchedule() ? 'has':''}}"   >F</li>
+                    <li class="nav-item {{$doctor->hasSaturdaySchedule() ? 'has':''}}" >S</li>
+                </ul>
+            </div>
+          </div>
+      </div>
+      <div class="profile-details bg-theme-gradient">
+          <div class="fee-wrap">
+              <div class="p-1 text-center">FEE</div>
+              <span class="fee p-1">{{setting('base_currency')}} {{ $doctor->rate }}</span>
+          </div>
+          <div class="p-4">
+              <div class="category">
+                  <span class="cat-title">PROFILE</span>
+                  <span class="name font-weight-bold">{{ $doctor->name }}</span>
+                  <span class="degree">{{ $doctor->degree }}</span>
+                  <span class="office-name">{{ $doctor->current_workplace->name }}</span>
+                  <span class="country">{{ $doctor->location }}</span>
+              </div>
+              <div class="category">
+                  <span class="cat-title">speciality</span>
+                  <div class="row mb-3 mt-2">
+                      <div class="col-md-6 mb-2">
+                          <a href="{{route('specialties.show', $doctor->specialty)}}" class="d-block p-2 rounded-pill spec">{{ $doctor->specialty->name }}</a>
+                      </div>
+                      {{-- <div class="col-md-6 mb-2">
+                          <a href="#" class="d-block p-2 rounded-pill spec">Gynecology</a>
+                      </div> --}}
+                  </div>
+              </div>
+              <div class="category">
+                  <span class="cat-title">experience</span>
+                  <span>{{ $doctor->practice_years }}+ Years</span>
+              </div>
+              <div class="category">
+                  <span class="cat-title">CONTACT</span>
+                  <span>{{ $doctor->phone }}</span>
+              </div>
+              <div class="category">
+                  <span class="cat-title">ADDRESS</span>
+                  <span>{{ $doctor->work_address }}</span>
+              </div>
+          </div>
+      </div>
+  </div>
 
     <div class="jumbotron bg-white">    
       <div class="row">
