@@ -1,3 +1,300 @@
+
+
+              <div class="content">
+
+                <!-- HEAD -->
+                <div class="info-head bg-white shadow-sm">
+                    <div class="media">
+                        <img src="{{$appointment->doctor->avatar}}" class="align-self-center mr-3 rounded-circle" height="60" alt="{{$appointment->doctor->name}}">
+                        <div class="media-body align-self-center">
+                            {{$appointment->doctor->name}}
+                        </div>
+                    </div>
+                </div>
+               
+                <div class="req-form my-3">
+                  <form action="{{ route('appointments.update', $appointment) }}" method="post">
+                  @csrf 
+                  {{ method_field('PATCH') }} 
+                  <input type="hidden" name="id" value="{{dechex($appointment->id)}}"> 
+                    
+                    @if ($appointment->status == '0')
+                      <div class="form-row mb-2">
+                        <div class="col-md-6">
+                          <label for="appointment_type">Type*</label>
+                          <select id="appointment_type" name="type" class="form-default form-control{{ $errors->has('type') ? ' is-invalid' : '' }}" required>
+                            <option value="">Appointment Type</option>
+                            <option value="Online" {{(old('type') == 'Online' || $appointment->type == 'Online') ? 'selected':''}}>Online</option>
+                            <option value="Home" {{(old('type') == 'Home' || $appointment->type == 'Home') ? 'selected':''}}>Home</option>
+                          </select>
+
+                          @if ($errors->has('type'))
+                              <span class="invalid-feedback" role="alert">
+                                  <strong>{{ $errors->first('type') }}</strong>
+                              </span>
+                          @endif                    
+                        </div>
+
+                        <div class="col-md-6">
+                          <label for="day">Select Day*</label>
+                          <input type="hidden" name="doctor_id" value="{{$appointment->doctor_id}}">
+                          <input name="day" value="{{old('day')?:$appointment->day_edit}}" 
+                            type="text" id="datepicker"
+                            {{-- type="date" id="day"  --}}
+                            minlength="10" maxlength="15" min="{{date('Y-m-d')}}"
+                            placeholder="{{date('Y-m-d')}}" autocomplete="off" 
+                            class="form-default form-control{{ $errors->has('day') ? ' is-invalid' : '' }}" 
+                            required>
+
+                          @if ($errors->has('day'))
+                              <span class="invalid-feedback" role="alert">
+                                  <strong>{{ $errors->first('day') }}</strong>
+                              </span>
+                          @endif   
+                        </div>
+                      </div>
+
+
+                      <div class="form-row mb-2" id="timepicker">
+                        <div class="col-md-6">
+                          <div class="input-group form-default">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text">From</span>
+                            </div>
+
+                            <input id="from" type="text" name="from" minlength="5" maxlength="8" min="00:00" max="23:59" 
+                            value="{{old('from')?:$appointment->start_time}}" placeholder="HH:MM AM"
+                            id="from" class="time start form-control{{ $errors->has('from') ? ' is-invalid' : '' }}" 
+                            required>
+
+                            @if ($errors->has('from'))
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $errors->first('from') }}</strong>
+                                </span>
+                            @endif
+                          </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                          <div class="input-group form-default">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text">To</span>
+                            </div>
+
+                            <input id="to" type="text" name="to" minlength="5" maxlength="8" min="00:00" max="23:59" 
+                            value="{{old('to')?:$appointment->end_time}}" placeholder="HH:MM AM"
+                            id="to" class="time end form-control{{ $errors->has('to') ? ' is-invalid' : '' }}" 
+                            required>
+
+                            @if ($errors->has('to'))
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $errors->first('to') }}</strong>
+                                </span>
+                            @endif                    
+                          </div>
+                        </div>
+                      </div>
+
+                      <div id="deal" class="col-md-8 offset-md-2 mb-2 p-3 table-responsive text-center" style="border-radius:4px;border:1px solid #ccc;font-size: 12px;display: none;">
+                        <div class="tf-flex">
+                          <span class="border p-1 w-100">
+                              <span class="text-muted" style="font-size: 1rem;">Fee:</span> <br>
+                              <kbd>$<strong id="cost"></strong></kbd>
+                          </span>
+                          <span class="border p-1 w-100">
+                              <span class="text-muted" style="font-size: 1rem;">Sessions:</span> <br>
+                              <kbd><strong id="no_of_sessions"></strong></kbd>
+                          </span>
+
+                          <span class="border p-1 w-100">
+                              <span class="text-muted" style="font-size: 1rem;">Duration:</span> <br>
+                              <kbd><strong id="duration"></strong></kbd>
+                          </span>
+                          <!-- For jQuery Deal Calculation. -->
+                          <input id="session" value="{{$appointment->doctor->session}}" type="hidden">
+                          <input id="rate" value="{{$appointment->doctor->rate}}" type="hidden">
+                        </div>
+                      </div>
+                    @else 
+                      <ul class="list-unstyled bg-light p-2 mb-2">
+                        <li class="tf-flex p-1">
+                          <span><i class="fa fa-calendar"></i> Date</span>
+                          <span class="text-bold">{{$appointment->day}}</span>
+                        </li>
+
+                        <li class="tf-flex p-1">
+                          <span><i class="fa fa-clock"></i> Time</span>
+                          <span class="text-bold">{{$appointment->start_time}} - {{$appointment->end_time}}</span>
+                        </li>
+
+                        <li class="tf-flex p-1">
+                          <span><i class="fa fa-stopwatch"></i> Duration</span>
+                          <span class="text-bold"><span>{{ $appointment->duration }}</span></span>
+                        </li>
+
+                        <li class="tf-flex p-1">
+                          <span><i class="fa fa-donate"></i> Fee</span>
+                          <span class="text-bold">
+                            <span style="font-size: 14px;" class="badge badge-secondary badge-pill">
+                            ${{$appointment->fee}}
+                            </span>
+                          </span>
+                        </li>
+
+                        <hr>
+                        <em title="Appointment status">{{$appointment->statusText()}}</em>
+                      </ul>
+                    @endif
+                    <!-- END - If not accepted yet -->
+
+                    <div class="form-row mb-2">
+                      <div class="col-md-12">
+                        <label for="description">Description*</label>
+                        <textarea 
+                          name="description" id="description" 
+                          style="min-height: 120px;max-height: 150px;" 
+                          placeholder="Describe in details why you are requesting this appointment" 
+                          class="form-default form-control{{ $errors->has('description') ? ' is-invalid' : '' }}" required>{{old('description')?:$appointment->description}}</textarea>
+
+                        @if ($errors->has('description'))
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $errors->first('description') }}</strong>
+                            </span>
+                        @endif
+                      </div> 
+                    </div>
+
+                    @if ($appointment->status == '0')
+                        <div class="text-center my-4">
+                            <span class="text-theme-blue small">other fields will be available once doctor receives appoitment</span>
+                        </div>
+                    @endif
+                    @if ($appointment->status == '2')
+                      <hr>
+                      <div class="text-center">
+                        <p class="font-weight-bold">Add More Details Below (History of Illness)*</p>
+
+                        <fieldset id="extra-details" class="p-3 mb-2 border-1 rounded text-left">
+
+                          <div class="form-row">
+                            <label for="illness_duration" class="mb-0 text-sm">Duration of Illness</label>
+                            <input type="text" name="illness_duration" maxlength="255" value="{{old('illness_duration')?:$appointment->illness_duration}}" placeholder="eg 3 days, 1 week..." id="illness_duration" class="form-default form-control{{ $errors->has('illness_duration') ? ' is-invalid' : '' }}">
+
+                            @if ($errors->has('illness_duration'))
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $errors->first('illness_duration') }}</strong>
+                                </span>
+                            @endif
+                          </div>
+
+                          <div class="form-row">
+                            <label for="illness_history" class="mb-0 text-sm">History of Illness</label>
+                            <textarea name="illness_history" id="illness_history" style="min-height: 120px;max-height: 150px;" placeholder="Short detail about when it starts, how often, medications used in the past etc..." class="form-default form-control{{ $errors->has('illness_history') ? ' is-invalid' : '' }}">{{old('illness_history')?:$appointment->illness_history}}</textarea>
+
+                            @if ($errors->has('illness_history'))
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $errors->first('illness_history') }}</strong>
+                                </span>
+                            @endif
+                          </div>
+                        </fieldset>
+                      </div>
+                    @endif
+
+                    <fieldset id="home-visitation" class="p-3 mb-2 border-1" style="border-radius:4px;border:1px solid #ccc;display: none;">
+                      <legend class="h5 py-1">Home Visitation</legend>
+
+                      <div class="form-row mb-2">
+                        <label for="address">Address*</label>
+                        <input type="text" name="address" maxlength="255" value="{{old('address')?:$appointment->address}}" placeholder="address for home visit" id="address" class="form-default form-control{{ $errors->has('address') ? ' is-invalid' : '' }}">
+
+                        @if ($errors->has('address'))
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $errors->first('address') }}</strong>
+                            </span>
+                        @endif
+                      </div>
+
+                      <div class="form-row">
+                        <label for="phone">Phone Contact*</label>
+                        <input type="tel" name="phone" maxlength="255" value="{{old('phone')?:$appointment->phone}}" placeholder="phone for home visit" id="phone" class="form-default form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}">
+
+                        @if ($errors->has('phone'))
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $errors->first('phone') }}</strong>
+                            </span>
+                        @endif
+                      </div>
+                    </fieldset>
+
+                    <div class="form-row">
+                      <div class="col-md-12">
+                        <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-cloud"></i> Update</button>
+                      </div>
+                    </div>
+
+
+                    {{-- 
+                        <div class="form-row">
+                            <div class="col-md-6{{--  pr-5 pl-4 -}}">
+                                
+                                <div class="form-group">
+                                    <label for="description">description*</label>
+                                   <textarea name="description" id="description" rows="4" class="form-control form-default"></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-6 pl-5 pr-4">
+                                
+                                <div class="form-group">
+                                    <label for="date">Select Date*</label>
+                                    <input type="date" class="form-control form-default" name="date" id="date">
+                                </div>
+                                <div class="form-group">
+                                    <label for="date">Time*</label>
+                                    <input type="time" class="form-control form-default" name="time" id="time">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center my-4">
+                            <span class="text-theme-blue small">other fields will be available once doctor receives appoitment</span>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-6 pr-5 pl-4">
+                        
+                                <div class="form-group">
+                                    <label for="history">History of Illness*</label>
+                                    <textarea name="history" id="history" rows="4" class="form-control form-default"></textarea>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="duration">Duration*</label>
+                                    <select class="custom-select form-default">
+                                       
+                                        <option value="1" selected="">1week</option>
+                                        <option value="2">2weeks</option>
+                                        <option value="3">3weeks</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="duration">Pay Amount*</label>
+                                    <input type="text" name="pay" id="pay" class="form-control form-default">
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <div class="text-center py-3">
+                            <button type="submit" class="btn btn-lg bg-theme-blue">Submit</button>
+                        </div> 
+                    --}}
+
+                  </form>
+                </div>
+                   
+
+              </div>
+{{-- 
 <div class="card card-primary text-center shadow">
               <div class="card-header">
                 <div class="card-title">
@@ -47,7 +344,7 @@
                           <input type="hidden" name="doctor_id" value="{{$appointment->doctor_id}}">
                           <input name="day" value="{{old('day')?:$appointment->day_edit}}" 
                             type="text" id="datepicker"
-                            {{-- type="date" id="day"  --}}
+                            {{-- type="date" id="day"  -}}
                             minlength="10" maxlength="15" min="{{date('Y-m-d')}}"
                             placeholder="{{date('Y-m-d')}}" autocomplete="off" 
                             class="form-control{{ $errors->has('day') ? ' is-invalid' : '' }}" 
@@ -223,4 +520,4 @@
               <div class="card-footer">
                 <span class="text-danger text-small"><b>Make sure your medical history is properly created in your profile.</b></span>
               </div>
-            </div>
+            </div> --}}

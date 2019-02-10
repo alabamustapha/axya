@@ -189,8 +189,8 @@
   @if($appointment->creator)
     <!-- Appointment Form-->
     <div class="modal" tabindex="-1" role="dialog" id="appointmentForm" style="display:none;" aria-labelledby="appointmentFormLabel" aria-hidden="true">
-      <div class="modal-dialog modal-md" role="document">
-        <div class="modal-content px-0 pb-0 bg-transparent shadow-none">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content px-0 pb-0 shadow-none">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 5px 15px 0px;margin:10px auto -25px">
             <span aria-hidden="true">&times;</span>
           </button>
