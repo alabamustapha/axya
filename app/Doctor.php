@@ -149,7 +149,7 @@ class Doctor extends Model
 
     public function updateCurrentWorkplace($rq)
     {
-        $current_workplace = $this->workplaces()->where('current', 1)->first();
+        $current_workplace = $this->currentWorkplace();
 
         if (!is_null($current_workplace) && $rq->workplace_id != $current_workplace->id){
             $current_workplace->update(['current'=> 0]);
@@ -391,7 +391,7 @@ class Doctor extends Model
 
     public function getNameAttribute()
     {
-        return $this->user->name;
+        return 'Dr. '. $this->user->name;
     }
 
     public function getLinkAttribute()

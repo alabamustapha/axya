@@ -9,6 +9,7 @@
 @section('content')
 
   <div>
+    {{-- 
     <div class="profile-container">
       <div class="profile-img">
           <img src="{{ $doctor->avatar }}" alt="profile image" class="img-fluid">
@@ -39,7 +40,7 @@
                   <span class="cat-title">PROFILE</span>
                   <span class="name font-weight-bold">{{ $doctor->name }}</span>
                   <span class="degree">{{ $doctor->degree }}</span>
-                  <span class="office-name">{{ $doctor->current_workplace->name }}</span>
+                  <span class="office-name">{{ $doctor->current_workplace ? $doctor->current_workplace->name : '' }}</span>
                   <span class="country">{{ $doctor->location }}</span>
               </div>
               <div class="category">
@@ -48,9 +49,6 @@
                       <div class="col-md-6 mb-2">
                           <a href="{{route('specialties.show', $doctor->specialty)}}" class="d-block p-2 rounded-pill spec">{{ $doctor->specialty->name }}</a>
                       </div>
-                      {{-- <div class="col-md-6 mb-2">
-                          <a href="#" class="d-block p-2 rounded-pill spec">Gynecology</a>
-                      </div> --}}
                   </div>
               </div>
               <div class="category">
@@ -67,8 +65,8 @@
               </div>
           </div>
       </div>
-  </div>
-
+    </div>
+    --}}
     <div class="jumbotron bg-white">    
       <div class="row">
         <div class="col-md-3 text-center">
@@ -114,10 +112,16 @@
             <hr>
 
             <div class="tf-flex mb-3">
-              @auth                      
-                <a href="#" class="btn btn-primary btn-sm btn-block col" data-toggle="modal" data-target="#appointmentForm" title="Book Appointment">
-                  <i class="fa fa-calendar-check"></i>&nbsp; Book Appointment
-                </a>
+              @auth  
+                @if (Auth::id() !== $doctor->user_id)                 
+                  <button class="btn btn-primary btn-sm btn-block col" data-toggle="modal" data-target="#appointmentForm" title="Book Appointment">
+                    <i class="fa fa-calendar-check"></i>&nbsp; Book Appointment
+                  </button>
+                @else                 
+                  <button class="btn btn-primary btn-sm btn-block col" title="Patient Appointment Booking: You cannot book an appointment as a patient with yourself.">
+                    <i class="fa fa-calendar-check"></i>&nbsp; Appointment Booking
+                  </button>
+                @endif
               @else
                 <a href="{{ route('login') }}"
                   id="login-trigger" class="btn btn-primary btn-sm btn-block col" 
