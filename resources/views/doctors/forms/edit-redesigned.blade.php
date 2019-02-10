@@ -362,25 +362,7 @@
                                         fill="black" />
                                 </svg>
 
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                    
-                                        <label for="school">Schedule</label>
-                                        
-                    
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        
-                                    <input type="text" class="form-control" placeholder="">
-                    
-                                    </div>
-                                </div>
-                            </div>
-                    
+                            </div>                    
                            
                         </div>
                     </div>
@@ -452,7 +434,7 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label for="rate" class="d-block">Cost</label>
+                                        <label for="rate" class="d-block">Cost per Session</label>
 
                                         <input type="number" name="rate" min="5.00" max="1500.00" step="0.01" 
                                             value="{{ old('rate') ?: $doctor->rate }}" maxlength="7" placeholder="20.50" 
