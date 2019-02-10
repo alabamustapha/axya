@@ -199,7 +199,7 @@ class AppointmentController extends Controller
             }
         
             flash($message)->success();
-            return redirect()->route('appointments.index');
+            return redirect()->route('appointments.index', $appointment->user);
         }
     }
 

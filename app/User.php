@@ -118,6 +118,20 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->avatar !== config('app.url') . '/images/doc.jpg';
     }
 
+    public function inconclusiveAppointments()
+    {
+        return $this->appointments()->whereIn('status', [0,2])->get();
+    }
+
+    public function hasInconclusiveAppointmentWithSameDoctor($doctorId)
+    {
+        return (bool) $this->appointments()
+                    ->whereIn('status', [0,2])
+                    ->where('doctor_id', $doctorId)
+                    ->count()
+                    ;
+    }
+
     /**
      * Check if logged in user is the present resource owner.
      * 
