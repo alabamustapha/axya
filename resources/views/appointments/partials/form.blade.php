@@ -14,7 +14,15 @@
   <div class="req-form my-3">
     @if ($doctor->isActive())
 
-      @if (auth()->user()->hasInconclusiveAppointmentWithSameDoctor($doctor->id))
+      @if (! auth()->user()->isVerified())
+
+        <div class="col text-center font-weight-bold">
+          <p class="alert alert-danger">
+            You must vefiry your account to be able to book appointments on this platform.
+          </p>
+        </div>
+
+      @elseif (auth()->user()->hasInconclusiveAppointmentWithSameDoctor($doctor->id))
 
         <div class="col text-center font-weight-bold">
           <p class="alert alert-danger">
@@ -23,7 +31,7 @@
           </p>
         </div>
 
-      @elseif (auth()->user()->inconclusiveAppointments()->count() > 1) {
+      @elseif (auth()->user()->inconclusiveAppointments()->count() > 1)
         <!-- Can't have more than two inconclusives at a time -->
         <p class="alert alert-danger">
           You cannot book a new appointment at this time because you have <a class="badge badge-warning" href="{{ route('appointments.index', auth()->user()) }}">{{ $count }}inconclusive appointments</a>. <br>
