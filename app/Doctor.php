@@ -4,10 +4,13 @@ namespace App;
 
 use App\User;
 use Carbon\Carbon;
+use App\Traits\DoctorViewsTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Doctor extends Model
 {
+    use DoctorViewsTrait;
+
     protected $fillable = [        
         'id','user_id','email','phone','slug','about',                          // Profile      
         'main_language','second_language','other_languages',                    // Language        
@@ -23,7 +26,7 @@ class Doctor extends Model
 
     protected $appends = [
       'name','link','avatar','practice_years','is_active','availability_text',
-      'license_status',
+      'license_status','is_suspended','availability_status',
       'rating','rating_digit',
       'adjusted_subscription_end','is_subscribed','patients_count',
       'pending_appointments_count','appointments_count','transactions_count','subscriptions_count',
@@ -490,6 +493,11 @@ class Doctor extends Model
         return $this->isActive();
     }
 
+    public function getIsSuspendedAttribute() 
+    {
+        return $this->isSuspended();
+    }
+
     public function getAvailabilityTextAttribute() 
     {
         return $this->availabilityText();
@@ -498,5 +506,10 @@ class Doctor extends Model
     public function getLicenseStatusAttribute()
     {
         return $this->revoked ? 'Revoked':'Active';
+    }
+
+    public function getAvailabilityStatusAttribute()
+    {
+        return $this->availabilityStatus($this);
     }
 }

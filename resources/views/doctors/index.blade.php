@@ -12,6 +12,7 @@
       @forelse ($doctors as $doctor)
         <a href="{{route('doctors.show', $doctor)}}" class="search-item">
             <img src="{{ $doctor->avatar }}" height="60" class="rounded-circle doc-img" alt="doctor's image">
+            {{ $doctor->availability_status }}
 
             <!-- personal detail -->
             <div id="p-d" class="search-cell">

@@ -17,6 +17,7 @@
       @if (! auth()->user()->isVerified())
 
         <div class="col text-center font-weight-bold">
+        <div class="display-3"><i class="fa fa-user-shield red"></i></div>
           <p class="alert alert-danger">
             You must vefiry your account to be able to book appointments on this platform.
           </p>
@@ -25,6 +26,7 @@
       @elseif (auth()->user()->hasInconclusiveAppointmentWithSameDoctor($doctor->id))
 
         <div class="col text-center font-weight-bold">
+        <div class="display-3"><i class="fa fa-calendar-minus red"></i></div>
           <p class="alert alert-danger">
             You have <a href="{{route('appointments.index', Auth::user())}}">an inconclusive appointment</a> with {{ $doctor->name }}</strong> and so is not allowed to create a new one at this time. <br>
             You may <strong>finalize, update or cancel</strong> the inconclusive appointment.
@@ -33,6 +35,7 @@
 
       @elseif (auth()->user()->inconclusiveAppointments()->count() > 1)
         <!-- Can't have more than two inconclusives at a time -->
+        <div class="display-3"><i class="fa fa-calendar-minus red"></i></div>
         <p class="alert alert-danger">
           You cannot book a new appointment at this time because you have <a class="badge badge-warning" href="{{ route('appointments.index', auth()->user()) }}">{{ $count }}inconclusive appointments</a>. <br>
           You may <strong>finalize, update or cancel</strong> <span class="badge badge-warning">{{ $toRemove }}</span> of your inconclusive appointments to be able to create a new one.

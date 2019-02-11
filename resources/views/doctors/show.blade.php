@@ -13,6 +13,7 @@
     <div class="profile-container">
       <div class="profile-img">
           <img src="{{ $doctor->avatar }}" alt="profile image" class="img-fluid">
+          {{ $doctor->availability_status }}
 
           <div class="search-item">
             <!-- schedule detail -->
@@ -71,6 +72,7 @@
       <div class="row">
         <div class="col-md-3 text-center">
             <img class="rounded-circle" src="{{ $doctor->user->avatar }}" style="width:200px;" width="25">
+            {{ $doctor->availability_status }}
 
             <br>
 

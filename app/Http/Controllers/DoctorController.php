@@ -55,7 +55,13 @@ class DoctorController extends Controller
      */
     public function index()
     {
-        $doctors = Doctor::orderBy('slug')->paginate(25);
+        $doctors = Doctor::where('revoked', '0')
+                         ->orderBy('subscription_ends_at', 'desc')
+                         ->orderBy('available')
+                         // ->orderBy('rating')
+                         // ->whereHas(áppointments)->orderBy('AVERAGE_RATING')
+                         ->paginate(25)
+                         ;
 
         return view('doctors.index', compact('doctors'));
     }
