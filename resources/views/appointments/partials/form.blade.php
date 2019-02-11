@@ -1,3 +1,4 @@
+@auth
 <div class="content">
 
   <!-- HEAD -->
@@ -193,7 +194,7 @@
   </div>     
 
 </div>
-
+@endauth
 {{-- 
   <div class="card card-primary text-center shadow">
     <div class="card-header">
