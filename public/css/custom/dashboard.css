@@ -4,7 +4,7 @@
 body {
     font-family: 'Open Sans', sans-serif;
     margin: 0;
-    font-size: 1rem;
+    font-size: 16px;
     color: #282626;
     background: #fff;
     transition: all .5s;
@@ -268,6 +268,7 @@ a.download {
     margin-top: 86px;
     width: 270px;
     max-width: 270px;
+    z-index: 5;
 }
 .appointment-dc > .display-wrapper, .display-wrapper{
     padding: 3rem 1rem;
@@ -336,7 +337,7 @@ a.download {
     display: none;
 }
 
-.search-component.search-select-display{
+.search-select-display{
     opacity: 0;
 }
 
@@ -552,7 +553,7 @@ a.download {
     width: 100%;
     top:0;
     left:0;
-    z-index: 4;
+    z-index: 11;
 }
 .d-header{
     background-image: url(../images/header-image.jpg) !important; 
@@ -688,6 +689,217 @@ a.sign-out{
     padding: .5rem 1rem;
 }
 
+
+
+
+
+/* ---------------------------------------------------
+    MESSAGING STYLE
+----------------------------------------------------- */
+
+#messaging{
+    padding: 0;
+    height: 70vh;
+    box-sizing: border-box;
+    background-color: #fff;
+}
+
+.contact-over{
+    z-index: 4;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: none;
+}
+
+.contact-over.active{
+    display: block;
+}
+.msg-contact , .msg-chat{
+    height: 70vh;
+    padding: 0;
+    box-sizing: inherit;
+    position: relative;
+    background-color: #fff;
+}
+
+.msg-contact-head, 
+.msg-chat-head {
+    padding: .5rem;
+}
+
+
+
+.msg-chat-head,
+.msg-contact-head{
+    height: 3.5rem;
+}
+
+.msg-contact-body,
+.msg-chat-body{
+    height: calc(100% - 3.5rem);
+    overflow-y: scroll;
+}
+.msg-chat-body{
+    background-color: #fff;
+}
+
+.scroll::-webkit-scrollbar {
+    width: 6px;
+    background-color: #F5F5F5;
+} 
+
+.scroll::-webkit-scrollbar-thumb {
+    background-color: #147ba7;
+}
+
+.msg-chat-body .chat{
+    padding: .5rem 2rem;
+    margin-bottom: 50px;
+}
+
+.msg-bubble{
+    margin-bottom: .5rem;
+}
+
+.msg-bubble::after{
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.msg-bubble .bubble{
+    display: inline-block;
+    padding: .5rem;
+    border-radius: 10px;  
+    background-color: #f7f7f7;
+    max-width: 90%;
+    position: relative;
+    font-size: .9rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* .msg-bubble .bubble::after{
+    content: "";
+    border-style: solid;
+    border-width: 5px;
+    position: absolute;
+
+} */
+
+.bubble.bubble-sender{
+    float: right;
+    border-top-right-radius: 0;
+    background-color: #147ba7;
+    color: #fff;
+    text-align: right;
+}
+/* .bubble.bubble-sender::after{
+    border-color: transparent transparent transparent red;
+    top: 0;
+    right: -10%;
+    
+} */
+.bubble.bubble-receiver{
+    float: left;
+    border-top-left-radius: 0;
+    text-align: left;
+}
+
+.msg-contact-head .head-main{
+ padding: .375rem .75rem;
+}
+.msg-contact-head .msg-search{
+    display: none;
+    
+}
+
+.msg-search-icon , 
+.search-close,
+.contact-close {
+    cursor: pointer;
+}
+
+.contact-close,
+.msg-contact-toggle{
+    display: none;
+}
+
+.msg-search input{
+    width: 85%;
+    height: 100%;
+    display: inline-block;
+    border: none;
+}
+.msg-search input:focus{
+    border: none;
+}
+
+.msg-search .search-close{
+    font-size: 1.5rem;
+}
+.msg-contact-list-item{
+    border-bottom: none;
+    padding: .5rem;
+    display: block;
+}
+.msg-contact-list-item:hover{
+   background-color: rgba(0, 0, 0, 0.028);
+   cursor: pointer;
+}
+.msg-contact-list-item:not(:last-child){
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.msg-contact-list-item .media-body{
+   position: relative;
+}
+#msg-count{
+    position: absolute;
+    top: 10%;
+    right: 0;
+}
+#last-online{
+    position: absolute;
+    bottom: -.8rem;
+    left: 0;
+    font-size: .8rem;
+    color: #777;
+}
+.msg-contact-list-item .media-body span.name{
+    max-width: 150px;
+    font-size: .8rem;
+}
+
+.msg-text-area{
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    bottom: 0;
+    left: 0;
+    padding:.3rem 1rem;
+    background-color: #ffffff;
+    z-index: 3;
+    height: 50px;
+    width: 100%;
+    box-shadow: 0 -.1rem .5rem rgba(0, 0, 0, 0.1);
+}
+
+.msg-text-area textarea{
+    height: 100%;
+    width: 90%;
+    border: none;
+    outline: none;
+    resize: none;
+    font-size: .9rem;
+}
+.send-btn{
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    color: #147ba7;
+}
 /* ---------------------------------------------------
     HELPERS STYLE
 ----------------------------------------------------- */
@@ -700,7 +912,7 @@ a.sign-out{
 }
 
 .online-status.online{
-    background-color: #97E965;
+    background-color: rgb(91, 199, 23);
 }
 .online-status.offline{
     background-color: #a1a1a1;
@@ -1154,6 +1366,9 @@ thead th.fc-day-header:nth-child(even){
  }
 
 
+
+
+
 /* ---------------------------------------------------
     MEDIAQUERIES
 ----------------------------------------------------- */
@@ -1233,6 +1448,19 @@ thead th.fc-day-header:nth-child(even){
     #sidebar.active-buttom{
         margin-top: 155px;
     }
+
+    #messaging [class^="col"]{
+        padding: 0;
+    }
+
+    #messaging [class^="col-md-3"]{
+        display: none;
+    }
+    .contact-close,
+    .msg-contact-toggle{
+        display: inline-block;
+    }
+
 }
 
 @media (max-width: 992px){
@@ -1242,5 +1470,9 @@ thead th.fc-day-header:nth-child(even){
     .buttom-nav-toggler{
         /* display:  none; */
         display:  inline-block;
+    }
+    .search-select-display{
+        opacity: 0;
+        display: none;
     }
 }
