@@ -16,7 +16,7 @@ class Appointment extends Model
 
     protected $appends = [
         'attendant_doctor','creator','description_preview','link',
-        'schedule','duration','start_time','end_time','fee','no_of_sessions',
+        'schedule','duration','start_time','end_time','fee','no_of_sessions','correspondence_ends_at',
         'status_text_color','status_text',
         'schedule_is_past','within_booking_time_limit'
     ];
@@ -212,6 +212,30 @@ class Appointment extends Model
         return $query->where('reviewed', '1');
     }
 
+    // Fee paid, awaiting appointment time.
+    public function scopeHasActiveCorrespondence($query)
+    {
+        $corrs = setting('correspondence_period');
+
+        $correspondence_ends_at = Carbon::parse($this->from)->addDays($corrs);
+
+        return $query->where('status', '5')
+                     ->where('from', '<', $correspondence_ends_at)
+                     ;
+    }
+
+    // Main appointment com-leted, correspondence period past.
+    public function scopeHasInactiveCorrespondence($query)
+    {
+        $corrs = setting('correspondence_period');
+
+        $correspondence_ends_at = Carbon::parse($this->from)->addDays($corrs);
+
+        return $query->whereIn('status', ['1','5'])
+                     ->where('from', '>', $correspondence_ends_at)
+                     ;
+    }
+
     /*<!---------------- Update Doctor Application Status ---------------->*/
     public static $appointmentStatus = array(
         0 => 'Awaiting doctor\'s confirmation',
@@ -358,6 +382,12 @@ class Appointment extends Model
     public function getScheduleIsPastAttribute($value)
     {
         return Carbon::now() > Carbon::parse($this->to);
+    }
+
+    // Appointment time and duration is now in the past.
+    public function getCorrespondenceEndsAtAttribute($value)
+    {
+        return Carbon::parse($this->from)->addWeek();
     }
 
 

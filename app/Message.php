@@ -74,4 +74,24 @@ class Message extends Model
             return \App\Prescription::find($id);
         }
     }
+
+    // public function owner()
+    // {
+    //     return auth()->id() == $this->messageable->user_id;
+    // }
+
+    // public function appointmentDoctor()
+    // {
+    //     return auth()->id() == $this->messageable->doctor_id;
+    // }
+
+
+    public function owner()
+    {
+        return $this->user_id == auth()->id();
+    }
+    public function ownerIsAppointmentOwner()
+    {
+        return $this->owner() == $this->isAppointmentAuthor();
+    }
 }
