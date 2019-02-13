@@ -208,8 +208,34 @@
                                bubble-receiver
                             @endif
                         ">
-                            <span class="rounded px-1 text-info bg-white" style="font-size: 10px;">{{ $message->user->name }} - <em>{{ $message->created_at->diffForHumans() }}</em></span><br>
+                          <span class="rounded px-1 text-info bg-white" style="font-size: 10px;">{{ $message->user->name }} - <em>{{ $message->created_at->diffForHumans() }}</em></span>
+                           <br>
+
+                          @if ($message->prescription)
+                          {{-- @if ($message->hasPrescription())
+                            @php 
+                              $prescription = $message->displayPrescription();
+                            @endphp --}}
+
+                            <h6 class="pb-1 border-bottom tf-flex">
+                              <span>
+                                <i class="fa fa-prescription"></i>
+                                {{ $message->body }}
+                              </span>
+                            </h6>
+
+                            {{-- @if ($prescription) --}}
+                            <edit-prescription :appointment="{{$appointment}}" :prescription="{{ $message->prescription }}"><edit-prescription>
+
+                              {{-- @include('prescriptions._card') --}}
+                            {{-- @else
+                              <div class="text-danger empty-list">Prescription is missing</div>
+                            @endif --}}
+                          @else
+
                             {{ $message->body }}
+
+                          @endif
                         </div>
                       </div>
                     @empty

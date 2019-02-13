@@ -27,6 +27,11 @@ class Message extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function prescription()
+    {
+        return $this->hasOne(Prescription::class);
+    }
+
     public function images()
     {
         return $this->morphMany(Image::class, 'imageable');
