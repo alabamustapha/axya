@@ -1,12 +1,16 @@
 @extends('layouts.master')
 
 @section('title', 'User Messages Index')
+
 @section('page-title')
-    <i class="fa fa-comments"></i>&nbsp;  {{ __('Messages Dashboard') }}
+  @if (Request::is('messages/*'))
+    <i class="fa fa-comments"></i>&nbsp;  {{ __('Chats with') }} {{ $appointment->doctor->name }}
+  @else
+    <i class="fa fa-comments"></i>&nbsp;  {{ __('Chats') }}
+  @endif
 @endsection
 
 @section('content')
-
   <div class="content">
       <div id="messaging">
          <div class="row">
@@ -32,15 +36,15 @@
                       <div class="msg-contact-body scroll">
                         <h4 class="p-2 text-center">Active Correspondence</h4>
 
-                        @forelse ($activeAppointments as $appointment)
-                         <a href="{{ route('messages.index', ['id' => $appointment->id]) }}" class="msg-contact-list-item">
+                        @forelse ($activeAppointments as $ac_appointment)
+                         <a href="{{ route('messages.index', $ac_appointment) }}" class="msg-contact-list-item">
                               <div class="media align-items-center">
-                                  <img src="{{ $appointment->doctor->avatar }}" height="45" class="mr-3 rounded-circle avatar" alt="Doctor image">
+                                  <img src="{{ $ac_appointment->doctor->avatar }}" height="45" class="mr-3 rounded-circle avatar" alt="Doctor image">
                                   <div class="media-body">
                                        
                                       <span class="text-darker d-inline-block text-truncate name"> 
                                           <span class="online-status online"></span>
-                                          {{ $appointment->doctor->name }}
+                                          {{ $ac_appointment->doctor->name }}
                                           
                                       </span>
                                       <span id="msg-count" class="badge badge-danger">1</span>
@@ -59,7 +63,7 @@
                         <!-- Past Appointments Chats: Inactive correspondence -->
 
                         @forelse ($inactiveAppointments as $in_appointment)
-                         <a href="{{ route('messages.index', ['id' => $appointment->id]) }}" class="msg-contact-list-item">
+                         <a href="{{ route('messages.index', $in_appointment) }}" class="msg-contact-list-item">
                               <div class="media align-items-center">
                                   <img src="{{ $in_appointment->doctor->avatar }}" height="45" class="mr-3 rounded-circle avatar" alt="Doctor image">
                                   <div class="media-body">
@@ -84,16 +88,52 @@
              <div class="col-md-9 pl-0 position-relative">
                  <div id="msg-contact-over" class="contact-over"></div>
                   <div class="msg-chat border ">
+                    @if (Request::is('messages/*'))
+                      
                       <div class="msg-chat-head border-bottom d-flex align-items-center justify-content-between">
                           <div class="media align-items-center">
-                              <img src="../images/a5.jpg" height="45" class="mr-3 rounded-circle " alt="Doctor image">
+                              <img src="{{ $appointment->doctor->avatar }}" height="45" class="mr-3 rounded-circle " alt="Doctor image">
                               <div class="media-body">
-                                  <h5 class="text-darker font-weight-bold">Dr. Bogdana Madalin</h5>
+                                  <h5 class="text-darker font-weight-bold">{{$appointment->doctor->name}}</h5>
                               </div>
+                          
                           </div>
-                          <a href="" class="float-right msg-contact-toggle text-darker"><i class="fas fa-ellipsis-v fa-lg"></i></a>
-                      
+
+                          <div title="Appointment Details" class="bg-info">
+                            <a id="navbarDropdown" class="float-right text-darker nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right col" style="font-size:12px;" aria-labelledby="navbarDropdown">
+
+                              <p class="dropdown-item border-bottom">{{$appointment->description}}<p>
+
+                              <ul class="list-unstyled p-3 col-md-8 offset-md-2">
+                                <li class="tf-flex">
+                                  <span class="text-bold">Status:</span> <span>{{$appointment->status_text}}</span>
+                                </li>
+                                <li class="tf-flex">
+                                  <span class="text-bold">Appointment Start:</span> <span>{{$appointment->start_time}}</span>
+                                </li>
+                                <li class="tf-flex">
+                                  <span class="text-bold">Correspondence Ends At:</span> <span>{{$appointment->correspondence_ends_at}}</span>
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+
+                          <a href="" class="float-right msg-contact-toggle text-darker"><i class="fas fa-ellipsis-v fa-lg"></i></a>                      
                       </div>
+
+                    @else
+
+                      <div class="msg-chat-head border-bottom d-flex align-items-center justify-content-between">
+                        <h5 class="text-darker font-weight-bold">General Messaging Info</h5>
+
+                        <a href="" class="float-right msg-contact-toggle text-darker"><i class="fas fa-ellipsis-v fa-lg"></i></a>                  
+                      </div>
+
+                    @endif
+
 
                       <div class="msg-chat-body scroll">
                           <div class="chat clearfix">
@@ -121,17 +161,23 @@
                                 </div>
                               </div>
                             @empty
-                              <p class="text-center msg-contact-list-item">No messages at this time</p>
+
+                              <div class="d-flex justify-content-center align-content-center">
+                                <p class="text-center">
+                                  Green  - Active <br>
+                                  Yellow - Pending (Awaiting schedule time) <br>
+                                  Red    - Past
+                                </p>
+                              </div>
+
                             @endforelse  
                           </div>
 
                        
-                          <form action="{{route('messages.store')}}" method="post" class="msg-text-area" enctype="multipart/form">
+                          <form action="{{route('messages.store', $appointment)}}" method="post" class="msg-text-area" enctype="multipart/form">
                               @csrf
-                              <input type="hidden" name="messageable_id" value="{{request()->id}}">
-                              <input type="hidden" name="messageable_type" value="App\Appointment">
 
-                              <textarea name="body" id="body" placeholder="write message..." maxlength="1500" required></textarea>
+                              <textarea name="body" id="body" placeholder="write message..." maxlength="400" required></textarea>
 
                               @if($appointment->attendant_doctor)
                                 <a class="float-right text-muted pr-2" data-toggle="modal" data-target="#newPrescriptionForm" title="Create drug prescription for this consultation.">
@@ -144,8 +190,7 @@
                               </a>
                               <button type="submit" class="float-right send-btn" title="Submit message">
                                   <i class="fas fa-paper-plane fa-lg"></i>
-                              </button>
-                                
+                              </button>                                
 
                           </form>
                          

@@ -13,6 +13,7 @@ class MessageController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('verified');
+        // $this->middleware('patient');
     }
 
     /**
@@ -20,7 +21,7 @@ class MessageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Appointment $appointment)
     {
         // Active + Pending Appointments.
         $activeAppointments = auth()->user()->appointments()
@@ -33,35 +34,11 @@ class MessageController extends Controller
                                      // ->hasInactiveCorrespondence()
                                      ->paginate(5)
                                      ;
-
-        switch (request()->id) {
-
-            case request()->id: 
-                $messages = Message::with(['messageable'])
-                         ->where('messageable_id', request()->id)
-                         ->where('messageable_type', 'App\Appointment')
-                         ->oldest()
-                         ->paginate(25)
-                         ; 
-                break;
-            default:
-                if ($activeAppointments->count()) {
-                    $messages = Message::with(['messageable'])
-                         ->where('user_id', auth()->id())
-                         ->where('messageable_type', 'App\Appointment')
-                         ->latest()
-                         ->first()
-                         ;
-                }
-                break;
-        }
-
-        if (request()->id) {
-            $appointment = Appointment::find(request()->id);
-        }
-        // dd($appointment->id);
-
-        // return view('appointments.index', compact('user','appointments'));
+        
+        $messages = $appointment->messages()
+                 ->oldest()
+                 ->paginate(25)
+                 ; 
         return view('messages.index', compact('messages', 'appointment', 'activeAppointments', 'inactiveAppointments'));
     }
 
@@ -71,24 +48,25 @@ class MessageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(MessageRequest $request)
-    {dd($request->all());
+    public function store(MessageRequest $request, Appointment $appointment)
+    {
         $this->authorize('create', Message::class);        
 
         $request->merge(['user_id' => auth()->id()]);
         
-        $message = Message::create($request->all());
+        // $message = Message::create($request->all());
+        $message = $appointment->messages()->create($request->all());
 
         if ($message) {
-            $msg = 'Message added successfully';
+            $msg = 'Message submitted successfully';
 
             if (request()->expectsJson()) {
                 return response(['status' => $msg]);
             }
         }
-
-        return back();//redirect()->route('messages.index', ['id' => $message->messageable->id]);
-        return redirect()->route('appointments.show', $message->messageable);
+        
+        flash($msg)->success();
+        return redirect()->route('messages.index', $appointment); // return back();
     }
 
     /**

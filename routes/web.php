@@ -89,11 +89,11 @@ Route::prefix('doctors')->group(function(){
 
 // ---- APPOINTMENT RELATED ---------------->
 Route::prefix('appointments')->group(function(){
-Route::patch('/{appointment}/complete','AppointmentStatusController@complete')->name('appointments.complete');
-Route::patch('/{appointment}/accept',  'AppointmentStatusController@accept')->name('appointments.accept');
-Route::patch('/{appointment}/reject',  'AppointmentStatusController@reject')->name('appointments.reject');
-Route::patch('/{appointment}/cancel',  'AppointmentStatusController@cancel')->name('appointments.cancel');
-Route::patch('/{appointment}/payfee',  'AppointmentStatusController@payFee')->name('appointments.payfee');
+  Route::patch('/{appointment}/complete','AppointmentStatusController@complete')->name('appointments.complete');
+  Route::patch('/{appointment}/accept',  'AppointmentStatusController@accept')->name('appointments.accept');
+  Route::patch('/{appointment}/reject',  'AppointmentStatusController@reject')->name('appointments.reject');
+  Route::patch('/{appointment}/cancel',  'AppointmentStatusController@cancel')->name('appointments.cancel');
+  Route::patch('/{appointment}/payfee',  'AppointmentStatusController@payFee')->name('appointments.payfee');
 });
 // ----! APPOINTMENT RELATED ---------------->
 
@@ -105,13 +105,17 @@ Route::resource('doctors',       'DoctorController');
 Route::resource('documents',     'DocumentController');
 Route::resource('schedules',     'ScheduleController')->only('store','update','destroy');
 Route::resource('appointments',  'AppointmentController')->except('index');
-Route::resource('messages',      'MessageController')->only('index','store','destroy');
 Route::resource('prescriptions', 'PrescriptionController')->except('index');
 Route::resource('drugs',         'DrugController');
 Route::resource('reviews',       'ReviewController');
 Route::resource('transactions',  'TransactionController')->except('index');
 Route::resource('subscriptions', 'SubscriptionController')->except('index');
 
+
+
+Route::get('messages/{appointment?}', 'MessageController@index')->name('messages.index');
+Route::post('messages/{appointment}', 'MessageController@store')->name('messages.store');
+// Route::post('messages/{message}',  'MessageController@destroy')->name('messages.destroy');
 
 Route::get('processor-response', 'PaymentController@paymentResponse')->name('processor-response');
 

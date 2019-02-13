@@ -25,9 +25,9 @@ class MessageRequest extends FormRequest
     {
         return [
             // 'user_id'         => 'required|integer|exists:users,id',
-            'body'            => 'required|string|max:1500',
-            'messageable_id'  => 'required|integer',
-            'messageable_type'=> 'required|string',
+            'body'            => 'required|string|max:500',
+            // 'messageable_id'  => 'required|integer',
+            // 'messageable_type'=> 'required|string',
         ];
     }
 }
