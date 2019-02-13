@@ -43,7 +43,7 @@
                   @forelse ($activeAppointments as $ac_appointment)
                     <!-- If Auth User is appointment creator, display doctor's name -->
                     @if ($ac_appointment->creator)
-                      <a href="{{ route('messages.index', [ 'user' => Auth::user(), 'appointment' => $ac_appointment]) }}" class="msg-contact-list-item">
+                      <a href="{{ route('messages.index', [ 'user' => Auth::user(), 'appointment' => $ac_appointment]) }}" class="msg-contact-list-item" title="{{ $ac_appointment->description_preview }}">
                         <div class="media align-items-center">
                           <img src="{{ $ac_appointment->doctor->avatar }}" height="45" class="mr-3 rounded-circle avatar" alt="Doctor image">
                           <div class="media-body">
@@ -61,7 +61,7 @@
                       </a>
                     @else
                       <!-- If Auth User is appointment doctor, display patient's name -->
-                      <a href="{{ route('dr_messages', [ 'doctor' => Auth::user()->doctor, 'appointment' => $ac_appointment]) }}" class="msg-contact-list-item">
+                      <a href="{{ route('dr_messages', [ 'doctor' => Auth::user()->doctor, 'appointment' => $ac_appointment]) }}" class="msg-contact-list-item" title="{{ $ac_appointment->description_preview }}">
                         <div class="media align-items-center">
                           <img src="{{ $ac_appointment->user->avatar }}" height="45" class="mr-3 rounded-circle avatar" alt="Doctor image">
                           <div class="media-body">
@@ -90,7 +90,7 @@
                   @forelse ($inactiveAppointments as $in_appointment)
                     <!-- If Auth User is appointment creator, display doctor's name -->
                     @if ($in_appointment->creator)
-                      <a href="{{ route('messages.index', [ 'user' => Auth::user(), 'appointment' => $in_appointment]) }}" class="msg-contact-list-item">
+                      <a href="{{ route('messages.index', [ 'user' => Auth::user(), 'appointment' => $in_appointment]) }}" class="msg-contact-list-item" title="{{ $in_appointment->description_preview }}">
                         <div class="media align-items-center">
                             <img src="{{ $in_appointment->doctor->avatar }}" height="45" class="mr-3 rounded-circle avatar" alt="Doctor image">
                             <div class="media-body">
@@ -108,7 +108,7 @@
                      </a>
                     @else
                       <!-- If Auth User is appointment doctor, display patient's name -->
-                      <a href="{{ route('dr_messages', [ 'doctor' => Auth::user()->doctor, 'appointment' => $in_appointment]) }}" class="msg-contact-list-item">
+                      <a href="{{ route('dr_messages', [ 'doctor' => Auth::user()->doctor, 'appointment' => $in_appointment]) }}" class="msg-contact-list-item" title="{{ $in_appointment->description_preview }}">
                         <div class="media align-items-center">
                             <img src="{{ $in_appointment->user->avatar }}" height="45" class="mr-3 rounded-circle avatar" alt="Doctor image">
                             <div class="media-body">
@@ -158,9 +158,15 @@
 
                       <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right col" style="font-size:12px;" aria-labelledby="navbarDropdown">
 
-                        <p class="dropdown-item border-bottom tf-flex">
+                        <p class="{{-- dropdown-item --}} p-3 border-bottom tf-flex text-sm">
                           <span>{{$appointment->description}}</span>
-                          <span class="p-2" style="cursor: pointer;"><i class="fa fa-edit"></i></span>
+                          @if ($appointment->creator && $appointment->schedule_period_pending)
+                          <span class="p-2" style="cursor: pointer;" 
+                            data-toggle="modal" data-target="#appointmentForm" 
+                            title="Edit Appointment">
+                            <i class="fa fa-edit"></i> Edit
+                          </span>
+                          @endif
                         <p>
 
                         <ul class="list-unstyled p-3 col-md-8 offset-md-2">
@@ -191,35 +197,35 @@
               @endif
 
 
-                <div class="msg-chat-body scroll">
-                    <div class="chat clearfix">
-                      @forelse ($messages as $message)
-                        <div class="msg-bubble">
-                          <div class="bubble
-                              @if($message->owner())
-                                 bubble-sender 
-                              @else 
-                                 bubble-receiver
-                              @endif
-                          ">
-                              <span class="rounded px-1 text-info bg-white" style="font-size: 10px;">{{ $message->user->name }} - <em>{{ $message->created_at->diffForHumans() }}</em></span><br>
-                              {{ $message->body }}
-                          </div>
+              <div class="msg-chat-body scroll">
+                  <div class="chat clearfix">
+                    @forelse ($messages as $message)
+                      <div class="msg-bubble">
+                        <div class="bubble
+                            @if($message->owner())
+                               bubble-sender 
+                            @else 
+                               bubble-receiver
+                            @endif
+                        ">
+                            <span class="rounded px-1 text-info bg-white" style="font-size: 10px;">{{ $message->user->name }} - <em>{{ $message->created_at->diffForHumans() }}</em></span><br>
+                            {{ $message->body }}
                         </div>
-                      @empty
+                      </div>
+                    @empty
 
-                        <div class="d-flex justify-content-center align-content-center">
-                          <p class="text-center">
-                            Green  - Active <br>
-                            Yellow - Pending (Awaiting schedule time) <br>
-                            Red    - Past
-                          </p>
-                        </div>
+                      <div class="d-flex justify-content-center align-content-center">
+                        <p class="text-center">
+                          Green  - Active <br>
+                          Yellow - Pending (Awaiting schedule time) <br>
+                          Red    - Past
+                        </p>
+                      </div>
 
-                      @endforelse  
-                    </div>
+                    @endforelse  
+                  </div>
 
-                 
+                  @if (Request::is('*/messages/*'))
                     @if($appointment->chatable)
                       <form action="{{route('messages.store', $appointment)}}" method="post" class="msg-text-area" enctype="multipart/form">
                         @csrf
@@ -241,24 +247,47 @@
 
                       </form>
                     @else
-                      <form class="msg-text-area">
+                      <form class="msg-text-area text-center">
 
                         <textarea name="body" id="body" placeholder="{{ \Carbon\Carbon::now() < $appointment->from ? 'Chat active by '. $appointment->from:'Correspondence period has elapsed' }}" style="font-size:12px;" readonly disabled></textarea>
 
                         <span class="float-right send-btn" title="Submit message">
-                            <i class="fas fa-paper-plane fa-lg"></i>
+                          <i class="fas fa-lock fa-lg text-muted" style="font-size: 40px"></i>
                         </span>                                
 
                       </form>
                     @endif
-                   
-                </div>
+                  @endif
+                 
+              </div>
             </div>
         </div>
       </div>
     </div>
   </div>
 
+
+
+  @if($appointment->creator)
+    <!-- Appointment Form-->
+    <div class="modal" tabindex="-1" role="dialog" id="appointmentForm" style="display:none;" aria-labelledby="appointmentFormLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content px-0 pb-0 shadow-none">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 5px 15px 0px;margin:10px auto -25px">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <br>
+          <div class="modal-body">
+
+            @include('appointments.partials.edit-form')
+            {{-- <appointment-form :doctor="{{$doctor}}"></appointment-form> --}}
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- END - Appointment Form-->
+  @endif
 
   @if($appointment->attendant_doctor && $appointment->chatable)
     <div class="modal" tabindex="-1" role="dialog" id="newPrescriptionForm" style="display:none;" aria-labelledby="newPrescriptionFormLabel" aria-hidden="true">

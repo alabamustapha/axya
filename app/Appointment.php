@@ -16,7 +16,9 @@ class Appointment extends Model
 
     protected $appends = [
         'attendant_doctor','creator','description_preview','link',
-        'schedule','duration','start_time','end_time','fee','no_of_sessions','correspondence_ends_at','chatable',
+        'schedule','duration','start_time','end_time','fee','no_of_sessions',
+        'correspondence_ends_at','correspondence_period_over','schedule_period_pending',
+        'chatable',
         'status_text_color','status_text',
         'schedule_is_past','within_booking_time_limit'
     ];
@@ -383,6 +385,16 @@ class Appointment extends Model
         $corrs = setting('correspondence_period');
 
         return Carbon::parse($this->from)->addDays($corrs);
+    }
+
+    public function getCorrespondencePeriodOverAttribute($value)
+    {
+        return Carbon::now() > $this->correspondence_ends_at;
+    }
+
+    public function getSchedulePeriodPendingAttribute($value)
+    {
+        return Carbon::now() < $this->from;
     }
 
 
