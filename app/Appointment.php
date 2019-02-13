@@ -16,7 +16,7 @@ class Appointment extends Model
 
     protected $appends = [
         'attendant_doctor','creator','description_preview','link',
-        'schedule','duration','start_time','end_time','fee','no_of_sessions','correspondence_ends_at',
+        'schedule','duration','start_time','end_time','fee','no_of_sessions','correspondence_ends_at','chatable',
         'status_text_color','status_text',
         'schedule_is_past','within_booking_time_limit'
     ];
@@ -215,24 +215,17 @@ class Appointment extends Model
     // Fee paid, awaiting appointment time.
     public function scopeHasActiveCorrespondence($query)
     {
-        $corrs = setting('correspondence_period');
-
-        $correspondence_ends_at = Carbon::parse($this->from)->addDays($corrs);
-
-        return $query->where('status', '5')
-                     ->where('from', '<', $correspondence_ends_at)
+        return $query->whereIn('status', ['1','5'])
+                     // ->where('from', '>', Carbon::now()) // We need pendings...
+                     ->where('from', '<', $this->correspondence_ends_at)
                      ;
     }
 
-    // Main appointment com-leted, correspondence period past.
+    // Main appointment completed, correspondence period past.
     public function scopeHasInactiveCorrespondence($query)
     {
-        $corrs = setting('correspondence_period');
-
-        $correspondence_ends_at = Carbon::parse($this->from)->addDays($corrs);
-
-        return $query->whereIn('status', ['1','5'])
-                     ->where('from', '>', $correspondence_ends_at)
+        return $query->where('status', 1)
+                     ->where('from', '>', $this->correspondence_ends_at)
                      ;
     }
 
@@ -384,10 +377,12 @@ class Appointment extends Model
         return Carbon::now() > Carbon::parse($this->to);
     }
 
-    // Appointment time and duration is now in the past.
+    // Time chat between a doctor and patient ceases to continue.
     public function getCorrespondenceEndsAtAttribute($value)
     {
-        return Carbon::parse($this->from)->addWeek();
+        $corrs = setting('correspondence_period');
+
+        return Carbon::parse($this->from)->addDays($corrs);
     }
 
 
@@ -449,5 +444,14 @@ class Appointment extends Model
       $str .= '</span>';
 
       echo $str;
+    }
+
+    // Fee paid, awaiting appointment time.
+    public function getChatableAttribute($query)
+    {
+        return (bool) ($this->status == '1' || $this->status == '5') 
+                   && $this->from < Carbon::now() // Added to allow chat only when time is reached.
+                   && $this->from < $this->correspondence_ends_at
+                    ;
     }
 }

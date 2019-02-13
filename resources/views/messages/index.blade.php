@@ -5,12 +5,12 @@
 @section('page-title')
   @if (Request::is('*/messages/*'))
     @if ($appointment->creator)
-      <i class="fa fa-comments"></i>&nbsp;  {{ __('Chats with') }} {{ $appointment->doctor->name }}
+      <i class="fa fa-comments"></i>&nbsp; {{ __('Chats with') }} {{ $appointment->doctor->name }}
     @else
-    <i class="fa fa-comments"></i>&nbsp;  {{ __('Chats with') }} {{ $appointment->user->name }}
+    <i class="fa fa-comments"></i>&nbsp; {{ __('Chats with') }} {{ $appointment->user->name }}
     @endif
   @else
-    <i class="fa fa-comments"></i>&nbsp;  {{ __('Chats') }}
+    <i class="fa fa-comments"></i>&nbsp; {{ __('Chats') }}
   @endif
 @endsection
 
@@ -41,7 +41,7 @@
                   <h4 class="p-2 text-center">Active Correspondence</h4>
 
                   @forelse ($activeAppointments as $ac_appointment)
-                    <!-- If Authenticated user is appoitment creator, display doctor's name -->
+                    <!-- If Auth User is appointment creator, display doctor's name -->
                     @if ($ac_appointment->creator)
                       <a href="{{ route('messages.index', [ 'user' => Auth::user(), 'appointment' => $ac_appointment]) }}" class="msg-contact-list-item">
                         <div class="media align-items-center">
@@ -49,8 +49,8 @@
                           <div class="media-body">
                                
                             <span class="text-darker d-inline-block text-truncate name"> 
-                                <span class="online-status online"></span>
-                                {{ $ac_appointment->doctor->name }}
+                              <span class="online-status online"></span>
+                              {{ $ac_appointment->doctor->name }}
                                 
                             </span>
                             <span id="msg-count" class="badge badge-danger">1</span>
@@ -60,15 +60,15 @@
                         </div>
                       </a>
                     @else
-                      <!-- If Authenticated user is appointment doctor, display patient's name -->
+                      <!-- If Auth User is appointment doctor, display patient's name -->
                       <a href="{{ route('dr_messages', [ 'doctor' => Auth::user()->doctor, 'appointment' => $ac_appointment]) }}" class="msg-contact-list-item">
                         <div class="media align-items-center">
                           <img src="{{ $ac_appointment->user->avatar }}" height="45" class="mr-3 rounded-circle avatar" alt="Doctor image">
                           <div class="media-body">
                              
                             <span class="text-darker d-inline-block text-truncate name"> 
-                                <span class="online-status online"></span>
-                                {{ $ac_appointment->user->name }}
+                              <span class="online-status online"></span>
+                              {{ $ac_appointment->user->name }}
                                 
                             </span>
                             <span id="msg-count" class="badge badge-danger">1</span>
@@ -84,40 +84,42 @@
 
                   <hr>
 
-                  <h4 class="p-2 text-center">Inactive/Past Correspondences</h4>
                   <!-- Past Appointments Chats: Inactive correspondence -->
+                  <h4 class="p-2 text-center">Inactive/Past Correspondences</h4>
 
                   @forelse ($inactiveAppointments as $in_appointment)
+                    <!-- If Auth User is appointment creator, display doctor's name -->
                     @if ($in_appointment->creator)
                       <a href="{{ route('messages.index', [ 'user' => Auth::user(), 'appointment' => $in_appointment]) }}" class="msg-contact-list-item">
                         <div class="media align-items-center">
                             <img src="{{ $in_appointment->doctor->avatar }}" height="45" class="mr-3 rounded-circle avatar" alt="Doctor image">
                             <div class="media-body">
                                  
-                                <span class="text-darker d-inline-block text-truncate name"> 
-                                    <span class="online-status online"></span>
-                                    {{ $in_appointment->doctor->name }}
-                                    
-                                </span>
-                                <span id="msg-count" class="badge badge-danger">1</span>
-                                <span id="last-online">2m</span>
+                              <span class="text-darker d-inline-block text-truncate name"> 
+                                <span class="online-status online"></span>
+                                {{ $in_appointment->doctor->name }}
+                                  
+                              </span>
+                              <span id="msg-count" class="badge badge-danger">1</span>
+                              <span id="last-online">2m</span>
                         
                             </div>
                         </div>
                      </a>
                     @else
+                      <!-- If Auth User is appointment doctor, display patient's name -->
                       <a href="{{ route('dr_messages', [ 'doctor' => Auth::user()->doctor, 'appointment' => $in_appointment]) }}" class="msg-contact-list-item">
                         <div class="media align-items-center">
-                            <img src="{{ $in_appointment->doctor->avatar }}" height="45" class="mr-3 rounded-circle avatar" alt="Doctor image">
+                            <img src="{{ $in_appointment->user->avatar }}" height="45" class="mr-3 rounded-circle avatar" alt="Doctor image">
                             <div class="media-body">
                                  
-                                <span class="text-darker d-inline-block text-truncate name"> 
-                                    <span class="online-status online"></span>
-                                    {{ $in_appointment->doctor->name }}
-                                    
-                                </span>
-                                <span id="msg-count" class="badge badge-danger">1</span>
-                                <span id="last-online">2m</span>
+                              <span class="text-darker d-inline-block text-truncate name"> 
+                                <span class="online-status online"></span>
+                                {{ $in_appointment->user->name }}
+                                  
+                              </span>
+                              <span id="msg-count" class="badge badge-danger">1</span>
+                              <span id="last-online">2m</span>
                         
                             </div>
                         </div>
@@ -156,14 +158,17 @@
 
                       <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right col" style="font-size:12px;" aria-labelledby="navbarDropdown">
 
-                        <p class="dropdown-item border-bottom">{{$appointment->description}}<p>
+                        <p class="dropdown-item border-bottom tf-flex">
+                          <span>{{$appointment->description}}</span>
+                          <span class="p-2" style="cursor: pointer;"><i class="fa fa-edit"></i></span>
+                        <p>
 
                         <ul class="list-unstyled p-3 col-md-8 offset-md-2">
                           <li class="tf-flex">
                             <span class="text-bold">Status:</span> <span>{{$appointment->status_text}}</span>
                           </li>
                           <li class="tf-flex">
-                            <span class="text-bold">Appointment Start:</span> <span>{{$appointment->start_time}}</span>
+                            <span class="text-bold">Appointment Start:</span> <span>{{$appointment->from}}</span>
                           </li>
                           <li class="tf-flex">
                             <span class="text-bold">Correspondence Ends At:</span> <span>{{$appointment->correspondence_ends_at}}</span>
@@ -191,21 +196,11 @@
                       @forelse ($messages as $message)
                         <div class="msg-bubble">
                           <div class="bubble
-                            @if ($message->ownerIsAppointmentOwner())
                               @if($message->owner())
                                  bubble-sender 
                               @else 
                                  bubble-receiver
                               @endif
-
-                            @else
-
-                              @if($message->owner())
-                                 bubble-sender 
-                              @else 
-                                 bubble-receiver
-                              @endif
-                            @endif
                           ">
                               <span class="rounded px-1 text-info bg-white" style="font-size: 10px;">{{ $message->user->name }} - <em>{{ $message->created_at->diffForHumans() }}</em></span><br>
                               {{ $message->body }}
@@ -225,10 +220,11 @@
                     </div>
 
                  
-                    <form action="{{route('messages.store', $appointment)}}" method="post" class="msg-text-area" enctype="multipart/form">
+                    @if($appointment->chatable)
+                      <form action="{{route('messages.store', $appointment)}}" method="post" class="msg-text-area" enctype="multipart/form">
                         @csrf
 
-                        <textarea name="body" id="body" placeholder="write message..." maxlength="400" required></textarea>
+                        <textarea name="body" id="body" placeholder="write message..." maxlength="400" style="font-size:12px;" required></textarea>
 
                         @if($appointment->attendant_doctor)
                           <a class="float-right text-muted pr-2" data-toggle="modal" data-target="#newPrescriptionForm" title="Create drug prescription for this consultation.">
@@ -243,7 +239,18 @@
                             <i class="fas fa-paper-plane fa-lg"></i>
                         </button>                                
 
-                    </form>
+                      </form>
+                    @else
+                      <form class="msg-text-area">
+
+                        <textarea name="body" id="body" placeholder="{{ \Carbon\Carbon::now() < $appointment->from ? 'Chat active by '. $appointment->from:'Correspondence period has elapsed' }}" style="font-size:12px;" readonly disabled></textarea>
+
+                        <span class="float-right send-btn" title="Submit message">
+                            <i class="fas fa-paper-plane fa-lg"></i>
+                        </span>                                
+
+                      </form>
+                    @endif
                    
                 </div>
             </div>
@@ -253,7 +260,7 @@
   </div>
 
 
-  @if($appointment->attendant_doctor)
+  @if($appointment->attendant_doctor && $appointment->chatable)
     <div class="modal" tabindex="-1" role="dialog" id="newPrescriptionForm" style="display:none;" aria-labelledby="newPrescriptionFormLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content px-0 pb-0 m-0 shadow-none">
