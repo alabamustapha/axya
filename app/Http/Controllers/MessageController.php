@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\MessageRequest;
+use App\User;
+use App\Doctor;
 use App\Message;
 use App\Appointment;
 use Illuminate\Http\Request;
@@ -14,6 +16,7 @@ class MessageController extends Controller
         $this->middleware('auth');
         $this->middleware('verified');
         // $this->middleware('patient');
+        $this->middleware('doctor')->only('drindex');
     }
 
     /**
@@ -21,16 +24,16 @@ class MessageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Appointment $appointment)
+    public function index(User $user, Appointment $appointment)
     {
         // Active + Pending Appointments.
-        $activeAppointments = auth()->user()->appointments()
+        $activeAppointments = $user->appointments()
                                      // ->hasActiveCorrespondence()
                                      ->paginate(10)
                                      ;
 
         // Inactive + Past Successful Appointments.
-        $inactiveAppointments = auth()->user()->appointments()
+        $inactiveAppointments = $user->appointments()
                                      // ->hasInactiveCorrespondence()
                                      ->paginate(5)
                                      ;
@@ -40,6 +43,34 @@ class MessageController extends Controller
                  ->paginate(25)
                  ; 
         return view('messages.index', compact('messages', 'appointment', 'activeAppointments', 'inactiveAppointments'));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function drindex(Doctor $doctor, Appointment $appointment)
+    {
+        // $doctor = Doctor::find(auth()->id());
+
+        // Active + Pending Appointments.
+        $activeAppointments = Appointment::where('doctor_id', $doctor->id)
+                                     // ->hasActiveCorrespondence()
+                                     ->paginate(10)
+                                     ;
+
+        // Inactive + Past Successful Appointments.
+        $inactiveAppointments = Appointment::where('doctor_id', $doctor->id)
+                                     // ->hasInactiveCorrespondence()
+                                     ->paginate(5)
+                                     ;
+        
+        $messages = $appointment->messages()
+                 ->oldest()
+                 ->paginate(25)
+                 ; 
+        return view('messages.index', compact('doctor', 'messages', 'appointment', 'activeAppointments', 'inactiveAppointments'));
     }
 
     /**
@@ -66,7 +97,8 @@ class MessageController extends Controller
         }
         
         flash($msg)->success();
-        return redirect()->route('messages.index', $appointment); // return back();
+        return back();
+        return redirect()->route('messages.index', [ 'user' => auth()->user(), 'appointment' => $appointment]);
     }
 
     /**

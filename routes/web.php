@@ -80,6 +80,7 @@ Route::prefix('doctors')->group(function(){
     Route::get('/prescriptions','PrescriptionController@drindex')->name('dr_prescriptions');
     Route::get('/transactions', 'TransactionController@drindex')->name('dr_transactions'); 
     Route::get('/patients',     'DoctorController@patients')->name('dr_patients'); 
+    Route::get('/messages/{appointment?}', 'MessageController@drindex')->name('dr_messages');
     
     Route::patch('/revoke','AppDoctorController@licenseRevoke')->name('revoke_license');
     Route::patch('/restore','AppDoctorController@licenseRestore')->name('restore_license'); 
@@ -113,7 +114,7 @@ Route::resource('subscriptions', 'SubscriptionController')->except('index');
 
 
 
-Route::get('messages/{appointment?}', 'MessageController@index')->name('messages.index');
+Route::get('{user}/messages/{appointment?}', 'MessageController@index')->name('messages.index');
 Route::post('messages/{appointment}', 'MessageController@store')->name('messages.store');
 // Route::post('messages/{message}',  'MessageController@destroy')->name('messages.destroy');
 
