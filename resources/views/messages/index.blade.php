@@ -212,10 +212,6 @@
                            <br>
 
                           @if ($message->prescription)
-                          {{-- @if ($message->hasPrescription())
-                            @php 
-                              $prescription = $message->displayPrescription();
-                            @endphp --}}
 
                             <h6 class="pb-1 border-bottom tf-flex">
                               <span>
@@ -224,13 +220,8 @@
                               </span>
                             </h6>
 
-                            {{-- @if ($prescription) --}}
-                            <edit-prescription :appointment="{{$appointment}}" :prescription="{{ $message->prescription }}"><edit-prescription>
+                            <display-prescription :appointment="{{$appointment}}" :prescription="{{ $message->prescription }}"><display-prescription>
 
-                              {{-- @include('prescriptions._card') --}}
-                            {{-- @else
-                              <div class="text-danger empty-list">Prescription is missing</div>
-                            @endif --}}
                           @else
 
                             {{ $message->body }}
