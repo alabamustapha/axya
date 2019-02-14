@@ -63,16 +63,16 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
                
-        'superadmin' => \App\Http\Middleware\SuperAdminMiddleware::class,
-        'admin'      => \App\Http\Middleware\AdminMiddleware::class,
-        'adminauth'  => \App\Http\Middleware\AdminAuthMiddleware::class,
+        'superadmin'  => \App\Http\Middleware\Custom\SuperAdminMiddleware::class,
+        'admin'       => \App\Http\Middleware\Custom\AdminMiddleware::class,
+        'adminauth'   => \App\Http\Middleware\Custom\AdminAuthMiddleware::class,
 
-        'doctor'     => \App\Http\Middleware\DoctorMiddleware::class,
-        'doctorguest' => \App\Http\Middleware\DoctorGuestMiddleware::class,
-        'doctoradmin' => \App\Http\Middleware\DoctorAndAdminMiddleware::class,
-        'application'=> \App\Http\Middleware\ApplicationMiddleware::class,
+        'doctor'      => \App\Http\Middleware\Custom\DoctorMiddleware::class,
+        'doctorguest' => \App\Http\Middleware\Custom\DoctorGuestMiddleware::class,
+        'doctoradmin' => \App\Http\Middleware\Custom\DoctorAndAdminMiddleware::class,
+        'application' => \App\Http\Middleware\Custom\ApplicationMiddleware::class,
         
-        'patient'    => \App\Http\Middleware\PatientMiddleware::class,
+        'patient'     => \App\Http\Middleware\Custom\PatientMiddleware::class,
     ];
 
     /**
