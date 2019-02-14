@@ -20,14 +20,14 @@ class PatientMiddleware
         if (Auth::check()) {
             if (
                    Auth::user()->isAuthenticatedAdmin()  
-                || Auth::user()->isAuthenticatedDoctor() // Use policy to extend this.
+                // || Auth::user()->isAuthenticatedDoctor() // Use policy to extend this.
                 || (Auth::user()->slug == \Route::input('user.slug'))
                 || (Auth::user()->isAuthenticatedDoctor() && Auth::user()->doctor->inAllPatients())
                ) 
             {
                 return $next($request);
             }
-            elseif (Auth::user()->isDoctor() && !Auth::user()->isAdmin()) {
+            elseif (Auth::user()->isDoctor()) {// && !Auth::user()->isAdmin()
                 return redirect(route('doctor.login'));
             }
             elseif (Auth::user()->isAdmin() && !Auth::user()->isDoctor()) {

@@ -52,16 +52,14 @@ class MessageController extends Controller
      */
     public function drindex(Doctor $doctor, Appointment $appointment)
     {
-        // $doctor = Doctor::find(auth()->id());
-
         // Active + Pending Appointments.
-        $activeAppointments = Appointment::where('doctor_id', $doctor->id)
+        $activeAppointments = $doctor->appointments()
                                      // ->hasActiveCorrespondence()
                                      ->paginate(10)
                                      ;
 
         // Inactive + Past Successful Appointments.
-        $inactiveAppointments = Appointment::where('doctor_id', $doctor->id)
+        $inactiveAppointments = $doctor->appointments()
                                      // ->hasInactiveCorrespondence()
                                      ->paginate(5)
                                      ;
