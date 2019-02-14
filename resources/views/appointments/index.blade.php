@@ -25,7 +25,11 @@
             <th>Date</th>
             <th>Schedule</th>
             <th>Status</th>
-            <th>Name</th>
+            @if(Auth::user() == \Route::input('user'))
+                <th>Doctor</th>
+            @else
+                <th>Patient</th>
+            @endif
             <th><i class="fa fa-stethoscope"></i>&nbsp; Specialty</th>
             <th>View Details</th>
         </tr>
@@ -51,7 +55,7 @@
                     </a>
                 </td>
                 <td>
-                    @if($appointment->creator || (Auth::user()->isDoctor() && Auth::user()->doctor != $appointment->doctor) || Auth::user()->isAdmin())
+                    @if($appointment->creator)
                         <span title="Doctor name"><a href="{{route('doctors.show', $appointment->doctor)}}" style="color:inherit;">{{$appointment->doctor->name}}</a></span>
                     @else
                         <span title="Patient name"><a href="{{route('users.show', $appointment->user)}}" style="color:inherit;">{{$appointment->user->name}}</a></span>

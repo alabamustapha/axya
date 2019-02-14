@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 
 class Message extends Model
 {
@@ -11,7 +12,7 @@ class Message extends Model
     ];
 
     protected $with = [
-      'messageable', 'user'
+      'messageable', 'user',
     ];
 
     /**
@@ -99,4 +100,34 @@ class Message extends Model
     {
         return $this->owner() == $this->isAppointmentAuthor();
     }
+
+
+    /** ~~~~~~~~~~ Caching Handling ~~~~~~~~~~ */
+
+    /**
+     * Flush the cache
+     */
+    public static function flushCache()
+    {
+        Cache::forget('messages.paginate');
+    }
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updated(function () {
+            self::flushCache();
+        });
+
+        static::created(function() {
+            self::flushCache();
+        });
+    }
+
 }

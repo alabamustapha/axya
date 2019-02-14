@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\MessageRequest;
-use App\User;
-use App\Doctor;
-use App\Message;
 use App\Appointment;
+use App\Doctor;
+use App\Http\Requests\MessageRequest;
+use App\Message;
+use App\User;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Request;
 
 class MessageController extends Controller
@@ -38,10 +39,13 @@ class MessageController extends Controller
                                      ->paginate(5)
                                      ;
         
-        $messages = $appointment->messages()
+        $messages = Cache::rememberForever('messages.paginate', function() use($appointment) {
+            return $appointment->messages()
                  ->oldest()
-                 ->paginate(25)
+                 ->paginate(50)
                  ; 
+            });
+        // dd(Cache::has('messages.paginate'));
         return view('messages.index', compact('messages', 'appointment', 'activeAppointments', 'inactiveAppointments'));
     }
 
@@ -64,10 +68,14 @@ class MessageController extends Controller
                                      ->paginate(5)
                                      ;
         
-        $messages = $appointment->messages()
+        $messages = Cache::rememberForever('messages.paginate', function() use($appointment) {
+            return $appointment->messages()
                  ->oldest()
-                 ->paginate(25)
-                 ; 
+                 ->paginate(50)
+                 ;
+            }); 
+
+        // dd($messages, Cache::has('messages.paginate'));
         return view('messages.index', compact('doctor', 'messages', 'appointment', 'activeAppointments', 'inactiveAppointments'));
     }
 
