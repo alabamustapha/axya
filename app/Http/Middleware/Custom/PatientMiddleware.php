@@ -33,20 +33,7 @@ class PatientMiddleware
             elseif (Auth::user()->isAdmin() && !Auth::user()->isDoctor()) {
                 return redirect(route('admin.login'));
             }
-        }
-
-        // if  (Auth::check() 
-        //     && (
-        //         // Auth::id() == request()->user()->id
-        //         Auth::user()->slug == \Route::input('user.slug')
-        //         || Auth::user()->isAdmin()
-        //         // Currently accessed user is a patient to logged in doctor.
-        //         )
-        //        )
-        //     )
-        // { 
-        //     return $next($request); 
-        // }
         return abort('403');
+        }
     }
 }

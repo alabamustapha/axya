@@ -88,16 +88,6 @@ class PrescriptionController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -114,6 +104,10 @@ class PrescriptionController extends Controller
             //     'messageable_type'=> get_class($prescription->appointment),
             // ]);
         $appointment = Appointment::find($request->appointment_id);
+
+        if (intval(auth()->user()->doctor->id) !== intval($appointment->doctor_id)) {
+            return abort(403, 'Unauthorized access');
+        }
 
         $message = $appointment->messages()->create([
                 'user_id'         => auth()->id(),
@@ -170,16 +164,6 @@ class PrescriptionController extends Controller
         return view('prescriptions.show', compact('prescription'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Prescription  $prescription
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Prescription $prescription)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -191,6 +175,10 @@ class PrescriptionController extends Controller
     public function update(PrescriptionRequest $request, Prescription $prescription)
     {
         $this->authorize('edit', $prescription);
+
+        if (intval(auth()->user()->doctor->id) !== intval($prescription->appointment->doctor_id)) {
+            return abort(403, 'Unauthorized access');
+        }
 
         if ($prescription->update($request->all())){
 

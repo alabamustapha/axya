@@ -105,7 +105,7 @@ Route::resource('applications',  'ApplicationController');
 Route::resource('doctors',       'DoctorController');
 Route::resource('documents',     'DocumentController');
 Route::resource('schedules',     'ScheduleController')->only('store','update','destroy');
-Route::resource('appointments',  'AppointmentController')->except('index');
+Route::resource('appointments',  'AppointmentController')->except('index','create','edit');
 Route::resource('prescriptions', 'PrescriptionController')->except('index');
 Route::resource('drugs',         'DrugController');
 Route::resource('reviews',       'ReviewController');

@@ -13,3 +13,11 @@ $factory->define(App\Message::class, function (Faker $faker) {
       'messageable_type'=> $model_type,
     ];
 });
+
+
+$factory->state(App\Message::class, 'appointment', function (Faker $faker) { 
+  return [
+      'messageable_id'   => App\Appointment::all()->random()->id,
+      'messageable_type' => 'App\Appointment',
+  ];
+});

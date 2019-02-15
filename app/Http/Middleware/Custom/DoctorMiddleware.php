@@ -20,7 +20,7 @@ class DoctorMiddleware
         if (Auth::check() && Auth::user()->isDoctor()) {
 
             if (Auth::user()->isAuthenticatedDoctor() 
-                && Auth::user()->doctor->slug == \Route::input('doctor.slug')
+                // && Auth::user()->doctor->slug == \Route::input('doctor.slug')
             ) {
                 return $next($request);
             }
@@ -28,7 +28,7 @@ class DoctorMiddleware
             return redirect(route('doctor.login'));
         }
         
-        return abort(403, 'Unathorized access.');//redirect()->route('home');
+        return abort(403, 'Unauthorized access.');//redirect()->route('home');
 
     } 
 }

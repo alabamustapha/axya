@@ -7,6 +7,7 @@ use App\Doctor;
 use App\Document;
 use App\Drug;
 use App\Image;
+use App\Message;
 use App\Prescription;
 use App\Specialty;
 use App\User;
@@ -23,15 +24,16 @@ class PrescriptionsTest extends TestCase
     {
         parent::setUp();
 
-        $this->user       = factory(User::class)->states('verified')->create();
-        $this->specialty  = factory(Specialty::class)->create();
-        $this->doctor     = factory(Doctor::class)->states('active')->create();
-        $this->appointment= factory(Appointment::class)->create();
-        $this->image      = factory(Image::class)->create();
-        $this->document   = factory(Document::class)->create();
+        $this->user         = factory(User::class)->states('verified')->create();
+        $this->specialty    = factory(Specialty::class)->create();
+        $this->doctor       = factory(Doctor::class)->states('active')->create();
+        $this->appointment  = factory(Appointment::class)->create();
+        $this->image        = factory(Image::class)->create();
+        $this->document     = factory(Document::class)->create();
 
+        $this->message      = factory(Message::class)->states('appointment')->create();
         $this->prescription = factory(Prescription::class)->create();
-        $this->drug       = factory(Drug::class)->create();
+        $this->drug         = factory(Drug::class)->create();
     } 
 
     /** @test */
