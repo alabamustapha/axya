@@ -46,13 +46,13 @@ class MessagesFeatureTest extends TestCase
     {
         $this
             ->actingAs($this->user)
-            ->get(route('messages.index'))
+            ->get(route('messages.index', $this->user))
             ->assertStatus(200)
-            // ->assertSee($this->message->statusText())
             ->assertSee($this->user->name)
-            ->assertSee($this->message->body)
-            ->assertSee($this->message->type())
-            ->assertSee($this->message->created_at)
+            // ->assertSee($this->appointment->doctor->name)
+            // ->assertSee($this->appointment->description_preview)
+            ->assertSee('Active Correspondence')
+            ->assertSee('General Messaging Info')
             ;
     }
 
@@ -72,7 +72,7 @@ class MessagesFeatureTest extends TestCase
         ];
 
         $this
-            ->post(route('messages.store'), $data)
+            ->post(route('messages.store', $this->user), $data)
             ->assertStatus(302) // Redirected to verify page
             ;
 
@@ -84,7 +84,7 @@ class MessagesFeatureTest extends TestCase
     {
         $this
             ->actingAs($this->user)
-            ->post(route('messages.store'), $this->data)
+            ->post(route('messages.store', $this->user), $this->data)
             ;
 
         $this->assertDatabaseHas('messages', $this->data);
