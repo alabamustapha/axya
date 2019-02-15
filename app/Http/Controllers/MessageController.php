@@ -45,6 +45,8 @@ class MessageController extends Controller
                  ->oldest()
                  ->paginate(50)
                  ; 
+        $prescriptions = $appointment->prescriptions()->pluck('message_id', 'created_at');
+
         // $messages = Cache::rememberForever('messages.paginate', function() use($appointment) {
         //     return $appointment->messages()
         //          ->oldest()
@@ -52,7 +54,15 @@ class MessageController extends Controller
         //          ; 
         //     });
         // dd(Cache::has('messages.paginate'));
-        return view('messages.index', compact('appointment', 'user', 'messages', 'activeAppointments', 'inactiveAppointments'));
+        return view('messages.index', 
+            compact(
+                'appointment', 
+                'user', 
+                'messages', 
+                'activeAppointments', 
+                'inactiveAppointments', 
+                'prescriptions'
+            ));
     }
 
     /**
@@ -80,6 +90,8 @@ class MessageController extends Controller
                  ->oldest()
                  ->paginate(50)
                  ;
+        $prescriptions = $appointment->prescriptions()->pluck('message_id', 'created_at');
+
         // $messages = Cache::rememberForever('messages.paginate', function() use($appointment) {
         //     return $appointment->messages()
         //          ->oldest()
@@ -88,7 +100,15 @@ class MessageController extends Controller
         //     }); 
 
         // dd($messages, Cache::has('messages.paginate'));
-        return view('messages.index', compact('appointment', 'doctor', 'messages', 'activeAppointments', 'inactiveAppointments'));
+        return view('messages.index', 
+            compact(
+                'appointment', 
+                'doctor', 
+                'messages', 
+                'activeAppointments', 
+                'inactiveAppointments', 
+                'prescriptions'
+            ));
     }
 
     /**
