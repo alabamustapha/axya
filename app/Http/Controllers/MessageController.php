@@ -16,7 +16,7 @@ class MessageController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('verified');
-        // $this->middleware('patient');
+        $this->middleware('patient')->except('drindex', 'store');
         $this->middleware('doctor')->only('drindex');
     }
 
@@ -29,24 +29,30 @@ class MessageController extends Controller
     {
         // Active + Pending Appointments.
         $activeAppointments = $user->appointments()
+                                     ->hasPrescription()
                                      // ->hasActiveCorrespondence()
                                      ->paginate(10)
                                      ;
 
         // Inactive + Past Successful Appointments.
         $inactiveAppointments = $user->appointments()
+                                     ->hasPrescription()
                                      // ->hasInactiveCorrespondence()
                                      ->paginate(5)
                                      ;
         
-        $messages = Cache::rememberForever('messages.paginate', function() use($appointment) {
-            return $appointment->messages()
+        $messages = $appointment->messages()
                  ->oldest()
                  ->paginate(50)
                  ; 
-            });
+        // $messages = Cache::rememberForever('messages.paginate', function() use($appointment) {
+        //     return $appointment->messages()
+        //          ->oldest()
+        //          ->paginate(50)
+        //          ; 
+        //     });
         // dd(Cache::has('messages.paginate'));
-        return view('messages.index', compact('messages', 'appointment', 'activeAppointments', 'inactiveAppointments'));
+        return view('messages.index', compact('appointment', 'user', 'messages', 'activeAppointments', 'inactiveAppointments'));
     }
 
     /**
@@ -58,25 +64,31 @@ class MessageController extends Controller
     {
         // Active + Pending Appointments.
         $activeAppointments = $doctor->appointments()
+                                     ->hasPrescription()
                                      // ->hasActiveCorrespondence()
                                      ->paginate(10)
                                      ;
 
         // Inactive + Past Successful Appointments.
         $inactiveAppointments = $doctor->appointments()
+                                     ->hasPrescription()
                                      // ->hasInactiveCorrespondence()
                                      ->paginate(5)
                                      ;
         
-        $messages = Cache::rememberForever('messages.paginate', function() use($appointment) {
-            return $appointment->messages()
+        $messages = $appointment->messages()
                  ->oldest()
                  ->paginate(50)
                  ;
-            }); 
+        // $messages = Cache::rememberForever('messages.paginate', function() use($appointment) {
+        //     return $appointment->messages()
+        //          ->oldest()
+        //          ->paginate(50)
+        //          ;
+        //     }); 
 
         // dd($messages, Cache::has('messages.paginate'));
-        return view('messages.index', compact('doctor', 'messages', 'appointment', 'activeAppointments', 'inactiveAppointments'));
+        return view('messages.index', compact('appointment', 'doctor', 'messages', 'activeAppointments', 'inactiveAppointments'));
     }
 
     /**

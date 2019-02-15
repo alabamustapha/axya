@@ -468,6 +468,8 @@ class Doctor extends Model
         return route('subscriptions.index', $this);
     }
 
+
+    /** N + 1 candidates  */
     public function getTransactionsCountAttribute() 
     {
         return $this->transactions()->whereStatus(1)->count();
@@ -487,6 +489,8 @@ class Doctor extends Model
     {
         return $this->subscriptions()->whereStatus(1)->count();
     }
+
+
 
     public function getIsActiveAttribute() 
     {

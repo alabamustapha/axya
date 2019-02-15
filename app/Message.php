@@ -65,6 +65,18 @@ class Message extends Model
     {
         return $this->user_id == $this->messageable->user_id;
     }
+    
+
+    public function owner()
+    {
+        return auth()->id() == $this->user_id; // $this->messageable->user_id;
+    }
+
+    public function appointmentDoctor()
+    {
+        return auth()->id() == $this->messageable->doctor_id;
+    }
+    
 
     public function hasPrescription()
     {
@@ -81,25 +93,6 @@ class Message extends Model
         }
     }
 
-    // public function owner()
-    // {
-    //     return auth()->id() == $this->messageable->user_id;
-    // }
-
-    // public function appointmentDoctor()
-    // {
-    //     return auth()->id() == $this->messageable->doctor_id;
-    // }
-
-
-    public function owner()
-    {
-        return $this->user_id == auth()->id();
-    }
-    public function ownerIsAppointmentOwner()
-    {
-        return $this->owner() == $this->isAppointmentAuthor();
-    }
 
 
     /** ~~~~~~~~~~ Caching Handling ~~~~~~~~~~ */

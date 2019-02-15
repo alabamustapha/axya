@@ -1,13 +1,25 @@
 @extends('layouts.master')
 
-@section('title', 'User Messages Index')
+{{-- @section(, 'User Messages Index') --}}
+
+@section('title')
+  @if (Request::is('*/messages/*'))
+    @if ($appointment->creator)
+      {{ __('Chats with') }} {{ $appointment->doctor->name }}
+    @else
+      {{ __('Chats with') }} {{ $appointment->user->name }}
+    @endif
+  @else
+    {{ __('Chats') }}
+  @endif
+@endsection
 
 @section('page-title')
   @if (Request::is('*/messages/*'))
     @if ($appointment->creator)
       <i class="fa fa-comments"></i>&nbsp; {{ __('Chats with') }} {{ $appointment->doctor->name }}
     @else
-    <i class="fa fa-comments"></i>&nbsp; {{ __('Chats with') }} {{ $appointment->user->name }}
+      <i class="fa fa-comments"></i>&nbsp; {{ __('Chats with') }} {{ $appointment->user->name }}
     @endif
   @else
     <i class="fa fa-comments"></i>&nbsp; {{ __('Chats') }}
@@ -50,11 +62,16 @@
                                
                             <span class="text-darker d-inline-block text-truncate name"> 
                               <span class="online-status online"></span>
-                              {{ $ac_appointment->doctor->name }}
-                                
+                              {{ $ac_appointment->doctor->name }}    
                             </span>
+
+                            <i class="fa {{ $ac_appointment->has_prescription ? 'fa-prescription':'' }}"></i>
+                            
                             <span id="msg-count" class="badge badge-danger">1</span>
-                            <span id="last-online">2m</span>
+
+                            <span id="last-online">
+                                <span>2m</span>
+                            </span>
                     
                           </div>
                         </div>
@@ -68,11 +85,16 @@
                              
                             <span class="text-darker d-inline-block text-truncate name"> 
                               <span class="online-status online"></span>
-                              {{ $ac_appointment->user->name }}
-                                
+                              {{ $ac_appointment->user->name }}    
                             </span>
+
+                            <i class="fa {{ $ac_appointment->has_prescription ? 'fa-prescription':'' }}"></i>
+                            
                             <span id="msg-count" class="badge badge-danger">1</span>
-                            <span id="last-online">2m</span>
+
+                            <span id="last-online">
+                                <span>2m</span>
+                            </span>
                     
                           </div>
                         </div>
@@ -101,7 +123,13 @@
                                     
                                 </span>
                                 <span id="msg-count" class="badge badge-danger">1</span>
-                                <span id="last-online">2m</span>
+
+                                <span id="last-online">
+                                    <span class="tf-flex">
+                                    <span>2m</span>
+                                    <i class="fa {{ $in_appointment->has_prescription ? 'fa-prescription':'' }}"></i>
+                                  </span>
+                                </span>
                           
                               </div>
                           </div>
@@ -119,7 +147,13 @@
                                     
                                 </span>
                                 <span id="msg-count" class="badge badge-danger">1</span>
-                                <span id="last-online">2m</span>
+
+                                <span id="last-online">
+                                    <span class="tf-flex">
+                                    <span>2m</span>
+                                    <i class="fa {{ $in_appointment->has_prescription ? 'fa-prescription':'' }}"></i>
+                                  </span>
+                                </span>
                           
                               </div>
                           </div>
@@ -232,8 +266,8 @@
                       </div>
                     @empty
 
-                      <div class="d-flex justify-content-center align-content-center">
-                        <p class="text-center">
+                      <div class="col-md-6 offset-md-3">
+                        <p>
                           Green  - Active <br>
                           Yellow - Pending (Awaiting schedule time) <br>
                           Red    - Past

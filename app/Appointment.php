@@ -20,7 +20,8 @@ class Appointment extends Model
         'correspondence_ends_at','correspondence_period_over','schedule_period_pending',
         'chatable',
         'status_text_color','status_text',
-        'schedule_is_past','within_booking_time_limit'
+        'schedule_is_past','within_booking_time_limit',
+        'has_prescription',
     ];
 
     protected $fillable = [
@@ -158,6 +159,16 @@ class Appointment extends Model
     }
 
 
+    public function scopeHasPrescription($query)
+    {
+        // Appointments that has drug prescriptions.
+        return $query->whereHas('messages.prescription');
+    }
+
+    public function getHasPrescriptionAttribute()
+    {
+        return !! $this->messages()->whereHas('prescription')->count();
+    }
 
     #~~ Status Related Scopes
     #------------------------------------------------#
@@ -350,7 +361,7 @@ class Appointment extends Model
     }
 
     public function getNoOfSessionsAttribute()
-    {//dd($this->doctor);
+    {
         $duration  = Carbon::parse($this->end_time)->diffInMinutes(Carbon::parse($this->start_time));
 
         $no_of_sessions = ceil($duration / $this->doctor->session);

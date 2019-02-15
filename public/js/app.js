@@ -30484,7 +30484,7 @@ Vue.component('schedule-list', __webpack_require__(175));
 Vue.component('schedule', __webpack_require__(178));
 Vue.component('prescription', __webpack_require__(180));
 Vue.component('drug', __webpack_require__(183));
-Vue.component('display-prescription', __webpack_require__(225));
+Vue.component('display-prescription', __webpack_require__(186));
 Vue.component('appointment-form', __webpack_require__(189));
 Vue.component('appointment-details', __webpack_require__(192));
 Vue.component('user-search', __webpack_require__(195));
@@ -73995,9 +73995,1143 @@ if (false) {
 }
 
 /***/ }),
-/* 186 */,
-/* 187 */,
-/* 188 */,
+/* 186 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(187)
+/* template */
+var __vue_template__ = __webpack_require__(188)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/DisplayPrescription.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7feffde1", Component.options)
+  } else {
+    hotAPI.reload("data-v-7feffde1", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 187 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['prescription', 'appointment'],
+
+  data: function data() {
+    return {
+      editing: false,
+      // Prescription
+      appointment_id: this.appointment.id,
+      general_usage: this.prescription.usage,
+      comment: this.prescription.comment,
+      drugs: this.prescription.drugs
+    };
+  },
+
+
+  methods: {
+    addNewDrugForm: function addNewDrugForm() {
+      this.drugs.push({
+        name: '',
+        texture: '',
+        dosage: '',
+        manufacturer: '',
+        usage: ''
+      });
+    },
+    removeDrugForm: function removeDrugForm(index) {
+      if (confirm('You really want to remove this section?')) {
+        this.drugs.splice(index, 1);
+      }
+    },
+    updatePrescription: function updatePrescription(id) {
+      var _this = this;
+
+      this.$Progress.start();
+      axios.patch('/prescriptions/' + id, {
+        appointment_id: this.appointment_id,
+        usage: this.general_usage,
+        comment: this.comment,
+        drugs: this.drugs
+      }).then(function () {
+        // Event.$emit('RefreshPage');
+        // this.$router.go(0); // Refreshes whole page!
+        _this.editing = false;
+        toast({
+          type: 'success',
+          title: 'Prescription updated successfully.'
+        });
+        _this.$Progress.finish();
+      }).catch(function () {
+        toast({
+          type: 'error',
+          title: 'Something went wrong! Try again with correct details.'
+        });
+        _this.$Progress.fail();
+      });
+    }
+  }
+
+});
+
+/***/ }),
+/* 188 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "card shadow" }, [
+      _c("div", { staticClass: "card-header" }, [
+        _c("div", { staticClass: "card-title" }, [
+          _c("div", { staticStyle: { "font-size": "12px" } }, [
+            _c("div", { staticClass: "pb-2 tf-flex border-bottom" }, [
+              _c(
+                "span",
+                {
+                  staticClass: "text-bold",
+                  attrs: { title: _vm.appointment.description }
+                },
+                [
+                  _c("i", { staticClass: "fa fa-info-circle" }),
+                  _vm._v(" Description: \n            ")
+                ]
+              ),
+              _vm._v(" "),
+              this.appointment.attendant_doctor
+                ? _c("span", [
+                    _vm.editing == true
+                      ? _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-sm btn-warning",
+                            attrs: { title: "Cancel Edit" },
+                            on: {
+                              click: function($event) {
+                                _vm.editing = false
+                              }
+                            }
+                          },
+                          [
+                            _c("i", { staticClass: "fa fa-times" }),
+                            _vm._v(" Cancel Edit\n              ")
+                          ]
+                        )
+                      : _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-sm btn-info",
+                            attrs: { title: "Edit Prescription" },
+                            on: {
+                              click: function($event) {
+                                _vm.editing = true
+                              }
+                            }
+                          },
+                          [
+                            _c("i", { staticClass: "fa fa-edit" }),
+                            _vm._v(" Edit\n              ")
+                          ]
+                        )
+                  ])
+                : _vm._e()
+            ]),
+            _vm._v(" "),
+            _c("div", [
+              _c("i", { staticClass: "fa fa-user-md" }),
+              _vm._v(" Doctor: \n\n            "),
+              _c(
+                "a",
+                {
+                  staticStyle: { color: "#6c757d !important" },
+                  attrs: {
+                    href: _vm.prescription.doctor.link,
+                    target: "_blank"
+                  }
+                },
+                [
+                  _vm._v(
+                    "\n              " +
+                      _vm._s(_vm.prescription.doctor.name) +
+                      "\n            "
+                  )
+                ]
+              )
+            ])
+          ])
+        ])
+      ]),
+      _vm._v(" "),
+      _vm.editing == true
+        ? _c("div", [
+            _c("div", { staticClass: "card-body p-2 p-sm-3" }, [
+              _c(
+                "form",
+                {
+                  staticClass: "mb-3",
+                  attrs: { id: "prescription_update_form" },
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      _vm.updatePrescription(_vm.prescription.id)
+                    }
+                  }
+                },
+                [
+                  _vm._l(_vm.drugs, function(drug, index) {
+                    return _c("div", { key: drug.id }, [
+                      _c("div", { staticClass: "card bg-light border-0" }, [
+                        _c("div", { staticClass: "card-header mb-1" }, [
+                          _c("span", { staticClass: "text-center" }, [
+                            _vm._v(
+                              "\n                  Drug " +
+                                _vm._s(index + 1) +
+                                " : "
+                            ),
+                            _c("span", { staticClass: "text-bold" }, [
+                              _vm._v(_vm._s(drug.name))
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("span", { staticClass: "card-tools" }, [
+                            _vm._m(0, true),
+                            _vm._v(" "),
+                            _vm.drugs.length > 1
+                              ? _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-tool px-2",
+                                    attrs: {
+                                      title: "Remove entity",
+                                      type: "button"
+                                    },
+                                    on: {
+                                      click: function($event) {
+                                        _vm.removeDrugForm(index)
+                                      }
+                                    }
+                                  },
+                                  [_c("i", { staticClass: "fa fa-times red" })]
+                                )
+                              : _vm._e()
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "card-body p-1 p-sm-2" }, [
+                          _c("div", { staticClass: "form-group mb-1" }, [
+                            _c("div", { staticClass: "row" }, [
+                              _c("div", { staticClass: "col-sm-6" }, [
+                                _vm._m(1, true),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: drug.name,
+                                      expression: "drug.name"
+                                    }
+                                  ],
+                                  staticClass: "form-control form-control-sm",
+                                  attrs: {
+                                    type: "text",
+                                    name: "name",
+                                    placeholder: "Name",
+                                    required: ""
+                                  },
+                                  domProps: { value: drug.name },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        drug,
+                                        "name",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                })
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col-sm-6" }, [
+                                _c(
+                                  "label",
+                                  {
+                                    staticClass: "pb-0 mb-0",
+                                    attrs: { for: "texture" }
+                                  },
+                                  [_vm._v("Texture")]
+                                ),
+                                _vm._v(" "),
+                                _c("br"),
+                                _vm._v(" "),
+                                _c(
+                                  "select",
+                                  {
+                                    directives: [
+                                      {
+                                        name: "model",
+                                        rawName: "v-model",
+                                        value: drug.texture,
+                                        expression: "drug.texture"
+                                      }
+                                    ],
+                                    staticClass: "form-control form-control-sm",
+                                    attrs: { name: "texture", id: "texture" },
+                                    on: {
+                                      change: function($event) {
+                                        var $$selectedVal = Array.prototype.filter
+                                          .call($event.target.options, function(
+                                            o
+                                          ) {
+                                            return o.selected
+                                          })
+                                          .map(function(o) {
+                                            var val =
+                                              "_value" in o ? o._value : o.value
+                                            return val
+                                          })
+                                        _vm.$set(
+                                          drug,
+                                          "texture",
+                                          $event.target.multiple
+                                            ? $$selectedVal
+                                            : $$selectedVal[0]
+                                        )
+                                      }
+                                    }
+                                  },
+                                  [
+                                    _c("option", { attrs: { value: "" } }, [
+                                      _vm._v("Choose one")
+                                    ]),
+                                    _vm._v(" "),
+                                    _c(
+                                      "option",
+                                      { attrs: { value: "tablet" } },
+                                      [_vm._v("Tablet")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "option",
+                                      { attrs: { value: "liquid" } },
+                                      [_vm._v("Liquid")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "option",
+                                      { attrs: { value: "capsule" } },
+                                      [_vm._v("Capsule")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "option",
+                                      { attrs: { value: "caplet" } },
+                                      [_vm._v("Caplet")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "option",
+                                      { attrs: { value: "powder" } },
+                                      [_vm._v("Powder")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "option",
+                                      { attrs: { value: "chewable" } },
+                                      [_vm._v("Chewable")]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "option",
+                                      { attrs: { value: "others" } },
+                                      [_vm._v("Others")]
+                                    )
+                                  ]
+                                )
+                              ])
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-group mb-1" }, [
+                            _c("div", { staticClass: "row" }, [
+                              _c("div", { staticClass: "col-sm-6" }, [
+                                _vm._m(2, true),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: drug.dosage,
+                                      expression: "drug.dosage"
+                                    }
+                                  ],
+                                  staticClass: "form-control form-control-sm",
+                                  attrs: {
+                                    type: "text",
+                                    name: "dosage",
+                                    placeholder: "dosage eg 2-2-2/50mg etc",
+                                    required: ""
+                                  },
+                                  domProps: { value: drug.dosage },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        drug,
+                                        "dosage",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                })
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col-sm-6" }, [
+                                _c(
+                                  "label",
+                                  {
+                                    staticClass: "pb-0 mb-0",
+                                    attrs: { for: "manufacturer" }
+                                  },
+                                  [_vm._v("Brand")]
+                                ),
+                                _vm._v(" "),
+                                _c("br"),
+                                _vm._v(" "),
+                                _c("input", {
+                                  directives: [
+                                    {
+                                      name: "model",
+                                      rawName: "v-model",
+                                      value: drug.manufacturer,
+                                      expression: "drug.manufacturer"
+                                    }
+                                  ],
+                                  staticClass: "form-control form-control-sm",
+                                  attrs: {
+                                    type: "text",
+                                    name: "manufacturer",
+                                    placeholder: "brand/manufacturer"
+                                  },
+                                  domProps: { value: drug.manufacturer },
+                                  on: {
+                                    input: function($event) {
+                                      if ($event.target.composing) {
+                                        return
+                                      }
+                                      _vm.$set(
+                                        drug,
+                                        "manufacturer",
+                                        $event.target.value
+                                      )
+                                    }
+                                  }
+                                })
+                              ])
+                            ])
+                          ]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "form-group mb-1" }, [
+                            _vm._m(3, true),
+                            _vm._v(" "),
+                            _c("textarea", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: drug.usage,
+                                  expression: "drug.usage"
+                                }
+                              ],
+                              staticClass: "form-control form-control-sm",
+                              staticStyle: {
+                                "min-height": "60px",
+                                "max-height": "180px"
+                              },
+                              attrs: {
+                                name: "usage",
+                                placeholder: "Short description on how to use",
+                                required: ""
+                              },
+                              domProps: { value: drug.usage },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.$set(drug, "usage", $event.target.value)
+                                }
+                              }
+                            })
+                          ])
+                        ])
+                      ])
+                    ])
+                  }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "display-section" }, [
+                    _c(
+                      "span",
+                      {
+                        staticClass: "btn btn-dark btn-sm mb-3",
+                        on: { click: _vm.addNewDrugForm }
+                      },
+                      [
+                        _c("i", { staticClass: "fa fa-plus" }),
+                        _vm._v("  Add New\n            ")
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _vm.drugs
+                      ? _c("div", { staticClass: "table-responsive mb-3" }, [
+                          _c(
+                            "table",
+                            { staticClass: "table table-sm" },
+                            [
+                              _vm._m(4),
+                              _vm._v(" "),
+                              _vm._l(_vm.drugs, function(drug, index) {
+                                return _c(
+                                  "tbody",
+                                  {
+                                    key: drug.id,
+                                    class:
+                                      index % 2 == 0 ? "bg-light" : "bg-dark"
+                                  },
+                                  [
+                                    _c("tr", [
+                                      _c("td", { attrs: { rowspan: "2" } }, [
+                                        _vm._v(_vm._s(index + 1))
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("td", [_vm._v(_vm._s(drug.name))]),
+                                      _vm._v(" "),
+                                      _c("td", [_vm._v(_vm._s(drug.texture))]),
+                                      _vm._v(" "),
+                                      _c("td", [_vm._v(_vm._s(drug.dosage))]),
+                                      _vm._v(" "),
+                                      _c("td", [
+                                        _vm._v(_vm._s(drug.manufacturer))
+                                      ])
+                                    ]),
+                                    _vm._v(" "),
+                                    _c("tr", [
+                                      _c("td", { attrs: { colspan: "4" } }, [
+                                        _c(
+                                          "span",
+                                          { staticClass: "text-bold" },
+                                          [_vm._v("Usage")]
+                                        ),
+                                        _vm._v(
+                                          "\n                      " +
+                                            _vm._s(drug.usage) +
+                                            "\n                    "
+                                        )
+                                      ])
+                                    ])
+                                  ]
+                                )
+                              }),
+                              _vm._v(" "),
+                              _c(
+                                "tbody",
+                                {
+                                  directives: [
+                                    {
+                                      name: "show",
+                                      rawName: "v-show",
+                                      value: !_vm.drugs.length,
+                                      expression: "! drugs.length"
+                                    }
+                                  ]
+                                },
+                                [_vm._m(5)]
+                              )
+                            ],
+                            2
+                          )
+                        ])
+                      : _vm._e()
+                  ]),
+                  _vm._v(" "),
+                  _c("hr"),
+                  _vm._v(" "),
+                  _c("div", [
+                    _c("div", { staticClass: "form-group" }, [
+                      _vm._m(6),
+                      _vm._v(" "),
+                      _c("textarea", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.general_usage,
+                            expression: "general_usage"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        staticStyle: {
+                          "min-height": "100px",
+                          "max-height": "150px"
+                        },
+                        attrs: {
+                          name: "usage",
+                          placeholder: "explain how to use the medications",
+                          required: ""
+                        },
+                        domProps: { value: _vm.general_usage },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.general_usage = $event.target.value
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "comment" } }, [
+                        _vm._v("Other comments on this prescription")
+                      ]),
+                      _vm._v(" "),
+                      _c("textarea", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.comment,
+                            expression: "comment"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        staticStyle: {
+                          "min-height": "100px",
+                          "max-height": "150px"
+                        },
+                        attrs: {
+                          name: "comment",
+                          placeholder: "more comments on this prescription"
+                        },
+                        domProps: { value: _vm.comment },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.comment = $event.target.value
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "button",
+                    {
+                      staticClass: "btn btn-lg btn-block btn-primary",
+                      attrs: { type: "submit" }
+                    },
+                    [_vm._v("Update Prescription")]
+                  )
+                ],
+                2
+              )
+            ])
+          ])
+        : _c("div", [
+            _c("div", { staticClass: "card-body p-2 p-sm-3 py-sm-1" }, [
+              _c("h5", { staticClass: "text-bold" }, [_vm._v("Drugs:")]),
+              _vm._v(" "),
+              _c("div", { staticClass: "table-responsive pb-1" }, [
+                _c(
+                  "table",
+                  { staticClass: "table table-sm table-bordered" },
+                  [
+                    _vm._m(7),
+                    _vm._v(" "),
+                    _vm._l(_vm.drugs, function(drug, index) {
+                      return _c(
+                        "tbody",
+                        {
+                          key: drug.id,
+                          class: index % 2 == 0 ? "bg-light" : "bg-dark"
+                        },
+                        [
+                          _c("tr", [
+                            _c("td", { attrs: { rowspan: "2" } }, [
+                              _vm._v(_vm._s(index + 1))
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(drug.name))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(drug.texture))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(drug.dosage))]),
+                            _vm._v(" "),
+                            _c("td", [_vm._v(_vm._s(drug.manufacturer))])
+                          ]),
+                          _vm._v(" "),
+                          _c("tr", [
+                            _c("td", { attrs: { colspan: "4" } }, [
+                              _c("span", { staticClass: "text-bold" }, [
+                                _vm._v("Usage: ")
+                              ]),
+                              _vm._v(
+                                "\n                  " +
+                                  _vm._s(drug.usage) +
+                                  "\n                "
+                              )
+                            ])
+                          ])
+                        ]
+                      )
+                    })
+                  ],
+                  2
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "card-footer" }, [
+              _c("div", { staticClass: "mb-3" }, [
+                _c("strong", { staticClass: "border-bottom" }, [
+                  _vm._v("Usage Information: ")
+                ]),
+                _vm._v(" "),
+                _c("br"),
+                _vm._v(" "),
+                _c("span", {
+                  domProps: { textContent: _vm._s(_vm.general_usage) }
+                })
+              ]),
+              _vm._v(" "),
+              _vm.prescription.comment
+                ? _c("div", [
+                    _c("strong", { staticClass: "border-bottom" }, [
+                      _vm._v("Comment: ")
+                    ]),
+                    _vm._v(" "),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("span", {
+                      domProps: { textContent: _vm._s(_vm.comment) }
+                    })
+                  ])
+                : _vm._e()
+            ])
+          ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "btn btn-tool pr-2",
+        attrs: {
+          title: "Minimize entity",
+          type: "button",
+          "data-widget": "collapse"
+        }
+      },
+      [_c("i", { staticClass: "fa fa-minus indigo" })]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "label",
+      { staticClass: "tf-flex pb-0 mb-0", attrs: { for: "name" } },
+      [
+        _c("span", [_vm._v("Name ")]),
+        _vm._v(" "),
+        _c("small", { staticClass: "red" }, [_vm._v("* req.")])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "label",
+      { staticClass: "tf-flex pb-0 mb-0", attrs: { for: "dosage" } },
+      [
+        _c("span", [_vm._v("Dosage")]),
+        _vm._v(" "),
+        _c("small", { staticClass: "red" }, [_vm._v("* req.")])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "label",
+      { staticClass: "tf-flex pb-0 mb-0", attrs: { for: "usage" } },
+      [
+        _c("span", [_vm._v("Usage")]),
+        _vm._v(" "),
+        _c("small", { staticClass: "red" }, [_vm._v("* req.")])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("td", [_vm._v("#")]),
+      _vm._v(" "),
+      _c("td", [_vm._v("Name")]),
+      _vm._v(" "),
+      _c("td", [_vm._v("Texture")]),
+      _vm._v(" "),
+      _c("td", [_vm._v("Dosage")]),
+      _vm._v(" "),
+      _c("td", [_vm._v("Manufacturer")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("td", { staticClass: "empty-list", attrs: { colspan: "5" } }, [
+        _vm._v("0 drugs added")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("label", { staticClass: "tf-flex", attrs: { for: "usage" } }, [
+      _c("span", [_vm._v("How to combine all prescribed drugs?")]),
+      _vm._v(" "),
+      _c("small", { staticClass: "red" }, [_vm._v("* req.")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("td", [_vm._v("#")]),
+      _vm._v(" "),
+      _c("td", [_vm._v("Name")]),
+      _vm._v(" "),
+      _c("td", [_vm._v("Texture")]),
+      _vm._v(" "),
+      _c("td", [_vm._v("Dosage")]),
+      _vm._v(" "),
+      _c("td", [_vm._v("Manufacturer")])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-7feffde1", module.exports)
+  }
+}
+
+/***/ }),
 /* 189 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -80009,1159 +81143,6 @@ module.exports = '\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u20
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 209 */,
-/* 210 */,
-/* 211 */,
-/* 212 */,
-/* 213 */,
-/* 214 */,
-/* 215 */,
-/* 216 */,
-/* 217 */,
-/* 218 */,
-/* 219 */,
-/* 220 */,
-/* 221 */,
-/* 222 */,
-/* 223 */,
-/* 224 */,
-/* 225 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(2)
-/* script */
-var __vue_script__ = __webpack_require__(226)
-/* template */
-var __vue_template__ = __webpack_require__(227)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/js/components/DisplayPrescription.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-7feffde1", Component.options)
-  } else {
-    hotAPI.reload("data-v-7feffde1", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 226 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['prescription', 'appointment'],
-
-  data: function data() {
-    return {
-      editing: false,
-      // Prescription
-      appointment_id: this.appointment.id,
-      general_usage: this.prescription.usage,
-      comment: this.prescription.comment,
-      drugs: this.prescription.drugs
-    };
-  },
-
-
-  methods: {
-    addNewDrugForm: function addNewDrugForm() {
-      this.drugs.push({
-        name: '',
-        texture: '',
-        dosage: '',
-        manufacturer: '',
-        usage: ''
-      });
-    },
-    removeDrugForm: function removeDrugForm(index) {
-      if (confirm('You really want to remove this section?')) {
-        this.drugs.splice(index, 1);
-      }
-    },
-    updatePrescription: function updatePrescription(id) {
-      var _this = this;
-
-      this.$Progress.start();
-      axios.patch('/prescriptions/' + id, {
-        appointment_id: this.appointment_id,
-        usage: this.general_usage,
-        comment: this.comment,
-        drugs: this.drugs
-      }).then(function () {
-        // Event.$emit('RefreshPage');
-        // this.$router.go(0); // Refreshes whole page!
-        _this.editing = false;
-        toast({
-          type: 'success',
-          title: 'Prescription updated successfully.'
-        });
-        _this.$Progress.finish();
-      }).catch(function () {
-        toast({
-          type: 'error',
-          title: 'Something went wrong! Try again with correct details.'
-        });
-        _this.$Progress.fail();
-      });
-    }
-  }
-
-});
-
-/***/ }),
-/* 227 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "card shadow" }, [
-      _c("div", { staticClass: "card-header" }, [
-        _c("div", { staticClass: "card-title" }, [
-          _c("div", { staticStyle: { "font-size": "12px" } }, [
-            _c("div", { staticClass: "pb-2 tf-flex border-bottom" }, [
-              _c(
-                "span",
-                {
-                  staticClass: "text-bold",
-                  attrs: { title: _vm.appointment.description }
-                },
-                [
-                  _c("i", { staticClass: "fa fa-info-circle" }),
-                  _vm._v(" Description: \n            ")
-                ]
-              ),
-              _vm._v(" "),
-              this.appointment.attendant_doctor
-                ? _c("span", [
-                    _vm.editing == true
-                      ? _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-sm btn-warning",
-                            attrs: { title: "Cancel Edit" },
-                            on: {
-                              click: function($event) {
-                                _vm.editing = false
-                              }
-                            }
-                          },
-                          [
-                            _c("i", { staticClass: "fa fa-times" }),
-                            _vm._v(" Cancel Edit\n              ")
-                          ]
-                        )
-                      : _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-sm btn-info",
-                            attrs: { title: "Edit Prescription" },
-                            on: {
-                              click: function($event) {
-                                _vm.editing = true
-                              }
-                            }
-                          },
-                          [
-                            _c("i", { staticClass: "fa fa-edit" }),
-                            _vm._v(" Edit\n              ")
-                          ]
-                        )
-                  ])
-                : _vm._e()
-            ]),
-            _vm._v(" "),
-            _c("div", [
-              _c("i", { staticClass: "fa fa-user-md" }),
-              _vm._v(" Doctor: \n\n            "),
-              _c(
-                "a",
-                {
-                  staticStyle: { color: "#6c757d !important" },
-                  attrs: {
-                    href: _vm.prescription.doctor.link,
-                    target: "_blank"
-                  }
-                },
-                [
-                  _vm._v(
-                    "\n              " +
-                      _vm._s(_vm.prescription.doctor.name) +
-                      "\n            "
-                  )
-                ]
-              )
-            ])
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _vm.editing == true
-        ? _c("div", [
-            _c("div", { staticClass: "card-body p-2 p-sm-3" }, [
-              _c(
-                "form",
-                {
-                  staticClass: "mb-3",
-                  attrs: { id: "prescription_update_form" },
-                  on: {
-                    submit: function($event) {
-                      $event.preventDefault()
-                      _vm.updatePrescription(_vm.prescription.id)
-                    }
-                  }
-                },
-                [
-                  _vm._l(_vm.drugs, function(drug, index) {
-                    return _c("div", { key: drug.id }, [
-                      _c("div", { staticClass: "card bg-light border-0" }, [
-                        _c("div", { staticClass: "card-header mb-1" }, [
-                          _c("span", { staticClass: "text-center" }, [
-                            _vm._v(
-                              "\n                  Drug " +
-                                _vm._s(index + 1) +
-                                " : "
-                            ),
-                            _c("span", { staticClass: "text-bold" }, [
-                              _vm._v(_vm._s(drug.name))
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("span", { staticClass: "card-tools" }, [
-                            _vm._m(0, true),
-                            _vm._v(" "),
-                            _vm.drugs.length > 1
-                              ? _c(
-                                  "button",
-                                  {
-                                    staticClass: "btn btn-tool px-2",
-                                    attrs: {
-                                      title: "Remove entity",
-                                      type: "button"
-                                    },
-                                    on: {
-                                      click: function($event) {
-                                        _vm.removeDrugForm(index)
-                                      }
-                                    }
-                                  },
-                                  [_c("i", { staticClass: "fa fa-times red" })]
-                                )
-                              : _vm._e()
-                          ])
-                        ]),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "card-body p-1 p-sm-2" }, [
-                          _c("div", { staticClass: "form-group mb-1" }, [
-                            _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col-sm-6" }, [
-                                _vm._m(1, true),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: drug.name,
-                                      expression: "drug.name"
-                                    }
-                                  ],
-                                  staticClass: "form-control form-control-sm",
-                                  attrs: {
-                                    type: "text",
-                                    name: "name",
-                                    placeholder: "Name",
-                                    required: ""
-                                  },
-                                  domProps: { value: drug.name },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.$set(
-                                        drug,
-                                        "name",
-                                        $event.target.value
-                                      )
-                                    }
-                                  }
-                                })
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col-sm-6" }, [
-                                _c(
-                                  "label",
-                                  {
-                                    staticClass: "pb-0 mb-0",
-                                    attrs: { for: "texture" }
-                                  },
-                                  [_vm._v("Texture")]
-                                ),
-                                _vm._v(" "),
-                                _c("br"),
-                                _vm._v(" "),
-                                _c(
-                                  "select",
-                                  {
-                                    directives: [
-                                      {
-                                        name: "model",
-                                        rawName: "v-model",
-                                        value: drug.texture,
-                                        expression: "drug.texture"
-                                      }
-                                    ],
-                                    staticClass: "form-control form-control-sm",
-                                    attrs: { name: "texture", id: "texture" },
-                                    on: {
-                                      change: function($event) {
-                                        var $$selectedVal = Array.prototype.filter
-                                          .call($event.target.options, function(
-                                            o
-                                          ) {
-                                            return o.selected
-                                          })
-                                          .map(function(o) {
-                                            var val =
-                                              "_value" in o ? o._value : o.value
-                                            return val
-                                          })
-                                        _vm.$set(
-                                          drug,
-                                          "texture",
-                                          $event.target.multiple
-                                            ? $$selectedVal
-                                            : $$selectedVal[0]
-                                        )
-                                      }
-                                    }
-                                  },
-                                  [
-                                    _c("option", { attrs: { value: "" } }, [
-                                      _vm._v("Choose one")
-                                    ]),
-                                    _vm._v(" "),
-                                    _c(
-                                      "option",
-                                      { attrs: { value: "tablet" } },
-                                      [_vm._v("Tablet")]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "option",
-                                      { attrs: { value: "liquid" } },
-                                      [_vm._v("Liquid")]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "option",
-                                      { attrs: { value: "capsule" } },
-                                      [_vm._v("Capsule")]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "option",
-                                      { attrs: { value: "caplet" } },
-                                      [_vm._v("Caplet")]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "option",
-                                      { attrs: { value: "powder" } },
-                                      [_vm._v("Powder")]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "option",
-                                      { attrs: { value: "chewable" } },
-                                      [_vm._v("Chewable")]
-                                    ),
-                                    _vm._v(" "),
-                                    _c(
-                                      "option",
-                                      { attrs: { value: "others" } },
-                                      [_vm._v("Others")]
-                                    )
-                                  ]
-                                )
-                              ])
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "form-group mb-1" }, [
-                            _c("div", { staticClass: "row" }, [
-                              _c("div", { staticClass: "col-sm-6" }, [
-                                _vm._m(2, true),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: drug.dosage,
-                                      expression: "drug.dosage"
-                                    }
-                                  ],
-                                  staticClass: "form-control form-control-sm",
-                                  attrs: {
-                                    type: "text",
-                                    name: "dosage",
-                                    placeholder: "dosage eg 2-2-2/50mg etc",
-                                    required: ""
-                                  },
-                                  domProps: { value: drug.dosage },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.$set(
-                                        drug,
-                                        "dosage",
-                                        $event.target.value
-                                      )
-                                    }
-                                  }
-                                })
-                              ]),
-                              _vm._v(" "),
-                              _c("div", { staticClass: "col-sm-6" }, [
-                                _c(
-                                  "label",
-                                  {
-                                    staticClass: "pb-0 mb-0",
-                                    attrs: { for: "manufacturer" }
-                                  },
-                                  [_vm._v("Brand")]
-                                ),
-                                _vm._v(" "),
-                                _c("br"),
-                                _vm._v(" "),
-                                _c("input", {
-                                  directives: [
-                                    {
-                                      name: "model",
-                                      rawName: "v-model",
-                                      value: drug.manufacturer,
-                                      expression: "drug.manufacturer"
-                                    }
-                                  ],
-                                  staticClass: "form-control form-control-sm",
-                                  attrs: {
-                                    type: "text",
-                                    name: "manufacturer",
-                                    placeholder: "brand/manufacturer"
-                                  },
-                                  domProps: { value: drug.manufacturer },
-                                  on: {
-                                    input: function($event) {
-                                      if ($event.target.composing) {
-                                        return
-                                      }
-                                      _vm.$set(
-                                        drug,
-                                        "manufacturer",
-                                        $event.target.value
-                                      )
-                                    }
-                                  }
-                                })
-                              ])
-                            ])
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "form-group mb-1" }, [
-                            _vm._m(3, true),
-                            _vm._v(" "),
-                            _c("textarea", {
-                              directives: [
-                                {
-                                  name: "model",
-                                  rawName: "v-model",
-                                  value: drug.usage,
-                                  expression: "drug.usage"
-                                }
-                              ],
-                              staticClass: "form-control form-control-sm",
-                              staticStyle: {
-                                "min-height": "60px",
-                                "max-height": "180px"
-                              },
-                              attrs: {
-                                name: "usage",
-                                placeholder: "Short description on how to use",
-                                required: ""
-                              },
-                              domProps: { value: drug.usage },
-                              on: {
-                                input: function($event) {
-                                  if ($event.target.composing) {
-                                    return
-                                  }
-                                  _vm.$set(drug, "usage", $event.target.value)
-                                }
-                              }
-                            })
-                          ])
-                        ])
-                      ])
-                    ])
-                  }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "display-section" }, [
-                    _c(
-                      "span",
-                      {
-                        staticClass: "btn btn-dark btn-sm mb-3",
-                        on: { click: _vm.addNewDrugForm }
-                      },
-                      [
-                        _c("i", { staticClass: "fa fa-plus" }),
-                        _vm._v("  Add New\n            ")
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _vm.drugs
-                      ? _c("div", { staticClass: "table-responsive mb-3" }, [
-                          _c(
-                            "table",
-                            { staticClass: "table table-sm" },
-                            [
-                              _vm._m(4),
-                              _vm._v(" "),
-                              _vm._l(_vm.drugs, function(drug, index) {
-                                return _c(
-                                  "tbody",
-                                  {
-                                    key: drug.id,
-                                    class:
-                                      index % 2 == 0 ? "bg-light" : "bg-dark"
-                                  },
-                                  [
-                                    _c("tr", [
-                                      _c("td", { attrs: { rowspan: "2" } }, [
-                                        _vm._v(_vm._s(index + 1))
-                                      ]),
-                                      _vm._v(" "),
-                                      _c("td", [_vm._v(_vm._s(drug.name))]),
-                                      _vm._v(" "),
-                                      _c("td", [_vm._v(_vm._s(drug.texture))]),
-                                      _vm._v(" "),
-                                      _c("td", [_vm._v(_vm._s(drug.dosage))]),
-                                      _vm._v(" "),
-                                      _c("td", [
-                                        _vm._v(_vm._s(drug.manufacturer))
-                                      ])
-                                    ]),
-                                    _vm._v(" "),
-                                    _c("tr", [
-                                      _c("td", { attrs: { colspan: "4" } }, [
-                                        _c(
-                                          "span",
-                                          { staticClass: "text-bold" },
-                                          [_vm._v("Usage")]
-                                        ),
-                                        _vm._v(
-                                          "\n                      " +
-                                            _vm._s(drug.usage) +
-                                            "\n                    "
-                                        )
-                                      ])
-                                    ])
-                                  ]
-                                )
-                              }),
-                              _vm._v(" "),
-                              _c(
-                                "tbody",
-                                {
-                                  directives: [
-                                    {
-                                      name: "show",
-                                      rawName: "v-show",
-                                      value: !_vm.drugs.length,
-                                      expression: "! drugs.length"
-                                    }
-                                  ]
-                                },
-                                [_vm._m(5)]
-                              )
-                            ],
-                            2
-                          )
-                        ])
-                      : _vm._e()
-                  ]),
-                  _vm._v(" "),
-                  _c("hr"),
-                  _vm._v(" "),
-                  _c("div", [
-                    _c("div", { staticClass: "form-group" }, [
-                      _vm._m(6),
-                      _vm._v(" "),
-                      _c("textarea", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.general_usage,
-                            expression: "general_usage"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        staticStyle: {
-                          "min-height": "100px",
-                          "max-height": "150px"
-                        },
-                        attrs: {
-                          name: "usage",
-                          placeholder: "explain how to use the medications",
-                          required: ""
-                        },
-                        domProps: { value: _vm.general_usage },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.general_usage = $event.target.value
-                          }
-                        }
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "form-group" }, [
-                      _c("label", { attrs: { for: "comment" } }, [
-                        _vm._v("Other comments on this prescription")
-                      ]),
-                      _vm._v(" "),
-                      _c("textarea", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.comment,
-                            expression: "comment"
-                          }
-                        ],
-                        staticClass: "form-control",
-                        staticStyle: {
-                          "min-height": "100px",
-                          "max-height": "150px"
-                        },
-                        attrs: {
-                          name: "comment",
-                          placeholder: "more comments on this prescription"
-                        },
-                        domProps: { value: _vm.comment },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.comment = $event.target.value
-                          }
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-lg btn-block btn-primary",
-                      attrs: { type: "submit" }
-                    },
-                    [_vm._v("Update Prescription")]
-                  )
-                ],
-                2
-              )
-            ])
-          ])
-        : _c("div", [
-            _c("div", { staticClass: "card-body p-2 p-sm-3 py-sm-1" }, [
-              _c("h5", { staticClass: "text-bold" }, [_vm._v("Drugs:")]),
-              _vm._v(" "),
-              _c("div", { staticClass: "table-responsive pb-1" }, [
-                _c(
-                  "table",
-                  { staticClass: "table table-sm table-bordered" },
-                  [
-                    _vm._m(7),
-                    _vm._v(" "),
-                    _vm._l(_vm.drugs, function(drug, index) {
-                      return _c(
-                        "tbody",
-                        {
-                          key: drug.id,
-                          class: index % 2 == 0 ? "bg-light" : "bg-dark"
-                        },
-                        [
-                          _c("tr", [
-                            _c("td", { attrs: { rowspan: "2" } }, [
-                              _vm._v(_vm._s(index + 1))
-                            ]),
-                            _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(drug.name))]),
-                            _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(drug.texture))]),
-                            _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(drug.dosage))]),
-                            _vm._v(" "),
-                            _c("td", [_vm._v(_vm._s(drug.manufacturer))])
-                          ]),
-                          _vm._v(" "),
-                          _c("tr", [
-                            _c("td", { attrs: { colspan: "4" } }, [
-                              _c("span", { staticClass: "text-bold" }, [
-                                _vm._v("Usage: ")
-                              ]),
-                              _vm._v(
-                                "\n                  " +
-                                  _vm._s(drug.usage) +
-                                  "\n                "
-                              )
-                            ])
-                          ])
-                        ]
-                      )
-                    })
-                  ],
-                  2
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "card-footer" }, [
-              _c("div", { staticClass: "mb-3" }, [
-                _c("strong", { staticClass: "border-bottom" }, [
-                  _vm._v("Usage Information: ")
-                ]),
-                _vm._v(" "),
-                _c("br"),
-                _vm._v(" "),
-                _c("span", {
-                  domProps: { textContent: _vm._s(_vm.general_usage) }
-                })
-              ]),
-              _vm._v(" "),
-              _vm.prescription.comment
-                ? _c("div", [
-                    _c("strong", { staticClass: "border-bottom" }, [
-                      _vm._v("Comment: ")
-                    ]),
-                    _vm._v(" "),
-                    _c("br"),
-                    _vm._v(" "),
-                    _c("span", {
-                      domProps: { textContent: _vm._s(_vm.comment) }
-                    })
-                  ])
-                : _vm._e()
-            ])
-          ])
-    ])
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "button",
-      {
-        staticClass: "btn btn-tool pr-2",
-        attrs: {
-          title: "Minimize entity",
-          type: "button",
-          "data-widget": "collapse"
-        }
-      },
-      [_c("i", { staticClass: "fa fa-minus indigo" })]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "label",
-      { staticClass: "tf-flex pb-0 mb-0", attrs: { for: "name" } },
-      [
-        _c("span", [_vm._v("Name ")]),
-        _vm._v(" "),
-        _c("small", { staticClass: "red" }, [_vm._v("* req.")])
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "label",
-      { staticClass: "tf-flex pb-0 mb-0", attrs: { for: "dosage" } },
-      [
-        _c("span", [_vm._v("Dosage")]),
-        _vm._v(" "),
-        _c("small", { staticClass: "red" }, [_vm._v("* req.")])
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "label",
-      { staticClass: "tf-flex pb-0 mb-0", attrs: { for: "usage" } },
-      [
-        _c("span", [_vm._v("Usage")]),
-        _vm._v(" "),
-        _c("small", { staticClass: "red" }, [_vm._v("* req.")])
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", [_vm._v("#")]),
-      _vm._v(" "),
-      _c("td", [_vm._v("Name")]),
-      _vm._v(" "),
-      _c("td", [_vm._v("Texture")]),
-      _vm._v(" "),
-      _c("td", [_vm._v("Dosage")]),
-      _vm._v(" "),
-      _c("td", [_vm._v("Manufacturer")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", { staticClass: "empty-list", attrs: { colspan: "5" } }, [
-        _vm._v("0 drugs added")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("label", { staticClass: "tf-flex", attrs: { for: "usage" } }, [
-      _c("span", [_vm._v("How to combine all prescribed drugs?")]),
-      _vm._v(" "),
-      _c("small", { staticClass: "red" }, [_vm._v("* req.")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", [_vm._v("#")]),
-      _vm._v(" "),
-      _c("td", [_vm._v("Name")]),
-      _vm._v(" "),
-      _c("td", [_vm._v("Texture")]),
-      _vm._v(" "),
-      _c("td", [_vm._v("Dosage")]),
-      _vm._v(" "),
-      _c("td", [_vm._v("Manufacturer")])
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-7feffde1", module.exports)
-  }
-}
 
 /***/ })
 /******/ ]);
