@@ -30439,7 +30439,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_4_vue_router__["a" /* default */]);
 Vue.use(__WEBPACK_IMPORTED_MODULE_5_vue_progressbar___default.a, {
     color: 'rgb(143, 255, 199)',
     failedColor: 'red',
-    height: '3px'
+    height: '8px'
 });
 
 // SweetAlert:
@@ -72699,7 +72699,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     createPrescription: function createPrescription() {
       var _this = this;
 
-      alert(this.appointment.id);
       this.$Progress.start();
       axios.post('/prescriptions', {
         appointment_id: this.appointment.id,

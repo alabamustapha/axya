@@ -203,7 +203,7 @@
         this.drugs.splice(index, 1)
       },
       createPrescription() {
-        alert(this.appointment.id);
+        
         this.$Progress.start();
         axios.post('/prescriptions', {
           appointment_id: this.appointment.id,
