@@ -47,7 +47,7 @@
         </div>
     </div>
 
-    <form action="{{route('transactions.store')}}" method="post">
+    <form action="{{route('transactions.store', $appointment->user)}}" method="post">
         @csrf
         <input type="hidden" name="appointment_id" value="{{$appointment->id}}">
         <button type="submit" class="btn btn-lg btn-block btn-info">Pay Consultation Fee</button>

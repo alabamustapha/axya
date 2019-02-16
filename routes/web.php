@@ -109,8 +109,11 @@ Route::resource('appointments',  'AppointmentController')->except('index','creat
 Route::resource('prescriptions', 'PrescriptionController')->except('index');
 Route::resource('drugs',         'DrugController');
 Route::resource('reviews',       'ReviewController');
-Route::resource('transactions',  'TransactionController')->except('index');
 Route::resource('subscriptions', 'SubscriptionController')->except('index');
+  
+Route::prefix('{user}')->group(function() {
+  Route::resource('transactions',  'TransactionController')->except('index');
+});
 
 
 

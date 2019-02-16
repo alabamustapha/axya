@@ -213,17 +213,17 @@ class Doctor extends Model
      * 
      * @return array
      */
-    public function inPastPatients()
+    public function hasWaitedPatientBefore($userId)
     {
         $ids = $this->patients()
                     ->pluck('id')->toArray();
 
         $patientIds = array_unique($ids);
 
-        return in_array(request()->user()->id, $patientIds);
+        return in_array($userId, $patientIds);
     }
 
-    public function inAllPatients()
+    public function hasActivityWithPatient($userId)
     {
         $ids = $this->appointments()
                   ->pluck('user_id')
@@ -232,7 +232,7 @@ class Doctor extends Model
 
         $patientIds = array_unique($ids);
 
-        return in_array(request()->user()->id, $patientIds);
+        return in_array($userId, $patientIds);
     }
 
 
