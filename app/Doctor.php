@@ -26,7 +26,7 @@ class Doctor extends Model
 
     protected $appends = [
       'name','link','avatar','practice_years','is_active','availability_text',
-      'license_status','is_suspended','availability_status',
+      'license_status','is_suspended','availability_status','subscription_end_formatted',
       'rating','rating_digit',
       'adjusted_subscription_end','is_subscribed','patients_count',
       'pending_appointments_count','appointments_count','transactions_count','subscriptions_count',
@@ -292,7 +292,7 @@ class Doctor extends Model
      */
     public function isSubscribed()
     {
-        return $this->subscription_ends_at > Carbon::now();
+        return !! (!is_null($this->subscription_ends_at) && $this->subscription_ends_at > Carbon::now());
     }
 
     /**
@@ -372,6 +372,14 @@ class Doctor extends Model
         return $this->isSubscribed();
     }
 
+    public function getSubscriptionEndFormattedAttribute()
+    {
+        return !is_null($this->subscription_ends_at )
+             ? $this->subscription_ends_at->format('D M d, Y')
+             : null
+             ;
+    }
+
     public function getRatingAttribute()
     {
         $total_reviews = $this->appointments()->reviewed()->get()->count();
@@ -424,7 +432,10 @@ class Doctor extends Model
 
     public function getAdjustedSubscriptionEndAttribute()
     {
-      return is_null($this->subscription_ends_at) ? Carbon::parse(Carbon::now())->subSeconds(1) : $this->subscription_ends_at;
+      return is_null($this->subscription_ends_at) 
+                ? Carbon::parse(Carbon::now())->subSeconds(1) 
+                : $this->subscription_ends_at
+                ;
     }
 
 
