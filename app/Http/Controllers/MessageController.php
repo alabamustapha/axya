@@ -16,7 +16,7 @@ class MessageController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('verified');
-        $this->middleware('patient')->except('drindex', 'store');
+        $this->middleware('patient')->only('index');
         $this->middleware('doctor')->only('drindex');
     }
 

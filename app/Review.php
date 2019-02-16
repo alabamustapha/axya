@@ -10,6 +10,10 @@ class Review extends Model
         'user_id','doctor_id','appointment_id','comment','rating',
     ];
 
+    protected $with = [
+        'user'
+    ];
+
     protected $appends = [
         'author'
     ];

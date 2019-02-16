@@ -176,6 +176,7 @@ class PrescriptionsFeatureTest extends TestCase
     // /** @test */
     // public function delete_a_prescription_can_be_removed()
     // {
+    //     // Problems with $appends[]
     //     $this
     //         ->actingAs($this->doc_user)
     //         ->delete(route('prescriptions.destroy', $this->prescription))
