@@ -197,7 +197,10 @@ trait ImageProcessing
             $image->thumbnail_url  = $image_tb_location;
         }
 
-        $model->images()->save($image);
+        (get_class($model) == 'App\Message') 
+            ? $model->image()->save($image)
+            : $model->images()->save($image)
+            ;
         // dd($model->images()->first()->caption);
 
         return;

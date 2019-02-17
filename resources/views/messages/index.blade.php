@@ -270,7 +270,7 @@
 
               <div class="msg-chat-body scroll">
                   <div class="chat clearfix">
-                    @forelse ($messages->load('prescription') as $message)
+                    @forelse ($messages->load('prescription', 'image') as $message)
                       <div class="msg-bubble" id="_{{ md5($message->id) }}">
                         <div class="bubble
                             @if($message->owner())
@@ -284,7 +284,7 @@
 
                           @if ($message->prescription)
 
-                            <h6 class="pb-1 border-bottom tf-flex">
+                            <h6 class="pb-1 border-bottom text-left">
                               <span>
                                 <i class="fa fa-prescription"></i>
                                 {{ $message->body }}
@@ -292,6 +292,16 @@
                             </h6>
 
                             <display-prescription :appointment="{{ $appointment }}" :prescription="{{ $message->prescription }}"><display-prescription>
+
+                          @elseif ($message->image)
+
+                            <img src="{{$message->image->url}}" class="img-fluid">
+
+                            <div class="pt-1 text-left">
+                              <span>
+                                {{ $message->body }}
+                              </span>
+                            </div>
 
                           @else
 
@@ -303,6 +313,9 @@
                     @empty
 
                       <div class="col-md-6 offset-md-3">
+                        <p>
+                          <strong>Select a chat now...</strong>
+                        </p>
                         <p>
                           Green  - Active <br>
                           Yellow - Pending (Awaiting schedule time) <br>
@@ -328,7 +341,7 @@
                           </a>
                         @endif
 
-                        <a class="float-right text-muted" title="Upload files">
+                        <a class="float-right text-muted" data-toggle="modal" data-target="#uploadFilesForm" title="Upload files">
                             <i class="fas fa-paperclip fa-lg"></i>
                         </a>
                         <button type="submit" class="float-right send-btn" title="Submit message">
@@ -396,5 +409,47 @@
       </div>
     </div>
   @endif
+
+
+  <div class="modal" tabindex="-1" role="dialog" id="uploadFilesForm" style="display:none;" aria-labelledby="uploadFilesFormLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+      <div class="modal-content px-3">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 5px 15px 0px;margin:10px auto -25px">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <br>
+        <div class="modal-body">
+          <div class="text-center">
+            <div class="form-group text-center">
+              <label for="image_file" class="h5">Upload Chat Related Files</label>
+            </div>
+          </div>
+
+          <form action="{{route('chat.file.upload', $appointment)}}" method="post" enctype="multipart/form-data">
+          {{-- <form action="{{route('user.image_file.upload', $user)}}" method="post" enctype="multipart/form-data"> --}}
+            {{ csrf_field() }} 
+
+            <div class="form-group text-center">
+              <input type="file" name="image_file[]" id="image_file" class="form-control{{ $errors->has('image_file') ? ' is-invalid' : '' }}" accept="image/*" required>
+
+              @if ($errors->has('image_file'))
+                  <span class="invalid-feedback" role="alert">
+                      <strong>{{ $errors->first('image_file') }}</strong>
+                  </span>
+              @endif
+            </div> 
+
+            <div class="form-group">
+              <input type="text" name="caption" class="form-control" placeholder="write caption" required>
+            </div>
+
+            <div class="form-group">
+              <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-image"></i> Upload File</button>
+            </div>
+          </form> 
+        </div>
+      </div>
+    </div>
+  </div>
 
 @endsection

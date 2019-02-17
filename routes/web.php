@@ -121,6 +121,8 @@ Route::get('{user}/messages/{appointment?}', 'MessageController@index')->name('m
 Route::post('messages/{appointment}', 'MessageController@store')->name('messages.store');
 Route::delete('messages/{message}',  'MessageController@destroy')->name('messages.destroy');
 
+Route::post('messages/{appointment}/chat-file-upload', 'MessageController@fileUpload')->name('chat.file.upload');
+
 Route::get('processor-response', 'PaymentController@paymentResponse')->name('processor-response');
 
 

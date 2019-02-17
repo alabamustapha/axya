@@ -6,12 +6,15 @@ use App\Appointment;
 use App\Doctor;
 use App\Http\Requests\MessageRequest;
 use App\Message;
+use App\Traits\ImageProcessing;
 use App\User;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class MessageController extends Controller
 {
+    use ImageProcessing;
+
     public function __construct()
     {
         $this->middleware('auth');
@@ -161,5 +164,21 @@ class MessageController extends Controller
 
         flash($msg)->info();
         return redirect()->route('appointments.show', $message->messageable);
+    }
+
+    public function fileUpload(Request $request, Appointment $appointment) 
+    {
+        $message = $appointment->messages()->create([
+                'user_id'         => auth()->id(),
+                'body'            => $request->caption,
+            ]);
+
+        $request->merge(['no_resize' => true]);
+
+        $this->imageProcessing($request, $message);
+        
+        flash('Image was successfully uploaded.')->success();
+
+        return back();
     }
 }
