@@ -58,6 +58,7 @@ trait ImageProcessing
     # Works for every other models
     public function imageProcessing(Request $request, $model)
     {
+        // dd('actual Processing');
         $model_frags    = explode('\\', get_class($model));
         $modelClassName = end($model_frags); 
         $unique_time    = time();
@@ -67,8 +68,14 @@ trait ImageProcessing
         // $this->authorize('upload', $model);
 
         if ($request->file('image_file')) {
+
+            if (! is_array($request->file('image_file'))) {
+                request()->validate([
+                    'image_file' => 'required|array|max:5',
+                ]);
+            }
+
             request()->validate([
-                'image_file' => 'required|array|max:5',
                 'image_file.*'=> 'required|file|image|max:2000|mimes:jpeg,png|dimensions:min_width=300,min_height=300',
                 'caption'   => 'required_with:image_file|string|max:255',
             ],
@@ -79,13 +86,14 @@ trait ImageProcessing
                 'image_file.*.max' => 'Image size must be a maximum of 2mb.',
             ]);
 
+
             $uploads_count = count($request->file('image_file'));
             
             foreach ($request->file('image_file') as $image_file) 
             {
                 $unique_id = uniqid();
 
-                $this->resizeImage($model, $image_file, $modelClassName, $unique_time, $unique_id);
+                $this->resizeImage($request, $model, $image_file, $modelClassName, $unique_time, $unique_id);
 
                 ## Move to storage provider by job.
                 // $this->dispatch(new $uploadModelImage($model, $filename));
@@ -105,8 +113,9 @@ trait ImageProcessing
      *
      * Saving to storage provider (eg S3, dropbox) is done within $uploadModelImage($model, $filename)
      */
-    public function resizeImage($model, $image_file, $modelClassName, $unique_time, $unique_id) 
+    public function resizeImage(Request $request, $model, $image_file, $modelClassName, $unique_time, $unique_id) 
     {
+        // dd('resize script');
         # Set basename for file.
         $filename = $model->slug 
                           ? $model->slug .'-'. $unique_time . $unique_id
@@ -114,21 +123,23 @@ trait ImageProcessing
                           ;
         $directory = public_path() .'/uploads/images/'. strtolower(str_plural($modelClassName)); 
 
-        # Once processed and moved to storage, image file is no more available 
-        # thus the need to hold as much as is needed with different variable names.
-        $image_file_tb = $image_file;
-        $image_file_md = $image_file;
+        if (! $request->no_resize) {
+            # Once processed and moved to storage, image file is no more available 
+            # thus the need to hold as much as is needed with different variable names.
+            $image_file_tb = $image_file;
+            $image_file_md = $image_file;
 
-        # Save to disk (temporarily)
-        // Make Thumbnail:
-        IntImage::make($image_file_tb)
-                ->fit(180)//resize(150,150, function($constraint){ $constraint->aspectRatio(); })
-                ->save($directory .'/'. $filename .'-tb.png');
+            # Save to disk (temporarily)
+            // Make Thumbnail:
+            IntImage::make($image_file_tb)
+                    ->fit(180)//resize(150,150, function($constraint){ $constraint->aspectRatio(); })
+                    ->save($directory .'/'. $filename .'-tb.png');
 
-        // Make Medium:
-        IntImage::make($image_file_md)
-                ->resize(400,400, function($constraint){ $constraint->aspectRatio(); })
-                ->save($directory .'/'. $filename .'-md.png');
+            // Make Medium:
+            IntImage::make($image_file_md)
+                    ->resize(400,400, function($constraint){ $constraint->aspectRatio(); })
+                    ->save($directory .'/'. $filename .'-md.png');
+        }
 
         // Move Original:
         $image_file->move($directory .'/', $filename . '.png');
@@ -143,6 +154,7 @@ trait ImageProcessing
      */
     public function saveImageInfo(Request $request, $model, $modelClassName, $unique_time, $unique_id) 
     {
+        // dd('save info');
         # Set basename for file.
         $filename = $model->slug 
                         ? $model->slug .'-'. $unique_time . $unique_id 
@@ -151,9 +163,18 @@ trait ImageProcessing
         $directory = config('filesystems.storage.images') 
                         . '/'. strtolower(str_plural($modelClassName))
                         ;
-        $image_location    = $directory .'/'. $filename .    '.png';
-        $image_md_location = $directory .'/'. $filename . '-md.png';
-        $image_tb_location = $directory .'/'. $filename . '-tb.png';
+
+        if ($request->no_resize) {
+
+            $image_location    = $directory .'/'. $filename .    '.png';
+            
+        } else {
+
+            $image_location    = $directory .'/'. $filename .    '.png';
+            $image_md_location = $directory .'/'. $filename . '-md.png';
+            $image_tb_location = $directory .'/'. $filename . '-tb.png';
+
+        }
         
         
         if ($request->file('avatar')) {
@@ -166,14 +187,18 @@ trait ImageProcessing
 
         $image->user_id        = auth()->id();
         $image->url            = $image_location;
-        $image->cover          = ! $model->images->count() ? '1':'0';
-        $image->medium_url     = $image_md_location;
-        $image->thumbnail_url  = $image_tb_location;
         $image->caption        = $request->caption;
         $image->imageable_id   = $model->id;
         $image->imageable_type = get_class($model);
 
+        if (! $request->no_resize) {
+            $image->cover          = $request->file('avatar') ? (! $model->images->count() ? '1':'0'):false;
+            $image->medium_url     = $image_md_location;
+            $image->thumbnail_url  = $image_tb_location;
+        }
+
         $model->images()->save($image);
+        // dd($model->images()->first()->caption);
 
         return;
     }
