@@ -234,7 +234,7 @@
                                     @foreach ($prescriptions as $key => $pr)
                                     {{--  class="btn btn-dark btn-sm btn-block text-white m-1" --}}
                                       <li class="p-1 m-1">
-                                        <a href="#_{{ md5($pr) }}" class="py-1 px-2 m-1 bg-dark rounded">
+                                        <a href="{{Request::url()}}/#_{{ md5($pr) }}" class="py-1 px-2 m-1 bg-dark rounded">
                                           <span class="text-white">
                                             <span class="font-weight-bold">
                                               <i class="fa fa-prescription"></i>&nbsp;
