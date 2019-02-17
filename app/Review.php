@@ -11,7 +11,7 @@ class Review extends Model
     ];
 
     protected $with = [
-        'user'
+        'user', 'doctor'
     ];
 
     protected $appends = [

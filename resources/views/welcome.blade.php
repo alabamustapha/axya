@@ -220,11 +220,15 @@
                                         </div>
                                         <span class="ratings">
                                             <span>
-                                              @for($i=1; $i <= $doctor->rating_digit; $i++)
+                                              @php
+                                                $rating = $doctor->rating_digit;
+                                              @endphp
+                                              
+                                              @for($i=1; $i <= $rating; $i++)
                                                 <i class="fas fa-star pr-0 mr-0"></i>
                                               @endfor
 
-                                              @for($i=1; $i <= (5 - $doctor->rating_digit); $i++)
+                                              @for($i=1; $i <= (5 - $rating); $i++)
                                                 <i class="fas fa-star pr-0 mr-0 text-muted"></i>
                                               @endfor
                                             </span>
