@@ -68,7 +68,10 @@
       </div>
     </div>
     --}}
-    <div class="jumbotron bg-white">    
+    <div class="jumbotron bg-white">
+      
+      @include('doctors.forms.fb-schedules')    
+
       <div class="row">
         <div class="col-md-3 text-center">
             <img class="rounded-circle" src="{{ $doctor->user->avatar }}" style="width:200px;" width="25">
