@@ -6,7 +6,7 @@ $factory->define(App\Image::class, function (Faker $faker) {
     $img_url   = $faker->imageUrl;
     $img_url_m = $img_url . '-md';
     $img_url_t = $img_url . '-tb';
-    $model_type= $faker->randomElement(['App\User','App\Report','App\Officer',]);
+    $model_type= $faker->randomElement(['App\User','App\Message',]);
 
     return [
       'user_id'       => factory(App\User::class)->create()->id,

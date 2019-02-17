@@ -6,6 +6,7 @@ use App\Appointment;
 use App\Doctor;
 use App\Document;
 use App\Message;
+use App\Image;
 use App\Specialty;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -48,9 +49,14 @@ class MessagesTest extends TestCase
     }
 
     /** @test */
-    public function a_message_has_many_images()
+    public function a_message_has_or_morphs_one_image()
     {
-        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->message->images); 
+        // Method 1:       
+        $image = factory(Image::class)->create([
+            'imageable_id'=> $this->message->id,
+            'imageable_type'=> 'App\Message',
+        ]);
+        $this->assertInstanceOf(Image::class, $this->message->image); 
     }
 
     /** @test */
