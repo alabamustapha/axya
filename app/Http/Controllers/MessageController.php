@@ -47,13 +47,14 @@ class MessageController extends Controller
                  ; 
         $prescriptions = $appointment->prescriptions()->pluck('message_id', 'created_at');
 
-        // $messages = Cache::rememberForever('messages.paginate', function() use($appointment) {
+        // $cachedChatName = 'chat_messages_'. $appointment->id;
+        // $messages = Cache::rememberForever($cachedChatName, function() use($appointment) {
         //     return $appointment->messages()
         //          ->oldest()
         //          ->paginate(50)
         //          ; 
         //     });
-        // dd(Cache::has('messages.paginate'));
+        // dd(Cache::has($cachedChatName));
         return view('messages.index', 
             compact(
                 'appointment', 
