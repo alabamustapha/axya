@@ -80,7 +80,7 @@ class Message extends Model
 
     public function hasPrescription()
     {
-        return starts_with($this->body, 'View Prescription:');
+        return starts_with($this->body, 'New Prescription');
     }
 
     public function displayPrescription()
