@@ -38,8 +38,8 @@
           @endif
         @endif
       @endunless
-
-      @if (Auth::user()->isDoctor() && !Auth::user()->doctor->isSubscribed() && Request::is('*/notifications'))
+{{-- 
+      @if (Auth::user()->isDoctor() && !Auth::user()->doctor->is_subscribed && Request::is('*/notifications'))
         <small>
           You must be subscribed to appear in search results and to receive appointment from patients on this platform.
           
@@ -49,7 +49,7 @@
             data-toggle="modal" data-target="#newSubscriptionForm" 
             title="New Subscription">Subscribe Now</button>
         </small>
-      @endif
+      @endif --}}
     </div>
   @endauth
 @endif

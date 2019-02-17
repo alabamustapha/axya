@@ -6,10 +6,18 @@ $factory->define(App\Message::class, function (Faker $faker) {
     $model_type= $faker->randomElement(['App\Appointment'/*,'App\Complaint',*/]);
 
     return [
-      'user_id'       => factory(App\User::class)->create()->id,
+      'user_id'       => App\User::all()->random()->id,
       'body'          => $faker->sentences(2,5),
 
-      'messageable_id'=> $faker->numberBetween(1,5),
+      'messageable_id'=> App\Appointment::all()->random()->id,
       'messageable_type'=> $model_type,
     ];
+});
+
+
+$factory->state(App\Message::class, 'appointment', function (Faker $faker) { 
+  return [
+      'messageable_id'   => App\Appointment::all()->random()->id,
+      'messageable_type' => 'App\Appointment',
+  ];
 });

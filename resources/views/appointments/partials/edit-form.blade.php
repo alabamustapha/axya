@@ -233,62 +233,6 @@
                       </div>
                     </div>
 
-
-                    {{-- 
-                        <div class="form-row">
-                            <div class="col-md-6{{--  pr-5 pl-4 -}}">
-                                
-                                <div class="form-group">
-                                    <label for="description">description*</label>
-                                   <textarea name="description" id="description" rows="4" class="form-control form-default"></textarea>
-                                </div>
-                            </div>
-                            <div class="col-md-6 pl-5 pr-4">
-                                
-                                <div class="form-group">
-                                    <label for="date">Select Date*</label>
-                                    <input type="date" class="form-control form-default" name="date" id="date">
-                                </div>
-                                <div class="form-group">
-                                    <label for="date">Time*</label>
-                                    <input type="time" class="form-control form-default" name="time" id="time">
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="text-center my-4">
-                            <span class="text-theme-blue small">other fields will be available once doctor receives appoitment</span>
-                        </div>
-                        <div class="form-row">
-                            <div class="col-md-6 pr-5 pl-4">
-                        
-                                <div class="form-group">
-                                    <label for="history">History of Illness*</label>
-                                    <textarea name="history" id="history" rows="4" class="form-control form-default"></textarea>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="duration">Duration*</label>
-                                    <select class="custom-select form-default">
-                                       
-                                        <option value="1" selected="">1week</option>
-                                        <option value="2">2weeks</option>
-                                        <option value="3">3weeks</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="duration">Pay Amount*</label>
-                                    <input type="text" name="pay" id="pay" class="form-control form-default">
-                                </div>
-                            </div>
-                            
-                        </div>
-
-                        <div class="text-center py-3">
-                            <button type="submit" class="btn btn-lg bg-theme-blue">Submit</button>
-                        </div> 
-                    --}}
-
                   </form>
                 </div>
                    

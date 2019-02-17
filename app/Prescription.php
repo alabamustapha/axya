@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Prescription extends Model
 {
     protected $fillable = [
-      'appointment_id','usage','comment', // 'status'
+      'appointment_id','message_id','usage','comment', // 'status'
     ];
 
     protected $appends = ['user','doctor'];
@@ -17,6 +17,11 @@ class Prescription extends Model
     public function appointment()
     {
         return $this->belongsTo(Appointment::class);
+    }
+
+    public function message()
+    {
+        return $this->belongsTo(Message::class);
     }
 
     /* Opposite of User@prescriptions::hasManyThrough

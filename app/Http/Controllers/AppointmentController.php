@@ -244,6 +244,7 @@ class AppointmentController extends Controller
                 return response(['message' => $message]);
             }
         
+            return back();
             return redirect()->route('appointments.show', $appointment);
         }
 

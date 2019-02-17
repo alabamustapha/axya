@@ -114,9 +114,8 @@
           <!--/.direct-chat -->
 
           <div class="sticky-bottom mb-0 p-0 bg-dark">
-            <form action="{{route('messages.store')}}" method="post" enctype="multipart/form">
+            <form action="{{route('messages.store', $appointment)}}" method="post" enctype="multipart/form">
               @csrf
-              <input type="hidden" name="messageable_id" value="{{$appointment->id}}"><input type="hidden" name="messageable_type" value="App\Appointment">
 
               <div class="container">
                 <div class="row">

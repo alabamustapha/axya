@@ -17,8 +17,11 @@ class Appointment extends Model
     protected $appends = [
         'attendant_doctor','creator','description_preview','link',
         'schedule','duration','start_time','end_time','fee','no_of_sessions',
+        'correspondence_ends_at','correspondence_period_over','schedule_period_pending',
+        'chatable',
         'status_text_color','status_text',
-        'schedule_is_past','within_booking_time_limit'
+        'schedule_is_past','within_booking_time_limit',
+        'has_prescription',
     ];
 
     protected $fillable = [
@@ -156,6 +159,16 @@ class Appointment extends Model
     }
 
 
+    public function scopeHasPrescription($query)
+    {
+        // Appointments that has drug prescriptions.
+        return $query->whereHas('messages.prescription');
+    }
+
+    public function getHasPrescriptionAttribute()
+    {
+        return !! $this->messages()->whereHas('prescription')->count();
+    }
 
     #~~ Status Related Scopes
     #------------------------------------------------#
@@ -210,6 +223,23 @@ class Appointment extends Model
     {
         // Consultation completed successfully and is reviewed by patient.
         return $query->where('reviewed', '1');
+    }
+
+    // Fee paid, awaiting appointment time.
+    public function scopeHasActiveCorrespondence($query)
+    {
+        return $query->whereIn('status', ['1','5'])
+                     // ->where('from', '>', Carbon::now()) // We need pendings...
+                     ->where('from', '<', $this->correspondence_ends_at)
+                     ;
+    }
+
+    // Main appointment completed, correspondence period past.
+    public function scopeHasInactiveCorrespondence($query)
+    {
+        return $query->where('status', 1)
+                     ->where('from', '>', $this->correspondence_ends_at)
+                     ;
     }
 
     /*<!---------------- Update Doctor Application Status ---------------->*/
@@ -331,7 +361,7 @@ class Appointment extends Model
     }
 
     public function getNoOfSessionsAttribute()
-    {//dd($this->doctor);
+    {
         $duration  = Carbon::parse($this->end_time)->diffInMinutes(Carbon::parse($this->start_time));
 
         $no_of_sessions = ceil($duration / $this->doctor->session);
@@ -358,6 +388,24 @@ class Appointment extends Model
     public function getScheduleIsPastAttribute($value)
     {
         return Carbon::now() > Carbon::parse($this->to);
+    }
+
+    // Time chat between a doctor and patient ceases to continue.
+    public function getCorrespondenceEndsAtAttribute($value)
+    {
+        $corrs = setting('correspondence_period');
+
+        return Carbon::parse($this->from)->addDays($corrs);
+    }
+
+    public function getCorrespondencePeriodOverAttribute($value)
+    {
+        return Carbon::now() > $this->correspondence_ends_at;
+    }
+
+    public function getSchedulePeriodPendingAttribute($value)
+    {
+        return Carbon::now() < $this->from;
     }
 
 
@@ -419,5 +467,14 @@ class Appointment extends Model
       $str .= '</span>';
 
       echo $str;
+    }
+
+    // Fee paid, awaiting appointment time.
+    public function getChatableAttribute($query)
+    {
+        return (bool) ($this->status == '1' || $this->status == '5') 
+                   && $this->from < Carbon::now() // Added to allow chat only when time is reached.
+                   && $this->from < $this->correspondence_ends_at
+                    ;
     }
 }

@@ -12,7 +12,7 @@
                 <p class="tf-flex">
                     <kbd><i class="fa fa-clock"></i> Created: {{$transaction->created_at}}</kbd>
 
-                    <kbd class="bg-info"><a href="{{route('transactions.show', $transaction)}}" class="card-link"><i class="fa fa-eye"></i> View Transaction</a></kbd>
+                    <kbd class="bg-info"><a href="{{route('transactions.show', [$transaction->user, $transaction])}}" class="card-link"><i class="fa fa-eye"></i> View Transaction</a></kbd>
                 </p>
 
                 <h5 class="card-title tf-flex text-center pb-3 mb-3 border-bottom">

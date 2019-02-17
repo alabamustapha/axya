@@ -5,11 +5,11 @@
         <div class="card-title">
           <div style="font-size:12px;">
             <div class="pb-2 tf-flex border-bottom">
-              <span class="text-bold">
+              <span class="text-bold" :title="appointment.description">
                 <i class="fa fa-info-circle"></i> Description: 
               </span>
 
-              <span>
+              <span v-if="this.appointment.attendant_doctor">
                 <button class="btn btn-sm btn-warning" title="Cancel Edit" v-if="editing == true" @click="editing = false">
                     <i class="fa fa-times"></i> Cancel Edit
                 </button>
@@ -18,8 +18,6 @@
                 </button>
               </span>
             </div>
-
-            <p>{{ prescription.appointment.description }}</p>
 
             <div>
               <i class="fa fa-user-md"></i> Doctor: 
@@ -244,13 +242,13 @@
 </template>
 <script>
   export default {
-    props: [ 'prescription' ],
+    props: [ 'prescription','appointment' ],
 
     data() {
       return {
         editing: false,
         // Prescription
-        appointment_id: this.prescription.appointment_id,
+        appointment_id: this.appointment.id,
         general_usage : this.prescription.usage,
         comment : this.prescription.comment,
         drugs   : this.prescription.drugs,

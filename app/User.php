@@ -125,7 +125,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function hasInconclusiveAppointmentWithSameDoctor($doctorId)
     {
-        return (bool) $this->appointments()
+        return !! $this->appointments()
                     ->whereIn('status', [0,2])
                     ->where('doctor_id', $doctorId)
                     ->count()
@@ -313,7 +313,7 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function isLoggedInAsAdmin() 
     {
-        return (bool) ($this->admin_mode == '1' && !is_null($this->admin_password));
+        return !! ($this->admin_mode == '1' && !is_null($this->admin_password));
     }
 
     /**
@@ -360,12 +360,12 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function isLoggedInAsDoctor() 
     {
-        return (bool) ($this->doctor_mode == '1' && !is_null($this->doctor_password));
+        return !! ($this->doctor_mode == '1' && !is_null($this->doctor_password));
     }
 
     public function isDoctor() 
     {
-        return (bool) $this->doctor()->count();
+        return !! $this->doctor();
     }
 
     public function isAuthenticatedDoctor() 
@@ -868,16 +868,16 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getTransactionsCountAttribute() 
     {
-        return $this->transactions()->whereStatus(1)->count();
+        return $this->transactions()->where('status', '1')->count();
     }
 
     public function getAppointmentsCountAttribute() 
     {
-        return $this->appointments()->whereStatus(1)->count();
+        return $this->appointments()->where('status', '1')->count();
     }
 
     public function getSubscriptionsCountAttribute() 
     {
-        return $this->subscriptions()->whereStatus(1)->count();
+        return $this->subscriptions()->where('status', '1')->count();
     }
 }

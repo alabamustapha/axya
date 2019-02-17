@@ -42,7 +42,7 @@ import VueProgressBar from 'vue-progressbar'
 Vue.use(VueProgressBar, {
     color: 'rgb(143, 255, 199)',
     failedColor: 'red',
-    height: '3px'
+    height: '8px'
 })
 
 
@@ -88,7 +88,7 @@ Vue.component('schedule-list',    require('./components/ScheduleList.vue'));
 Vue.component('schedule',         require('./components/Schedule.vue'));
 Vue.component('prescription',     require('./components/Prescription.vue'));
 Vue.component('drug',             require('./components/Drug.vue'));
-Vue.component('edit-prescription',require('./components/EditPrescription.vue'));
+Vue.component('display-prescription',require('./components/DisplayPrescription.vue'));
 Vue.component('appointment-form', require('./components/appointments/AppointmentForm.vue'));
 Vue.component('appointment-details', require('./components/appointments/AppointmentDetails.vue'));
 Vue.component('user-search',      require('./components/UserSearch.vue'));

@@ -60,7 +60,9 @@
         </section><!-- /#content -->
       </div>
 
-      @include('layouts.partials.footer')
+      @unless (Request::is('*/messages') || Request::is('*/messages/*'))
+        @include('layouts.partials.footer')
+      @endunless
                 
       @guest
           @include('auth.partials.registration-login-modal')

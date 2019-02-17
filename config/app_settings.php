@@ -229,6 +229,22 @@ return [
                     'step' => '1',
                     'min'  => 1,
                     'hint' => 'Time to canceled a booked schedule if patient did not make payment.'
+                ],
+
+                /* Time Correspondence between Doctor and patient should last (in days) */
+                [
+                    'name' => 'correspondence_period',
+                    'type' => 'number',
+                    'data_type' => 'numeric',
+                    'label'=> 'Correspondence Period (in days)',
+                    'placeholder' => 'No of Days',
+                    'class' => 'form-control form-control-sm', 
+                    'style' => '', 
+                    'rules' => 'required|between:1,90',
+                    'step' => '1',
+                    'min'  => 0,
+                    'hint' => 'Time Correspondence/Chat between doctor and patient should last for any given appointment.',
+                    'required' => 'required',
                 ]
             ]
         ],

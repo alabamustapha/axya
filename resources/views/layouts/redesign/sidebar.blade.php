@@ -10,7 +10,7 @@
 </div>
 
 <ul class="nav flex-sm-column">
-  {{Auth::user()->shipments}}
+
     @if (Auth::user()->is_authenticated_admin)
       <li class="nav-item">
 
@@ -148,7 +148,7 @@
               <span class="navlink-active">Subscriptions</span>
             </a>
         
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{{ route('dr_messages', Auth::user()->doctor) }}">
               <span class="tf-flex">
                 <span>
                   <span class="icon">
@@ -335,7 +335,7 @@
     </li>
 
     <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="{{ route('messages.index', Auth::user()) }}">
           <span class="tf-flex">
             <span>
               <span class="icon">

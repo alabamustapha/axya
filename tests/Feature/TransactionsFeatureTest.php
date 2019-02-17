@@ -52,7 +52,7 @@ class TransactionsFeatureTest extends TestCase
     {
         $this
             ->actingAs($this->user)
-            ->get(route('transactions.show', $this->transaction))
+            ->get(route('transactions.show', [$this->transaction->user, $this->transaction]))
             ->assertStatus(200)
             ->assertSee($this->transaction->user->name)
             ->assertSee($this->transaction->doctor->name)
@@ -69,20 +69,21 @@ class TransactionsFeatureTest extends TestCase
         // $user = factory(User::class)->states(['verified'])->create();
         $doc_user = factory(User::class)->states(['verified','doctor'])->create();
         $doc      = factory(Doctor::class)->states('active')->create([
-                        'id'               => $doc_user->id,
-                        'user_id'          => $doc_user->id,
+                        'id'      => $doc_user->id,
+                        'user_id' => $doc_user->id,
                     ]);
 
         $appointment= factory(Appointment::class)->create([
             'user_id'       => $this->user->id,   // Tranasction initiator
             'doctor_id'     => $doc->id,    // Attending Doctor
         ]);
-        $transaction= factory(Transaction::class)->create([
-            'appointment_id'=> $appointment->id
-        ]);
+        $transaction= factory(Transaction::class)->create([ 
+                        'user_id'        => $appointment->user_id,
+                        'appointment_id' => $appointment->id, ]);
+
         $this
             ->actingAs($doc_user)
-            ->get(route('transactions.show', $transaction))
+            ->get(route('transactions.show', [$transaction->user, $transaction]))
             ->assertStatus(200)
             ->assertSee($transaction->user->name)
             ->assertSee($transaction->doctor->name)
@@ -100,7 +101,7 @@ class TransactionsFeatureTest extends TestCase
 
         $this
             ->actingAs($admin)
-            ->get(route('transactions.show', $this->transaction))
+            ->get(route('transactions.show', [$this->transaction->user, $this->transaction]))
             ->assertStatus(200)
             ->assertSee($this->transaction->user->name)
             ->assertSee($this->transaction->doctor->name)
@@ -118,7 +119,7 @@ class TransactionsFeatureTest extends TestCase
 
         $this
             ->actingAs($user)
-            ->get(route('transactions.show', $this->transaction))
+            ->get(route('transactions.show', [$this->transaction->user, $this->transaction]))
             // ->dump()
             // ->assertStatus(302)
             ->assertDontSee($this->transaction->user->name)

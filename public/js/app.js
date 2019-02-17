@@ -30439,7 +30439,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_4_vue_router__["a" /* default */]);
 Vue.use(__WEBPACK_IMPORTED_MODULE_5_vue_progressbar___default.a, {
     color: 'rgb(143, 255, 199)',
     failedColor: 'red',
-    height: '3px'
+    height: '8px'
 });
 
 // SweetAlert:
@@ -30484,7 +30484,7 @@ Vue.component('schedule-list', __webpack_require__(175));
 Vue.component('schedule', __webpack_require__(178));
 Vue.component('prescription', __webpack_require__(180));
 Vue.component('drug', __webpack_require__(183));
-Vue.component('edit-prescription', __webpack_require__(186));
+Vue.component('display-prescription', __webpack_require__(186));
 Vue.component('appointment-form', __webpack_require__(189));
 Vue.component('appointment-details', __webpack_require__(192));
 Vue.component('user-search', __webpack_require__(195));
@@ -72677,7 +72677,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         manufacturer: '',
         usage: ''
       }],
-      appointment_id: this.appointment.id,
       general_usage: '',
       comment: ''
     };
@@ -72702,7 +72701,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       this.$Progress.start();
       axios.post('/prescriptions', {
-        appointment_id: this.appointment_id,
+        appointment_id: this.appointment.id,
         usage: this.general_usage,
         comment: this.comment,
         drugs: this.drugs
@@ -72744,13 +72743,7 @@ var render = function() {
             staticClass: "card-title",
             attrs: { title: _vm.appointment.description }
           },
-          [
-            _vm._m(0),
-            _vm._v(" "),
-            _c("p", { staticStyle: { "font-size": "12px" } }, [
-              _vm._v(_vm._s(_vm.appointment.description))
-            ])
-          ]
+          [_vm._m(0)]
         )
       ]),
       _vm._v(" "),
@@ -72850,14 +72843,7 @@ var render = function() {
                               ]),
                               _vm._v(" "),
                               _c("div", { staticClass: "col-sm-6" }, [
-                                _c(
-                                  "label",
-                                  {
-                                    staticClass: "pb-0 mb-0",
-                                    attrs: { for: "texture" }
-                                  },
-                                  [_vm._v("Texture")]
-                                ),
+                                _vm._m(3, true),
                                 _vm._v(" "),
                                 _c("br"),
                                 _vm._v(" "),
@@ -72873,7 +72859,11 @@ var render = function() {
                                       }
                                     ],
                                     staticClass: "form-control form-control-sm",
-                                    attrs: { name: "texture", id: "texture" },
+                                    attrs: {
+                                      name: "texture",
+                                      id: "texture",
+                                      required: ""
+                                    },
                                     on: {
                                       change: function($event) {
                                         var $$selectedVal = Array.prototype.filter
@@ -72952,7 +72942,7 @@ var render = function() {
                           _c("div", { staticClass: "form-group mb-1" }, [
                             _c("div", { staticClass: "row" }, [
                               _c("div", { staticClass: "col-sm-6" }, [
-                                _vm._m(3, true),
+                                _vm._m(4, true),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -73032,7 +73022,7 @@ var render = function() {
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "form-group mb-1" }, [
-                            _vm._m(4, true),
+                            _vm._m(5, true),
                             _vm._v(" "),
                             _c("textarea", {
                               directives: [
@@ -73089,7 +73079,7 @@ var render = function() {
                           "table",
                           { staticClass: "table table-sm" },
                           [
-                            _vm._m(5),
+                            _vm._m(6),
                             _vm._v(" "),
                             _vm._l(_vm.drugs, function(drug, index) {
                               return _c(
@@ -73162,7 +73152,7 @@ var render = function() {
             _c("hr"),
             _vm._v(" "),
             _c("div", { staticClass: "form-group" }, [
-              _vm._m(6),
+              _vm._m(7),
               _vm._v(" "),
               _c("textarea", {
                 directives: [
@@ -73243,9 +73233,9 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("h5", { staticClass: "border-bottom" }, [
+    return _c("h3", [
       _c("i", { staticClass: "fa fa-prescription" }),
-      _vm._v("  Prescription for:")
+      _vm._v("  Prescription")
     ])
   },
   function() {
@@ -73275,8 +73265,18 @@ var staticRenderFns = [
       [
         _c("span", [_vm._v("Name ")]),
         _vm._v(" "),
-        _c("small", { staticClass: "red" }, [_vm._v("* req.")])
+        _c("small", { staticClass: "red" }, [_vm._v("*")])
       ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "label",
+      { staticClass: "pb-0 mb-0", attrs: { for: "texture" } },
+      [_vm._v("Texture "), _c("small", { staticClass: "red" }, [_vm._v("*")])]
     )
   },
   function() {
@@ -73289,7 +73289,7 @@ var staticRenderFns = [
       [
         _c("span", [_vm._v("Dosage")]),
         _vm._v(" "),
-        _c("small", { staticClass: "red" }, [_vm._v("* req.")])
+        _c("small", { staticClass: "red" }, [_vm._v("*")])
       ]
     )
   },
@@ -73303,7 +73303,7 @@ var staticRenderFns = [
       [
         _c("span", [_vm._v("Usage")]),
         _vm._v(" "),
-        _c("small", { staticClass: "red" }, [_vm._v("* req.")])
+        _c("small", { staticClass: "red" }, [_vm._v("*")])
       ]
     )
   },
@@ -73330,7 +73330,7 @@ var staticRenderFns = [
     return _c("label", { staticClass: "tf-flex", attrs: { for: "usage" } }, [
       _c("span", [_vm._v("How to combine all prescribed drugs?")]),
       _vm._v(" "),
-      _c("small", { staticClass: "red" }, [_vm._v("* req.")])
+      _c("small", { staticClass: "red" }, [_vm._v("*")])
     ])
   }
 ]
@@ -74019,7 +74019,7 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/js/components/EditPrescription.vue"
+Component.options.__file = "resources/js/components/DisplayPrescription.vue"
 
 /* hot reload */
 if (false) {(function () {
@@ -74028,9 +74028,9 @@ if (false) {(function () {
   if (!hotAPI.compatible) return
   module.hot.accept()
   if (!module.hot.data) {
-    hotAPI.createRecord("data-v-6cba10a2", Component.options)
+    hotAPI.createRecord("data-v-7feffde1", Component.options)
   } else {
-    hotAPI.reload("data-v-6cba10a2", Component.options)
+    hotAPI.reload("data-v-7feffde1", Component.options)
   }
   module.hot.dispose(function (data) {
     disposed = true
@@ -74288,17 +74288,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['prescription'],
+  props: ['prescription', 'appointment'],
 
   data: function data() {
     return {
       editing: false,
       // Prescription
-      appointment_id: this.prescription.appointment_id,
+      appointment_id: this.appointment.id,
       general_usage: this.prescription.usage,
       comment: this.prescription.comment,
       drugs: this.prescription.drugs
@@ -74365,46 +74363,56 @@ var render = function() {
         _c("div", { staticClass: "card-title" }, [
           _c("div", { staticStyle: { "font-size": "12px" } }, [
             _c("div", { staticClass: "pb-2 tf-flex border-bottom" }, [
-              _vm._m(0),
+              _c(
+                "span",
+                {
+                  staticClass: "text-bold",
+                  attrs: { title: _vm.appointment.description }
+                },
+                [
+                  _c("i", { staticClass: "fa fa-info-circle" }),
+                  _vm._v(" Description: \n            ")
+                ]
+              ),
               _vm._v(" "),
-              _c("span", [
-                _vm.editing == true
-                  ? _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-sm btn-warning",
-                        attrs: { title: "Cancel Edit" },
-                        on: {
-                          click: function($event) {
-                            _vm.editing = false
-                          }
-                        }
-                      },
-                      [
-                        _c("i", { staticClass: "fa fa-times" }),
-                        _vm._v(" Cancel Edit\n              ")
-                      ]
-                    )
-                  : _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-sm btn-info",
-                        attrs: { title: "Edit Prescription" },
-                        on: {
-                          click: function($event) {
-                            _vm.editing = true
-                          }
-                        }
-                      },
-                      [
-                        _c("i", { staticClass: "fa fa-edit" }),
-                        _vm._v(" Edit\n              ")
-                      ]
-                    )
-              ])
+              this.appointment.attendant_doctor
+                ? _c("span", [
+                    _vm.editing == true
+                      ? _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-sm btn-warning",
+                            attrs: { title: "Cancel Edit" },
+                            on: {
+                              click: function($event) {
+                                _vm.editing = false
+                              }
+                            }
+                          },
+                          [
+                            _c("i", { staticClass: "fa fa-times" }),
+                            _vm._v(" Cancel Edit\n              ")
+                          ]
+                        )
+                      : _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-sm btn-info",
+                            attrs: { title: "Edit Prescription" },
+                            on: {
+                              click: function($event) {
+                                _vm.editing = true
+                              }
+                            }
+                          },
+                          [
+                            _c("i", { staticClass: "fa fa-edit" }),
+                            _vm._v(" Edit\n              ")
+                          ]
+                        )
+                  ])
+                : _vm._e()
             ]),
-            _vm._v(" "),
-            _c("p", [_vm._v(_vm._s(_vm.prescription.appointment.description))]),
             _vm._v(" "),
             _c("div", [
               _c("i", { staticClass: "fa fa-user-md" }),
@@ -74463,7 +74471,7 @@ var render = function() {
                           ]),
                           _vm._v(" "),
                           _c("span", { staticClass: "card-tools" }, [
-                            _vm._m(1, true),
+                            _vm._m(0, true),
                             _vm._v(" "),
                             _vm.drugs.length > 1
                               ? _c(
@@ -74490,7 +74498,7 @@ var render = function() {
                           _c("div", { staticClass: "form-group mb-1" }, [
                             _c("div", { staticClass: "row" }, [
                               _c("div", { staticClass: "col-sm-6" }, [
-                                _vm._m(2, true),
+                                _vm._m(1, true),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -74627,7 +74635,7 @@ var render = function() {
                           _c("div", { staticClass: "form-group mb-1" }, [
                             _c("div", { staticClass: "row" }, [
                               _c("div", { staticClass: "col-sm-6" }, [
-                                _vm._m(3, true),
+                                _vm._m(2, true),
                                 _vm._v(" "),
                                 _c("input", {
                                   directives: [
@@ -74707,7 +74715,7 @@ var render = function() {
                           ]),
                           _vm._v(" "),
                           _c("div", { staticClass: "form-group mb-1" }, [
-                            _vm._m(4, true),
+                            _vm._m(3, true),
                             _vm._v(" "),
                             _c("textarea", {
                               directives: [
@@ -74763,7 +74771,7 @@ var render = function() {
                             "table",
                             { staticClass: "table table-sm" },
                             [
-                              _vm._m(5),
+                              _vm._m(4),
                               _vm._v(" "),
                               _vm._l(_vm.drugs, function(drug, index) {
                                 return _c(
@@ -74820,7 +74828,7 @@ var render = function() {
                                     }
                                   ]
                                 },
-                                [_vm._m(6)]
+                                [_vm._m(5)]
                               )
                             ],
                             2
@@ -74833,7 +74841,7 @@ var render = function() {
                   _vm._v(" "),
                   _c("div", [
                     _c("div", { staticClass: "form-group" }, [
-                      _vm._m(7),
+                      _vm._m(6),
                       _vm._v(" "),
                       _c("textarea", {
                         directives: [
@@ -74924,7 +74932,7 @@ var render = function() {
                   "table",
                   { staticClass: "table table-sm table-bordered" },
                   [
-                    _vm._m(8),
+                    _vm._m(7),
                     _vm._v(" "),
                     _vm._l(_vm.drugs, function(drug, index) {
                       return _c(
@@ -75001,15 +75009,6 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "text-bold" }, [
-      _c("i", { staticClass: "fa fa-info-circle" }),
-      _vm._v(" Description: \n            ")
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -75127,7 +75126,7 @@ module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
   module.hot.accept()
   if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-6cba10a2", module.exports)
+    require("vue-hot-reload-api")      .rerender("data-v-7feffde1", module.exports)
   }
 }
 

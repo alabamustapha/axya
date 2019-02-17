@@ -15,10 +15,6 @@ class Application extends Model
       'medical_college','medical_college_expiry',
     ];
 
-    protected $appends = [
-        'creator'
-    ];
-
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -27,10 +23,5 @@ class Application extends Model
     public function specialty()
     {
         return $this->belongsTo(Specialty::class);
-    }
-
-    public function getCreatorAttribute()
-    {
-        return $this->user->name;
     }
 }

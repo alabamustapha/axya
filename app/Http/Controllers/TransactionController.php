@@ -71,7 +71,7 @@ class TransactionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, User $user)
     {
         $this->authorize('create', Transaction::class);
 
@@ -150,7 +150,7 @@ class TransactionController extends Controller
      * @param  \App\Transaction  $transaction
      * @return \Illuminate\Http\Response
      */
-    public function show(Transaction $transaction)
+    public function show(User $user, Transaction $transaction)
     {
         return view('transactions.show', compact('transaction'));
     }

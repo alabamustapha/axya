@@ -2,6 +2,7 @@
 
 namespace Tests\Unit;
 
+use App\Appointment;
 use App\Doctor;
 use App\Image;
 use App\Message;
@@ -52,6 +53,8 @@ class UsersTest extends TestCase
     /** @test  */
     public function a_user_has_many_messages()
     {
+        $appointment = factory(Appointment::class)->create();
+
         // Method 1:
         $message   = factory(Message::class)->create(['user_id' => $this->user->id]);        
         $this->assertTrue($this->user->messages->contains($message));

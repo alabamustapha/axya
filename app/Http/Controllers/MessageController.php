@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Appointment;
+use App\Doctor;
 use App\Http\Requests\MessageRequest;
 use App\Message;
+use App\User;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Http\Request;
 
 class MessageController extends Controller
@@ -12,6 +16,8 @@ class MessageController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('verified');
+        $this->middleware('patient')->only('index');
+        $this->middleware('doctor')->only('drindex');
     }
 
     /**
@@ -19,11 +25,91 @@ class MessageController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(User $user, Appointment $appointment)
     {
-        $messages = auth()->user()->messages()->paginate(20);
+        // Active + Pending Appointments.
+        $activeAppointments = $user->appointments()
+                                     ->hasPrescription()
+                                     // ->hasActiveCorrespondence()
+                                     ->paginate(10)
+                                     ;
 
-        return view('messages.index', compact('messages'));
+        // Inactive + Past Successful Appointments.
+        $inactiveAppointments = $user->appointments()
+                                     ->hasPrescription()
+                                     // ->hasInactiveCorrespondence()
+                                     ->paginate(5)
+                                     ;
+        
+        $messages = $appointment->messages()
+                 ->oldest()
+                 ->paginate(50)
+                 ; 
+        $prescriptions = $appointment->prescriptions()->pluck('message_id', 'created_at');
+
+        // $cachedChatName = 'chat_messages_'. $appointment->id;
+        // $messages = Cache::rememberForever($cachedChatName, function() use($appointment) {
+        //     return $appointment->messages()
+        //          ->oldest()
+        //          ->paginate(50)
+        //          ; 
+        //     });
+        // dd(Cache::has($cachedChatName));
+        return view('messages.index', 
+            compact(
+                'appointment', 
+                'user', 
+                'messages', 
+                'activeAppointments', 
+                'inactiveAppointments', 
+                'prescriptions'
+            ));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function drindex(Doctor $doctor, Appointment $appointment)
+    {
+        // Active + Pending Appointments.
+        $activeAppointments = $doctor->appointments()
+                                     ->hasPrescription()
+                                     // ->hasActiveCorrespondence()
+                                     ->paginate(10)
+                                     ;
+
+        // Inactive + Past Successful Appointments.
+        $inactiveAppointments = $doctor->appointments()
+                                     ->hasPrescription()
+                                     // ->hasInactiveCorrespondence()
+                                     ->paginate(5)
+                                     ;
+        
+        $messages = $appointment->messages()
+                 ->oldest()
+                 ->paginate(50)
+                 ;
+        $prescriptions = $appointment->prescriptions()->pluck('message_id', 'created_at');
+
+        // $messages = Cache::rememberForever('messages.paginate', function() use($appointment) {
+        //     return $appointment->messages()
+        //          ->oldest()
+        //          ->paginate(50)
+        //          ;
+        //     }); 
+
+        // dd($messages, Cache::has('messages.paginate'));
+        return view('messages.index', 
+            compact(
+                'appointment', 
+                'doctor', 
+                'messages', 
+                'activeAppointments', 
+                'inactiveAppointments', 
+                'prescriptions'
+            ));
     }
 
     /**
@@ -32,23 +118,26 @@ class MessageController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(MessageRequest $request)
+    public function store(MessageRequest $request, Appointment $appointment)
     {
         $this->authorize('create', Message::class);        
 
         $request->merge(['user_id' => auth()->id()]);
         
-        $message = Message::create($request->all());
+        // $message = Message::create($request->all());
+        $message = $appointment->messages()->create($request->all());
 
         if ($message) {
-            $msg = 'Message added successfully';
+            $msg = 'Message submitted successfully';
 
             if (request()->expectsJson()) {
                 return response(['status' => $msg]);
             }
         }
-
-        return redirect()->route('appointments.show', $message->messageable);
+        
+        flash($msg)->success();
+        return back();
+        return redirect()->route('messages.index', [ 'user' => auth()->user(), 'appointment' => $appointment]);
     }
 
     /**

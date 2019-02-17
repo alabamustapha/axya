@@ -3,8 +3,8 @@
       <div class="card shadow">
         <div class="card-header">
           <div class="card-title" :title="appointment.description">
-            <h5 class="border-bottom"><i class="fa fa-prescription"></i>&nbsp; Prescription for:</h5>
-            <p style="font-size:12px;">{{ appointment.description }}</p>
+            <h3><i class="fa fa-prescription"></i>&nbsp; Prescription</h3>
+            <!-- <p style="font-size:12px;">{{ appointment.description }}</p> -->
           </div>
         </div>
 
@@ -42,7 +42,7 @@
                         <div class="col-sm-6">
                           <label class="tf-flex pb-0 mb-0" for="name">
                             <span>Name </span>
-                            <small class="red">* req.</small>
+                            <small class="red">*</small>
                           </label>
                           <input v-model="drug.name" type="text" name="name"
                               placeholder="Name"
@@ -50,8 +50,8 @@
                               required>
                         </div>
                         <div class="col-sm-6">
-                          <label class="pb-0 mb-0" for="texture">Texture</label> <br>
-                          <select v-model="drug.texture" name="texture" id="texture" class="form-control form-control-sm">
+                          <label class="pb-0 mb-0" for="texture">Texture <small class="red">*</small></label> <br>
+                          <select v-model="drug.texture" name="texture" id="texture" class="form-control form-control-sm" required>
                             <option value="">Choose one</option>
                             <option value="tablet">Tablet</option>
                             <option value="liquid">Liquid</option>
@@ -70,7 +70,7 @@
                         <div class="col-sm-6">
                           <label class="tf-flex pb-0 mb-0" for="dosage">
                             <span>Dosage</span>
-                            <small class="red">* req.</small>
+                            <small class="red">*</small>
                           </label>
                           <input v-model="drug.dosage" type="text" name="dosage"
                               placeholder="dosage eg 2-2-2/50mg etc"
@@ -90,7 +90,7 @@
                     <div class="form-group mb-1">
                       <label class="tf-flex pb-0 mb-0" for="usage">
                         <span>Usage</span> 
-                        <small class="red">* req.</small>
+                        <small class="red">*</small>
                       </label>
                       <textarea v-model="drug.usage" name="usage"
                           placeholder="Short description on how to use"
@@ -145,7 +145,7 @@
             <div class="form-group">
               <label class="tf-flex" for="usage">
                 <span>How to combine all prescribed drugs?</span> 
-                <small class="red">* req.</small>
+                <small class="red">*</small>
               </label>
               <textarea v-model="general_usage" name="usage"
                   class="form-control" 
@@ -184,7 +184,6 @@
             usage   : ''
           }
         ],
-        appointment_id: this.appointment.id,
         general_usage : '',
         comment   : '',
       }
@@ -204,9 +203,10 @@
         this.drugs.splice(index, 1)
       },
       createPrescription() {
+        
         this.$Progress.start();
         axios.post('/prescriptions', {
-          appointment_id: this.appointment_id,
+          appointment_id: this.appointment.id,
           usage   : this.general_usage,
           comment : this.comment,
           drugs   : this.drugs,
