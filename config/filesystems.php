@@ -66,9 +66,18 @@ return [
 
     ],
 
+    // For Storage Directory
     'storage' => [
         'images' => '/uploads/images',
         'videos' => '/uploads/videos',
+        'documents'  => '/uploads/documents',
+    ],
+
+    // For Public Directory
+    'public' => [
+        'images' => '/uploads/images',
+        'videos' => '/uploads/videos',
+        'documents'  => '/uploads/documents',
     ]
 
 ];

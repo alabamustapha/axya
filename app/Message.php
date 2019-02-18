@@ -38,10 +38,15 @@ class Message extends Model
         return $this->morphOne(Image::class, 'imageable');
     }
 
-    public function documents()
+    public function document()
     {
-        return $this->morphMany(Document::class, 'documentable');
+        return $this->morphOne(Document::class, 'documentable');
     }
+
+    // public function documents()
+    // {
+    //     return $this->morphMany(Document::class, 'documentable');
+    // }
 
     public function type()
     {
