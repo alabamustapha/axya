@@ -421,20 +421,20 @@
         <div class="modal-body">
           <div class="text-center">
             <div class="form-group text-center">
-              <label for="image_file" class="h5">Upload Chat Related Files</label>
+              <label for="uploadFile" class="h5">Upload Chat Related Files</label>
             </div>
           </div>
 
           <form action="{{route('chat.file.upload', $appointment)}}" method="post" enctype="multipart/form-data">
-          {{-- <form action="{{route('user.image_file.upload', $user)}}" method="post" enctype="multipart/form-data"> --}}
+          {{-- <form action="{{route('user.uploadFile.upload', $user)}}" method="post" enctype="multipart/form-data"> --}}
             {{ csrf_field() }} 
 
             <div class="form-group text-center">
-              <input type="file" name="image_file[]" id="image_file" class="form-control{{ $errors->has('image_file') ? ' is-invalid' : '' }}" accept="image/*" required>
+              <input type="file" name="uploadFile[]" id="uploadFile" class="form-control{{ $errors->has('uploadFile') ? ' is-invalid' : '' }}" accept="image/png, image/jpeg, application/pdf, application/docx, application/doc, video/mp4, video/3gp" required>
 
-              @if ($errors->has('image_file'))
+              @if ($errors->has('uploadFile'))
                   <span class="invalid-feedback" role="alert">
-                      <strong>{{ $errors->first('image_file') }}</strong>
+                      <strong>{{ $errors->first('uploadFile') }}</strong>
                   </span>
               @endif
             </div> 

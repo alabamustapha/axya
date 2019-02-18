@@ -23,7 +23,7 @@ trait ImageProcessing
         $modelClassName = end($model_frags);
         $unique_time    = time(); 
 
-        $image_file = $request->file('avatar');
+        $uploadFile = $request->file('avatar');
 
         // $uploadModelImage = '\App\Jobs\\Upload'. $modelClassName .'Image';
 
@@ -42,7 +42,7 @@ trait ImageProcessing
                 
             $unique_id = uniqid();
 
-            $this->resizeImage($model, $image_file, $modelClassName, $unique_time, $unique_id);
+            $this->resizeImage($model, $uploadFile, $modelClassName, $unique_time, $unique_id);
 
             ## Move to storage provider by job.
             // $this->dispatch(new $uploadModelImage($model, $filename));
@@ -67,40 +67,43 @@ trait ImageProcessing
 
         // $this->authorize('upload', $model);
 
-        if ($request->file('image_file')) {
+        if ($request->file('uploadFile')) {
 
-            if (! is_array($request->file('image_file'))) {
+            if (! is_array($request->file('uploadFile'))) {
                 request()->validate([
-                    'image_file' => 'required|array|max:5',
+                    'uploadFile' => 'required|array|max:5',
                 ]);
             }
 
             request()->validate([
-                'image_file.*'=> 'required|file|image|max:2000|mimes:jpeg,png|dimensions:min_width=300,min_height=300',
-                'caption'   => 'required_with:image_file|string|max:255',
+                'uploadFile.*'=> 'required|file|image|max:2000|mimes:jpeg,png|dimensions:min_width=300,min_height=300',
+                'caption'   => 'required_with:uploadFile|string|max:255',
             ],
             [
-                'image_file.mimes' => 'Only jpeg and png formats are allowed.',
-                'image_file.dimensions' => 'Your image dimensions must have a minimum width of 300px and minimum height of 300px.',
-                'image_file.*.dimensions' => 'All images must have a minimum width: 300px and minimum height: 300px.',
-                'image_file.*.max' => 'Image size must be a maximum of 2mb.',
+                'uploadFile.mimes' => 'Only jpeg and png formats are allowed.',
+                'uploadFile.dimensions' => 'Your image dimensions must have a minimum width of 300px and minimum height of 300px.',
+                'uploadFile.*.dimensions' => 'All images must have a minimum width: 300px and minimum height: 300px.',
+                'uploadFile.*.max' => 'Image size must be a maximum of 2mb.',
             ]);
 
 
-            $uploads_count = count($request->file('image_file'));
+            $uploads_count = count($request->file('uploadFile'));
             
-            foreach ($request->file('image_file') as $image_file) 
+            foreach ($request->file('uploadFile') as $uploadFile) 
             {
                 $unique_id = uniqid();
 
-                $this->resizeImage($request, $model, $image_file, $modelClassName, $unique_time, $unique_id);
+                # Get file size and save to db - Helps get total space taken by files anytime later.
+                $fileSize = IntImage::make($uploadFile)->filesize();
+
+                $this->resizeImage($request, $model, $uploadFile, $modelClassName, $unique_time, $unique_id);
 
                 ## Move to storage provider by job.
                 // $this->dispatch(new $uploadModelImage($model, $filename));
                 // $this->dispatch(new $uploadModelImage($model, $file_md));
                 // $this->dispatch(new $uploadModelImage($model, $file_tb))
 
-                $this->saveImageInfo($request, $model, $modelClassName, $unique_time, $unique_id);
+                $this->saveImageInfo($request, $model, $uploadFile, $fileSize, $modelClassName, $unique_time, $unique_id);
             } 
         }
             
@@ -113,7 +116,7 @@ trait ImageProcessing
      *
      * Saving to storage provider (eg S3, dropbox) is done within $uploadModelImage($model, $filename)
      */
-    public function resizeImage(Request $request, $model, $image_file, $modelClassName, $unique_time, $unique_id) 
+    public function resizeImage(Request $request, $model, $uploadFile, $modelClassName, $unique_time, $unique_id) 
     {
         // dd('resize script');
         # Set basename for file.
@@ -126,23 +129,23 @@ trait ImageProcessing
         if (! $request->no_resize) {
             # Once processed and moved to storage, image file is no more available 
             # thus the need to hold as much as is needed with different variable names.
-            $image_file_tb = $image_file;
-            $image_file_md = $image_file;
+            $uploadFile_tb = $uploadFile;
+            $uploadFile_md = $uploadFile;
 
             # Save to disk (temporarily)
             // Make Thumbnail:
-            IntImage::make($image_file_tb)
+            IntImage::make($uploadFile_tb)
                     ->fit(180)//resize(150,150, function($constraint){ $constraint->aspectRatio(); })
                     ->save($directory .'/'. $filename .'-tb.png');
 
             // Make Medium:
-            IntImage::make($image_file_md)
+            IntImage::make($uploadFile_md)
                     ->resize(400,400, function($constraint){ $constraint->aspectRatio(); })
                     ->save($directory .'/'. $filename .'-md.png');
         }
 
         // Move Original:
-        $image_file->move($directory .'/', $filename . '.png');
+        $uploadFile->move($directory .'/', $filename . '.png');
         
         return;
     }
@@ -152,7 +155,7 @@ trait ImageProcessing
      *
      * Saving to storage provider eg S3, dropbox is done inside $uploadModelImage($model, $filename)
      */
-    public function saveImageInfo(Request $request, $model, $modelClassName, $unique_time, $unique_id) 
+    public function saveImageInfo(Request $request, $model, $uploadFile, $fileSize, $modelClassName, $unique_time, $unique_id) 
     {
         // dd('save info');
         # Set basename for file.
@@ -183,6 +186,11 @@ trait ImageProcessing
             $user->save();
         }
 
+        $fileExtension = $request->file('avatar') 
+                        ? $request->file('avatar')->getClientOriginalExtension()
+                        : $uploadFile->getClientOriginalExtension()
+                        ;
+
         $image = New Image;
 
         $image->user_id        = auth()->id();
@@ -190,6 +198,8 @@ trait ImageProcessing
         $image->caption        = $request->caption;
         $image->imageable_id   = $model->id;
         $image->imageable_type = get_class($model);
+        $image->mime           = $fileExtension;
+        $image->size           = $fileSize;
 
         if (! $request->no_resize) {
             $image->cover          = $request->file('avatar') ? (! $model->images->count() ? '1':'0'):false;
