@@ -92,6 +92,18 @@
       </li>
     @endif
 
+    {{-- {{dd(Auth::user()->is_doctor)}} --}}
+    @if (!Auth::user()->is_doctor)
+    <li class="nav-item">
+
+      <a href="{{route('doctors.create')}}" class="nav-link">
+        <i class="icon fa fa-user-md"></i>
+        <span class="navlink-active">Apply As Doctor</span>
+      </a>
+
+    </li>
+    @endif
+
     @if (Auth::user()->is_authenticated_doctor)
       <li class="nav-item">
 
