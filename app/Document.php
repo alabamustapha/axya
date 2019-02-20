@@ -24,4 +24,24 @@ class Document extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function isImage()
+    {
+        return in_array($this->mime, ['jpeg', 'png']);
+    }
+
+    public function isVideo()
+    {
+        return in_array($this->mime, ['mp4', 'webm', '3gp', 'avi']);
+    }
+
+    public function isAudio()
+    {
+        return in_array($this->mime, ['mp3', 'wav', 'ogg']);
+    }
+
+    public function isOthers()
+    {
+        return ! ($this->isImage() && $this->isVideo() && $this->isAudio());
+    }
 }

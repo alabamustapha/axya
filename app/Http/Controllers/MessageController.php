@@ -47,7 +47,7 @@ class MessageController extends Controller
         
         $messages = $appointment->messages()
                  ->oldest()
-                 ->paginate(50)
+                 ->paginate(150)
                  ; 
         $prescriptions = $appointment->prescriptions()->pluck('message_id', 'created_at');
 
@@ -195,11 +195,11 @@ class MessageController extends Controller
 
             flash('Image was successfully uploaded.')->success();
         } 
-        elseif ($isVideo) {
-            $this->videoProcessing($request, $message);
+        // elseif ($isVideo) {
+        //     $this->videoProcessing($request, $message);
 
-            flash('Video was successfully uploaded.')->success();
-        } 
+        //     flash('Video was successfully uploaded.')->success();
+        // } 
         else {
             // // Expected to be other files eg .pdf, .docx, .xls. All monitored
             // if($uploadFile){

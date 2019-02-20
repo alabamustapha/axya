@@ -280,34 +280,72 @@
                             @endif
                         ">
                           <span class="rounded px-1 text-info bg-white" style="font-size: 10px;">{{ $message->user->name }} - <em>{{ $message->created_at->diffForHumans() }}</em></span>
-                           <br>
+                          
+                          <div class="text-left">
+                            @if ($message->prescription)
 
-                          @if ($message->prescription)
+                              <h6 class="pb-1 border-bottom">
+                                <span>
+                                  <i class="fa fa-prescription"></i>
+                                  {{ $message->body }}
+                                </span>
+                              </h6>
 
-                            <h6 class="pb-1 border-bottom text-left">
-                              <span>
-                                <i class="fa fa-prescription"></i>
-                                {{ $message->body }}
-                              </span>
-                            </h6>
+                              <display-prescription :appointment="{{ $appointment }}" :prescription="{{ $message->prescription }}"><display-prescription>
 
-                            <display-prescription :appointment="{{ $appointment }}" :prescription="{{ $message->prescription }}"><display-prescription>
+                            @elseif ($message->image)
 
-                          @elseif ($message->image)
+                              <div class="pt-1">
+                                <img src="{{$message->image->url}}" class="img-fluid">
 
-                            <img src="{{$message->image->url}}" class="img-fluid">
+                                <p class="pt-1">
 
-                            <div class="pt-1 text-left">
-                              <span>
-                                {{ $message->body }}
-                              </span>
-                            </div>
+                                    {{ $message->body }}
 
-                          @else
+                                </p>
+                              </div>
 
-                            {{ $message->body }}
+                            @elseif ($message->document)
 
-                          @endif
+                              <div class="pt-1">
+                                @if ($message->document->isImage())
+                                  
+                                  <img src="{{$message->image->url}}" class="img-fluid">
+
+                                @elseif ($message->document->isVideo())
+
+                                  <video style="max-height:280px" class="embed-responsive" controls>
+                                    <source src = "{{ URL::asset($message->document->url) }}" type = "video/{{$message->document->mime }}" >
+                                    Your browser does not support the video tag. 
+                                  </video>
+
+                                @elseif ($message->document->isAudio())
+
+                                  <audio controls>
+                                    <source src = "{{ URL::asset($message->document->url) }}" type = "audio/{{$message->document->mime }}" >
+                                    Your browser does not support the audio tag. 
+                                  </audio>
+
+                                @else
+                                  <a href="{{$message->document->url}}" target="_blank">
+                                    <i class="fa fa-{{$message->document->mime}}"></i>
+                                    <i class="fa fa-file h3"></i>
+                                  </a>
+                                @endif
+
+                                <p class="pt-1">
+
+                                    {{ $message->body }}
+
+                                </p>
+                              </div>
+
+                            @else
+
+                              {{ $message->body }}
+
+                            @endif
+                          </div>
                         </div>
                       </div>
                     @empty
@@ -430,7 +468,7 @@
             {{ csrf_field() }} 
 
             <div class="form-group text-center">
-              <input type="file" name="uploadFile[]" id="uploadFile" class="form-control{{ $errors->has('uploadFile') ? ' is-invalid' : '' }}" accept="image/png, image/jpeg, application/pdf, application/docx, application/doc, video/mp4, video/3gp" required>
+              <input type="file" name="uploadFile[]" id="uploadFile" class="form-control{{ $errors->has('uploadFile') ? ' is-invalid' : '' }}" accept="image/png, image/jpeg, application/pdf, application/docx, video/mp4, video/webm, video/ogg, audio/mp3, audio/wav, audio/ogg" required>
 
               @if ($errors->has('uploadFile'))
                   <span class="invalid-feedback" role="alert">
