@@ -16,44 +16,44 @@ trait ImageProcessing
      * @author Tony Ayeni <tonyfrenzy@gmail.com>
      */
 
-    # This method targets user avatar uploads only.
-    public function avatarProcessing(Request $request, $model)
-    {
-        $model_frags    = explode('\\', get_class($model));
-        $modelClassName = end($model_frags);
-        $unique_time    = time(); 
+    // # This method targets user avatar uploads only.
+    // public function avatarProcessing(Request $request, $model)
+    // {
+    //     $model_frags    = explode('\\', get_class($model));
+    //     $modelClassName = end($model_frags);
+    //     $unique_time    = time(); 
 
-        $uploadFile = $request->file('avatar');
+    //     $uploadFile = $request->file('avatar');
 
-        // $uploadModelImage = '\App\Jobs\\Upload'. $modelClassName .'Image';
+    //     // $uploadModelImage = '\App\Jobs\\Upload'. $modelClassName .'Image';
 
-        // $this->authorize('upload', $model);
+    //     // $this->authorize('upload', $model);
 
-        if ($request->file('avatar')) {
-            request()->validate([
-                'avatar' => 'required|file|image|max:2000|mimes:jpeg,png|dimensions:min_width=200,min_height=200',
-            ],
-            [
-                'avatar.mimes' => 'Only jpeg and png formats are allowed.',
-                'avatar.dimensions' => 'Your image dimensions must have a minimum width of 200px and minimum height of 200px.',
-            ]);
+    //     if ($request->file('avatar')) {
+    //         request()->validate([
+    //             'avatar' => 'required|file|image|max:2000|mimes:jpeg,png|dimensions:min_width=200,min_height=200',
+    //         ],
+    //         [
+    //             'avatar.mimes' => 'Only jpeg and png formats are allowed.',
+    //             'avatar.dimensions' => 'Your image dimensions must have a minimum width of 200px and minimum height of 200px.',
+    //         ]);
 
-            $this->imageDeleteTrait($request, $model);
+    //         $this->imageDeleteTrait($request, $model);
                 
-            $unique_id = uniqid();
+    //         $unique_id = uniqid();
 
-            $this->resizeImage($model, $uploadFile, $modelClassName, $unique_time, $unique_id);
+    //         $this->resizeImage($request, $model, $uploadFile, $modelClassName, $unique_time, $unique_id);
 
-            ## Move to storage provider by job.
-            // $this->dispatch(new $uploadModelImage($model, $filename));
-            // $this->dispatch(new $uploadModelImage($model, $file_md));
-            // $this->dispatch(new $uploadModelImage($model, $file_tb));
+    //         ## Move to storage provider by job.
+    //         // $this->dispatch(new $uploadModelImage($model, $filename));
+    //         // $this->dispatch(new $uploadModelImage($model, $file_md));
+    //         // $this->dispatch(new $uploadModelImage($model, $file_tb));
 
-            $this->saveImageInfo($request, $model, $modelClassName, $unique_time, $unique_id);
-        }
+    //         $this->saveImageInfo($request, $model, $uploadFile, $fileSize, $modelClassName, $unique_time, $unique_id);
+    //     }
             
-        return;
-    }
+    //     return;
+    // }
 
     # Works for every other models
     public function imageProcessing(Request $request, $model)
@@ -76,6 +76,7 @@ trait ImageProcessing
             }
 
             request()->validate([
+                // ...\vendor\fzaninotto\faker\src\Faker\Provider\File.php:$mimeTypes
                 'uploadFile.*'=> 'required|file|image|max:2000|mimes:jpeg,png|dimensions:min_width=300,min_height=300',
                 'caption'   => 'required_with:uploadFile|string|max:255',
             ],
@@ -124,7 +125,7 @@ trait ImageProcessing
                           ? $model->slug .'-'. $unique_time . $unique_id
                           : md5(strval($model->id)) .'-'. $unique_time . $unique_id
                           ;
-        $directory = public_path() .'/uploads/images/'. strtolower(str_plural($modelClassName)); 
+        $directory = public_path() . config('filesystems.storage.images') . strtolower(str_plural($modelClassName)); 
 
         if (! $request->no_resize) {
             # Once processed and moved to storage, image file is no more available 
@@ -144,8 +145,11 @@ trait ImageProcessing
                     ->save($directory .'/'. $filename .'-md.png');
         }
 
-        // Move Original:
-        $uploadFile->move($directory .'/', $filename . '.png');
+        $fullFilename = $filename . '.png';
+
+        ## Move Original:
+        // $uploadFile->storeAs( $path, $fullFilename );
+        $uploadFile->move($directory .'/', $fullFilename);
         
         return;
     }
@@ -163,9 +167,7 @@ trait ImageProcessing
                         ? $model->slug .'-'. $unique_time . $unique_id 
                         : md5(strval($model->id)) .'-'. $unique_time . $unique_id
                         ;
-        $directory = config('filesystems.storage.images') 
-                        . '/'. strtolower(str_plural($modelClassName))
-                        ;
+        $directory = config('filesystems.storage.images') . strtolower(str_plural($modelClassName));
 
         if ($request->no_resize) {
 
@@ -195,6 +197,7 @@ trait ImageProcessing
 
         $image->user_id        = auth()->id();
         $image->url            = $image_location;
+        // $image->name           = $uploadFile->getClientOriginalName();
         $image->caption        = $request->caption;
         $image->imageable_id   = $model->id;
         $image->imageable_type = get_class($model);
