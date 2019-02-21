@@ -127,5 +127,54 @@ class Message extends Model
             self::flushCache();
         });
     }
+    
+
+
+    /**
+     * This section is used for proper notification for prescriptions.
+     * Prescriptions are linked to a particular message.
+     * The need for getLinkAttribute.
+     */
+
+    // Normal list for Doctors and Patients
+    // Necessitated because of slug diff an thus navigation bugs.
+    public function getListAttribute()
+    {
+        if ($this->messageable_type == 'App\Appointment') {
+            if (auth()->id() == $this->messageable->doctor_id) {
+                return route('messages.index', [$this->messageable->doctor->user, $this->messageable]);
+            }
+            
+            if (auth()->id() == $this->messageable->user_id) {
+                return route('messages.index', [$this->messageable->user, $this->messageable]);
+            }
+        }
+    }
+
+    // Situations where alternate list for Doctors and Patients are needed
+    // eg during presocriptin notifications for proper linking for each entity.
+    public function getAlternateListAttribute()
+    {
+        if ($this->messageable_type == 'App\Appointment') {
+            if (auth()->id() == $this->messageable->doctor_id) {
+                return route('messages.index', [$this->messageable->user, $this->messageable]);
+            }
+
+            if (auth()->id() == $this->messageable->user_id) {
+                return route('messages.index', [$this->messageable->doctor->user, $this->messageable]);
+            }
+        }
+    }
+
+    // Messages are only linked by their anchor ID attr, no individual page.
+    public function getLinkAttribute()
+    {
+      return $this->list .'#_'. md5($this->id);
+    }
+
+    public function getAlternateLinkAttribute()
+    {
+      return $this->alternate_list .'#_'. md5($this->id);
+    }
 
 }

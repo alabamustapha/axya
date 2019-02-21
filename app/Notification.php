@@ -31,7 +31,10 @@ class Notification extends DatabaseNotification
             $icon = 'user-check'; //verification
         }
         if (str_contains(strtolower($message), 'application')) {
-            $icon = 'user-tag'; //verification
+            $icon = 'user-tag'; //application
+        }
+        if (str_contains(strtolower($message), 'prescription')) {
+            $icon = 'prescription'; //prescription
         }
 
         return $icon;

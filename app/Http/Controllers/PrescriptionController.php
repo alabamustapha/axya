@@ -10,6 +10,8 @@ use App\Message;
 use App\Prescription;
 use App\User;
 use Illuminate\Http\Request;
+use App\Notifications\Prescriptions\NewPrescriptionNotification;
+use App\Notifications\Prescriptions\PrescriptionUpdateNotification;
 
 class PrescriptionController extends Controller
 {
@@ -137,7 +139,7 @@ class PrescriptionController extends Controller
 
         if ($prescription){
 
-            // auth()->user()->notify(new NewPrescriptonNotification($prescription->user, $prescription));
+            $prescription->appointment->user->notify(new NewPrescriptionNotification($prescription));
 
             $message = 'Prescription created successfully.';
 
@@ -229,7 +231,7 @@ class PrescriptionController extends Controller
                 }
             }
 
-            // auth()->user()->notify(new PrescriptonUpdateNotification($prescription->user, $prescription));
+            $prescription->appointment->user->notify(new PrescriptionUpdateNotification($prescription));
 
             $message = 'Prescription updated successfully.';
 
