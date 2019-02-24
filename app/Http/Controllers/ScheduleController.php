@@ -12,8 +12,13 @@ class ScheduleController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('doctor');
+        $this->middleware('auth')->except('index'); // Index is for testing
+        $this->middleware('doctor')->except('index'); // Index is for testing
+    }
+
+    public function index()
+    {
+        return view('doctors.forms.schedules.index');
     }
 
     /**

@@ -68,9 +68,7 @@
       </div>
     </div>
     --}}
-    <div class="jumbotron bg-white">
-      
-      @include('doctors.forms.fb-schedules')    
+    <div class="jumbotron bg-white">   
 
       <div class="row">
         <div class="col-md-3 text-center">

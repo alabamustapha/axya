@@ -95,6 +95,7 @@ Vue.component('user-search',      require('./components/UserSearch.vue'));
 Vue.component('doctor-search',    require('./components/DoctorSearch.vue'));
 Vue.component('admin-list',       require('./components/Admin/AdminList.vue'));
 Vue.component('staff-list',       require('./components/Admin/StaffList.vue'));
+Vue.component('schedule-index',   require('./components/Schedules/ScheduleIndex.vue'));
 
 Vue.component('pagination', require('laravel-vue-pagination'));
 
