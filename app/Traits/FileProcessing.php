@@ -22,12 +22,17 @@ trait FileProcessing
         $model_frags    = explode('\\', get_class($model));
         $modelClassName = end($model_frags); 
         $unique_time    = time();
-        $uploadFile   = $request->file('uploadFile');
+        $uploadFile     = $request->file('uploadFile');
 
         $uploads_count  = count($uploadFile);
         // $directory      = public_path() .'/uploads/documents/'. strtolower(str_plural($modelClassName));
-        $directory      = config('filesystems.public.documents') .'/'. strtolower(str_plural($modelClassName)); 
-        // $directory      = config('filesystems.storage.documents') .'/'. strtolower(str_plural($modelClassName));
+        // $directory      = config('filesystems.public.documents') .'/'. strtolower(str_plural($modelClassName)); 
+        # Not saved to public directory, most files are expected to be confidential.
+        $directory      = config('filesystems.storage.documents') .'/'. strtolower(str_plural($modelClassName));
+        // dd($directory);
+        if (! Storage::exists($directory)){
+            Storage::makeDirectory($directory);
+        }
 
         // $uploadModelFile = '\App\Jobs\\Upload'. $modelClassName .'File';
 
@@ -41,33 +46,18 @@ trait FileProcessing
                 ]);
             }
 
-            request()->validate([
-                    'uploadFile.*'=> 'required|file|file|max:2000|mimes:pdf,doc,docx',
+            #  Video Length Validation: https://www.magutti.com/blog/laravel-custom-validation-validate-video-length
+            // ...vendor\fzaninotto\faker\src\Faker\Provider\File.php:$mimeTypes
+            request()->validate(
+                [
+                    'uploadFile.*'=> 'required|file|file|max:2000|mimes:pdf,docx,txt,mp4,webm,mp3,wav,ogg',
                     'caption'   => 'required_with:uploadFile|string|max:255',
                 ],
                 [
                     'uploadFile.mimes' => 'Only pdf, doc and docx formats are allowed.',
                     'uploadFile.*.max' => 'File size must be a maximum of 2mb.',
-                ]);
-
-
-            // // Placed here so directory is created on when validation passes.
-            // if (! is_dir($directory)){
-            //     Storage::makeDirectory($directory);
-            //     dd($directory, is_dir($directory));
-            //     mkdir($directory);
-            // }
-
-
-
-            // if($uploadFile){
-            //     $fileExtension = $uploadFile->getClientOriginalExtension();
-            //     $name      = $appointment->slug .'_'. time() .'.'. $fileExtension;
-
-            //     $path      = $uploadFile->storeAs( $directory, $name );
-            //     $document->image_file = $name;
-            // }
-
+                ]
+            );
 
             
             foreach ($uploadFile as $uploaded_file) 
@@ -83,10 +73,8 @@ trait FileProcessing
                                   ;
 
                 $fullFilename = $filename . '.' . $fileExtension;
-                // // $directory = public_path() .'/uploads/files/'. strtolower(str_plural($modelClassName)); 
 
                 ## Move Original:
-                // $uploaded_file->move($directory .'/', $filename . '.png');
                 $uploaded_file->storeAs( $directory, $fullFilename );
 
                 ## Move to storage provider by job.
@@ -100,7 +88,7 @@ trait FileProcessing
     }
 
     /**
-     * Save file url links to the IMAGES Table.
+     * Save file url links to the DOCUMENTS Table.
      *
      * Saving to storage provider eg S3, dropbox is done inside $uploadModelFile($model, $filename)
      */
@@ -109,33 +97,36 @@ trait FileProcessing
         // dd('save info');
 
         # Get file extension.
-        $fileExtension = $uploaded_file->getClientOriginalExtension();
+        $fileExtension    = $uploaded_file->getClientOriginalExtension();
+
+        # Get actual name before upload.
+        $explodeAt        = '.' . $fileExtension;
+        $__explodedName   = explode($explodeAt, $uploaded_file->getClientOriginalName()); 
+        $fileOriginalName = $__explodedName[0];
 
         # Set a new name for file.
         $filename  = $model->slug 
                         ? $model->slug .'-'. $uniqueString 
                         : md5(strval($model->id)) .'-'. $uniqueString
                         ;
-        $directory = config('filesystems.storage.files') 
-                        . '/'. strtolower(str_plural($modelClassName))
-                        ;
+        $directory = config('filesystems.storage.documents') . strtolower(str_plural($modelClassName));
 
-        // $file_location    = $directory .'/'. $filename .    '.png';
+        # $file_location    = $directory .'/'. $filename .    '.png';
         $file_location    = $directory .'/'. $filename . '.' . $fileExtension;
 
-        // Save details to DB.
+        # Save details to DB.
         $file = New Document;
 
         $file->user_id           = auth()->id();
         $file->url               = $file_location;
-        $file->name              = $request->name;
+        $file->name              = $fileOriginalName; // To retain file name.
         $file->description       = $request->description;
         $file->documentable_id   = $model->id;
         $file->documentable_type = get_class($model);
         $file->mime              = $fileExtension;
         $file->size              = $uploaded_file->getSize();
 
-        // This document belongsto a Message model? morphOne!
+        # This document belongsto a Message model? morphOne!
         (get_class($model) == 'App\Message') 
             ? $model->document()->save($file)
             : $model->documents()->save($file)

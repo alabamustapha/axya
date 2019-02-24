@@ -79,15 +79,15 @@ class MessageController extends Controller
     {
         // Active + Pending Appointments.
         $activeAppointments = $doctor->appointments()
-                                     ->hasPrescription()
-                                     // ->hasActiveCorrespondence()
+                                     // ->hasPrescription()
+                                     ->hasActiveCorrespondence()
                                      ->paginate(10)
                                      ;
 
         // Inactive + Past Successful Appointments.
         $inactiveAppointments = $doctor->appointments()
-                                     ->hasPrescription()
-                                     // ->hasInactiveCorrespondence()
+                                     // ->hasPrescription()
+                                     ->hasInactiveCorrespondence()
                                      ->paginate(5)
                                      ;
         

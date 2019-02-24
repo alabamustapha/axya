@@ -234,7 +234,7 @@
                                     @foreach ($prescriptions as $key => $pr)
                                     {{--  class="btn btn-dark btn-sm btn-block text-white m-1" --}}
                                       <li class="p-1 m-1">
-                                        <a href="{{Request::url()}}/#_{{ md5($pr) }}" class="py-1 px-2 m-1 bg-dark rounded">
+                                        <a href="#_{{ md5($pr) }}" class="py-1 px-2 m-1 bg-dark rounded">
                                           <span class="text-white">
                                             <span class="font-weight-bold">
                                               <i class="fa fa-prescription"></i>&nbsp;
@@ -296,7 +296,7 @@
                             @elseif ($message->image)
 
                               <div class="pt-1">
-                                <img src="{{$message->image->url}}" class="img-fluid">
+                                <img src="{{ $message->image->url }}" class="img-fluid">
 
                                 <p class="pt-1">
 
@@ -315,21 +315,21 @@
                                 @elseif ($message->document->isVideo())
 
                                   <video style="max-height:280px" class="embed-responsive" controls>
-                                    <source src = "{{ URL::asset($message->document->url) }}" type = "video/{{$message->document->mime }}" >
+                                    <source src = "{{ route('documents.show', $message->document) }}" type = "video/{{$message->document->mime }}" >
                                     Your browser does not support the video tag. 
                                   </video>
 
                                 @elseif ($message->document->isAudio())
 
                                   <audio controls>
-                                    <source src = "{{ URL::asset($message->document->url) }}" type = "audio/{{$message->document->mime }}" >
+                                    <source src = "{{ route('documents.show', $message->document) }}" type = "audio/{{$message->document->mime }}" >
                                     Your browser does not support the audio tag. 
                                   </audio>
 
                                 @else
-                                  <a href="{{$message->document->url}}" target="_blank">
-                                    <i class="fa fa-{{$message->document->mime}}"></i>
-                                    <i class="fa fa-file h3"></i>
+                                  {{-- <embed src="{{ route('documents.show', $message->document) }}" type="application/pdf"> --}}
+                                  <a href="{{ route('documents.show', $message->document) }}" target="_blank">
+                                    <i class="fa fa-file-{{$message->document->mime}} red"></i>
                                   </a>
                                 @endif
 
