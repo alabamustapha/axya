@@ -12,8 +12,8 @@ class ScheduleController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth')->except('index'); // Index is for testing
-        $this->middleware('doctor')->except('index'); // Index is for testing
+        $this->middleware('auth')->except('schedules', 'index'); // Index is for testing
+        $this->middleware('doctor')->except('schedules', 'index'); // Index is for testing
     }
 
     public function index()

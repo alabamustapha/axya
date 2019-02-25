@@ -68,7 +68,7 @@
     </div>
 
     <!-- Hidden by default and called in when a new field is added -->
-    <div {{-- style="display:none;" --}}>
+    <div style="display:none;">
       <table cols="2" cellspacing="0" cellpadding="0">
         <tbody>
 

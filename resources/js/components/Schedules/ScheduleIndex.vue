@@ -1,6 +1,7 @@
 <template>
+<div class="col-md-6 offset-md-3">
   <div class="schedule-table table-responsive">
-    <table cols="2" cellspacing="0" cellpadding="0" style="table">
+    <table cellspacing="0" cellpadding="0" style="table">
       <tbody>
         <tr>
           <td>
@@ -8,7 +9,8 @@
               <h5 class="font-weight-bold text-uppercase">Schedules</h5>
             </div>
           </td>
-
+        </tr>
+        </tr>
           <td>
             <!-- Availability Hours -->
             <div class="px-3 mb-2 border-bottom">
@@ -50,6 +52,7 @@
       </tbody>
     </table>
   </div>
+</div>
 </template>
 
 <script>
@@ -72,6 +75,16 @@
   }
 
   td div label input[type='text'] {
+    font-family: monospace;    
+    padding-left: 10px;
+    box-sizing: border-box;
+
+    /*line-height: 1;
+    width: 225px;
+    height: 18px;
+    background: yellow;
+    color: green;
+    border: thin solid red;*/
     /*border-color: red;*/
     /*display: flex;
     align-content: space-around;*/

@@ -1,7 +1,8 @@
 @extends('layouts.app')
-{{-- 
+@section('title', 'Schedule Sandbox')
+ 
 @section('styles')
-<style>
+{{-- <style>
   .schedule-table {
     color: #660f0b;
     font-size: 14px;
@@ -12,13 +13,22 @@
   }
 
   td div label input[type='text'] {
+    font-family: monospace;
+    background: yellow;
+    color: green;
+    border: thin solid red;
+    padding-left: 5px;
+    line-height: 1;
+    width: 225px;
+    height: 18px;
+    box-sizing: border-box;
     /*border-color: red;*/
     /*display: flex;
     align-content: space-around;*/
   }
-</style>
+</style> --}}
 @endsection
---}}
+
 
 @section('content')
 
