@@ -80332,6 +80332,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -80725,14 +80726,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           schedules: this.sundaySchedules, // array()
           day_id: this.dayId,
           doctor_id: this.doctorId
-        }).then(function () {
+        }).then(function (response) {
           // Event.$emit('RefreshPage');
           _this.editing = false;
           _this.showSundaySchedules();
+          var message = response.data.status;
+          console.log(message);
 
           toast({
             type: 'success',
-            title: 'Schedule created successfully.'
+            title: message //'Schedule created successfully.'
           });
           _this.$Progress.finish();
         }).catch(function () {
@@ -81087,7 +81090,7 @@ var render = function() {
                 _c("tbody", [
                   _c("tr", [
                     _c("td", [
-                      _c("div", { staticClass: "mr-1" }, [
+                      _c("div", { staticClass: "mr-2" }, [
                         _vm.editing
                           ? _c(
                               "button",
@@ -81131,7 +81134,6 @@ var render = function() {
                               ? _c(
                                   "button",
                                   {
-                                    staticClass: "mr-1",
                                     attrs: { title: "Add New" },
                                     on: { click: _vm.addNewSundaySchedule }
                                   },
@@ -81139,7 +81141,7 @@ var render = function() {
                                     _c("i", {
                                       staticClass: "fa fa-plus text-primary"
                                     }),
-                                    _vm._v(" "),
+                                    _vm._v(" \n                  "),
                                     _c("span", [_vm._v("Add New")])
                                   ]
                                 )
@@ -81155,7 +81157,7 @@ var render = function() {
                                 _c("i", {
                                   staticClass: "fa fa-file text-info"
                                 }),
-                                _vm._v(" "),
+                                _vm._v(" \n                  "),
                                 _c("span", [_vm._v("Save")])
                               ]
                             )
@@ -81413,7 +81415,17 @@ var render = function() {
                     {
                       attrs: { cols: "3", cellspacing: "0", cellpadding: "0" }
                     },
-                    [_c("tbody", [_c("schedule-sunday")], 1)]
+                    [
+                      _c(
+                        "tbody",
+                        [
+                          _c("schedule-sunday"),
+                          _vm._v(" "),
+                          _c("schedule-sunday")
+                        ],
+                        1
+                      )
+                    ]
                   )
                 ])
               ])

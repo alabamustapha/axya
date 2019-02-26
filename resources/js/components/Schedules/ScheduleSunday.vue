@@ -124,7 +124,7 @@
             <tr>      
 
               <td>
-                <div class="mr-1">
+                <div class="mr-2">
                   <button v-if="editing" @click="cancelEditSundaySchedules" title="Cancel edit">
                     <i class="fa fa-times text-danger"></i>
                     <span>Cancel Editing</span>
@@ -138,13 +138,13 @@
               </td>
               <td>
                 <div v-if="editing">
-                  <button v-if="(sundaySchedules.length < maxDailySchedules)" @click="addNewSundaySchedule" class="mr-1" title="Add New">
-                    <i class="fa fa-plus text-primary"></i>
+                  <button v-if="(sundaySchedules.length < maxDailySchedules)" @click="addNewSundaySchedule" class="" title="Add New">
+                    <i class="fa fa-plus text-primary"></i>&nbsp;
                     <span>Add New</span>
                   </button>
 
-                  <button @click="createSundaySchedule" class="" title="Save All"> <!--  v-if="index === sundaySchedules.length - 1" -->
-                    <i class="fa fa-file text-info"></i>
+                  <button @click="createSundaySchedule" class="" title="Save All">
+                    <i class="fa fa-file text-info"></i>&nbsp;
                     <span>Save</span>
                   </button>
                 </div>
@@ -333,14 +333,16 @@
             day_id    : this.dayId,
             doctor_id : this.doctorId,
           })
-          .then(() => {
+          .then((response) => {
             // Event.$emit('RefreshPage');
             this.editing = false;
-            this.showSundaySchedules()
+            this.showSundaySchedules();
+            let message = response.data.status;
+            console.log(message);
 
             toast({
                 type: 'success',
-                title: 'Schedule created successfully.'
+                title: message,//'Schedule created successfully.'
             });
             this.$Progress.finish();            
           })

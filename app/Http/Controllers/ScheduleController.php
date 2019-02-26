@@ -60,17 +60,11 @@ class ScheduleController extends Controller
                 'day_id'    => $request->day_id,
             ]);
 
-            if ($doctor->schedules()->create($schedule)) {
-                $message = 'Schedule added successfully';
-                return response(['status' => $message]);
-            }
+            $doctor->schedules()->create($schedule);
         }
 
         $message = 'Schedule updated successfully';
-
-        if (request()->expectsJson()) {
-            return response(['status' => $message]);
-        }
+        return response(['status' => $message]);
     }
 
     /**
