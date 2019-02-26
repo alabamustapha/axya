@@ -97,11 +97,6 @@
                           <tr>
                             <td>
                               <span v-if="editing">
-                                <button v-if="(sundaySchedules.length < maxDailySchedules) && index === (sundaySchedules.length - 1)" @click="addNewSundaySchedule" class="" title="Add New">
-                                  <i class="fa fa-plus text-primary"></i>
-                                  <!-- <span>Add</span> -->
-                                </button>
-
                                 <button v-if="index >= 0 && index === (sundaySchedules.length - 1)" @click="removeASundaySchedule(index)" class="" title="Delete">
                                   <i class="fa fa-times text-danger"></i>
                                   <!-- <span>Del</span> -->
@@ -130,7 +125,7 @@
 
               <td>
                 <div class="mr-1">
-                  <button v-if="editing" @click="editing = false" title="Cancel edit">
+                  <button v-if="editing" @click="cancelEditSundaySchedules" title="Cancel edit">
                     <i class="fa fa-times text-danger"></i>
                     <span>Cancel Editing</span>
                   </button>
@@ -143,6 +138,11 @@
               </td>
               <td>
                 <div v-if="editing">
+                  <button v-if="(sundaySchedules.length < maxDailySchedules)" @click="addNewSundaySchedule" class="mr-1" title="Add New">
+                    <i class="fa fa-plus text-primary"></i>
+                    <span>Add New</span>
+                  </button>
+
                   <button @click="createSundaySchedule" class="" title="Save All"> <!--  v-if="index === sundaySchedules.length - 1" -->
                     <i class="fa fa-file text-info"></i>
                     <span>Save</span>
@@ -329,7 +329,7 @@
 
           this.$Progress.start();
           axios.post('/schedules', {
-            schedules : this.sundaySchedules,
+            schedules : this.sundaySchedules, // array()
             day_id    : this.dayId,
             doctor_id : this.doctorId,
           })
@@ -364,7 +364,8 @@
       },
 
       cancelEditSundaySchedules() {
-        //
+        this.editing   = false;
+        this.showSundaySchedules()
       },
       
       showSundaySchedules() {

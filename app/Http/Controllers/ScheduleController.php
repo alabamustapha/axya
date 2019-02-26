@@ -29,24 +29,48 @@ class ScheduleController extends Controller
      */
     public function store(ScheduleRequest $request)
     {
-        $this->authorize('create', Schedule::class);
-        
-        // $schedule = Schedule::create($request->all());
-        foreach ($request->schedules as $schedule) {
-            Schedule::create($request->all());
-        }
+        $this->authorize('create', Schedule::class);        
+        /*
+            $schedule = Schedule::create($request->all());
 
-        if ($schedule) {
-            $message = 'Schedule added successfully';
+            if ($schedule) {
+                $message = 'Schedule added successfully';
 
-            if (request()->expectsJson()) {
-                return response(['status' => $message]);
+                if (request()->expectsJson()) {
+                    return response(['status' => $message]);
+                }
+
+                flash($message)->success();
             }
 
-            flash($message)->success();
+            return redirect()->route('doctors.show', $schedule->doctor);
+        */
+
+
+        /** -------------- The New Approach -------------- */
+        $doctor = Doctor::findOrFail($request->doctor_id);
+        
+        $doctor->schedules()
+               ->where('day_id', $request->day_id)
+               ->delete()
+               ;
+
+        foreach ($request->schedules as $schedule) {
+            $schedule = array_merge($schedule, [
+                'day_id'    => $request->day_id,
+            ]);
+
+            if ($doctor->schedules()->create($schedule)) {
+                $message = 'Schedule added successfully';
+                return response(['status' => $message]);
+            }
         }
 
-        return redirect()->route('doctors.show', $schedule->doctor);
+        $message = 'Schedule updated successfully';
+
+        if (request()->expectsJson()) {
+            return response(['status' => $message]);
+        }
     }
 
     /**

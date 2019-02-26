@@ -37,7 +37,7 @@ class ScheduleRequest extends FormRequest
                 'schedules.*.end_at'    => 'required',])
             : array_merge($rules, [
                 'schedules.*.start_at'  => 'required|date_format:H:i:s',
-                'schedules.*.end_at'    => 'required|date_format:H:i:s|after:start_at',
+                'schedules.*.end_at'    => 'required|date_format:H:i:s|after:schedules.*.start_at',
             ]);
 
         return $rules;
