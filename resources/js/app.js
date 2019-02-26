@@ -97,7 +97,8 @@ Vue.component('admin-list',       require('./components/Admin/AdminList.vue'));
 Vue.component('staff-list',       require('./components/Admin/StaffList.vue'));
 Vue.component('schedule-index',   require('./components/Schedules/ScheduleIndex.vue'));
 
-Vue.component('pagination', require('laravel-vue-pagination'));
+Vue.component('pagination',       require('laravel-vue-pagination'));
+Vue.component('loading-spinner',  require('./components/Utilities/LoadingSpinner.vue'));
 
 const app = new Vue({
     el: '#app',
