@@ -30494,6 +30494,7 @@ Vue.component('staff-list', __webpack_require__(204));
 Vue.component('schedule-index', __webpack_require__(225));
 
 Vue.component('pagination', __webpack_require__(207));
+Vue.component('loading-spinner', __webpack_require__(238));
 
 var app = new Vue({
     el: '#app',
@@ -81674,7 +81675,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "col-md-6 offset-md-3" }, [
+  return _c("div", { staticClass: "col-lg-6 offset-lg-3" }, [
     _c("div", { staticClass: "schedule-table table-responsive" }, [
       _c(
         "table",
@@ -81876,92 +81877,36 @@ var render = function() {
           : _vm._e()
       ]),
       _vm._v(" "),
-      _c("td", [
-        _c("div", { staticClass: "px-3 font-weight-bold" }, [
-          _c(
-            "table",
-            { attrs: { cols: "1", cellspacing: "0", cellpadding: "0" } },
-            [
-              _c("tbody", [
-                _c("tr", [
-                  _c("td", [
-                    _c("span", [_vm._v("Sunday")]),
-                    _vm._v(" "),
-                    _c("br"),
-                    _vm._v(" "),
-                    _c("span", [
-                      _vm.editing
-                        ? _c(
-                            "button",
-                            {
-                              attrs: { title: "Cancel edit" },
-                              on: {
-                                click: function($event) {
-                                  _vm.editing = false
-                                }
-                              }
-                            },
-                            [
-                              _c("i", {
-                                staticClass: "fa fa-times text-warning"
-                              }),
-                              _vm._v(" "),
-                              _c("span", [_vm._v("Cancel")])
-                            ]
-                          )
-                        : _c(
-                            "button",
-                            {
-                              attrs: { title: "Edit" },
-                              on: {
-                                click: function($event) {
-                                  _vm.editing = true
-                                }
-                              }
-                            },
-                            [
-                              _c("i", {
-                                staticClass: "fa fa-edit text-primary"
-                              }),
-                              _vm._v(" "),
-                              _c("span", [_vm._v("Edit")])
-                            ]
-                          )
-                    ])
-                  ])
-                ])
-              ])
-            ]
-          )
-        ])
-      ]),
+      _vm._m(0),
       _vm._v(" "),
-      _c(
-        "td",
-        [
-          _vm._l(_vm.schedules, function(schedule, index) {
-            return _c("div", { key: index }, [
-              _c(
-                "table",
-                { attrs: { cols: "2", cellspacing: "0", cellpadding: "0" } },
-                [
-                  _c("tbody", [
-                    _c("tr", [
-                      _c("td", [
-                        _c("div", [
-                          _c(
-                            "table",
-                            {
-                              attrs: {
-                                cols: "3",
-                                cellspacing: "0",
-                                cellpadding: "0"
-                              }
-                            },
-                            [
-                              _c("tbody", [
-                                _vm.creating
-                                  ? _c("span", [
+      _c("td", [
+        _vm.editing
+          ? _c(
+              "div",
+              [
+                _vm._l(_vm.sundaySchedules, function(schedule, index) {
+                  return _c("div", { key: index }, [
+                    _c(
+                      "table",
+                      {
+                        attrs: { cols: "2", cellspacing: "0", cellpadding: "0" }
+                      },
+                      [
+                        _c("tbody", [
+                          _c("tr", [
+                            _c("td", [
+                              _c("div", [
+                                _c(
+                                  "table",
+                                  {
+                                    attrs: {
+                                      cols: "3",
+                                      cellspacing: "0",
+                                      cellpadding: "0"
+                                    }
+                                  },
+                                  [
+                                    _c("tbody", [
                                       _c("tr", [
                                         _c("td", [
                                           _c("div", [
@@ -81981,10 +81926,9 @@ var render = function() {
                                                           name: "model",
                                                           rawName: "v-model",
                                                           value:
-                                                            _vm.schedules
-                                                              .startTime,
+                                                            schedule.start_at,
                                                           expression:
-                                                            "schedules.startTime"
+                                                            "schedule.start_at"
                                                         }
                                                       ],
                                                       staticClass:
@@ -81998,13 +81942,10 @@ var render = function() {
                                                           "false",
                                                         autocomplete: "off",
                                                         autocorrect: "off",
-                                                        disabled: "",
                                                         required: ""
                                                       },
                                                       domProps: {
-                                                        value:
-                                                          _vm.schedules
-                                                            .startTime
+                                                        value: schedule.start_at
                                                       },
                                                       on: {
                                                         input: function(
@@ -82017,8 +81958,8 @@ var render = function() {
                                                             return
                                                           }
                                                           _vm.$set(
-                                                            _vm.schedules,
-                                                            "startTime",
+                                                            schedule,
+                                                            "start_at",
                                                             $event.target.value
                                                           )
                                                         }
@@ -82031,7 +81972,7 @@ var render = function() {
                                           ])
                                         ]),
                                         _vm._v(" "),
-                                        _vm._m(0, true),
+                                        _vm._m(1, true),
                                         _vm._v(" "),
                                         _c("td", [
                                           _c("div", [
@@ -82051,10 +81992,9 @@ var render = function() {
                                                           name: "model",
                                                           rawName: "v-model",
                                                           value:
-                                                            _vm.schedules
-                                                              .endTime,
+                                                            schedule.end_at,
                                                           expression:
-                                                            "schedules.endTime"
+                                                            "schedule.end_at"
                                                         }
                                                       ],
                                                       staticClass:
@@ -82068,12 +82008,10 @@ var render = function() {
                                                           "false",
                                                         autocomplete: "off",
                                                         autocorrect: "off",
-                                                        disabled: "",
                                                         required: ""
                                                       },
                                                       domProps: {
-                                                        value:
-                                                          _vm.schedules.endTime
+                                                        value: schedule.end_at
                                                       },
                                                       on: {
                                                         input: function(
@@ -82086,8 +82024,8 @@ var render = function() {
                                                             return
                                                           }
                                                           _vm.$set(
-                                                            _vm.schedules,
-                                                            "endTime",
+                                                            schedule,
+                                                            "end_at",
                                                             $event.target.value
                                                           )
                                                         }
@@ -82101,218 +82039,369 @@ var render = function() {
                                         ])
                                       ])
                                     ])
-                                  : _c(
-                                      "span",
-                                      _vm._l(_vm.sundaySchedules, function(
-                                        schedule
-                                      ) {
-                                        return _c(
-                                          "tr",
-                                          {
-                                            key: schedule.id,
-                                            staticClass: "mb-1"
-                                          },
-                                          [
-                                            _c("td", [
-                                              _c("div", [
-                                                _c("input", {
-                                                  directives: [
-                                                    {
-                                                      name: "model",
-                                                      rawName: "v-model",
-                                                      value: schedule.start,
-                                                      expression:
-                                                        "schedule.start"
-                                                    }
-                                                  ],
-                                                  staticClass:
-                                                    "sunday-time-field",
-                                                  attrs: {
-                                                    type: "text",
-                                                    disabled: ""
-                                                  },
-                                                  domProps: {
-                                                    value: schedule.start
-                                                  },
-                                                  on: {
-                                                    input: function($event) {
-                                                      if (
-                                                        $event.target.composing
-                                                      ) {
-                                                        return
-                                                      }
-                                                      _vm.$set(
-                                                        schedule,
-                                                        "start",
-                                                        $event.target.value
-                                                      )
-                                                    }
-                                                  }
-                                                })
-                                              ])
-                                            ]),
-                                            _vm._v(" "),
-                                            _vm._m(1, true),
-                                            _vm._v(" "),
-                                            _c("td", [
-                                              _c("div", [
-                                                _c("input", {
-                                                  directives: [
-                                                    {
-                                                      name: "model",
-                                                      rawName: "v-model",
-                                                      value: schedule.end,
-                                                      expression: "schedule.end"
-                                                    }
-                                                  ],
-                                                  staticClass:
-                                                    "sunday-time-field",
-                                                  attrs: {
-                                                    type: "text",
-                                                    disabled: ""
-                                                  },
-                                                  domProps: {
-                                                    value: schedule.end
-                                                  },
-                                                  on: {
-                                                    input: function($event) {
-                                                      if (
-                                                        $event.target.composing
-                                                      ) {
-                                                        return
-                                                      }
-                                                      _vm.$set(
-                                                        schedule,
-                                                        "end",
-                                                        $event.target.value
-                                                      )
-                                                    }
-                                                  }
-                                                })
-                                              ])
-                                            ])
-                                          ]
-                                        )
-                                      })
-                                    )
+                                  ]
+                                )
                               ])
-                            ]
-                          )
-                        ])
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _c("div", { staticClass: "px-1" }, [
-                          _c(
-                            "table",
-                            {
-                              attrs: {
-                                cols: "1",
-                                cellspacing: "0",
-                                cellpadding: "0"
-                              }
-                            },
-                            [
-                              _c("tbody", [
-                                _c("tr", [
-                                  _c("td", [
-                                    _vm.creating || _vm.editing
-                                      ? _c("span", [
-                                          _vm.schedules.length <
-                                            _vm.maxDailySchedules &&
-                                          index === _vm.schedules.length - 1
-                                            ? _c(
-                                                "button",
-                                                {
-                                                  attrs: { title: "Add New" },
-                                                  on: {
-                                                    click:
-                                                      _vm.addNewSundaySchedule
-                                                  }
-                                                },
-                                                [
-                                                  _c("i", {
-                                                    staticClass:
-                                                      "fa fa-plus text-primary"
-                                                  })
-                                                ]
-                                              )
-                                            : _vm._e(),
-                                          _vm._v(" "),
-                                          index > 0 &&
-                                          index === _vm.schedules.length - 1
-                                            ? _c(
-                                                "button",
-                                                {
-                                                  attrs: { title: "Delete" },
-                                                  on: {
-                                                    click:
-                                                      _vm.removeASundaySchedule
-                                                  }
-                                                },
-                                                [
-                                                  _c("i", {
-                                                    staticClass:
-                                                      "fa fa-times text-danger"
-                                                  })
-                                                ]
-                                              )
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _c("div", { staticClass: "px-1" }, [
+                                _c(
+                                  "table",
+                                  {
+                                    attrs: {
+                                      cols: "1",
+                                      cellspacing: "0",
+                                      cellpadding: "0"
+                                    }
+                                  },
+                                  [
+                                    _c("tbody", [
+                                      _c("tr", [
+                                        _c("td", [
+                                          _vm.editing
+                                            ? _c("span", [
+                                                _vm.sundaySchedules.length <
+                                                  _vm.maxDailySchedules &&
+                                                index ===
+                                                  _vm.sundaySchedules.length - 1
+                                                  ? _c(
+                                                      "button",
+                                                      {
+                                                        attrs: {
+                                                          title: "Add New"
+                                                        },
+                                                        on: {
+                                                          click:
+                                                            _vm.addNewSundaySchedule
+                                                        }
+                                                      },
+                                                      [
+                                                        _c("i", {
+                                                          staticClass:
+                                                            "fa fa-plus text-primary"
+                                                        })
+                                                      ]
+                                                    )
+                                                  : _vm._e(),
+                                                _vm._v(" "),
+                                                index >= 0 &&
+                                                index ===
+                                                  _vm.sundaySchedules.length - 1
+                                                  ? _c(
+                                                      "button",
+                                                      {
+                                                        attrs: {
+                                                          title: "Delete"
+                                                        },
+                                                        on: {
+                                                          click: function(
+                                                            $event
+                                                          ) {
+                                                            _vm.removeASundaySchedule(
+                                                              index
+                                                            )
+                                                          }
+                                                        }
+                                                      },
+                                                      [
+                                                        _c("i", {
+                                                          staticClass:
+                                                            "fa fa-times text-danger"
+                                                        })
+                                                      ]
+                                                    )
+                                                  : _vm._e()
+                                              ])
                                             : _vm._e()
                                         ])
-                                      : _vm._e(),
-                                    _vm._v(" "),
-                                    _vm.creating || _vm.editing
-                                      ? _c("span", [
-                                          index === _vm.schedules.length - 1
-                                            ? _c(
-                                                "button",
-                                                {
-                                                  staticClass: "ml-1",
-                                                  attrs: { title: "Save All" },
-                                                  on: {
-                                                    click:
-                                                      _vm.createSundaySchedule
-                                                  }
-                                                },
-                                                [
-                                                  _c("i", {
-                                                    staticClass:
-                                                      "fa fa-file text-info"
-                                                  }),
-                                                  _vm._v(" "),
-                                                  _c("span", [_vm._v("Save")])
-                                                ]
-                                              )
-                                            : _vm._e()
-                                        ])
-                                      : _vm._e()
-                                  ])
-                                ])
+                                      ])
+                                    ])
+                                  ]
+                                )
                               ])
-                            ]
-                          )
+                            ])
+                          ])
                         ])
+                      ]
+                    )
+                  ])
+                }),
+                _vm._v(" "),
+                _vm.errorMsg
+                  ? _c("div", {
+                      staticClass: " text-danger",
+                      domProps: { innerHTML: _vm._s(_vm.errorMsg) }
+                    })
+                  : _vm._e()
+              ],
+              2
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.isDoctorOwner
+          ? _c(
+              "table",
+              { attrs: { cols: "2", cellspacing: "0", cellpadding: "0" } },
+              [
+                _c("tbody", [
+                  _c("tr", [
+                    _c("td", [
+                      _c("div", { staticClass: "mr-1" }, [
+                        _vm.editing
+                          ? _c(
+                              "button",
+                              {
+                                attrs: { title: "Cancel edit" },
+                                on: {
+                                  click: function($event) {
+                                    _vm.editing = false
+                                  }
+                                }
+                              },
+                              [
+                                _c("i", {
+                                  staticClass: "fa fa-times text-danger"
+                                }),
+                                _vm._v(" "),
+                                _c("span", [_vm._v("Cancel Editing")])
+                              ]
+                            )
+                          : _c(
+                              "button",
+                              {
+                                attrs: { title: "Edit" },
+                                on: {
+                                  click: function($event) {
+                                    _vm.editing = true
+                                  }
+                                }
+                              },
+                              [
+                                _c("i", {
+                                  staticClass: "fa fa-edit text-primary"
+                                }),
+                                _vm._v(" "),
+                                _c("span", [_vm._v("Edit")])
+                              ]
+                            )
                       ])
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm.editing
+                        ? _c("div", [
+                            _c(
+                              "button",
+                              {
+                                attrs: { title: "Save All" },
+                                on: { click: _vm.createSundaySchedule }
+                              },
+                              [
+                                _c("i", {
+                                  staticClass: "fa fa-file text-info"
+                                }),
+                                _vm._v(" "),
+                                _c("span", [_vm._v("Save")])
+                              ]
+                            )
+                          ])
+                        : _vm._e()
                     ])
                   ])
-                ]
-              )
-            ])
-          }),
-          _vm._v(" "),
-          _vm.errorMsg
-            ? _c("span", {
-                staticClass: "text-danger",
-                domProps: { innerHTML: _vm._s(_vm.errorMsg) }
-              })
-            : _vm._e()
-        ],
-        2
-      )
+                ])
+              ]
+            )
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      !_vm.editing
+        ? _c("td", [
+            _vm.sundaySchedules.length
+              ? _c("div", [
+                  _c(
+                    "table",
+                    {
+                      attrs: { cols: "1", cellspacing: "0", cellpadding: "0" }
+                    },
+                    [
+                      _c("tbody", [
+                        _c("tr", [
+                          _c("td", [
+                            _c("div", [
+                              _c(
+                                "table",
+                                {
+                                  attrs: {
+                                    cols: "3",
+                                    cellspacing: "0",
+                                    cellpadding: "0"
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "tbody",
+                                    _vm._l(_vm.sundaySchedules, function(
+                                      schedule
+                                    ) {
+                                      return _c(
+                                        "tr",
+                                        {
+                                          key: schedule.id,
+                                          staticClass: "mb-1"
+                                        },
+                                        [
+                                          _c("td", [
+                                            _c("div", { staticClass: "mb-1" }, [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: schedule.start,
+                                                    expression: "schedule.start"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "sunday-time-field",
+                                                attrs: {
+                                                  type: "text",
+                                                  disabled: ""
+                                                },
+                                                domProps: {
+                                                  value: schedule.start
+                                                },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.$set(
+                                                      schedule,
+                                                      "start",
+                                                      $event.target.value
+                                                    )
+                                                  }
+                                                }
+                                              })
+                                            ])
+                                          ]),
+                                          _vm._v(" "),
+                                          _vm._m(2, true),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _c("div", { staticClass: "mb-1" }, [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: schedule.end,
+                                                    expression: "schedule.end"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "sunday-time-field",
+                                                attrs: {
+                                                  type: "text",
+                                                  disabled: ""
+                                                },
+                                                domProps: {
+                                                  value: schedule.end
+                                                },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.$set(
+                                                      schedule,
+                                                      "end",
+                                                      $event.target.value
+                                                    )
+                                                  }
+                                                }
+                                              })
+                                            ])
+                                          ])
+                                        ]
+                                      )
+                                    })
+                                  )
+                                ]
+                              )
+                            ])
+                          ])
+                        ])
+                      ])
+                    ]
+                  )
+                ])
+              : _c(
+                  "div",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: !_vm.loading,
+                        expression: "!loading"
+                      }
+                    ],
+                    staticClass: "text-center"
+                  },
+                  [_vm._v("\n        Not Available on Sundays\n      ")]
+                ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.loading,
+                    expression: "loading"
+                  }
+                ],
+                staticClass: "text-center"
+              },
+              [_vm._m(3)]
+            )
+          ])
+        : _vm._e()
     ])
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [
+      _c("div", { staticClass: "px-3" }, [
+        _c(
+          "table",
+          { attrs: { cols: "1", cellspacing: "0", cellpadding: "0" } },
+          [
+            _c("tbody", [
+              _c("tr", [
+                _c("td", [
+                  _c("span", { staticClass: "font-weight-bold" }, [
+                    _vm._v("Sunday")
+                  ])
+                ])
+              ])
+            ])
+          ]
+        )
+      ])
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -82323,7 +82412,15 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", [_c("div", [_vm._v("–")])])
+    return _c("td", [_c("div", { staticClass: "mb-1" }, [_vm._v("–")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "d-inline-block fa-1x h6" }, [
+      _c("i", { staticClass: "fas fa-sync fa-spin" })
+    ])
   }
 ]
 render._withStripped = true
@@ -82518,104 +82615,188 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  // props: ['doctorId'],
+  // props: [''],//doctorId
 
   data: function data() {
     return {
+      loading: true,
       isDoctorOwner: true,
       doctorId: 30, //doctorId,
       sundaySchedules: {},
       dayId: '1',
 
       maxDailySchedules: 3,
-      creating: false,
       editing: false,
       sundayNew: false,
+      sundayAvailable: false,
       addNew: false,
       errorMsg: null,
       schedules: [{
-        startTime: null,
-        endTime: null,
-        dayId: '1'
+        start_at: null,
+        end_at: null
       }]
     };
   },
   created: function created() {
     this.showSundaySchedules();
+    // this.maxSundaySchedules();
   },
 
 
+  computed: {
+    // spinnerLoading () {
+    //   return this.loading ? true : false;
+    // },
+  },
+
   methods: {
     initSundaySchedule: function initSundaySchedule() {
-      this.creating = true;
-      this.schedules.startTime = '9:00am';
-      this.schedules.endTime = '5:00pm';
-      $('.sunday-time-field').attr('disabled', true);
-
-      if (this.sundayNew) {
-        $('.sunday-time-field').attr('disabled', true);
-        this.schedules.startTime = null;
-        this.schedules.endTime = null;
-        this.creating = false;
-      } else {
-        $('.sunday-time-field').attr('disabled', false);
-        this.schedules.startTime = '9:00am';
-        this.schedules.endTime = '5:00pm';
-        this.creating = true;
-      }
+      this.sundayAvailable = true;
     },
     addNewSundaySchedule: function addNewSundaySchedule() {
-      // this.addNew = true;  
-      $('.sunday-time-field').attr('disabled', false);
-      this.schedules.push({
-        startTime: '5:00pm',
-        endTime: '11:00pm',
-        day_id: '1'
+      this.sundaySchedules.push({
+        start_at: '',
+        end_at: ''
       });
     },
     removeASundaySchedule: function removeASundaySchedule(index) {
-      // this.addNew = false;   
-      $('.sunday-time-field').attr('disabled', false);
-      this.schedules.splice(index, 1);
-      // // then remove from db if this is update action.
+      // if (confirm('You really want to remove this schedule?')){
+      this.sundaySchedules.splice(index, 1);
+
+      // then remove from db if this is update action.
+      // Laravel's sync should do the magic.
+      // }
     },
     createSundaySchedule: function createSundaySchedule() {
       var _this = this;
 
-      if (this.startTime == null || this.endTime == null) {
+      if (this.sundaySchedules.length) {
+
+        this.$Progress.start();
+        axios.post('/schedules', {
+          schedules: this.sundaySchedules,
+          day_id: this.dayId,
+          doctor_id: this.doctorId
+        }).then(function () {
+          // Event.$emit('RefreshPage');
+          _this.editing = false;
+          _this.showSundaySchedules();
+
+          toast({
+            type: 'success',
+            title: 'Schedule created successfully.'
+          });
+          _this.$Progress.finish();
+        }).catch(function () {
+          toast({
+            type: 'error',
+            title: 'Something went wrong! Try again later.'
+          });
+          _this.$Progress.fail();
+        });
+      } else if (this.start_at == null || this.end_at == null) {
         this.errorMsg = 'Schedule <strong>start</strong> or <strong>end time</strong> cannot be empty';
         setTimeout(function () {
           _this.errorMsg = null;
         }, 7000);
         return false;
       }
-
-      this.$Progress.start();
-      axios.post('/schedules', {
-        startTime: this.startTime,
-        endTime: this.endTime,
-        day_id: '1'
-      }).then(function () {
-        // Event.$emit('RefreshPage');
-        $('.sunday-time-field').attr('readonly', 'true');
-        $('.sunday-time-field').addClass('bg-light');
-        toast({
-          type: 'success',
-          title: 'Schedule created successfully.'
-        });
-        _this.$Progress.finish();
-      }).catch(function () {
-        toast({
-          type: 'error',
-          title: 'Something went wrong! Try again later.'
-        });
-        _this.$Progress.fail();
-      });
     },
     editSundaySchedules: function editSundaySchedules() {
-      //
+      this.editing = true;
     },
     cancelEditSundaySchedules: function cancelEditSundaySchedules() {
       //
@@ -82628,11 +82809,129 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         var data = _ref.data;
         return _this2.sundaySchedules = data;
       }).then(function () {
-        console.log(_this2.sundaySchedules);
+        _this2.loading = false;
       });
     }
   }
 });
+
+/***/ }),
+/* 235 */,
+/* 236 */,
+/* 237 */,
+/* 238 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(239)
+/* template */
+var __vue_template__ = __webpack_require__(240)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/Utilities/LoadingSpinner.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7a842526", Component.options)
+  } else {
+    hotAPI.reload("data-v-7a842526", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 239 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  // props: ['spinnerLoading'],
+
+  // data() {
+  //   return {
+  //     loading : this.spinnerLoading,
+  //   }
+  // },
+});
+
+/***/ }),
+/* 240 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      directives: [
+        {
+          name: "show",
+          rawName: "v-show",
+          value: _vm.loading,
+          expression: "loading"
+        }
+      ],
+      staticClass: "text-center"
+    },
+    [_vm._m(0)]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "d-inline-block fa-1x h6" }, [
+      _c("i", { staticClass: "fas fa-sync fa-spin" })
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-7a842526", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

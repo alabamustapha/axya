@@ -10,7 +10,6 @@
               <tr>
                 <td>
                   <label>
-                    <!-- Use this to target a day -->
                     <input type="checkbox" v-model="sundayNew" @click="initSundaySchedule">
                   </label>
                 </td>
@@ -22,25 +21,13 @@
       </td>
 
       <td>
-        <div class="px-3 font-weight-bold">
+        <div class="px-3">
           <table cols="1" cellspacing="0" cellpadding="0">
             <tbody>
 
               <tr>
                 <td>
-                  <span>Sunday</span> <br>
-
-                  <span><!--   v-if="isDoctorOwner -->
-                    <button v-if="editing" @click="editing = false" title="Cancel edit">
-                      <i class="fa fa-times text-warning"></i>
-                      <span>Cancel</span>
-                    </button>
-
-                    <button v-else @click="editing = true" title="Edit">
-                      <i class="fa fa-edit text-primary"></i>
-                      <span>Edit</span>
-                    </button>
-                  </span>
+                  <span class="font-weight-bold">Sunday</span> 
                 </td>
               </tr>
 
@@ -50,17 +37,17 @@
       </td>
 
       <td>
-        <div v-for="(schedule, index) in schedules" :key="index">
-          <table cols="2" cellspacing="0" cellpadding="0">
-            <tbody>
+        <div v-if="editing">
+          <div v-for="(schedule, index) in sundaySchedules" :key="index">
+            <table cols="2" cellspacing="0" cellpadding="0">
+              <tbody>
 
-              <tr>
-                <td>
-                  <div>
-                    <table cols="3" cellspacing="0" cellpadding="0">
-                      <tbody>
-                        
-                        <span v-if="creating">
+                <tr>
+                  <td>
+                    <div>
+                      <table cols="3" cellspacing="0" cellpadding="0">
+                        <tbody>
+                          
                           <tr>
                             <td>
                               <!-- Start Time -->
@@ -69,9 +56,9 @@
                                   <label id="">
                                     <input 
                                       class="sunday-time-field" placeholder="time" 
-                                      v-model="schedules.startTime" type="text" 
+                                      v-model="schedule.start_at" type="text" 
                                       aria-autocomplete="list" aria-expanded="false" 
-                                      autocomplete="off" autocorrect="off" disabled required 
+                                      autocomplete="off" autocorrect="off" required
                                     >
                                   </label>
                                 </span>
@@ -87,75 +74,167 @@
                                   <label id="">
                                     <input 
                                       class="sunday-time-field" placeholder="time" 
-                                      v-model="schedules.endTime" type="text" 
+                                      v-model="schedule.end_at" type="text" 
                                       aria-autocomplete="list" aria-expanded="false" 
-                                      autocomplete="off" autocorrect="off" disabled required 
+                                      autocomplete="off" autocorrect="off" required
                                     >
                                   </label>
                                 </span>
                               </div>
                             </td>
                           </tr>
-                        </span>
-                        
-                        <span v-else>
-                          <tr v-for="schedule in sundaySchedules" :key="schedule.id" class="mb-1">
+
+                        </tbody>
+                      </table>
+                    </div>
+                  </td>
+
+                  <td>
+                    <div class="px-1">
+                      <table cols="1" cellspacing="0" cellpadding="0">
+                        <tbody>
+
+                          <tr>
                             <td>
-                              <!-- Start Time -->
-                              <div>
-                                <input 
-                                  class="sunday-time-field"
-                                  v-model="schedule.start" type="text" 
-                                  disabled
-                                >
-                              </div>
-                            </td>
-                            <td>
-                              <div>–</div>
-                            </td>
-                            <td>
-                              <!-- End Time -->
-                              <div>
-                                <input 
-                                  class="sunday-time-field"
-                                  v-model="schedule.end" type="text" 
-                                  disabled
-                                >
-                              </div>
+                              <span v-if="editing">
+                                <button v-if="(sundaySchedules.length < maxDailySchedules) && index === (sundaySchedules.length - 1)" @click="addNewSundaySchedule" class="" title="Add New">
+                                  <i class="fa fa-plus text-primary"></i>
+                                  <!-- <span>Add</span> -->
+                                </button>
+
+                                <button v-if="index >= 0 && index === (sundaySchedules.length - 1)" @click="removeASundaySchedule(index)" class="" title="Delete">
+                                  <i class="fa fa-times text-danger"></i>
+                                  <!-- <span>Del</span> -->
+                                </button>
+                              </span>
                             </td>
                           </tr>
-                        </span>
-                        
-                      </tbody>
-                    </table>
-                  </div>
-                </td>
+                          
+                        </tbody>
+                      </table>
+                    </div>
+                  </td>
+                </tr>
 
+              </tbody>
+            </table>
+          </div>
+
+          <div class=" text-danger" v-if="errorMsg" v-html="errorMsg"></div>
+        </div>
+
+          
+        <table v-if="isDoctorOwner" cols="2" cellspacing="0" cellpadding="0">
+          <tbody>
+            <tr>      
+
+              <td>
+                <div class="mr-1">
+                  <button v-if="editing" @click="editing = false" title="Cancel edit">
+                    <i class="fa fa-times text-danger"></i>
+                    <span>Cancel Editing</span>
+                  </button>
+
+                  <button v-else @click="editing = true" title="Edit">
+                    <i class="fa fa-edit text-primary"></i>
+                    <span>Edit</span>
+                  </button>
+                </div>
+              </td>
+              <td>
+                <div v-if="editing">
+                  <button @click="createSundaySchedule" class="" title="Save All"> <!--  v-if="index === sundaySchedules.length - 1" -->
+                    <i class="fa fa-file text-info"></i>
+                    <span>Save</span>
+                  </button>
+                </div>
+              </td>
+
+            </tr>
+          </tbody>
+        </table>
+
+          <!-- Content Display Section During Edit -->
+          <!-- <div class="mt-3 text-danger">
+            <table cols="3" cellspacing="0" cellpadding="0">
+              <tbody>
+
+                <tr v-for="schedule in sundaySchedules" :key="schedule.id">
+                  <td>
+                    <!-- Start Time ->
+                    <div class="mb-1">
+                      <input 
+                        class="sunday-time-field"
+                        v-model="schedule.start" type="text" 
+                        disabled
+                      >
+                    </div>
+                  </td>
+                  <td>
+                    <div class="mb-1">–</div>
+                  </td>
+                  <td>
+                    <!-- End Time ->
+                    <div class="mb-1">
+                      <input 
+                        class="sunday-time-field"
+                        v-model="schedule.end" type="text" 
+                        disabled
+                      >
+                    </div>
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div> -->
+      </td>
+
+
+
+
+
+
+
+
+
+
+
+      <!-- Normal User's View -->
+      <td v-if="!editing">
+        <div v-if="sundaySchedules.length">
+          <table cols="1" cellspacing="0" cellpadding="0">
+            <tbody>
+
+              <tr>
                 <td>
-                  <div class="px-1">
-                    <table cols="1" cellspacing="0" cellpadding="0">
+                  <div>
+                    <table cols="3" cellspacing="0" cellpadding="0">
                       <tbody>
 
-                        <tr>
+                        <tr v-for="schedule in sundaySchedules" :key="schedule.id" class="mb-1">
                           <td>
-                            <span v-if="creating || editing">
-                              <button v-if="schedules.length < maxDailySchedules && index === (schedules.length - 1)" @click="addNewSundaySchedule" class="" title="Add New">
-                                <i class="fa fa-plus text-primary"></i>
-                                <!-- <span>Add</span> -->
-                              </button>
-
-                              <button v-if="index > 0 && index === (schedules.length - 1)" @click="removeASundaySchedule" class="" title="Delete">
-                                <i class="fa fa-times text-danger"></i>
-                                <!-- <span>Del</span> -->
-                              </button>
-                            </span>
-
-                            <span v-if="creating || editing">
-                              <button v-if="index === schedules.length - 1" @click="createSundaySchedule" class="ml-1" title="Save All">
-                                <i class="fa fa-file text-info"></i>
-                                <span>Save</span>
-                              </button>
-                            </span>
+                            <!-- Start Time -->
+                            <div class="mb-1">
+                              <input 
+                                class="sunday-time-field"
+                                v-model="schedule.start" type="text" 
+                                disabled
+                              >
+                            </div>
+                          </td>
+                          <td>
+                            <div class="mb-1">–</div>
+                          </td>
+                          <td>
+                            <!-- End Time -->
+                            <div class="mb-1">
+                              <input 
+                                class="sunday-time-field"
+                                v-model="schedule.end" type="text" 
+                                disabled
+                              >
+                            </div>
                           </td>
                         </tr>
                         
@@ -167,36 +246,48 @@
 
             </tbody>
           </table>
+
+        </div>
+        <div v-else v-show="!loading" class="text-center">
+          Not Available on Sundays
         </div>
 
-        <span class="text-danger" v-if="errorMsg" v-html="errorMsg"></span>
+        <!-- <loading-spinner :spinner-loading="spinnerLoading"></loading-spinner> -->
+        <div class="text-center" v-show="loading">
+          <span class="d-inline-block fa-1x h6">
+            <i class="fas fa-sync fa-spin"></i>
+          </span>
+        </div>
+
       </td>
+      <!-- ./Normal User's View -->
+
     </tr>
   </div>
 </template>
 
 <script>
   export default {
-    // props: ['doctorId'],
+    // props: [''],//doctorId
     
     data() {
       return {
+        loading : true,
         isDoctorOwner : true,
         doctorId : 30,//doctorId,
         sundaySchedules: {},
         dayId    : '1',
 
         maxDailySchedules : 3,
-        creating   : false,
         editing    : false,
         sundayNew : false,
+        sundayAvailable : false,
         addNew    : false,
         errorMsg   : null,
         schedules: [
           {
-            startTime : null,
-            endTime   : null,
-            dayId     : '1',
+            start_at : null,
+            end_at   : null,
           }
         ]
       }
@@ -204,77 +295,72 @@
 
     created() {
       this.showSundaySchedules();
+      // this.maxSundaySchedules();
+    },
+
+    computed: {
+      // spinnerLoading () {
+      //   return this.loading ? true : false;
+      // },
     },
 
     methods: {
       initSundaySchedule () {
-        this.creating   = true;
-        this.schedules.startTime = '9:00am';
-        this.schedules.endTime   = '5:00pm';
-        $('.sunday-time-field').attr('disabled', true);
-
-        if (this.sundayNew) {
-          $('.sunday-time-field').attr('disabled', true);
-          this.schedules.startTime = null;
-          this.schedules.endTime   = null;
-          this.creating             = false;
-        } else {
-          $('.sunday-time-field').attr('disabled', false);
-          this.schedules.startTime = '9:00am';
-          this.schedules.endTime   = '5:00pm';
-          this.creating             = true;
-        }
+        this.sundayAvailable   = true;
       },
       addNewSundaySchedule () {
-        // this.addNew = true;  
-        $('.sunday-time-field').attr('disabled', false); 
-        this.schedules.push({
-          startTime : '5:00pm',
-          endTime   : '11:00pm',
-          day_id     : '1',
+        this.sundaySchedules.push({
+          start_at : '',
+          end_at   : '',
         })
       },
+
       removeASundaySchedule(index) {
-        // this.addNew = false;   
-        $('.sunday-time-field').attr('disabled', false); 
-        this.schedules.splice(index, 1);
-        // // then remove from db if this is update action.
+        // if (confirm('You really want to remove this schedule?')){
+          this.sundaySchedules.splice(index, 1);
+            
+        // then remove from db if this is update action.
+        // Laravel's sync should do the magic.
+        // }
       },
 
       createSundaySchedule() {
-        if (this.startTime == null || this.endTime == null) {
+        if (this.sundaySchedules.length) {
+
+          this.$Progress.start();
+          axios.post('/schedules', {
+            schedules : this.sundaySchedules,
+            day_id    : this.dayId,
+            doctor_id : this.doctorId,
+          })
+          .then(() => {
+            // Event.$emit('RefreshPage');
+            this.editing = false;
+            this.showSundaySchedules()
+
+            toast({
+                type: 'success',
+                title: 'Schedule created successfully.'
+            });
+            this.$Progress.finish();            
+          })
+          .catch(() => {
+            toast({
+                type: 'error',
+                title: 'Something went wrong! Try again later.'
+            });
+            this.$Progress.fail();
+          });
+        }
+        else if (this.start_at == null || this.end_at == null) {
           this.errorMsg = 'Schedule <strong>start</strong> or <strong>end time</strong> cannot be empty';
           setTimeout(() => { this.errorMsg = null; }, 7000);
           return false;
         }
-
-        this.$Progress.start();
-        axios.post('/schedules', {
-          startTime : this.startTime,
-          endTime   : this.endTime,
-          day_id     : '1',
-        })
-        .then(() => {
-          // Event.$emit('RefreshPage');
-          $('.sunday-time-field').attr('readonly', 'true');
-          $('.sunday-time-field').addClass('bg-light');
-          toast({
-              type: 'success',
-              title: 'Schedule created successfully.'
-          });
-          this.$Progress.finish();            
-        })
-        .catch(() => {
-          toast({
-              type: 'error',
-              title: 'Something went wrong! Try again later.'
-          });
-          this.$Progress.fail();
-        });
       },
 
       editSundaySchedules() {
-        //
+        this.editing   = true;
       },
 
       cancelEditSundaySchedules() {
@@ -285,9 +371,7 @@
         // const scheduleUrl = appUrl +'/schedules/' + this.doctorId +'/' + this.sundayId);
         axios.get('/schedules/' + this.doctorId +'/' + this.dayId)
         .then(({data}) => (this.sundaySchedules = data))
-        .then(() => {
-          console.log(this.sundaySchedules);
-        })
+        .then(() => { this.loading = false; })
       },
     },
   }

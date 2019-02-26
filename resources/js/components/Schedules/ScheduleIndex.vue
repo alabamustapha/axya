@@ -1,5 +1,5 @@
 <template>
-<div class="col-md-6 offset-md-3">
+<div class="col-lg-6 offset-lg-3">
   <div class="schedule-table table-responsive">
     <table cellspacing="0" cellpadding="0" style="table">
       <tbody>

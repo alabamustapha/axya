@@ -31,7 +31,10 @@ class ScheduleController extends Controller
     {
         $this->authorize('create', Schedule::class);
         
-        $schedule = Schedule::create($request->all());
+        // $schedule = Schedule::create($request->all());
+        foreach ($request->schedules as $schedule) {
+            Schedule::create($request->all());
+        }
 
         if ($schedule) {
             $message = 'Schedule added successfully';
