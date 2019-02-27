@@ -40,7 +40,11 @@
                 <table cols="3" cellspacing="0" cellpadding="0">
                   <tbody>
 
-                    <schedule-sunday></schedule-sunday>
+                    <div v-for="(day, index) in days" :key="index" :class="(index % 2) == 0 ? 'bg-light':'bg-white'">
+
+                      <schedule-base :day-id="index + 1" day-name="day"></schedule-base>
+
+                    </div>
 
                   </tbody>
                 </table>
@@ -56,10 +60,24 @@
 </template>
 
 <script>
-  import ScheduleSunday from './ScheduleSunday.vue'
+  import ScheduleBase from './ScheduleBase.vue'
   export default {
     components: {
-      'schedule-sunday': ScheduleSunday,
+      'schedule-base': ScheduleBase,
+    },
+
+    data () {
+      return {
+        days : [
+          'sunday', // 1 => 
+          'monday', // 2 => 
+          'tuesday', // 3 => 
+          'wednesday', // 4 => 
+          'thursday', // 5 => 
+          'friday', // 6 => 
+          'saturday', // 7 => 
+        ],
+      }
     }
   }
 </script>
