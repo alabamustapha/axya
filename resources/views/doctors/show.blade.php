@@ -154,6 +154,7 @@
 
         <schedule-index 
             :doctor-id="{{ $doctor->id }}" 
+            :is-available="{{ intval( $doctor->isActive() ) }}"
             :is-doctor-owner="{{ intval( Auth::check() 
                                     && ( Auth::id() === $doctor->id ) 
                                     && ( Auth::user()->isAuthenticatedDoctor()) 

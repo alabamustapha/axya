@@ -84,8 +84,6 @@ const router = new VueRouter({
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 Vue.component('searches',         require('./components/Searches.vue'));
-Vue.component('schedule-list',    require('./components/ScheduleList.vue'));
-Vue.component('schedule',         require('./components/Schedule.vue'));
 Vue.component('prescription',     require('./components/Prescription.vue'));
 Vue.component('drug',             require('./components/Drug.vue'));
 Vue.component('display-prescription',require('./components/DisplayPrescription.vue'));
@@ -96,6 +94,8 @@ Vue.component('doctor-search',    require('./components/DoctorSearch.vue'));
 Vue.component('admin-list',       require('./components/Admin/AdminList.vue'));
 Vue.component('staff-list',       require('./components/Admin/StaffList.vue'));
 Vue.component('schedule-index',   require('./components/Schedules/ScheduleIndex.vue'));
+Vue.component('schedule-list',    require('./components/Schedules/OldAttempt/ScheduleList.vue'));
+Vue.component('schedule',         require('./components/Schedules/OldAttempt/Schedule.vue'));
 
 Vue.component('pagination',       require('laravel-vue-pagination'));
 Vue.component('loading-spinner',  require('./components/Utilities/LoadingSpinner.vue'));

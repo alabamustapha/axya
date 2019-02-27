@@ -1,40 +1,21 @@
 <template>
-  <div class="schedule-table table-responsive">
-    <table cellspacing="0" cellpadding="0" style="table">
+  <div class="col schedule-table table-responsive">
+    <table cellspacing="0" cellpadding="0" class="w-100">
       <tbody>
         <tr>
           <td>
             <div class="px-3 text-center">
               <h5 class="font-weight-bold text-uppercase">Schedules</h5>
+              <ul v-if="isDoctorOwner" class="list-unstyled text-muted font-weight-bold">
+                <li><i class="fa fa-check-square"></i> Tick any checkbox to edit. <i class="fa fa-minus-square"></i> Untick to cancel editing.</li>
+              </ul>
             </div>
           </td>
         </tr>
-        </tr>
+        <tr>
           <td>
             <!-- Availability Hours -->
-            <div v-if="isDoctorOwner" class="px-3 mb-2 border-bottom">
-              <div class="d-block">
-                <label>
-                  <input type="radio" name="avialability_type"> &nbsp;
-                  <span>Available Always</span>
-                </label>
-              </div>
-              <div class="d-block">
-                <label>
-                  <input type="radio" name="avialability_type"> &nbsp;
-                  <span>Available on Selected Hours</span>
-                </label>
-              </div>
-              <div class="d-block">
-                <label>
-                  <input type="radio" name="avialability_type"> &nbsp;
-                  <span>Not Available</span>
-                </label>
-              </div>
-            </div>
-
-            <!-- Availability Hours Gangan -->
-            <div class="px-3 schedule-table__font-size">
+            <div v-if="isAvailable" class="px-3 schedule-table__font-size">
               <div>
                 <table cols="3" cellspacing="0" cellpadding="0">
                   <tbody>
@@ -57,6 +38,16 @@
                 </table>
               </div>
             </div>
+            <div v-else class="px-3 schedule-table__font-size">
+
+              <div class="col mb-3 text-center font-weight-bold border border-danger rounded">
+                <div class="display-3"><i class="fa fa-calendar-times red"></i></div>
+                <p class="text-sm red font-weight-bold">
+                  Not available for appointments at this time.
+                </p>
+              </div>
+
+            </div>
             <!-- \Availability Hours Gangan -->
           </td>
         </tr>
@@ -72,10 +63,11 @@
       'schedule-base': ScheduleBase,
     },
 
-    props: ['doctorId', 'isDoctorOwner'],//
+    props: ['doctorId', 'isDoctorOwner'],//, 'isAvailable'
 
     data () {
       return {
+        isAvailable       : true, // Remember to use the props own, this is for testing.
         days : [
           'Sunday',
           'Monday',

@@ -30480,18 +30480,18 @@ var router = new __WEBPACK_IMPORTED_MODULE_4_vue_router__["a" /* default */]({
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 Vue.component('searches', __webpack_require__(172));
-Vue.component('schedule-list', __webpack_require__(175));
-Vue.component('schedule', __webpack_require__(178));
-Vue.component('prescription', __webpack_require__(180));
-Vue.component('drug', __webpack_require__(183));
-Vue.component('display-prescription', __webpack_require__(186));
-Vue.component('appointment-form', __webpack_require__(189));
-Vue.component('appointment-details', __webpack_require__(192));
-Vue.component('user-search', __webpack_require__(195));
-Vue.component('doctor-search', __webpack_require__(198));
-Vue.component('admin-list', __webpack_require__(201));
-Vue.component('staff-list', __webpack_require__(204));
-Vue.component('schedule-index', __webpack_require__(207));
+Vue.component('prescription', __webpack_require__(175));
+Vue.component('drug', __webpack_require__(178));
+Vue.component('display-prescription', __webpack_require__(181));
+Vue.component('appointment-form', __webpack_require__(184));
+Vue.component('appointment-details', __webpack_require__(187));
+Vue.component('user-search', __webpack_require__(190));
+Vue.component('doctor-search', __webpack_require__(193));
+Vue.component('admin-list', __webpack_require__(196));
+Vue.component('staff-list', __webpack_require__(199));
+Vue.component('schedule-index', __webpack_require__(202));
+Vue.component('schedule-list', __webpack_require__(213));
+Vue.component('schedule', __webpack_require__(216));
 
 Vue.component('pagination', __webpack_require__(218));
 Vue.component('loading-spinner', __webpack_require__(219));
@@ -71364,1110 +71364,6 @@ var Component = normalizeComponent(
   __vue_scopeId__,
   __vue_module_identifier__
 )
-Component.options.__file = "resources/js/components/ScheduleList.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-4aed1540", Component.options)
-  } else {
-    hotAPI.reload("data-v-4aed1540", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 176 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['doctor_id', 'day'],
-
-  // data() {
-  //   return {
-  //     uid: this.auth.id,
-  //     interestsCount: this.report.follows_count,
-  //     hasShownInterest: this.report.hasShownInterest,
-  //   }
-  // },
-  data: function data() {
-    var _ref;
-
-    return _ref = {
-      doctorId: this.doctor_id,
-      sundaySchedules: {},
-      sundayId: '1',
-
-      mondaySchedules: {},
-      mondayId: '2',
-
-      tuesdaySchedules: {},
-      tuesdayId: '3',
-
-      wednesdaySchedules: {},
-      wednesdayId: '4',
-
-      thursdaySchedules: {},
-      thursdayId: '5',
-
-      fridaySchedules: {},
-      fridayId: '6'
-
-    }, _defineProperty(_ref, 'fridaySchedules', {}), _defineProperty(_ref, 'fridayId', '7'), _defineProperty(_ref, 'scheduleUrl', appUrl + '/schedules/'), _ref;
-  },
-
-
-  // mounted() {
-  //   this.loadSchedules();
-  // },
-
-  created: function created() {
-    this.loadSundaySchedules();
-    this.loadMondaySchedules();
-    this.loadTuesdaySchedules();
-    this.loadWednesdaySchedules();
-    this.loadThursdaySchedules();
-    this.loadFridaySchedules();
-    this.loadSaturdaySchedules();
-  },
-
-
-  methods: {
-    loadSundaySchedules: function loadSundaySchedules() {
-      var _this = this;
-
-      // const scheduleUrl = appUrl +'/schedules/' + this.doctorId +'/' + this.sundayId);
-      axios.get(this.scheduleUrl + this.doctorId + '/' + this.sundayId).then(function (_ref2) {
-        var data = _ref2.data;
-        return _this.sundaySchedules = data;
-      });
-    },
-    loadMondaySchedules: function loadMondaySchedules() {
-      var _this2 = this;
-
-      // const scheduleUrl = appUrl +'/schedules/' + this.doctorId +'/' + this.mondayId);
-      axios.get(this.scheduleUrl + this.doctorId + '/' + this.mondayId).then(function (_ref3) {
-        var data = _ref3.data;
-        return _this2.mondaySchedules = data;
-      });
-    },
-    loadTuesdaySchedules: function loadTuesdaySchedules() {
-      var _this3 = this;
-
-      // const scheduleUrl = appUrl +'/schedules/' + this.doctorId +'/' + this.tuesdayId);
-      axios.get(this.scheduleUrl + this.doctorId + '/' + this.tuesdayId).then(function (_ref4) {
-        var data = _ref4.data;
-        return _this3.tuesdaySchedules = data;
-      });
-    },
-    loadWednesdaySchedules: function loadWednesdaySchedules() {
-      var _this4 = this;
-
-      // const scheduleUrl = appUrl +'/schedules/' + this.doctorId +'/' + this.wednesdayId);
-      axios.get(this.scheduleUrl + this.doctorId + '/' + this.wednesdayId).then(function (_ref5) {
-        var data = _ref5.data;
-        return _this4.wednesdaySchedules = data;
-      });
-    },
-    loadThursdaySchedules: function loadThursdaySchedules() {
-      var _this5 = this;
-
-      // const scheduleUrl = appUrl +'/schedules/' + this.doctorId +'/' + this.thursdayId);
-      axios.get(this.scheduleUrl + this.doctorId + '/' + this.thursdayId).then(function (_ref6) {
-        var data = _ref6.data;
-        return _this5.thursdaySchedules = data;
-      });
-    },
-    loadFridaySchedules: function loadFridaySchedules() {
-      var _this6 = this;
-
-      // const scheduleUrl = appUrl +'/schedules/' + this.doctorId +'/' + this.fridayId);
-      axios.get(this.scheduleUrl + this.doctorId + '/' + this.fridayId).then(function (_ref7) {
-        var data = _ref7.data;
-        return _this6.fridaySchedules = data;
-      });
-    },
-    loadSaturdaySchedules: function loadSaturdaySchedules() {
-      var _this7 = this;
-
-      // const scheduleUrl = appUrl +'/schedules/' + this.doctorId +'/' + this.saturdayId);
-      axios.get(this.scheduleUrl + this.doctorId + '/' + this.saturdayId).then(function (_ref8) {
-        var data = _ref8.data;
-        return _this7.saturdaySchedules = data;
-      });
-    }
-  }
-});
-
-/***/ }),
-/* 177 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "card card-dark" }, [
-    _vm._m(0),
-    _vm._v(" "),
-    _c("div", { staticClass: "card-body box-profile" }, [
-      _c("table", { staticClass: "table table-sm table-striped" }, [
-        _vm._m(1),
-        _vm._v(" "),
-        _c("tbody", [
-          _c(
-            "tr",
-            [
-              _vm._m(2),
-              _vm._v(" "),
-              _vm._l(_vm.sundaySchedules, function(schedule) {
-                return _c("td", { key: schedule.id, staticClass: "tf-flex" }, [
-                  _c("span", [
-                    _c("span", {
-                      domProps: { textContent: _vm._s(schedule.start) }
-                    }),
-                    _vm._v(" - "),
-                    _c("span", {
-                      domProps: { textContent: _vm._s(schedule.end) }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _vm._m(3, true)
-                ])
-              }),
-              _vm._v(" "),
-              !_vm.sundaySchedules.length
-                ? _c(
-                    "td",
-                    {
-                      directives: [{ name: "else", rawName: "v-else" }],
-                      staticClass: "d-flex justify-content-center"
-                    },
-                    [
-                      _c("span", { attrs: { title: "Not Available" } }, [
-                        _vm._v("-na-")
-                      ])
-                    ]
-                  )
-                : _vm._e()
-            ],
-            2
-          ),
-          _vm._v(" "),
-          _c(
-            "tr",
-            [
-              _vm._m(4),
-              _vm._v(" "),
-              _vm._l(_vm.mondaySchedules, function(schedule) {
-                return _c("td", { key: schedule.id, staticClass: "tf-flex" }, [
-                  _c("span", [
-                    _c("span", {
-                      domProps: { textContent: _vm._s(schedule.start) }
-                    }),
-                    _vm._v(" - "),
-                    _c("span", {
-                      domProps: { textContent: _vm._s(schedule.end) }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _vm._m(5, true)
-                ])
-              }),
-              _vm._v(" "),
-              !_vm.mondaySchedules.length
-                ? _c(
-                    "td",
-                    {
-                      directives: [{ name: "else", rawName: "v-else" }],
-                      staticClass: "d-flex justify-content-center"
-                    },
-                    [
-                      _c("span", { attrs: { title: "Not Available" } }, [
-                        _vm._v("-na-")
-                      ])
-                    ]
-                  )
-                : _vm._e()
-            ],
-            2
-          ),
-          _vm._v(" "),
-          _c(
-            "tr",
-            [
-              _vm._m(6),
-              _vm._v(" "),
-              _vm._l(_vm.tuesdaySchedules, function(schedule) {
-                return _c("td", { key: schedule.id, staticClass: "tf-flex" }, [
-                  _c("span", [
-                    _c("span", {
-                      domProps: { textContent: _vm._s(schedule.start) }
-                    }),
-                    _vm._v(" - "),
-                    _c("span", {
-                      domProps: { textContent: _vm._s(schedule.end) }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _vm._m(7, true)
-                ])
-              }),
-              _vm._v(" "),
-              !_vm.tuesdaySchedules.length
-                ? _c(
-                    "td",
-                    {
-                      directives: [{ name: "else", rawName: "v-else" }],
-                      staticClass: "d-flex justify-content-center"
-                    },
-                    [
-                      _c("span", { attrs: { title: "Not Available" } }, [
-                        _vm._v("-na-")
-                      ])
-                    ]
-                  )
-                : _vm._e()
-            ],
-            2
-          ),
-          _vm._v(" "),
-          _c(
-            "tr",
-            [
-              _vm._m(8),
-              _vm._v(" "),
-              _vm._l(_vm.wednesdaySchedules, function(schedule) {
-                return _c("td", { key: schedule.id, staticClass: "tf-flex" }, [
-                  _c("span", [
-                    _c("span", {
-                      domProps: { textContent: _vm._s(schedule.start) }
-                    }),
-                    _vm._v(" - "),
-                    _c("span", {
-                      domProps: { textContent: _vm._s(schedule.end) }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _vm._m(9, true)
-                ])
-              }),
-              _vm._v(" "),
-              !_vm.wednesdaySchedules.length
-                ? _c(
-                    "td",
-                    {
-                      directives: [{ name: "else", rawName: "v-else" }],
-                      staticClass: "d-flex justify-content-center"
-                    },
-                    [
-                      _c("span", { attrs: { title: "Not Available" } }, [
-                        _vm._v("-na-")
-                      ])
-                    ]
-                  )
-                : _vm._e()
-            ],
-            2
-          ),
-          _vm._v(" "),
-          _c(
-            "tr",
-            [
-              _vm._m(10),
-              _vm._v(" "),
-              _vm._l(_vm.thursdaySchedules, function(schedule) {
-                return _c("td", { key: schedule.id, staticClass: "tf-flex" }, [
-                  _c("span", [
-                    _c("span", {
-                      domProps: { textContent: _vm._s(schedule.start) }
-                    }),
-                    _vm._v(" - "),
-                    _c("span", {
-                      domProps: { textContent: _vm._s(schedule.end) }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _vm._m(11, true)
-                ])
-              }),
-              _vm._v(" "),
-              !_vm.thursdaySchedules.length
-                ? _c(
-                    "td",
-                    {
-                      directives: [{ name: "else", rawName: "v-else" }],
-                      staticClass: "d-flex justify-content-center"
-                    },
-                    [
-                      _c("span", { attrs: { title: "Not Available" } }, [
-                        _vm._v("-na-")
-                      ])
-                    ]
-                  )
-                : _vm._e()
-            ],
-            2
-          ),
-          _vm._v(" "),
-          _c(
-            "tr",
-            [
-              _vm._m(12),
-              _vm._v(" "),
-              _vm._l(_vm.fridaySchedules, function(schedule) {
-                return _c("td", { key: schedule.id, staticClass: "tf-flex" }, [
-                  _c("span", [
-                    _c("span", {
-                      domProps: { textContent: _vm._s(schedule.start) }
-                    }),
-                    _vm._v(" - "),
-                    _c("span", {
-                      domProps: { textContent: _vm._s(schedule.end) }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _vm._m(13, true)
-                ])
-              }),
-              _vm._v(" "),
-              !_vm.fridaySchedules.length
-                ? _c(
-                    "td",
-                    {
-                      directives: [{ name: "else", rawName: "v-else" }],
-                      staticClass: "d-flex justify-content-center"
-                    },
-                    [
-                      _c("span", { attrs: { title: "Not Available" } }, [
-                        _vm._v("-na-")
-                      ])
-                    ]
-                  )
-                : _vm._e()
-            ],
-            2
-          ),
-          _vm._v(" "),
-          _c(
-            "tr",
-            [
-              _vm._m(14),
-              _vm._v(" "),
-              _vm._l(_vm.saturdaySchedules, function(schedule) {
-                return _c("td", { key: schedule.id, staticClass: "tf-flex" }, [
-                  _c("span", [
-                    _c("span", {
-                      domProps: { textContent: _vm._s(schedule.start) }
-                    }),
-                    _vm._v(" - "),
-                    _c("span", {
-                      domProps: { textContent: _vm._s(schedule.end) }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _vm._m(15, true)
-                ])
-              }),
-              _vm._v(" "),
-              !_vm.saturdaySchedules.length
-                ? _c(
-                    "td",
-                    {
-                      directives: [{ name: "else", rawName: "v-else" }],
-                      staticClass: "d-flex justify-content-center"
-                    },
-                    [
-                      _c("span", { attrs: { title: "Not Available" } }, [
-                        _vm._v("-na-")
-                      ])
-                    ]
-                  )
-                : _vm._e()
-            ],
-            2
-          )
-        ])
-      ])
-    ])
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h3", { staticClass: "card-title" }, [
-        _vm._v("\n      Schedules\n    ")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("Day")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Periods")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("th", [
-      _c("span", { staticClass: "tf-flex" }, [
-        _vm._v("\n              Sunday\n              "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-sm btn-primary p-1",
-            attrs: { title: "Add New" }
-          },
-          [
-            _c("i", {
-              staticClass: "fa fa-plus",
-              staticStyle: { "font-size": "10px" }
-            })
-          ]
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "w-25 tf-flex" }, [
-      _c(
-        "span",
-        {
-          attrs: {
-            "data-toggle": "modal",
-            "data-target": "#updateScheduleForm",
-            title: " Update time"
-          }
-        },
-        [_c("i", { staticClass: "fa fa-edit teal" })]
-      ),
-      _vm._v("\n              / \n              "),
-      _c("i", { staticClass: "fa fa-times red" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("th", [
-      _c("span", { staticClass: "tf-flex" }, [
-        _vm._v("\n              Monday\n              "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-sm btn-primary p-1",
-            attrs: { title: "Add New" }
-          },
-          [
-            _c("i", {
-              staticClass: "fa fa-plus",
-              staticStyle: { "font-size": "10px" }
-            })
-          ]
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "w-25 tf-flex" }, [
-      _c("span", { attrs: { title: "Update time" } }, [
-        _c("i", { staticClass: "fa fa-edit teal" })
-      ]),
-      _vm._v("\n              / \n              "),
-      _c("i", { staticClass: "fa fa-times red" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("th", [
-      _c("span", { staticClass: "tf-flex" }, [
-        _vm._v("\n              Tuesday\n              "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-sm btn-primary p-1",
-            attrs: { title: "Add New" }
-          },
-          [
-            _c("i", {
-              staticClass: "fa fa-plus",
-              staticStyle: { "font-size": "10px" }
-            })
-          ]
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "w-25 tf-flex" }, [
-      _c("span", { attrs: { title: "Update time" } }, [
-        _c("i", { staticClass: "fa fa-edit teal" })
-      ]),
-      _vm._v("\n              / \n              "),
-      _c("i", { staticClass: "fa fa-times red" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("th", [
-      _c("span", { staticClass: "tf-flex" }, [
-        _vm._v("\n              Wednesday\n              "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-sm btn-primary p-1",
-            attrs: { title: "Add New" }
-          },
-          [
-            _c("i", {
-              staticClass: "fa fa-plus",
-              staticStyle: { "font-size": "10px" }
-            })
-          ]
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "w-25 tf-flex" }, [
-      _c("span", { attrs: { title: "Update time" } }, [
-        _c("i", { staticClass: "fa fa-edit teal" })
-      ]),
-      _vm._v("\n              / \n              "),
-      _c("i", { staticClass: "fa fa-times red" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("th", [
-      _c("span", { staticClass: "tf-flex" }, [
-        _vm._v("\n              Thursday\n              "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-sm btn-primary p-1",
-            attrs: { title: "Add New" }
-          },
-          [
-            _c("i", {
-              staticClass: "fa fa-plus",
-              staticStyle: { "font-size": "10px" }
-            })
-          ]
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "w-25 tf-flex" }, [
-      _c("span", { attrs: { title: "Update time" } }, [
-        _c("i", { staticClass: "fa fa-edit teal" })
-      ]),
-      _vm._v("\n              / \n              "),
-      _c("i", { staticClass: "fa fa-times red" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("th", [
-      _c("span", { staticClass: "tf-flex" }, [
-        _vm._v("\n              Friday\n              "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-sm btn-primary p-1",
-            attrs: { title: "Add New" }
-          },
-          [
-            _c("i", {
-              staticClass: "fa fa-plus",
-              staticStyle: { "font-size": "10px" }
-            })
-          ]
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "w-25 tf-flex" }, [
-      _c("span", { attrs: { title: "Update time" } }, [
-        _c("i", { staticClass: "fa fa-edit teal" })
-      ]),
-      _vm._v("\n              / \n              "),
-      _c("i", { staticClass: "fa fa-times red" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("th", [
-      _c("span", { staticClass: "tf-flex" }, [
-        _vm._v("\n              Saturday\n              "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-sm btn-primary p-1",
-            attrs: { title: "Add New" }
-          },
-          [
-            _c("i", {
-              staticClass: "fa fa-plus",
-              staticStyle: { "font-size": "10px" }
-            })
-          ]
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "w-25 tf-flex" }, [
-      _c("span", { attrs: { title: "Update time" } }, [
-        _c("i", { staticClass: "fa fa-edit teal" })
-      ]),
-      _vm._v("\n              / \n              "),
-      _c("i", { staticClass: "fa fa-times red" })
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-4aed1540", module.exports)
-  }
-}
-
-/***/ }),
-/* 178 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(179)
-/* template */
-var __vue_template__ = null
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/js/components/Schedule.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-5f748482", Component.options)
-  } else {
-    hotAPI.reload("data-v-5f748482", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 179 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['the_doctor_id', 'the_schedule', 'the_day_id'],
-
-  data: function data() {
-    return {
-      creating: false,
-      editing: false,
-      // day_id   : this.the_day_id,
-      // doctor_id: this.the_doctor_id,
-      schedule: this.the_schedule,
-      form: new Form({
-        // id        : '',
-        doctor_id: this.the_doctor_id,
-        day_id: this.the_day_id,
-        start_at: '',
-        end_at: ''
-      })
-    };
-  },
-
-
-  computed: {
-    //
-  },
-
-  methods: {
-    create: function create() {
-      this.creating = true;
-    },
-    store: function store() {
-      var _this = this;
-
-      this.$Progress.start();
-      this.form.post('/schedules').then(function () {
-
-        // Event.$emit('RefreshSection');
-        // this.$forceUpdate();
-        _this.$router.go(0); // Refreshes whole page!
-        _this.closeForm();
-        toast({
-          type: 'success',
-          title: 'Schedule created successfully'
-        });
-        _this.$Progress.finish();
-      }).catch(function () {
-        _this.$Progress.fail();
-      });
-    },
-    edit: function edit(schedule) {
-      this.editing = true;
-      this.form.clear(); // VForm, clears error message
-      this.form.reset(); // VForm
-      this.form.fill(schedule);
-    },
-    update: function update() {
-      var _this2 = this;
-
-      this.$Progress.start();
-      this.form.patch('/schedules/' + this.schedule.id).then(function () {
-
-        // Event.$emit('RefreshSection');
-        _this2.$router.go(0);
-        _this2.closeForm();
-        toast({
-          type: 'success',
-          title: 'Schedule updated successfully'
-        });
-        _this2.$Progress.finish();
-      }).catch(function () {
-        _this2.$Progress.fail();
-      });
-    },
-    destroy: function destroy() {
-      var _this3 = this;
-
-      if (confirm("You really want to delete this schedule?")) {
-
-        axios.delete('/schedules/' + this.schedule.id).then(function () {
-          toast({
-            type: 'success',
-            title: 'Schedule deleted successfully'
-          });
-          _this3.$Progress.finish();
-        });
-
-        $(this.$el).fadeOut(500);
-      }
-    },
-    closeForm: function closeForm() {
-      this.form.clear(); // VForm: Clear error messages
-      this.form.reset(); // VForm: Reset form fields
-      this.creating = false;
-      this.editing = false;
-    }
-  }
-});
-
-/***/ }),
-/* 180 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(181)
-/* template */
-var __vue_template__ = __webpack_require__(182)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
 Component.options.__file = "resources/js/components/Prescription.vue"
 
 /* hot reload */
@@ -72490,7 +71386,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 181 */
+/* 176 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -72729,7 +71625,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 182 */
+/* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -73346,15 +72242,15 @@ if (false) {
 }
 
 /***/ }),
-/* 183 */
+/* 178 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(184)
+var __vue_script__ = __webpack_require__(179)
 /* template */
-var __vue_template__ = __webpack_require__(185)
+var __vue_template__ = __webpack_require__(180)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -73393,7 +72289,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 184 */
+/* 179 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -73559,7 +72455,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 185 */
+/* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -73996,15 +72892,15 @@ if (false) {
 }
 
 /***/ }),
-/* 186 */
+/* 181 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(187)
+var __vue_script__ = __webpack_require__(182)
 /* template */
-var __vue_template__ = __webpack_require__(188)
+var __vue_template__ = __webpack_require__(183)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -74043,7 +72939,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 187 */
+/* 182 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -74352,7 +73248,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 188 */
+/* 183 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -75133,15 +74029,15 @@ if (false) {
 }
 
 /***/ }),
-/* 189 */
+/* 184 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(190)
+var __vue_script__ = __webpack_require__(185)
 /* template */
-var __vue_template__ = __webpack_require__(191)
+var __vue_template__ = __webpack_require__(186)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -75180,7 +74076,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 190 */
+/* 185 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -75383,7 +74279,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 191 */
+/* 186 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -75833,15 +74729,15 @@ if (false) {
 }
 
 /***/ }),
-/* 192 */
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(193)
+var __vue_script__ = __webpack_require__(188)
 /* template */
-var __vue_template__ = __webpack_require__(194)
+var __vue_template__ = __webpack_require__(189)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -75880,7 +74776,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 193 */
+/* 188 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -76302,7 +75198,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 194 */
+/* 189 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -77115,15 +76011,15 @@ if (false) {
 }
 
 /***/ }),
-/* 195 */
+/* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(196)
+var __vue_script__ = __webpack_require__(191)
 /* template */
-var __vue_template__ = __webpack_require__(197)
+var __vue_template__ = __webpack_require__(192)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -77162,7 +76058,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 196 */
+/* 191 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -77415,7 +76311,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 197 */
+/* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -77896,15 +76792,15 @@ if (false) {
 }
 
 /***/ }),
-/* 198 */
+/* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(199)
+var __vue_script__ = __webpack_require__(194)
 /* template */
-var __vue_template__ = __webpack_require__(200)
+var __vue_template__ = __webpack_require__(195)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -77943,7 +76839,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 199 */
+/* 194 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -78173,7 +77069,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 200 */
+/* 195 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -78733,15 +77629,15 @@ if (false) {
 }
 
 /***/ }),
-/* 201 */
+/* 196 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(202)
+var __vue_script__ = __webpack_require__(197)
 /* template */
-var __vue_template__ = __webpack_require__(203)
+var __vue_template__ = __webpack_require__(198)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -78780,7 +77676,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 202 */
+/* 197 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -78995,7 +77891,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 203 */
+/* 198 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -79283,15 +78179,15 @@ if (false) {
 }
 
 /***/ }),
-/* 204 */
+/* 199 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(205)
+var __vue_script__ = __webpack_require__(200)
 /* template */
-var __vue_template__ = __webpack_require__(206)
+var __vue_template__ = __webpack_require__(201)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -79330,7 +78226,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 205 */
+/* 200 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -79544,7 +78440,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 206 */
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -79834,19 +78730,19 @@ if (false) {
 }
 
 /***/ }),
-/* 207 */
+/* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(208)
+  __webpack_require__(203)
 }
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(213)
+var __vue_script__ = __webpack_require__(208)
 /* template */
-var __vue_template__ = __webpack_require__(217)
+var __vue_template__ = __webpack_require__(212)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -79885,17 +78781,17 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 208 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(209);
+var content = __webpack_require__(204);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(211)("463a894e", content, false, {});
+var update = __webpack_require__(206)("463a894e", content, false, {});
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -79911,10 +78807,10 @@ if(false) {
 }
 
 /***/ }),
-/* 209 */
+/* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(210)(false);
+exports = module.exports = __webpack_require__(205)(false);
 // imports
 
 
@@ -79925,7 +78821,7 @@ exports.push([module.i, "\n.schedule-table {\n  color: #660f0b;\n  font-size: 14
 
 
 /***/ }),
-/* 210 */
+/* 205 */
 /***/ (function(module, exports) {
 
 /*
@@ -80007,7 +78903,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 211 */
+/* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -80026,7 +78922,7 @@ if (typeof DEBUG !== 'undefined' && DEBUG) {
   ) }
 }
 
-var listToStyles = __webpack_require__(212)
+var listToStyles = __webpack_require__(207)
 
 /*
 type StyleObject = {
@@ -80235,7 +79131,7 @@ function applyToTag (styleElement, obj) {
 
 
 /***/ }),
-/* 212 */
+/* 207 */
 /***/ (function(module, exports) {
 
 /**
@@ -80268,22 +79164,13 @@ module.exports = function listToStyles (parentId, list) {
 
 
 /***/ }),
-/* 213 */
+/* 208 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ScheduleBase_vue__ = __webpack_require__(214);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ScheduleBase_vue__ = __webpack_require__(209);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ScheduleBase_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ScheduleBase_vue__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -80349,25 +79236,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     'schedule-base': __WEBPACK_IMPORTED_MODULE_0__ScheduleBase_vue___default.a
   },
 
-  props: ['doctorId', 'isDoctorOwner'], //
+  props: ['doctorId', 'isDoctorOwner'], //, 'isAvailable'
 
   data: function data() {
     return {
+      isAvailable: true, // Remember to use the props own, this is for testing.
       days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
     };
   }
 });
 
 /***/ }),
-/* 214 */
+/* 209 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(215)
+var __vue_script__ = __webpack_require__(210)
 /* template */
-var __vue_template__ = __webpack_require__(216)
+var __vue_template__ = __webpack_require__(211)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -80406,7 +79294,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 215 */
+/* 210 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -80790,7 +79678,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 216 */
+/* 211 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -81414,64 +80302,85 @@ if (false) {
 }
 
 /***/ }),
-/* 217 */
+/* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "schedule-table table-responsive" }, [
+  return _c("div", { staticClass: "col schedule-table table-responsive" }, [
     _c(
       "table",
-      { staticStyle: {}, attrs: { cellspacing: "0", cellpadding: "0" } },
+      { staticClass: "w-100", attrs: { cellspacing: "0", cellpadding: "0" } },
       [
         _c("tbody", [
-          _vm._m(0),
-          _vm._v(" "),
-          _c("td", [
-            _vm.isDoctorOwner
-              ? _c("div", { staticClass: "px-3 mb-2 border-bottom" }, [
-                  _vm._m(1),
-                  _vm._v(" "),
-                  _vm._m(2),
-                  _vm._v(" "),
-                  _vm._m(3)
-                ])
-              : _vm._e(),
-            _vm._v(" "),
-            _c("div", { staticClass: "px-3 schedule-table__font-size" }, [
-              _c("div", [
-                _c(
-                  "table",
-                  { attrs: { cols: "3", cellspacing: "0", cellpadding: "0" } },
-                  [
-                    _c(
-                      "tbody",
-                      _vm._l(_vm.days, function(day, index) {
-                        return _c(
-                          "div",
-                          {
-                            key: index,
-                            class: index % 2 == 0 ? "bg-light" : "bg-white"
-                          },
-                          [
-                            _c("schedule-base", {
-                              attrs: {
-                                "day-id": index + 1,
-                                "day-name": day,
-                                "doctor-id": _vm.doctorId,
-                                "is-doctor-owner": _vm.isDoctorOwner
-                              }
-                            })
-                          ],
-                          1
-                        )
-                      })
+          _c("tr", [
+            _c("td", [
+              _c("div", { staticClass: "px-3 text-center" }, [
+                _c("h5", { staticClass: "font-weight-bold text-uppercase" }, [
+                  _vm._v("Schedules")
+                ]),
+                _vm._v(" "),
+                _vm.isDoctorOwner
+                  ? _c(
+                      "ul",
+                      {
+                        staticClass: "list-unstyled text-muted font-weight-bold"
+                      },
+                      [_vm._m(0)]
                     )
-                  ]
-                )
+                  : _vm._e()
               ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("tr", [
+            _c("td", [
+              _vm.isAvailable
+                ? _c("div", { staticClass: "px-3 schedule-table__font-size" }, [
+                    _c("div", [
+                      _c(
+                        "table",
+                        {
+                          attrs: {
+                            cols: "3",
+                            cellspacing: "0",
+                            cellpadding: "0"
+                          }
+                        },
+                        [
+                          _c(
+                            "tbody",
+                            _vm._l(_vm.days, function(day, index) {
+                              return _c(
+                                "div",
+                                {
+                                  key: index,
+                                  class:
+                                    index % 2 == 0 ? "bg-light" : "bg-white"
+                                },
+                                [
+                                  _c("schedule-base", {
+                                    attrs: {
+                                      "day-id": index + 1,
+                                      "day-name": day,
+                                      "doctor-id": _vm.doctorId,
+                                      "is-doctor-owner": _vm.isDoctorOwner
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            })
+                          )
+                        ]
+                      )
+                    ])
+                  ])
+                : _c("div", { staticClass: "px-3 schedule-table__font-size" }, [
+                    _vm._m(1)
+                  ])
             ])
           ])
         ])
@@ -81484,51 +80393,35 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("td", [
-        _c("div", { staticClass: "px-3 text-center" }, [
-          _c("h5", { staticClass: "font-weight-bold text-uppercase" }, [
-            _vm._v("Schedules")
-          ])
+    return _c("li", [
+      _c("i", { staticClass: "fa fa-check-square" }),
+      _vm._v(" Tick any checkbox to edit. "),
+      _c("i", { staticClass: "fa fa-minus-square" }),
+      _vm._v(" Untick to cancel editing.")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "col mb-3 text-center font-weight-bold border border-danger rounded"
+      },
+      [
+        _c("div", { staticClass: "display-3" }, [
+          _c("i", { staticClass: "fa fa-calendar-times red" })
+        ]),
+        _vm._v(" "),
+        _c("p", { staticClass: "text-sm red font-weight-bold" }, [
+          _vm._v(
+            "\n                Not available for appointments at this time.\n              "
+          )
         ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "d-block" }, [
-      _c("label", [
-        _c("input", { attrs: { type: "radio", name: "avialability_type" } }),
-        _vm._v("  \n                "),
-        _c("span", [_vm._v("Available Always")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "d-block" }, [
-      _c("label", [
-        _c("input", { attrs: { type: "radio", name: "avialability_type" } }),
-        _vm._v("  \n                "),
-        _c("span", [_vm._v("Available on Selected Hours")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "d-block" }, [
-      _c("label", [
-        _c("input", { attrs: { type: "radio", name: "avialability_type" } }),
-        _vm._v("  \n                "),
-        _c("span", [_vm._v("Not Available")])
-      ])
-    ])
+      ]
+    )
   }
 ]
 render._withStripped = true
@@ -81539,6 +80432,1110 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-430033ad", module.exports)
   }
 }
+
+/***/ }),
+/* 213 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(214)
+/* template */
+var __vue_template__ = __webpack_require__(215)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/Schedules/OldAttempt/ScheduleList.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-61fc99f0", Component.options)
+  } else {
+    hotAPI.reload("data-v-61fc99f0", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 214 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['doctor_id', 'day'],
+
+  // data() {
+  //   return {
+  //     uid: this.auth.id,
+  //     interestsCount: this.report.follows_count,
+  //     hasShownInterest: this.report.hasShownInterest,
+  //   }
+  // },
+  data: function data() {
+    var _ref;
+
+    return _ref = {
+      doctorId: this.doctor_id,
+      sundaySchedules: {},
+      sundayId: '1',
+
+      mondaySchedules: {},
+      mondayId: '2',
+
+      tuesdaySchedules: {},
+      tuesdayId: '3',
+
+      wednesdaySchedules: {},
+      wednesdayId: '4',
+
+      thursdaySchedules: {},
+      thursdayId: '5',
+
+      fridaySchedules: {},
+      fridayId: '6'
+
+    }, _defineProperty(_ref, 'fridaySchedules', {}), _defineProperty(_ref, 'fridayId', '7'), _defineProperty(_ref, 'scheduleUrl', appUrl + '/schedules/'), _ref;
+  },
+
+
+  // mounted() {
+  //   this.loadSchedules();
+  // },
+
+  created: function created() {
+    this.loadSundaySchedules();
+    this.loadMondaySchedules();
+    this.loadTuesdaySchedules();
+    this.loadWednesdaySchedules();
+    this.loadThursdaySchedules();
+    this.loadFridaySchedules();
+    this.loadSaturdaySchedules();
+  },
+
+
+  methods: {
+    loadSundaySchedules: function loadSundaySchedules() {
+      var _this = this;
+
+      // const scheduleUrl = appUrl +'/schedules/' + this.doctorId +'/' + this.sundayId);
+      axios.get(this.scheduleUrl + this.doctorId + '/' + this.sundayId).then(function (_ref2) {
+        var data = _ref2.data;
+        return _this.sundaySchedules = data;
+      });
+    },
+    loadMondaySchedules: function loadMondaySchedules() {
+      var _this2 = this;
+
+      // const scheduleUrl = appUrl +'/schedules/' + this.doctorId +'/' + this.mondayId);
+      axios.get(this.scheduleUrl + this.doctorId + '/' + this.mondayId).then(function (_ref3) {
+        var data = _ref3.data;
+        return _this2.mondaySchedules = data;
+      });
+    },
+    loadTuesdaySchedules: function loadTuesdaySchedules() {
+      var _this3 = this;
+
+      // const scheduleUrl = appUrl +'/schedules/' + this.doctorId +'/' + this.tuesdayId);
+      axios.get(this.scheduleUrl + this.doctorId + '/' + this.tuesdayId).then(function (_ref4) {
+        var data = _ref4.data;
+        return _this3.tuesdaySchedules = data;
+      });
+    },
+    loadWednesdaySchedules: function loadWednesdaySchedules() {
+      var _this4 = this;
+
+      // const scheduleUrl = appUrl +'/schedules/' + this.doctorId +'/' + this.wednesdayId);
+      axios.get(this.scheduleUrl + this.doctorId + '/' + this.wednesdayId).then(function (_ref5) {
+        var data = _ref5.data;
+        return _this4.wednesdaySchedules = data;
+      });
+    },
+    loadThursdaySchedules: function loadThursdaySchedules() {
+      var _this5 = this;
+
+      // const scheduleUrl = appUrl +'/schedules/' + this.doctorId +'/' + this.thursdayId);
+      axios.get(this.scheduleUrl + this.doctorId + '/' + this.thursdayId).then(function (_ref6) {
+        var data = _ref6.data;
+        return _this5.thursdaySchedules = data;
+      });
+    },
+    loadFridaySchedules: function loadFridaySchedules() {
+      var _this6 = this;
+
+      // const scheduleUrl = appUrl +'/schedules/' + this.doctorId +'/' + this.fridayId);
+      axios.get(this.scheduleUrl + this.doctorId + '/' + this.fridayId).then(function (_ref7) {
+        var data = _ref7.data;
+        return _this6.fridaySchedules = data;
+      });
+    },
+    loadSaturdaySchedules: function loadSaturdaySchedules() {
+      var _this7 = this;
+
+      // const scheduleUrl = appUrl +'/schedules/' + this.doctorId +'/' + this.saturdayId);
+      axios.get(this.scheduleUrl + this.doctorId + '/' + this.saturdayId).then(function (_ref8) {
+        var data = _ref8.data;
+        return _this7.saturdaySchedules = data;
+      });
+    }
+  }
+});
+
+/***/ }),
+/* 215 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "card card-dark" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "card-body box-profile" }, [
+      _c("table", { staticClass: "table table-sm table-striped" }, [
+        _vm._m(1),
+        _vm._v(" "),
+        _c("tbody", [
+          _c(
+            "tr",
+            [
+              _vm._m(2),
+              _vm._v(" "),
+              _vm._l(_vm.sundaySchedules, function(schedule) {
+                return _c("td", { key: schedule.id, staticClass: "tf-flex" }, [
+                  _c("span", [
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.start) }
+                    }),
+                    _vm._v(" - "),
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.end) }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(3, true)
+                ])
+              }),
+              _vm._v(" "),
+              !_vm.sundaySchedules.length
+                ? _c(
+                    "td",
+                    {
+                      directives: [{ name: "else", rawName: "v-else" }],
+                      staticClass: "d-flex justify-content-center"
+                    },
+                    [
+                      _c("span", { attrs: { title: "Not Available" } }, [
+                        _vm._v("-na-")
+                      ])
+                    ]
+                  )
+                : _vm._e()
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c(
+            "tr",
+            [
+              _vm._m(4),
+              _vm._v(" "),
+              _vm._l(_vm.mondaySchedules, function(schedule) {
+                return _c("td", { key: schedule.id, staticClass: "tf-flex" }, [
+                  _c("span", [
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.start) }
+                    }),
+                    _vm._v(" - "),
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.end) }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(5, true)
+                ])
+              }),
+              _vm._v(" "),
+              !_vm.mondaySchedules.length
+                ? _c(
+                    "td",
+                    {
+                      directives: [{ name: "else", rawName: "v-else" }],
+                      staticClass: "d-flex justify-content-center"
+                    },
+                    [
+                      _c("span", { attrs: { title: "Not Available" } }, [
+                        _vm._v("-na-")
+                      ])
+                    ]
+                  )
+                : _vm._e()
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c(
+            "tr",
+            [
+              _vm._m(6),
+              _vm._v(" "),
+              _vm._l(_vm.tuesdaySchedules, function(schedule) {
+                return _c("td", { key: schedule.id, staticClass: "tf-flex" }, [
+                  _c("span", [
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.start) }
+                    }),
+                    _vm._v(" - "),
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.end) }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(7, true)
+                ])
+              }),
+              _vm._v(" "),
+              !_vm.tuesdaySchedules.length
+                ? _c(
+                    "td",
+                    {
+                      directives: [{ name: "else", rawName: "v-else" }],
+                      staticClass: "d-flex justify-content-center"
+                    },
+                    [
+                      _c("span", { attrs: { title: "Not Available" } }, [
+                        _vm._v("-na-")
+                      ])
+                    ]
+                  )
+                : _vm._e()
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c(
+            "tr",
+            [
+              _vm._m(8),
+              _vm._v(" "),
+              _vm._l(_vm.wednesdaySchedules, function(schedule) {
+                return _c("td", { key: schedule.id, staticClass: "tf-flex" }, [
+                  _c("span", [
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.start) }
+                    }),
+                    _vm._v(" - "),
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.end) }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(9, true)
+                ])
+              }),
+              _vm._v(" "),
+              !_vm.wednesdaySchedules.length
+                ? _c(
+                    "td",
+                    {
+                      directives: [{ name: "else", rawName: "v-else" }],
+                      staticClass: "d-flex justify-content-center"
+                    },
+                    [
+                      _c("span", { attrs: { title: "Not Available" } }, [
+                        _vm._v("-na-")
+                      ])
+                    ]
+                  )
+                : _vm._e()
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c(
+            "tr",
+            [
+              _vm._m(10),
+              _vm._v(" "),
+              _vm._l(_vm.thursdaySchedules, function(schedule) {
+                return _c("td", { key: schedule.id, staticClass: "tf-flex" }, [
+                  _c("span", [
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.start) }
+                    }),
+                    _vm._v(" - "),
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.end) }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(11, true)
+                ])
+              }),
+              _vm._v(" "),
+              !_vm.thursdaySchedules.length
+                ? _c(
+                    "td",
+                    {
+                      directives: [{ name: "else", rawName: "v-else" }],
+                      staticClass: "d-flex justify-content-center"
+                    },
+                    [
+                      _c("span", { attrs: { title: "Not Available" } }, [
+                        _vm._v("-na-")
+                      ])
+                    ]
+                  )
+                : _vm._e()
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c(
+            "tr",
+            [
+              _vm._m(12),
+              _vm._v(" "),
+              _vm._l(_vm.fridaySchedules, function(schedule) {
+                return _c("td", { key: schedule.id, staticClass: "tf-flex" }, [
+                  _c("span", [
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.start) }
+                    }),
+                    _vm._v(" - "),
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.end) }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(13, true)
+                ])
+              }),
+              _vm._v(" "),
+              !_vm.fridaySchedules.length
+                ? _c(
+                    "td",
+                    {
+                      directives: [{ name: "else", rawName: "v-else" }],
+                      staticClass: "d-flex justify-content-center"
+                    },
+                    [
+                      _c("span", { attrs: { title: "Not Available" } }, [
+                        _vm._v("-na-")
+                      ])
+                    ]
+                  )
+                : _vm._e()
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c(
+            "tr",
+            [
+              _vm._m(14),
+              _vm._v(" "),
+              _vm._l(_vm.saturdaySchedules, function(schedule) {
+                return _c("td", { key: schedule.id, staticClass: "tf-flex" }, [
+                  _c("span", [
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.start) }
+                    }),
+                    _vm._v(" - "),
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.end) }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(15, true)
+                ])
+              }),
+              _vm._v(" "),
+              !_vm.saturdaySchedules.length
+                ? _c(
+                    "td",
+                    {
+                      directives: [{ name: "else", rawName: "v-else" }],
+                      staticClass: "d-flex justify-content-center"
+                    },
+                    [
+                      _c("span", { attrs: { title: "Not Available" } }, [
+                        _vm._v("-na-")
+                      ])
+                    ]
+                  )
+                : _vm._e()
+            ],
+            2
+          )
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h3", { staticClass: "card-title" }, [
+        _vm._v("\n      Schedules\n    ")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Day")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Periods")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", [
+      _c("span", { staticClass: "tf-flex" }, [
+        _vm._v("\n              Sunday\n              "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-sm btn-primary p-1",
+            attrs: { title: "Add New" }
+          },
+          [
+            _c("i", {
+              staticClass: "fa fa-plus",
+              staticStyle: { "font-size": "10px" }
+            })
+          ]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "w-25 tf-flex" }, [
+      _c(
+        "span",
+        {
+          attrs: {
+            "data-toggle": "modal",
+            "data-target": "#updateScheduleForm",
+            title: " Update time"
+          }
+        },
+        [_c("i", { staticClass: "fa fa-edit teal" })]
+      ),
+      _vm._v("\n              / \n              "),
+      _c("i", { staticClass: "fa fa-times red" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", [
+      _c("span", { staticClass: "tf-flex" }, [
+        _vm._v("\n              Monday\n              "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-sm btn-primary p-1",
+            attrs: { title: "Add New" }
+          },
+          [
+            _c("i", {
+              staticClass: "fa fa-plus",
+              staticStyle: { "font-size": "10px" }
+            })
+          ]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "w-25 tf-flex" }, [
+      _c("span", { attrs: { title: "Update time" } }, [
+        _c("i", { staticClass: "fa fa-edit teal" })
+      ]),
+      _vm._v("\n              / \n              "),
+      _c("i", { staticClass: "fa fa-times red" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", [
+      _c("span", { staticClass: "tf-flex" }, [
+        _vm._v("\n              Tuesday\n              "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-sm btn-primary p-1",
+            attrs: { title: "Add New" }
+          },
+          [
+            _c("i", {
+              staticClass: "fa fa-plus",
+              staticStyle: { "font-size": "10px" }
+            })
+          ]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "w-25 tf-flex" }, [
+      _c("span", { attrs: { title: "Update time" } }, [
+        _c("i", { staticClass: "fa fa-edit teal" })
+      ]),
+      _vm._v("\n              / \n              "),
+      _c("i", { staticClass: "fa fa-times red" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", [
+      _c("span", { staticClass: "tf-flex" }, [
+        _vm._v("\n              Wednesday\n              "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-sm btn-primary p-1",
+            attrs: { title: "Add New" }
+          },
+          [
+            _c("i", {
+              staticClass: "fa fa-plus",
+              staticStyle: { "font-size": "10px" }
+            })
+          ]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "w-25 tf-flex" }, [
+      _c("span", { attrs: { title: "Update time" } }, [
+        _c("i", { staticClass: "fa fa-edit teal" })
+      ]),
+      _vm._v("\n              / \n              "),
+      _c("i", { staticClass: "fa fa-times red" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", [
+      _c("span", { staticClass: "tf-flex" }, [
+        _vm._v("\n              Thursday\n              "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-sm btn-primary p-1",
+            attrs: { title: "Add New" }
+          },
+          [
+            _c("i", {
+              staticClass: "fa fa-plus",
+              staticStyle: { "font-size": "10px" }
+            })
+          ]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "w-25 tf-flex" }, [
+      _c("span", { attrs: { title: "Update time" } }, [
+        _c("i", { staticClass: "fa fa-edit teal" })
+      ]),
+      _vm._v("\n              / \n              "),
+      _c("i", { staticClass: "fa fa-times red" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", [
+      _c("span", { staticClass: "tf-flex" }, [
+        _vm._v("\n              Friday\n              "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-sm btn-primary p-1",
+            attrs: { title: "Add New" }
+          },
+          [
+            _c("i", {
+              staticClass: "fa fa-plus",
+              staticStyle: { "font-size": "10px" }
+            })
+          ]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "w-25 tf-flex" }, [
+      _c("span", { attrs: { title: "Update time" } }, [
+        _c("i", { staticClass: "fa fa-edit teal" })
+      ]),
+      _vm._v("\n              / \n              "),
+      _c("i", { staticClass: "fa fa-times red" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", [
+      _c("span", { staticClass: "tf-flex" }, [
+        _vm._v("\n              Saturday\n              "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-sm btn-primary p-1",
+            attrs: { title: "Add New" }
+          },
+          [
+            _c("i", {
+              staticClass: "fa fa-plus",
+              staticStyle: { "font-size": "10px" }
+            })
+          ]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "w-25 tf-flex" }, [
+      _c("span", { attrs: { title: "Update time" } }, [
+        _c("i", { staticClass: "fa fa-edit teal" })
+      ]),
+      _vm._v("\n              / \n              "),
+      _c("i", { staticClass: "fa fa-times red" })
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-61fc99f0", module.exports)
+  }
+}
+
+/***/ }),
+/* 216 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(217)
+/* template */
+var __vue_template__ = null
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/Schedules/OldAttempt/Schedule.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4a3c3d9c", Component.options)
+  } else {
+    hotAPI.reload("data-v-4a3c3d9c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 217 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['the_doctor_id', 'the_schedule', 'the_day_id'],
+
+  data: function data() {
+    return {
+      creating: false,
+      editing: false,
+      // day_id   : this.the_day_id,
+      // doctor_id: this.the_doctor_id,
+      schedule: this.the_schedule,
+      form: new Form({
+        // id        : '',
+        doctor_id: this.the_doctor_id,
+        day_id: this.the_day_id,
+        start_at: '',
+        end_at: ''
+      })
+    };
+  },
+
+
+  computed: {
+    //
+  },
+
+  methods: {
+    create: function create() {
+      this.creating = true;
+    },
+    store: function store() {
+      var _this = this;
+
+      this.$Progress.start();
+      this.form.post('/schedules').then(function () {
+
+        // Event.$emit('RefreshSection');
+        // this.$forceUpdate();
+        _this.$router.go(0); // Refreshes whole page!
+        _this.closeForm();
+        toast({
+          type: 'success',
+          title: 'Schedule created successfully'
+        });
+        _this.$Progress.finish();
+      }).catch(function () {
+        _this.$Progress.fail();
+      });
+    },
+    edit: function edit(schedule) {
+      this.editing = true;
+      this.form.clear(); // VForm, clears error message
+      this.form.reset(); // VForm
+      this.form.fill(schedule);
+    },
+    update: function update() {
+      var _this2 = this;
+
+      this.$Progress.start();
+      this.form.patch('/schedules/' + this.schedule.id).then(function () {
+
+        // Event.$emit('RefreshSection');
+        _this2.$router.go(0);
+        _this2.closeForm();
+        toast({
+          type: 'success',
+          title: 'Schedule updated successfully'
+        });
+        _this2.$Progress.finish();
+      }).catch(function () {
+        _this2.$Progress.fail();
+      });
+    },
+    destroy: function destroy() {
+      var _this3 = this;
+
+      if (confirm("You really want to delete this schedule?")) {
+
+        axios.delete('/schedules/' + this.schedule.id).then(function () {
+          toast({
+            type: 'success',
+            title: 'Schedule deleted successfully'
+          });
+          _this3.$Progress.finish();
+        });
+
+        $(this.$el).fadeOut(500);
+      }
+    },
+    closeForm: function closeForm() {
+      this.form.clear(); // VForm: Clear error messages
+      this.form.reset(); // VForm: Reset form fields
+      this.creating = false;
+      this.editing = false;
+    }
+  }
+});
 
 /***/ }),
 /* 218 */
