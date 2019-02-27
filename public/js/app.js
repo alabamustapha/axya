@@ -80636,6 +80636,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['doctorId', 'isDoctorOwner', 'dayId', 'dayName'],
@@ -80648,11 +80650,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       maxDailySchedules: 3, // Maximum schedules that can be added for a day. Controls Add New button
       editing: false, // Editing in progress?
-      dayNew: false, // ?
-      dayAvailable: false, // ? Doctor is available today? Used to check/uncheck a checkbox
+      editScheduleCheck: false, // Checkbox toggles the activation of editing
       addNew: false, // ?
       errorMsg: null, // Used in giving instant feedback.
-      actualSchedules: [// Schedules available in db or just getting pushed in.
+      schedules: [// Schedules available in db or just getting pushed in.
       {
         start_at: null,
         end_at: null
@@ -80672,7 +80673,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   methods: {
     initSchedule: function initSchedule() {
-      this.dayAvailable = true;
+      // The workings of checkbox is weird "checked == false" sort of.
+      if (this.editScheduleCheck == true) {
+        this.cancelEditSchedules();
+      }
     },
     addNewSchedule: function addNewSchedule() {
       this.daySchedules.push({
@@ -80683,9 +80687,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     removeASchedule: function removeASchedule(index) {
       // if (confirm('You really want to remove this schedule?')){
       this.daySchedules.splice(index, 1);
-
-      // then remove from db if this is update action.
-      // Laravel's sync should do the magic.
       // }
     },
     createSchedule: function createSchedule() {
@@ -80695,7 +80696,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         this.$Progress.start();
         axios.post('/schedules', {
-          actualSchedules: this.daySchedules, // array()
+          schedules: this.daySchedules, // array()
           day_id: this.dayId,
           doctor_id: this.doctorId
         }).then(function (response) {
@@ -80759,6 +80760,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             _this3.errorMsg = null;
           }, 7000);
 
+          // Not used for now because it is tripping off after some seconds/losing focus.
           // this.reformattedTime(elem);
         } else {
 
@@ -80813,35 +80815,38 @@ var render = function() {
                               {
                                 name: "model",
                                 rawName: "v-model",
-                                value: _vm.dayNew,
-                                expression: "dayNew"
+                                value: _vm.editScheduleCheck,
+                                expression: "editScheduleCheck"
                               }
                             ],
                             attrs: { type: "checkbox" },
                             domProps: {
-                              checked: Array.isArray(_vm.dayNew)
-                                ? _vm._i(_vm.dayNew, null) > -1
-                                : _vm.dayNew
+                              checked: Array.isArray(_vm.editScheduleCheck)
+                                ? _vm._i(_vm.editScheduleCheck, null) > -1
+                                : _vm.editScheduleCheck
                             },
                             on: {
                               click: _vm.initSchedule,
                               change: function($event) {
-                                var $$a = _vm.dayNew,
+                                var $$a = _vm.editScheduleCheck,
                                   $$el = $event.target,
                                   $$c = $$el.checked ? true : false
                                 if (Array.isArray($$a)) {
                                   var $$v = null,
                                     $$i = _vm._i($$a, $$v)
                                   if ($$el.checked) {
-                                    $$i < 0 && (_vm.dayNew = $$a.concat([$$v]))
+                                    $$i < 0 &&
+                                      (_vm.editScheduleCheck = $$a.concat([
+                                        $$v
+                                      ]))
                                   } else {
                                     $$i > -1 &&
-                                      (_vm.dayNew = $$a
+                                      (_vm.editScheduleCheck = $$a
                                         .slice(0, $$i)
                                         .concat($$a.slice($$i + 1)))
                                   }
                                 } else {
-                                  _vm.dayNew = $$c
+                                  _vm.editScheduleCheck = $$c
                                 }
                               }
                             }
@@ -80872,7 +80877,26 @@ var render = function() {
                         staticStyle: { width: "70px", display: "inline-block" }
                       },
                       [_vm._v(_vm._s(_vm.dayName))]
-                    )
+                    ),
+                    _vm._v(" "),
+                    _vm.editScheduleCheck && !_vm.editing
+                      ? _c(
+                          "button",
+                          {
+                            attrs: { title: "Edit" },
+                            on: {
+                              click: function($event) {
+                                _vm.editing = true
+                              }
+                            }
+                          },
+                          [
+                            _c("i", { staticClass: "fa fa-edit text-primary" }),
+                            _vm._v(" "),
+                            _c("span", [_vm._v("Edit")])
+                          ]
+                        )
+                      : _vm._e()
                   ])
                 ])
               ])
@@ -80934,7 +80958,7 @@ var render = function() {
                                                       "day-time-field",
                                                     attrs: {
                                                       id: "start_at_" + index,
-                                                      placeholder: "time",
+                                                      placeholder: "08:00:00",
                                                       type: "text",
                                                       minlength: "8",
                                                       maxlength: "8",
@@ -81118,93 +81142,78 @@ var render = function() {
             )
           : _vm._e(),
         _vm._v(" "),
-        _vm.isDoctorOwner
-          ? _c(
-              "table",
-              { attrs: { cols: "2", cellspacing: "0", cellpadding: "0" } },
-              [
-                _c("tbody", [
-                  _c("tr", [
-                    _c("td", [
-                      _c("div", { staticClass: "mr-2" }, [
+        _c("div", { staticClass: "pt-2 border-top" }, [
+          _vm.isDoctorOwner
+            ? _c(
+                "table",
+                { attrs: { cols: "2", cellspacing: "0", cellpadding: "0" } },
+                [
+                  _c("tbody", [
+                    _c("tr", [
+                      _c("td", [
+                        _c("div", { staticClass: "mr-2" }, [
+                          _vm.editing
+                            ? _c(
+                                "button",
+                                {
+                                  attrs: { title: "Cancel edit" },
+                                  on: { click: _vm.cancelEditSchedules }
+                                },
+                                [
+                                  _c("i", {
+                                    staticClass: "fa fa-times text-danger"
+                                  }),
+                                  _vm._v(" "),
+                                  _c("span", [_vm._v("Cancel Editing")])
+                                ]
+                              )
+                            : _vm._e()
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
                         _vm.editing
-                          ? _c(
-                              "button",
-                              {
-                                attrs: { title: "Cancel edit" },
-                                on: { click: _vm.cancelEditSchedules }
-                              },
-                              [
-                                _c("i", {
-                                  staticClass: "fa fa-times text-danger"
-                                }),
-                                _vm._v(" "),
-                                _c("span", [_vm._v("Cancel Editing")])
-                              ]
-                            )
-                          : _c(
-                              "button",
-                              {
-                                attrs: { title: "Edit" },
-                                on: {
-                                  click: function($event) {
-                                    _vm.editing = true
-                                  }
-                                }
-                              },
-                              [
-                                _c("i", {
-                                  staticClass: "fa fa-edit text-primary"
-                                }),
-                                _vm._v(" "),
-                                _c("span", [_vm._v("Edit")])
-                              ]
-                            )
+                          ? _c("div", [
+                              _vm.daySchedules.length < _vm.maxDailySchedules
+                                ? _c(
+                                    "button",
+                                    {
+                                      attrs: { title: "Add New" },
+                                      on: { click: _vm.addNewSchedule }
+                                    },
+                                    [
+                                      _c("i", {
+                                        staticClass: "fa fa-plus text-primary"
+                                      }),
+                                      _vm._v(" \n                    "),
+                                      _c("span", [_vm._v("Add New")])
+                                    ]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _c(
+                                "button",
+                                {
+                                  attrs: { title: "Save All" },
+                                  on: { click: _vm.createSchedule }
+                                },
+                                [
+                                  _c("i", {
+                                    staticClass: "fa fa-file text-info"
+                                  }),
+                                  _vm._v(" \n                    "),
+                                  _c("span", [_vm._v("Save")])
+                                ]
+                              )
+                            ])
+                          : _vm._e()
                       ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _vm.editing
-                        ? _c("div", [
-                            _vm.daySchedules.length < _vm.maxDailySchedules
-                              ? _c(
-                                  "button",
-                                  {
-                                    attrs: { title: "Add New" },
-                                    on: { click: _vm.addNewSchedule }
-                                  },
-                                  [
-                                    _c("i", {
-                                      staticClass: "fa fa-plus text-primary"
-                                    }),
-                                    _vm._v(" \n                  "),
-                                    _c("span", [_vm._v("Add New")])
-                                  ]
-                                )
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _c(
-                              "button",
-                              {
-                                attrs: { title: "Save All" },
-                                on: { click: _vm.createSchedule }
-                              },
-                              [
-                                _c("i", {
-                                  staticClass: "fa fa-file text-info"
-                                }),
-                                _vm._v(" \n                  "),
-                                _c("span", [_vm._v("Save")])
-                              ]
-                            )
-                          ])
-                        : _vm._e()
                     ])
                   ])
-                ])
-              ]
-            )
-          : _vm._e()
+                ]
+              )
+            : _vm._e()
+        ])
       ]),
       _vm._v(" "),
       !_vm.editing

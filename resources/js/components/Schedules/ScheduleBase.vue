@@ -10,7 +10,7 @@
               <tr>
                 <td>
                   <label>
-                    <input type="checkbox" v-model="dayNew" @click="initSchedule">
+                    <input type="checkbox" v-model="editScheduleCheck" @click="initSchedule">
                   </label>
                 </td>
               </tr>
@@ -28,6 +28,11 @@
               <tr>
                 <td>
                   <span class="font-weight-bold" style="width:70px;display:inline-block">{{ dayName }}</span> 
+
+                  <button v-if="editScheduleCheck && !editing" @click="editing = true" title="Edit">
+                    <i class="fa fa-edit text-primary"></i>
+                    <span>Edit</span>
+                  </button>
                 </td>
               </tr>
 
@@ -56,7 +61,7 @@
                                 <span placeholder="Time">
                                   <label>
                                     <input @keyup="regCleanUp('start_at_' + index)"
-                                      :id="'start_at_' + index" class="day-time-field" placeholder="time" 
+                                      :id="'start_at_' + index" class="day-time-field" placeholder="08:00:00" 
                                       v-model="schedule.start_at" type="text" 
                                       minlength="8" maxlength="8"
                                       aria-autocomplete="list" aria-expanded="false" 
@@ -122,40 +127,37 @@
         </div>
 
           
-        <table v-if="isDoctorOwner" cols="2" cellspacing="0" cellpadding="0">
-          <tbody>
-            <tr>      
+        <div class="pt-2 border-top">
+          <table v-if="isDoctorOwner" cols="2" cellspacing="0" cellpadding="0">
+            <tbody>
+              <tr>      
 
-              <td>
-                <div class="mr-2">
-                  <button v-if="editing" @click="cancelEditSchedules" title="Cancel edit">
-                    <i class="fa fa-times text-danger"></i>
-                    <span>Cancel Editing</span>
-                  </button>
+                <td>
+                  <div class="mr-2">
+                    <button v-if="editing" @click="cancelEditSchedules" title="Cancel edit">
+                      <i class="fa fa-times text-danger"></i>
+                      <span>Cancel Editing</span>
+                    </button>
+                  </div>
+                </td>
+                <td>
+                  <div v-if="editing">
+                    <button v-if="(daySchedules.length < maxDailySchedules)" @click="addNewSchedule" class="" title="Add New">
+                      <i class="fa fa-plus text-primary"></i>&nbsp;
+                      <span>Add New</span>
+                    </button>
 
-                  <button v-else @click="editing = true" title="Edit">
-                    <i class="fa fa-edit text-primary"></i>
-                    <span>Edit</span>
-                  </button>
-                </div>
-              </td>
-              <td>
-                <div v-if="editing">
-                  <button v-if="(daySchedules.length < maxDailySchedules)" @click="addNewSchedule" class="" title="Add New">
-                    <i class="fa fa-plus text-primary"></i>&nbsp;
-                    <span>Add New</span>
-                  </button>
+                    <button @click="createSchedule" class="" title="Save All">
+                      <i class="fa fa-file text-info"></i>&nbsp;
+                      <span>Save</span>
+                    </button>
+                  </div>
+                </td>
 
-                  <button @click="createSchedule" class="" title="Save All">
-                    <i class="fa fa-file text-info"></i>&nbsp;
-                    <span>Save</span>
-                  </button>
-                </div>
-              </td>
-
-            </tr>
-          </tbody>
-        </table>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </td>
 
       <!-- Normal User's View -->
@@ -235,11 +237,10 @@
 
         maxDailySchedules : 3,     // Maximum schedules that can be added for a day. Controls Add New button
         editing           : false, // Editing in progress?
-        dayNew            : false, // ?
-        dayAvailable      : false, // ? Doctor is available today? Used to check/uncheck a checkbox
+        editScheduleCheck : false, // Checkbox toggles the activation of editing
         addNew            : false, // ?
         errorMsg          : null,  // Used in giving instant feedback.
-        actualSchedules: [         // Schedules available in db or just getting pushed in.
+        schedules: [               // Schedules available in db or just getting pushed in.
           {
             start_at : null,
             end_at   : null,
@@ -260,7 +261,10 @@
 
     methods: {
       initSchedule () {
-        this.dayAvailable   = true;
+        // The workings of checkbox is weird "checked == false" sort of.
+        if (this.editScheduleCheck == true) {
+          this.cancelEditSchedules();
+        }
       },
       addNewSchedule () {
         this.daySchedules.push({
@@ -272,9 +276,6 @@
       removeASchedule(index) {
         // if (confirm('You really want to remove this schedule?')){
           this.daySchedules.splice(index, 1);
-            
-        // then remove from db if this is update action.
-        // Laravel's sync should do the magic.
         // }
       },
 
@@ -283,7 +284,7 @@
 
           this.$Progress.start();
           axios.post('/schedules', {
-            actualSchedules : this.daySchedules, // array()
+            schedules : this.daySchedules, // array()
             day_id    : this.dayId,
             doctor_id : this.doctorId,
           })
@@ -343,6 +344,7 @@
             this.errorMsg = '<span class="text-success">Valid!</span>';
             setTimeout(() => { this.errorMsg = null; }, 7000);
 
+            // Not used for now because it is tripping off after some seconds/losing focus.
             // this.reformattedTime(elem);
           }
           else {
