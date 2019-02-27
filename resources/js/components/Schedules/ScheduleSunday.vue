@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <tr>
+  <div class="py-1 border-bottom">
+    <tr class="">
       
       <td>
         <div v-if="isDoctorOwner" class="justify-content-center">
@@ -53,10 +53,11 @@
                               <!-- Start Time -->
                               <div>
                                 <span placeholder="Time">
-                                  <label id="">
-                                    <input 
-                                      class="sunday-time-field" placeholder="time" 
+                                  <label>
+                                    <input @keyup="regCleanUp('start_at_' + index)"
+                                      :id="'start_at_' + index" class="sunday-time-field" placeholder="time" 
                                       v-model="schedule.start_at" type="text" 
+                                      minlength="8" maxlength="8"
                                       aria-autocomplete="list" aria-expanded="false" 
                                       autocomplete="off" autocorrect="off" required
                                     >
@@ -71,10 +72,11 @@
                               <!-- End Time -->
                               <div>
                                 <span placeholder="Time">
-                                  <label id="">
-                                    <input 
-                                      class="sunday-time-field" placeholder="time" 
+                                  <label>
+                                    <input @keyup="regCleanUp('end_at_' + index)"
+                                      :id="'end_at_' + index" class="sunday-time-field" placeholder="time" 
                                       v-model="schedule.end_at" type="text" 
+                                      minlength="8" maxlength="8"
                                       aria-autocomplete="list" aria-expanded="false" 
                                       autocomplete="off" autocorrect="off" required
                                     >
@@ -115,7 +117,7 @@
             </table>
           </div>
 
-          <div class=" text-danger" v-if="errorMsg" v-html="errorMsg"></div>
+          <div id="errorMsg" v-if="errorMsg" v-html="errorMsg"></div>
         </div>
 
           
@@ -268,7 +270,7 @@
 
 <script>
   export default {
-    // props: [''],//doctorId
+    // props: ['doctorId'],
     
     data() {
       return {
@@ -295,7 +297,6 @@
 
     created() {
       this.showSundaySchedules();
-      // this.maxSundaySchedules();
     },
 
     computed: {
@@ -334,7 +335,6 @@
             doctor_id : this.doctorId,
           })
           .then((response) => {
-            // Event.$emit('RefreshPage');
             this.editing = false;
             this.showSundaySchedules();
             let message = response.data.status;
@@ -355,7 +355,7 @@
           });
         }
         else if (this.start_at == null || this.end_at == null) {
-          this.errorMsg = 'Schedule <strong>start</strong> or <strong>end time</strong> cannot be empty';
+          this.errorMsg = '<span class="text-danger">Schedule <strong>start</strong> or <strong>end time</strong> cannot be empty</span>';
           setTimeout(() => { this.errorMsg = null; }, 7000);
           return false;
         }
@@ -371,10 +371,49 @@
       },
       
       showSundaySchedules() {
-        // const scheduleUrl = appUrl +'/schedules/' + this.doctorId +'/' + this.sundayId);
         axios.get('/schedules/' + this.doctorId +'/' + this.dayId)
         .then(({data}) => (this.sundaySchedules = data))
         .then(() => { this.loading = false; })
+      },
+
+      regCleanUp(elem){
+        let inputField = document.getElementById(elem);
+        let regX = new RegExp;
+            regX = /[^0-9:]/gi;
+        // Check at: regexr.com/ or regexpal.com/
+        let regXpattern = /(([0-1]{1}[0-9]{1})|([0-2]{1}[0-3]{1})):[0-5]{1}[0-9]{1}:[0-5]{1}[0-9]{1}/gi; // 00:00:00 - 23:59:59
+
+        inputField.value = inputField.value.replace(regX, "");
+
+        if (inputField.value.length == 8){
+          if (inputField.value.match(regXpattern)) {
+            this.errorMsg = '<span class="text-success">Valid!</span>';
+            setTimeout(() => { this.errorMsg = null; }, 7000);
+
+            // this.reformattedTime(elem);
+          }
+          else {
+
+            this.errorMsg = '<span class="text-danger">Time must be <b>24-hour format</b>, highest is: <b>23:59:59</b></span>';
+            setTimeout(() => { this.errorMsg = null; }, 7000);
+         }
+        }
+      },
+
+      reformattedTime(elem){
+        let inputField = document.getElementById(elem);
+        let timeArr = inputField.value.split(':');
+        let hour = timeArr[0];
+        let min = timeArr[1];
+        let sec = timeArr[2];
+
+        hour = hour < 23 ? hour:23;
+        min  = min  < 59 ? min :59;
+        sec  = sec  < 59 ? sec :59;
+        let reformat = hour +':'+ min +':'+ sec;
+        console.log(reformat);
+        inputField.value = reformat;
+        // $('#'+elem).val(reformat);
       },
     },
   }

@@ -80332,7 +80332,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -80662,9 +80661,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  // props: [''],//doctorId
+  // props: ['doctorId'],
 
   data: function data() {
     return {
@@ -80688,7 +80689,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   created: function created() {
     this.showSundaySchedules();
-    // this.maxSundaySchedules();
   },
 
 
@@ -80727,7 +80727,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           day_id: this.dayId,
           doctor_id: this.doctorId
         }).then(function (response) {
-          // Event.$emit('RefreshPage');
           _this.editing = false;
           _this.showSundaySchedules();
           var message = response.data.status;
@@ -80746,7 +80745,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           _this.$Progress.fail();
         });
       } else if (this.start_at == null || this.end_at == null) {
-        this.errorMsg = 'Schedule <strong>start</strong> or <strong>end time</strong> cannot be empty';
+        this.errorMsg = '<span class="text-danger">Schedule <strong>start</strong> or <strong>end time</strong> cannot be empty</span>';
         setTimeout(function () {
           _this.errorMsg = null;
         }, 7000);
@@ -80763,13 +80762,55 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     showSundaySchedules: function showSundaySchedules() {
       var _this2 = this;
 
-      // const scheduleUrl = appUrl +'/schedules/' + this.doctorId +'/' + this.sundayId);
       axios.get('/schedules/' + this.doctorId + '/' + this.dayId).then(function (_ref) {
         var data = _ref.data;
         return _this2.sundaySchedules = data;
       }).then(function () {
         _this2.loading = false;
       });
+    },
+    regCleanUp: function regCleanUp(elem) {
+      var _this3 = this;
+
+      var inputField = document.getElementById(elem);
+      var regX = new RegExp();
+      regX = /[^0-9:]/gi;
+      // Check at: regexr.com/ or regexpal.com/
+      var regXpattern = /(([0-1]{1}[0-9]{1})|([0-2]{1}[0-3]{1})):[0-5]{1}[0-9]{1}:[0-5]{1}[0-9]{1}/gi; // 00:00:00 - 23:59:59
+
+      inputField.value = inputField.value.replace(regX, "");
+
+      if (inputField.value.length == 8) {
+        if (inputField.value.match(regXpattern)) {
+          this.errorMsg = '<span class="text-success">Valid!</span>';
+          setTimeout(function () {
+            _this3.errorMsg = null;
+          }, 7000);
+
+          // this.reformattedTime(elem);
+        } else {
+
+          this.errorMsg = '<span class="text-danger">Time must be <b>24-hour format</b>, highest is: <b>23:59:59</b></span>';
+          setTimeout(function () {
+            _this3.errorMsg = null;
+          }, 7000);
+        }
+      }
+    },
+    reformattedTime: function reformattedTime(elem) {
+      var inputField = document.getElementById(elem);
+      var timeArr = inputField.value.split(':');
+      var hour = timeArr[0];
+      var min = timeArr[1];
+      var sec = timeArr[2];
+
+      hour = hour < 23 ? hour : 23;
+      min = min < 59 ? min : 59;
+      sec = sec < 59 ? sec : 59;
+      var reformat = hour + ':' + min + ':' + sec;
+      console.log(reformat);
+      inputField.value = reformat;
+      // $('#'+elem).val(reformat);
     }
   }
 });
@@ -80782,8 +80823,8 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("tr", [
+  return _c("div", { staticClass: "py-1 border-bottom" }, [
+    _c("tr", {}, [
       _c("td", [
         _vm.isDoctorOwner
           ? _c("div", { staticClass: "justify-content-center" }, [
@@ -80883,57 +80924,58 @@ var render = function() {
                                                 attrs: { placeholder: "Time" }
                                               },
                                               [
-                                                _c(
-                                                  "label",
-                                                  { attrs: { id: "" } },
-                                                  [
-                                                    _c("input", {
-                                                      directives: [
-                                                        {
-                                                          name: "model",
-                                                          rawName: "v-model",
-                                                          value:
-                                                            schedule.start_at,
-                                                          expression:
-                                                            "schedule.start_at"
-                                                        }
-                                                      ],
-                                                      staticClass:
-                                                        "sunday-time-field",
-                                                      attrs: {
-                                                        placeholder: "time",
-                                                        type: "text",
-                                                        "aria-autocomplete":
-                                                          "list",
-                                                        "aria-expanded":
-                                                          "false",
-                                                        autocomplete: "off",
-                                                        autocorrect: "off",
-                                                        required: ""
-                                                      },
-                                                      domProps: {
-                                                        value: schedule.start_at
-                                                      },
-                                                      on: {
-                                                        input: function(
-                                                          $event
-                                                        ) {
-                                                          if (
-                                                            $event.target
-                                                              .composing
-                                                          ) {
-                                                            return
-                                                          }
-                                                          _vm.$set(
-                                                            schedule,
-                                                            "start_at",
-                                                            $event.target.value
-                                                          )
-                                                        }
+                                                _c("label", [
+                                                  _c("input", {
+                                                    directives: [
+                                                      {
+                                                        name: "model",
+                                                        rawName: "v-model",
+                                                        value:
+                                                          schedule.start_at,
+                                                        expression:
+                                                          "schedule.start_at"
                                                       }
-                                                    })
-                                                  ]
-                                                )
+                                                    ],
+                                                    staticClass:
+                                                      "sunday-time-field",
+                                                    attrs: {
+                                                      id: "start_at_" + index,
+                                                      placeholder: "time",
+                                                      type: "text",
+                                                      minlength: "8",
+                                                      maxlength: "8",
+                                                      "aria-autocomplete":
+                                                        "list",
+                                                      "aria-expanded": "false",
+                                                      autocomplete: "off",
+                                                      autocorrect: "off",
+                                                      required: ""
+                                                    },
+                                                    domProps: {
+                                                      value: schedule.start_at
+                                                    },
+                                                    on: {
+                                                      keyup: function($event) {
+                                                        _vm.regCleanUp(
+                                                          "start_at_" + index
+                                                        )
+                                                      },
+                                                      input: function($event) {
+                                                        if (
+                                                          $event.target
+                                                            .composing
+                                                        ) {
+                                                          return
+                                                        }
+                                                        _vm.$set(
+                                                          schedule,
+                                                          "start_at",
+                                                          $event.target.value
+                                                        )
+                                                      }
+                                                    }
+                                                  })
+                                                ])
                                               ]
                                             )
                                           ])
@@ -80949,57 +80991,57 @@ var render = function() {
                                                 attrs: { placeholder: "Time" }
                                               },
                                               [
-                                                _c(
-                                                  "label",
-                                                  { attrs: { id: "" } },
-                                                  [
-                                                    _c("input", {
-                                                      directives: [
-                                                        {
-                                                          name: "model",
-                                                          rawName: "v-model",
-                                                          value:
-                                                            schedule.end_at,
-                                                          expression:
-                                                            "schedule.end_at"
-                                                        }
-                                                      ],
-                                                      staticClass:
-                                                        "sunday-time-field",
-                                                      attrs: {
-                                                        placeholder: "time",
-                                                        type: "text",
-                                                        "aria-autocomplete":
-                                                          "list",
-                                                        "aria-expanded":
-                                                          "false",
-                                                        autocomplete: "off",
-                                                        autocorrect: "off",
-                                                        required: ""
-                                                      },
-                                                      domProps: {
-                                                        value: schedule.end_at
-                                                      },
-                                                      on: {
-                                                        input: function(
-                                                          $event
-                                                        ) {
-                                                          if (
-                                                            $event.target
-                                                              .composing
-                                                          ) {
-                                                            return
-                                                          }
-                                                          _vm.$set(
-                                                            schedule,
-                                                            "end_at",
-                                                            $event.target.value
-                                                          )
-                                                        }
+                                                _c("label", [
+                                                  _c("input", {
+                                                    directives: [
+                                                      {
+                                                        name: "model",
+                                                        rawName: "v-model",
+                                                        value: schedule.end_at,
+                                                        expression:
+                                                          "schedule.end_at"
                                                       }
-                                                    })
-                                                  ]
-                                                )
+                                                    ],
+                                                    staticClass:
+                                                      "sunday-time-field",
+                                                    attrs: {
+                                                      id: "end_at_" + index,
+                                                      placeholder: "time",
+                                                      type: "text",
+                                                      minlength: "8",
+                                                      maxlength: "8",
+                                                      "aria-autocomplete":
+                                                        "list",
+                                                      "aria-expanded": "false",
+                                                      autocomplete: "off",
+                                                      autocorrect: "off",
+                                                      required: ""
+                                                    },
+                                                    domProps: {
+                                                      value: schedule.end_at
+                                                    },
+                                                    on: {
+                                                      keyup: function($event) {
+                                                        _vm.regCleanUp(
+                                                          "end_at_" + index
+                                                        )
+                                                      },
+                                                      input: function($event) {
+                                                        if (
+                                                          $event.target
+                                                            .composing
+                                                        ) {
+                                                          return
+                                                        }
+                                                        _vm.$set(
+                                                          schedule,
+                                                          "end_at",
+                                                          $event.target.value
+                                                        )
+                                                      }
+                                                    }
+                                                  })
+                                                ])
                                               ]
                                             )
                                           ])
@@ -81073,7 +81115,7 @@ var render = function() {
                 _vm._v(" "),
                 _vm.errorMsg
                   ? _c("div", {
-                      staticClass: " text-danger",
+                      attrs: { id: "errorMsg" },
                       domProps: { innerHTML: _vm._s(_vm.errorMsg) }
                     })
                   : _vm._e()
@@ -81415,17 +81457,7 @@ var render = function() {
                     {
                       attrs: { cols: "3", cellspacing: "0", cellpadding: "0" }
                     },
-                    [
-                      _c(
-                        "tbody",
-                        [
-                          _c("schedule-sunday"),
-                          _vm._v(" "),
-                          _c("schedule-sunday")
-                        ],
-                        1
-                      )
-                    ]
+                    [_c("tbody", [_c("schedule-sunday")], 1)]
                   )
                 ])
               ])
