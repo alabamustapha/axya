@@ -27,16 +27,17 @@ class ScheduleRequest extends FormRequest
         $rules = array_merge($rules, [
             'doctor_id' => 'required|integer|exists:doctors,id',
             'day_id'    => 'required|integer|exists:days,id',
+            'schedules'  => 'array',
         ]);
 
         $rules = app()->environment('testing')
         # date_format:H:i:s not responding in testing thus needs to be seperated out.
             ? array_merge($rules, [
-                'start_at'  => 'required',
-                'end_at'    => 'required',])
+                'schedules.*.start_at'  => 'required',
+                'schedules.*.end_at'    => 'required',])
             : array_merge($rules, [
-                'start_at'  => 'required|date_format:H:i:s',
-                'end_at'    => 'required|date_format:H:i:s|after:start_at',
+                'schedules.*.start_at'  => 'required|date_format:H:i:s',
+                'schedules.*.end_at'    => 'required|date_format:H:i:s|after:schedules.*.start_at',
             ]);
 
         return $rules;

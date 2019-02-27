@@ -27,32 +27,45 @@ class SchedulesFeatureTest extends TestCase
                                 'user_id' => $this->doc_user->id
                             ]);
         $this->day       = factory(Day::class)->create();
-        $this->schedule  = factory(Schedule::class)->create(
-                            [
+        $this->schedule  = factory(Schedule::class)->create([
                                 'doctor_id' => $this->doctor->id, 
                                 'day_id' => $this->day->id
                             ]);
-        $start_time = '5:00:00';
-        $end_time   = '11:00:00';
-        $this->data = [ 
+        $this->start_time  = '5:00:00';
+        $this->end_time    = '11:10:00';
+        $this->start_time2 = '15:00:00';
+        $this->end_time2   = '21:00:00';
+
+        $this->axiosSchedules = [ 
             'doctor_id' => $this->doctor->id,
             'day_id'    => $this->day->id,
-            'start_at'  => $start_time,
-            'end_at'    => $end_time,
+            'schedules' => [
+                [
+                    'start_at'  => $this->start_time,
+                    'end_at'    => $this->end_time,
+                ],
+                [ 
+                    'start_at'  => $this->start_time2,
+                    'end_at'    => $this->end_time2,
+                ]
+            ],
         ];
     } 
 
-    /** @test */
-    public function index_schedules_list_can_be_viewed()
-    { 
-        $this
-            ->get(route('doctors.show', $this->doctor))
-            ->assertStatus(200)
-            ->assertSee($this->schedule->day->name)
-            ->assertSee($this->schedule->start)
-            ->assertSee($this->schedule->end)
-            ;
-    }
+    // /** @test 
+    //  *  Maybe not passing because it is now handled by vue
+    //  *  Dusk browser test might be a better option.
+    //  */
+    // public function index_schedules_list_can_be_viewed()
+    // { 
+    //     $this
+    //         ->get(route('doctors.show', $this->doctor))
+    //         ->assertStatus(200)
+    //         ->assertSee($this->schedule->day->name)
+    //         ->assertSee$this->schedule->start)
+    //         ->assertSee$this->schedule->end)
+    //         ;
+    // }
 
     /**  @test */
     public function store_a_schedule_can_be_created()
@@ -60,40 +73,24 @@ class SchedulesFeatureTest extends TestCase
         $this->actingAs($this->doc_user);
 
         $this
-            ->post(route('schedules.store'), $this->data)
-            ->assertStatus(302)
-            // ->assertRedirect(route('doctors.show', $this->doctor))
+            ->post(route('schedules.store'), $this->axiosSchedules)
+            ->assertStatus(200)
             ;
+        $schedule_1 = [
+                'doctor_id' => $this->doctor->id,
+                'day_id'    => $this->day->id,
+                'start_at'  => $this->start_time,
+                'end_at'    => $this->end_time,
+            ];
+        $schedule_2 = [
+                'doctor_id' => $this->doctor->id,
+                'day_id'    => $this->day->id,
+                'start_at'  => $this->start_time2,
+                'end_at'    => $this->end_time2,
+            ];
 
-        $this->assertDatabaseHas('schedules', $this->data);
-    }
-
-    /** @test */
-    public function update_a_schedule_can_be_updated()
-    {
-        $this->actingAs($this->doc_user);
-
-        // Create a Schedule
-        $schedule = factory(Schedule::class)->create($this->data);
-        $this->assertDatabaseHas('schedules', $this->data);
-
-        // Update the Schedule's details
-        $start_time = '6:00:00';
-        $end_time   = '15:00:00';
-        $updated_data = [ 
-            'doctor_id' => $this->doctor->id,
-            'day_id'    => $this->day->id,
-            'start_at'  => $start_time,
-            'end_at'    => $end_time,
-        ]; 
-
-        $this
-            ->patch(route('schedules.update', $schedule), $updated_data)
-            // ->assertStatus(302)
-            // ->assertRedirect(route('doctors.show', $this->doctor))
-            ;
-
-        $this->assertDatabaseHas('schedules', $updated_data);
+        $this->assertDatabaseHas('schedules', $schedule_1);
+        $this->assertDatabaseHas('schedules', $schedule_2);
     }
 
     /** @test */
@@ -111,4 +108,32 @@ class SchedulesFeatureTest extends TestCase
 
         $this->assertDatabaseMissing('schedules', $schedule->toArray());
     }
+
+    // /** @test */ Presently not in use...
+    // public function update_a_schedule_can_be_updated()
+    // {
+    //     $this->actingAs($this->doc_user);
+
+    //     // Create a Schedule
+    //     $schedule = factory(Schedule::class)->create($this->axiosSchedules);
+    //     $this->assertDatabaseHas('schedules', $this->axiosSchedules);
+
+    //     // Update the Schedule's details
+    //     $this->start_time = '6:00:00';
+    //     $this->end_time   = '15:00:00';
+    //     $updated_data = [ 
+    //         'doctor_id' => $this->doctor->id,
+    //         'day_id'    => $this->day->id,
+    //         'start_at'  => $this->start_time,
+    //         'end_at'    => $this->end_time,
+    //     ]; 
+
+    //     $this
+    //         ->patch(route('schedules.update', $schedule), $updated_data)
+    //         // ->assertStatus(302)
+    //         // ->assertRedirect(route('doctors.show', $this->doctor))
+    //         ;
+
+    //     $this->assertDatabaseHas('schedules', $updated_data);
+    // }
 }

@@ -4578,6 +4578,115 @@
 
 /***/ }),
 /* 1 */
+/***/ (function(module, exports) {
+
+/* globals __VUE_SSR_CONTEXT__ */
+
+// IMPORTANT: Do NOT use ES2015 features in this file.
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+module.exports = function normalizeComponent (
+  rawScriptExports,
+  compiledTemplate,
+  functionalTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier /* server only */
+) {
+  var esModule
+  var scriptExports = rawScriptExports = rawScriptExports || {}
+
+  // ES6 modules interop
+  var type = typeof rawScriptExports.default
+  if (type === 'object' || type === 'function') {
+    esModule = rawScriptExports
+    scriptExports = rawScriptExports.default
+  }
+
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // render functions
+  if (compiledTemplate) {
+    options.render = compiledTemplate.render
+    options.staticRenderFns = compiledTemplate.staticRenderFns
+    options._compiled = true
+  }
+
+  // functional template
+  if (functionalTemplate) {
+    options.functional = true
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) { // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = injectStyles
+  }
+
+  if (hook) {
+    var functional = options.functional
+    var existing = functional
+      ? options.render
+      : options.beforeCreate
+
+    if (!functional) {
+      // inject component registration as beforeCreate hook
+      options.beforeCreate = existing
+        ? [].concat(existing, hook)
+        : [hook]
+    } else {
+      // for template-only hot-reload because in that case the render fn doesn't
+      // go through the normalizer
+      options._injectStyles = hook
+      // register for functioal component in vue file
+      options.render = function renderWithStyleInjection (h, context) {
+        hook.call(context)
+        return existing(h, context)
+      }
+    }
+  }
+
+  return {
+    esModule: esModule,
+    exports: scriptExports,
+    options: options
+  }
+}
+
+
+/***/ }),
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -4887,115 +4996,6 @@ module.exports = {
 
 
 /***/ }),
-/* 2 */
-/***/ (function(module, exports) {
-
-/* globals __VUE_SSR_CONTEXT__ */
-
-// IMPORTANT: Do NOT use ES2015 features in this file.
-// This module is a runtime utility for cleaner component module output and will
-// be included in the final webpack user bundle.
-
-module.exports = function normalizeComponent (
-  rawScriptExports,
-  compiledTemplate,
-  functionalTemplate,
-  injectStyles,
-  scopeId,
-  moduleIdentifier /* server only */
-) {
-  var esModule
-  var scriptExports = rawScriptExports = rawScriptExports || {}
-
-  // ES6 modules interop
-  var type = typeof rawScriptExports.default
-  if (type === 'object' || type === 'function') {
-    esModule = rawScriptExports
-    scriptExports = rawScriptExports.default
-  }
-
-  // Vue.extend constructor export interop
-  var options = typeof scriptExports === 'function'
-    ? scriptExports.options
-    : scriptExports
-
-  // render functions
-  if (compiledTemplate) {
-    options.render = compiledTemplate.render
-    options.staticRenderFns = compiledTemplate.staticRenderFns
-    options._compiled = true
-  }
-
-  // functional template
-  if (functionalTemplate) {
-    options.functional = true
-  }
-
-  // scopedId
-  if (scopeId) {
-    options._scopeId = scopeId
-  }
-
-  var hook
-  if (moduleIdentifier) { // server build
-    hook = function (context) {
-      // 2.3 injection
-      context =
-        context || // cached call
-        (this.$vnode && this.$vnode.ssrContext) || // stateful
-        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
-      // 2.2 with runInNewContext: true
-      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
-        context = __VUE_SSR_CONTEXT__
-      }
-      // inject component styles
-      if (injectStyles) {
-        injectStyles.call(this, context)
-      }
-      // register component module identifier for async chunk inferrence
-      if (context && context._registeredComponents) {
-        context._registeredComponents.add(moduleIdentifier)
-      }
-    }
-    // used by ssr in case component is cached and beforeCreate
-    // never gets called
-    options._ssrRegister = hook
-  } else if (injectStyles) {
-    hook = injectStyles
-  }
-
-  if (hook) {
-    var functional = options.functional
-    var existing = functional
-      ? options.render
-      : options.beforeCreate
-
-    if (!functional) {
-      // inject component registration as beforeCreate hook
-      options.beforeCreate = existing
-        ? [].concat(existing, hook)
-        : [hook]
-    } else {
-      // for template-only hot-reload because in that case the render fn doesn't
-      // go through the normalizer
-      options._injectStyles = hook
-      // register for functioal component in vue file
-      options.render = function renderWithStyleInjection (h, context) {
-        hook.call(context)
-        return existing(h, context)
-      }
-    }
-  }
-
-  return {
-    esModule: esModule,
-    exports: scriptExports,
-    options: options
-  }
-}
-
-
-/***/ }),
 /* 3 */
 /***/ (function(module, exports) {
 
@@ -5029,7 +5029,7 @@ module.exports = g;
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 var normalizeHeaderName = __webpack_require__(147);
 
 var DEFAULT_CONTENT_TYPE = {
@@ -18287,7 +18287,7 @@ process.umask = function() { return 0; };
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 var settle = __webpack_require__(148);
 var buildURL = __webpack_require__(150);
 var parseHeaders = __webpack_require__(151);
@@ -30380,7 +30380,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(139);
-module.exports = __webpack_require__(208);
+module.exports = __webpack_require__(222);
 
 
 /***/ }),
@@ -30480,19 +30480,21 @@ var router = new __WEBPACK_IMPORTED_MODULE_4_vue_router__["a" /* default */]({
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 Vue.component('searches', __webpack_require__(172));
-Vue.component('schedule-list', __webpack_require__(175));
-Vue.component('schedule', __webpack_require__(178));
-Vue.component('prescription', __webpack_require__(180));
-Vue.component('drug', __webpack_require__(183));
-Vue.component('display-prescription', __webpack_require__(186));
-Vue.component('appointment-form', __webpack_require__(189));
-Vue.component('appointment-details', __webpack_require__(192));
-Vue.component('user-search', __webpack_require__(195));
-Vue.component('doctor-search', __webpack_require__(198));
-Vue.component('admin-list', __webpack_require__(201));
-Vue.component('staff-list', __webpack_require__(204));
+Vue.component('prescription', __webpack_require__(175));
+Vue.component('drug', __webpack_require__(178));
+Vue.component('display-prescription', __webpack_require__(181));
+Vue.component('appointment-form', __webpack_require__(184));
+Vue.component('appointment-details', __webpack_require__(187));
+Vue.component('user-search', __webpack_require__(190));
+Vue.component('doctor-search', __webpack_require__(193));
+Vue.component('admin-list', __webpack_require__(196));
+Vue.component('staff-list', __webpack_require__(199));
+Vue.component('schedule-index', __webpack_require__(202));
+Vue.component('schedule-list', __webpack_require__(213));
+Vue.component('schedule', __webpack_require__(216));
 
-Vue.component('pagination', __webpack_require__(207));
+Vue.component('pagination', __webpack_require__(218));
+Vue.component('loading-spinner', __webpack_require__(219));
 
 var app = new Vue({
     el: '#app',
@@ -51666,7 +51668,7 @@ if (token) {
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 var bind = __webpack_require__(9);
 var Axios = __webpack_require__(146);
 var defaults = __webpack_require__(4);
@@ -51753,7 +51755,7 @@ function isSlowBuffer (obj) {
 
 
 var defaults = __webpack_require__(4);
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 var InterceptorManager = __webpack_require__(155);
 var dispatchRequest = __webpack_require__(156);
 
@@ -51838,7 +51840,7 @@ module.exports = Axios;
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 
 module.exports = function normalizeHeaderName(headers, normalizedName) {
   utils.forEach(headers, function processHeader(value, name) {
@@ -51918,7 +51920,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 
 function encode(val) {
   return encodeURIComponent(val).
@@ -51991,7 +51993,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 
 // Headers whose duplicates are ignored by node
 // c.f. https://nodejs.org/api/http.html#http_message_headers
@@ -52051,7 +52053,7 @@ module.exports = function parseHeaders(headers) {
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -52169,7 +52171,7 @@ module.exports = btoa;
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 
 module.exports = (
   utils.isStandardBrowserEnv() ?
@@ -52229,7 +52231,7 @@ module.exports = (
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 
 function InterceptorManager() {
   this.handlers = [];
@@ -52288,7 +52290,7 @@ module.exports = InterceptorManager;
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 var transformData = __webpack_require__(157);
 var isCancel = __webpack_require__(13);
 var defaults = __webpack_require__(4);
@@ -52381,7 +52383,7 @@ module.exports = function dispatchRequest(config) {
 "use strict";
 
 
-var utils = __webpack_require__(1);
+var utils = __webpack_require__(2);
 
 /**
  * Transform the data for a request or a response
@@ -70376,7 +70378,7 @@ if (typeof window !== 'undefined' && window.Sweetalert2){  window.Sweetalert2.ve
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(2)
+var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(173)
 /* template */
@@ -71341,1115 +71343,11 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(2)
+var normalizeComponent = __webpack_require__(1)
 /* script */
 var __vue_script__ = __webpack_require__(176)
 /* template */
 var __vue_template__ = __webpack_require__(177)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/js/components/ScheduleList.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-4aed1540", Component.options)
-  } else {
-    hotAPI.reload("data-v-4aed1540", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 176 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['doctor_id', 'day'],
-
-  // data() {
-  //   return {
-  //     uid: this.auth.id,
-  //     interestsCount: this.report.follows_count,
-  //     hasShownInterest: this.report.hasShownInterest,
-  //   }
-  // },
-  data: function data() {
-    var _ref;
-
-    return _ref = {
-      doctorId: this.doctor_id,
-      sundaySchedules: {},
-      sundayId: '1',
-
-      mondaySchedules: {},
-      mondayId: '2',
-
-      tuesdaySchedules: {},
-      tuesdayId: '3',
-
-      wednesdaySchedules: {},
-      wednesdayId: '4',
-
-      thursdaySchedules: {},
-      thursdayId: '5',
-
-      fridaySchedules: {},
-      fridayId: '6'
-
-    }, _defineProperty(_ref, 'fridaySchedules', {}), _defineProperty(_ref, 'fridayId', '7'), _defineProperty(_ref, 'scheduleUrl', appUrl + '/schedules/'), _ref;
-  },
-
-
-  // mounted() {
-  //   this.loadSchedules();
-  // },
-
-  created: function created() {
-    this.loadSundaySchedules();
-    this.loadMondaySchedules();
-    this.loadTuesdaySchedules();
-    this.loadWednesdaySchedules();
-    this.loadThursdaySchedules();
-    this.loadFridaySchedules();
-    this.loadSaturdaySchedules();
-  },
-
-
-  methods: {
-    loadSundaySchedules: function loadSundaySchedules() {
-      var _this = this;
-
-      // const scheduleUrl = appUrl +'/schedules/' + this.doctorId +'/' + this.sundayId);
-      axios.get(this.scheduleUrl + this.doctorId + '/' + this.sundayId).then(function (_ref2) {
-        var data = _ref2.data;
-        return _this.sundaySchedules = data;
-      });
-    },
-    loadMondaySchedules: function loadMondaySchedules() {
-      var _this2 = this;
-
-      // const scheduleUrl = appUrl +'/schedules/' + this.doctorId +'/' + this.mondayId);
-      axios.get(this.scheduleUrl + this.doctorId + '/' + this.mondayId).then(function (_ref3) {
-        var data = _ref3.data;
-        return _this2.mondaySchedules = data;
-      });
-    },
-    loadTuesdaySchedules: function loadTuesdaySchedules() {
-      var _this3 = this;
-
-      // const scheduleUrl = appUrl +'/schedules/' + this.doctorId +'/' + this.tuesdayId);
-      axios.get(this.scheduleUrl + this.doctorId + '/' + this.tuesdayId).then(function (_ref4) {
-        var data = _ref4.data;
-        return _this3.tuesdaySchedules = data;
-      });
-    },
-    loadWednesdaySchedules: function loadWednesdaySchedules() {
-      var _this4 = this;
-
-      // const scheduleUrl = appUrl +'/schedules/' + this.doctorId +'/' + this.wednesdayId);
-      axios.get(this.scheduleUrl + this.doctorId + '/' + this.wednesdayId).then(function (_ref5) {
-        var data = _ref5.data;
-        return _this4.wednesdaySchedules = data;
-      });
-    },
-    loadThursdaySchedules: function loadThursdaySchedules() {
-      var _this5 = this;
-
-      // const scheduleUrl = appUrl +'/schedules/' + this.doctorId +'/' + this.thursdayId);
-      axios.get(this.scheduleUrl + this.doctorId + '/' + this.thursdayId).then(function (_ref6) {
-        var data = _ref6.data;
-        return _this5.thursdaySchedules = data;
-      });
-    },
-    loadFridaySchedules: function loadFridaySchedules() {
-      var _this6 = this;
-
-      // const scheduleUrl = appUrl +'/schedules/' + this.doctorId +'/' + this.fridayId);
-      axios.get(this.scheduleUrl + this.doctorId + '/' + this.fridayId).then(function (_ref7) {
-        var data = _ref7.data;
-        return _this6.fridaySchedules = data;
-      });
-    },
-    loadSaturdaySchedules: function loadSaturdaySchedules() {
-      var _this7 = this;
-
-      // const scheduleUrl = appUrl +'/schedules/' + this.doctorId +'/' + this.saturdayId);
-      axios.get(this.scheduleUrl + this.doctorId + '/' + this.saturdayId).then(function (_ref8) {
-        var data = _ref8.data;
-        return _this7.saturdaySchedules = data;
-      });
-    }
-  }
-});
-
-/***/ }),
-/* 177 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "card card-dark" }, [
-    _vm._m(0),
-    _vm._v(" "),
-    _c("div", { staticClass: "card-body box-profile" }, [
-      _c("table", { staticClass: "table table-sm table-striped" }, [
-        _vm._m(1),
-        _vm._v(" "),
-        _c("tbody", [
-          _c(
-            "tr",
-            [
-              _vm._m(2),
-              _vm._v(" "),
-              _vm._l(_vm.sundaySchedules, function(schedule) {
-                return _c("td", { key: schedule.id, staticClass: "tf-flex" }, [
-                  _c("span", [
-                    _c("span", {
-                      domProps: { textContent: _vm._s(schedule.start) }
-                    }),
-                    _vm._v(" - "),
-                    _c("span", {
-                      domProps: { textContent: _vm._s(schedule.end) }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _vm._m(3, true)
-                ])
-              }),
-              _vm._v(" "),
-              !_vm.sundaySchedules.length
-                ? _c(
-                    "td",
-                    {
-                      directives: [{ name: "else", rawName: "v-else" }],
-                      staticClass: "d-flex justify-content-center"
-                    },
-                    [
-                      _c("span", { attrs: { title: "Not Available" } }, [
-                        _vm._v("-na-")
-                      ])
-                    ]
-                  )
-                : _vm._e()
-            ],
-            2
-          ),
-          _vm._v(" "),
-          _c(
-            "tr",
-            [
-              _vm._m(4),
-              _vm._v(" "),
-              _vm._l(_vm.mondaySchedules, function(schedule) {
-                return _c("td", { key: schedule.id, staticClass: "tf-flex" }, [
-                  _c("span", [
-                    _c("span", {
-                      domProps: { textContent: _vm._s(schedule.start) }
-                    }),
-                    _vm._v(" - "),
-                    _c("span", {
-                      domProps: { textContent: _vm._s(schedule.end) }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _vm._m(5, true)
-                ])
-              }),
-              _vm._v(" "),
-              !_vm.mondaySchedules.length
-                ? _c(
-                    "td",
-                    {
-                      directives: [{ name: "else", rawName: "v-else" }],
-                      staticClass: "d-flex justify-content-center"
-                    },
-                    [
-                      _c("span", { attrs: { title: "Not Available" } }, [
-                        _vm._v("-na-")
-                      ])
-                    ]
-                  )
-                : _vm._e()
-            ],
-            2
-          ),
-          _vm._v(" "),
-          _c(
-            "tr",
-            [
-              _vm._m(6),
-              _vm._v(" "),
-              _vm._l(_vm.tuesdaySchedules, function(schedule) {
-                return _c("td", { key: schedule.id, staticClass: "tf-flex" }, [
-                  _c("span", [
-                    _c("span", {
-                      domProps: { textContent: _vm._s(schedule.start) }
-                    }),
-                    _vm._v(" - "),
-                    _c("span", {
-                      domProps: { textContent: _vm._s(schedule.end) }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _vm._m(7, true)
-                ])
-              }),
-              _vm._v(" "),
-              !_vm.tuesdaySchedules.length
-                ? _c(
-                    "td",
-                    {
-                      directives: [{ name: "else", rawName: "v-else" }],
-                      staticClass: "d-flex justify-content-center"
-                    },
-                    [
-                      _c("span", { attrs: { title: "Not Available" } }, [
-                        _vm._v("-na-")
-                      ])
-                    ]
-                  )
-                : _vm._e()
-            ],
-            2
-          ),
-          _vm._v(" "),
-          _c(
-            "tr",
-            [
-              _vm._m(8),
-              _vm._v(" "),
-              _vm._l(_vm.wednesdaySchedules, function(schedule) {
-                return _c("td", { key: schedule.id, staticClass: "tf-flex" }, [
-                  _c("span", [
-                    _c("span", {
-                      domProps: { textContent: _vm._s(schedule.start) }
-                    }),
-                    _vm._v(" - "),
-                    _c("span", {
-                      domProps: { textContent: _vm._s(schedule.end) }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _vm._m(9, true)
-                ])
-              }),
-              _vm._v(" "),
-              !_vm.wednesdaySchedules.length
-                ? _c(
-                    "td",
-                    {
-                      directives: [{ name: "else", rawName: "v-else" }],
-                      staticClass: "d-flex justify-content-center"
-                    },
-                    [
-                      _c("span", { attrs: { title: "Not Available" } }, [
-                        _vm._v("-na-")
-                      ])
-                    ]
-                  )
-                : _vm._e()
-            ],
-            2
-          ),
-          _vm._v(" "),
-          _c(
-            "tr",
-            [
-              _vm._m(10),
-              _vm._v(" "),
-              _vm._l(_vm.thursdaySchedules, function(schedule) {
-                return _c("td", { key: schedule.id, staticClass: "tf-flex" }, [
-                  _c("span", [
-                    _c("span", {
-                      domProps: { textContent: _vm._s(schedule.start) }
-                    }),
-                    _vm._v(" - "),
-                    _c("span", {
-                      domProps: { textContent: _vm._s(schedule.end) }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _vm._m(11, true)
-                ])
-              }),
-              _vm._v(" "),
-              !_vm.thursdaySchedules.length
-                ? _c(
-                    "td",
-                    {
-                      directives: [{ name: "else", rawName: "v-else" }],
-                      staticClass: "d-flex justify-content-center"
-                    },
-                    [
-                      _c("span", { attrs: { title: "Not Available" } }, [
-                        _vm._v("-na-")
-                      ])
-                    ]
-                  )
-                : _vm._e()
-            ],
-            2
-          ),
-          _vm._v(" "),
-          _c(
-            "tr",
-            [
-              _vm._m(12),
-              _vm._v(" "),
-              _vm._l(_vm.fridaySchedules, function(schedule) {
-                return _c("td", { key: schedule.id, staticClass: "tf-flex" }, [
-                  _c("span", [
-                    _c("span", {
-                      domProps: { textContent: _vm._s(schedule.start) }
-                    }),
-                    _vm._v(" - "),
-                    _c("span", {
-                      domProps: { textContent: _vm._s(schedule.end) }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _vm._m(13, true)
-                ])
-              }),
-              _vm._v(" "),
-              !_vm.fridaySchedules.length
-                ? _c(
-                    "td",
-                    {
-                      directives: [{ name: "else", rawName: "v-else" }],
-                      staticClass: "d-flex justify-content-center"
-                    },
-                    [
-                      _c("span", { attrs: { title: "Not Available" } }, [
-                        _vm._v("-na-")
-                      ])
-                    ]
-                  )
-                : _vm._e()
-            ],
-            2
-          ),
-          _vm._v(" "),
-          _c(
-            "tr",
-            [
-              _vm._m(14),
-              _vm._v(" "),
-              _vm._l(_vm.saturdaySchedules, function(schedule) {
-                return _c("td", { key: schedule.id, staticClass: "tf-flex" }, [
-                  _c("span", [
-                    _c("span", {
-                      domProps: { textContent: _vm._s(schedule.start) }
-                    }),
-                    _vm._v(" - "),
-                    _c("span", {
-                      domProps: { textContent: _vm._s(schedule.end) }
-                    })
-                  ]),
-                  _vm._v(" "),
-                  _vm._m(15, true)
-                ])
-              }),
-              _vm._v(" "),
-              !_vm.saturdaySchedules.length
-                ? _c(
-                    "td",
-                    {
-                      directives: [{ name: "else", rawName: "v-else" }],
-                      staticClass: "d-flex justify-content-center"
-                    },
-                    [
-                      _c("span", { attrs: { title: "Not Available" } }, [
-                        _vm._v("-na-")
-                      ])
-                    ]
-                  )
-                : _vm._e()
-            ],
-            2
-          )
-        ])
-      ])
-    ])
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("h3", { staticClass: "card-title" }, [
-        _vm._v("\n      Schedules\n    ")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", [
-        _c("th", [_vm._v("Day")]),
-        _vm._v(" "),
-        _c("th", [_vm._v("Periods")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("th", [
-      _c("span", { staticClass: "tf-flex" }, [
-        _vm._v("\n              Sunday\n              "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-sm btn-primary p-1",
-            attrs: { title: "Add New" }
-          },
-          [
-            _c("i", {
-              staticClass: "fa fa-plus",
-              staticStyle: { "font-size": "10px" }
-            })
-          ]
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "w-25 tf-flex" }, [
-      _c(
-        "span",
-        {
-          attrs: {
-            "data-toggle": "modal",
-            "data-target": "#updateScheduleForm",
-            title: " Update time"
-          }
-        },
-        [_c("i", { staticClass: "fa fa-edit teal" })]
-      ),
-      _vm._v("\n              / \n              "),
-      _c("i", { staticClass: "fa fa-times red" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("th", [
-      _c("span", { staticClass: "tf-flex" }, [
-        _vm._v("\n              Monday\n              "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-sm btn-primary p-1",
-            attrs: { title: "Add New" }
-          },
-          [
-            _c("i", {
-              staticClass: "fa fa-plus",
-              staticStyle: { "font-size": "10px" }
-            })
-          ]
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "w-25 tf-flex" }, [
-      _c("span", { attrs: { title: "Update time" } }, [
-        _c("i", { staticClass: "fa fa-edit teal" })
-      ]),
-      _vm._v("\n              / \n              "),
-      _c("i", { staticClass: "fa fa-times red" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("th", [
-      _c("span", { staticClass: "tf-flex" }, [
-        _vm._v("\n              Tuesday\n              "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-sm btn-primary p-1",
-            attrs: { title: "Add New" }
-          },
-          [
-            _c("i", {
-              staticClass: "fa fa-plus",
-              staticStyle: { "font-size": "10px" }
-            })
-          ]
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "w-25 tf-flex" }, [
-      _c("span", { attrs: { title: "Update time" } }, [
-        _c("i", { staticClass: "fa fa-edit teal" })
-      ]),
-      _vm._v("\n              / \n              "),
-      _c("i", { staticClass: "fa fa-times red" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("th", [
-      _c("span", { staticClass: "tf-flex" }, [
-        _vm._v("\n              Wednesday\n              "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-sm btn-primary p-1",
-            attrs: { title: "Add New" }
-          },
-          [
-            _c("i", {
-              staticClass: "fa fa-plus",
-              staticStyle: { "font-size": "10px" }
-            })
-          ]
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "w-25 tf-flex" }, [
-      _c("span", { attrs: { title: "Update time" } }, [
-        _c("i", { staticClass: "fa fa-edit teal" })
-      ]),
-      _vm._v("\n              / \n              "),
-      _c("i", { staticClass: "fa fa-times red" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("th", [
-      _c("span", { staticClass: "tf-flex" }, [
-        _vm._v("\n              Thursday\n              "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-sm btn-primary p-1",
-            attrs: { title: "Add New" }
-          },
-          [
-            _c("i", {
-              staticClass: "fa fa-plus",
-              staticStyle: { "font-size": "10px" }
-            })
-          ]
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "w-25 tf-flex" }, [
-      _c("span", { attrs: { title: "Update time" } }, [
-        _c("i", { staticClass: "fa fa-edit teal" })
-      ]),
-      _vm._v("\n              / \n              "),
-      _c("i", { staticClass: "fa fa-times red" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("th", [
-      _c("span", { staticClass: "tf-flex" }, [
-        _vm._v("\n              Friday\n              "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-sm btn-primary p-1",
-            attrs: { title: "Add New" }
-          },
-          [
-            _c("i", {
-              staticClass: "fa fa-plus",
-              staticStyle: { "font-size": "10px" }
-            })
-          ]
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "w-25 tf-flex" }, [
-      _c("span", { attrs: { title: "Update time" } }, [
-        _c("i", { staticClass: "fa fa-edit teal" })
-      ]),
-      _vm._v("\n              / \n              "),
-      _c("i", { staticClass: "fa fa-times red" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("th", [
-      _c("span", { staticClass: "tf-flex" }, [
-        _vm._v("\n              Saturday\n              "),
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-sm btn-primary p-1",
-            attrs: { title: "Add New" }
-          },
-          [
-            _c("i", {
-              staticClass: "fa fa-plus",
-              staticStyle: { "font-size": "10px" }
-            })
-          ]
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "w-25 tf-flex" }, [
-      _c("span", { attrs: { title: "Update time" } }, [
-        _c("i", { staticClass: "fa fa-edit teal" })
-      ]),
-      _vm._v("\n              / \n              "),
-      _c("i", { staticClass: "fa fa-times red" })
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-4aed1540", module.exports)
-  }
-}
-
-/***/ }),
-/* 178 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(2)
-/* script */
-var __vue_script__ = __webpack_require__(179)
-/* template */
-var __vue_template__ = null
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/js/components/Schedule.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-5f748482", Component.options)
-  } else {
-    hotAPI.reload("data-v-5f748482", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 179 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['the_doctor_id', 'the_schedule', 'the_day_id'],
-
-  data: function data() {
-    return {
-      creating: false,
-      editing: false,
-      // day_id   : this.the_day_id,
-      // doctor_id: this.the_doctor_id,
-      schedule: this.the_schedule,
-      form: new Form({
-        // id        : '',
-        doctor_id: this.the_doctor_id,
-        day_id: this.the_day_id,
-        start_at: '',
-        end_at: ''
-      })
-    };
-  },
-
-
-  computed: {
-    //
-  },
-
-  methods: {
-    create: function create() {
-      this.creating = true;
-    },
-    store: function store() {
-      var _this = this;
-
-      this.$Progress.start();
-      this.form.post('/schedules').then(function () {
-
-        // Event.$emit('RefreshSection');
-        // this.$forceUpdate();
-        _this.$router.go(0); // Refreshes whole page!
-        _this.closeForm();
-        toast({
-          type: 'success',
-          title: 'Schedule created successfully'
-        });
-        _this.$Progress.finish();
-      }).catch(function () {
-        _this.$Progress.fail();
-      });
-    },
-    edit: function edit(schedule) {
-      this.editing = true;
-      this.form.clear(); // VForm, clears error message
-      this.form.reset(); // VForm
-      this.form.fill(schedule);
-    },
-    update: function update() {
-      var _this2 = this;
-
-      this.$Progress.start();
-      this.form.patch('/schedules/' + this.schedule.id).then(function () {
-
-        // Event.$emit('RefreshSection');
-        _this2.$router.go(0);
-        _this2.closeForm();
-        toast({
-          type: 'success',
-          title: 'Schedule updated successfully'
-        });
-        _this2.$Progress.finish();
-      }).catch(function () {
-        _this2.$Progress.fail();
-      });
-    },
-    destroy: function destroy() {
-      var _this3 = this;
-
-      if (confirm("You really want to delete this schedule?")) {
-
-        axios.delete('/schedules/' + this.schedule.id).then(function () {
-          toast({
-            type: 'success',
-            title: 'Schedule deleted successfully'
-          });
-          _this3.$Progress.finish();
-        });
-
-        $(this.$el).fadeOut(500);
-      }
-    },
-    closeForm: function closeForm() {
-      this.form.clear(); // VForm: Clear error messages
-      this.form.reset(); // VForm: Reset form fields
-      this.creating = false;
-      this.editing = false;
-    }
-  }
-});
-
-/***/ }),
-/* 180 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(2)
-/* script */
-var __vue_script__ = __webpack_require__(181)
-/* template */
-var __vue_template__ = __webpack_require__(182)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -72488,7 +71386,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 181 */
+/* 176 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -72727,7 +71625,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 182 */
+/* 177 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -73344,15 +72242,15 @@ if (false) {
 }
 
 /***/ }),
-/* 183 */
+/* 178 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(2)
+var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(184)
+var __vue_script__ = __webpack_require__(179)
 /* template */
-var __vue_template__ = __webpack_require__(185)
+var __vue_template__ = __webpack_require__(180)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -73391,7 +72289,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 184 */
+/* 179 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -73557,7 +72455,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 185 */
+/* 180 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -73994,15 +72892,15 @@ if (false) {
 }
 
 /***/ }),
-/* 186 */
+/* 181 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(2)
+var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(187)
+var __vue_script__ = __webpack_require__(182)
 /* template */
-var __vue_template__ = __webpack_require__(188)
+var __vue_template__ = __webpack_require__(183)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -74041,7 +72939,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 187 */
+/* 182 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -74350,7 +73248,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 188 */
+/* 183 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -75131,15 +74029,15 @@ if (false) {
 }
 
 /***/ }),
-/* 189 */
+/* 184 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(2)
+var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(190)
+var __vue_script__ = __webpack_require__(185)
 /* template */
-var __vue_template__ = __webpack_require__(191)
+var __vue_template__ = __webpack_require__(186)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -75178,7 +74076,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 190 */
+/* 185 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -75381,7 +74279,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 191 */
+/* 186 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -75831,15 +74729,15 @@ if (false) {
 }
 
 /***/ }),
-/* 192 */
+/* 187 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(2)
+var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(193)
+var __vue_script__ = __webpack_require__(188)
 /* template */
-var __vue_template__ = __webpack_require__(194)
+var __vue_template__ = __webpack_require__(189)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -75878,7 +74776,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 193 */
+/* 188 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -76300,7 +75198,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 194 */
+/* 189 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -77113,15 +76011,15 @@ if (false) {
 }
 
 /***/ }),
-/* 195 */
+/* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(2)
+var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(196)
+var __vue_script__ = __webpack_require__(191)
 /* template */
-var __vue_template__ = __webpack_require__(197)
+var __vue_template__ = __webpack_require__(192)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -77160,7 +76058,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 196 */
+/* 191 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -77413,7 +76311,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 197 */
+/* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -77894,15 +76792,15 @@ if (false) {
 }
 
 /***/ }),
-/* 198 */
+/* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(2)
+var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(199)
+var __vue_script__ = __webpack_require__(194)
 /* template */
-var __vue_template__ = __webpack_require__(200)
+var __vue_template__ = __webpack_require__(195)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -77941,7 +76839,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 199 */
+/* 194 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -78171,7 +77069,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 200 */
+/* 195 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -78731,15 +77629,15 @@ if (false) {
 }
 
 /***/ }),
-/* 201 */
+/* 196 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(2)
+var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(202)
+var __vue_script__ = __webpack_require__(197)
 /* template */
-var __vue_template__ = __webpack_require__(203)
+var __vue_template__ = __webpack_require__(198)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -78778,7 +77676,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 202 */
+/* 197 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -78993,7 +77891,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 203 */
+/* 198 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -79281,15 +78179,15 @@ if (false) {
 }
 
 /***/ }),
-/* 204 */
+/* 199 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(2)
+var normalizeComponent = __webpack_require__(1)
 /* script */
-var __vue_script__ = __webpack_require__(205)
+var __vue_script__ = __webpack_require__(200)
 /* template */
-var __vue_template__ = __webpack_require__(206)
+var __vue_template__ = __webpack_require__(201)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -79328,7 +78226,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 205 */
+/* 200 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -79542,7 +78440,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 206 */
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -79832,7 +78730,2815 @@ if (false) {
 }
 
 /***/ }),
+/* 202 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(203)
+}
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(208)
+/* template */
+var __vue_template__ = __webpack_require__(212)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/Schedules/ScheduleIndex.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-430033ad", Component.options)
+  } else {
+    hotAPI.reload("data-v-430033ad", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 203 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(204);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(206)("463a894e", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-430033ad\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ScheduleIndex.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-430033ad\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ScheduleIndex.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 204 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(205)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.schedule-table {\n  color: #660f0b;\n  font-size: 14px;\n}\n.schedule-table__font-size {\n  color: gray;\n  font-size: 12px;\n}\ntd div label input[type='text'] {\n  font-family: monospace;    \n  padding-left: 10px;\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 205 */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function(useSourceMap) {
+	var list = [];
+
+	// return the list of modules as css string
+	list.toString = function toString() {
+		return this.map(function (item) {
+			var content = cssWithMappingToString(item, useSourceMap);
+			if(item[2]) {
+				return "@media " + item[2] + "{" + content + "}";
+			} else {
+				return content;
+			}
+		}).join("");
+	};
+
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
+};
+
+function cssWithMappingToString(item, useSourceMap) {
+	var content = item[1] || '';
+	var cssMapping = item[3];
+	if (!cssMapping) {
+		return content;
+	}
+
+	if (useSourceMap && typeof btoa === 'function') {
+		var sourceMapping = toComment(cssMapping);
+		var sourceURLs = cssMapping.sources.map(function (source) {
+			return '/*# sourceURL=' + cssMapping.sourceRoot + source + ' */'
+		});
+
+		return [content].concat(sourceURLs).concat([sourceMapping]).join('\n');
+	}
+
+	return [content].join('\n');
+}
+
+// Adapted from convert-source-map (MIT)
+function toComment(sourceMap) {
+	// eslint-disable-next-line no-undef
+	var base64 = btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap))));
+	var data = 'sourceMappingURL=data:application/json;charset=utf-8;base64,' + base64;
+
+	return '/*# ' + data + ' */';
+}
+
+
+/***/ }),
+/* 206 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/*
+  MIT License http://www.opensource.org/licenses/mit-license.php
+  Author Tobias Koppers @sokra
+  Modified by Evan You @yyx990803
+*/
+
+var hasDocument = typeof document !== 'undefined'
+
+if (typeof DEBUG !== 'undefined' && DEBUG) {
+  if (!hasDocument) {
+    throw new Error(
+    'vue-style-loader cannot be used in a non-browser environment. ' +
+    "Use { target: 'node' } in your Webpack config to indicate a server-rendering environment."
+  ) }
+}
+
+var listToStyles = __webpack_require__(207)
+
+/*
+type StyleObject = {
+  id: number;
+  parts: Array<StyleObjectPart>
+}
+
+type StyleObjectPart = {
+  css: string;
+  media: string;
+  sourceMap: ?string
+}
+*/
+
+var stylesInDom = {/*
+  [id: number]: {
+    id: number,
+    refs: number,
+    parts: Array<(obj?: StyleObjectPart) => void>
+  }
+*/}
+
+var head = hasDocument && (document.head || document.getElementsByTagName('head')[0])
+var singletonElement = null
+var singletonCounter = 0
+var isProduction = false
+var noop = function () {}
+var options = null
+var ssrIdKey = 'data-vue-ssr-id'
+
+// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+// tags it will allow on a page
+var isOldIE = typeof navigator !== 'undefined' && /msie [6-9]\b/.test(navigator.userAgent.toLowerCase())
+
+module.exports = function (parentId, list, _isProduction, _options) {
+  isProduction = _isProduction
+
+  options = _options || {}
+
+  var styles = listToStyles(parentId, list)
+  addStylesToDom(styles)
+
+  return function update (newList) {
+    var mayRemove = []
+    for (var i = 0; i < styles.length; i++) {
+      var item = styles[i]
+      var domStyle = stylesInDom[item.id]
+      domStyle.refs--
+      mayRemove.push(domStyle)
+    }
+    if (newList) {
+      styles = listToStyles(parentId, newList)
+      addStylesToDom(styles)
+    } else {
+      styles = []
+    }
+    for (var i = 0; i < mayRemove.length; i++) {
+      var domStyle = mayRemove[i]
+      if (domStyle.refs === 0) {
+        for (var j = 0; j < domStyle.parts.length; j++) {
+          domStyle.parts[j]()
+        }
+        delete stylesInDom[domStyle.id]
+      }
+    }
+  }
+}
+
+function addStylesToDom (styles /* Array<StyleObject> */) {
+  for (var i = 0; i < styles.length; i++) {
+    var item = styles[i]
+    var domStyle = stylesInDom[item.id]
+    if (domStyle) {
+      domStyle.refs++
+      for (var j = 0; j < domStyle.parts.length; j++) {
+        domStyle.parts[j](item.parts[j])
+      }
+      for (; j < item.parts.length; j++) {
+        domStyle.parts.push(addStyle(item.parts[j]))
+      }
+      if (domStyle.parts.length > item.parts.length) {
+        domStyle.parts.length = item.parts.length
+      }
+    } else {
+      var parts = []
+      for (var j = 0; j < item.parts.length; j++) {
+        parts.push(addStyle(item.parts[j]))
+      }
+      stylesInDom[item.id] = { id: item.id, refs: 1, parts: parts }
+    }
+  }
+}
+
+function createStyleElement () {
+  var styleElement = document.createElement('style')
+  styleElement.type = 'text/css'
+  head.appendChild(styleElement)
+  return styleElement
+}
+
+function addStyle (obj /* StyleObjectPart */) {
+  var update, remove
+  var styleElement = document.querySelector('style[' + ssrIdKey + '~="' + obj.id + '"]')
+
+  if (styleElement) {
+    if (isProduction) {
+      // has SSR styles and in production mode.
+      // simply do nothing.
+      return noop
+    } else {
+      // has SSR styles but in dev mode.
+      // for some reason Chrome can't handle source map in server-rendered
+      // style tags - source maps in <style> only works if the style tag is
+      // created and inserted dynamically. So we remove the server rendered
+      // styles and inject new ones.
+      styleElement.parentNode.removeChild(styleElement)
+    }
+  }
+
+  if (isOldIE) {
+    // use singleton mode for IE9.
+    var styleIndex = singletonCounter++
+    styleElement = singletonElement || (singletonElement = createStyleElement())
+    update = applyToSingletonTag.bind(null, styleElement, styleIndex, false)
+    remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true)
+  } else {
+    // use multi-style-tag mode in all other cases
+    styleElement = createStyleElement()
+    update = applyToTag.bind(null, styleElement)
+    remove = function () {
+      styleElement.parentNode.removeChild(styleElement)
+    }
+  }
+
+  update(obj)
+
+  return function updateStyle (newObj /* StyleObjectPart */) {
+    if (newObj) {
+      if (newObj.css === obj.css &&
+          newObj.media === obj.media &&
+          newObj.sourceMap === obj.sourceMap) {
+        return
+      }
+      update(obj = newObj)
+    } else {
+      remove()
+    }
+  }
+}
+
+var replaceText = (function () {
+  var textStore = []
+
+  return function (index, replacement) {
+    textStore[index] = replacement
+    return textStore.filter(Boolean).join('\n')
+  }
+})()
+
+function applyToSingletonTag (styleElement, index, remove, obj) {
+  var css = remove ? '' : obj.css
+
+  if (styleElement.styleSheet) {
+    styleElement.styleSheet.cssText = replaceText(index, css)
+  } else {
+    var cssNode = document.createTextNode(css)
+    var childNodes = styleElement.childNodes
+    if (childNodes[index]) styleElement.removeChild(childNodes[index])
+    if (childNodes.length) {
+      styleElement.insertBefore(cssNode, childNodes[index])
+    } else {
+      styleElement.appendChild(cssNode)
+    }
+  }
+}
+
+function applyToTag (styleElement, obj) {
+  var css = obj.css
+  var media = obj.media
+  var sourceMap = obj.sourceMap
+
+  if (media) {
+    styleElement.setAttribute('media', media)
+  }
+  if (options.ssrId) {
+    styleElement.setAttribute(ssrIdKey, obj.id)
+  }
+
+  if (sourceMap) {
+    // https://developer.chrome.com/devtools/docs/javascript-debugging
+    // this makes source maps inside style tags work properly in Chrome
+    css += '\n/*# sourceURL=' + sourceMap.sources[0] + ' */'
+    // http://stackoverflow.com/a/26603875
+    css += '\n/*# sourceMappingURL=data:application/json;base64,' + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + ' */'
+  }
+
+  if (styleElement.styleSheet) {
+    styleElement.styleSheet.cssText = css
+  } else {
+    while (styleElement.firstChild) {
+      styleElement.removeChild(styleElement.firstChild)
+    }
+    styleElement.appendChild(document.createTextNode(css))
+  }
+}
+
+
+/***/ }),
 /* 207 */
+/***/ (function(module, exports) {
+
+/**
+ * Translates the list format produced by css-loader into something
+ * easier to manipulate.
+ */
+module.exports = function listToStyles (parentId, list) {
+  var styles = []
+  var newStyles = {}
+  for (var i = 0; i < list.length; i++) {
+    var item = list[i]
+    var id = item[0]
+    var css = item[1]
+    var media = item[2]
+    var sourceMap = item[3]
+    var part = {
+      id: parentId + ':' + i,
+      css: css,
+      media: media,
+      sourceMap: sourceMap
+    }
+    if (!newStyles[id]) {
+      styles.push(newStyles[id] = { id: id, parts: [part] })
+    } else {
+      newStyles[id].parts.push(part)
+    }
+  }
+  return styles
+}
+
+
+/***/ }),
+/* 208 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ScheduleBase_vue__ = __webpack_require__(209);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ScheduleBase_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ScheduleBase_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  components: {
+    'schedule-base': __WEBPACK_IMPORTED_MODULE_0__ScheduleBase_vue___default.a
+  },
+
+  props: ['doctorId', 'isDoctorOwner'], //, 'isAvailable'
+
+  data: function data() {
+    return {
+      isAvailable: true, // Remember to use the props own, this is for testing.
+      days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+    };
+  }
+});
+
+/***/ }),
+/* 209 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(210)
+/* template */
+var __vue_template__ = __webpack_require__(211)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/Schedules/ScheduleBase.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-10a72346", Component.options)
+  } else {
+    hotAPI.reload("data-v-10a72346", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 210 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['doctorId', 'isDoctorOwner', 'dayId', 'dayName'],
+
+  data: function data() {
+    return {
+      // isDoctorOwner  :...,    // Logged in user is the doctor who owns presently viewed account?
+      loading: true, // Still fetching contents
+      daySchedules: {}, // A day's schedules
+
+      maxDailySchedules: 3, // Maximum schedules that can be added for a day. Controls Add New button
+      editing: false, // Editing in progress?
+      editScheduleCheck: false, // Checkbox toggles the activation of editing
+      addNew: false, // ?
+      errorMsg: null, // Used in giving instant feedback.
+      schedules: [// Schedules available in db or just getting pushed in.
+      {
+        start_at: null,
+        end_at: null
+      }]
+    };
+  },
+  created: function created() {
+    this.showSchedules();
+  },
+
+
+  computed: {
+    // spinnerLoading () {
+    //   return this.loading ? true : false;
+    // },
+  },
+
+  methods: {
+    initSchedule: function initSchedule() {
+      // The workings of checkbox is weird "checked == false" sort of.
+      if (this.editScheduleCheck == true) {
+        this.cancelEditSchedules();
+      }
+    },
+    addNewSchedule: function addNewSchedule() {
+      this.daySchedules.push({
+        start_at: '',
+        end_at: ''
+      });
+    },
+    removeASchedule: function removeASchedule(index) {
+      // if (confirm('You really want to remove this schedule?')){
+      this.daySchedules.splice(index, 1);
+      // }
+    },
+    createSchedule: function createSchedule() {
+      var _this = this;
+
+      if (this.daySchedules.length) {
+
+        this.$Progress.start();
+        axios.post('/schedules', {
+          schedules: this.daySchedules, // array()
+          day_id: this.dayId,
+          doctor_id: this.doctorId
+        }).then(function (response) {
+          _this.editing = false;
+          _this.showSchedules();
+          var message = response.data.status;
+          console.log(message);
+
+          toast({
+            type: 'success',
+            title: message //'Schedule created successfully.'
+          });
+          _this.$Progress.finish();
+        }).catch(function () {
+          toast({
+            type: 'error',
+            title: 'Something went wrong! Try again later.'
+          });
+          _this.$Progress.fail();
+        });
+      } else if (this.start_at == null || this.end_at == null) {
+        this.errorMsg = '<span class="text-danger">Schedule <strong>start</strong> or <strong>end time</strong> cannot be empty</span>';
+        setTimeout(function () {
+          _this.errorMsg = null;
+        }, 7000);
+        return false;
+      }
+    },
+    editSchedules: function editSchedules() {
+      this.editing = true;
+    },
+    cancelEditSchedules: function cancelEditSchedules() {
+      this.editing = false;
+      this.showSchedules();
+    },
+    showSchedules: function showSchedules() {
+      var _this2 = this;
+
+      axios.get('/schedules/' + this.doctorId + '/' + this.dayId).then(function (_ref) {
+        var data = _ref.data;
+        return _this2.daySchedules = data;
+      }).then(function () {
+        _this2.loading = false;
+      });
+    },
+    regCleanUp: function regCleanUp(elem) {
+      var _this3 = this;
+
+      var inputField = document.getElementById(elem);
+      var regX = new RegExp();
+      regX = /[^0-9:]/gi;
+      // Check at: regexr.com/ or regexpal.com/
+      var regXpattern = /(([0-1]{1}[0-9]{1})|([0-2]{1}[0-3]{1})):[0-5]{1}[0-9]{1}:[0-5]{1}[0-9]{1}/gi; // 00:00:00 - 23:59:59
+
+      inputField.value = inputField.value.replace(regX, "");
+
+      if (inputField.value.length == 8) {
+        if (inputField.value.match(regXpattern)) {
+          this.errorMsg = '<span class="text-success">Valid!</span>';
+          setTimeout(function () {
+            _this3.errorMsg = null;
+          }, 7000);
+
+          // Not used for now because it is tripping off after some seconds/losing focus.
+          // this.reformattedTime(elem);
+        } else {
+
+          this.errorMsg = '<span class="text-danger">Time must be <b>24-hour format</b>, highest is: <b>23:59:59</b></span>';
+          setTimeout(function () {
+            _this3.errorMsg = null;
+          }, 7000);
+        }
+      }
+    },
+    reformattedTime: function reformattedTime(elem) {
+      var inputField = document.getElementById(elem);
+      var timeArr = inputField.value.split(':');
+      var hour = timeArr[0];
+      var min = timeArr[1];
+      var sec = timeArr[2];
+
+      hour = hour < 23 ? hour : 23;
+      min = min < 59 ? min : 59;
+      sec = sec < 59 ? sec : 59;
+      var reformat = hour + ':' + min + ':' + sec;
+      console.log(reformat);
+      inputField.value = reformat;
+      // $('#'+elem).val(reformat);
+    }
+  }
+});
+
+/***/ }),
+/* 211 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "py-2 border-bottom" }, [
+    _c("tr", {}, [
+      _c("td", [
+        _vm.isDoctorOwner
+          ? _c("div", { staticClass: "justify-content-center" }, [
+              _c(
+                "table",
+                { attrs: { cols: "1", cellspacing: "0", cellpadding: "0" } },
+                [
+                  _c("tbody", [
+                    _c("tr", [
+                      _c("td", [
+                        _c("label", [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.editScheduleCheck,
+                                expression: "editScheduleCheck"
+                              }
+                            ],
+                            attrs: { type: "checkbox" },
+                            domProps: {
+                              checked: Array.isArray(_vm.editScheduleCheck)
+                                ? _vm._i(_vm.editScheduleCheck, null) > -1
+                                : _vm.editScheduleCheck
+                            },
+                            on: {
+                              click: _vm.initSchedule,
+                              change: function($event) {
+                                var $$a = _vm.editScheduleCheck,
+                                  $$el = $event.target,
+                                  $$c = $$el.checked ? true : false
+                                if (Array.isArray($$a)) {
+                                  var $$v = null,
+                                    $$i = _vm._i($$a, $$v)
+                                  if ($$el.checked) {
+                                    $$i < 0 &&
+                                      (_vm.editScheduleCheck = $$a.concat([
+                                        $$v
+                                      ]))
+                                  } else {
+                                    $$i > -1 &&
+                                      (_vm.editScheduleCheck = $$a
+                                        .slice(0, $$i)
+                                        .concat($$a.slice($$i + 1)))
+                                  }
+                                } else {
+                                  _vm.editScheduleCheck = $$c
+                                }
+                              }
+                            }
+                          })
+                        ])
+                      ])
+                    ])
+                  ])
+                ]
+              )
+            ])
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c("td", [
+        _c("div", { staticClass: "px-3" }, [
+          _c(
+            "table",
+            { attrs: { cols: "1", cellspacing: "0", cellpadding: "0" } },
+            [
+              _c("tbody", [
+                _c("tr", [
+                  _c("td", [
+                    _c(
+                      "span",
+                      {
+                        staticClass: "font-weight-bold",
+                        staticStyle: { width: "70px", display: "inline-block" }
+                      },
+                      [_vm._v(_vm._s(_vm.dayName))]
+                    ),
+                    _vm._v(" "),
+                    _vm.editScheduleCheck && !_vm.editing
+                      ? _c(
+                          "button",
+                          {
+                            attrs: { title: "Edit" },
+                            on: {
+                              click: function($event) {
+                                _vm.editing = true
+                              }
+                            }
+                          },
+                          [
+                            _c("i", { staticClass: "fa fa-edit text-primary" }),
+                            _vm._v(" "),
+                            _c("span", [_vm._v("Edit")])
+                          ]
+                        )
+                      : _vm._e()
+                  ])
+                ])
+              ])
+            ]
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("td", [
+        _vm.editing
+          ? _c(
+              "div",
+              [
+                _vm._l(_vm.daySchedules, function(schedule, index) {
+                  return _c("div", { key: index }, [
+                    _c(
+                      "table",
+                      {
+                        attrs: { cols: "2", cellspacing: "0", cellpadding: "0" }
+                      },
+                      [
+                        _c("tbody", [
+                          _c("tr", [
+                            _c("td", [
+                              _c("div", [
+                                _c(
+                                  "table",
+                                  {
+                                    attrs: {
+                                      cols: "3",
+                                      cellspacing: "0",
+                                      cellpadding: "0"
+                                    }
+                                  },
+                                  [
+                                    _c("tbody", [
+                                      _c("tr", [
+                                        _c("td", [
+                                          _c("div", [
+                                            _c(
+                                              "span",
+                                              {
+                                                attrs: { placeholder: "Time" }
+                                              },
+                                              [
+                                                _c("label", [
+                                                  _c("input", {
+                                                    directives: [
+                                                      {
+                                                        name: "model",
+                                                        rawName: "v-model",
+                                                        value:
+                                                          schedule.start_at,
+                                                        expression:
+                                                          "schedule.start_at"
+                                                      }
+                                                    ],
+                                                    staticClass:
+                                                      "day-time-field",
+                                                    attrs: {
+                                                      id: "start_at_" + index,
+                                                      placeholder: "08:00:00",
+                                                      type: "text",
+                                                      minlength: "8",
+                                                      maxlength: "8",
+                                                      "aria-autocomplete":
+                                                        "list",
+                                                      "aria-expanded": "false",
+                                                      autocomplete: "off",
+                                                      autocorrect: "off",
+                                                      required: ""
+                                                    },
+                                                    domProps: {
+                                                      value: schedule.start_at
+                                                    },
+                                                    on: {
+                                                      keyup: function($event) {
+                                                        _vm.regCleanUp(
+                                                          "start_at_" + index
+                                                        )
+                                                      },
+                                                      input: function($event) {
+                                                        if (
+                                                          $event.target
+                                                            .composing
+                                                        ) {
+                                                          return
+                                                        }
+                                                        _vm.$set(
+                                                          schedule,
+                                                          "start_at",
+                                                          $event.target.value
+                                                        )
+                                                      }
+                                                    }
+                                                  })
+                                                ])
+                                              ]
+                                            )
+                                          ])
+                                        ]),
+                                        _vm._v(" "),
+                                        _vm._m(0, true),
+                                        _vm._v(" "),
+                                        _c("td", [
+                                          _c("div", [
+                                            _c(
+                                              "span",
+                                              {
+                                                attrs: { placeholder: "Time" }
+                                              },
+                                              [
+                                                _c("label", [
+                                                  _c("input", {
+                                                    directives: [
+                                                      {
+                                                        name: "model",
+                                                        rawName: "v-model",
+                                                        value: schedule.end_at,
+                                                        expression:
+                                                          "schedule.end_at"
+                                                      }
+                                                    ],
+                                                    staticClass:
+                                                      "day-time-field",
+                                                    attrs: {
+                                                      id: "end_at_" + index,
+                                                      placeholder: "23:59:59",
+                                                      type: "text",
+                                                      minlength: "8",
+                                                      maxlength: "8",
+                                                      "aria-autocomplete":
+                                                        "list",
+                                                      "aria-expanded": "false",
+                                                      autocomplete: "off",
+                                                      autocorrect: "off",
+                                                      required: ""
+                                                    },
+                                                    domProps: {
+                                                      value: schedule.end_at
+                                                    },
+                                                    on: {
+                                                      keyup: function($event) {
+                                                        _vm.regCleanUp(
+                                                          "end_at_" + index
+                                                        )
+                                                      },
+                                                      input: function($event) {
+                                                        if (
+                                                          $event.target
+                                                            .composing
+                                                        ) {
+                                                          return
+                                                        }
+                                                        _vm.$set(
+                                                          schedule,
+                                                          "end_at",
+                                                          $event.target.value
+                                                        )
+                                                      }
+                                                    }
+                                                  })
+                                                ])
+                                              ]
+                                            )
+                                          ])
+                                        ])
+                                      ])
+                                    ])
+                                  ]
+                                )
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _c("div", { staticClass: "px-1" }, [
+                                _c(
+                                  "table",
+                                  {
+                                    attrs: {
+                                      cols: "1",
+                                      cellspacing: "0",
+                                      cellpadding: "0"
+                                    }
+                                  },
+                                  [
+                                    _c("tbody", [
+                                      _c("tr", [
+                                        _c("td", [
+                                          _vm.editing
+                                            ? _c("span", [
+                                                index >= 0 &&
+                                                index ===
+                                                  _vm.daySchedules.length - 1
+                                                  ? _c(
+                                                      "button",
+                                                      {
+                                                        attrs: {
+                                                          title: "Delete"
+                                                        },
+                                                        on: {
+                                                          click: function(
+                                                            $event
+                                                          ) {
+                                                            _vm.removeASchedule(
+                                                              index
+                                                            )
+                                                          }
+                                                        }
+                                                      },
+                                                      [
+                                                        _c("i", {
+                                                          staticClass:
+                                                            "fa fa-times text-danger"
+                                                        })
+                                                      ]
+                                                    )
+                                                  : _vm._e()
+                                              ])
+                                            : _vm._e()
+                                        ])
+                                      ])
+                                    ])
+                                  ]
+                                )
+                              ])
+                            ])
+                          ])
+                        ])
+                      ]
+                    )
+                  ])
+                }),
+                _vm._v(" "),
+                _vm.errorMsg
+                  ? _c("div", {
+                      attrs: { id: "errorMsg" },
+                      domProps: { innerHTML: _vm._s(_vm.errorMsg) }
+                    })
+                  : _vm._e()
+              ],
+              2
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _c("div", { staticClass: "pt-2 border-top" }, [
+          _vm.isDoctorOwner
+            ? _c(
+                "table",
+                { attrs: { cols: "2", cellspacing: "0", cellpadding: "0" } },
+                [
+                  _c("tbody", [
+                    _c("tr", [
+                      _c("td", [
+                        _c("div", { staticClass: "mr-2" }, [
+                          _vm.editing
+                            ? _c(
+                                "button",
+                                {
+                                  attrs: { title: "Cancel edit" },
+                                  on: { click: _vm.cancelEditSchedules }
+                                },
+                                [
+                                  _c("i", {
+                                    staticClass: "fa fa-times text-danger"
+                                  }),
+                                  _vm._v(" "),
+                                  _c("span", [_vm._v("Cancel Editing")])
+                                ]
+                              )
+                            : _vm._e()
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm.editing
+                          ? _c("div", [
+                              _vm.daySchedules.length < _vm.maxDailySchedules
+                                ? _c(
+                                    "button",
+                                    {
+                                      attrs: { title: "Add New" },
+                                      on: { click: _vm.addNewSchedule }
+                                    },
+                                    [
+                                      _c("i", {
+                                        staticClass: "fa fa-plus text-primary"
+                                      }),
+                                      _vm._v(" \n                    "),
+                                      _c("span", [_vm._v("Add New")])
+                                    ]
+                                  )
+                                : _vm._e(),
+                              _vm._v(" "),
+                              _c(
+                                "button",
+                                {
+                                  attrs: { title: "Save All" },
+                                  on: { click: _vm.createSchedule }
+                                },
+                                [
+                                  _c("i", {
+                                    staticClass: "fa fa-file text-info"
+                                  }),
+                                  _vm._v(" \n                    "),
+                                  _c("span", [_vm._v("Save")])
+                                ]
+                              )
+                            ])
+                          : _vm._e()
+                      ])
+                    ])
+                  ])
+                ]
+              )
+            : _vm._e()
+        ])
+      ]),
+      _vm._v(" "),
+      !_vm.editing
+        ? _c("td", [
+            _vm.daySchedules.length
+              ? _c("div", [
+                  _c(
+                    "table",
+                    {
+                      attrs: { cols: "1", cellspacing: "0", cellpadding: "0" }
+                    },
+                    [
+                      _c("tbody", [
+                        _c("tr", [
+                          _c("td", [
+                            _c("div", [
+                              _c(
+                                "table",
+                                {
+                                  attrs: {
+                                    cols: "3",
+                                    cellspacing: "0",
+                                    cellpadding: "0"
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "tbody",
+                                    _vm._l(_vm.daySchedules, function(
+                                      schedule
+                                    ) {
+                                      return _c(
+                                        "tr",
+                                        {
+                                          key: schedule.id,
+                                          staticClass: "mb-1"
+                                        },
+                                        [
+                                          _c("td", [
+                                            _c("div", { staticClass: "mb-1" }, [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: schedule.start,
+                                                    expression: "schedule.start"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "day-time-field bg-white border-0 text-center",
+                                                attrs: {
+                                                  type: "text",
+                                                  disabled: ""
+                                                },
+                                                domProps: {
+                                                  value: schedule.start
+                                                },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.$set(
+                                                      schedule,
+                                                      "start",
+                                                      $event.target.value
+                                                    )
+                                                  }
+                                                }
+                                              })
+                                            ])
+                                          ]),
+                                          _vm._v(" "),
+                                          _vm._m(1, true),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _c("div", { staticClass: "mb-1" }, [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: schedule.end,
+                                                    expression: "schedule.end"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "day-time-field bg-white border-0 text-center",
+                                                attrs: {
+                                                  type: "text",
+                                                  disabled: ""
+                                                },
+                                                domProps: {
+                                                  value: schedule.end
+                                                },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.$set(
+                                                      schedule,
+                                                      "end",
+                                                      $event.target.value
+                                                    )
+                                                  }
+                                                }
+                                              })
+                                            ])
+                                          ])
+                                        ]
+                                      )
+                                    })
+                                  )
+                                ]
+                              )
+                            ])
+                          ])
+                        ])
+                      ])
+                    ]
+                  )
+                ])
+              : _c(
+                  "div",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: !_vm.loading,
+                        expression: "!loading"
+                      }
+                    ],
+                    staticClass: "text-center"
+                  },
+                  [
+                    _c("span", [
+                      _vm._v("Not available on " + _vm._s(_vm.dayName))
+                    ])
+                  ]
+                ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.loading,
+                    expression: "loading"
+                  }
+                ],
+                staticClass: "text-center"
+              },
+              [_vm._m(2)]
+            )
+          ])
+        : _vm._e()
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [_c("div", [_vm._v("–")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [_c("div", { staticClass: "mb-1" }, [_vm._v("–")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "d-inline-block fa-1x h6" }, [
+      _c("i", { staticClass: "fas fa-sync fa-spin" })
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-10a72346", module.exports)
+  }
+}
+
+/***/ }),
+/* 212 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "col schedule-table table-responsive" }, [
+    _c(
+      "table",
+      { staticClass: "w-100", attrs: { cellspacing: "0", cellpadding: "0" } },
+      [
+        _c("tbody", [
+          _c("tr", [
+            _c("td", [
+              _c("div", { staticClass: "px-3 text-center" }, [
+                _c("h5", { staticClass: "font-weight-bold text-uppercase" }, [
+                  _vm._v("Schedules")
+                ]),
+                _vm._v(" "),
+                _vm.isDoctorOwner
+                  ? _c(
+                      "ul",
+                      {
+                        staticClass: "list-unstyled text-muted font-weight-bold"
+                      },
+                      [_vm._m(0)]
+                    )
+                  : _vm._e()
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c("tr", [
+            _c("td", [
+              _vm.isAvailable
+                ? _c("div", { staticClass: "px-3 schedule-table__font-size" }, [
+                    _c("div", [
+                      _c(
+                        "table",
+                        {
+                          attrs: {
+                            cols: "3",
+                            cellspacing: "0",
+                            cellpadding: "0"
+                          }
+                        },
+                        [
+                          _c(
+                            "tbody",
+                            _vm._l(_vm.days, function(day, index) {
+                              return _c(
+                                "div",
+                                {
+                                  key: index,
+                                  class:
+                                    index % 2 == 0 ? "bg-light" : "bg-white"
+                                },
+                                [
+                                  _c("schedule-base", {
+                                    attrs: {
+                                      "day-id": index + 1,
+                                      "day-name": day,
+                                      "doctor-id": _vm.doctorId,
+                                      "is-doctor-owner": _vm.isDoctorOwner
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            })
+                          )
+                        ]
+                      )
+                    ])
+                  ])
+                : _c("div", { staticClass: "px-3 schedule-table__font-size" }, [
+                    _vm._m(1)
+                  ])
+            ])
+          ])
+        ])
+      ]
+    )
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", [
+      _c("i", { staticClass: "fa fa-check-square" }),
+      _vm._v(" Tick any checkbox to edit. "),
+      _c("i", { staticClass: "fa fa-minus-square" }),
+      _vm._v(" Untick to cancel editing.")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "col mb-3 text-center font-weight-bold border border-danger rounded"
+      },
+      [
+        _c("div", { staticClass: "display-3" }, [
+          _c("i", { staticClass: "fa fa-calendar-times red" })
+        ]),
+        _vm._v(" "),
+        _c("p", { staticClass: "text-sm red font-weight-bold" }, [
+          _vm._v(
+            "\n                Not available for appointments at this time.\n              "
+          )
+        ])
+      ]
+    )
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-430033ad", module.exports)
+  }
+}
+
+/***/ }),
+/* 213 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(214)
+/* template */
+var __vue_template__ = __webpack_require__(215)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/Schedules/OldAttempt/ScheduleList.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-61fc99f0", Component.options)
+  } else {
+    hotAPI.reload("data-v-61fc99f0", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 214 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['doctor_id', 'day'],
+
+  // data() {
+  //   return {
+  //     uid: this.auth.id,
+  //     interestsCount: this.report.follows_count,
+  //     hasShownInterest: this.report.hasShownInterest,
+  //   }
+  // },
+  data: function data() {
+    var _ref;
+
+    return _ref = {
+      doctorId: this.doctor_id,
+      sundaySchedules: {},
+      sundayId: '1',
+
+      mondaySchedules: {},
+      mondayId: '2',
+
+      tuesdaySchedules: {},
+      tuesdayId: '3',
+
+      wednesdaySchedules: {},
+      wednesdayId: '4',
+
+      thursdaySchedules: {},
+      thursdayId: '5',
+
+      fridaySchedules: {},
+      fridayId: '6'
+
+    }, _defineProperty(_ref, 'fridaySchedules', {}), _defineProperty(_ref, 'fridayId', '7'), _defineProperty(_ref, 'scheduleUrl', appUrl + '/schedules/'), _ref;
+  },
+
+
+  // mounted() {
+  //   this.loadSchedules();
+  // },
+
+  created: function created() {
+    this.loadSundaySchedules();
+    this.loadMondaySchedules();
+    this.loadTuesdaySchedules();
+    this.loadWednesdaySchedules();
+    this.loadThursdaySchedules();
+    this.loadFridaySchedules();
+    this.loadSaturdaySchedules();
+  },
+
+
+  methods: {
+    loadSundaySchedules: function loadSundaySchedules() {
+      var _this = this;
+
+      // const scheduleUrl = appUrl +'/schedules/' + this.doctorId +'/' + this.sundayId);
+      axios.get(this.scheduleUrl + this.doctorId + '/' + this.sundayId).then(function (_ref2) {
+        var data = _ref2.data;
+        return _this.sundaySchedules = data;
+      });
+    },
+    loadMondaySchedules: function loadMondaySchedules() {
+      var _this2 = this;
+
+      // const scheduleUrl = appUrl +'/schedules/' + this.doctorId +'/' + this.mondayId);
+      axios.get(this.scheduleUrl + this.doctorId + '/' + this.mondayId).then(function (_ref3) {
+        var data = _ref3.data;
+        return _this2.mondaySchedules = data;
+      });
+    },
+    loadTuesdaySchedules: function loadTuesdaySchedules() {
+      var _this3 = this;
+
+      // const scheduleUrl = appUrl +'/schedules/' + this.doctorId +'/' + this.tuesdayId);
+      axios.get(this.scheduleUrl + this.doctorId + '/' + this.tuesdayId).then(function (_ref4) {
+        var data = _ref4.data;
+        return _this3.tuesdaySchedules = data;
+      });
+    },
+    loadWednesdaySchedules: function loadWednesdaySchedules() {
+      var _this4 = this;
+
+      // const scheduleUrl = appUrl +'/schedules/' + this.doctorId +'/' + this.wednesdayId);
+      axios.get(this.scheduleUrl + this.doctorId + '/' + this.wednesdayId).then(function (_ref5) {
+        var data = _ref5.data;
+        return _this4.wednesdaySchedules = data;
+      });
+    },
+    loadThursdaySchedules: function loadThursdaySchedules() {
+      var _this5 = this;
+
+      // const scheduleUrl = appUrl +'/schedules/' + this.doctorId +'/' + this.thursdayId);
+      axios.get(this.scheduleUrl + this.doctorId + '/' + this.thursdayId).then(function (_ref6) {
+        var data = _ref6.data;
+        return _this5.thursdaySchedules = data;
+      });
+    },
+    loadFridaySchedules: function loadFridaySchedules() {
+      var _this6 = this;
+
+      // const scheduleUrl = appUrl +'/schedules/' + this.doctorId +'/' + this.fridayId);
+      axios.get(this.scheduleUrl + this.doctorId + '/' + this.fridayId).then(function (_ref7) {
+        var data = _ref7.data;
+        return _this6.fridaySchedules = data;
+      });
+    },
+    loadSaturdaySchedules: function loadSaturdaySchedules() {
+      var _this7 = this;
+
+      // const scheduleUrl = appUrl +'/schedules/' + this.doctorId +'/' + this.saturdayId);
+      axios.get(this.scheduleUrl + this.doctorId + '/' + this.saturdayId).then(function (_ref8) {
+        var data = _ref8.data;
+        return _this7.saturdaySchedules = data;
+      });
+    }
+  }
+});
+
+/***/ }),
+/* 215 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "card card-dark" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "card-body box-profile" }, [
+      _c("table", { staticClass: "table table-sm table-striped" }, [
+        _vm._m(1),
+        _vm._v(" "),
+        _c("tbody", [
+          _c(
+            "tr",
+            [
+              _vm._m(2),
+              _vm._v(" "),
+              _vm._l(_vm.sundaySchedules, function(schedule) {
+                return _c("td", { key: schedule.id, staticClass: "tf-flex" }, [
+                  _c("span", [
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.start) }
+                    }),
+                    _vm._v(" - "),
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.end) }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(3, true)
+                ])
+              }),
+              _vm._v(" "),
+              !_vm.sundaySchedules.length
+                ? _c(
+                    "td",
+                    {
+                      directives: [{ name: "else", rawName: "v-else" }],
+                      staticClass: "d-flex justify-content-center"
+                    },
+                    [
+                      _c("span", { attrs: { title: "Not Available" } }, [
+                        _vm._v("-na-")
+                      ])
+                    ]
+                  )
+                : _vm._e()
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c(
+            "tr",
+            [
+              _vm._m(4),
+              _vm._v(" "),
+              _vm._l(_vm.mondaySchedules, function(schedule) {
+                return _c("td", { key: schedule.id, staticClass: "tf-flex" }, [
+                  _c("span", [
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.start) }
+                    }),
+                    _vm._v(" - "),
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.end) }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(5, true)
+                ])
+              }),
+              _vm._v(" "),
+              !_vm.mondaySchedules.length
+                ? _c(
+                    "td",
+                    {
+                      directives: [{ name: "else", rawName: "v-else" }],
+                      staticClass: "d-flex justify-content-center"
+                    },
+                    [
+                      _c("span", { attrs: { title: "Not Available" } }, [
+                        _vm._v("-na-")
+                      ])
+                    ]
+                  )
+                : _vm._e()
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c(
+            "tr",
+            [
+              _vm._m(6),
+              _vm._v(" "),
+              _vm._l(_vm.tuesdaySchedules, function(schedule) {
+                return _c("td", { key: schedule.id, staticClass: "tf-flex" }, [
+                  _c("span", [
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.start) }
+                    }),
+                    _vm._v(" - "),
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.end) }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(7, true)
+                ])
+              }),
+              _vm._v(" "),
+              !_vm.tuesdaySchedules.length
+                ? _c(
+                    "td",
+                    {
+                      directives: [{ name: "else", rawName: "v-else" }],
+                      staticClass: "d-flex justify-content-center"
+                    },
+                    [
+                      _c("span", { attrs: { title: "Not Available" } }, [
+                        _vm._v("-na-")
+                      ])
+                    ]
+                  )
+                : _vm._e()
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c(
+            "tr",
+            [
+              _vm._m(8),
+              _vm._v(" "),
+              _vm._l(_vm.wednesdaySchedules, function(schedule) {
+                return _c("td", { key: schedule.id, staticClass: "tf-flex" }, [
+                  _c("span", [
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.start) }
+                    }),
+                    _vm._v(" - "),
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.end) }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(9, true)
+                ])
+              }),
+              _vm._v(" "),
+              !_vm.wednesdaySchedules.length
+                ? _c(
+                    "td",
+                    {
+                      directives: [{ name: "else", rawName: "v-else" }],
+                      staticClass: "d-flex justify-content-center"
+                    },
+                    [
+                      _c("span", { attrs: { title: "Not Available" } }, [
+                        _vm._v("-na-")
+                      ])
+                    ]
+                  )
+                : _vm._e()
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c(
+            "tr",
+            [
+              _vm._m(10),
+              _vm._v(" "),
+              _vm._l(_vm.thursdaySchedules, function(schedule) {
+                return _c("td", { key: schedule.id, staticClass: "tf-flex" }, [
+                  _c("span", [
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.start) }
+                    }),
+                    _vm._v(" - "),
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.end) }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(11, true)
+                ])
+              }),
+              _vm._v(" "),
+              !_vm.thursdaySchedules.length
+                ? _c(
+                    "td",
+                    {
+                      directives: [{ name: "else", rawName: "v-else" }],
+                      staticClass: "d-flex justify-content-center"
+                    },
+                    [
+                      _c("span", { attrs: { title: "Not Available" } }, [
+                        _vm._v("-na-")
+                      ])
+                    ]
+                  )
+                : _vm._e()
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c(
+            "tr",
+            [
+              _vm._m(12),
+              _vm._v(" "),
+              _vm._l(_vm.fridaySchedules, function(schedule) {
+                return _c("td", { key: schedule.id, staticClass: "tf-flex" }, [
+                  _c("span", [
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.start) }
+                    }),
+                    _vm._v(" - "),
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.end) }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(13, true)
+                ])
+              }),
+              _vm._v(" "),
+              !_vm.fridaySchedules.length
+                ? _c(
+                    "td",
+                    {
+                      directives: [{ name: "else", rawName: "v-else" }],
+                      staticClass: "d-flex justify-content-center"
+                    },
+                    [
+                      _c("span", { attrs: { title: "Not Available" } }, [
+                        _vm._v("-na-")
+                      ])
+                    ]
+                  )
+                : _vm._e()
+            ],
+            2
+          ),
+          _vm._v(" "),
+          _c(
+            "tr",
+            [
+              _vm._m(14),
+              _vm._v(" "),
+              _vm._l(_vm.saturdaySchedules, function(schedule) {
+                return _c("td", { key: schedule.id, staticClass: "tf-flex" }, [
+                  _c("span", [
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.start) }
+                    }),
+                    _vm._v(" - "),
+                    _c("span", {
+                      domProps: { textContent: _vm._s(schedule.end) }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(15, true)
+                ])
+              }),
+              _vm._v(" "),
+              !_vm.saturdaySchedules.length
+                ? _c(
+                    "td",
+                    {
+                      directives: [{ name: "else", rawName: "v-else" }],
+                      staticClass: "d-flex justify-content-center"
+                    },
+                    [
+                      _c("span", { attrs: { title: "Not Available" } }, [
+                        _vm._v("-na-")
+                      ])
+                    ]
+                  )
+                : _vm._e()
+            ],
+            2
+          )
+        ])
+      ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h3", { staticClass: "card-title" }, [
+        _vm._v("\n      Schedules\n    ")
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Day")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Periods")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", [
+      _c("span", { staticClass: "tf-flex" }, [
+        _vm._v("\n              Sunday\n              "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-sm btn-primary p-1",
+            attrs: { title: "Add New" }
+          },
+          [
+            _c("i", {
+              staticClass: "fa fa-plus",
+              staticStyle: { "font-size": "10px" }
+            })
+          ]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "w-25 tf-flex" }, [
+      _c(
+        "span",
+        {
+          attrs: {
+            "data-toggle": "modal",
+            "data-target": "#updateScheduleForm",
+            title: " Update time"
+          }
+        },
+        [_c("i", { staticClass: "fa fa-edit teal" })]
+      ),
+      _vm._v("\n              / \n              "),
+      _c("i", { staticClass: "fa fa-times red" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", [
+      _c("span", { staticClass: "tf-flex" }, [
+        _vm._v("\n              Monday\n              "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-sm btn-primary p-1",
+            attrs: { title: "Add New" }
+          },
+          [
+            _c("i", {
+              staticClass: "fa fa-plus",
+              staticStyle: { "font-size": "10px" }
+            })
+          ]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "w-25 tf-flex" }, [
+      _c("span", { attrs: { title: "Update time" } }, [
+        _c("i", { staticClass: "fa fa-edit teal" })
+      ]),
+      _vm._v("\n              / \n              "),
+      _c("i", { staticClass: "fa fa-times red" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", [
+      _c("span", { staticClass: "tf-flex" }, [
+        _vm._v("\n              Tuesday\n              "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-sm btn-primary p-1",
+            attrs: { title: "Add New" }
+          },
+          [
+            _c("i", {
+              staticClass: "fa fa-plus",
+              staticStyle: { "font-size": "10px" }
+            })
+          ]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "w-25 tf-flex" }, [
+      _c("span", { attrs: { title: "Update time" } }, [
+        _c("i", { staticClass: "fa fa-edit teal" })
+      ]),
+      _vm._v("\n              / \n              "),
+      _c("i", { staticClass: "fa fa-times red" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", [
+      _c("span", { staticClass: "tf-flex" }, [
+        _vm._v("\n              Wednesday\n              "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-sm btn-primary p-1",
+            attrs: { title: "Add New" }
+          },
+          [
+            _c("i", {
+              staticClass: "fa fa-plus",
+              staticStyle: { "font-size": "10px" }
+            })
+          ]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "w-25 tf-flex" }, [
+      _c("span", { attrs: { title: "Update time" } }, [
+        _c("i", { staticClass: "fa fa-edit teal" })
+      ]),
+      _vm._v("\n              / \n              "),
+      _c("i", { staticClass: "fa fa-times red" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", [
+      _c("span", { staticClass: "tf-flex" }, [
+        _vm._v("\n              Thursday\n              "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-sm btn-primary p-1",
+            attrs: { title: "Add New" }
+          },
+          [
+            _c("i", {
+              staticClass: "fa fa-plus",
+              staticStyle: { "font-size": "10px" }
+            })
+          ]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "w-25 tf-flex" }, [
+      _c("span", { attrs: { title: "Update time" } }, [
+        _c("i", { staticClass: "fa fa-edit teal" })
+      ]),
+      _vm._v("\n              / \n              "),
+      _c("i", { staticClass: "fa fa-times red" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", [
+      _c("span", { staticClass: "tf-flex" }, [
+        _vm._v("\n              Friday\n              "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-sm btn-primary p-1",
+            attrs: { title: "Add New" }
+          },
+          [
+            _c("i", {
+              staticClass: "fa fa-plus",
+              staticStyle: { "font-size": "10px" }
+            })
+          ]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "w-25 tf-flex" }, [
+      _c("span", { attrs: { title: "Update time" } }, [
+        _c("i", { staticClass: "fa fa-edit teal" })
+      ]),
+      _vm._v("\n              / \n              "),
+      _c("i", { staticClass: "fa fa-times red" })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("th", [
+      _c("span", { staticClass: "tf-flex" }, [
+        _vm._v("\n              Saturday\n              "),
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-sm btn-primary p-1",
+            attrs: { title: "Add New" }
+          },
+          [
+            _c("i", {
+              staticClass: "fa fa-plus",
+              staticStyle: { "font-size": "10px" }
+            })
+          ]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "w-25 tf-flex" }, [
+      _c("span", { attrs: { title: "Update time" } }, [
+        _c("i", { staticClass: "fa fa-edit teal" })
+      ]),
+      _vm._v("\n              / \n              "),
+      _c("i", { staticClass: "fa fa-times red" })
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-61fc99f0", module.exports)
+  }
+}
+
+/***/ }),
+/* 216 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(217)
+/* template */
+var __vue_template__ = null
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/Schedules/OldAttempt/Schedule.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-4a3c3d9c", Component.options)
+  } else {
+    hotAPI.reload("data-v-4a3c3d9c", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 217 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['the_doctor_id', 'the_schedule', 'the_day_id'],
+
+  data: function data() {
+    return {
+      creating: false,
+      editing: false,
+      // day_id   : this.the_day_id,
+      // doctor_id: this.the_doctor_id,
+      schedule: this.the_schedule,
+      form: new Form({
+        // id        : '',
+        doctor_id: this.the_doctor_id,
+        day_id: this.the_day_id,
+        start_at: '',
+        end_at: ''
+      })
+    };
+  },
+
+
+  computed: {
+    //
+  },
+
+  methods: {
+    create: function create() {
+      this.creating = true;
+    },
+    store: function store() {
+      var _this = this;
+
+      this.$Progress.start();
+      this.form.post('/schedules').then(function () {
+
+        // Event.$emit('RefreshSection');
+        // this.$forceUpdate();
+        _this.$router.go(0); // Refreshes whole page!
+        _this.closeForm();
+        toast({
+          type: 'success',
+          title: 'Schedule created successfully'
+        });
+        _this.$Progress.finish();
+      }).catch(function () {
+        _this.$Progress.fail();
+      });
+    },
+    edit: function edit(schedule) {
+      this.editing = true;
+      this.form.clear(); // VForm, clears error message
+      this.form.reset(); // VForm
+      this.form.fill(schedule);
+    },
+    update: function update() {
+      var _this2 = this;
+
+      this.$Progress.start();
+      this.form.patch('/schedules/' + this.schedule.id).then(function () {
+
+        // Event.$emit('RefreshSection');
+        _this2.$router.go(0);
+        _this2.closeForm();
+        toast({
+          type: 'success',
+          title: 'Schedule updated successfully'
+        });
+        _this2.$Progress.finish();
+      }).catch(function () {
+        _this2.$Progress.fail();
+      });
+    },
+    destroy: function destroy() {
+      var _this3 = this;
+
+      if (confirm("You really want to delete this schedule?")) {
+
+        axios.delete('/schedules/' + this.schedule.id).then(function () {
+          toast({
+            type: 'success',
+            title: 'Schedule deleted successfully'
+          });
+          _this3.$Progress.finish();
+        });
+
+        $(this.$el).fadeOut(500);
+      }
+    },
+    closeForm: function closeForm() {
+      this.form.clear(); // VForm: Clear error messages
+      this.form.reset(); // VForm: Reset form fields
+      this.creating = false;
+      this.editing = false;
+    }
+  }
+});
+
+/***/ }),
+/* 218 */
 /***/ (function(module, exports) {
 
 module.exports =
@@ -81138,7 +82844,122 @@ module.exports = '\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u20
 //# sourceMappingURL=laravel-vue-pagination.common.js.map
 
 /***/ }),
-/* 208 */
+/* 219 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(220)
+/* template */
+var __vue_template__ = __webpack_require__(221)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/Utilities/LoadingSpinner.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7a842526", Component.options)
+  } else {
+    hotAPI.reload("data-v-7a842526", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 220 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  // props: ['spinnerLoading'],
+
+  // data() {
+  //   return {
+  //     loading : this.spinnerLoading,
+  //   }
+  // },
+});
+
+/***/ }),
+/* 221 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    {
+      directives: [
+        {
+          name: "show",
+          rawName: "v-show",
+          value: _vm.loading,
+          expression: "loading"
+        }
+      ],
+      staticClass: "text-center"
+    },
+    [_vm._m(0)]
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "d-inline-block fa-1x h6" }, [
+      _c("i", { staticClass: "fas fa-sync fa-spin" })
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-7a842526", module.exports)
+  }
+}
+
+/***/ }),
+/* 222 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

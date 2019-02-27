@@ -68,9 +68,7 @@
       </div>
     </div>
     --}}
-    <div class="jumbotron bg-white">
-      
-      @include('doctors.forms.fb-schedules')    
+    <div class="jumbotron bg-white">   
 
       <div class="row">
         <div class="col-md-3 text-center">
@@ -146,7 +144,23 @@
     <div class="row">
 
       <div class="col-md-7">
+        @auth
+          @if((Auth::id() === $doctor->id) && !Auth::user()->isAuthenticatedDoctor())
+            <div class="p-2 mb-2 border-bottom bg-light text-sm">
+              To edit your schedules <a href="{{ route('doctor.login') }}" class="btn btn-sm btn-primary"><i class="fa fa-sign-in-alt"></i> &nbsp; Sign in as doctor</a>
+            </div>
+          @endif
+        @endauth
 
+        <schedule-index 
+            :doctor-id="{{ $doctor->id }}" 
+            :is-available="{{ intval( $doctor->isActive() ) }}"
+            :is-doctor-owner="{{ intval( Auth::check() 
+                                    && ( Auth::id() === $doctor->id ) 
+                                    && ( Auth::user()->isAuthenticatedDoctor()) 
+                                 ) }}"
+        ></schedule-index>
+          {{-- 
           @can ('edit', $doctor)
           
             <!-- Schedules/Available Hours Section -->
@@ -156,7 +170,7 @@
           
             @include('doctors.partials._schedules_users')
             
-          @endcan
+          @endcan --}}
 
           {{-- <schedule-list :doctor_id="{{$doctor->id}}"></schedule-list> --}}
 
