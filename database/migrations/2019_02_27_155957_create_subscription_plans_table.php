@@ -15,8 +15,8 @@ class CreateSubscriptionPlansTable extends Migration
     {
         Schema::create('subscription_plans', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->unique();
-            $table->string('slug')->unique()->nullable();
+            $table->string('name');
+            $table->string('slug')->nullable();
             $table->string('price');
             $table->string('description')->nullable();
             $table->string('discount')->default(0);

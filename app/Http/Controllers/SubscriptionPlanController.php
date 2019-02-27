@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Doctor;
+use App\Http\Requests\SubscriptionPlanRequest;
 use App\SubscriptionPlan;
 use Illuminate\Http\Request;
 
@@ -12,6 +14,7 @@ class SubscriptionPlanController extends Controller
         $this->middleware('auth')->except('index');
         $this->middleware('admin')->except('index');
     }
+    
     /**
      * Display a listing of the resource.
      *
@@ -19,7 +22,9 @@ class SubscriptionPlanController extends Controller
      */
     public function index()
     {
-        //
+        $subscriptionPlans = SubscriptionPlan::orderBy('name')->get();
+
+        return view('subscription_plans.index', compact('subscriptionPlans'));
     }
 
     /**
@@ -28,10 +33,17 @@ class SubscriptionPlanController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SubscriptionPlanRequest $request)
     {
-        $this->authorize('create', Subscription::class);
-        //
+        $this->authorize('create', SubscriptionPlan::class);
+        
+        $subscriptionPlan = SubscriptionPlan::create($request->all());
+
+        if ($subscriptionPlan){
+            flash($subscriptionPlan->name . ' created successfully')->success();
+        }
+
+        return redirect()->route('subscription_plans.index');
     }
 
     /**
@@ -42,7 +54,9 @@ class SubscriptionPlanController extends Controller
      */
     public function show(SubscriptionPlan $subscriptionPlan)
     {
-        //
+        $doctors = collect();//Doctor::where('subscriptionPlan_id', $subscriptionPlan->id)->get();
+
+        return view('subscription_plans.show', compact('subscriptionPlan', 'doctors'));
     }
 
     /**
@@ -52,10 +66,15 @@ class SubscriptionPlanController extends Controller
      * @param  \App\SubscriptionPlan  $subscriptionPlan
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, SubscriptionPlan $subscriptionPlan)
+    public function update(SubscriptionPlanRequest $request, SubscriptionPlan $subscriptionPlan)
     {
         $this->authorize('update', $subscriptionPlan);
-        //
+
+        if ($subscriptionPlan->update($request->all())){
+            flash($subscriptionPlan->name . ' updated successfully')->success();
+        }
+
+        return redirect()->route('subscription_plans.show', $subscriptionPlan);
     }
 
     /**
@@ -66,6 +85,12 @@ class SubscriptionPlanController extends Controller
      */
     public function destroy(SubscriptionPlan $subscriptionPlan)
     {
-        //
+        $this->authorize('delete', $subscriptionPlan);
+
+        if ($subscriptionPlan->delete()){
+            flash($subscriptionPlan->name . ' deleted successfully')->info();
+        }
+
+        return redirect()->route('subscription_plans.index');
     }
 }
