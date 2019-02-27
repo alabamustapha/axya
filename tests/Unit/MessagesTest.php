@@ -50,8 +50,7 @@ class MessagesTest extends TestCase
 
     /** @test */
     public function a_message_has_or_morphs_one_image()
-    {
-        // Method 1:       
+    {      
         $image = factory(Image::class)->create([
             'imageable_id'=> $this->message->id,
             'imageable_type'=> 'App\Message',
@@ -60,10 +59,20 @@ class MessagesTest extends TestCase
     }
 
     /** @test */
-    public function a_message_has_many_documents()
-    {
-        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->message->documents); 
+    public function a_message_has_or_morphs_one_document()
+    {    
+        $document = factory(Document::class)->create([
+            'documentable_id'=> $this->message->id,
+            'documentable_type'=> 'App\Message',
+        ]);
+        $this->assertInstanceOf(Document::class, $this->message->document); 
     }
+
+    // /** @test */
+    // public function a_message_has_many_documents()
+    // {
+    //     $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->message->documents); 
+    // }
 
     /** @test */
     public function a_message_morphs_to_an_appointment()

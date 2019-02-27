@@ -64,7 +64,7 @@ class ScheduleController extends Controller
         }
 
         $message = 'Schedule updated successfully';
-        return response(['status' => $message]);
+        return response(['status' => $message], 200);
     }
 
     /**
