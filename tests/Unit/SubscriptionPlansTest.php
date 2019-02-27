@@ -24,7 +24,7 @@ class SubscriptionPlansTest extends TestCase
     {
         $this->assertTrue(Schema::hasColumns('subscription_plans', 
           [
-            'id', 'name', 'price', 'description', 'discount',
+            'id', 'name', 'slug', 'price', 'description', 'discount',
           ]), 1);
     }
 
