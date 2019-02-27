@@ -27,6 +27,7 @@ class AppDoctorController extends Controller
         return view('doctors.forms.auth-doctor-login');
     }
 
+
     /**
      *
      */
@@ -36,6 +37,16 @@ class AppDoctorController extends Controller
 
         if ($user->doctor_password === sha1($request->doctor_password)) {
             $user->update(['doctor_mode' => 1]);
+
+            if (isset(request()->ref)){
+                // Prevent double slash '//' if referring url is '/'.
+                $refUrl = (request()->ref === '/') ? '' : request()->ref;
+
+                // Reconstruct referring page and redirect appropriately.
+                $expected_path = config('app.url') . $refUrl;
+
+                return redirect($expected_path);
+            }
 
             return redirect()->route('dr_dashboard', $user->doctor);
         }
