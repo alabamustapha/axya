@@ -80336,6 +80336,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -80343,15 +80348,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     'schedule-base': __WEBPACK_IMPORTED_MODULE_0__ScheduleBase_vue___default.a
   },
 
+  props: ['doctorId', 'isDoctorOwner'],
+
   data: function data() {
     return {
-      days: ['sunday', // 1 => 
-      'monday', // 2 => 
-      'tuesday', // 3 => 
-      'wednesday', // 4 => 
-      'thursday', // 5 => 
-      'friday', // 6 => 
-      'saturday']
+      days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
     };
   }
 });
@@ -80367,56 +80368,54 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "col-lg-6 offset-lg-3" }, [
-    _c("div", { staticClass: "schedule-table table-responsive" }, [
-      _c(
-        "table",
-        { staticStyle: {}, attrs: { cellspacing: "0", cellpadding: "0" } },
-        [
-          _c("tbody", [
-            _vm._m(0),
+  return _c("div", { staticClass: "schedule-table table-responsive" }, [
+    _c(
+      "table",
+      { staticStyle: {}, attrs: { cellspacing: "0", cellpadding: "0" } },
+      [
+        _c("tbody", [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("td", [
+            _vm._m(1),
             _vm._v(" "),
-            _c("td", [
-              _vm._m(1),
-              _vm._v(" "),
-              _c("div", { staticClass: "px-3 schedule-table__font-size" }, [
-                _c("div", [
-                  _c(
-                    "table",
-                    {
-                      attrs: { cols: "3", cellspacing: "0", cellpadding: "0" }
-                    },
-                    [
-                      _c(
-                        "tbody",
-                        _vm._l(_vm.days, function(day, index) {
-                          return _c(
-                            "div",
-                            {
-                              key: index,
-                              class: index % 2 == 0 ? "bg-light" : "bg-white"
-                            },
-                            [
-                              _c("schedule-base", {
-                                attrs: {
-                                  "day-id": index + 1,
-                                  "day-name": "day"
-                                }
-                              })
-                            ],
-                            1
-                          )
-                        })
-                      )
-                    ]
-                  )
-                ])
+            _c("div", { staticClass: "px-3 schedule-table__font-size" }, [
+              _c("div", [
+                _c(
+                  "table",
+                  { attrs: { cols: "3", cellspacing: "0", cellpadding: "0" } },
+                  [
+                    _c(
+                      "tbody",
+                      _vm._l(_vm.days, function(day, index) {
+                        return _c(
+                          "div",
+                          {
+                            key: index,
+                            class: index % 2 == 0 ? "bg-light" : "bg-white"
+                          },
+                          [
+                            _c("schedule-base", {
+                              attrs: {
+                                "day-id": index + 1,
+                                "day-name": day,
+                                "doctor-id": _vm.doctorId,
+                                "is-doctor-owner": _vm.isDoctorOwner
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      })
+                    )
+                  ]
+                )
               ])
             ])
           ])
-        ]
-      )
-    ])
+        ])
+      ]
+    )
   ])
 }
 var staticRenderFns = [
@@ -80442,7 +80441,7 @@ var staticRenderFns = [
       _c("div", { staticClass: "d-block" }, [
         _c("label", [
           _c("input", { attrs: { type: "radio", name: "avialability_type" } }),
-          _vm._v("  \r\n                  "),
+          _vm._v("  \n                "),
           _c("span", [_vm._v("Available Always")])
         ])
       ]),
@@ -80450,7 +80449,7 @@ var staticRenderFns = [
       _c("div", { staticClass: "d-block" }, [
         _c("label", [
           _c("input", { attrs: { type: "radio", name: "avialability_type" } }),
-          _vm._v("  \r\n                  "),
+          _vm._v("  \n                "),
           _c("span", [_vm._v("Available on Selected Hours")])
         ])
       ]),
@@ -80458,7 +80457,7 @@ var staticRenderFns = [
       _c("div", { staticClass: "d-block" }, [
         _c("label", [
           _c("input", { attrs: { type: "radio", name: "avialability_type" } }),
-          _vm._v("  \r\n                  "),
+          _vm._v("  \n                "),
           _c("span", [_vm._v("Not Available")])
         ])
       ])
@@ -82194,34 +82193,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['dayId', 'dayName'], //doctorId
+  props: ['doctorId', 'isDoctorOwner', 'dayId', 'dayName'],
 
   data: function data() {
     return {
-      loading: true,
-      isDoctorOwner: true,
-      doctorId: 30, //doctorId,
-      daySchedules: {},
+      loading: true, // Still fetching contents
+      daySchedules: {}, // A day's schedules
 
-      maxDailySchedules: 3,
-      editing: false,
-      dayNew: false,
-      dayAvailable: false,
-      addNew: false,
-      errorMsg: null,
-      actualSchedules: [{
+      maxDailySchedules: 3, // Maximum schedules that can be added for a day. Controls Add New button
+      editing: false, // Editing in progress?
+      dayNew: false, // ?
+      dayAvailable: false, // ? Doctor is available today? Used to check/uncheck a checkbox
+      addNew: false, // ?
+      errorMsg: null, // Used in giving instant feedback.
+      actualSchedules: [// Schedules available in db or just getting pushed in.
+      {
         start_at: null,
         end_at: null
       }]
@@ -82433,9 +82421,14 @@ var render = function() {
               _c("tbody", [
                 _c("tr", [
                   _c("td", [
-                    _c("span", { staticClass: "font-weight-bold" }, [
-                      _vm._v(_vm._s(_vm.dayName))
-                    ])
+                    _c(
+                      "span",
+                      {
+                        staticClass: "font-weight-bold",
+                        staticStyle: { width: "70px", display: "inline-block" }
+                      },
+                      [_vm._v(_vm._s(_vm.dayName))]
+                    )
                   ])
                 ])
               ])
@@ -82910,11 +82903,9 @@ var render = function() {
                     staticClass: "text-center"
                   },
                   [
-                    _vm._v(
-                      "\n        Not available on " +
-                        _vm._s(_vm.dayName) +
-                        "\n      "
-                    )
+                    _c("span", [
+                      _vm._v("Not available on " + _vm._s(_vm.dayName))
+                    ])
                   ]
                 ),
             _vm._v(" "),

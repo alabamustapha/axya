@@ -27,7 +27,7 @@
 
               <tr>
                 <td>
-                  <span class="font-weight-bold">{{ dayName }}</span> 
+                  <span class="font-weight-bold" style="width:70px;display:inline-block">{{ dayName }}</span> 
                 </td>
               </tr>
 
@@ -35,6 +35,7 @@
           </table>
         </div>
       </td>
+
 
       <td>
         <div v-if="editing">
@@ -157,16 +158,6 @@
         </table>
       </td>
 
-
-
-
-
-
-
-
-
-
-
       <!-- Normal User's View -->
       <td v-if="!editing">
         <div v-if="daySchedules.length">
@@ -216,7 +207,7 @@
 
         </div>
         <div v-else v-show="!loading" class="text-center">
-          Not available on {{ dayName }}
+          <span>Not available on {{ dayName }}</span>
         </div>
 
         <!-- <loading-spinner :spinner-loading="spinnerLoading"></loading-spinner> -->
@@ -225,7 +216,6 @@
             <i class="fas fa-sync fa-spin"></i>
           </span>
         </div>
-
       </td>
       <!-- ./Normal User's View -->
 
@@ -235,22 +225,20 @@
 
 <script>
   export default {
-    props: ['dayId', 'dayName'],//doctorId
+    props: ['doctorId', 'isDoctorOwner', 'dayId', 'dayName'],
     
     data() {
       return {
-        loading : true,
-        isDoctorOwner : true,
-        doctorId : 30,//doctorId,
-        daySchedules: {},
+        loading           : true,  // Still fetching contents
+        daySchedules      : {},    // A day's schedules
 
-        maxDailySchedules : 3,
-        editing    : false,
-        dayNew : false,
-        dayAvailable : false,
-        addNew    : false,
-        errorMsg   : null,
-        actualSchedules: [
+        maxDailySchedules : 3,     // Maximum schedules that can be added for a day. Controls Add New button
+        editing           : false, // Editing in progress?
+        dayNew            : false, // ?
+        dayAvailable      : false, // ? Doctor is available today? Used to check/uncheck a checkbox
+        addNew            : false, // ?
+        errorMsg          : null,  // Used in giving instant feedback.
+        actualSchedules: [         // Schedules available in db or just getting pushed in.
           {
             start_at : null,
             end_at   : null,

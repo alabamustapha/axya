@@ -1,5 +1,4 @@
 <template>
-<div class="col-lg-6 offset-lg-3">
   <div class="schedule-table table-responsive">
     <table cellspacing="0" cellpadding="0" style="table">
       <tbody>
@@ -40,9 +39,16 @@
                 <table cols="3" cellspacing="0" cellpadding="0">
                   <tbody>
 
-                    <div v-for="(day, index) in days" :key="index" :class="(index % 2) == 0 ? 'bg-light':'bg-white'">
+                    <div 
+                        v-for="(day, index) in days" 
+                        :key="index" 
+                        :class="(index % 2) == 0 ? 'bg-light':'bg-white'">
 
-                      <schedule-base :day-id="index + 1" day-name="day"></schedule-base>
+                        <schedule-base 
+                          :day-id="index + 1" 
+                          :day-name="day" 
+                          :doctor-id="doctorId"
+                          :is-doctor-owner="isDoctorOwner"></schedule-base>
 
                     </div>
 
@@ -56,7 +62,6 @@
       </tbody>
     </table>
   </div>
-</div>
 </template>
 
 <script>
@@ -66,16 +71,18 @@
       'schedule-base': ScheduleBase,
     },
 
+    props: ['doctorId', 'isDoctorOwner'],
+
     data () {
       return {
         days : [
-          'sunday', // 1 => 
-          'monday', // 2 => 
-          'tuesday', // 3 => 
-          'wednesday', // 4 => 
-          'thursday', // 5 => 
-          'friday', // 6 => 
-          'saturday', // 7 => 
+          'Sunday',
+          'Monday',
+          'Tuesday', 
+          'Wednesday',
+          'Thursday',
+          'Friday',
+          'Saturday',
         ],
       }
     }

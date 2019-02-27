@@ -145,6 +145,8 @@
 
       <div class="col-md-7">
 
+        <schedule-index :doctor-id="{{ $doctor->id }}" :is-doctor-owner="{{ Auth::check() && (Auth::id() == $doctor->id) }}"></schedule-index>
+          {{-- 
           @can ('edit', $doctor)
           
             <!-- Schedules/Available Hours Section -->
@@ -154,7 +156,7 @@
           
             @include('doctors.partials._schedules_users')
             
-          @endcan
+          @endcan --}}
 
           {{-- <schedule-list :doctor_id="{{$doctor->id}}"></schedule-list> --}}
 
