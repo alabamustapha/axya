@@ -79919,7 +79919,7 @@ exports = module.exports = __webpack_require__(210)(false);
 
 
 // module
-exports.push([module.i, "\n.schedule-table {\n  color: #660f0b;\n  font-size: 14px;\n}\n.schedule-table__font-size {\n  color: gray;\n  font-size: 12px;\n}\ntd div label input[type='text'] {\n  font-family: monospace;    \n  padding-left: 10px;\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n\n  /*line-height: 1;\n  width: 225px;\n  height: 18px;\n  background: yellow;\n  color: green;\n  border: thin solid red;*/\n  /*border-color: red;*/\n  /*display: flex;\n  align-content: space-around;*/\n}\n", ""]);
+exports.push([module.i, "\n.schedule-table {\n  color: #660f0b;\n  font-size: 14px;\n}\n.schedule-table__font-size {\n  color: gray;\n  font-size: 12px;\n}\ntd div label input[type='text'] {\n  font-family: monospace;    \n  padding-left: 10px;\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n}\n", ""]);
 
 // exports
 
@@ -80273,8 +80273,9 @@ module.exports = function listToStyles (parentId, list) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ScheduleBase_vue__ = __webpack_require__(238);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ScheduleBase_vue__ = __webpack_require__(214);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ScheduleBase_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ScheduleBase_vue__);
+//
 //
 //
 //
@@ -80348,7 +80349,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     'schedule-base': __WEBPACK_IMPORTED_MODULE_0__ScheduleBase_vue___default.a
   },
 
-  props: ['doctorId', 'isDoctorOwner'],
+  props: ['doctorId', 'isDoctorOwner'], //
 
   data: function data() {
     return {
@@ -80358,9 +80359,1052 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 214 */,
-/* 215 */,
-/* 216 */,
+/* 214 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(215)
+/* template */
+var __vue_template__ = __webpack_require__(216)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/Schedules/ScheduleBase.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-10a72346", Component.options)
+  } else {
+    hotAPI.reload("data-v-10a72346", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 215 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['doctorId', 'isDoctorOwner', 'dayId', 'dayName'],
+
+  data: function data() {
+    return {
+      // isDoctorOwner  :...,    // Logged in user is the doctor who owns presently viewed account?
+      loading: true, // Still fetching contents
+      daySchedules: {}, // A day's schedules
+
+      maxDailySchedules: 3, // Maximum schedules that can be added for a day. Controls Add New button
+      editing: false, // Editing in progress?
+      dayNew: false, // ?
+      dayAvailable: false, // ? Doctor is available today? Used to check/uncheck a checkbox
+      addNew: false, // ?
+      errorMsg: null, // Used in giving instant feedback.
+      actualSchedules: [// Schedules available in db or just getting pushed in.
+      {
+        start_at: null,
+        end_at: null
+      }]
+    };
+  },
+  created: function created() {
+    this.showSchedules();
+  },
+
+
+  computed: {
+    // spinnerLoading () {
+    //   return this.loading ? true : false;
+    // },
+  },
+
+  methods: {
+    initSchedule: function initSchedule() {
+      this.dayAvailable = true;
+    },
+    addNewSchedule: function addNewSchedule() {
+      this.daySchedules.push({
+        start_at: '',
+        end_at: ''
+      });
+    },
+    removeASchedule: function removeASchedule(index) {
+      // if (confirm('You really want to remove this schedule?')){
+      this.daySchedules.splice(index, 1);
+
+      // then remove from db if this is update action.
+      // Laravel's sync should do the magic.
+      // }
+    },
+    createSchedule: function createSchedule() {
+      var _this = this;
+
+      if (this.daySchedules.length) {
+
+        this.$Progress.start();
+        axios.post('/schedules', {
+          actualSchedules: this.daySchedules, // array()
+          day_id: this.dayId,
+          doctor_id: this.doctorId
+        }).then(function (response) {
+          _this.editing = false;
+          _this.showSchedules();
+          var message = response.data.status;
+          console.log(message);
+
+          toast({
+            type: 'success',
+            title: message //'Schedule created successfully.'
+          });
+          _this.$Progress.finish();
+        }).catch(function () {
+          toast({
+            type: 'error',
+            title: 'Something went wrong! Try again later.'
+          });
+          _this.$Progress.fail();
+        });
+      } else if (this.start_at == null || this.end_at == null) {
+        this.errorMsg = '<span class="text-danger">Schedule <strong>start</strong> or <strong>end time</strong> cannot be empty</span>';
+        setTimeout(function () {
+          _this.errorMsg = null;
+        }, 7000);
+        return false;
+      }
+    },
+    editSchedules: function editSchedules() {
+      this.editing = true;
+    },
+    cancelEditSchedules: function cancelEditSchedules() {
+      this.editing = false;
+      this.showSchedules();
+    },
+    showSchedules: function showSchedules() {
+      var _this2 = this;
+
+      axios.get('/schedules/' + this.doctorId + '/' + this.dayId).then(function (_ref) {
+        var data = _ref.data;
+        return _this2.daySchedules = data;
+      }).then(function () {
+        _this2.loading = false;
+      });
+    },
+    regCleanUp: function regCleanUp(elem) {
+      var _this3 = this;
+
+      var inputField = document.getElementById(elem);
+      var regX = new RegExp();
+      regX = /[^0-9:]/gi;
+      // Check at: regexr.com/ or regexpal.com/
+      var regXpattern = /(([0-1]{1}[0-9]{1})|([0-2]{1}[0-3]{1})):[0-5]{1}[0-9]{1}:[0-5]{1}[0-9]{1}/gi; // 00:00:00 - 23:59:59
+
+      inputField.value = inputField.value.replace(regX, "");
+
+      if (inputField.value.length == 8) {
+        if (inputField.value.match(regXpattern)) {
+          this.errorMsg = '<span class="text-success">Valid!</span>';
+          setTimeout(function () {
+            _this3.errorMsg = null;
+          }, 7000);
+
+          // this.reformattedTime(elem);
+        } else {
+
+          this.errorMsg = '<span class="text-danger">Time must be <b>24-hour format</b>, highest is: <b>23:59:59</b></span>';
+          setTimeout(function () {
+            _this3.errorMsg = null;
+          }, 7000);
+        }
+      }
+    },
+    reformattedTime: function reformattedTime(elem) {
+      var inputField = document.getElementById(elem);
+      var timeArr = inputField.value.split(':');
+      var hour = timeArr[0];
+      var min = timeArr[1];
+      var sec = timeArr[2];
+
+      hour = hour < 23 ? hour : 23;
+      min = min < 59 ? min : 59;
+      sec = sec < 59 ? sec : 59;
+      var reformat = hour + ':' + min + ':' + sec;
+      console.log(reformat);
+      inputField.value = reformat;
+      // $('#'+elem).val(reformat);
+    }
+  }
+});
+
+/***/ }),
+/* 216 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "py-2 border-bottom" }, [
+    _c("tr", {}, [
+      _c("td", [
+        _vm.isDoctorOwner
+          ? _c("div", { staticClass: "justify-content-center" }, [
+              _c(
+                "table",
+                { attrs: { cols: "1", cellspacing: "0", cellpadding: "0" } },
+                [
+                  _c("tbody", [
+                    _c("tr", [
+                      _c("td", [
+                        _c("label", [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.dayNew,
+                                expression: "dayNew"
+                              }
+                            ],
+                            attrs: { type: "checkbox" },
+                            domProps: {
+                              checked: Array.isArray(_vm.dayNew)
+                                ? _vm._i(_vm.dayNew, null) > -1
+                                : _vm.dayNew
+                            },
+                            on: {
+                              click: _vm.initSchedule,
+                              change: function($event) {
+                                var $$a = _vm.dayNew,
+                                  $$el = $event.target,
+                                  $$c = $$el.checked ? true : false
+                                if (Array.isArray($$a)) {
+                                  var $$v = null,
+                                    $$i = _vm._i($$a, $$v)
+                                  if ($$el.checked) {
+                                    $$i < 0 && (_vm.dayNew = $$a.concat([$$v]))
+                                  } else {
+                                    $$i > -1 &&
+                                      (_vm.dayNew = $$a
+                                        .slice(0, $$i)
+                                        .concat($$a.slice($$i + 1)))
+                                  }
+                                } else {
+                                  _vm.dayNew = $$c
+                                }
+                              }
+                            }
+                          })
+                        ])
+                      ])
+                    ])
+                  ])
+                ]
+              )
+            ])
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      _c("td", [
+        _c("div", { staticClass: "px-3" }, [
+          _c(
+            "table",
+            { attrs: { cols: "1", cellspacing: "0", cellpadding: "0" } },
+            [
+              _c("tbody", [
+                _c("tr", [
+                  _c("td", [
+                    _c(
+                      "span",
+                      {
+                        staticClass: "font-weight-bold",
+                        staticStyle: { width: "70px", display: "inline-block" }
+                      },
+                      [_vm._v(_vm._s(_vm.dayName))]
+                    )
+                  ])
+                ])
+              ])
+            ]
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("td", [
+        _vm.editing
+          ? _c(
+              "div",
+              [
+                _vm._l(_vm.daySchedules, function(schedule, index) {
+                  return _c("div", { key: index }, [
+                    _c(
+                      "table",
+                      {
+                        attrs: { cols: "2", cellspacing: "0", cellpadding: "0" }
+                      },
+                      [
+                        _c("tbody", [
+                          _c("tr", [
+                            _c("td", [
+                              _c("div", [
+                                _c(
+                                  "table",
+                                  {
+                                    attrs: {
+                                      cols: "3",
+                                      cellspacing: "0",
+                                      cellpadding: "0"
+                                    }
+                                  },
+                                  [
+                                    _c("tbody", [
+                                      _c("tr", [
+                                        _c("td", [
+                                          _c("div", [
+                                            _c(
+                                              "span",
+                                              {
+                                                attrs: { placeholder: "Time" }
+                                              },
+                                              [
+                                                _c("label", [
+                                                  _c("input", {
+                                                    directives: [
+                                                      {
+                                                        name: "model",
+                                                        rawName: "v-model",
+                                                        value:
+                                                          schedule.start_at,
+                                                        expression:
+                                                          "schedule.start_at"
+                                                      }
+                                                    ],
+                                                    staticClass:
+                                                      "day-time-field",
+                                                    attrs: {
+                                                      id: "start_at_" + index,
+                                                      placeholder: "time",
+                                                      type: "text",
+                                                      minlength: "8",
+                                                      maxlength: "8",
+                                                      "aria-autocomplete":
+                                                        "list",
+                                                      "aria-expanded": "false",
+                                                      autocomplete: "off",
+                                                      autocorrect: "off",
+                                                      required: ""
+                                                    },
+                                                    domProps: {
+                                                      value: schedule.start_at
+                                                    },
+                                                    on: {
+                                                      keyup: function($event) {
+                                                        _vm.regCleanUp(
+                                                          "start_at_" + index
+                                                        )
+                                                      },
+                                                      input: function($event) {
+                                                        if (
+                                                          $event.target
+                                                            .composing
+                                                        ) {
+                                                          return
+                                                        }
+                                                        _vm.$set(
+                                                          schedule,
+                                                          "start_at",
+                                                          $event.target.value
+                                                        )
+                                                      }
+                                                    }
+                                                  })
+                                                ])
+                                              ]
+                                            )
+                                          ])
+                                        ]),
+                                        _vm._v(" "),
+                                        _vm._m(0, true),
+                                        _vm._v(" "),
+                                        _c("td", [
+                                          _c("div", [
+                                            _c(
+                                              "span",
+                                              {
+                                                attrs: { placeholder: "Time" }
+                                              },
+                                              [
+                                                _c("label", [
+                                                  _c("input", {
+                                                    directives: [
+                                                      {
+                                                        name: "model",
+                                                        rawName: "v-model",
+                                                        value: schedule.end_at,
+                                                        expression:
+                                                          "schedule.end_at"
+                                                      }
+                                                    ],
+                                                    staticClass:
+                                                      "day-time-field",
+                                                    attrs: {
+                                                      id: "end_at_" + index,
+                                                      placeholder: "23:59:59",
+                                                      type: "text",
+                                                      minlength: "8",
+                                                      maxlength: "8",
+                                                      "aria-autocomplete":
+                                                        "list",
+                                                      "aria-expanded": "false",
+                                                      autocomplete: "off",
+                                                      autocorrect: "off",
+                                                      required: ""
+                                                    },
+                                                    domProps: {
+                                                      value: schedule.end_at
+                                                    },
+                                                    on: {
+                                                      keyup: function($event) {
+                                                        _vm.regCleanUp(
+                                                          "end_at_" + index
+                                                        )
+                                                      },
+                                                      input: function($event) {
+                                                        if (
+                                                          $event.target
+                                                            .composing
+                                                        ) {
+                                                          return
+                                                        }
+                                                        _vm.$set(
+                                                          schedule,
+                                                          "end_at",
+                                                          $event.target.value
+                                                        )
+                                                      }
+                                                    }
+                                                  })
+                                                ])
+                                              ]
+                                            )
+                                          ])
+                                        ])
+                                      ])
+                                    ])
+                                  ]
+                                )
+                              ])
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _c("div", { staticClass: "px-1" }, [
+                                _c(
+                                  "table",
+                                  {
+                                    attrs: {
+                                      cols: "1",
+                                      cellspacing: "0",
+                                      cellpadding: "0"
+                                    }
+                                  },
+                                  [
+                                    _c("tbody", [
+                                      _c("tr", [
+                                        _c("td", [
+                                          _vm.editing
+                                            ? _c("span", [
+                                                index >= 0 &&
+                                                index ===
+                                                  _vm.daySchedules.length - 1
+                                                  ? _c(
+                                                      "button",
+                                                      {
+                                                        attrs: {
+                                                          title: "Delete"
+                                                        },
+                                                        on: {
+                                                          click: function(
+                                                            $event
+                                                          ) {
+                                                            _vm.removeASchedule(
+                                                              index
+                                                            )
+                                                          }
+                                                        }
+                                                      },
+                                                      [
+                                                        _c("i", {
+                                                          staticClass:
+                                                            "fa fa-times text-danger"
+                                                        })
+                                                      ]
+                                                    )
+                                                  : _vm._e()
+                                              ])
+                                            : _vm._e()
+                                        ])
+                                      ])
+                                    ])
+                                  ]
+                                )
+                              ])
+                            ])
+                          ])
+                        ])
+                      ]
+                    )
+                  ])
+                }),
+                _vm._v(" "),
+                _vm.errorMsg
+                  ? _c("div", {
+                      attrs: { id: "errorMsg" },
+                      domProps: { innerHTML: _vm._s(_vm.errorMsg) }
+                    })
+                  : _vm._e()
+              ],
+              2
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.isDoctorOwner
+          ? _c(
+              "table",
+              { attrs: { cols: "2", cellspacing: "0", cellpadding: "0" } },
+              [
+                _c("tbody", [
+                  _c("tr", [
+                    _c("td", [
+                      _c("div", { staticClass: "mr-2" }, [
+                        _vm.editing
+                          ? _c(
+                              "button",
+                              {
+                                attrs: { title: "Cancel edit" },
+                                on: { click: _vm.cancelEditSchedules }
+                              },
+                              [
+                                _c("i", {
+                                  staticClass: "fa fa-times text-danger"
+                                }),
+                                _vm._v(" "),
+                                _c("span", [_vm._v("Cancel Editing")])
+                              ]
+                            )
+                          : _c(
+                              "button",
+                              {
+                                attrs: { title: "Edit" },
+                                on: {
+                                  click: function($event) {
+                                    _vm.editing = true
+                                  }
+                                }
+                              },
+                              [
+                                _c("i", {
+                                  staticClass: "fa fa-edit text-primary"
+                                }),
+                                _vm._v(" "),
+                                _c("span", [_vm._v("Edit")])
+                              ]
+                            )
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm.editing
+                        ? _c("div", [
+                            _vm.daySchedules.length < _vm.maxDailySchedules
+                              ? _c(
+                                  "button",
+                                  {
+                                    attrs: { title: "Add New" },
+                                    on: { click: _vm.addNewSchedule }
+                                  },
+                                  [
+                                    _c("i", {
+                                      staticClass: "fa fa-plus text-primary"
+                                    }),
+                                    _vm._v(" \n                  "),
+                                    _c("span", [_vm._v("Add New")])
+                                  ]
+                                )
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                attrs: { title: "Save All" },
+                                on: { click: _vm.createSchedule }
+                              },
+                              [
+                                _c("i", {
+                                  staticClass: "fa fa-file text-info"
+                                }),
+                                _vm._v(" \n                  "),
+                                _c("span", [_vm._v("Save")])
+                              ]
+                            )
+                          ])
+                        : _vm._e()
+                    ])
+                  ])
+                ])
+              ]
+            )
+          : _vm._e()
+      ]),
+      _vm._v(" "),
+      !_vm.editing
+        ? _c("td", [
+            _vm.daySchedules.length
+              ? _c("div", [
+                  _c(
+                    "table",
+                    {
+                      attrs: { cols: "1", cellspacing: "0", cellpadding: "0" }
+                    },
+                    [
+                      _c("tbody", [
+                        _c("tr", [
+                          _c("td", [
+                            _c("div", [
+                              _c(
+                                "table",
+                                {
+                                  attrs: {
+                                    cols: "3",
+                                    cellspacing: "0",
+                                    cellpadding: "0"
+                                  }
+                                },
+                                [
+                                  _c(
+                                    "tbody",
+                                    _vm._l(_vm.daySchedules, function(
+                                      schedule
+                                    ) {
+                                      return _c(
+                                        "tr",
+                                        {
+                                          key: schedule.id,
+                                          staticClass: "mb-1"
+                                        },
+                                        [
+                                          _c("td", [
+                                            _c("div", { staticClass: "mb-1" }, [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: schedule.start,
+                                                    expression: "schedule.start"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "day-time-field bg-white border-0 text-center",
+                                                attrs: {
+                                                  type: "text",
+                                                  disabled: ""
+                                                },
+                                                domProps: {
+                                                  value: schedule.start
+                                                },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.$set(
+                                                      schedule,
+                                                      "start",
+                                                      $event.target.value
+                                                    )
+                                                  }
+                                                }
+                                              })
+                                            ])
+                                          ]),
+                                          _vm._v(" "),
+                                          _vm._m(1, true),
+                                          _vm._v(" "),
+                                          _c("td", [
+                                            _c("div", { staticClass: "mb-1" }, [
+                                              _c("input", {
+                                                directives: [
+                                                  {
+                                                    name: "model",
+                                                    rawName: "v-model",
+                                                    value: schedule.end,
+                                                    expression: "schedule.end"
+                                                  }
+                                                ],
+                                                staticClass:
+                                                  "day-time-field bg-white border-0 text-center",
+                                                attrs: {
+                                                  type: "text",
+                                                  disabled: ""
+                                                },
+                                                domProps: {
+                                                  value: schedule.end
+                                                },
+                                                on: {
+                                                  input: function($event) {
+                                                    if (
+                                                      $event.target.composing
+                                                    ) {
+                                                      return
+                                                    }
+                                                    _vm.$set(
+                                                      schedule,
+                                                      "end",
+                                                      $event.target.value
+                                                    )
+                                                  }
+                                                }
+                                              })
+                                            ])
+                                          ])
+                                        ]
+                                      )
+                                    })
+                                  )
+                                ]
+                              )
+                            ])
+                          ])
+                        ])
+                      ])
+                    ]
+                  )
+                ])
+              : _c(
+                  "div",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: !_vm.loading,
+                        expression: "!loading"
+                      }
+                    ],
+                    staticClass: "text-center"
+                  },
+                  [
+                    _c("span", [
+                      _vm._v("Not available on " + _vm._s(_vm.dayName))
+                    ])
+                  ]
+                ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.loading,
+                    expression: "loading"
+                  }
+                ],
+                staticClass: "text-center"
+              },
+              [_vm._m(2)]
+            )
+          ])
+        : _vm._e()
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [_c("div", [_vm._v("–")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", [_c("div", { staticClass: "mb-1" }, [_vm._v("–")])])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "d-inline-block fa-1x h6" }, [
+      _c("i", { staticClass: "fas fa-sync fa-spin" })
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-10a72346", module.exports)
+  }
+}
+
+/***/ }),
 /* 217 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -80377,7 +81421,15 @@ var render = function() {
           _vm._m(0),
           _vm._v(" "),
           _c("td", [
-            _vm._m(1),
+            _vm.isDoctorOwner
+              ? _c("div", { staticClass: "px-3 mb-2 border-bottom" }, [
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _vm._m(2),
+                  _vm._v(" "),
+                  _vm._m(3)
+                ])
+              : _vm._e(),
             _vm._v(" "),
             _c("div", { staticClass: "px-3 schedule-table__font-size" }, [
               _c("div", [
@@ -80425,7 +81477,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("tr", [
       _c("td", [
-        _c("div", { staticClass: "px-3" }, [
+        _c("div", { staticClass: "px-3 text-center" }, [
           _c("h5", { staticClass: "font-weight-bold text-uppercase" }, [
             _vm._v("Schedules")
           ])
@@ -80437,29 +81489,35 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "px-3 mb-2 border-bottom" }, [
-      _c("div", { staticClass: "d-block" }, [
-        _c("label", [
-          _c("input", { attrs: { type: "radio", name: "avialability_type" } }),
-          _vm._v("  \n                "),
-          _c("span", [_vm._v("Available Always")])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "d-block" }, [
-        _c("label", [
-          _c("input", { attrs: { type: "radio", name: "avialability_type" } }),
-          _vm._v("  \n                "),
-          _c("span", [_vm._v("Available on Selected Hours")])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "d-block" }, [
-        _c("label", [
-          _c("input", { attrs: { type: "radio", name: "avialability_type" } }),
-          _vm._v("  \n                "),
-          _c("span", [_vm._v("Not Available")])
-        ])
+    return _c("div", { staticClass: "d-block" }, [
+      _c("label", [
+        _c("input", { attrs: { type: "radio", name: "avialability_type" } }),
+        _vm._v("  \n                "),
+        _c("span", [_vm._v("Available Always")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "d-block" }, [
+      _c("label", [
+        _c("input", { attrs: { type: "radio", name: "avialability_type" } }),
+        _vm._v("  \n                "),
+        _c("span", [_vm._v("Available on Selected Hours")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "d-block" }, [
+      _c("label", [
+        _c("input", { attrs: { type: "radio", name: "avialability_type" } }),
+        _vm._v("  \n                "),
+        _c("span", [_vm._v("Not Available")])
       ])
     ])
   }
@@ -81899,1066 +82957,6 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 223 */,
-/* 224 */,
-/* 225 */,
-/* 226 */,
-/* 227 */,
-/* 228 */,
-/* 229 */,
-/* 230 */,
-/* 231 */,
-/* 232 */,
-/* 233 */,
-/* 234 */,
-/* 235 */,
-/* 236 */,
-/* 237 */,
-/* 238 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(1)
-/* script */
-var __vue_script__ = __webpack_require__(239)
-/* template */
-var __vue_template__ = __webpack_require__(240)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/js/components/Schedules/ScheduleBase.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-10a72346", Component.options)
-  } else {
-    hotAPI.reload("data-v-10a72346", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 239 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['doctorId', 'isDoctorOwner', 'dayId', 'dayName'],
-
-  data: function data() {
-    return {
-      loading: true, // Still fetching contents
-      daySchedules: {}, // A day's schedules
-
-      maxDailySchedules: 3, // Maximum schedules that can be added for a day. Controls Add New button
-      editing: false, // Editing in progress?
-      dayNew: false, // ?
-      dayAvailable: false, // ? Doctor is available today? Used to check/uncheck a checkbox
-      addNew: false, // ?
-      errorMsg: null, // Used in giving instant feedback.
-      actualSchedules: [// Schedules available in db or just getting pushed in.
-      {
-        start_at: null,
-        end_at: null
-      }]
-    };
-  },
-  created: function created() {
-    this.showSchedules();
-  },
-
-
-  computed: {
-    // spinnerLoading () {
-    //   return this.loading ? true : false;
-    // },
-  },
-
-  methods: {
-    initSchedule: function initSchedule() {
-      this.dayAvailable = true;
-    },
-    addNewSchedule: function addNewSchedule() {
-      this.daySchedules.push({
-        start_at: '',
-        end_at: ''
-      });
-    },
-    removeASchedule: function removeASchedule(index) {
-      // if (confirm('You really want to remove this schedule?')){
-      this.daySchedules.splice(index, 1);
-
-      // then remove from db if this is update action.
-      // Laravel's sync should do the magic.
-      // }
-    },
-    createSchedule: function createSchedule() {
-      var _this = this;
-
-      if (this.daySchedules.length) {
-
-        this.$Progress.start();
-        axios.post('/schedules', {
-          actualSchedules: this.daySchedules, // array()
-          day_id: this.dayId,
-          doctor_id: this.doctorId
-        }).then(function (response) {
-          _this.editing = false;
-          _this.showSchedules();
-          var message = response.data.status;
-          console.log(message);
-
-          toast({
-            type: 'success',
-            title: message //'Schedule created successfully.'
-          });
-          _this.$Progress.finish();
-        }).catch(function () {
-          toast({
-            type: 'error',
-            title: 'Something went wrong! Try again later.'
-          });
-          _this.$Progress.fail();
-        });
-      } else if (this.start_at == null || this.end_at == null) {
-        this.errorMsg = '<span class="text-danger">Schedule <strong>start</strong> or <strong>end time</strong> cannot be empty</span>';
-        setTimeout(function () {
-          _this.errorMsg = null;
-        }, 7000);
-        return false;
-      }
-    },
-    editSchedules: function editSchedules() {
-      this.editing = true;
-    },
-    cancelEditSchedules: function cancelEditSchedules() {
-      this.editing = false;
-      this.showSchedules();
-    },
-    showSchedules: function showSchedules() {
-      var _this2 = this;
-
-      axios.get('/schedules/' + this.doctorId + '/' + this.dayId).then(function (_ref) {
-        var data = _ref.data;
-        return _this2.daySchedules = data;
-      }).then(function () {
-        _this2.loading = false;
-      });
-    },
-    regCleanUp: function regCleanUp(elem) {
-      var _this3 = this;
-
-      var inputField = document.getElementById(elem);
-      var regX = new RegExp();
-      regX = /[^0-9:]/gi;
-      // Check at: regexr.com/ or regexpal.com/
-      var regXpattern = /(([0-1]{1}[0-9]{1})|([0-2]{1}[0-3]{1})):[0-5]{1}[0-9]{1}:[0-5]{1}[0-9]{1}/gi; // 00:00:00 - 23:59:59
-
-      inputField.value = inputField.value.replace(regX, "");
-
-      if (inputField.value.length == 8) {
-        if (inputField.value.match(regXpattern)) {
-          this.errorMsg = '<span class="text-success">Valid!</span>';
-          setTimeout(function () {
-            _this3.errorMsg = null;
-          }, 7000);
-
-          // this.reformattedTime(elem);
-        } else {
-
-          this.errorMsg = '<span class="text-danger">Time must be <b>24-hour format</b>, highest is: <b>23:59:59</b></span>';
-          setTimeout(function () {
-            _this3.errorMsg = null;
-          }, 7000);
-        }
-      }
-    },
-    reformattedTime: function reformattedTime(elem) {
-      var inputField = document.getElementById(elem);
-      var timeArr = inputField.value.split(':');
-      var hour = timeArr[0];
-      var min = timeArr[1];
-      var sec = timeArr[2];
-
-      hour = hour < 23 ? hour : 23;
-      min = min < 59 ? min : 59;
-      sec = sec < 59 ? sec : 59;
-      var reformat = hour + ':' + min + ':' + sec;
-      console.log(reformat);
-      inputField.value = reformat;
-      // $('#'+elem).val(reformat);
-    }
-  }
-});
-
-/***/ }),
-/* 240 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "py-2 border-bottom" }, [
-    _c("tr", {}, [
-      _c("td", [
-        _vm.isDoctorOwner
-          ? _c("div", { staticClass: "justify-content-center" }, [
-              _c(
-                "table",
-                { attrs: { cols: "1", cellspacing: "0", cellpadding: "0" } },
-                [
-                  _c("tbody", [
-                    _c("tr", [
-                      _c("td", [
-                        _c("label", [
-                          _c("input", {
-                            directives: [
-                              {
-                                name: "model",
-                                rawName: "v-model",
-                                value: _vm.dayNew,
-                                expression: "dayNew"
-                              }
-                            ],
-                            attrs: { type: "checkbox" },
-                            domProps: {
-                              checked: Array.isArray(_vm.dayNew)
-                                ? _vm._i(_vm.dayNew, null) > -1
-                                : _vm.dayNew
-                            },
-                            on: {
-                              click: _vm.initSchedule,
-                              change: function($event) {
-                                var $$a = _vm.dayNew,
-                                  $$el = $event.target,
-                                  $$c = $$el.checked ? true : false
-                                if (Array.isArray($$a)) {
-                                  var $$v = null,
-                                    $$i = _vm._i($$a, $$v)
-                                  if ($$el.checked) {
-                                    $$i < 0 && (_vm.dayNew = $$a.concat([$$v]))
-                                  } else {
-                                    $$i > -1 &&
-                                      (_vm.dayNew = $$a
-                                        .slice(0, $$i)
-                                        .concat($$a.slice($$i + 1)))
-                                  }
-                                } else {
-                                  _vm.dayNew = $$c
-                                }
-                              }
-                            }
-                          })
-                        ])
-                      ])
-                    ])
-                  ])
-                ]
-              )
-            ])
-          : _vm._e()
-      ]),
-      _vm._v(" "),
-      _c("td", [
-        _c("div", { staticClass: "px-3" }, [
-          _c(
-            "table",
-            { attrs: { cols: "1", cellspacing: "0", cellpadding: "0" } },
-            [
-              _c("tbody", [
-                _c("tr", [
-                  _c("td", [
-                    _c(
-                      "span",
-                      {
-                        staticClass: "font-weight-bold",
-                        staticStyle: { width: "70px", display: "inline-block" }
-                      },
-                      [_vm._v(_vm._s(_vm.dayName))]
-                    )
-                  ])
-                ])
-              ])
-            ]
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _c("td", [
-        _vm.editing
-          ? _c(
-              "div",
-              [
-                _vm._l(_vm.daySchedules, function(schedule, index) {
-                  return _c("div", { key: index }, [
-                    _c(
-                      "table",
-                      {
-                        attrs: { cols: "2", cellspacing: "0", cellpadding: "0" }
-                      },
-                      [
-                        _c("tbody", [
-                          _c("tr", [
-                            _c("td", [
-                              _c("div", [
-                                _c(
-                                  "table",
-                                  {
-                                    attrs: {
-                                      cols: "3",
-                                      cellspacing: "0",
-                                      cellpadding: "0"
-                                    }
-                                  },
-                                  [
-                                    _c("tbody", [
-                                      _c("tr", [
-                                        _c("td", [
-                                          _c("div", [
-                                            _c(
-                                              "span",
-                                              {
-                                                attrs: { placeholder: "Time" }
-                                              },
-                                              [
-                                                _c("label", [
-                                                  _c("input", {
-                                                    directives: [
-                                                      {
-                                                        name: "model",
-                                                        rawName: "v-model",
-                                                        value:
-                                                          schedule.start_at,
-                                                        expression:
-                                                          "schedule.start_at"
-                                                      }
-                                                    ],
-                                                    staticClass:
-                                                      "day-time-field",
-                                                    attrs: {
-                                                      id: "start_at_" + index,
-                                                      placeholder: "time",
-                                                      type: "text",
-                                                      minlength: "8",
-                                                      maxlength: "8",
-                                                      "aria-autocomplete":
-                                                        "list",
-                                                      "aria-expanded": "false",
-                                                      autocomplete: "off",
-                                                      autocorrect: "off",
-                                                      required: ""
-                                                    },
-                                                    domProps: {
-                                                      value: schedule.start_at
-                                                    },
-                                                    on: {
-                                                      keyup: function($event) {
-                                                        _vm.regCleanUp(
-                                                          "start_at_" + index
-                                                        )
-                                                      },
-                                                      input: function($event) {
-                                                        if (
-                                                          $event.target
-                                                            .composing
-                                                        ) {
-                                                          return
-                                                        }
-                                                        _vm.$set(
-                                                          schedule,
-                                                          "start_at",
-                                                          $event.target.value
-                                                        )
-                                                      }
-                                                    }
-                                                  })
-                                                ])
-                                              ]
-                                            )
-                                          ])
-                                        ]),
-                                        _vm._v(" "),
-                                        _vm._m(0, true),
-                                        _vm._v(" "),
-                                        _c("td", [
-                                          _c("div", [
-                                            _c(
-                                              "span",
-                                              {
-                                                attrs: { placeholder: "Time" }
-                                              },
-                                              [
-                                                _c("label", [
-                                                  _c("input", {
-                                                    directives: [
-                                                      {
-                                                        name: "model",
-                                                        rawName: "v-model",
-                                                        value: schedule.end_at,
-                                                        expression:
-                                                          "schedule.end_at"
-                                                      }
-                                                    ],
-                                                    staticClass:
-                                                      "day-time-field",
-                                                    attrs: {
-                                                      id: "end_at_" + index,
-                                                      placeholder: "23:59:59",
-                                                      type: "text",
-                                                      minlength: "8",
-                                                      maxlength: "8",
-                                                      "aria-autocomplete":
-                                                        "list",
-                                                      "aria-expanded": "false",
-                                                      autocomplete: "off",
-                                                      autocorrect: "off",
-                                                      required: ""
-                                                    },
-                                                    domProps: {
-                                                      value: schedule.end_at
-                                                    },
-                                                    on: {
-                                                      keyup: function($event) {
-                                                        _vm.regCleanUp(
-                                                          "end_at_" + index
-                                                        )
-                                                      },
-                                                      input: function($event) {
-                                                        if (
-                                                          $event.target
-                                                            .composing
-                                                        ) {
-                                                          return
-                                                        }
-                                                        _vm.$set(
-                                                          schedule,
-                                                          "end_at",
-                                                          $event.target.value
-                                                        )
-                                                      }
-                                                    }
-                                                  })
-                                                ])
-                                              ]
-                                            )
-                                          ])
-                                        ])
-                                      ])
-                                    ])
-                                  ]
-                                )
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("td", [
-                              _c("div", { staticClass: "px-1" }, [
-                                _c(
-                                  "table",
-                                  {
-                                    attrs: {
-                                      cols: "1",
-                                      cellspacing: "0",
-                                      cellpadding: "0"
-                                    }
-                                  },
-                                  [
-                                    _c("tbody", [
-                                      _c("tr", [
-                                        _c("td", [
-                                          _vm.editing
-                                            ? _c("span", [
-                                                index >= 0 &&
-                                                index ===
-                                                  _vm.daySchedules.length - 1
-                                                  ? _c(
-                                                      "button",
-                                                      {
-                                                        attrs: {
-                                                          title: "Delete"
-                                                        },
-                                                        on: {
-                                                          click: function(
-                                                            $event
-                                                          ) {
-                                                            _vm.removeASchedule(
-                                                              index
-                                                            )
-                                                          }
-                                                        }
-                                                      },
-                                                      [
-                                                        _c("i", {
-                                                          staticClass:
-                                                            "fa fa-times text-danger"
-                                                        })
-                                                      ]
-                                                    )
-                                                  : _vm._e()
-                                              ])
-                                            : _vm._e()
-                                        ])
-                                      ])
-                                    ])
-                                  ]
-                                )
-                              ])
-                            ])
-                          ])
-                        ])
-                      ]
-                    )
-                  ])
-                }),
-                _vm._v(" "),
-                _vm.errorMsg
-                  ? _c("div", {
-                      attrs: { id: "errorMsg" },
-                      domProps: { innerHTML: _vm._s(_vm.errorMsg) }
-                    })
-                  : _vm._e()
-              ],
-              2
-            )
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.isDoctorOwner
-          ? _c(
-              "table",
-              { attrs: { cols: "2", cellspacing: "0", cellpadding: "0" } },
-              [
-                _c("tbody", [
-                  _c("tr", [
-                    _c("td", [
-                      _c("div", { staticClass: "mr-2" }, [
-                        _vm.editing
-                          ? _c(
-                              "button",
-                              {
-                                attrs: { title: "Cancel edit" },
-                                on: { click: _vm.cancelEditSchedules }
-                              },
-                              [
-                                _c("i", {
-                                  staticClass: "fa fa-times text-danger"
-                                }),
-                                _vm._v(" "),
-                                _c("span", [_vm._v("Cancel Editing")])
-                              ]
-                            )
-                          : _c(
-                              "button",
-                              {
-                                attrs: { title: "Edit" },
-                                on: {
-                                  click: function($event) {
-                                    _vm.editing = true
-                                  }
-                                }
-                              },
-                              [
-                                _c("i", {
-                                  staticClass: "fa fa-edit text-primary"
-                                }),
-                                _vm._v(" "),
-                                _c("span", [_vm._v("Edit")])
-                              ]
-                            )
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("td", [
-                      _vm.editing
-                        ? _c("div", [
-                            _vm.daySchedules.length < _vm.maxDailySchedules
-                              ? _c(
-                                  "button",
-                                  {
-                                    attrs: { title: "Add New" },
-                                    on: { click: _vm.addNewSchedule }
-                                  },
-                                  [
-                                    _c("i", {
-                                      staticClass: "fa fa-plus text-primary"
-                                    }),
-                                    _vm._v(" \n                  "),
-                                    _c("span", [_vm._v("Add New")])
-                                  ]
-                                )
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _c(
-                              "button",
-                              {
-                                attrs: { title: "Save All" },
-                                on: { click: _vm.createSchedule }
-                              },
-                              [
-                                _c("i", {
-                                  staticClass: "fa fa-file text-info"
-                                }),
-                                _vm._v(" \n                  "),
-                                _c("span", [_vm._v("Save")])
-                              ]
-                            )
-                          ])
-                        : _vm._e()
-                    ])
-                  ])
-                ])
-              ]
-            )
-          : _vm._e()
-      ]),
-      _vm._v(" "),
-      !_vm.editing
-        ? _c("td", [
-            _vm.daySchedules.length
-              ? _c("div", [
-                  _c(
-                    "table",
-                    {
-                      attrs: { cols: "1", cellspacing: "0", cellpadding: "0" }
-                    },
-                    [
-                      _c("tbody", [
-                        _c("tr", [
-                          _c("td", [
-                            _c("div", [
-                              _c(
-                                "table",
-                                {
-                                  attrs: {
-                                    cols: "3",
-                                    cellspacing: "0",
-                                    cellpadding: "0"
-                                  }
-                                },
-                                [
-                                  _c(
-                                    "tbody",
-                                    _vm._l(_vm.daySchedules, function(
-                                      schedule
-                                    ) {
-                                      return _c(
-                                        "tr",
-                                        {
-                                          key: schedule.id,
-                                          staticClass: "mb-1"
-                                        },
-                                        [
-                                          _c("td", [
-                                            _c("div", { staticClass: "mb-1" }, [
-                                              _c("input", {
-                                                directives: [
-                                                  {
-                                                    name: "model",
-                                                    rawName: "v-model",
-                                                    value: schedule.start,
-                                                    expression: "schedule.start"
-                                                  }
-                                                ],
-                                                staticClass:
-                                                  "day-time-field bg-white border-0 text-center",
-                                                attrs: {
-                                                  type: "text",
-                                                  disabled: ""
-                                                },
-                                                domProps: {
-                                                  value: schedule.start
-                                                },
-                                                on: {
-                                                  input: function($event) {
-                                                    if (
-                                                      $event.target.composing
-                                                    ) {
-                                                      return
-                                                    }
-                                                    _vm.$set(
-                                                      schedule,
-                                                      "start",
-                                                      $event.target.value
-                                                    )
-                                                  }
-                                                }
-                                              })
-                                            ])
-                                          ]),
-                                          _vm._v(" "),
-                                          _vm._m(1, true),
-                                          _vm._v(" "),
-                                          _c("td", [
-                                            _c("div", { staticClass: "mb-1" }, [
-                                              _c("input", {
-                                                directives: [
-                                                  {
-                                                    name: "model",
-                                                    rawName: "v-model",
-                                                    value: schedule.end,
-                                                    expression: "schedule.end"
-                                                  }
-                                                ],
-                                                staticClass:
-                                                  "day-time-field bg-white border-0 text-center",
-                                                attrs: {
-                                                  type: "text",
-                                                  disabled: ""
-                                                },
-                                                domProps: {
-                                                  value: schedule.end
-                                                },
-                                                on: {
-                                                  input: function($event) {
-                                                    if (
-                                                      $event.target.composing
-                                                    ) {
-                                                      return
-                                                    }
-                                                    _vm.$set(
-                                                      schedule,
-                                                      "end",
-                                                      $event.target.value
-                                                    )
-                                                  }
-                                                }
-                                              })
-                                            ])
-                                          ])
-                                        ]
-                                      )
-                                    })
-                                  )
-                                ]
-                              )
-                            ])
-                          ])
-                        ])
-                      ])
-                    ]
-                  )
-                ])
-              : _c(
-                  "div",
-                  {
-                    directives: [
-                      {
-                        name: "show",
-                        rawName: "v-show",
-                        value: !_vm.loading,
-                        expression: "!loading"
-                      }
-                    ],
-                    staticClass: "text-center"
-                  },
-                  [
-                    _c("span", [
-                      _vm._v("Not available on " + _vm._s(_vm.dayName))
-                    ])
-                  ]
-                ),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                directives: [
-                  {
-                    name: "show",
-                    rawName: "v-show",
-                    value: _vm.loading,
-                    expression: "loading"
-                  }
-                ],
-                staticClass: "text-center"
-              },
-              [_vm._m(2)]
-            )
-          ])
-        : _vm._e()
-    ])
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [_c("div", [_vm._v("–")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [_c("div", { staticClass: "mb-1" }, [_vm._v("–")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "d-inline-block fa-1x h6" }, [
-      _c("i", { staticClass: "fas fa-sync fa-spin" })
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-10a72346", module.exports)
-  }
-}
 
 /***/ })
 /******/ ]);

@@ -229,6 +229,7 @@
     
     data() {
       return {
+        // isDoctorOwner  :...,    // Logged in user is the doctor who owns presently viewed account?
         loading           : true,  // Still fetching contents
         daySchedules      : {},    // A day's schedules
 

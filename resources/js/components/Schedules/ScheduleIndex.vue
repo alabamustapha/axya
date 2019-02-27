@@ -4,7 +4,7 @@
       <tbody>
         <tr>
           <td>
-            <div class="px-3">
+            <div class="px-3 text-center">
               <h5 class="font-weight-bold text-uppercase">Schedules</h5>
             </div>
           </td>
@@ -12,7 +12,7 @@
         </tr>
           <td>
             <!-- Availability Hours -->
-            <div class="px-3 mb-2 border-bottom">
+            <div v-if="isDoctorOwner" class="px-3 mb-2 border-bottom">
               <div class="d-block">
                 <label>
                   <input type="radio" name="avialability_type"> &nbsp;
@@ -48,7 +48,8 @@
                           :day-id="index + 1" 
                           :day-name="day" 
                           :doctor-id="doctorId"
-                          :is-doctor-owner="isDoctorOwner"></schedule-base>
+                          :is-doctor-owner="isDoctorOwner"
+                          ></schedule-base>
 
                     </div>
 
@@ -71,7 +72,7 @@
       'schedule-base': ScheduleBase,
     },
 
-    props: ['doctorId', 'isDoctorOwner'],
+    props: ['doctorId', 'isDoctorOwner'],//
 
     data () {
       return {
@@ -103,15 +104,5 @@
     font-family: monospace;    
     padding-left: 10px;
     box-sizing: border-box;
-
-    /*line-height: 1;
-    width: 225px;
-    height: 18px;
-    background: yellow;
-    color: green;
-    border: thin solid red;*/
-    /*border-color: red;*/
-    /*display: flex;
-    align-content: space-around;*/
   }
 </style>
