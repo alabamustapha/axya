@@ -177,13 +177,13 @@ class Doctor extends Model
         return $this->hasMany(Schedule::class);
     }
 
-    public function hasSundaySchedule()   { return count($this->schedules()->where('day_id', '1')); }
-    public function hasMondaySchedule()   { return count($this->schedules()->where('day_id', '2')); }
-    public function hasTuesdaySchedule()  { return count($this->schedules()->where('day_id', '3')); }
-    public function hasWednesdaySchedule(){ return count($this->schedules()->where('day_id', '4')); }
-    public function hasThursdaySchedule() { return count($this->schedules()->where('day_id', '5')); }
-    public function hasFridaySchedule()   { return count($this->schedules()->where('day_id', '6')); }
-    public function hasSaturdaySchedule() { return count($this->schedules()->where('day_id', '7')); }
+    public function hasSundaySchedule()   { return $this->schedules()->where('day_id', '1')->count(); }
+    public function hasMondaySchedule()   { return $this->schedules()->where('day_id', '2')->count(); }
+    public function hasTuesdaySchedule()  { return $this->schedules()->where('day_id', '3')->count(); }
+    public function hasWednesdaySchedule(){ return $this->schedules()->where('day_id', '4')->count(); }
+    public function hasThursdaySchedule() { return $this->schedules()->where('day_id', '5')->count(); }
+    public function hasFridaySchedule()   { return $this->schedules()->where('day_id', '6')->count(); }
+    public function hasSaturdaySchedule() { return $this->schedules()->where('day_id', '7')->count(); }
 
     public function patients()
     {
@@ -204,7 +204,7 @@ class Doctor extends Model
 
     public function getPatientsCountAttribute()
     {
-        return count($this->patients());
+        return $this->patients()->count();
     }
 
 
@@ -488,22 +488,22 @@ class Doctor extends Model
     /** N + 1 candidates  */
     public function getTransactionsCountAttribute() 
     {
-        return count($this->transactions()->whereStatus(1));
+        return $this->transactions()->whereStatus(1)->count();
     }
 
     public function getAppointmentsCountAttribute() 
     {
-        return count($this->appointments()->whereStatus(1));
+        return $this->appointments()->whereStatus(1)->count();
     }
 
     public function getPendingAppointmentsCountAttribute() 
     {
-        return count($this->appointments()->whereStatus(0));
+        return $this->appointments()->whereStatus(0)->count();
     }
 
     public function getSubscriptionsCountAttribute() 
     {
-        return count($this->subscriptions()->whereStatus(1));
+        return $this->subscriptions()->whereStatus(1)->count();
     }
 
 
