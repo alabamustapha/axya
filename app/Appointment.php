@@ -72,6 +72,11 @@ class Appointment extends Model
     //     });
     // }
 
+    public function medications()
+    {
+        return $this->hasMany(Medication::class);
+    }
+
     public function transactions()
     {
         return $this->hasMany(Transaction::class);
