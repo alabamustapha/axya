@@ -873,16 +873,16 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getTransactionsCountAttribute() 
     {
-        return count($this->transactions()->where('status', '1'));
+        return $this->transactions()->where('status', '1')->count();
     }
 
     public function getAppointmentsCountAttribute() 
     {
-        return count($this->appointments()->where('status', '1'));
+        return $this->appointments()->where('status', '1')->count();
     }
 
     public function getSubscriptionsCountAttribute() 
     {
-        return count($this->subscriptions()->where('status', '1'));
+        return $this->subscriptions()->where('status', '1')->count();
     }
 }

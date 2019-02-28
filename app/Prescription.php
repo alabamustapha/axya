@@ -54,6 +54,6 @@ class Prescription extends Model
 
     public function hasActiveAppointment()
     {
-        return !! count($this->appointment->hasActiveCorrespondence());
+        return !! $this->appointment->hasActiveCorrespondence()->count();
     }
 }
