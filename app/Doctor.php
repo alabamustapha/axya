@@ -387,7 +387,7 @@ class Doctor extends Model
 
     public function getRatingAttribute()
     {
-        $total_reviews = count($this->appointmentsReviewed());
+        $total_reviews = $this->appointmentsReviewed()->count();
 
         $average_rating = $this->appointmentsReviewed()->avg('rating');
 
