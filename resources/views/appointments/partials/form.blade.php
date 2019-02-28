@@ -28,12 +28,16 @@
         <div class="col text-center font-weight-bold">
         <div class="display-3"><i class="fa fa-calendar-minus red"></i></div>
           <p class="alert alert-danger">
-            You have <a href="{{route('appointments.index', Auth::user())}}">an inconclusive appointment</a> with {{ $doctor->name }}</strong> and so is not allowed to create a new one at this time. <br>
+            You have <a href="{{route('appointments.index', Auth::user())}}">an inconclusive appointment</a> with this doctor and so is not allowed to create a new one at this time. <br>
             You may <strong>finalize, update or cancel</strong> the inconclusive appointment.
           </p>
         </div>
 
-      @elseif (auth()->user()->inconclusiveAppointments()->count() > 1)
+      @elseif (auth()->user()->inconclusiveAppointments()->count() > 2)
+        @php
+          $count = auth()->user()->inconclusiveAppointments()->count();
+          $toRemove = auth()->user()->inconclusiveAppointments()->count() - 2;
+        @endphp
         <!-- Can't have more than two inconclusives at a time -->
         <div class="display-3"><i class="fa fa-calendar-minus red"></i></div>
         <p class="alert alert-danger">
