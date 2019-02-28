@@ -36,7 +36,10 @@ class MedicationFeatureTest extends TestCase
 
         $this->medication   = factory(Medication::class)->create();
 
-        $this->data        = factory(Medication::class)->make(['user_id' => $this->user->id])->toArray();
+        $this->data        = factory(Medication::class)->make([
+          'user_id' => $this->user->id,
+          'start_time'     => $this->faker->randomElement(['08:00:00', '09:15:00', '21:01:00'])
+        ])->toArray();
         // $this->data         = factory(Medication::class)->raw(['user_id' => $this->user->id]);
     } 
 

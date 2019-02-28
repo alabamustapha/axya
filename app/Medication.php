@@ -29,7 +29,7 @@ class Medication extends Model
 
     public function getStartAttribute()
     {
-        return $this->start_date->format('d:M:y');
+        return $this->start_date->format('d/M/y');
     }
 
     public function getStartTimeAttribute($value)
@@ -39,6 +39,6 @@ class Medication extends Model
 
     public function getEndAttribute()
     {
-        return $this->end_date->format('d:M:y');
+        return $this->end_date->format('d/M/y');
     }
 }

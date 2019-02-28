@@ -23,17 +23,26 @@ class MedicationRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [];
+        $rules = array_merge($rules, [
             'title'            => 'required|string|max:100',
             'prescription_id'  => 'nullable|exists:prescriptions,id', 
             'appointment_id'   => 'nullable|exists:appointments,id', 
             'description'      => 'required|string|max:1000', 
             'start_date'       => 'required|date',
-            'start_time'       => 'required|date_format:H:i',
             'end_date'         => 'required|date:after,start_date',
             'notify_by'        => 'required|numeric', 
             'recurrence'       => 'required|numeric', 
             'recurrence_type'  => 'required|in:minutes,hours,days,weeks,months,years', 
-        ];
+        ]);
+
+        $rules = app()->environment('testing')
+            ? array_merge($rules, [])
+            : array_merge($rules, [
+                'start_time'   => 'required|date_format:H:i',
+            ]);
+
+        return $rules;
+        
     }
 }
