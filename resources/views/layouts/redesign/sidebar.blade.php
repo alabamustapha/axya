@@ -17,10 +17,10 @@
         <a class="nav-link" data-toggle="collapse" href="#adminSubmenu" role="button" aria-expanded="false" aria-controls="adminSubmenu">
           <span class="tf-flex">
             <span>
-              <i class="icon fa fa-th-list"></i>
+              <i class="icon fa fa-th-list fa-fw"></i>
               <span class="navlink-active">Admin</span>
             </span>
-            <span style="font-size: 12px"><i class="fa fa-plus"></i></span>
+            <span style="font-size: 12px"><i class="fa fa-plus fa-fw"></i></span>
           </span>
         </a>
         <ul id="adminSubmenu" class=" collapse sub-menu nav flex-sm-column">
@@ -29,7 +29,7 @@
             @if (Auth::user()->is_super_admin)
             <a href="{{ route('app-settings') }}" class="nav-link" title="App General Settings">
               <span class="icon">
-                <i class="fa fa-cogs"></i>
+                <i class="fa fa-cogs fa-fw"></i>
               </span>
               <span class="navlink-active">App Settings</span>
             </a>
@@ -37,7 +37,7 @@
 
             <a href="{{route('dashboard-main')}}" class="nav-link" title="View Dashboard">
               <span class="icon">
-                <i class="fa fa-tachometer-alt"></i>
+                <i class="fa fa-tachometer-alt fa-fw"></i>
               </span>
               <span class="navlink-active">App Dashboard</span>
             </a>
@@ -48,7 +48,7 @@
             onclick="event.preventDefault();
             document.getElementById('admin-logout-form').submit();">
               <span class="icon">
-                <i class="fa fa-sign-out-alt"></i>
+                <i class="fa fa-sign-out-alt fa-fw"></i>
               </span>
               <span>{{ __('Admin Sign Out') }}</span>
             </a>
@@ -66,10 +66,10 @@
         <a class="nav-link" data-toggle="collapse" href="#adminSubmenu" role="button" aria-expanded="false" aria-controls="adminSubmenu">
           <span class="tf-flex">
             <span>
-              <i class="icon fa fa-th-list"></i>
+              <i class="icon fa fa-th-list fa-fw"></i>
               <span class="navlink-active">Admin</span>
             </span>
-            <span style="font-size: 12px"><i class="fa fa-plus"></i></span>
+            <span style="font-size: 12px"><i class="fa fa-plus fa-fw"></i></span>
           </span>
         </a>
 
@@ -97,7 +97,7 @@
     <li class="nav-item">
 
       <a href="{{route('doctors.create')}}" class="nav-link">
-        <i class="icon fa fa-user-md"></i>
+        <i class="icon fa fa-user-md fa-fw"></i>
         <span class="navlink-active">Apply As Doctor</span>
       </a>
 
@@ -110,17 +110,17 @@
         <a class="nav-link" data-toggle="collapse" href="#doctorSubmenu" role="button" aria-expanded="false" aria-controls="doctorSubmenu">
           <span class="tf-flex">
             <span>
-              <i class="icon fa fa-user-md"></i>
+              <i class="icon fa fa-user-md fa-fw"></i>
               <span class="navlink-active">Doctor</span>
             </span>
-            <span style="font-size: 12px"><i class="fa fa-plus"></i></span>
+            <span style="font-size: 12px"><i class="fa fa-plus fa-fw"></i></span>
           </span>
         </a>
         <ul id="doctorSubmenu" class=" collapse sub-menu nav flex-sm-column">
           <li class="nav-item">
             <a href="{{route('doctors.show', Auth::user())}}" class="nav-link">
               <span class="icon">
-                <i class="fa fa-user-tie"></i>
+                <i class="fa fa-user-tie fa-fw"></i>
               </span>
               <span class="navlink-active">Profile</span>
             </a>
@@ -129,7 +129,7 @@
               <span class="tf-flex">
                 <span>
                   <span class="icon">
-                    <i class="fa fa-stopwatch"></i>
+                    <i class="fa fa-stopwatch fa-fw"></i>
                   </span>
                   <span class="navlink-active">Appointments</span>
                 </span>
@@ -141,21 +141,21 @@
 
             <a href="{{Auth::user()->doctor->prescriptions_list}}" class="nav-link">
               <span class="icon">
-                <i class="fa fa-prescription"></i>
+                <i class="fa fa-prescription fa-fw"></i>
               </span>
               <span class="navlink-active">Prescriptions</span>
             </a>
 
             <a href="{{Auth::user()->doctor->transactions_list}}" class="nav-link">
               <span class="icon">
-                <i class="fa fa-handshake"></i>
+                <i class="fa fa-handshake fa-fw"></i>
               </span>
               <span class="navlink-active">Transactions</span>
             </a>
             
             <a href="{{Auth::user()->doctor->subscriptions_list}}" class="nav-link">
               <span class="icon">
-                <i class="fa fa-money-bill-alt"></i>
+                <i class="fa fa-money-bill-alt fa-fw"></i>
               </span>
               <span class="navlink-active">Subscriptions</span>
             </a>
@@ -183,7 +183,7 @@
 
             <a href="{{route('dr_dashboard', Auth::user()->doctor)}}" class="nav-link" title="View Dashboard">
               <span class="icon">
-                <i class="fa fa-tachometer-alt"></i>
+                <i class="fa fa-tachometer-alt fa-fw"></i>
               </span>
               <span class="navlink-active">Dr. Dashboard</span>
             </a>
@@ -192,7 +192,7 @@
             onclick="event.preventDefault();
             document.getElementById('doctor-logout-form').submit();">
               <span class="icon">
-                <i class="fa fa-sign-out-alt"></i>
+                <i class="fa fa-sign-out-alt fa-fw"></i>
               </span>
               <span>{{ __('Doctor Sign Out') }}</span>
             </a>
@@ -210,10 +210,10 @@
         <a class="nav-link" data-toggle="collapse" href="#doctorSubmenu" role="button" aria-expanded="false" aria-controls="doctorSubmenu">
           <span class="tf-flex">
             <span>
-              <i class="icon fa fa-user-md"></i>
+              <i class="icon fa fa-user-md fa-fw"></i>
               <span class="navlink-active">Doctor</span>
             </span>
-            <span style="font-size: 12px"><i class="fa fa-plus"></i></span>
+            <span style="font-size: 12px"><i class="fa fa-plus fa-fw"></i></span>
           </span>
         </a>
 
@@ -263,42 +263,42 @@
             </span>
             <span class="navlink-active">My Appointments</span>
           </span>
-          <span style="font-size: 12px"><i class="fa fa-plus"></i></span>
+          <span style="font-size: 12px"><i class="fa fa-plus fa-fw"></i></span>
         </span>
       </a>
       <ul id="appointmentSubmenu" class=" collapse sub-menu nav flex-sm-column">
         <li class="nav-item">
           <a href="{{route('user_dashboard')}}" class="nav-link">
             <span class="icon">
-              <i class="fa fa-tachometer-alt"></i>
+              <i class="fa fa-tachometer-alt fa-fw"></i>
             </span>
             <span class="navlink-active">Dashboard</span>
           </a>
 
           <a href="{{Auth::user()->appointments_list}}" class="nav-link">
             <span class="icon">
-              <i class="fa fa-calendar-alt"></i>
+              <i class="fa fa-calendar-alt fa-fw"></i>
             </span>
             <span class="navlink-active">All List</span>
           </a>
 
           <a href="{{Auth::user()->upcoming_appointments_list}}" class="nav-link">
             <span class="icon">
-              <i class="fa fa-calendar-plus"></i>
+              <i class="fa fa-calendar-plus fa-fw"></i>
             </span>
             <span class="navlink-active">Upcoming List</span>
           </a>
 
           <a href="{{Auth::user()->pending_appointments_list}}" class="nav-link">
             <span class="icon">
-              <i class="fa fa-calendar"></i>
+              <i class="fa fa-calendar fa-fw"></i>
             </span>
             <span class="navlink-active">Pending List</span>
           </a>
 
           <a href="{{Auth::user()->completed_appointments_list}}" class="nav-link">
             <span class="icon">
-              <i class="fa fa-calendar-check"></i>
+              <i class="fa fa-calendar-check fa-fw"></i>
             </span>
             <span class="navlink-active">Past List</span>
           </a>
@@ -310,7 +310,7 @@
     
         <a class="nav-link" href="{{Auth::user()->link}}">
           <span class="icon">
-            <i class="fa fa-user"></i>
+            <i class="fa fa-user fa-fw"></i>
           </span>
           <span class="navlink-active">My Profile</span>
         </a>
@@ -340,10 +340,24 @@
         
       <a class="nav-link" href="{{Auth::user()->prescriptions_list}}">
         <span class="icon">
-          <i class="fa fa-prescription"></i>
+          <i class="fa fa-prescription fa-fw"></i>
         </span>
         <span class="navlink-active">My Prescriptions</span>
       </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{ route('medications.index') }}">
+          <span class="tf-flex">
+            <span>
+              <span class="icon">
+                <i class="fas fa-pills fa-fw"></i>
+              </span>
+              <span class="navlink-active">Medications</span>
+            </span> 
+            <span class="badge badge-danger">5</span>
+          </span>
+        </a>
     </li>
 
     <li class="nav-item">
