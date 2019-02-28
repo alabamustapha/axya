@@ -23,6 +23,7 @@ class AuthServiceProvider extends ServiceProvider
         'App\Drug'          => 'App\Policies\DrugPolicy',
         // 'App\Image'      => 'App\Policies\ImagePolicy',
         'App\Message'       => 'App\Policies\MessagePolicy',
+        'App\Medication'    => 'App\Policies\MedicationPolicy',
         'App\Prescription'  => 'App\Policies\PrescriptionPolicy',
         'App\Review'        => 'App\Policies\ReviewPolicy',
         'App\Schedule'      => 'App\Policies\SchedulePolicy',
