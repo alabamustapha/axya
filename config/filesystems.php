@@ -73,4 +73,68 @@ return [
         'documents' => '/uploads/documents/',
     ],
 
+
+
+    // Storage Directory (Saving and Rendering Links)
+    'behealthy' => 
+    [
+        // Link to saving files...
+        'save' => 
+        [
+            'local-storage' =>
+            [
+                'images' =>
+                [ 
+                    'general' => 'public/images/',         // filesystems.behealthy.save.local-storage.images.general
+                    'message' => 'public/images/messages/',// filesystems.behealthy.save.local-storage.images.message
+                    'user'    => 'public/images/users/',   // filesystems.behealthy.save.local-storage.images.user
+                ],
+                'videos' =>
+                [
+                    'general' => 'public/videos/',         // filesystems.behealthy.save.local-storage.videos.general
+                    'message' => 'public/videos/messages/',// filesystems.behealthy.save.local-storage.videos.message
+                ],
+                'other-files' =>
+                [
+                    'general' => 'public/other-files/',         // filesystems.behealthy.save.local-storage.other-files.general
+                    'message' => 'public/other-files/messages/',// filesystems.behealthy.save.local-storage.other-files.message
+                ],
+            ],
+            // 'external-storage' => [
+            //     'videos' => '',
+            //     'images' => '',
+            //     'other-files' => '',
+            // ]
+        ],
+
+        // Link to serving/rendering files...
+        'serve' => 
+        [ 
+            'local-storage' =>
+            [
+                'images' =>
+                [ 
+                    'general' => 'storage/images/',         // filesystems.behealthy.serve.local-storage.images.general
+                    'message' => 'storage/images/messages/',// filesystems.behealthy.serve.local-storage.images.message
+                    'user'    => 'storage/images/users/',   // filesystems.behealthy.serve.local-storage.images.user
+                ],
+                'videos' =>
+                [
+                    'general' => 'storage/videos/',         // filesystems.behealthy.serve.local-storage.videos.general
+                    'message' => 'storage/videos/messages/',// filesystems.behealthy.serve.local-storage.videos.message
+                ],
+                'other-files' =>
+                [
+                    'general' => 'storage/other-files/',         // filesystems.behealthy.save.local-storage.other-files.general
+                    'message' => 'storage/other-files/messages/',// filesystems.behealthy.save.local-storage.other-files.message
+                ],
+            ],
+            // 'external-storage' => [
+            //     'videos' => '',
+            //     'images' => '',
+            //     'other-files' => '',
+            // ]
+        ]
+    ]
+
 ];
