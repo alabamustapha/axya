@@ -22,7 +22,7 @@ class SubscriptionPlanController extends Controller
      */
     public function index()
     {
-        $subscriptionPlans = SubscriptionPlan::orderBy('name')->get();
+        $subscriptionPlans = SubscriptionPlan::orderBy('price')->get();
 
         return view('subscription_plans.index', compact('subscriptionPlans'));
     }

@@ -58,7 +58,7 @@
         @csrf
         {{-- <input type="hidden" name="doctor_id" value="{{$doctor->id}}"> --}}
         <button type="submit" id="subscribe" class="btn btn-lg btn-block btn-info" onclick="return confirm('Go ahead and make payment for a new subscription?');">
-            @if (Auth::check() && Auth::user()->is_doctor /*&& Auth::user()->doctor->is_subscribed*/)
+            @if (Auth::check() && Auth::user()->is_doctor && Auth::user()->doctor->is_subscribed)
                 Extend Current Subscription?
             @else
                 Subscribe Now

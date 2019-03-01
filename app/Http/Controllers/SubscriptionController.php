@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
-use Carbon\Carbon;
 use App\Appointment;
-use App\Subscription;
-use Illuminate\Http\Request;
-use App\Traits\MobilpayTrait;
 use App\Notifications\Subscriptions\SubscriptionFailedNotification;
 use App\Notifications\Subscriptions\SubscriptionSuccessfulNotification;
+use App\Subscription;
+use App\SubscriptionPlan;
+use App\Traits\MobilpayTrait;
+use App\User;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class SubscriptionController extends Controller
 {
@@ -67,55 +68,70 @@ class SubscriptionController extends Controller
      */
     public function store(Request $request)
     {
-        // $this->authorize('create', Subscription::class);
+        $this->authorize('create', Subscription::class);
 
         $request->validate([
-            'type'     => 'required|integer|in:1,2,3',//|exists:subscription_categories,id',
-            'multiple' => 'required|integer',
-        ],[
-            'type.integer' => '',
-            'type.in' => 'The selected subscription type is invalid.',
+            'type'     => 'required|integer|exists:subscription_plans,id',
+            // 'multiple' => 'required|integer|min:1',
         ]);
 
+        $sub = SubscriptionPlan::find($request->type);
+
+        $multiple = 1; // $request->multiple;
+        $typeDaysCount      = $request->type == '3' ? 365 : ($request->type == '2' ? (30*4) : 30); // Sub start+End date Calculation.
+        $noOfDays           = $typeDaysCount * $multiple; // No of days subscription will last.
+        $subscriptionAmount = $sub->price * $multiple;
         $transactionId = strtoupper('SUB'. date('Ymd') .'-'. str_random(18));
-        $app_weekly_rate      = 100;
-        $app_monthly_discount = 5; //5% Got from admin setting.
-        $app_yearly_discount  = 8; //8% Got from admin setting. Cost higher for yearly discount...Ratify soon
-        $monthly_discount     = ($app_monthly_discount / 100); // = 0.05;
-        $yearly_discount      = ($app_yearly_discount / 100);  // = 0.08;
 
-        $typeWeeksCount = $request->type == '3' ?  48 : ($request->type == '2' ?  4 : 1); // Discount+Fee Calculation (Adjusted: 48wks from 52wks based on discounting descrepancies).
-        $typeDaysCount  = $request->type == '3' ? 365 : ($request->type == '2' ? 30 : 7); // Sub start+End date Calculation.
-        $typeDiscount   = $request->type == '3' ? $yearly_discount : ($request->type == '2' ? $monthly_discount : 0.0); // Yearly 8%, Monthly 5%, Weekly 0%.
-        
-        // Get a unit Discount for a type
-        $discount       =  $app_weekly_rate * $typeWeeksCount * $typeDiscount;
-        $typeFee        = ($app_weekly_rate * $typeWeeksCount) - $discount;
+                /*  Former type* 
+                    $request->validate([
+                        'type'     => 'required|integer|in:1,2,3',//|exists:subscription_categories,id',
+                        'multiple' => 'required|integer',
+                    ],[
+                        'type.integer' => '',
+                        'type.in' => 'The selected subscription type is invalid.',
+                    ]);
 
-        // Get total Fee for present subscription by multiplying the multiple.
-        $subscriptionAmount = $typeFee * $request->multiple;
-        $noOfDays       = $typeDaysCount * $request->multiple; // No of days subscription will last.
-        // dd(
-        //     'transactionId     : '. $transactionId,
-        //     'request->type     : '. $request->type,
-        //     'request->multiple : '. $request->multiple,
-        //     'typeDaysCount     : '. $typeDaysCount,
-        //     'typeDiscount      : '. $typeDiscount,  
+                    $transactionId = strtoupper('SUB'. date('Ymd') .'-'. str_random(18));
+                    $app_weekly_rate      = 100;
+                    $app_monthly_discount = 5; //5% Got from admin setting.
+                    $app_yearly_discount  = 8; //8% Got from admin setting. Cost higher for yearly discount...Ratify soon
+                    $monthly_discount     = ($app_monthly_discount / 100); // = 0.05;
+                    $yearly_discount      = ($app_yearly_discount / 100);  // = 0.08;
 
-        //     'discount          : '. $discount,
-        //     'Base Fee          : '. $app_weekly_rate,
-        //     'Base Type Fee     : '. $app_weekly_rate * $typeWeeksCount,
-        //     'typeFee           : '. $typeFee,
-        //     'subscriptionAmount: '. $subscriptionAmount,
-        //     'noOfDays          : '. $noOfDays
-        // );
+                    $typeWeeksCount = $request->type == '3' ?  48 : ($request->type == '2' ?  4 : 1); // Discount+Fee Calculation (Adjusted: 48wks from 52wks based on discounting descrepancies).
+                    $typeDaysCount  = $request->type == '3' ? 365 : ($request->type == '2' ? 30 : 7); // Sub start+End date Calculation.
+                    $typeDiscount   = $request->type == '3' ? $yearly_discount : ($request->type == '2' ? $monthly_discount : 0.0); // Yearly 8%, Monthly 5%, Weekly 0%.
+                    
+                    // Get a unit Discount for a type
+                    $discount       =  $app_weekly_rate * $typeWeeksCount * $typeDiscount;
+                    $typeFee        = ($app_weekly_rate * $typeWeeksCount) - $discount;
+
+                    // Get total Fee for present subscription by multiplying the multiple.
+                    $subscriptionAmount = $typeFee * $multiple;
+                    $noOfDays       = $typeDaysCount * $multiple; // No of days subscription will last.
+                    // dd(
+                    //     'transactionId     : '. $transactionId,
+                    //     'request->type     : '. $request->type,
+                    //     'request->multiple : '. $multiple,
+                    //     'typeDaysCount     : '. $typeDaysCount,
+                    //     'typeDiscount      : '. $typeDiscount,  
+
+                    //     'discount          : '. $discount,
+                    //     'Base Fee          : '. $app_weekly_rate,
+                    //     'Base Type Fee     : '. $app_weekly_rate * $typeWeeksCount,
+                    //     'typeFee           : '. $typeFee,
+                    //     'subscriptionAmount: '. $subscriptionAmount,
+                    //     'noOfDays          : '. $noOfDays
+                    // );
+                */
 
         $request->merge([
             'user_id'       => auth()->id(),
             'doctor_id'     => auth()->id(),
 
             'type'          => $request->type,    // For future reference.
-            'multiple'      => $request->multiple,// For future reference.
+            'multiple'      => $multiple,// For future reference.
             'days'          => $noOfDays, // Used internally to adjust Subscription Start and End dates.
 
             'amount'        => $subscriptionAmount,

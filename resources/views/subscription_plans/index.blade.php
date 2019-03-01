@@ -63,13 +63,22 @@
                         
                         @auth
                           @if (Auth::user()->is_doctor)
-                            <a href="#" class="btn {{ ($i % 2 === 0) ? 'btn-theme-blue':'bg-white text-theme-blue' }} subscription-plan--btn btn-lg rounded-pill">                              
-                                @if (Auth::user()->doctor->is_subscribed)
-                                  <span title="Extend your current subscription">Extend Sub.</span>
-                                @else
-                                  <span title="Subscribe Now">Subscribe</span>
-                                @endif                              
-                            </a>
+                            <form action="{{route('subscriptions.store')}}" method="post" id="subscription-form" class="text-center">
+                              @csrf
+
+                              <input type="hidden" name="type" value="{{ $subscriptionPlan->id }}">
+                              {{-- <span class="d-inline-block mb-1" style="width: 60px" title="Multiples">
+                                <input type="number" name="multiple" value="1" min="1" class="form-control form-control-sm text-center" required>
+                              </span> --}}
+
+                              <button type="submit" class="btn {{ ($i % 2 === 0) ? 'btn-theme-blue':'bg-white text-theme-blue' }} subscription-plan--btn btn-lg rounded-pill" onclick="return confirm('Go ahead with this new subscription?');">                              
+                                  @if (Auth::user()->doctor->is_subscribed)
+                                    <span title="Extend your current subscription">Extend Sub.</span>
+                                  @else
+                                    <span title="Subscribe Now">Subscribe</span>
+                                  @endif                              
+                              </button>
+                            </form>
                           @else
                             <p class="p-2 border rounded text-center">
                               <small class="d-block pb-2 mb-2 border-bottom" style="font-size: 75% !important; font-weignt:bold !important;">
