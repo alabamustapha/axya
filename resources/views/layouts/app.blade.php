@@ -23,12 +23,16 @@
 
               <router-view></router-view>
 
-              <div class="p-3">
+              <div class="p-3 {{ Request::is('subscription_plans') ? 'bg-darker':'' }}">
+              
+                @include('layouts.partials.notifications')
+
                 @yield('content')
+                
               </div>
 
               <vue-progress-bar></vue-progress-bar>
-              
+
             </section><!-- /#content-override -->
         </div>
 
@@ -36,9 +40,9 @@
         @include('layouts.partials.footer')
       @endunless
                 
-        @guest
-          @include('auth.partials.registration-login-modal')
-        @endguest
+      @guest
+        @include('auth.partials.registration-login-modal')
+      @endguest
     </div>
 
     <!-- Scripts -->

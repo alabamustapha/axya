@@ -31,4 +31,9 @@ class SubscriptionPlan extends Model
     {
         return 'slug';
     }
+
+    public function getlinkAttribute()
+    {
+        return route('subscription_plans.show', $this);
+    }
 }

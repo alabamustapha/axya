@@ -13,8 +13,8 @@
       <div class="card-body">
         @can('edit', $subscriptionPlan)  
           <span class="mr-3">
-            <button class="btn btn-sm" data-toggle="modal" data-target="#subscriptionPlanUpdateForm" title="Update Subscription Plan">
-              <i class="fa fa-edit teal"></i>&nbsp; edit
+            <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#subscriptionPlanUpdateForm" title="Update Subscription Plan">
+              <i class="fa fa-edit"></i>&nbsp; edit
             </button>
           </span>
         @endcan
