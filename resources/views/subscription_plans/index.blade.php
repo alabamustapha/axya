@@ -17,7 +17,7 @@
         <div class="container">
             <div class="df-container py-5">
 
-                <h2 class="subscription-title">Subscription Plans</h2>
+                <h2 class="subscription-title">Subscription Plans <small>(<i class="fas fa-user-md"></i> &nbsp;Doctors only)</small></h2>
                 @can('create', App\SubscriptionPlan::class)  
                   <div class="text-center">
                     <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#subscriptionPlanCreateForm" title="Create New Subscription Plan">
@@ -61,7 +61,37 @@
                             {{ $subscriptionPlan->description }}
                         </ul>
                         
-                        <a href="#" class="btn {{ ($i % 2 === 0) ? 'btn-theme-blue':'bg-white text-theme-blue' }} subscription-plan--btn btn-lg rounded-pill">subscribe</a>
+                        @auth
+                          @if (Auth::user()->is_doctor)
+                            <a href="#" class="btn {{ ($i % 2 === 0) ? 'btn-theme-blue':'bg-white text-theme-blue' }} subscription-plan--btn btn-lg rounded-pill">                              
+                                @if (Auth::user()->doctor->is_subscribed)
+                                  <span title="Extend your current subscription">Extend Sub.</span>
+                                @else
+                                  <span title="Subscribe Now">Subscribe</span>
+                                @endif                              
+                            </a>
+                          @else
+                            <p class="p-2 border rounded text-center">
+                              <small class="d-block pb-2 mb-2 border-bottom" style="font-size: 75% !important; font-weignt:bold !important;">
+                                <a href="{{ route('doctors.create') }}">Apply as Doctor</a> and...
+                              </small>
+
+                              <span class="btn {{ ($i % 2 === 0) ? 'btn-theme-blue':'bg-white text-theme-blue' }} subscription-plan--btn btn-lg rounded-pill">
+                                Subscribe
+                              </span>
+                            </p>
+                          @endif
+                        @else
+                          <p class="p-2 border rounded text-center">
+                            <small class="d-block pb-2 mb-2 border-bottom" style="font-size: 75% !important; font-weignt:bold !important;">
+                              Login, Apply as Doctor and...
+                            </small>
+
+                            <span class="btn {{ ($i % 2 === 0) ? 'btn-theme-blue':'bg-white text-theme-blue' }} subscription-plan--btn btn-lg rounded-pill">
+                              Subscribe
+                            </span>
+                          </p>
+                        @endauth
                     </div>
 
                     @endforeach
