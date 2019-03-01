@@ -1,4 +1,4 @@
-<footer class="main-footer bg-dark">
+<footer id="main-footer-override" class="main-footer bg-dark">
     <div class="container">
         <div class="footer-copyright  text-theme-blue">
 

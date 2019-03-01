@@ -1,6 +1,9 @@
-@extends('layouts.master')
+@extends('layouts.app')
 
 @section('title', 'Password Reset')
+@section('page-title')
+    <i class="fa fa-key"></i> Reset Password
+@endsection
 
 @section('content')
 <div class="container">

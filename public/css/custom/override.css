@@ -22,13 +22,6 @@ i.fas {
   height: 100%; 
 }
 
-.pull-right {
-  float: right;
-}
-.pull-left {
-  float: left;
-}
-
 .text-small {
   font-size: 90% !important;
 }
@@ -52,4 +45,26 @@ i.fas {
 .navbar {
   padding: 10px;
   /*padding: 15px 10px;*/
+}
+
+/** 
+ * To override dashboard.css main #content in select app pages.
+ */
+#content-override {
+    width: 100%;
+    transition: all 0.3s;
+    margin-left: 0px;
+    margin-top: 86px;
+   
+}
+
+#main-footer-override { margin-left: 0; }
+
+#main-footer-override > .container { margin-left: 250px; }
+
+@media (max-width: 768px) {
+  #main-footer-override > .container { margin-left: 65px; }
+}
+@media (max-width: 480px) {
+  #main-footer-override > .container { margin-left: 0px; }
 }

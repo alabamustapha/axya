@@ -1,6 +1,9 @@
-@extends('layouts.master')
+@extends('layouts.app')
 
 @section('title', 'Register')
+@section('page-title')
+    <i class="fa fa-user-plus"></i> Register
+@endsection
 
 @section('content')
     <div class="form-auth">
