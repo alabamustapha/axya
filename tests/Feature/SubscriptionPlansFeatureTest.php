@@ -20,14 +20,8 @@ class SubscriptionPlansFeatureTest extends TestCase
         $this->subscriptionPlan = factory(SubscriptionPlan::class)->create();
 
         $this->admin = factory(User::class)->states('admin')->create();
-        $this->name  = $this->faker->randomElement(['yearly', 'quarterly', 'monthly']); 
-        $this->data  = [ 
-            'name'        => $this->name, 
-            'slug'        => str_slug($this->name),
-            'description' => $this->faker->sentence, 
-            'price'       => $this->faker->randomElement([1000, 2000, 3000]),
-            'discount'    => $this->faker->numberBetween(3,8),
-        ];
+        
+        $this->data  = factory(SubscriptionPlan::class)->raw();
     } 
 
     /** @test */
@@ -70,14 +64,7 @@ class SubscriptionPlansFeatureTest extends TestCase
         $subscription_plan = factory(SubscriptionPlan::class)->create();
 
         // Update the SubscriptionPlan's details
-        $upd_name = $this->faker->randomElement(['yearly', 'quarterly', 'monthly']); 
-        $updated_data = [ 
-            'name'        => $upd_name, 
-            'slug'        => str_slug($upd_name), 
-            'description' => $this->faker->sentence, 
-            'price'       => $this->faker->randomElement([1000, 2000, 3000]),
-            'discount'    => $this->faker->numberBetween(3,8),
-        ]; 
+        $updated_data = factory(SubscriptionPlan::class)->raw([ 'name' => $subscription_plan->name, ]); 
 
         $this
             ->patch(route('subscription_plans.update', $subscription_plan), $updated_data);
