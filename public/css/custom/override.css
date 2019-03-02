@@ -68,3 +68,17 @@ i.fas {
 @media (max-width: 480px) {
   #main-footer-override > .container { margin-left: 0px; }
 }
+
+.sub-online-status {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #97E965;
+}
+.sub-online-status.sub-online{
+    background-color: rgb(91, 199, 23);
+}
+.sub-online-status.sub-offline{
+    background-color: #fd7e14;
+}

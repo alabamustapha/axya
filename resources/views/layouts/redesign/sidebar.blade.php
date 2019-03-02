@@ -19,6 +19,7 @@
             <span>
               <i class="icon fa fa-th-list fa-fw"></i>
               <span class="navlink-active">Admin</span>
+              <span class="sub-online-status sub-online ml-1" title="online"></span>
             </span>
             <span style="font-size: 12px"><i class="fa fa-plus fa-fw"></i></span>
           </span>
@@ -68,6 +69,7 @@
             <span>
               <i class="icon fa fa-th-list fa-fw"></i>
               <span class="navlink-active">Admin</span>
+              <span class="sub-online-status sub-offline ml-1" title="offline"></span>
             </span>
             <span style="font-size: 12px"><i class="fa fa-plus fa-fw"></i></span>
           </span>
@@ -112,6 +114,7 @@
             <span>
               <i class="icon fa fa-user-md fa-fw"></i>
               <span class="navlink-active">Doctor</span>
+              <span class="sub-online-status sub-online ml-1" title="online"></span>
             </span>
             <span style="font-size: 12px"><i class="fa fa-plus fa-fw"></i></span>
           </span>
@@ -212,6 +215,7 @@
             <span>
               <i class="icon fa fa-user-md fa-fw"></i>
               <span class="navlink-active">Doctor</span>
+              <span class="sub-online-status sub-offline ml-1" title="offline"></span>
             </span>
             <span style="font-size: 12px"><i class="fa fa-plus fa-fw"></i></span>
           </span>
