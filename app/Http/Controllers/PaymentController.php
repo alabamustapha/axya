@@ -15,7 +15,11 @@ class PaymentController extends Controller
     {
         $paymentDetails = '';
         if (get_class($model) == "App\Subscription"){
-            $type = $model->type == 3 ? 'year' : ($model->type == 2 ? 'month' : 'week');
+            // $type = $model->type == 3 ? 'year' : ($model->type == 2 ? 'month' : 'week');
+
+            $planModel = get_class($model).'Plan';
+
+            $type = $planModel::find(intval($model->type))->name;
 
             $paymentDetails = 'A '. $model->multiple .' '. str_plural($type, $model->multiple) .' subscription by Dr. '. $model->user->name .'. Amount: '. setting('currency') . $model->amount .'.';
         }

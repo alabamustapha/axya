@@ -64,9 +64,11 @@
                                 @csrf
 
                                 <input type="hidden" name="type" value="{{ $subscriptionPlan->id }}">
-                                {{-- <span class="d-inline-block mb-1" style="width: 60px" title="Multiples">
-                                  <input type="number" name="multiple" value="1" min="1" class="form-control form-control-sm text-center" required>
-                                </span> --}}
+                                @if (setting('activate_multiple') == 'on')
+                                  <span class="d-inline-block mb-1" style="width: 60px" title="Multiples">
+                                    <input type="number" name="multiple" value="1" min="1" class="form-control form-control-sm text-center" required>
+                                  </span>
+                                @endif
 
                                 <button type="submit" class="btn {{ ($i % 2 === 0) ? 'btn-theme-blue':'bg-white text-theme-blue' }} subscription-plan--btn btn-lg rounded-pill" onclick="return confirm('Go ahead with this new subscription?');">                              
                                     @if (Auth::user()->doctor->is_subscribed)

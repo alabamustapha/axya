@@ -70,14 +70,18 @@ class SubscriptionController extends Controller
     {
         $this->authorize('create', Subscription::class);
 
-        $request->validate([
-            'type'     => 'required|integer|exists:subscription_plans,id',
-            // 'multiple' => 'required|integer|min:1',
-        ]);
+        $multipleActivated = setting('activate_multiple') == 'on';
+
+        $multipleActivated 
+            ? $request->validate([
+                'type'     => 'required|integer|exists:subscription_plans,id',
+                'multiple' => 'required|integer|min:1',])
+            : $request->validate(['type'     => 'required|integer|exists:subscription_plans,id'])
+            ;
 
         $sub = SubscriptionPlan::find($request->type);
 
-        $multiple = 1; // $request->multiple;
+        $multiple           = $multipleActivated ? intval($request->multiple) : 1;
         $typeDaysCount      = $request->type == '3' ? 365 : ($request->type == '2' ? (30*4) : 30); // Sub start+End date Calculation.
         $noOfDays           = $typeDaysCount * $multiple; // No of days subscription will last.
         $subscriptionAmount = $sub->price * $multiple;
@@ -141,6 +145,7 @@ class SubscriptionController extends Controller
         ]);
         
         $subscription = Subscription::create($request->all());
+        // dd($subscription);
 
         // $this->mockedPayment($subscription);
 
