@@ -66,6 +66,7 @@
                 {{ method_field('PATCH') }} 
 
                 <div class="form-group">
+                  <label class="text-muted" for="name">Subscription Name</label>
                   <input type="text" name="name" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" value="{{ old('name') ?: $subscriptionPlan->name }}" placeholder="subscriptionPlan name" required>
 
                   @if ($errors->has('name'))
@@ -75,7 +76,26 @@
                   @endif
                 </div>
 
+                  <div class="form-group text-left">
+                    <label class="text-muted" for="months_count">Number of Months <small class="text-info float-right">(eg 6 months)</small></label>
+                    <input value="{{ old('months_count') ?: $subscriptionPlan->months_count }}" type="number" name="months_count" class="form-control{{ $errors->has('months_count') ? ' is-invalid' : '' }}" placeholder="12" required>
+
+                    @if ($errors->has('months_count'))
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $errors->first('months_count') }}</strong>
+                        </span>
+                    @endif
+                  </div>
+
                 <div class="form-group">
+                  <label class="text-muted" for="description">Description<br>
+                    <small>
+                      <ul>
+                        <li>In short sentences.</li>
+                        <li>Each sentence must be seperated by <strong>double semi-colons <kbd class="text-warning">;;</kbd></strong>.</li>
+                      </ul>
+                    </small>
+                  </label>
                   <textarea name="description" class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}"  style="min-height: 100px;max-height: 150px;" placeholder="description" required>{{ old('description') ?: $subscriptionPlan->description }}</textarea>
 
                   @if ($errors->has('description'))
@@ -86,6 +106,7 @@
                 </div>
 
                 <div class="form-group">
+                  <label class="text-muted" for="price">Price ({{ setting('base_currency') }})</label>
                   <input value="{{ old('price') ?:$subscriptionPlan->price }}" type="number" step="0.01" name="price" class="form-control{{ $errors->has('price') ? ' is-invalid' : '' }}" placeholder="price" required>
 
                   @if ($errors->has('price'))
@@ -96,6 +117,7 @@
                 </div>
 
                 <div class="form-group">
+                  <label class="text-muted" for="discount">Discount (%)</label>
                   <input value="{{ old('discount') ?: $subscriptionPlan->discount }}" type="number" step="0.01" name="discount" class="form-control{{ $errors->has('discount') ? ' is-invalid' : '' }}" placeholder="discount" required>
 
                   @if ($errors->has('discount'))

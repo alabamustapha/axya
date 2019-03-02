@@ -54,6 +54,8 @@ class SubscriptionPlanController extends Controller
      */
     public function show(SubscriptionPlan $subscriptionPlan)
     {
+        $this->authorize('edit', $subscriptionPlan);
+
         $doctors = collect();//Doctor::where('subscriptionPlan_id', $subscriptionPlan->id)->get();
 
         return view('subscription_plans.show', compact('subscriptionPlan', 'doctors'));

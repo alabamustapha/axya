@@ -27,83 +27,82 @@
                 @endcan
 
                 <div class="subscription">
-                    @foreach ($subscriptionPlans as $i => $subscriptionPlan)
-                    
+                    @forelse ($subscriptionPlans as $i => $subscriptionPlan)                    
 
-                    <div class="subscription-plan subscription-plan--{{ ($i % 2 === 0) ? 'white':'blue' }}">
-                        <div class="row">
-                          <p class="subscription-plan--type border-bottom pb-2">
-                            @can('edit', $subscriptionPlan)  
-                              <span>
-                                <a href="{{ $subscriptionPlan->link }}" class="btn btn-sm btn-info" title="Vew or Update Subscription Plan">
-                                  <i class="fa fa-eye mr-1"></i> View/Edit <i class="fa fa-edit ml-1"></i>
-                                </a>
-                              </span>
-                            @endcan
+                      <div class="subscription-plan subscription-plan--{{ ($i % 2 === 0) ? 'white':'blue' }}">
+                          @can('edit', $subscriptionPlan)  
+                            <div class="row">
+                              <p class="subscription-plan--type border-bottom pb-2">
+                                  <span>
+                                    <a href="{{ $subscriptionPlan->link }}" class="btn btn-sm btn-info" title="Vew or Update Subscription Plan">
+                                      <i class="fa fa-eye mr-1"></i> View/Edit <i class="fa fa-edit ml-1"></i>
+                                    </a>
+                                  </span>
+                              </p>
+                            </div>
+                          @endcan
+
+                          <p class="subscription-plan--type">
+                            {{ $subscriptionPlan->name }}
                           </p>
-                        </div>
+                          <p class="subscription-plan--price">
+                              <span class="price">
+                                <span class="text-sm">{{ setting('base_currency') }}</span>
+                                {{ $subscriptionPlan->price }}
+                              </span>
+                              /{{ $subscriptionPlan->months_count }} {{ str_plural('month', $subscriptionPlan->months_count) }}
+                          </p>
+                          <ul class="subscription-plan--detail">
+                              @foreach ($subscriptionPlan->planInformation as $info)
+                                <li>{{ $info }}</li>
+                              @endforeach
+                          </ul>
+                          
+                          @auth
+                            @if (Auth::user()->is_doctor)
+                              <form action="{{route('subscriptions.store')}}" method="post" id="subscription-form" class="text-center">
+                                @csrf
 
-                        <p class="subscription-plan--type">
-                          {{ $subscriptionPlan->name }}
-                        </p>
-                        <p class="subscription-plan--price">
-                            <span class="price">
-                              <span class="text-sm">{{ setting('base_currency') }}</span>
-                              {{ $subscriptionPlan->price }}
-                            </span>
-                            /4 Months {{ $subscriptionPlan->info_1 }}
-                        </p>
-                        <ul class="subscription-plan--detail">
-                            {{ $subscriptionPlan->info_2_4_5 ?:'' }}
-                            <li>No Ads</li>
-                            <li>Unlimited Appointments </li>
-                            <li>Vip Treatment</li>
-                            {{ $subscriptionPlan->description }}
-                        </ul>
-                        
-                        @auth
-                          @if (Auth::user()->is_doctor)
-                            <form action="{{route('subscriptions.store')}}" method="post" id="subscription-form" class="text-center">
-                              @csrf
+                                <input type="hidden" name="type" value="{{ $subscriptionPlan->id }}">
+                                {{-- <span class="d-inline-block mb-1" style="width: 60px" title="Multiples">
+                                  <input type="number" name="multiple" value="1" min="1" class="form-control form-control-sm text-center" required>
+                                </span> --}}
 
-                              <input type="hidden" name="type" value="{{ $subscriptionPlan->id }}">
-                              {{-- <span class="d-inline-block mb-1" style="width: 60px" title="Multiples">
-                                <input type="number" name="multiple" value="1" min="1" class="form-control form-control-sm text-center" required>
-                              </span> --}}
+                                <button type="submit" class="btn {{ ($i % 2 === 0) ? 'btn-theme-blue':'bg-white text-theme-blue' }} subscription-plan--btn btn-lg rounded-pill" onclick="return confirm('Go ahead with this new subscription?');">                              
+                                    @if (Auth::user()->doctor->is_subscribed)
+                                      <span title="Extend your current subscription">Extend Sub.</span>
+                                    @else
+                                      <span title="Subscribe Now">Subscribe</span>
+                                    @endif                              
+                                </button>
+                              </form>
+                            @else
+                              <p class="p-2 border rounded text-center">
+                                <small class="d-block pb-2 mb-2 border-bottom" style="font-size: 75% !important; font-weignt:bold !important;">
+                                  <a href="{{ route('doctors.create') }}">Apply as Doctor</a> and...
+                                </small>
 
-                              <button type="submit" class="btn {{ ($i % 2 === 0) ? 'btn-theme-blue':'bg-white text-theme-blue' }} subscription-plan--btn btn-lg rounded-pill" onclick="return confirm('Go ahead with this new subscription?');">                              
-                                  @if (Auth::user()->doctor->is_subscribed)
-                                    <span title="Extend your current subscription">Extend Sub.</span>
-                                  @else
-                                    <span title="Subscribe Now">Subscribe</span>
-                                  @endif                              
-                              </button>
-                            </form>
+                                <span class="btn {{ ($i % 2 === 0) ? 'btn-theme-blue':'bg-white text-theme-blue' }} subscription-plan--btn btn-lg rounded-pill">
+                                  Subscribe
+                                </span>
+                              </p>
+                            @endif
                           @else
                             <p class="p-2 border rounded text-center">
                               <small class="d-block pb-2 mb-2 border-bottom" style="font-size: 75% !important; font-weignt:bold !important;">
-                                <a href="{{ route('doctors.create') }}">Apply as Doctor</a> and...
+                                Login, Apply as Doctor and...
                               </small>
 
                               <span class="btn {{ ($i % 2 === 0) ? 'btn-theme-blue':'bg-white text-theme-blue' }} subscription-plan--btn btn-lg rounded-pill">
                                 Subscribe
                               </span>
                             </p>
-                          @endif
-                        @else
-                          <p class="p-2 border rounded text-center">
-                            <small class="d-block pb-2 mb-2 border-bottom" style="font-size: 75% !important; font-weignt:bold !important;">
-                              Login, Apply as Doctor and...
-                            </small>
+                          @endauth
+                      </div>
 
-                            <span class="btn {{ ($i % 2 === 0) ? 'btn-theme-blue':'bg-white text-theme-blue' }} subscription-plan--btn btn-lg rounded-pill">
-                              Subscribe
-                            </span>
-                          </p>
-                        @endauth
-                    </div>
-
-                    @endforeach
+                    @empty
+                      <em class="col text-center border-top border-bottom p-4 bg-light">No available subscription plans.</em>
+                    @endforelse
                 </div>
             </div>
         </div>
@@ -129,55 +128,83 @@
 
               <div class="card-body">              
                 
-                <form action="{{route('subscription_plans.store')}}" method="post">
-                  {{ csrf_field() }}
+                @if (Auth::user()->isAuthenticatedAdmin())
+                  <form action="{{route('subscription_plans.store')}}" method="post">
+                    {{ csrf_field() }}
 
-                  <div class="form-group text-left">
-                    <label class="text-muted" for="name">Subscription Name</label>
-                    <input type="text" name="name" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" value="{{ old('name') }}" placeholder="Monthly Plan" required>
+                    <div class="form-group text-left">
+                      <label class="text-muted" for="name">Subscription Name</label>
+                      <input type="text" name="name" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" value="{{ old('name') }}" placeholder="Monthly Plan" required>
 
-                    @if ($errors->has('name'))
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $errors->first('name') }}</strong>
-                        </span>
-                    @endif
-                  </div>
+                      @if ($errors->has('name'))
+                          <span class="invalid-feedback" role="alert">
+                              <strong>{{ $errors->first('name') }}</strong>
+                          </span>
+                      @endif
+                    </div>
 
-                  <div class="form-group text-left">
-                    <label class="text-muted" for="description">Description</label>
-                    <textarea name="description" class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}"  style="min-height: 100px;max-height: 150px;" placeholder="short description" required>{{ old('description') }}</textarea>
+                    <div class="form-group text-left">
+                      <label class="text-muted d-inline-block" for="months_count">Number of Months <small class="text-info float-right">(eg 6 months)</small></label>
+                      <input value="{{ old('months_count') }}" type="number" name="months_count" class="form-control{{ $errors->has('months_count') ? ' is-invalid' : '' }}" placeholder="12" required>
 
-                    @if ($errors->has('description'))
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $errors->first('description') }}</strong>
-                        </span>
-                    @endif
-                  </div>
+                      @if ($errors->has('months_count'))
+                          <span class="invalid-feedback" role="alert">
+                              <strong>{{ $errors->first('months_count') }}</strong>
+                          </span>
+                      @endif
+                    </div>
 
-                  <div class="form-group text-left">
-                    <label class="text-muted" for="price">Price ({{ setting('base_currency') }})</label>
-                    <input value="{{ old('price') }}" type="number" step="0.01" name="price" class="form-control{{ $errors->has('price') ? ' is-invalid' : '' }}" placeholder="1000" required>
+                    <div class="form-group text-left">
+                      <label class="text-muted" for="description">Description<br>
+                        <small>
+                          <ul>
+                            <li>In short sentences.</li>
+                            <li>Each sentence must be seperated by <strong>double semi-colons <kbd class="text-warning">;;</kbd></strong>.</li>
+                          </ul>
+                        </small>
+                      </label>
+                      <textarea name="description" class="form-control{{ $errors->has('description') ? ' is-invalid' : '' }}"  style="min-height: 100px;max-height: 150px;" placeholder="short description ;; another short description;;" required>{{ old('description') }}</textarea>
 
-                    @if ($errors->has('price'))
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $errors->first('price') }}</strong>
-                        </span>
-                    @endif
-                  </div>
+                      @if ($errors->has('description'))
+                          <span class="invalid-feedback" role="alert">
+                              <strong>{{ $errors->first('description') }}</strong>
+                          </span>
+                      @endif
+                    </div>
 
-                  <div class="form-group text-left">
-                    <label class="text-muted" for="discount">Discount (%)</label>
-                    <input value="{{ old('discount') }}" type="number" step="0.01" name="discount" class="form-control{{ $errors->has('discount') ? ' is-invalid' : '' }}" placeholder="5" required>
+                    <div class="form-group text-left">
+                      <label class="text-muted" for="price">Price ({{ setting('base_currency') }})</label>
+                      <input value="{{ old('price') }}" type="number" step="0.01" name="price" class="form-control{{ $errors->has('price') ? ' is-invalid' : '' }}" placeholder="1000" required>
 
-                    @if ($errors->has('discount'))
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $errors->first('discount') }}</strong>
-                        </span>
-                    @endif
-                  </div>
+                      @if ($errors->has('price'))
+                          <span class="invalid-feedback" role="alert">
+                              <strong>{{ $errors->first('price') }}</strong>
+                          </span>
+                      @endif
+                    </div>
 
-                  <button type="submit" class="btn btn-block btn-primary">Create Subscription Plan</button>
-                </form>
+                    <div class="form-group text-left">
+                      <label class="text-muted" for="discount">Discount (%)</label>
+                      <input value="{{ old('discount') }}" type="number" step="0.01" name="discount" class="form-control{{ $errors->has('discount') ? ' is-invalid' : '' }}" placeholder="5" required>
+
+                      @if ($errors->has('discount'))
+                          <span class="invalid-feedback" role="alert">
+                              <strong>{{ $errors->first('discount') }}</strong>
+                          </span>
+                      @endif
+                    </div>
+
+                    <button type="submit" class="btn btn-block btn-primary">Create Subscription Plan</button>
+                  </form>
+                @else
+                  <p class="font-weight-bold p-3 text-center text-dark">
+                    You must be signed in as admin to access this section.
+                    <br>
+                    <a href="{{ route('admin.login') }}" class="btn btn-primary">
+                      <i class="fa fa-user-tie"></i> Admin Sign In <i class="fa fa-sign-in-alt"></i>
+                    </a>
+                  </p>
+                @endif
 
               </div>
             </div>
