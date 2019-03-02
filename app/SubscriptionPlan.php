@@ -10,7 +10,7 @@ class SubscriptionPlan extends Model
     use Sluggable;
 
     protected $fillable = [
-      'name', 'slug', 'price', 'description', 'discount',
+      'name', 'slug', 'price', 'months_count', 'description', 'discount',
     ];
 
     /**
@@ -35,5 +35,10 @@ class SubscriptionPlan extends Model
     public function getlinkAttribute()
     {
         return route('subscription_plans.show', $this);
+    }
+
+    public function getPlanInformationAttribute()
+    {
+        return explode(';;', $this->description);
     }
 }

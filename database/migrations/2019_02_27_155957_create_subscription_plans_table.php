@@ -18,7 +18,8 @@ class CreateSubscriptionPlansTable extends Migration
             $table->string('name');
             $table->string('slug')->nullable();
             $table->string('price');
-            $table->string('description')->nullable();
+            $table->integer('months_count')->default(1);
+            $table->text('description')->nullable();
             $table->string('discount')->default(0);
             $table->timestamps();
         });

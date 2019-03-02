@@ -27,6 +27,7 @@ class SubscriptionPlanRequest extends FormRequest
             'name'        => 'required|string|max:100',
             'description' => 'required|string',
             'price'       => 'required|numeric',
+            'months_count'=> 'required|integer|min:1',
             'discount'    => 'nullable|numeric',
         ];
     }
