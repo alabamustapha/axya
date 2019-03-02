@@ -4,10 +4,11 @@
       <tbody>
         <tr>
           <td>
-            <div class="px-3 text-center">
+            <div class="px-3">
               <h5 class="font-weight-bold text-uppercase">Schedules</h5>
-              <ul v-if="isDoctorOwner" class="list-unstyled text-muted font-weight-bold">
-                <li><i class="fa fa-check-square"></i> Tick any checkbox to edit. <i class="fa fa-minus-square"></i> Untick to cancel editing.</li>
+              <ul v-if="isDoctorOwner" class="list-unstyled ml-3 text-muted font-weight-bold">
+                <li><i class="fa fa-check-square"></i> Tick any checkbox to edit.</li>
+                <li><i class="fa fa-minus-square"></i> Untick to cancel editing.</li>
               </ul>
             </div>
           </td>

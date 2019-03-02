@@ -79229,6 +79229,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -79299,6 +79300,9 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
 //
 //
 //
@@ -79629,50 +79633,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }).then(function () {
         _this2.loading = false;
       });
-    },
-    regCleanUp: function regCleanUp(elem) {
-      var _this3 = this;
-
-      var inputField = document.getElementById(elem);
-      var regX = new RegExp();
-      regX = /[^0-9:]/gi;
-      // Check at: regexr.com/ or regexpal.com/
-      var regXpattern = /(([0-1]{1}[0-9]{1})|([0-2]{1}[0-3]{1})):[0-5]{1}[0-9]{1}:[0-5]{1}[0-9]{1}/gi; // 00:00:00 - 23:59:59
-
-      inputField.value = inputField.value.replace(regX, "");
-
-      if (inputField.value.length == 8) {
-        if (inputField.value.match(regXpattern)) {
-          this.errorMsg = '<span class="text-success">Valid!</span>';
-          setTimeout(function () {
-            _this3.errorMsg = null;
-          }, 7000);
-
-          // Not used for now because it is tripping off after some seconds/losing focus.
-          // this.reformattedTime(elem);
-        } else {
-
-          this.errorMsg = '<span class="text-danger">Time must be <b>24-hour format</b>, highest is: <b>23:59:59</b></span>';
-          setTimeout(function () {
-            _this3.errorMsg = null;
-          }, 7000);
-        }
-      }
-    },
-    reformattedTime: function reformattedTime(elem) {
-      var inputField = document.getElementById(elem);
-      var timeArr = inputField.value.split(':');
-      var hour = timeArr[0];
-      var min = timeArr[1];
-      var sec = timeArr[2];
-
-      hour = hour < 23 ? hour : 23;
-      min = min < 59 ? min : 59;
-      sec = sec < 59 ? sec : 59;
-      var reformat = hour + ':' + min + ':' + sec;
-      console.log(reformat);
-      inputField.value = reformat;
-      // $('#'+elem).val(reformat);
     }
   }
 });
@@ -79845,16 +79805,8 @@ var render = function() {
                                                     staticClass:
                                                       "day-time-field",
                                                     attrs: {
+                                                      type: "time",
                                                       id: "start_at_" + index,
-                                                      placeholder: "08:00:00",
-                                                      type: "text",
-                                                      minlength: "8",
-                                                      maxlength: "8",
-                                                      "aria-autocomplete":
-                                                        "list",
-                                                      "aria-expanded": "false",
-                                                      autocomplete: "off",
-                                                      autocorrect: "off",
                                                       required: ""
                                                     },
                                                     domProps: {
@@ -79911,16 +79863,8 @@ var render = function() {
                                                     staticClass:
                                                       "day-time-field",
                                                     attrs: {
+                                                      type: "time",
                                                       id: "end_at_" + index,
-                                                      placeholder: "23:59:59",
-                                                      type: "text",
-                                                      minlength: "8",
-                                                      maxlength: "8",
-                                                      "aria-autocomplete":
-                                                        "list",
-                                                      "aria-expanded": "false",
-                                                      autocomplete: "off",
-                                                      autocorrect: "off",
                                                       required: ""
                                                     },
                                                     domProps: {
@@ -80317,7 +80261,7 @@ var render = function() {
         _c("tbody", [
           _c("tr", [
             _c("td", [
-              _c("div", { staticClass: "px-3 text-center" }, [
+              _c("div", { staticClass: "px-3" }, [
                 _c("h5", { staticClass: "font-weight-bold text-uppercase" }, [
                   _vm._v("Schedules")
                 ]),
@@ -80326,9 +80270,10 @@ var render = function() {
                   ? _c(
                       "ul",
                       {
-                        staticClass: "list-unstyled text-muted font-weight-bold"
+                        staticClass:
+                          "list-unstyled ml-3 text-muted font-weight-bold"
                       },
-                      [_vm._m(0)]
+                      [_vm._m(0), _vm._v(" "), _vm._m(1)]
                     )
                   : _vm._e()
               ])
@@ -80379,7 +80324,7 @@ var render = function() {
                     ])
                   ])
                 : _c("div", { staticClass: "px-3 schedule-table__font-size" }, [
-                    _vm._m(1)
+                    _vm._m(2)
                   ])
             ])
           ])
@@ -80395,7 +80340,14 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("li", [
       _c("i", { staticClass: "fa fa-check-square" }),
-      _vm._v(" Tick any checkbox to edit. "),
+      _vm._v(" Tick any checkbox to edit.")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", [
       _c("i", { staticClass: "fa fa-minus-square" }),
       _vm._v(" Untick to cancel editing.")
     ])
