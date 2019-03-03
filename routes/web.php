@@ -29,23 +29,25 @@ Route::prefix('admin')->group(function(){
   Route::patch('logout',  'AdminAuthController@adminLogout')->name('admin.logout');
 
   // Form: New Admin password change or change from Old to New password.
-  Route::get('password',                'AdminAuthController@passwordNewOrChangeForm')->name('admin.password');
   // Script: New Admin password change or change from Old to New password.
+  Route::get('password',                'AdminAuthController@passwordNewOrChangeForm')->name('admin.password');
   Route::patch('password',              'AdminAuthController@passwordNewOrChange')->name('admin.password');
 
 
-  // ----  PASSWORD RESET RELATED ---------------->
-  // 1. Form: To collect email for verification.
-  Route::get('password-reset-form',     'AdminAuthController@passwordResetEmailForm')->name('admin.password.reset-email-form');
-  // 2. Script: To verify email and send Password Reset Link.
-  Route::patch('password-reset-link',   'AdminAuthController@passwordResetEmailLink')->name('admin.password.reset-email-link');
-  // 3. Script: Links in from mail, verifies correctness of reset link payload and redirects to new password creation form.
-  Route::get('password-reset-verify',   'AdminAuthController@passwordResetEmailLinkVerify')->name('admin.password.reset-email-verify');
-  // 4. Form: New password creation form.
-  Route::get('password-reset-change',   'AdminAuthController@passwordResetChangeForm')->name('admin.password.reset-change-form');
-  // 5. Script: UPDATEs new password for admin.
-  Route::patch('password-reset-change', 'AdminAuthController@passwordResetChange')->name('admin.password.reset-change');
-  // ---- ! PASSWORD RESET RELATED ---------------->
+  /**
+   * ----  ADMINS PASSWORD ADMINSTRATION ---------------->
+   * 1. Form: To collect email for verification.
+   * 2. Script: To verify email and send Password Reset Link.
+   * 3. Script: Links in from mail, verifies correctness of reset link payload and redirects to new password creation form.
+   * 4. Form: New password creation form.
+   * 5. Script: UPDATEs new password for admin.
+   */
+  Route::get('password-reset-form',     'AdminAuthController@passwordResetEmailForm')->name('admin.password.reset-email-form');         // 1.
+  Route::patch('password-reset-link',   'AdminAuthController@passwordResetEmailLink')->name('admin.password.reset-email-link');         // 2.
+  Route::get('password-reset-verify',   'AdminAuthController@passwordResetEmailLinkVerify')->name('admin.password.reset-email-verify'); // 3.
+  Route::get('password-reset-change',   'AdminAuthController@passwordResetChangeForm')->name('admin.password.reset-change-form');       // 4.
+  Route::patch('password-reset-change', 'AdminAuthController@passwordResetChange')->name('admin.password.reset-change');                // 5.
+  // ---- ! ADMINS PASSWORD ADMINSTRATION ---------------->
 });
 // ----! ADMIN RELATED ---------------->
 
@@ -61,18 +63,20 @@ Route::prefix('doctors')->group(function(){
   Route::patch('password',              'AppDoctorController@passwordNewOrChange')->name('doctor.password');
 
 
-  // ----  PASSWORD RESET RELATED ---------------->
-  // 1. Form: To collect email for verification.
-  Route::get('password-reset-form',     'AppDoctorController@passwordResetEmailForm')->name('doctor.password.reset-email-form');
-  // 2. Script: To verify email and send Password Reset Link.
-  Route::patch('password-reset-link',   'AppDoctorController@passwordResetEmailLink')->name('doctor.password.reset-email-link');
-  // 3. Script: Links in from mail, verifies correctness of reset link payload and redirects to new password creation form.
-  Route::get('password-reset-verify',   'AppDoctorController@passwordResetEmailLinkVerify')->name('doctor.password.reset-email-verify');
-  // 4. Form: New password creation form.
-  Route::get('password-reset-change',   'AppDoctorController@passwordResetChangeForm')->name('doctor.password.reset-change-form');
-  // 5. Script: UPDATEs new password for doctor.
-  Route::patch('password-reset-change', 'AppDoctorController@passwordResetChange')->name('doctor.password.reset-change');
-  // ---- ! PASSWORD RESET RELATED ---------------->
+  /**
+   * ----  DOCTORS PASSWORD ADMINSTRATION ---------------->
+   * 1. Form: To collect email for verification.
+   * 2. Script: To verify email and send Password Reset Link.
+   * 3. Script: Links in from mail, verifies correctness of reset link payload and redirects to new password creation form.
+   * 4. Form: New password creation form.
+   * 5. Script: UPDATEs new password for doctor.
+   */
+  Route::get('password-reset-form',     'AppDoctorController@passwordResetEmailForm')->name('doctor.password.reset-email-form');         // 1.
+  Route::patch('password-reset-link',   'AppDoctorController@passwordResetEmailLink')->name('doctor.password.reset-email-link');         // 2.
+  Route::get('password-reset-verify',   'AppDoctorController@passwordResetEmailLinkVerify')->name('doctor.password.reset-email-verify'); // 3.
+  Route::get('password-reset-change',   'AppDoctorController@passwordResetChangeForm')->name('doctor.password.reset-change-form');       // 4.
+  Route::patch('password-reset-change', 'AppDoctorController@passwordResetChange')->name('doctor.password.reset-change');                // 5.
+  // ---- ! DOCTORS PASSWORD ADMINSTRATION ---------------->
   
   Route::prefix('{doctor}')->group(function(){
     Route::get('/dashboard',    'DoctorController@dashboard')->name('dr_dashboard');
@@ -118,26 +122,12 @@ Route::prefix('{user}')->group(function() {
 });
 
 
-
-Route::get('{user}/messages/{appointment?}', 'MessageController@index')->name('messages.index');
-Route::post('messages/{appointment}', 'MessageController@store')->name('messages.store');
-Route::delete('messages/{message}',  'MessageController@destroy')->name('messages.destroy');
-
-Route::post('messages/{appointment}/chat-file-upload', 'MessageController@fileUpload')->name('chat.file.upload');
-
 Route::get('processor-response', 'PaymentController@paymentResponse')->name('processor-response');
 
 
 Route::get('mockedPayment/{transaction}', 'TransactionController@mockedPayment')->name('mockedPayment');
 Route::get('mockedSubPayment/{subscription}', 'SubscriptionController@mockedPayment')->name('mockedSubPayment');
 Route::get('applications/{application}/show-file', 'ApplicationController@showFile')->name('showFile');
-
-Route::prefix('{user}')->group(function(){
-  Route::get('/appointments',    'AppointmentController@index')->name('appointments.index');
-  Route::get('/prescriptions',   'PrescriptionController@index')->name('prescriptions.index');
-  Route::get('/transactions',    'TransactionController@index')->name('transactions.index');
-  Route::get('/subscriptions',   'SubscriptionController@index')->name('subscriptions.index');
-});
 
 Route::get('schedules/{doctor}/{day}', 'ScheduleController@schedules');
 
@@ -188,24 +178,37 @@ Route::prefix('searches')->group(function(){
 });
 
 
+Route::get('user-dashboard',        'PatientController@dashboard')->name('user_dashboard');
+Route::get('admin-dashboard', function(){return view('admin.dashboard');})->name('admin_dashboard')->middleware('auth');
+// ----  DASHBOARDS RELATED ---------------->
 
-// ---- IMAGE UPLOADS RELATED ---------------->
+Route::get('image/{image}',         'ImageController@destroy')->name('image.destroy');
+// ----! IMAGES RELATED ---------------->
+
+Route::post('/{appointment}', 'MessageController@store')->name('messages.store');
+Route::delete('/{message}',  'MessageController@destroy')->name('messages.destroy');
+Route::post('/{appointment}/chat-file-upload', 'MessageController@fileUpload')->name('chat.file.upload');
+// ----! USER MESSAGES RELATED ---------------->
+
 Route::prefix('{user}')->group(function(){
+  Route::get('/messages/{appointment?}', 'MessageController@index')->name('messages.index');
+
+  Route::get('/appointments',    'AppointmentController@index')->name('appointments.index');
+  Route::get('/prescriptions',   'PrescriptionController@index')->name('prescriptions.index');
+  Route::get('/transactions',    'TransactionController@index')->name('transactions.index');
+  Route::get('/subscriptions',   'SubscriptionController@index')->name('subscriptions.index');
+// ----! USERS RELATED MODELS INDEXES ---------------->
+
   Route::patch('/image-upload',     'UserController@imageUpload')->name('image.upload');
   Route::patch('/avatar-upload',    'UserController@avatarUpload')->name('user.avatar.upload');
   Route::get('/avatar-delete',      'UserController@avatarDelete')->name('user.avatar.delete');
+// ----! IMAGE UPLOADS RELATED ---------------->
   
   Route::patch('/block','AppAdminController@blockUser')->name('block_user');
   Route::patch('/unblock','AppAdminController@unblockUser')->name('unblock_user');
-});
+// ----! USER BLOCK/UNBLOCK RELATED ---------------->
 
-Route::get('image/{image}',         'ImageController@destroy')->name('image.destroy');
-// ----! IMAGE UPLOADS RELATED ---------------->
 
-Route::get('user-dashboard',        'PatientController@dashboard')->name('user_dashboard');
-Route::get('admin-dashboard', function(){return view('admin.dashboard');})->name('admin_dashboard')->middleware('auth');
-
-Route::prefix('{user}')->group(function(){
   Route::get('/doctors',            'UserController@doctors')->name('user.doctors'); 
   Route::patch('/allergies',        'UserController@updateAllergies')->name('allergies.update');
   Route::patch('/chronics',         'UserController@updateChronics')->name('chronics.update');
