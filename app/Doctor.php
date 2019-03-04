@@ -17,7 +17,7 @@ class Doctor extends Model
         'country_id','state_id','home_address','work_address','location',       // Location        
         'rate','session','first_appointment','available','subscription_ends_at',// Work        
         'graduate_school','degree','residency','specialty_id',                  // Education        
-        'verified_at','verified_by','revoked' // Others
+        'verified_at','verified_by','revoked', 'serialized_schedules' // Others
     ];
 
     protected $dates = ['verified_at','subscription_ends_at','first_appointment'];
