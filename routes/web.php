@@ -129,7 +129,17 @@ Route::get('mockedPayment/{transaction}', 'TransactionController@mockedPayment')
 Route::get('mockedSubPayment/{subscription}', 'SubscriptionController@mockedPayment')->name('mockedSubPayment');
 Route::get('applications/{application}/show-file', 'ApplicationController@showFile')->name('showFile');
 
-Route::get('schedules/{doctor}/{day}', 'ScheduleController@schedules');
+
+Route::prefix('{user}')->group(function(){
+  Route::get('/appointments',    'AppointmentController@index')->name('appointments.index');
+  Route::get('/prescriptions',   'PrescriptionController@index')->name('prescriptions.index');
+  Route::get('/transactions',    'TransactionController@index')->name('transactions.index');
+  Route::get('/subscriptions',   'SubscriptionController@index')->name('subscriptions.index');
+});
+
+Route::get('schedulesByDay/{doctorId}/{dayId}', 'ScheduleController@schedulesByDay')->name('schedules.day');
+// Route::get('schedulesByDay/{doctorId}/{dayId}', 'ScheduleController@serializedSchedulesByDay');
+
 
 
 // ---- ADMIN ACL RELATED ---------------->

@@ -60,13 +60,15 @@
                               <div>
                                 <span placeholder="Time">
                                   <label>
-                                    <input @keyup="regCleanUp('start_at_' + index)"
-                                      :id="'start_at_' + index" class="day-time-field" placeholder="08:00:00" 
-                                      v-model="schedule.start_at" type="text" 
-                                      minlength="8" maxlength="8"
-                                      aria-autocomplete="list" aria-expanded="false" 
-                                      autocomplete="off" autocorrect="off" required
+                                    <input type="time"
+                                      :id="'start_at_' + index" class="day-time-field"
+                                      v-model="schedule.start_at"
+                                      required
                                     >
+                                      <!-- type="text" 
+                                      @keyup="regCleanUp('start_at_' + index)"
+                                      aria-autocomplete="list" aria-expanded="false" 
+                                      autocomplete="off" autocorrect="off" minlength="8" maxlength="8" placeholder="08:00:00" -->
                                   </label>
                                 </span>
                               </div>
@@ -79,13 +81,15 @@
                               <div>
                                 <span placeholder="Time">
                                   <label>
-                                    <input @keyup="regCleanUp('end_at_' + index)"
-                                      :id="'end_at_' + index" class="day-time-field" placeholder="23:59:59" 
-                                      v-model="schedule.end_at" type="text" 
-                                      minlength="8" maxlength="8"
-                                      aria-autocomplete="list" aria-expanded="false" 
-                                      autocomplete="off" autocorrect="off" required
+                                    <input type="time" 
+                                      :id="'end_at_' + index" class="day-time-field" 
+                                      v-model="schedule.end_at"
+                                      required 
                                     >
+                                      <!-- type="text" 
+                                      @keyup="regCleanUp('end_at_' + index)"
+                                      aria-autocomplete="list" aria-expanded="false" 
+                                      autocomplete="off" autocorrect="off" minlength="8" maxlength="8" placeholder="23:59:59" -->
                                   </label>
                                 </span>
                               </div>
@@ -107,7 +111,6 @@
                               <span v-if="editing">
                                 <button v-if="index >= 0 && index === (daySchedules.length - 1)" @click="removeASchedule(index)" class="" title="Delete">
                                   <i class="fa fa-times text-danger"></i>
-                                  <!-- <span>Del</span> -->
                                 </button>
                               </span>
                             </td>
@@ -292,7 +295,6 @@
             this.editing = false;
             this.showSchedules();
             let message = response.data.status;
-            console.log(message);
 
             toast({
                 type: 'success',
@@ -324,52 +326,63 @@
         this.showSchedules()
       },
       
-      showSchedules() {
-        axios.get('/schedules/' + this.doctorId +'/' + this.dayId)
+      showSchedules() { 
+        // route('schedules.day')
+        axios.get('/schedulesByDay/' + this.doctorId +'/' + this.dayId)
         .then(({data}) => (this.daySchedules = data))
         .then(() => { this.loading = false; })
       },
-
-      regCleanUp(elem){
-        let inputField = document.getElementById(elem);
-        let regX = new RegExp;
-            regX = /[^0-9:]/gi;
-        // Check at: regexr.com/ or regexpal.com/
-        let regXpattern = /(([0-1]{1}[0-9]{1})|([0-2]{1}[0-3]{1})):[0-5]{1}[0-9]{1}:[0-5]{1}[0-9]{1}/gi; // 00:00:00 - 23:59:59
-
-        inputField.value = inputField.value.replace(regX, "");
-
-        if (inputField.value.length == 8){
-          if (inputField.value.match(regXpattern)) {
-            this.errorMsg = '<span class="text-success">Valid!</span>';
-            setTimeout(() => { this.errorMsg = null; }, 7000);
-
-            // Not used for now because it is tripping off after some seconds/losing focus.
-            // this.reformattedTime(elem);
-          }
-          else {
-
-            this.errorMsg = '<span class="text-danger">Time must be <b>24-hour format</b>, highest is: <b>23:59:59</b></span>';
-            setTimeout(() => { this.errorMsg = null; }, 7000);
-         }
-        }
+      
+      showSerializedSchedules() {
+        const thisDaySchedules = this.dayName.toLowerCase() +'_schedules';
+        
+        console.log(thisDaySchedules);
+        console.log(this.doctor.thisDaySchedules);
+        // console.log(this.doctor.sunday_schedules);
+        // return (this.doctor.sunday_schedules);
+        // return (this.doctor.thisDaySchedules);
       },
 
-      reformattedTime(elem){
-        let inputField = document.getElementById(elem);
-        let timeArr = inputField.value.split(':');
-        let hour = timeArr[0];
-        let min = timeArr[1];
-        let sec = timeArr[2];
+      // regCleanUp(elem){
+      //   let inputField = document.getElementById(elem);
+      //   let regX = new RegExp;
+      //       regX = /[^0-9:]/gi;
+      //   // Check at: regexr.com/ or regexpal.com/
+      //   let regXpattern = /(([0-1]{1}[0-9]{1})|([0-2]{1}[0-3]{1})):[0-5]{1}[0-9]{1}:[0-5]{1}[0-9]{1}/gi; // 00:00:00 - 23:59:59
 
-        hour = hour < 23 ? hour:23;
-        min  = min  < 59 ? min :59;
-        sec  = sec  < 59 ? sec :59;
-        let reformat = hour +':'+ min +':'+ sec;
-        console.log(reformat);
-        inputField.value = reformat;
-        // $('#'+elem).val(reformat);
-      },
+      //   inputField.value = inputField.value.replace(regX, "");
+
+      //   if (inputField.value.length == 8){
+      //     if (inputField.value.match(regXpattern)) {
+      //       this.errorMsg = '<span class="text-success">Valid!</span>';
+      //       setTimeout(() => { this.errorMsg = null; }, 7000);
+
+      //       // Not used for now because it is tripping off after some seconds/losing focus.
+      //       // this.reformattedTime(elem);
+      //     }
+      //     else {
+
+      //       this.errorMsg = '<span class="text-danger">Time must be <b>24-hour format</b>, highest is: <b>23:59:59</b></span>';
+      //       setTimeout(() => { this.errorMsg = null; }, 7000);
+      //    }
+      //   }
+      // },
+
+      // reformattedTime(elem){
+      //   let inputField = document.getElementById(elem);
+      //   let timeArr = inputField.value.split(':');
+      //   let hour = timeArr[0];
+      //   let min = timeArr[1];
+      //   let sec = timeArr[2];
+
+      //   hour = hour < 23 ? hour:23;
+      //   min  = min  < 59 ? min :59;
+      //   sec  = sec  < 59 ? sec :59;
+      //   let reformat = hour +':'+ min +':'+ sec;
+      //   console.log(reformat);
+      //   inputField.value = reformat;
+      //   // $('#'+elem).val(reformat);
+      // },
     },
   }
 </script>
