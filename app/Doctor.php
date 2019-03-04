@@ -253,23 +253,25 @@ class Doctor extends Model
         $this->save();
     }
     
-    
-    // public function getSundaySchedulesAttribute()   { return $this->schedules()->where('day_id', '1'); }
-    // public function getMondaySchedulesAttribute()   { return $this->schedules()->where('day_id', '2'); }
-    // public function getTuesdaySchedulesAttribute()  { return $this->schedules()->where('day_id', '3'); }
-    // public function getWednesdaySchedulesAttribute(){ return $this->schedules()->where('day_id', '4'); }
-    // public function getThursdaySchedulesAttribute() { return $this->schedules()->where('day_id', '5'); }
-    // public function getFridaySchedulesAttribute()   { return $this->schedules()->where('day_id', '6'); }
-    // public function getSaturdaySchedulesAttribute() { return $this->schedules()->where('day_id', '7'); } 
+    // Normal Db Schedules...
+    public function getDbSundaySchedulesAttribute()   { return $this->schedules()->where('day_id', '1')->get(); }
+    public function getDbMondaySchedulesAttribute()   { return $this->schedules()->where('day_id', '2')->get(); }
+    public function getDbTuesdaySchedulesAttribute()  { return $this->schedules()->where('day_id', '3')->get(); }
+    public function getDbWednesdaySchedulesAttribute(){ return $this->schedules()->where('day_id', '4')->get(); }
+    public function getDbThursdaySchedulesAttribute() { return $this->schedules()->where('day_id', '5')->get(); }
+    public function getDbFridaySchedulesAttribute()   { return $this->schedules()->where('day_id', '6')->get(); }
+    public function getDbSaturdaySchedulesAttribute() { return $this->schedules()->where('day_id', '7')->get(); }
 
-    public function getSerializedSundaySchedulesAttribute()   { return $this->serializedSchedules()['1']; }
-    public function getSerializedMondaySchedulesAttribute()   { return $this->serializedSchedules()['2']; }
-    public function getSerializedTuesdaySchedulesAttribute()  { return $this->serializedSchedules()['3']; }
-    public function getSerializedWednesdaySchedulesAttribute(){ return $this->serializedSchedules()['4']; }
-    public function getSerializedThursdaySchedulesAttribute() { return $this->serializedSchedules()['5']; }
-    public function getSerializedFridaySchedulesAttribute()   { return $this->serializedSchedules()['6']; }
-    public function getSerializedSaturdaySchedulesAttribute() { return $this->serializedSchedules()['7']; }    
+    // Serialized Doctor Field Schedules...
+    public function getSundaySchedulesAttribute()   { return $this->serializedSchedules()['1']; }
+    public function getMondaySchedulesAttribute()   { return $this->serializedSchedules()['2']; }
+    public function getTuesdaySchedulesAttribute()  { return $this->serializedSchedules()['3']; }
+    public function getWednesdaySchedulesAttribute(){ return $this->serializedSchedules()['4']; }
+    public function getThursdaySchedulesAttribute() { return $this->serializedSchedules()['5']; }
+    public function getFridaySchedulesAttribute()   { return $this->serializedSchedules()['6']; }
+    public function getSaturdaySchedulesAttribute() { return $this->serializedSchedules()['7']; }    
 
+    // Checking for a day's schedules... From serialized data array. better than DB queries.
     public function getHasSundaySchedulesAttribute()   { return (bool) count($this->serializedSchedules()['1']); }
     public function getHasMondaySchedulesAttribute()   { return (bool) count($this->serializedSchedules()['2']); }
     public function getHasTuesdaySchedulesAttribute()  { return (bool) count($this->serializedSchedules()['3']); }
@@ -277,14 +279,6 @@ class Doctor extends Model
     public function getHasThursdaySchedulesAttribute() { return (bool) count($this->serializedSchedules()['5']); }
     public function getHasFridaySchedulesAttribute()   { return (bool) count($this->serializedSchedules()['6']); }
     public function getHasSaturdaySchedulesAttribute() { return (bool) count($this->serializedSchedules()['7']); }
-
-    // public function hasSundaySchedule()   { return count($this->schedules()->where('day_id', '1')); }
-    // public function hasMondaySchedule()   { return count($this->schedules()->where('day_id', '2')); }
-    // public function hasTuesdaySchedule()  { return count($this->schedules()->where('day_id', '3')); }
-    // public function hasWednesdaySchedule(){ return count($this->schedules()->where('day_id', '4')); }
-    // public function hasThursdaySchedule() { return count($this->schedules()->where('day_id', '5')); }
-    // public function hasFridaySchedule()   { return count($this->schedules()->where('day_id', '6')); }
-    // public function hasSaturdaySchedule() { return count($this->schedules()->where('day_id', '7')); }
 
     /** ! Schedules Related Methods **/
 
