@@ -63,10 +63,10 @@
                                     <input type="time"
                                       :id="'start_at_' + index" class="day-time-field"
                                       v-model="schedule.start_at"
-                                      @keyup="regCleanUp('start_at_' + index)"
                                       required
                                     >
                                       <!-- type="text" 
+                                      @keyup="regCleanUp('start_at_' + index)"
                                       aria-autocomplete="list" aria-expanded="false" 
                                       autocomplete="off" autocorrect="off" minlength="8" maxlength="8" placeholder="08:00:00" -->
                                   </label>
@@ -84,10 +84,10 @@
                                     <input type="time" 
                                       :id="'end_at_' + index" class="day-time-field" 
                                       v-model="schedule.end_at"
-                                      @keyup="regCleanUp('end_at_' + index)"
                                       required 
                                     >
                                       <!-- type="text" 
+                                      @keyup="regCleanUp('end_at_' + index)"
                                       aria-autocomplete="list" aria-expanded="false" 
                                       autocomplete="off" autocorrect="off" minlength="8" maxlength="8" placeholder="23:59:59" -->
                                   </label>
@@ -295,7 +295,6 @@
             this.editing = false;
             this.showSchedules();
             let message = response.data.status;
-            console.log(message);
 
             toast({
                 type: 'success',
@@ -327,10 +326,21 @@
         this.showSchedules()
       },
       
-      showSchedules() {
-        axios.get('/schedules/' + this.doctorId +'/' + this.dayId)
+      showSchedules() { 
+        // route('schedules.day')
+        axios.get('/schedulesByDay/' + this.doctorId +'/' + this.dayId)
         .then(({data}) => (this.daySchedules = data))
         .then(() => { this.loading = false; })
+      },
+      
+      showSerializedSchedules() {
+        const thisDaySchedules = this.dayName.toLowerCase() +'_schedules';
+        
+        console.log(thisDaySchedules);
+        console.log(this.doctor.thisDaySchedules);
+        // console.log(this.doctor.sunday_schedules);
+        // return (this.doctor.sunday_schedules);
+        // return (this.doctor.thisDaySchedules);
       },
 
       // regCleanUp(elem){

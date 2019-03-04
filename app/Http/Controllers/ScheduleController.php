@@ -47,24 +47,19 @@ class ScheduleController extends Controller
         */
 
 
-        /** -------------- The New Approach -------------- */
+        /** -------------- The New Approaches -------------- */
         $doctor = Doctor::findOrFail($request->doctor_id);
-        
-        $doctor->schedules()
-               ->where('day_id', $request->day_id)
-               ->delete()
-               ;
 
-        foreach ($request->schedules as $schedule) {
-            $schedule = array_merge($schedule, [
-                'day_id'    => $request->day_id,
-            ]);
+        /** -------------- Serialization Save -------------- */
+        $doctor->saveSerializedSchedules($request);
+        // return $doctor->schedules();
 
-            $doctor->schedules()->create($schedule);
-        }
+        /** -------------- Normal DB Save ------------------ */
+        $doctor->saveSchedules($request);
 
-        $message = 'Schedule updated successfully';
-        return response(['status' => $message], 200);
+        $message = 'Schedule serialized and saved successfully';
+
+        return response(['status' => $message], 200);        
     }
 
     /**
@@ -114,14 +109,25 @@ class ScheduleController extends Controller
         return redirect()->route('doctors.show', $schedule->doctor);
     }
 
-
-
-    public function schedules(Request $request, $doctor, $day)
+    /**
+     * Loads Doctor schedules in "ScheduleBase.vue@showSchedules()".
+     *
+     * @param  \App\Doctor  $doctor->id
+     * @param  \App\Day     $day->id
+     * @return \Illuminate\Http\Collection
+     */ 
+    public function schedulesByDay(Request $request, $doctorId, $dayId)
     {
-        $doctor    = Doctor::findOrFail($request->doctor);
+        $doctor    = Doctor::findOrFail($doctorId);
 
-        $schedules = $doctor->schedules()->where('day_id', $day)->get();
+        $schedules = $doctor->schedules()->where('day_id', $dayId)->get();
 
-        return $schedules;
+        return $schedules;   
+    }       
+
+    public function serializedSchedulesByDay(Request $request, $doctorId, $dayId)
+    {
+        $doctor    = Doctor::findOrFail($doctorId);
+        return $doctor->serializedSchedules()[$dayId];
     }
 }

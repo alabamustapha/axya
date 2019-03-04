@@ -79595,7 +79595,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           _this.editing = false;
           _this.showSchedules();
           var message = response.data.status;
-          console.log(message);
 
           toast({
             type: 'success',
@@ -79627,12 +79626,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     showSchedules: function showSchedules() {
       var _this2 = this;
 
-      axios.get('/schedules/' + this.doctorId + '/' + this.dayId).then(function (_ref) {
+      // route('schedules.day')
+      axios.get('/schedulesByDay/' + this.doctorId + '/' + this.dayId).then(function (_ref) {
         var data = _ref.data;
         return _this2.daySchedules = data;
       }).then(function () {
         _this2.loading = false;
       });
+    },
+    showSerializedSchedules: function showSerializedSchedules() {
+      var thisDaySchedules = this.dayName.toLowerCase() + '_schedules';
+
+      console.log(thisDaySchedules);
+      console.log(this.doctor.thisDaySchedules);
+      // console.log(this.doctor.sunday_schedules);
+      // return (this.doctor.sunday_schedules);
+      // return (this.doctor.thisDaySchedules);
     }
   }
 });
@@ -79813,11 +79822,6 @@ var render = function() {
                                                       value: schedule.start_at
                                                     },
                                                     on: {
-                                                      keyup: function($event) {
-                                                        _vm.regCleanUp(
-                                                          "start_at_" + index
-                                                        )
-                                                      },
                                                       input: function($event) {
                                                         if (
                                                           $event.target
@@ -79871,11 +79875,6 @@ var render = function() {
                                                       value: schedule.end_at
                                                     },
                                                     on: {
-                                                      keyup: function($event) {
-                                                        _vm.regCleanUp(
-                                                          "end_at_" + index
-                                                        )
-                                                      },
                                                       input: function($event) {
                                                         if (
                                                           $event.target

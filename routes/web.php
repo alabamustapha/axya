@@ -137,7 +137,8 @@ Route::prefix('{user}')->group(function(){
   Route::get('/subscriptions',   'SubscriptionController@index')->name('subscriptions.index');
 });
 
-Route::get('schedules/{doctor}/{day}', 'ScheduleController@schedules');
+Route::get('schedulesByDay/{doctorId}/{dayId}', 'ScheduleController@schedulesByDay')->name('schedules.day');
+// Route::get('schedulesByDay/{doctorId}/{dayId}', 'ScheduleController@serializedSchedulesByDay');
 
 
 // ---- ADMIN ACL RELATED ---------------->

@@ -195,13 +195,13 @@ class DoctorController extends Controller
     public function show(Doctor $doctor)
     {
         // To be refactored by grouping:: $schedules = $doctor->schedules()->groupBy('day_id')->get();
-        $sun_schedules = $doctor->schedules()->where('day_id', '1')->get();
-        $mon_schedules = $doctor->schedules()->where('day_id', '2')->get();
-        $tue_schedules = $doctor->schedules()->where('day_id', '3')->get();
-        $wed_schedules = $doctor->schedules()->where('day_id', '4')->get();
-        $thu_schedules = $doctor->schedules()->where('day_id', '5')->get();
-        $fri_schedules = $doctor->schedules()->where('day_id', '6')->get();
-        $sat_schedules = $doctor->schedules()->where('day_id', '7')->get();
+        // $sun_schedules = $doctor->schedules()->where('day_id', '1')->get();
+        // $mon_schedules = $doctor->schedules()->where('day_id', '2')->get();
+        // $tue_schedules = $doctor->schedules()->where('day_id', '3')->get();
+        // $wed_schedules = $doctor->schedules()->where('day_id', '4')->get();
+        // $thu_schedules = $doctor->schedules()->where('day_id', '5')->get();
+        // $fri_schedules = $doctor->schedules()->where('day_id', '6')->get();
+        // $sat_schedules = $doctor->schedules()->where('day_id', '7')->get();
 
         $certificates = $doctor->documents()
                              ->where('description', 'Doctor professional document')

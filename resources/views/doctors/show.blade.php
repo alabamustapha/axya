@@ -9,6 +9,16 @@
 @section('content')
 
   <div>
+
+{{--dd($doctor->serializedSchedules(),
+  $doctor->has_sunday_schedules, 
+  $doctor->has_monday_schedules, 
+  $doctor->has_tuesday_schedules, 
+  $doctor->has_wednesday_schedules, 
+  $doctor->has_thursday_schedules, 
+  $doctor->has_friday_schedules, 
+  $doctor->has_saturday_schedules
+  )--}}
     {{-- 
     <div class="profile-container">
       <div class="profile-img">
