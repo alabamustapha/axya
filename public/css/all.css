@@ -252,11 +252,13 @@ a.download {
 /* ---------------------------------------------------
     CONTENT STYLE
 ----------------------------------------------------- */
+
 #content {
     width: 100%;
     transition: all 0.3s;
     margin-left: 233px;
     margin-top: 86px;
+   
 }
 
 #content.active{
@@ -267,6 +269,9 @@ a.download {
     border-bottom: 1px solid rgba(0,0,0, .03896);
 }
 
+.main-content{
+     min-height: 55vh;
+}
 .appointment-dc , .sidebar-right{
     position: fixed;
     top:0;
@@ -907,6 +912,72 @@ a.sign-out{
     cursor: pointer;
     color: #147ba7;
 }
+
+
+
+
+
+/* ---------------------------------------------------
+    TRANSACTION STYLES
+----------------------------------------------------- */
+.transaction-menu{
+    margin: 1rem 0;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    border: none;
+}
+
+.transaction-menu .nav-pills .nav-link.active{
+    background-color: transparent;
+    color: #209fd9;
+    font-weight: 700;
+}
+
+.transaction-body{
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    border: none;
+}
+
+.transaction-body .card-title{
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+}
+.transaction-body .paycard{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.paycard .paycard-detail:not(:last-child){
+    margin-right: 4rem;
+}
+
+.paycard .paycard-detail .paycard-detail--title{
+    font-size: .9rem;
+    margin-bottom: 0;
+}
+.paycard .paycard-detail .paycard-detail--info{
+    font-weight: 500;
+    margin-bottom: 0;
+}
+
+.transaction-body .btn{
+    width: 45%;
+}
+
+.transaction-table table thead{
+    text-transform: uppercase;
+    font-weight: 100;
+
+}
+.transaction-table table td,
+.transaction-table table thead th{
+    padding:5px 1.2rem;
+}
+
 /* ---------------------------------------------------
     HELPERS STYLE
 ----------------------------------------------------- */
@@ -969,94 +1040,17 @@ nav[aria-label="breadcrumb"].dot-separator .breadcrumb-item+.breadcrumb-item::be
     box-shadow: none;
 }
 .btn-primary {
-    background: #6d7fcc linear-gradient(to bottom, #6d7fcc, #209fd9);
-    
+    background:  #209fd9;
 }
-
-.btn-primary:hover {
-    background-color: #209fd9;
-    
-}
-
-.btn-default {
-    background: #ffffff;
-    
-    color: #209fd9;
-}
-
-.btn-success {
-    background-color: #00d1b2;
-    border-color: transparent;
-}
-
-.btn-success:hover {
-    background-color: #00c4a7;
-    border-color: transparent;
-}
-
-.btn-danger {
-    background-color: #ff3860;
-    border-color: transparent;
-}
-
-.btn-danger:hover {
-    background-color: #ff2256;
-    border-color: transparent;
-}
-
-.btn-warning {
-    background-color: #ffd83d;
-    border-color: transparent;
-}
-
-.btn-warning:hover {
-    background-color: #ffdb4a;
-    border-color: transparent;
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:visited {
+    background:  #209fd9 !important;
+    border: none !important;
+    color: #fff;
 }
 
 
-
-.btn-outline-success {
-    color: #00d1b2;
-    border: 1px solid #00d1b2;
-}
-
-.btn-outline-success:hover {
-    background-color: #00d1b2;
-    border: 1px solid #00d1b2;
-
-}
-
-.btn-outline-primary {
-    color: #6d7fcc;
-    border-color: #6d7fcc;
-}
-
-.btn-outline-primary:hover {
-    background-color: #209fd9;
-    
-}
-
-.btn-outline-warning {
-    color: #ffd83d;
-    border-color: 1px solid #ffdb4a;
-}
-
-.btn-outline-warning:hover {
-    background-color: #ffdb4a;
-    border: 1px solid #ffdb4a;
-}
-
-
-.btn-outline-danger {
-    color: #ff3860;
-    border-color: 1px solid #ff3860;
-}
-
-.btn-outline-danger:hover {
-    background-color: #ff3860;
-    border: 1px solid #ff2256;
-}
 
 .btn-icon {
     background-color:#ffffff;
@@ -1096,62 +1090,6 @@ nav[aria-label="breadcrumb"].dot-separator .breadcrumb-item+.breadcrumb-item::be
     line-height: 1.33;
 }
 
-.pagination.is-rounded .page-item {
-    border-color: #dbdbdb;
-    min-width: 2.25em;
-    padding: 0 .15rem;
-}
-
-.pagination.is-rounded .page-link {
-    text-align: center;
-    border-radius: 290486px; 
-}
-
-.pagination-ellipsis {
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    border: 1px solid transparent;
-    border-radius: 3px;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-    display: -webkit-inline-box;
-    display: -ms-inline-flexbox;
-    display: inline-flex;
-    font-size: 1rem;
-    height: 2.25em;
-    -webkit-box-pack: start;
-    -ms-flex-pack: start;
-    justify-content: flex-start;
-    line-height: 1.5;
-    padding-bottom: calc(0.375em - 1px);
-    padding-left: calc(0.625em - 1px);
-    padding-right: calc(0.625em - 1px);
-    padding-top: calc(0.375em - 1px);
-    position: relative;
-    vertical-align: top;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    font-size: 1em;
-    padding-left: 0.5em;
-    padding-right: 0.5em;
-    -webkit-box-pack: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    margin: 0.25rem;
-    text-align: center;
-}
-
-
-
-
-
-
 
 
 
@@ -1178,7 +1116,7 @@ nav[aria-label="breadcrumb"].dot-separator .breadcrumb-item+.breadcrumb-item::be
     TABLES
 ----------------------------------------------------- */
 
-    .table > thead > tr > th {
+.table > thead > th {
     color: #888;
     font-weight: 400;
 }
@@ -1194,12 +1132,12 @@ nav[aria-label="breadcrumb"].dot-separator .breadcrumb-item+.breadcrumb-item::be
 }
 
 
-.table td, .table th {
+/* .table td, .table th {
     padding: .45rem;
     line-height: 1.42857143;
     vertical-align: top;
     border-top: 1px solid #eeeeee;
-}
+} */
 
 
 .table-striped tbody tr:nth-of-type(odd) {
@@ -1276,6 +1214,10 @@ nav[aria-label="breadcrumb"].dot-separator .breadcrumb-item+.breadcrumb-item::be
 .table-bordered {
     border-left: 1px solid #eeeeee;
     border-right: 1px solid #eeeeee;
+}
+
+.table-borderless tr{
+    border-bottom: none !important;
 }
 
 
@@ -1379,6 +1321,22 @@ thead th.fc-day-header:nth-child(even){
 /* ---------------------------------------------------
     MEDIAQUERIES
 ----------------------------------------------------- */
+
+
+@media (max-width: 992px){
+    /* .xs-nav, #extra-buttom-nav{
+        display: none;
+    } */
+    .buttom-nav-toggler{
+        /* display:  none; */
+        display:  inline-block;
+    }
+    .search-select-display{
+        opacity: 0;
+        display: none;
+    }
+}
+
 @media (max-width: 768px) {
     #sidebar {
         min-width: 80px;
@@ -1468,20 +1426,22 @@ thead th.fc-day-header:nth-child(even){
         display: inline-block;
     }
 
+    .paycard .paycard-detail:not(:last-child){
+        margin-right: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .transaction-body .btn{
+        width: 80%;
+    }
 }
 
-@media (max-width: 992px){
-    /* .xs-nav, #extra-buttom-nav{
-        display: none;
-    } */
-    .buttom-nav-toggler{
-        /* display:  none; */
-        display:  inline-block;
+@media (max-width: 576px){
+    .transaction-body .btn{
+        width: 100%;
     }
-    .search-select-display{
-        opacity: 0;
-        display: none;
-    }
+
+    
 }
 #leadview {
   background-image: url(../images/bgs/railsware-stats-layer-medium-0103f701.jpg);
@@ -1625,13 +1585,6 @@ i.fas {
   height: 100%; 
 }
 
-.pull-right {
-  float: right;
-}
-.pull-left {
-  float: left;
-}
-
 .text-small {
   font-size: 90% !important;
 }
@@ -1655,4 +1608,40 @@ i.fas {
 .navbar {
   padding: 10px;
   /*padding: 15px 10px;*/
+}
+
+/** 
+ * To override dashboard.css main #content in select app pages.
+ */
+#content-override {
+    width: 100%;
+    transition: all 0.3s;
+    margin-left: 0px;
+    margin-top: 86px;
+   
+}
+
+#main-footer-override { margin-left: 0; }
+
+#main-footer-override > .container { margin-left: 250px; }
+
+@media (max-width: 768px) {
+  #main-footer-override > .container { margin-left: 65px; }
+}
+@media (max-width: 480px) {
+  #main-footer-override > .container { margin-left: 0px; }
+}
+
+.sub-online-status {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #97E965;
+}
+.sub-online-status.sub-online{
+    background-color: rgb(91, 199, 23);
+}
+.sub-online-status.sub-offline{
+    background-color: #fd7e14;
 }
