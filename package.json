@@ -21,12 +21,13 @@
   },
   "dependencies": {
     "admin-lte": "^3.0.0-alpha.2",
-    "aos": "^2.3.4",
     "laravel-vue-pagination": "^2.2.0",
     "moment": "^2.22.2",
     "sweetalert2": "^7.29.0",
     "timepicker": "^1.11.14",
     "vform": "^1.0.0",
+    "vue-cal": "^1.39.0",
+    "vue-ctk-date-time-picker": "^2.0.6",
     "vue-progressbar": "^0.7.5",
     "vue-router": "^3.0.1"
   }

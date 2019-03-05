@@ -15,13 +15,19 @@
           <div class="row">
 
             <div class="col-md-9">
-              <div id="calendar">
+              {{-- <div id="calendar"> --}}
                 <!-- calendar injected here -->
-              </div>
+              {{-- </div> --}}
+              <schedule-calendar-users></schedule-calendar-users>
             </div>
 
             <div class="col-md-3"></div>
 
+          </div>
+          <br>
+          <br>
+          <div class="">
+            <vue-ctk-date-time-picker></vue-ctk-date-time-picker>
           </div>
         </div>
       </div>
