@@ -93,7 +93,7 @@ Vue.component('user-search',      require('./components/UserSearch.vue'));
 Vue.component('doctor-search',    require('./components/DoctorSearch.vue'));
 Vue.component('admin-list',       require('./components/Admin/AdminList.vue'));
 Vue.component('staff-list',       require('./components/Admin/StaffList.vue'));
-Vue.component('schedule-calendar',   require('./components/Schedules/ScheduleCalendar.vue'));
+Vue.component('schedule-calendar-users',   require('./components/Schedules/ScheduleCalendarUsers.vue'));
 Vue.component('schedule-index',   require('./components/Schedules/ScheduleIndex.vue'));
 Vue.component('schedule-list',    require('./components/Schedules/OldAttempt/ScheduleList.vue'));
 Vue.component('schedule',         require('./components/Schedules/OldAttempt/Schedule.vue'));
