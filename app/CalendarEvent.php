@@ -25,14 +25,6 @@ class CalendarEvent extends Model
 
     public function type()
     {
-        // 1.
         return (new \ReflectionClass($this->eventable_type))->getShortName();
-
-        /* 2.
-            $type_frags = explode('\\', $this->messageable_type);
-            $end = end($type_frags);
-
-            return $end;
-        */
     }
 }

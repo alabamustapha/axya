@@ -7,6 +7,8 @@
     <vue-cal
         :disable-views="['years']"
         :events="events"
+        :time-step="30"
+        :time-from="7 * 60" 
         class="vuecal--blue-theme"
         default-view="month"
         no-event-overlaps
@@ -38,59 +40,31 @@
   export default {
     components: { VueCal },
 
+    props: ['userId'],
+
     data () {
       return {
-        minCellWidth: 150,
+        overlapEvents: true,
+        minCellWidth  : 150,
         timeCellHeight: 70,
         
-        events: [
-          {
-            start: '2019-03-05 10:35',
-            end: '2019-03-05 11:30',
-            title: 'Doctor Appointment (Online)',
-            content: '<i class="fa fa-hospital"></i>',
-            contentFull: '<i class="fa fa-hospital"></i>',
-            class: 'online-appointment',
-            icon: 'fa-hospital',
-          },
-          {
-            start: '2019-03-06 18:30',
-            end: '2019-03-06 23:15',
-            title: 'Hospital Appointment',
-            content: 'Visit Dr. J.K at Metropolitan hospital, Istanbul <br> <i class="fa fa-hospital fa-2x"></i>.',
-            contentFull: 'Visit Dr. J.K at Metropolitan hospital, Istanbul <br> <i class="fa fa-hospital fa-2x"></i>.',
-            class: 'home-appointment',
-            icon: 'fa-hospital',
-          },
-          {
-            start: '2019-03-06 18:30',
-            end: '2019-03-06 23:15',
-            title: 'Take Medication',
-            content: '<i class="fa fa-pills fa-2x"></i>',
-            contentFull: '<i class="fa fa-pills fa-2x"></i>',
-            class: 'medication',
-            icon: 'fa-pills',
-          },
-          {
-            start: '2019-03-06 12:00',
-            end: '2019-03-06 13:00',
-            title: 'Appointment Fee Payment Countdown',
-            class: 'fee',
-            icon: 'fa-money',
-            background: true
-          },
-          {
-            start: '2019-03-07 18:30',
-            end: '2019-03-07 20:30',
-            title: 'Crossfit',
-            content: '<i class="fa fa-cogs fa-2x"></i>',
-            contentFull: '<i class="fa fa-cogs fa-2x"></i>',
-            class: 'others',
-            icon: 'fa-cogs',
-          },
-
-        ],
+        events: [],
       }
+    },
+
+    created() {
+      this.getEvents();
+    },
+
+    methods: {
+      getEvents() { 
+        // route('events.index') | {user}/events
+        axios.get(this.userId + '/events/')
+        .then(({data}) => {
+          this.events = data;
+          // console.log(this.events);
+        })
+      },
     }
   }
 </script>

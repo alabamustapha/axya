@@ -119,6 +119,7 @@ Route::resource('medications',   'MedicationController')->except('create', 'edit
   
 Route::prefix('{user}')->group(function() {
   Route::resource('transactions',  'TransactionController')->except('index');
+  Route::resource('events',        'CalendarEventController');
 });
 
 
@@ -141,7 +142,7 @@ Route::get('schedulesByDay/{doctorId}/{dayId}', 'ScheduleController@schedulesByD
 // Route::get('schedulesByDay/{doctorId}/{dayId}', 'ScheduleController@serializedSchedulesByDay');
 
 
-
+// ## JSON RESPOBSES
 // ---- ADMIN ACL RELATED ---------------->
 Route::prefix('make/{user}')->group(function(){
   Route::patch('/admin', 'AppAdminController@makeAdmin')->name('make-admin');

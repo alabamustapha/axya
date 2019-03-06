@@ -18,7 +18,7 @@
               {{-- <div id="calendar"> --}}
                 <!-- calendar injected here -->
               {{-- </div> --}}
-              <schedule-calendar-users></schedule-calendar-users>
+              <schedule-calendar-users :user-id="{{ Auth::id() }}"></schedule-calendar-users>
             </div>
 
             <div class="col-md-3"></div>
