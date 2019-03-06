@@ -20,6 +20,11 @@ class Transaction extends Model
         'confirmed_at','cancelled_at' 
     ];
 
+    public function calendar_events()
+    {
+        return $this->morphMany(CalendarEvent::class, 'eventable');
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -12,6 +12,11 @@ class Medication extends Model
         'user_id', 'title', 'prescription_id', 'appointment_id', 'description', 'start_date', 'start_time', 'end_date', 'notify_by', 'recurrence', 'recurrence_type',
     ];
 
+    public function calendar_events()
+    {
+        return $this->morphMany(CalendarEvent::class, 'eventable');
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

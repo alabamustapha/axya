@@ -52,6 +52,11 @@ class Appointment extends Model
         return $this->morphMany(Message::class, 'messageable');
     }
 
+    public function calendar_events()
+    {
+        return $this->morphMany(CalendarEvent::class, 'eventable');
+    }
+
     /**
      * Route key
      * 

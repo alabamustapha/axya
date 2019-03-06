@@ -64,6 +64,12 @@ class AppointmentsTest extends TestCase
     }
 
     /** @test */
+    public function an_appointment_morphs_many_calendar_events()
+    {
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->appointment->calendar_events); 
+    }
+
+    /** @test */
     public function an_appointment_has_many_prescriptions()
     {
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->appointment->prescriptions); 

@@ -69,4 +69,10 @@ class MedicationTest extends TestCase
     {
         $this->assertNotNull($this->medication->description);
     }
+
+    /** @test */
+    public function a_medication_morphs_many_calendar_events()
+    {
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->medication->calendar_events); 
+    }
 }
