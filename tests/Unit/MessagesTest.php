@@ -73,10 +73,4 @@ class MessagesTest extends TestCase
     // {
     //     $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->message->documents); 
     // }
-
-    /** @test */
-    public function a_message_morphs_to_an_appointment()
-    {
-        $this->assertInstanceOf(Appointment::class, $this->message->messageable); 
-    }
 }

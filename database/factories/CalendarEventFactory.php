@@ -3,9 +3,38 @@
 use Faker\Generator as Faker;
 
 $factory->define(App\CalendarEvent::class, function (Faker $faker) {
-    $eventType = $faker->randomElement(['App\Appointment', 'App\Medication', 'App\Transaction']);
-    $eventClass = $faker->randomElement(['online-appointment', 'home-appointment', 'others', 'fee', 'medication']);
-    $eventIcon = $faker->randomElement(['fa-hospital', 'fa-clock', 'fa-atm-card', 'fa-money', 'fa-pills']);
+    $eType = $faker->randomElement(['App\Appointment', 'App\Medication', 'App\Transaction']);
+    $eventType   = '';
+    $eventableId = '';
+    $eventClass  = '';
+    $eventIcon   = '';
+    
+    if ($eType == 'App\Appointment') {
+        $eventType = 'App\Appointment';
+        $eventableId = App\Appointment::all()->random()->id;
+        $eventClass  = $faker->randomElement(['online-appointment', 'home-appointment']);
+        $eventIcon   = $faker->randomElement(['fa-hospital', 'fa-clock']);
+    }
+    if ($eType == 'App\Medication') {
+        $eventType = 'App\Medication';
+        $eventableId = App\Medication::all()->random()->id;
+        $eventClass  = 'medication';
+        $eventIcon   =  'fa-pills';
+    }
+    if ($eType == 'App\Transaction') {
+        $eventType = 'App\Transaction';
+        $eventableId = App\Transaction::all()->random()->id;
+        $eventClass  = 'fee';
+        $eventIcon   = $faker->randomElement(['fa-atm-card', 'fa-money']);
+    }
+    // dd(
+    // $eventType  ,
+    // $eventableId,
+    // $eventClass ,
+    // $eventIcon);
+
+    // $eventClass = $faker->randomElement(['online-appointment', 'home-appointment', 'others', 'fee', 'medication']);
+    // $eventIcon = $faker->randomElement(['fa-hospital', 'fa-clock', 'fa-atm-card', 'fa-money', 'fa-pills']);
 
     return [
         'user_id'       => App\User::all()->random()->id,
@@ -18,7 +47,7 @@ $factory->define(App\CalendarEvent::class, function (Faker $faker) {
         'class'         => $eventClass,
         'icon'          => $eventIcon,
         'background'    => $faker->boolean(6),
-        'eventable_id'  => App\Appointment::all()->random()->id,
+        'eventable_id'  => $eventableId,
         'eventable_type'=> $eventType,
     ];
 });

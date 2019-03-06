@@ -51,20 +51,35 @@ class CalendarEventsTest extends TestCase
     }
 
     /** @test */
-    public function a_calendar_event_morphs_a_transaction()
+    public function a_calendar_event_morphs_to_a_transaction()
     {
-        $this->assertInstanceOf(Transaction::class, $this->calendar_event->eventable);
+        $calendar_event = factory(CalendarEvent::class)->create([
+            'eventable_id'=> $this->transaction->id,
+            'eventable_type'=> 'App\Transaction',
+        ]);
+
+        $this->assertInstanceOf(Transaction::class, $calendar_event->eventable);
     }
 
     /** @test */
-    public function a_calendar_event_morphs_an_appointment()
+    public function a_calendar_event_morphs_to_an_appointment()
     {
-        $this->assertInstanceOf(Appointment::class, $this->calendar_event->eventable);
+        $calendar_event = factory(CalendarEvent::class)->create([
+            'eventable_id'=> $this->appointment->id,
+            'eventable_type'=> 'App\Appointment',
+        ]);
+
+        $this->assertInstanceOf(Appointment::class, $calendar_event->eventable);
     }
 
     /** @test */
-    public function a_calendar_event_morphs_a_medication()
+    public function a_calendar_event_morphs_to_a_medication()
     {
-        $this->assertInstanceOf(Medication::class, $this->calendar_event->eventable);
+        $calendar_event = factory(CalendarEvent::class)->create([
+            'eventable_id'=> $this->medication->id,
+            'eventable_type'=> 'App\Medication',
+        ]);
+
+        $this->assertInstanceOf(Medication::class, $calendar_event->eventable);
     }
 }
