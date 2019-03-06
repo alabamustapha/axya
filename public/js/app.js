@@ -104407,7 +104407,7 @@ exports = module.exports = __webpack_require__(4)(false);
 
 
 // module
-exports.push([module.i, "\n.vuecal__cells.years-view .vuecal__cell,\n.vuecal__cells.year-view .vuecal__cell,\n.vuecal__cells.month-view .vuecal__cell {height:70px;\n}\n.vuecal__event .vuecal__event-title {font-weight:bold;\n}\n\n/* Cell background indicator */\n.vuecal__cell--has-events {background-color: #fffacd;\n}\n.vuecal__cell-events-count {display: block;\n}/*none*/\n\n/* Cell Event Type Background */\n.vuecal__event.others {background-color: #0ffac0;\n}\n.vuecal__event.medication {background-color: #ff09cd;color: #fff9f9;\n}\n.vuecal__event.home-appointment {background-color: #fffa00;\n}\n.vuecal__event.online-appointment {background-color: #a0facd;\n}\n.vuecal__event.fee {\n  background: repeating-linear-gradient(45deg, transparent, transparent 10px, #f2f2f2 10px, #f2f2f2 20px);/* IE 10+ */\n  color: #999;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n.vuecal__event.fee .vuecal__event-time {-webkit-box-align: center;-ms-flex-align: center;align-items: center;\n}\n", ""]);
+exports.push([module.i, "\n.vuecal__cells.years-view .vuecal__cell,\n.vuecal__cells.year-view .vuecal__cell,\n.vuecal__cells.month-view .vuecal__cell {height:70px;\n}\n.vuecal__event .vuecal__event-title {font-weight:bold;clear:both;padding:5px;margin-bottom:3px;\n}\n\n/* Cell background indicator */\n.vuecal__cell--has-events {background-color: #fffacd;\n}\n.vuecal__cell-events-count {display: block;\n}/*none*/\n\n/* Cell Event Type Background */\n.vuecal__event.others {background-color: #0ffac0;\n}\n.vuecal__event.medication {background-color: #ff09cd;color: #fff9f9;\n}\n.vuecal__event.home-appointment {background-color: #fffa00;\n}\n.vuecal__event.online-appointment {background-color: #a0facd;\n}\n.vuecal__event.fee {\n  background: repeating-linear-gradient(45deg, transparent, transparent 10px, #f2f2f2 10px, #f2f2f2 20px);/* IE 10+ */\n  color: #999;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n.vuecal__event.fee .vuecal__event-time {-webkit-box-align: center;-ms-flex-align: center;align-items: center;\n}\n", ""]);
 
 // exports
 
@@ -104476,6 +104476,18 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 // https://antoniandre.github.io/vue-cal/
 
@@ -104494,34 +104506,39 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         title: 'Doctor Appointment (Online)',
         content: '<i class="fa fa-hospital"></i>',
         contentFull: '<i class="fa fa-hospital"></i>',
-        class: 'online-appointment'
+        class: 'online-appointment',
+        icon: 'fa-hospital'
       }, {
         start: '2019-03-06 18:30',
         end: '2019-03-06 23:15',
         title: 'Hospital Appointment',
         content: 'Visit Dr. J.K at Metropolitan hospital, Istanbul <br> <i class="fa fa-hospital fa-2x"></i>.',
         contentFull: 'Visit Dr. J.K at Metropolitan hospital, Istanbul <br> <i class="fa fa-hospital fa-2x"></i>.',
-        class: 'home-appointment'
+        class: 'home-appointment',
+        icon: 'fa-hospital'
       }, {
         start: '2019-03-06 18:30',
         end: '2019-03-06 23:15',
         title: 'Take Medication',
         content: '<i class="fa fa-pills fa-2x"></i>',
         contentFull: '<i class="fa fa-pills fa-2x"></i>',
-        class: 'medication'
+        class: 'medication',
+        icon: 'fa-pills'
       }, {
         start: '2019-03-06 12:00',
         end: '2019-03-06 13:00',
         title: 'Appointment Fee Payment Countdown',
         class: 'fee',
+        icon: 'fa-money',
         background: true
       }, {
         start: '2019-03-07 18:30',
         end: '2019-03-07 20:30',
         title: 'Crossfit',
-        content: '<i class="fa fa-cogs 2x"></i>',
-        contentFull: '<i class="fa fa-cogs 2x"></i>',
-        class: 'others'
+        content: '<i class="fa fa-cogs fa-2x"></i>',
+        contentFull: '<i class="fa fa-cogs fa-2x"></i>',
+        class: 'others',
+        icon: 'fa-cogs'
       }]
     };
   }
@@ -111554,7 +111571,36 @@ var render = function() {
             "no-event-overlaps": "",
             "hide-view-selector": "",
             startWeekOnSunday: ""
-          }
+          },
+          scopedSlots: _vm._u([
+            {
+              key: "event-renderer",
+              fn: function(ref) {
+                var event = ref.event
+                var view = ref.view
+                return _c("div", {}, [
+                  _c("i", { staticClass: "fa fa-2x", class: event.icon }),
+                  _vm._v(" "),
+                  _c("div", {
+                    staticClass: "vuecal__event-title",
+                    domProps: { innerHTML: _vm._s(event.title) }
+                  }),
+                  _vm._v(" "),
+                  _c("small", { staticClass: "vuecal__event-time" }, [
+                    _c("strong", [_vm._v("Start:")]),
+                    _vm._v(" "),
+                    _c("span", [_vm._v(_vm._s(event.startTime))]),
+                    _vm._v(" "),
+                    _c("span", [_vm._v("-")]),
+                    _vm._v(" "),
+                    _c("strong", [_vm._v("End:")]),
+                    _vm._v(" "),
+                    _c("span", [_vm._v(_vm._s(event.endTime))])
+                  ])
+                ])
+              }
+            }
+          ])
         },
         [
           _c("i", {

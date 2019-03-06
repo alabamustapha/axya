@@ -15,6 +15,18 @@
     >
         <i slot="arrowPrev" aria-hidden="true" class="fa fa-arrow-left"></i>
         <i slot="arrowNext" aria-hidden="true" class="fa fa-arrow-right"></i>
+        
+        <div slot="event-renderer" slot-scope="{ event, view }">
+          <i class="fa fa-2x" :class="event.icon "></i>
+
+          <div class="vuecal__event-title" v-html="event.title" />
+
+          <small class="vuecal__event-time">
+            <strong>Start:</strong> <span>{{ event.startTime }}</span>
+            <span>-</span>
+            <strong>End:</strong> <span>{{ event.endTime }}</span>
+          </small>
+        </div>
     </vue-cal>
   </div>
 </template>
@@ -39,6 +51,7 @@
             content: '<i class="fa fa-hospital"></i>',
             contentFull: '<i class="fa fa-hospital"></i>',
             class: 'online-appointment',
+            icon: 'fa-hospital',
           },
           {
             start: '2019-03-06 18:30',
@@ -47,6 +60,7 @@
             content: 'Visit Dr. J.K at Metropolitan hospital, Istanbul <br> <i class="fa fa-hospital fa-2x"></i>.',
             contentFull: 'Visit Dr. J.K at Metropolitan hospital, Istanbul <br> <i class="fa fa-hospital fa-2x"></i>.',
             class: 'home-appointment',
+            icon: 'fa-hospital',
           },
           {
             start: '2019-03-06 18:30',
@@ -55,21 +69,24 @@
             content: '<i class="fa fa-pills fa-2x"></i>',
             contentFull: '<i class="fa fa-pills fa-2x"></i>',
             class: 'medication',
+            icon: 'fa-pills',
           },
           {
             start: '2019-03-06 12:00',
             end: '2019-03-06 13:00',
             title: 'Appointment Fee Payment Countdown',
             class: 'fee',
+            icon: 'fa-money',
             background: true
           },
           {
             start: '2019-03-07 18:30',
             end: '2019-03-07 20:30',
             title: 'Crossfit',
-            content: '<i class="fa fa-cogs 2x"></i>',
-            contentFull: '<i class="fa fa-cogs 2x"></i>',
+            content: '<i class="fa fa-cogs fa-2x"></i>',
+            contentFull: '<i class="fa fa-cogs fa-2x"></i>',
             class: 'others',
+            icon: 'fa-cogs',
           },
 
         ],
@@ -82,7 +99,7 @@
   .vuecal__cells.years-view .vuecal__cell,
   .vuecal__cells.year-view .vuecal__cell,
   .vuecal__cells.month-view .vuecal__cell {height:70px;}
-  .vuecal__event .vuecal__event-title {font-weight:bold;}
+  .vuecal__event .vuecal__event-title {font-weight:bold;clear:both;padding:5px;margin-bottom:3px;}
 
   /* Cell background indicator */
   .vuecal__cell--has-events {background-color: #fffacd;}
