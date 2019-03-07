@@ -37,7 +37,7 @@
                         <td>
                             <span class="border px-4 text-center">
                                 <span class="text-muted" style="font-size: .5rem;">Type:</span> <br>
-                                <span class="text-bold">{{$subscription->type_text}}</span>
+                                <span class="text-bold">{{$subscription->subscriptionPlan->name}}</span>
                             </span>
                         </td>
                         <td>

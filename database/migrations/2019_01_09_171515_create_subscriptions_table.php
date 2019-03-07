@@ -17,7 +17,7 @@ class CreateSubscriptionsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('doctor_id')->unsigned();
-            $table->integer('type')->unsigned();
+            $table->integer('subscription_plan_id')->unsigned();
             $table->datetime('start')->nullable();
             $table->datetime('end')->nullable();
             $table->integer('multiple')->unsigned()->nullable();
@@ -41,6 +41,9 @@ class CreateSubscriptionsTable extends Migration
 
             $table->foreign('doctor_id')
                   ->references('id')->on('doctors')
+                  ->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('subscription_plan_id')
+                  ->references('id')->on('subscription_plans')
                   ->onDelete('cascade')->onUpdate('cascade');
             // $table->foreign('processor_id')
             //       ->references('id')->on('processors')
