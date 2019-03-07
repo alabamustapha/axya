@@ -12,7 +12,15 @@
       @forelse ($doctors as $doctor)
         <a href="{{route('doctors.show', $doctor)}}" class="search-item">
             <img src="{{ $doctor->avatar }}" height="60" class="rounded-circle doc-img" alt="doctor's image">
-            {{ $doctor->availability_status }}
+            
+            {{-- $doctor->availability_status --}}
+            @if ($doctor->is_active)
+                <span class="bg-success doc-avail-indicator" title="Available"></span>
+            @else
+                <span class="bg-danger doc-avail-indicator" title="Unavailable"></span>
+            {{-- @elseif ($doctor->is_suspended) { {
+                <span class="bg-warning doc-avail-indicator" title="***"></span> --}}
+            @endif
 
             <!-- personal detail -->
             <div id="p-d" class="search-cell">

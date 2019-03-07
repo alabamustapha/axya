@@ -13,7 +13,15 @@
     <div class="profile-container">
       <div class="profile-img">
           <img src="{{ $doctor->avatar }}" alt="profile image" class="img-fluid">
-          {{ $doctor->availability_status }}
+          
+          {{-- $doctor->availability_status --}}
+          @if ($doctor->is_active)
+              <span class="bg-success doc-avail-indicator" title="Available"></span>
+          @else
+              <span class="bg-danger doc-avail-indicator" title="Unavailable"></span>
+          {{-- @elseif ($doctor->is_suspended) {
+              <span class="bg-warning doc-avail-indicator" title="***"></span> { --}}
+          @endif
 
           <div class="search-item mb-3">
             <!-- schedule detail -->
