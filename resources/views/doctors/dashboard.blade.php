@@ -142,21 +142,11 @@
     </div>
 
     <div class="col-md-3 order-sm-2 order-1">
-      <div class="bg-light">
-        <div class="list-group">
-          <div class="list-group-item tf-flex" title="Your license on this platform is {{$doctor->revoked ? 'Revoked':'Active'}}">
-            <span class="font-weight-bold">License: </span>
-            <span class="d-inline-block bg-{{$doctor->revoked ? 'danger':'success'}}" style="width: 12px;height: 12px; border-radius:50%;"></span>
-          </div>
-
-          <div class="list-group-item tf-flex" title="You have {{$doctor->isSubscribed() ? 'Active':'Inactive'}} subscription on this platform">
-            <span class="font-weight-bold">Subscription: </span>
-            <span class="d-inline-block bg-{{$doctor->isSubscribed() ? 'success':'danger'}}" style="width: 12px;height: 12px; border-radius:50%;"></span>
-          </div>
-        </div>
-      </div>
-      <h1>
-      </h1>
+      @can('edit', $doctor)
+      
+        @include('doctors.partials._availability')
+        
+      @endcan
     </div>
   </div>
 </div>

@@ -411,6 +411,20 @@ class Doctor extends Model
         return $this->revoked == '1';
     }
 
+    public function hasSchedules()
+    {
+        // return $this->schedules->count();
+        return ((bool) 
+               count($this->serializedSchedules()['1'])
+            || count($this->serializedSchedules()['2'])
+            || count($this->serializedSchedules()['3'])
+            || count($this->serializedSchedules()['4'])
+            || count($this->serializedSchedules()['5'])
+            || count($this->serializedSchedules()['6'])
+            || count($this->serializedSchedules()['7'])
+        );
+    }
+
     public function isAvailable()
     {
         return $this->available == '1' && $this->revoked == '0';
@@ -421,7 +435,7 @@ class Doctor extends Model
      */
     public function isActive()
     {
-        return $this->isSubscribed() && $this->isAvailable();
+        return $this->isSubscribed() && $this->isAvailable() && $this->hasSchedules();
     }
 
     public function subscriptionStatus()

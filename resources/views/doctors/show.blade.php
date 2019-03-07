@@ -15,7 +15,7 @@
           <img src="{{ $doctor->avatar }}" alt="profile image" class="img-fluid">
           {{ $doctor->availability_status }}
 
-          <div class="search-item">
+          <div class="search-item mb-3">
             <!-- schedule detail -->
             <div id="s-d" class="search-cell w-100">
                 <ul class="nav flex-sm-row">
@@ -30,6 +30,14 @@
                 </ul>
             </div>
           </div>
+
+          @can('edit', $doctor)
+            <div class="col">
+
+              @include('doctors.partials._availability')
+
+            </div>
+          @endcan
       </div>
       <div class="profile-details bg-theme-gradient">
           <div class="fee-wrap">
@@ -152,14 +160,15 @@
           @endif
         @endauth
 
-        <schedule-index 
+        {{-- <schedule-index 
             :doctor-id="{{ $doctor->id }}" 
             :is-available="{{ intval( $doctor->isActive() ) }}"
             :is-doctor-owner="{{ intval( Auth::check() 
                                     && ( Auth::id() === $doctor->id ) 
                                     && ( Auth::user()->isAuthenticatedDoctor()) 
                                  ) }}"
-        ></schedule-index>
+        ></schedule-index> --}}
+
           {{-- 
           @can ('edit', $doctor)
           
