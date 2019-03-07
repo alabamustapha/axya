@@ -357,6 +357,13 @@ class Appointment extends Model
         return Carbon::parse($this->to)->format('h:i A');
     }
 
+    public function getDurationInMinutesAttribute()
+    {
+        $duration = Carbon::parse($this->end_time)->diffInMinutes(Carbon::parse($this->start_time));
+
+        return $duration;
+    }
+
     public function getDurationAttribute()
     {
         $duration  = Carbon::parse($this->end_time)->diffInMinutes(Carbon::parse($this->start_time));
