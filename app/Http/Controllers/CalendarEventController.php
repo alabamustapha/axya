@@ -17,8 +17,15 @@ class CalendarEventController extends Controller
     public function index($userId)
     {
         $user = User::findOrFail($userId);
+        // $eventingViewGrace = 6 months;//setting('event_view_period');
+        // 2months back, 1 present, 3 months into future.
+
+        // $threeMonthsPeriod = Carbon::parse($this->start_at)->addMonths($eventingViewGrace);
 
         $events = $user->calendar_events()
+                       // {->whereIn('status', [1,3,5])
+                       // ->where('end_at', '<', $threeMonthsPeriod)}
+                       // ->active()
                        ->get([
                             'start', 
                             'end', 
