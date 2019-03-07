@@ -336,7 +336,7 @@
         // // Using the serialized schedule.
         // const thisDaySchedules = this.dayName.toLowerCase() +'_schedules';
         // this.daySchedules = this.doctor[thisDaySchedules]; 
-        // console.log(this.doctor[thisDaySchedules]);
+        // console.log(this.daySchedules);
         // this.loading = false; 
       },
 

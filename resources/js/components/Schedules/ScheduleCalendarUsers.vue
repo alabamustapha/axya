@@ -44,9 +44,9 @@
 
     data () {
       return {
-        overlapEvents: true,
+        overlapEvents: false,
         minCellWidth  : 150,
-        timeCellHeight: 70,
+        timeCellHeight: 90,
         
         events: [],
       }
@@ -86,7 +86,7 @@
   .vuecal__event.online-appointment {background-color: #a0facd;}
 
   .vuecal__event.fee {
-    background: repeating-linear-gradient(45deg, transparent, transparent 10px, #f2f2f2 10px, #f2f2f2 20px);/* IE 10+ */
+    background: repeating-linear-gradient(45deg, #ffffff, #ffffff 10px, #f2f2f2 10px, #f2f2f2 20px);/* IE 10+ */
     color: #999;
     display: flex;
     justify-content: center;

@@ -104404,7 +104404,7 @@ exports = module.exports = __webpack_require__(4)(false);
 
 
 // module
-exports.push([module.i, "\n.vuecal__cells.years-view .vuecal__cell,\n.vuecal__cells.year-view .vuecal__cell,\n.vuecal__cells.month-view .vuecal__cell {height:70px;\n}\n.vuecal__event .vuecal__event-title {font-weight:bold;clear:both;padding:5px;margin-bottom:3px;\n}\n\n/* Cell background indicator */\n.vuecal__cell--has-events {background-color: #fffacd;\n}\n.vuecal__cell-events-count {display: block;\n}/*none*/\n\n/* Cell Event Type Background */\n.vuecal__event.others {background-color: #0ffac0;\n}\n.vuecal__event.medication {background-color: #ff09cd;color: #fff9f9;\n}\n.vuecal__event.home-appointment {background-color: #fffa00;\n}\n.vuecal__event.online-appointment {background-color: #a0facd;\n}\n.vuecal__event.fee {\n  background: repeating-linear-gradient(45deg, transparent, transparent 10px, #f2f2f2 10px, #f2f2f2 20px);/* IE 10+ */\n  color: #999;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n.vuecal__event.fee .vuecal__event-time {-webkit-box-align: center;-ms-flex-align: center;align-items: center;\n}\n", ""]);
+exports.push([module.i, "\n.vuecal__cells.years-view .vuecal__cell,\n.vuecal__cells.year-view .vuecal__cell,\n.vuecal__cells.month-view .vuecal__cell {height:70px;\n}\n.vuecal__event .vuecal__event-title {font-weight:bold;clear:both;padding:5px;margin-bottom:3px;\n}\n\n/* Cell background indicator */\n.vuecal__cell--has-events {background-color: #fffacd;\n}\n.vuecal__cell-events-count {display: block;\n}/*none*/\n\n/* Cell Event Type Background */\n.vuecal__event.others {background-color: #0ffac0;\n}\n.vuecal__event.medication {background-color: #ff09cd;color: #fff9f9;\n}\n.vuecal__event.home-appointment {background-color: #fffa00;\n}\n.vuecal__event.online-appointment {background-color: #a0facd;\n}\n.vuecal__event.fee {\n  background: repeating-linear-gradient(45deg, #ffffff, #ffffff 10px, #f2f2f2 10px, #f2f2f2 20px);/* IE 10+ */\n  color: #999;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n.vuecal__event.fee .vuecal__event-time {-webkit-box-align: center;-ms-flex-align: center;align-items: center;\n}\n", ""]);
 
 // exports
 
@@ -104498,9 +104498,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   data: function data() {
     return {
-      overlapEvents: true,
+      overlapEvents: false,
       minCellWidth: 150,
-      timeCellHeight: 70,
+      timeCellHeight: 90,
 
       events: []
     };
@@ -112179,7 +112179,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       // // Using the serialized schedule.
       // const thisDaySchedules = this.dayName.toLowerCase() +'_schedules';
       // this.daySchedules = this.doctor[thisDaySchedules]; 
-      // console.log(this.doctor[thisDaySchedules]);
+      // console.log(this.daySchedules);
       // this.loading = false; 
     }
   }
