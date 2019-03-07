@@ -16,7 +16,7 @@
         <tr>
           <td>
             <!-- Availability Hours -->
-            <div v-if="isAvailable" class="px-3 schedule-table__font-size">
+            <div v-if="isAvailable || isDoctorOwner" class="px-3 schedule-table__font-size">
               <div>
                 <table cols="3" cellspacing="0" cellpadding="0">
                   <tbody>
@@ -29,7 +29,7 @@
                         <schedule-base 
                           :day-id="index + 1" 
                           :day-name="day" 
-                          :doctor-id="doctorId"
+                          :doctor="doctor"
                           :is-doctor-owner="isDoctorOwner"
                           ></schedule-base>
 
@@ -64,11 +64,12 @@
       'schedule-base': ScheduleBase,
     },
 
-    props: ['doctorId', 'isDoctorOwner'],//, 'isAvailable'
+    props: ['doctor', 'isDoctorOwner'],
 
     data () {
       return {
-        isAvailable       : true, // Remember to use the props own, this is for testing.
+        // Remember to use 'isAvailable' from this.doctor, this 'true' is for testing.*/
+        isAvailable: true,/*this.doctor.is_active,*/
         days : [
           'Sunday',
           'Monday',

@@ -160,14 +160,13 @@
           @endif
         @endauth
 
-        {{-- <schedule-index 
-            :doctor-id="{{ $doctor->id }}" 
-            :is-available="{{ intval( $doctor->isActive() ) }}"
+        <schedule-index 
+            :doctor="{{ $doctor }}" 
             :is-doctor-owner="{{ intval( Auth::check() 
                                     && ( Auth::id() === $doctor->id ) 
                                     && ( Auth::user()->isAuthenticatedDoctor()) 
                                  ) }}"
-        ></schedule-index> --}}
+        ></schedule-index>
 
           {{-- 
           @can ('edit', $doctor)

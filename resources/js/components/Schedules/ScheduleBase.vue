@@ -230,7 +230,7 @@
 
 <script>
   export default {
-    props: ['doctorId', 'isDoctorOwner', 'dayId', 'dayName'],
+    props: ['doctor', 'isDoctorOwner', 'dayId', 'dayName'],
     
     data() {
       return {
@@ -289,7 +289,7 @@
           axios.post('/schedules', {
             schedules : this.daySchedules, // array()
             day_id    : this.dayId,
-            doctor_id : this.doctorId,
+            doctor_id : this.doctor.id,
           })
           .then((response) => {
             this.editing = false;
@@ -327,20 +327,17 @@
       },
       
       showSchedules() { 
-        // route('schedules.day')
-        axios.get('/schedulesByDay/' + this.doctorId +'/' + this.dayId)
+        // Using the DB schedule. route('schedules.day')
+        axios.get('/schedulesByDay/' + this.doctor.id +'/' + this.dayId)
         .then(({data}) => (this.daySchedules = data))
         .then(() => { this.loading = false; })
-      },
-      
-      showSerializedSchedules() {
-        const thisDaySchedules = this.dayName.toLowerCase() +'_schedules';
-        
-        console.log(thisDaySchedules);
-        console.log(this.doctor.thisDaySchedules);
-        // console.log(this.doctor.sunday_schedules);
-        // return (this.doctor.sunday_schedules);
-        // return (this.doctor.thisDaySchedules);
+
+
+        // // Using the serialized schedule.
+        // const thisDaySchedules = this.dayName.toLowerCase() +'_schedules';
+        // this.daySchedules = this.doctor[thisDaySchedules]; 
+        // console.log(this.doctor[thisDaySchedules]);
+        // this.loading = false; 
       },
 
       // regCleanUp(elem){

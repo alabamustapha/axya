@@ -650,6 +650,19 @@ class Doctor extends Model
         return $this->revoked ? 'Revoked':'Active';
     }
 
+    public function availabilityStatus()
+    {
+        // if ($this->is_active) {
+        //     echo '<span class="bg-success doc-avail-indicator" title="Available"></span>';
+        // }
+        // elseif ($this->is_suspended) {
+        //     echo '<span class="bg-danger doc-avail-indicator" title="***"></span>';
+        // }
+        // else {
+        //     echo '<span class="bg-warning doc-avail-indicator" title="Unavailable"></span>';
+        // }
+    }
+
     public function getAvailabilityStatusAttribute()
     {
         return $this->availabilityStatus($this);

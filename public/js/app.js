@@ -111778,11 +111778,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     'schedule-base': __WEBPACK_IMPORTED_MODULE_0__ScheduleBase_vue___default.a
   },
 
-  props: ['doctorId', 'isDoctorOwner'], //, 'isAvailable'
+  props: ['doctor', 'isDoctorOwner'],
 
   data: function data() {
     return {
-      isAvailable: true, // Remember to use the props own, this is for testing.
+      // Remember to use 'isAvailable' from this.doctor, this 'true' is for testing.*/
+      isAvailable: true, /*this.doctor.is_active,*/
       days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
     };
   }
@@ -112073,7 +112074,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['doctorId', 'isDoctorOwner', 'dayId', 'dayName'],
+  props: ['doctor', 'isDoctorOwner', 'dayId', 'dayName'],
 
   data: function data() {
     return {
@@ -112131,7 +112132,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         axios.post('/schedules', {
           schedules: this.daySchedules, // array()
           day_id: this.dayId,
-          doctor_id: this.doctorId
+          doctor_id: this.doctor.id
         }).then(function (response) {
           _this.editing = false;
           _this.showSchedules();
@@ -112167,22 +112168,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     showSchedules: function showSchedules() {
       var _this2 = this;
 
-      // route('schedules.day')
-      axios.get('/schedulesByDay/' + this.doctorId + '/' + this.dayId).then(function (_ref) {
+      // Using the DB schedule. route('schedules.day')
+      axios.get('/schedulesByDay/' + this.doctor.id + '/' + this.dayId).then(function (_ref) {
         var data = _ref.data;
         return _this2.daySchedules = data;
       }).then(function () {
         _this2.loading = false;
       });
-    },
-    showSerializedSchedules: function showSerializedSchedules() {
-      var thisDaySchedules = this.dayName.toLowerCase() + '_schedules';
 
-      console.log(thisDaySchedules);
-      console.log(this.doctor.thisDaySchedules);
-      // console.log(this.doctor.sunday_schedules);
-      // return (this.doctor.sunday_schedules);
-      // return (this.doctor.thisDaySchedules);
+      // // Using the serialized schedule.
+      // const thisDaySchedules = this.dayName.toLowerCase() +'_schedules';
+      // this.daySchedules = this.doctor[thisDaySchedules]; 
+      // console.log(this.doctor[thisDaySchedules]);
+      // this.loading = false; 
     }
   }
 });
@@ -112823,7 +112821,7 @@ var render = function() {
           _vm._v(" "),
           _c("tr", [
             _c("td", [
-              _vm.isAvailable
+              _vm.isAvailable || _vm.isDoctorOwner
                 ? _c("div", { staticClass: "px-3 schedule-table__font-size" }, [
                     _c("div", [
                       _c(
@@ -112851,7 +112849,7 @@ var render = function() {
                                     attrs: {
                                       "day-id": index + 1,
                                       "day-name": day,
-                                      "doctor-id": _vm.doctorId,
+                                      doctor: _vm.doctor,
                                       "is-doctor-owner": _vm.isDoctorOwner
                                     }
                                   })
