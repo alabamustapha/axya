@@ -47,13 +47,13 @@ class TransactionSuccessfulNotification extends Notification //implements Should
         if ($notifiable->id == $this->transaction->user_id){
         return (new MailMessage)
             ->subject('Transaction Successful - Appointment Booking Fee')
-            ->line($this->transaction->user->name .', your transaction with ID <strong><a href="'. route('transactions.show', $this->transaction) .'">'. $this->transaction->transaction_id .'</a></strong> was successful.')
+            ->line($this->transaction->user->name .', your transaction with ID <strong><a href="'. $this->transaction->link .'">'. $this->transaction->transaction_id .'</a></strong> was successful.')
             ->line('The attending doctor, '. $this->transaction->doctor->name .' has been notified. You may start messaging at the set time.');
         }
         if ($notifiable->id == $this->transaction->doctor->id){
         return (new MailMessage)
             ->subject('Transaction Successful - Patient Appointment Booking Fee')
-            ->line('Dear '. $this->transaction->doctor->name .', your patient '. $this->transaction->user->name .', made a successful payment with the transaction ID <strong><a href="'. route('transactions.show', $this->transaction) .'">'. $this->transaction->transaction_id .'</a></strong>.')
+            ->line('Dear '. $this->transaction->doctor->name .', your patient '. $this->transaction->user->name .', made a successful payment with the transaction ID <strong><a href="'. $this->transaction->link .'">'. $this->transaction->transaction_id .'</a></strong>.')
             ->line('Kindly take note of the appointment time: '. $this->transaction->appointment->from .' and be avaialble. <br> You may start messaging at the set time.');
         }
     }
@@ -70,12 +70,12 @@ class TransactionSuccessfulNotification extends Notification //implements Should
 
         if ($notifiable->id == $this->transaction->user_id){
             $message  = $timestamp .' - <strong>Transaction  Successful - Appointment Booking Fee.</strong> <br>';
-            $message .= $this->transaction->user->name .', your transaction with ID <strong><a href="'. route('transactions.show', $this->transaction) .'">'. $this->transaction->transaction_id .'</a></strong> was successful. <br>';
+            $message .= $this->transaction->user->name .', your transaction with ID <strong><a href="'. $this->transaction->link .'">'. $this->transaction->transaction_id .'</a></strong> was successful. <br>';
             $message .= 'The attending doctor, '. $this->transaction->doctor->name .' has been notified. You may start messaging at the set time.';
         }
         if ($notifiable->id == $this->transaction->doctor->id){
             $message  = $timestamp .' - <strong>Transaction  Successful - Patient Appointment Booking Fee.</strong> <br>';
-            $message .= 'Dear '. $this->transaction->doctor->name .', your patient '. $this->transaction->user->name .', made a successful payment with the transaction ID <strong><a href="'. route('transactions.show', $this->transaction) .'">'. $this->transaction->transaction_id .'</a></strong>.';
+            $message .= 'Dear '. $this->transaction->doctor->name .', your patient '. $this->transaction->user->name .', made a successful payment with the transaction ID <strong><a href="'. $this->transaction->link .'">'. $this->transaction->transaction_id .'</a></strong>.';
             $message .= 'Kindly take note of the appointment time: '. $this->transaction->appointment->from .' and be avaialble. <br> You may start messaging at the set time.';
         }
 

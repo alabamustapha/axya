@@ -75,9 +75,24 @@ class TransactionController extends Controller
     {
         $this->authorize('create', Transaction::class);
 
-        $request->validate(['appointment_id' => 'required|integer|exists:appointment,id']);
+        $request->validate(['appointment_id' => 'required|integer|exists:appointments,id']);
 
         $appointment = Appointment::find($request->appointment_id);
+
+        $transactionExists = 
+            Transaction::where('user_id', auth()->id())
+                ->where('doctor_id', $appointment->doctor_id)
+                ->where('appointment_id', $appointment->id)
+                ->where('amount', $appointment->fee)
+                ->where('status', '1')
+                // ->exists()
+                ->first()
+                ;
+        if ($transactionExists){            
+            flash('This payment was made successfully sometimes ago with a transaction ID of: <a class="font-weight-bold" href="' . $transactionExists->link . '">' . $transactionExists->transaction_id . '</a>')->important()->info(); 
+
+            return redirect()->route('transactions.index', $transactionExists->user);
+        }
 
         $request->merge([
             'user_id'       => auth()->id(),
@@ -86,7 +101,7 @@ class TransactionController extends Controller
             'amount'        => $appointment->fee,
             'transaction_id'=> $appointment->makeTransactionId(),
             'status'        => '2',
-            // 'currency'      => ,
+            'currency'      => setting('base_currency'),
             // 'channel'       => ,
             // 'processor_id'  => ,
             // 'processor_trxn_id' => ,
@@ -94,7 +109,8 @@ class TransactionController extends Controller
         
         $transaction = Transaction::create($request->all());
 
-        return redirect()->route('mobilpay_pay', ['model'=> $transaction]);
+        // return redirect()->route('mobilpay_pay', ['model'=> $transaction]);
+        $this->mockedPayment($transaction);
 
         // if ($transaction) {
         //     $msg = 'Transaction created successfully.';
@@ -111,7 +127,7 @@ class TransactionController extends Controller
 
     public function mockedPayment(Transaction $transaction)
     {
-        $response = array_rand(['success' => 1,'failed' => 0]);
+        $response = 'success';//array_rand(['success' => 1,'failed' => 0]);
         // dd($response);
         // $response = $response_from_pymt_processor;
 
@@ -121,7 +137,18 @@ class TransactionController extends Controller
                 'confirmed_at' => Carbon::now(),
             ]);
             
+            // Update status to '5'.
             $transaction->appointment->activateFeePayment(); 
+            
+            // Add this to event.
+            $transaction->user
+                        ->calendar_events()
+                        ->create(\App\CalendarEvent::patientAppointmentEventData($transaction))
+                        ;
+            $transaction->doctor->user
+                        ->calendar_events()
+                        ->create(\App\CalendarEvent::doctorAppointmentEventData($transaction))
+                        ;
 
             // Notify concerned parties of success.
             $transaction->user->notify(new TransactionSuccessfulNotification($transaction->user, $transaction));
@@ -129,7 +156,7 @@ class TransactionController extends Controller
             
             flash('Payment was successful, notification has been sent to the attending doctor.')->success(); 
 
-            return redirect()->route('transactions.show', $transaction);
+            return redirect()->route('transactions.index', $transaction->user);
         }
         else {
             // No need to change status on appointment model, status quo maintained.
@@ -140,7 +167,7 @@ class TransactionController extends Controller
 
             flash('Payment was not successful, try again')->error();
 
-            return redirect()->route('transactions.show', $transaction);
+            return redirect()->route('transactions.index', $transaction->user);
         }
     }
 

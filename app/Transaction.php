@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Transaction extends Model
 {
-    protected $appends = ['status_text','status_indicator'];
+    protected $appends = ['status_text','status_indicator','link'];
 
     protected $dates = ['confirmed_at','cancelled_at' ];
 
@@ -74,5 +74,10 @@ class Transaction extends Model
         }
 
         return $status;
+    }
+
+    public function getLinkAttribute()
+    {
+        return route('transactions.show', [$this->user, $this]);
     }
 }
