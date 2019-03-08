@@ -74,7 +74,7 @@
                 <small class="text-info" title="Not Required">Not Required</small>
               </label>
 							<select type="text" name="prescription_id" class="form-control-sm form-control{{ $errors->has('prescription_id') ? ' is-invalid' : '' }}" value="{{ old('prescription_id') }}" placeholder="medication prescription_id">
-                <option>Select Prescription</option>
+                <option value="">Select Prescription</option>
                 @forelse ($prescriptions as $prescription)
                   <option value="{{ $prescription->id }}" {{ old('prescription_id') ? 'selected':'' }}>
                     {{ $prescription->appointment->description_preview }}
@@ -172,7 +172,7 @@
                       $types = ['minutes', 'hours', 'days', 'weeks', 'months', 'years'];
                     @endphp
                     @foreach ($types as $type)
-                    <option value="{{ $type }}" {{ old('type') ? 'selected':'' }}>{{ ucfirst($type) }}</option>
+                    <option value="{{ $type }}" {{ old('type') == $type ? 'selected':'' }}>{{ ucfirst($type) }}</option>
                     @endforeach
                   </select>
 

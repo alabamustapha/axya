@@ -6,7 +6,7 @@ use App\Http\Requests\MedicationRequest;
 use App\Medication;
 use App\Prescription;
 use Illuminate\Http\Request;
-
+use Carbon\Carbon;
 class MedicationController extends Controller
 {
     public function __construct()
@@ -32,6 +32,33 @@ class MedicationController extends Controller
                                    ->paginate(15)
                                    ;
 
+        /**
+         * This TEST is perfect here. A reference to Medication recurrence calculation
+         * - Get the diff between the Start and End datetime,
+         *   convert to minutes (smallest unit of recurrence type).
+         * /
+            $medication = Medication::first();
+
+            // Get total span of medication (in mins).
+            $medicationDuration = Carbon::parse($medication->start_time)->diffInMinutes($medication->end_date);  
+
+            // Get base recurrence type (in mins).
+            $recurrenceMinutes = $medication->reccurrenceInMinutes[$medication->recurrence_type]; 
+
+            // Time between each recurrence (in mins). This gets next recurrence!
+            $recurrenceDuration   = $recurrenceMinutes * $medication->recurrence;  
+
+            // Get total count of recurrence.
+            $recurrenceCount   = ceil($medicationDuration / $recurrenceDuration);  
+
+            dd(
+                $medicationDuration,
+                $recurrenceMinutes,
+                $recurrenceDuration,
+                $recurrenceCount
+            );
+        */
+
         return view('medications.index', compact('medications', 'prescriptions'));
     }
 
@@ -44,15 +71,25 @@ class MedicationController extends Controller
     public function store(MedicationRequest $request)
     {
         $this->authorize('create', Medication::class);
+        // dd($request->prescription_id, $request->all());
 
-        $appointmentId = Prescription::find($request->prescription_id)->appointment_id;
+        $appointmentId = $request->prescription_id
+                            ? Prescription::find($request->prescription_id)->appointment_id
+                            : null
+                            ;
 
         $request->merge([
             'user_id' => auth()->id(),
-            'appointment_id' => $appointmentId ?: null,
+            'appointment_id' => $appointmentId,
         ]);
 
         $medication = Medication::create($request->all());
+            
+        // Add all recurrence to the event table.
+        $medication->user
+                   ->calendar_events()
+                   ->createMany(\App\CalendarEvent::medicationEventData($medication))
+                   ;
 
         // return response()->json([status => 'Successfully created'], 201);
 

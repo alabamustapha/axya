@@ -25,7 +25,7 @@ class CreateCalendarEventsTable extends Migration
             $table->string('icon');         // eg font-awesome fa-home
             $table->boolean('background')->default(false); // For background events, has special styling.
 
-            $table->integer('eventable_id');
+            $table->integer('eventable_id')->nullable();
             $table->string('eventable_type');
             $table->timestamps();
 

@@ -46,4 +46,13 @@ class Medication extends Model
     {
         return $this->end_date->format('d/M/y');
     }
+
+    public $reccurrenceInMinutes = array(
+        'minutes' => 1,
+        'hours'   => 60,
+        'days'    => 60 * 24,
+        'weeks'   => 60 * 24 * 7,
+        'months'  => 60 * 24 * 7 * 4,
+        'years'   => 60 * 24 * 7 * 4 * 52,
+    );
 }

@@ -51,4 +51,95 @@ class CalendarEvent extends Model
             'eventable_type' => 'App\Transaction',
         ];
     }
+
+    /**
+     * Creates an event to notify a patient of an upcoming Appointment.
+     * Activated the moment a patients makes a successful booking payment transaction.
+     *
+     * @source TransactionController@mockedPayment()
+     */
+    public static function patientAppointmentEventData($transaction)
+    {
+        return [
+            // 'user_id'        => auth()->id(),
+            'start'          => $transaction->appointment->from,
+            'end'            => Carbon::parse($transaction->appointment->from)
+                                      ->addMinutes($transaction->appointment->duration_in_minutes),
+            'title'          => 'Doctor Appointment',
+            'content'        => 'You have an appointment with '. $transaction->doctor->name,
+            'contentFull'    => 'You have an appointment with '. $transaction->doctor->name,
+            'class'          => 'online-appointment',
+            'icon'           => 'fa-user-md',
+            'background'     => false,
+            'eventable_id'   => $transaction->appointment_id,
+            'eventable_type' => 'App\Appointment',
+        ];
+    }
+
+    public static function doctorAppointmentEventData($transaction)
+    {
+        return [
+            // 'user_id'        => auth()->id(),
+            'start'          => $transaction->appointment->from,
+            'end'            => Carbon::parse($transaction->appointment->from)
+                                      ->addMinutes($transaction->appointment->duration_in_minutes),
+            'title'          => 'Patient Appointment',
+            'content'        => 'You have an appointment with '. $transaction->user->name,
+            'contentFull'    => 'You have an appointment with '. $transaction->user->name,
+            'class'          => 'online-appointment',
+            'icon'           => 'fa-procedures',
+            'background'     => false,
+            'eventable_id'   => $transaction->appointment_id,
+            'eventable_type' => 'App\Appointment',
+        ];
+    }
+
+    /**
+     * Creates an event to notify a patient of an upcoming Medication.
+     * Activated the moment a patient adds/updates a medication.
+     *
+     * @source MedicationController@store()
+     */
+    public static function medicationEventData($medication)
+    {
+        /**
+         * This TEST is perfect here. A reference to Medication recurrence calculation
+         * - Get the diff between the Start and End datetime,
+         *   convert to minutes (smallest unit of recurrence type).
+         */
+        // Get total span of medication (in mins).
+        $medicationDuration = Carbon::parse($medication->start_time)->diffInMinutes($medication->end_date);  
+
+        // Get base recurrence type (in mins).
+        $recurrenceMinutes = $medication->reccurrenceInMinutes[$medication->recurrence_type]; 
+
+        // Time between each recurrence (in mins). This gets next recurrence!
+        $recurrenceDuration   = $recurrenceMinutes * $medication->recurrence;  
+
+        // Get total count of recurrence.
+        $recurrenceCount   = ceil($medicationDuration / $recurrenceDuration);
+
+        $events = [];
+        for($i = 1; $i <= $recurrenceCount; $i++){
+            // $index        = $i + 1;
+            $scheduleMins = $i * $recurrenceDuration;
+            $startTime    = Carbon::parse($medication->start_date)
+                                  ->addMinutes($scheduleMins);
+            array_push($events, [
+                'start'          => $startTime,
+                'end'            => Carbon::parse($startTime)
+                                          ->addMinutes(30),
+                'title'          => $medication->title,
+                'content'        => $medication->description,
+                'contentFull'    => 'You have a pending medication at '. $startTime .'. '. $medication->description,
+                'class'          => 'medication',
+                'icon'           => 'fa-pills',
+                'background'     => false,
+                'eventable_id'   => $medication->id,
+                'eventable_type' => 'App\Medication',
+            ]);
+        }
+
+        return $events;
+    }
 }
