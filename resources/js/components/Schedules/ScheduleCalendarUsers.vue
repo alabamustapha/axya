@@ -7,7 +7,7 @@
     <vue-cal
         :disable-views="['years']"
         :events="events"
-        :time-step="30"
+        :time-step="15"
         :time-from="7 * 60" 
         class="vuecal--blue-theme"
         default-view="month"
@@ -23,7 +23,7 @@
 
           <div class="vuecal__event-title" v-html="event.title" />
 
-          <small class="vuecal__event-time">
+          <small class="vuecal__event-time d-block clearfix">
             <strong>Start:</strong> <span>{{ event.startTime }}</span>
             <span>-</span>
             <strong>End:</strong> <span>{{ event.endTime }}</span>
@@ -73,7 +73,7 @@
   .vuecal__cells.years-view .vuecal__cell,
   .vuecal__cells.year-view .vuecal__cell,
   .vuecal__cells.month-view .vuecal__cell {height:70px;}
-  .vuecal__event .vuecal__event-title {font-weight:bold;clear:both;padding:5px;margin-bottom:3px;}
+  .vuecal__event .vuecal__event-title {font-weight:bold;display:inline-block;padding:5px;margin-bottom:3px;}
 
   /* Cell background indicator */
   .vuecal__cell--has-events {background-color: #fffacd;}
