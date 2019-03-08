@@ -119,7 +119,7 @@ Route::resource('medications',   'MedicationController')->except('create', 'edit
   
 Route::prefix('{user}')->group(function() {
   Route::resource('transactions',  'TransactionController')->except('index');
-  Route::resource('events',        'CalendarEventController');
+  Route::resource('events',        'CalendarEventController')->only('index', 'destroy');
 });
 
 
