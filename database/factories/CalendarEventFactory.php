@@ -1,52 +1,65 @@
 <?php
 
+use Carbon\Carbon;
 use Faker\Generator as Faker;
 
 $factory->define(App\CalendarEvent::class, function (Faker $faker) {
-    $eType = $faker->randomElement(['App\Appointment', 'App\Medication', 'App\Transaction']);
+    $eType = $faker->randomElement(['App\Appointment', 'App\PattAppointment', 'App\Medication', 'App\Transaction']);
     $eventType   = '';
     $eventableId = '';
     $eventClass  = '';
     $eventIcon   = '';
     
     if ($eType == 'App\Appointment') {
-        $eventType = 'App\Appointment';
+        $eventType   = 'App\Appointment';
+        $eventTitle  = 'Patient Appointment';
         $eventableId = App\Appointment::all()->random()->id;
         $eventClass  = $faker->randomElement(['online-appointment', 'home-appointment']);
-        $eventIcon   = $faker->randomElement(['fa-hospital', 'fa-clock']);
+        $eventIcon   = $faker->randomElement(['fa-user-md', 'fa-procedures']);
+        $eventBckgrd = false;
+    }
+    if ($eType == 'App\PattAppointment') {
+        $eventType = 'App\Appointment';
+        $eventTitle  = 'Doctor Appointment';
+        $eventableId = App\Appointment::all()->random()->id;
+        $eventClass  = $faker->randomElement(['online-appointment', 'home-appointment']);
+        $eventIcon   = $faker->randomElement(['fa-user-md', 'fa-procedures']);
+        $eventBckgrd = false;
     }
     if ($eType == 'App\Medication') {
-        $eventType = 'App\Medication';
+        $eventType   = 'App\Medication';
+        $eventTitle  = 'Medication Alert';
         $eventableId = App\Medication::all()->random()->id;
         $eventClass  = 'medication';
         $eventIcon   =  'fa-pills';
+        $eventBckgrd = false;
     }
     if ($eType == 'App\Transaction') {
-        $eventType = 'App\Transaction';
+        $eventType   = 'App\Transaction';
+        $eventTitle  = 'Appointment Fee';
         $eventableId = App\Transaction::all()->random()->id;
         $eventClass  = 'fee';
-        $eventIcon   = $faker->randomElement(['fa-atm-card', 'fa-money']);
+        $eventIcon   = $faker->randomElement(['fa-money-check-alt']);
+        $eventBckgrd = true;
     }
-    // dd(
-    // $eventType  ,
-    // $eventableId,
-    // $eventClass ,
-    // $eventIcon);
 
-    // $eventClass = $faker->randomElement(['online-appointment', 'home-appointment', 'others', 'fee', 'medication']);
-    // $eventIcon = $faker->randomElement(['fa-hospital', 'fa-clock', 'fa-atm-card', 'fa-money', 'fa-pills']);
+    $startDate = Carbon::parse(Carbon::now()->addSeconds($faker->date('now', '2 weeks')))
+                       ->format('Y-m-d')
+                       ;
+    $startTime = $startDate .' '. $faker->numberBetween(8, 11) .':00:00';
+    $endTime   = $startDate .' '. $faker->numberBetween(12, 21) .':00:00';
 
     return [
         'user_id'       => App\User::all()->random()->id,
-        'start'         => $faker->dateTimeBetween('1 hour', '2 hours'),
-        'end'           => $faker->dateTimeBetween('2 hours', '3 hours'),
-        'title'         => $faker->word,
+        'start'         => $startTime,//$faker->dateTimeBetween('1 hour', '3 hours'),
+        'end'           => $endTime,  //$faker->dateTimeBetween('4 hours', '8 hours'),
+        'title'         => $eventTitle,
         'content'       => $faker->sentence,
         'contentFull'   => $faker->sentences(2,4),
 
         'class'         => $eventClass,
         'icon'          => $eventIcon,
-        'background'    => $faker->boolean(6),
+        'background'    => $eventBckgrd,
         'eventable_id'  => $eventableId,
         'eventable_type'=> $eventType,
     ];

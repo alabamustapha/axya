@@ -21,14 +21,28 @@ class CalendarEventController extends Controller
 
         $twoWeeksOffMonth = Carbon::parse(Carbon::now()->startOfMonth())->subWeeks(2);
         $twoWeeksAftMonth = Carbon::parse(Carbon::now()->endOfMonth())->addWeeks(2);
-        // // If now is start/end of month, 3+- weeks events should be displayed.
-        // $threeWeeksPast   = Carbon::now()->subWeeks(3);
-        // $threeWeeksNext   = Carbon::now()->addWeeks(3);
+        // If now is start/end of month, 3+- weeks events should be displayed.
+        $threeWeeksPast   = Carbon::now()->subWeeks(3);
+        $threeWeeksNext   = Carbon::now()->addWeeks(3);
 
         $events = 
           $user->calendar_events()
                ->where('start', '>=', $twoWeeksOffMonth)
-               ->orWhere('start', '<=', $twoWeeksAftMonth)
+               ->orWhere(function ($query) use ( $userId, $twoWeeksAftMonth ) {
+                    $query->where('user_id', $userId)
+                          ->where('start', '<=', $twoWeeksAftMonth)
+                          ;
+               })
+               ->orWhere(function ($query) use ( $userId, $threeWeeksPast ) {
+                    $query->where('user_id', $userId)
+                          ->where('start', '>=', $threeWeeksPast)
+                          ;
+               })
+               ->orWhere(function ($query) use ( $userId, $threeWeeksNext ) {
+                    $query->where('user_id', $userId)
+                          ->where('start', '<=', $threeWeeksNext)
+                          ;
+               })
                // ->orWhere('start', '>=', $threeWeeksPast)
                // ->orWhere('start', '<=', $threeWeeksNext)
                ->get([
