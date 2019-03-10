@@ -107,7 +107,7 @@
                   class="btn btn-lg btn-block btn-warning" 
                   data-toggle="modal" data-target="#appointmentTransactionForm" 
                   title="New Transaction">
-                    <i class="fa fa-handshake"></i>&nbsp; Pay Consultation Fee
+                    <i class="fa fa-handshake"></i>&nbsp; Pay Fee
                 </button>
 
                 <!-- <button class="btn btn-sm my-1 btn-primary"

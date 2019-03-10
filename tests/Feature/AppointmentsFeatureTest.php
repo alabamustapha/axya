@@ -20,8 +20,12 @@ class AppointmentsFeatureTest extends TestCase
         parent::setUp();
 
         $this->user        = factory(User::class)->states('verified')->create();
+        $this->doctorUser  = factory(User::class)->states(['verified', 'doctor'])->create();
         $this->specialty   = factory(Specialty::class)->create();
-        $this->doctor      = factory(Doctor::class)->states('active')->create();
+        $this->doctor      = factory(Doctor::class)->states('active')->create([
+            'id'      => $this->doctorUser->id,
+            'user_id' => $this->doctorUser->id
+        ]);
         $this->appointment = factory(Appointment::class)->create(['user_id' => $this->user->id]);
         $this->sub_description = substr($this->appointment->description, 0,100);
 
@@ -71,6 +75,21 @@ class AppointmentsFeatureTest extends TestCase
             ->assertSee($this->sub_description)
             ;
     }
+
+    // /** @test */
+    // public function show_an_appointment_can_be_viewed_by_attending_doctor()
+    // {
+    //     $this
+    //         ->actingAs($this->doctorUser)
+    //         ->get(route('dr_appointments', $this->appointment))
+    //         ->assertStatus(200)
+    //         ->assertSee($this->appointment->status_text)
+    //         ->assertSee($this->appointment->user->name)
+    //         ->assertSee($this->appointment->from)
+    //         ->assertSee($this->appointment->to)
+    //         ->assertSee($this->sub_description)
+    //         ;
+    // }
 
     /** @test */
     public function show_an_appointment_cannot_be_viewed_by_non_creator()
@@ -158,7 +177,7 @@ class AppointmentsFeatureTest extends TestCase
         $appointment = factory(Appointment::class)->create([
             'user_id'     => $user->id,
             'doctor_id'   => $this->doctor->id,
-            'status'      => $this->faker->numberBetween(0,5),
+            'status'      => '0',
         ]);
 
         // Update the Appointment's details

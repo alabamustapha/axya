@@ -43,6 +43,11 @@ $factory->state(App\Doctor::class, 'active', function (Faker $faker) {
         'revoked' => '0', 
         'available'=> '1',
         'subscription_ends_at'=> Carbon::parse(Carbon::now())->addYear(),
+        'subscription_ends_at' => Carbon::now()->addMonth(),
+        'serialized_schedules' => serialize([
+            '1'=> [ 'start_at' => '01:00:00', 'end_at'   => '02:00:00' ],                
+            '2'=>[],'3'=>[],'4'=>[],'5'=>[],'6'=>[],'7'=>[]
+        ]),
     ];
 });
 
