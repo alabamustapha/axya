@@ -15,7 +15,7 @@ $factory->define(App\CalendarEvent::class, function (Faker $faker) {
         $eventTitle  = 'Patient Appointment';
         $eventableId = App\Appointment::all()->random()->id;
         $eventClass  = $faker->randomElement(['online-appointment', 'home-appointment']);
-        $eventIcon   = $faker->randomElement(['fa-user-md', 'fa-procedures']);
+        $eventIcon   = 'fa-procedures';
         $eventBckgrd = false;
     }
     if ($eType == 'App\PattAppointment') {
@@ -23,7 +23,7 @@ $factory->define(App\CalendarEvent::class, function (Faker $faker) {
         $eventTitle  = 'Doctor Appointment';
         $eventableId = App\Appointment::all()->random()->id;
         $eventClass  = $faker->randomElement(['online-appointment', 'home-appointment']);
-        $eventIcon   = $faker->randomElement(['fa-user-md', 'fa-procedures']);
+        $eventIcon   = 'fa-user-md';
         $eventBckgrd = false;
     }
     if ($eType == 'App\Medication') {

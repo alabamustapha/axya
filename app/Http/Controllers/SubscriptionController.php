@@ -33,7 +33,7 @@ class SubscriptionController extends Controller
     {
         $this->authorize('index', Subscription::class); 
 
-        $subscriptions = Subscription::where('doctor_id', $user->id)
+        $subscriptions = Subscription::with(['doctor', 'subscriptionPlan'])->where('doctor_id', $user->id)
                                     ->latest()
                                     ->paginate(15);
         return view('subscriptions.index', compact('user','subscriptions'));
@@ -79,7 +79,7 @@ class SubscriptionController extends Controller
             : $request->validate(['type'     => 'required|integer|exists:subscription_plans,id'])
             ;
 
-        $sub = SubscriptionPlan::find($request->type);
+        $sub                = SubscriptionPlan::find($request->type);
 
         $multiple           = $multipleActivated ? intval($request->multiple) : 1;
         $typeDaysCount      = $request->type == '3' ? 365 : ($request->type == '2' ? (30*4) : 30); // Sub start+End date Calculation.
@@ -134,7 +134,7 @@ class SubscriptionController extends Controller
             'user_id'       => auth()->id(),
             'doctor_id'     => auth()->id(),
 
-            'type'          => $request->type,    // For future reference.
+            'subscription_plan_id' => $request->type,    // For future reference.
             'multiple'      => $multiple,// For future reference.
             'days'          => $noOfDays, // Used internally to adjust Subscription Start and End dates.
 

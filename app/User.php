@@ -370,6 +370,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function isDoctor() 
     {
+        // return !! $this->has('doctor')->count();
         return !! $this->doctor()->count();
     }
 
