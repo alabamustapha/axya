@@ -99,7 +99,7 @@
                         <div class="tf-flex">
                           <span class="border p-1 w-100">
                               <span class="text-muted" style="font-size: 1rem;">Fee:</span> <br>
-                              <kbd>$<strong id="cost"></strong></kbd>
+                              <kbd>{{ setting('base_currency') }}<strong id="cost"></strong></kbd>
                           </span>
                           <span class="border p-1 w-100">
                               <span class="text-muted" style="font-size: 1rem;">Sessions:</span> <br>
@@ -116,8 +116,91 @@
                         </div>
                       </div>
                     @else 
+                      <div class="form-row mb-2">
+                        <div class="col-md-6">
+                          <div class="input-group form-default">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text font-weight-bold bg-info appmt-edit-form-append">Type</span>
+                            </div>
+
+                            <select id="appointment_type" name="type" class="form-control" required disabled>
+                              <option value="">Appointment Type</option>
+                              <option value="Online" {{(old('type') == 'Online' || $appointment->type == 'Online') ? 'selected':''}}>Online</option>
+                              <option value="Home" {{(old('type') == 'Home' || $appointment->type == 'Home') ? 'selected':''}}>Home</option>
+                            </select>  
+                          </div>                 
+                        </div>
+
+                        <div class="col-md-6">
+                          <div class="input-group form-default">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text font-weight-bold bg-info appmt-edit-form-append">Day</span>
+                            </div>
+
+                            <input name="day" value="{{$appointment->day}}" 
+                              type="text" autocomplete="off" 
+                              class="form-control" disabled> 
+                          </div>
+                        </div>
+                      </div>
+
+
+                      <div class="form-row mb-2" id="timepicker">
+                        <div class="col-md-6">
+                          <div class="input-group form-default">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text font-weight-bold bg-info appmt-edit-form-append">From</span>
+                            </div>
+
+                            <input id="from" type="text" name="from"
+                              value="{{$appointment->start_time}}"
+                              id="from" class="time start form-control" 
+                              required disabled>
+                          </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                          <div class="input-group form-default">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text font-weight-bold bg-info appmt-edit-form-append">To</span>
+                            </div>
+
+                            <input id="to" type="text" name="to"
+                              value="{{$appointment->end_time}}"
+                              id="to" class="time end form-control" 
+                              required disabled>                 
+                          </div>
+                        </div>
+                      </div>
+
+                      <div id="deal" class="col-md-8 offset-md-2 mb-2 p-3 table-responsive text-center" style="border-radius:4px;border:1px solid #ccc;font-size: 12px;display: none;">
+                        <div class="tf-flex">
+                          <span class="border p-1 w-100">
+                              <span class="text-muted" style="font-size: 1rem;">Fee:</span> <br>
+                              <kbd>{{ setting('base_currency') }}<strong id="cost"></strong></kbd>
+                          </span>
+                          <span class="border p-1 w-100">
+                              <span class="text-muted" style="font-size: 1rem;">Sessions:</span> <br>
+                              <kbd><strong id="no_of_sessions"></strong></kbd>
+                          </span>
+
+                          <span class="border p-1 w-100">
+                              <span class="text-muted" style="font-size: 1rem;">Duration:</span> <br>
+                              <kbd><strong id="duration"></strong></kbd>
+                          </span>
+                          <!-- For jQuery Deal Calculation. -->
+                          <input id="session" value="{{$appointment->doctor->session}}" type="hidden">
+                          <input id="rate" value="{{$appointment->doctor->rate}}" type="hidden">
+                        </div>
+                      </div>
+
+
+
+
+
+
                       <ul class="list-unstyled bg-light p-2 mb-2">
-                        <li class="tf-flex p-1">
+                        {{-- <li class="tf-flex p-1">
                           <span><i class="fa fa-calendar"></i> Date</span>
                           <span class="text-bold">{{$appointment->day}}</span>
                         </li>
@@ -125,7 +208,7 @@
                         <li class="tf-flex p-1">
                           <span><i class="fa fa-clock"></i> Time</span>
                           <span class="text-bold">{{$appointment->start_time}} - {{$appointment->end_time}}</span>
-                        </li>
+                        </li> --}}
 
                         <li class="tf-flex p-1">
                           <span><i class="fa fa-stopwatch"></i> Duration</span>
@@ -338,7 +421,7 @@
                         <div class="tf-flex">
                           <span class="border p-1">
                               <span class="text-muted" style="font-size: 1rem;">Fee:</span> <br>
-                              <kbd>$<strong id="cost"></strong></kbd>
+                              <kbd>{{ setting('base_currency') }}<strong id="cost"></strong></kbd>
                           </span>
                           <span class="border p-1">
                               <span class="text-muted" style="font-size: 1rem;">Sessions:</span> <br>

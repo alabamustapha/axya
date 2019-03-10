@@ -228,15 +228,18 @@ class AppointmentController extends Controller
      */
     public function update(AppointmentUpdateRequest $request, Appointment $appointment)
     {
-        // $this->authorize('edit', $appointment);
+        $this->authorize('edit', $appointment);
 
         $this->formatHourTo2400($request);
 
         // $request->merge(['user_id' => auth()->id()]);
-        // dd($request->all());//,
-        // dd($appointment->update($request->all()));
 
-        if ($appointment->update($request->all())){
+        $appointment->status > '0' 
+            ? $appointment->update($request->only(['description', 'illness_duration', 'illness_history'])) 
+            : $appointment->update($request->all())
+            ;
+
+        // if ($appointment->update($request->all())){
             $message = 'Appointment updated successfully.';
 
             flash($message)->success();
@@ -246,7 +249,7 @@ class AppointmentController extends Controller
         
             return back();
             return redirect()->route('appointments.show', $appointment);
-        }
+        // }
 
     }
 
