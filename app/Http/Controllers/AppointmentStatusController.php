@@ -28,6 +28,12 @@ class AppointmentStatusController extends Controller
     {
         $this->authorize('edit', $appointment);
         $appointment->activateAccept();
+            
+        // Doctor accepted, add fee payment to event table.
+        $appointment->user
+                     ->calendar_events()
+                     ->create(\App\CalendarEvent::createTransactionEventData($appointment))
+                     ;
 
         $appointment->user->notify(new AppointmentAcceptedNotification($appointment->user, $appointment));
         return response(['message' => 'Appointment accepted successfully.']);

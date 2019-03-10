@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use App\Doctor;
 use App\Specialty;
 use App\Subscription;
+use App\SubscriptionPlan;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -22,6 +23,7 @@ class SubscriptionsTest extends TestCase
         $this->user       = factory(User::class)->create();
         $this->specialty  = factory(Specialty::class)->create();
         $this->doctor     = factory(Doctor::class)->states('active')->create();
+        $this->subscription_plan = factory(SubscriptionPlan::class)->create();
         $this->subscription= factory(Subscription::class)->create();
     } 
 
@@ -30,7 +32,7 @@ class SubscriptionsTest extends TestCase
     {
         $this->assertTrue(Schema::hasColumns('subscriptions', 
           [
-            'id','user_id','doctor_id','type','start','end','multiple','days',
+            'id','user_id','doctor_id','subscription_plan_id','start','end','multiple','days',
             'amount','currency',
             'channel','transaction_id','processor_id','processor_trxn_id','status',
             'confirmed_at','cancelled_at',

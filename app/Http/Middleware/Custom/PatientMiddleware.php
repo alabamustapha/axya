@@ -17,15 +17,20 @@ class PatientMiddleware
      */
     public function handle($request, Closure $next)
     {
-        $userId = \App\User::whereSlug(\Route::input('user.slug'))->first()->id;
+        $doctor = Auth::user()->doctor;
+        $userId = (\Route::input('user.slug')) 
+                    ? \App\User::whereSlug(\Route::input('user.slug'))->first()->id
+                    : \App\User::whereSlug(\Route::input('doctor.slug'))->first()->id
+                    ;
 
         if (Auth::check()) {
             if (
                    Auth::user()->isAuthenticatedAdmin()  
-                // || Auth::user()->isAuthenticatedDoctor() // Use policy to extend this.
                 || (Auth::user()->slug == \Route::input('user.slug'))
                 || (Auth::user()->isAuthenticatedDoctor() 
-                        && Auth::user()->doctor->hasActivityWithPatient($userId)
+                        && (   $doctor->hasActivityWithPatient($userId) 
+                            || $doctor->slug == \Route::input('doctor.slug')
+                           )
                     )
                )
             {

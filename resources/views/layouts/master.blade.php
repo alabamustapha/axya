@@ -3,14 +3,7 @@
   <head>
 
     @include('layouts.redesign.head-assets') 
-
-    <script>
-      @auth
-        window.user = @json(auth()->user());
-      @endauth
-      
-      window.appUrl  = @json(config('app.url'));
-    </script>
+    
   </head>
   <body>
 
@@ -22,7 +15,7 @@
           </div>
       </div>
 
-      <div id="buttom-nav"></div>
+      {{-- <div id="buttom-nav"></div> --}}
 
       <div class="wrapper">
 

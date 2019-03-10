@@ -41,3 +41,14 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+    
+    <!-- STYLE OVERRIDE -->
+    <link rel="stylesheet" href="{{asset('css/custom/override.css')}}">
+
+    <script>
+      @auth
+        window.user = @json(auth()->user());
+      @endauth
+      
+      window.appUrl  = @json(config('app.url'));
+    </script>

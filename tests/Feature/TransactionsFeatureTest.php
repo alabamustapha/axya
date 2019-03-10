@@ -127,6 +127,62 @@ class TransactionsFeatureTest extends TestCase
             ;
     }
 
+    // /**  @test */
+    // public function store_a_transaction_can_be_created_by_a_verified_user()
+    // {
+    //     $user        = factory(User::class)->states('verified')->create();
+    //     $appointment = factory(Appointment::class)->create(['user_id' => $user->id]);
+    //     $newTransaction = factory(Transaction::class)->raw(['appointment_id' => $appointment->id]);
+
+    //     $newTransaction = array_merge($newTransaction, [
+
+    //         'amount'        => $appointment->doctor->rate * $appointment->no_of_sessions,
+    //         'status'        => '0',
+    //         'currency'      => 'RON',
+    //     ]);
+
+    //     // $data = [ 
+    //     //     'user_id'       => $user->id,
+    //     //     'doctor_id'     => $appointment->doctor_id,
+    //     //     'appointment_id'=> $appointment->id,
+    //     //     'transaction_id'=> $appointment->makeTransactionId(),
+    //     // ];
+
+    //     $this
+    //         ->actingAs($user)
+    //         ->post(route('transactions.store', $user), $newTransaction)
+    //         ;
+    //     // // Test here that Transaction Event is generated...
+
+    //     // // Test here that Transaction Event is generated...
+    //     // $createdEvent = $user
+    //     //               ->calendar_events()
+    //     //               ->create(\App\CalendarEvent::createTransactionEventData($appointment))
+    //     //               ->toArray()
+    //     //               ;
+    //     // $createdPatientEvent = $user
+    //     //             ->calendar_events()
+    //     //             ->create(\App\CalendarEvent::patientAppointmentEventData($transaction))
+    //     //             ;
+    //     // $createdDoctorEvent = $doctor->user
+    //     //             ->calendar_events()
+    //     //             ->create(\App\CalendarEvent::doctorAppointmentEventData($transaction))
+    //                 ;
+
+    //     // $this->assertDatabaseHas('calendar_events', $createdEvent);
+
+    //     $this->assertDatabaseHas('transactions', $newTransaction);
+    //     // $this->assertDatabaseHas('calendar_events', $createdPatientEvent);
+    //     // $this->assertDatabaseHas('calendar_events', $createdDoctorEvent);
+    // }
+
+
+
+
+
+
+
+
     // /** @test */
     // public function show_a_new_transaction_form_contains_required_texts() 
     // {
@@ -141,32 +197,6 @@ class TransactionsFeatureTest extends TestCase
     //         ->assertDontSee($this->transaction->status)
     //         ->assertDontSee($this->transaction->transaction_id)
     //         ;
-    // }
-
-    // /**  @test */
-    // public function store_a_transaction_can_be_created_by_a_verified_user()
-    // {
-    //     $user        = factory(User::class)->states('verified')->create();
-    //     $appointment = factory(Appointment::class)->create();
-    //     $data = [ 
-    //         'user_id'       => $user->id,
-    //         'doctor_id'     => $appointment->doctor_id,
-    //         'appointment_id'=> $appointment->id,
-    //         'amount'        => $appointment->doctor->rate * $appointment->sessions,
-    //         'transaction_id'=> $appointment->makeTransactionId(),
-    //         'status'        => '2',
-    //         // 'currency'      => ,
-    //         // 'channel'       => ,
-    //         // 'processor_id'  => ,
-    //         // 'processor_trxn_id' => ,
-    //     ];
-
-    //     $this
-    //         ->actingAs($user)
-    //         ->post(route('transactions.store'), $data)
-    //         ;
-
-    //     $this->assertDatabaseHas('transactions', $data);
     // }
 
     // /** @test */

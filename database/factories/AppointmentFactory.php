@@ -13,8 +13,8 @@ $factory->define(App\Appointment::class, function (Faker $faker) {
       'doctor_id' => App\Doctor::all()->random()->id,
 
       'day'       => $faker->dateTimeBetween('-50 day', '-1day'),
-      'from'      => $faker->time('H:i', '5:00 am'), // 'H:i:s'
-      'to'        => $faker->time('H:i', '11:00 pm'), // 'H:i:s'
+      'from'      => date('Y-m-d') .' '. $faker->time('H:i', '7:00'), // 'H:i:s'
+      'to'        => date('Y-m-d') .' '. $faker->time('H:i', '23:00'), // 'H:i:s'
 
       'description' => $faker->paragraphs(1,3),
       'illness_duration' => $faker->randomElement(['1 week','2 days','3 months']),

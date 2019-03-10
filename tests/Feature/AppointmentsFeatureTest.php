@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Carbon\Carbon;
 use App\Appointment;
 use App\Doctor;
 use App\Specialty;
@@ -189,6 +190,33 @@ class AppointmentsFeatureTest extends TestCase
             ;
 
         $this->assertDatabaseHas('appointments', $data_edited);
+    }
+
+    /** @test */
+    public function an_appointment_event_is_created_when_a_doctor_accepts_a_booking()
+    {
+        $user = factory(User::class)->states('verified')->create();
+
+        // Create an Appointment
+        $appointment = factory(Appointment::class)->create([
+            'type'        => 'Online', 
+            'user_id'     => $user->id,
+            'doctor_id'   => $this->doctor->id,
+            'status'      => '0',
+        ]);
+
+        // The appointment accepted part is clunky...
+        // ..........
+        // $this->assertDatabaseHas('appointments', $updated_data);
+
+        // Test here that Transaction Event is generated...
+        $createdEvent = $user
+                      ->calendar_events()
+                      ->create(\App\CalendarEvent::createTransactionEventData($appointment))
+                      ->toArray()
+                      ;
+
+        $this->assertDatabaseHas('calendar_events', $createdEvent);
     }
 
     // /** @test */

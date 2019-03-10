@@ -78,18 +78,18 @@
                                       <div class="opt-items">
                                           <div class="extra-opt-items">
                                               <a href="{{route('home')}}" class="opt-item">
-                                                <i class="fa fa-home"></i>&nbsp; {{ __('Home') }}</a>
+                                                <i class="fas fa-home fa-fw"></i>&nbsp; {{ __('Home') }}</a>
                                              
                                           </div>
                                           <a href="{{route('user_dashboard')}}" class="opt-item">
-                                            <i class="fa fa-tachometer-alt"></i>&nbsp; {{ __('Dashboard') }}</a>
+                                            <i class="fas fa-tachometer-alt fa-fw"></i>&nbsp; {{ __('Dashboard') }}</a>
                                           @if (Auth::user()->is_doctor)
                                           <a href="{{route('doctors.show', Auth::user())}}" class="opt-item">
-                                            <i class="fa fa-user-md"></i>&nbsp; {{ __('Doctor Profile') }}
+                                            <i class="fas fa-user-md fa-fw"></i>&nbsp; {{ __('Doctor Profile') }}
                                           </a>
                                           @endif
                                           <a href="{{route('users.show', Auth::user())}}" class="opt-item">
-                                            <i class="fa fa-user"></i>&nbsp; {{ __('Profile') }}
+                                            <i class="fas fa-user fa-fw"></i>&nbsp; {{ __('Profile') }}
                                           </a>
                                          
                                           <a href="#" class="opt-item">Account</a>
@@ -99,7 +99,7 @@
                                             onclick="event.preventDefault(); 
                                             document.getElementById('logout-form').submit();" 
                                             class="opt-item sign-out">
-                                              <i class="fa fa-sign-out-alt"></i>&nbsp; {{ __('Sign out') }}</a>
+                                              <i class="fas fa-sign-out-alt fa-fw"></i>&nbsp; {{ __('Sign out') }}</a>
 
                                           <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                               @csrf

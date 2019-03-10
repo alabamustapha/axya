@@ -46,4 +46,14 @@ class Prescription extends Model
     {
         return $this->hasMany(Drug::class);
     }
+
+    public function medications()
+    {
+        return $this->hasMany(Medication::class);
+    }
+
+    public function hasActiveAppointment()
+    {
+        return !! $this->appointment->hasActiveCorrespondence()->count();
+    }
 }

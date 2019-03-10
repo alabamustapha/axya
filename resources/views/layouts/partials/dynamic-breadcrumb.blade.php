@@ -5,7 +5,9 @@
 </a>
 
 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" aria-labelledby="navbarDropdown">
-      <a href="{{ route('doctors.index') }}" class="dropdown-item">Doctors</a>
+    <a href="{{ route('doctors.index') }}" class="dropdown-item">Doctors</a>
+    <a href="{{ route('subscription_plans.index') }}" class="dropdown-item">Subscription Plans</a>
+    
     @if (Request::path() == 'specialties')
       <a href="#" class="dropdown-item"><b>Specialties</b></a>
     @else

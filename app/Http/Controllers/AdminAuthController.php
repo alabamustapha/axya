@@ -34,6 +34,16 @@ class AdminAuthController extends Controller
         if ($user->admin_password === sha1($request->admin_password)) {
             $user->update(['admin_mode' => 1]);
 
+            if (isset(request()->ref)){
+                // Prevent double slash '//' if referring url is '/'.
+                $refUrl = (request()->ref === '/') ? '' : request()->ref;
+
+                // Reconstruct referring page and redirect appropriately.
+                $expected_path = config('app.url') . $refUrl;
+
+                return redirect($expected_path);
+            }
+
             return redirect()->route('dashboard-main');
         }
         

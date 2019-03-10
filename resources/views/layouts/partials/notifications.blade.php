@@ -38,18 +38,30 @@
           @endif
         @endif
       @endunless
-{{-- 
-      @if (Auth::user()->isDoctor() && !Auth::user()->doctor->is_subscribed && Request::is('*/notifications'))
-        <small>
-          You must be subscribed to appear in search results and to receive appointment from patients on this platform.
-          
-          <br>
 
-          <button class="btn btn-primary btn-sm" 
-            data-toggle="modal" data-target="#newSubscriptionForm" 
-            title="New Subscription">Subscribe Now</button>
-        </small>
-      @endif --}}
+      @if (Auth::user()->isDoctor() && Request::is('*/notifications'))
+        @if (!Auth::user()->doctor->is_subscribed)
+          <small>
+            You must be subscribed to appear in search results and to receive appointment from patients on this platform.
+            
+            <br>
+
+            {{-- <button class="btn btn-primary btn-sm" 
+              data-toggle="modal" data-target="#newSubscriptionForm" 
+              title="New Subscription">Subscribe Now</button> --}}
+              
+            <a href="{{ route('subscription_plans.index') }}" class="btn btn-primary btn-sm" 
+              title="New Subscription">Subscribe Now</a>
+          </small>
+        @else
+            {{-- <button class="btn btn-primary btn-sm" 
+              data-toggle="modal" data-target="#newSubscriptionForm" 
+              title="New Subscription">Extend current subscription</button> --}}
+
+            <a href="{{ route('subscription_plans.index') }}" class="btn btn-primary btn-sm" 
+              title="New Subscription">Extend current subscription</a>
+        @endif
+      @endif
     </div>
   @endauth
 @endif

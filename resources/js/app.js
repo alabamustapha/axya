@@ -20,10 +20,6 @@ Vue.prototype.$acl = new Acl(window.user);
 import moment from 'moment'
 
 
-// AOS (Animate On Scroll Library):
-import AOS from 'aos'
-
-
 // VueForm:
 import { Form, HasError, AlertError } from 'vform'
 window.Form = Form // Available globally for global access.
@@ -59,6 +55,11 @@ const toast = swal.mixin({
 window.toast = toast;
 
 
+// VueCtkDateTimePicker: https://vuejsexamples.com/a-vuejs-component-for-select-date-time-2/
+//                       https://github.com/chronotruck/vue-ctk-date-time-picker#readme
+import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
+import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
+
 // Vue Filters
 Vue.filter('upText', function(text)   { return text.toUpperCase() });
 Vue.filter('myDate', function(created){ return moment(created).format("MMM Do YY") });
@@ -84,8 +85,6 @@ const router = new VueRouter({
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 Vue.component('searches',         require('./components/Searches.vue'));
-Vue.component('schedule-list',    require('./components/ScheduleList.vue'));
-Vue.component('schedule',         require('./components/Schedule.vue'));
 Vue.component('prescription',     require('./components/Prescription.vue'));
 Vue.component('drug',             require('./components/Drug.vue'));
 Vue.component('display-prescription',require('./components/DisplayPrescription.vue'));
@@ -95,8 +94,15 @@ Vue.component('user-search',      require('./components/UserSearch.vue'));
 Vue.component('doctor-search',    require('./components/DoctorSearch.vue'));
 Vue.component('admin-list',       require('./components/Admin/AdminList.vue'));
 Vue.component('staff-list',       require('./components/Admin/StaffList.vue'));
+Vue.component('schedule-calendar-users',   require('./components/Schedules/ScheduleCalendarUsers.vue'));
+Vue.component('schedule-index',   require('./components/Schedules/ScheduleIndex.vue'));
+Vue.component('schedule-list',    require('./components/Schedules/OldAttempt/ScheduleList.vue'));
+Vue.component('schedule',         require('./components/Schedules/OldAttempt/Schedule.vue'));
 
-Vue.component('pagination', require('laravel-vue-pagination'));
+Vue.component('pagination',       require('laravel-vue-pagination'));
+Vue.component('loading-spinner',  require('./components/Utilities/LoadingSpinner.vue'));
+
+Vue.component('vue-ctk-date-time-picker', VueCtkDateTimePicker);
 
 const app = new Vue({
     el: '#app',

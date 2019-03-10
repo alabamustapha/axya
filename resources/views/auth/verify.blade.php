@@ -1,6 +1,9 @@
-@extends('layouts.master')
+@extends('layouts.app')
 
 @section('title', 'Verify Email')
+@section('page-title')
+    <i class="fa fa-at"></i> Verify Email
+@endsection
 
 @section('content')
 <div class="container">

@@ -15,9 +15,10 @@
           <div class="row">
 
             <div class="col-md-9">
-              <div id="calendar">
+              {{-- <div id="calendar"> --}}
                 <!-- calendar injected here -->
-              </div>
+              {{-- </div> --}}
+              <schedule-calendar-users :user-id="{{ Auth::id() }}"></schedule-calendar-users>
             </div>
 
             <div class="col-md-3"></div>

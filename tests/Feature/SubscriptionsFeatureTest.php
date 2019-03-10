@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use App\Doctor;
 use App\Specialty;
 use App\Subscription;
+use App\SubscriptionPlan;
 use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -22,6 +23,7 @@ class SubscriptionsFeatureTest extends TestCase
         $this->user       = factory(User::class)->states(['verified','doctor'])->create();
         $this->specialty  = factory(Specialty::class)->create();
         $this->doctor     = factory(Doctor::class)->states('active')->create();
+        $this->subscription_plan = factory(SubscriptionPlan::class)->create();
         $this->subscription= factory(Subscription::class)->create([
             'user_id'       => $this->user->id,      // Subscribing User
             'doctor_id'     => $this->doctor->id,    // Subscriber
@@ -36,7 +38,7 @@ class SubscriptionsFeatureTest extends TestCase
             ->get(route('subscriptions.index', $this->subscription->user))
             ->assertStatus(200)
             ->assertSee($this->subscription->doctor->name)
-            ->assertSee($this->subscription->type)
+            ->assertSee($this->subscription->subscriptionPlan->name)
             ->assertSee($this->subscription->amount)
             ->assertSee($this->subscription->status)
             ->assertSee($this->subscription->transaction_id)
@@ -53,7 +55,7 @@ class SubscriptionsFeatureTest extends TestCase
             ->get(route('subscriptions.show', $this->subscription))
             ->assertStatus(200)
             ->assertSee($this->subscription->doctor->name)
-            ->assertSee($this->subscription->type)
+            ->assertSee($this->subscription->subscriptionPlan->name)
             ->assertSee($this->subscription->amount)
             ->assertSee($this->subscription->status)
             ->assertSee($this->subscription->transaction_id)
@@ -72,7 +74,7 @@ class SubscriptionsFeatureTest extends TestCase
             ->get(route('subscriptions.show', $this->subscription))
             ->assertStatus(200)
             ->assertSee($this->subscription->doctor->name)
-            ->assertSee($this->subscription->type)
+            ->assertSee($this->subscription->subscriptionPlan->name)
             ->assertSee($this->subscription->amount)
             ->assertSee($this->subscription->status)
             ->assertSee($this->subscription->transaction_id)
@@ -91,7 +93,7 @@ class SubscriptionsFeatureTest extends TestCase
             ->get(route('subscriptions.index', $this->subscription->user))
             // ->assertStatus(403)
             ->assertDontSee($this->subscription->doctor->name)
-            ->assertDontSee($this->subscription->type_text)
+            ->assertDontSee($this->subscription->subscriptionPlan->name)
             ->assertDontSee($this->subscription->transaction_id)
             ;
     }

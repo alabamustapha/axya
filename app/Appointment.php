@@ -52,6 +52,11 @@ class Appointment extends Model
         return $this->morphMany(Message::class, 'messageable');
     }
 
+    public function calendar_events()
+    {
+        return $this->morphMany(CalendarEvent::class, 'eventable');
+    }
+
     /**
      * Route key
      * 
@@ -71,6 +76,11 @@ class Appointment extends Model
     //         $appointment->slug = substr($str, 0, 50);
     //     });
     // }
+
+    public function medications()
+    {
+        return $this->hasMany(Medication::class);
+    }
 
     public function transactions()
     {
@@ -345,6 +355,13 @@ class Appointment extends Model
     public function getEndTimeAttribute()
     {
         return Carbon::parse($this->to)->format('h:i A');
+    }
+
+    public function getDurationInMinutesAttribute()
+    {
+        $duration = Carbon::parse($this->end_time)->diffInMinutes(Carbon::parse($this->start_time));
+
+        return $duration;
     }
 
     public function getDurationAttribute()

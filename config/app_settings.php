@@ -159,6 +159,20 @@ return [
                     'max'  => 100,
                     'hint' => 'Set discount for yearly subscribers.'
                 ],
+                [
+                    // select options
+                    'name' => 'activate_multiple', 
+                    'type' => 'boolean',
+                    'label'=> 'Allow Multiple Subscriptions',
+                    'class' => 'w-auto', 
+                    'style' => '', 
+                    'rules' => 'required|in:on,off',
+                    'hint' => 'Allow users to make multiple subscriptions on plans of choice',
+                    'value' => false,
+                    // optional fields
+                    'true_value' => 'on',
+                    'false_value' => 'off',
+                ],
                 
             ]
         ],

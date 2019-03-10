@@ -12,8 +12,13 @@ class ScheduleController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('doctor');
+        $this->middleware('auth')->except('schedulesByDay', 'index'); // Index is for testing
+        $this->middleware('doctor')->except('schedulesByDay', 'index'); // Index is for testing
+    }
+
+    public function index()
+    {
+        return view('doctors.forms.schedules.index');
     }
 
     /**
@@ -24,21 +29,37 @@ class ScheduleController extends Controller
      */
     public function store(ScheduleRequest $request)
     {
-        $this->authorize('create', Schedule::class);
-        
-        $schedule = Schedule::create($request->all());
+        $this->authorize('create', Schedule::class);        
+        /*
+            $schedule = Schedule::create($request->all());
 
-        if ($schedule) {
-            $message = 'Schedule added successfully';
+            if ($schedule) {
+                $message = 'Schedule added successfully';
 
-            if (request()->expectsJson()) {
-                return response(['status' => $message]);
+                if (request()->expectsJson()) {
+                    return response(['status' => $message]);
+                }
+
+                flash($message)->success();
             }
 
-            flash($message)->success();
-        }
+            return redirect()->route('doctors.show', $schedule->doctor);
+        */
 
-        return redirect()->route('doctors.show', $schedule->doctor);
+
+        /** -------------- The New Approaches -------------- */
+        $doctor = Doctor::findOrFail($request->doctor_id);
+
+        /** -------------- Serialization Save -------------- */
+        $doctor->saveSerializedSchedules($request);
+        // return $doctor->schedules();
+
+        /** -------------- Normal DB Save ------------------ */
+        $doctor->saveSchedules($request);
+
+        $message = 'Schedule serialized and saved successfully';
+
+        return response(['status' => $message], 200);        
     }
 
     /**
@@ -88,14 +109,25 @@ class ScheduleController extends Controller
         return redirect()->route('doctors.show', $schedule->doctor);
     }
 
-
-
-    public function schedules(Request $request, $doctor, $day)
+    /**
+     * Loads Doctor schedules in "ScheduleBase.vue@showSchedules()".
+     *
+     * @param  \App\Doctor  $doctor->id
+     * @param  \App\Day     $day->id
+     * @return \Illuminate\Http\Collection
+     */ 
+    public function schedulesByDay(Request $request, $doctorId, $dayId)
     {
-        $doctor    = Doctor::findOrFail($request->doctor);
+        $doctor    = Doctor::findOrFail($doctorId);
 
-        $schedules = $doctor->schedules()->where('day_id', $day)->get();
+        $schedules = $doctor->schedules()->where('day_id', $dayId)->get();
 
-        return $schedules;
+        return $schedules;   
+    }       
+
+    public function serializedSchedulesByDay(Request $request, $doctorId, $dayId)
+    {
+        $doctor    = Doctor::findOrFail($doctorId);
+        return $doctor->serializedSchedules()[$dayId];
     }
 }

@@ -15,16 +15,16 @@ use Illuminate\Http\Request;
  */
 trait DoctorViewsTrait
 {
-    public function availabilityStatus(Doctor $doctor)
-    {
-        // if ($doctor->is_active) {
-        //     echo '<span class="bg-success border border-success rounded" style="width: 12px;height: 12px;position: relative;left:-20px;top:20px;" title="Available"></span>';
-        // }
-        // elseif ($doctor->is_suspended) {
-        //     echo '<span class="bg-danger border border-danger rounded" style="width: 12px;height: 12px;position: relative;left:-20px;top:20px;" title="***"></span>';
-        // }
-        // else {
-        //     echo '<span class="bg-warning border border-warning rounded" style="width: 12px;height: 12px;position: relative;left:-20px;top:20px;" title="Unavailable"></span>';
-        // }
-    }
+    // public function availabilityStatus(Doctor $doctor)
+    // {
+    //     // if ($doctor->is_active) {
+    //     //     echo '<span class="bg-success doc-avail-indicator" title="Available"></span>';
+    //     // }
+    //     // elseif ($doctor->is_suspended) {
+    //     //     echo '<span class="bg-danger doc-avail-indicator" title="***"></span>';
+    //     // }
+    //     // else {
+    //     //     echo '<span class="bg-warning doc-avail-indicator" title="Unavailable"></span>';
+    //     // }
+    // }
 }

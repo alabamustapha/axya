@@ -12,7 +12,15 @@
       @forelse ($doctors as $doctor)
         <a href="{{route('doctors.show', $doctor)}}" class="search-item">
             <img src="{{ $doctor->avatar }}" height="60" class="rounded-circle doc-img" alt="doctor's image">
-            {{ $doctor->availability_status }}
+            
+            {{-- $doctor->availability_status --}}
+            @if ($doctor->is_active)
+                <span class="bg-success doc-avail-indicator" title="Available"></span>
+            @else
+                <span class="bg-danger doc-avail-indicator" title="Unavailable"></span>
+            {{-- @elseif ($doctor->is_suspended) { {
+                <span class="bg-warning doc-avail-indicator" title="***"></span> --}}
+            @endif
 
             <!-- personal detail -->
             <div id="p-d" class="search-cell">
@@ -27,19 +35,19 @@
             </div>
 
             <!-- schedule detail -->
-            {{--
+            
             <div id="s-d" class="search-cell">
                 <ul class="nav flex-sm-row">
-                    <li class="nav-item {{$doctor->hasSundaySchedule() ? 'has':''}}"   >S</li>
-                    <li class="nav-item {{$doctor->hasMondaySchedule() ? 'has':''}}"   >M</li>
-                    <li class="nav-item {{$doctor->hasTuesdaySchedule() ? 'has':''}}"  >T</li>
-                    <li class="nav-item {{$doctor->hasWednesdaySchedule() ? 'has':''}}">W</li>
-                    <li class="nav-item {{$doctor->hasThursdaySchedule() ? 'has':''}}" >T</li>
-                    <li class="nav-item {{$doctor->hasFridaySchedule() ? 'has':''}}"   >F</li>
-                    <li class="nav-item {{$doctor->hasSaturdaySchedule() ? 'has':''}}" >S</li>
+                    <li class="nav-item {{$doctor->has_sunday_schedules ? 'has':''}}"   >S</li>
+                    <li class="nav-item {{$doctor->has_monday_schedules ? 'has':''}}"   >M</li>
+                    <li class="nav-item {{$doctor->has_tuesday_schedules ? 'has':''}}"  >T</li>
+                    <li class="nav-item {{$doctor->has_wednesday_schedules ? 'has':''}}">W</li>
+                    <li class="nav-item {{$doctor->has_thursday_schedules ? 'has':''}}" >T</li>
+                    <li class="nav-item {{$doctor->has_friday_schedules ? 'has':''}}"   >F</li>
+                    <li class="nav-item {{$doctor->has_saturday_schedules ? 'has':''}}" >S</li>
                 </ul>
             </div>
-            --}}
+            
 
             <!-- ratings -->
             <span class="ratings" class="search-cell">

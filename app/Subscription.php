@@ -11,7 +11,7 @@ class Subscription extends Model
     protected $dates = ['confirmed_at','cancelled_at' ];
 
     protected $fillable = [      
-        'user_id','doctor_id','type','start','end','multiple','days',
+        'user_id','doctor_id','subscription_plan_id','start','end','multiple','days',
         // Money Related
         'amount','currency',
         // Transaction Related
@@ -30,6 +30,11 @@ class Subscription extends Model
         return $this->belongsTo(Doctor::class);
     }
 
+    public function subscriptionPlan()
+    {
+        return $this->belongsTo(SubscriptionPlan::class);
+    }
+
     public function makeTransactionId() 
     {
         return strtoupper('SUB'. date('Ymd') .'-'. str_random(18));
@@ -42,11 +47,6 @@ class Subscription extends Model
     public function scopeCompleted($query) 
     {
         return $query->where('status', '1');
-    }
-    
-    public function getTypeTextAttribute()
-    {
-        return $this->type == '3' ? 'yearly' :($this->type == '2' ? 'monthly' : 'weekly');
     }
 
     public function getStatusTextAttribute()

@@ -17,6 +17,24 @@
                             <form method="POST" action="{{ route('admin.login') }}">
                                 @csrf
 
+                                @if (   
+                                    /*  Useful when loading login form from any page.  
+                                        request()->url() !== route('admin.login' )
+                                    &&  request()->url() !== route('admin.logout') 
+                                    && */                                     
+                                       url()->previous() !== route('admin.login') 
+                                    && url()->previous() !== route('admin.logout')  
+                                    )
+                                    @php 
+                                        $target_url = url()->previous() ?: request()->url();
+                                        
+                                        $url = explode(config('app.url'), $target_url); 
+                                        $ref = end($url);
+                                    @endphp
+                                    {{-- Use regular expression to add the #anchor to this later --}}
+                                    <input type="hidden" name="ref" value="{{ $ref }}">
+                                @endif
+
                                 <div class="form-group">
                                     <label for="email" class="col-form-label-sm">{{ __('Email') }}</label>
                                     <input type="email" name="email" class="form-control form-default{{ $errors->has('email') ? ' is-invalid' : '' }}" placeholder="johndoe@example.com" autofocus required>

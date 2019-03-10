@@ -52,6 +52,7 @@ class CreateDoctorsTable extends Migration
             $table->timestamp('verified_at')->nullable();
             $table->integer('verified_by')->unsigned()->nullable();
             $table->boolean('revoked')->default(0);
+            $table->text('serialized_schedules')->nullable();
 
             $table->primary(['id', 'user_id']);
 

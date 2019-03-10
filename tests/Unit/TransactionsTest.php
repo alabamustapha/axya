@@ -57,4 +57,10 @@ class TransactionsTest extends TestCase
     {
         $this->assertInstanceOf(Appointment::class, $this->transaction->appointment);
     }
+
+    /** @test */
+    public function a_transaction_morphs_many_calendar_events()
+    {
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->transaction->calendar_events); 
+    }
 }

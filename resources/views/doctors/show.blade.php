@@ -9,27 +9,43 @@
 @section('content')
 
   <div>
-    {{-- 
+    
     <div class="profile-container">
       <div class="profile-img">
           <img src="{{ $doctor->avatar }}" alt="profile image" class="img-fluid">
-          {{ $doctor->availability_status }}
+          
+          {{-- $doctor->availability_status --}}
+          @if ($doctor->is_active)
+              <span class="bg-success doc-avail-indicator" title="Available"></span>
+          @else
+              <span class="bg-danger doc-avail-indicator" title="Unavailable"></span>
+          {{-- @elseif ($doctor->is_suspended) {
+              <span class="bg-warning doc-avail-indicator" title="***"></span> { --}}
+          @endif
 
-          <div class="search-item">
+          <div class="search-item mb-3">
             <!-- schedule detail -->
             <div id="s-d" class="search-cell w-100">
                 <ul class="nav flex-sm-row">
                     <li class="nav-item mr-3">Available on:</li>
-                    <li class="nav-item {{$doctor->hasSundaySchedule() ? 'has':''}}"   >S</li>
-                    <li class="nav-item {{$doctor->hasMondaySchedule() ? 'has':''}}"   >M</li>
-                    <li class="nav-item {{$doctor->hasTuesdaySchedule() ? 'has':''}}"  >T</li>
-                    <li class="nav-item {{$doctor->hasWednesdaySchedule() ? 'has':''}}">W</li>
-                    <li class="nav-item {{$doctor->hasThursdaySchedule() ? 'has':''}}" >T</li>
-                    <li class="nav-item {{$doctor->hasFridaySchedule() ? 'has':''}}"   >F</li>
-                    <li class="nav-item {{$doctor->hasSaturdaySchedule() ? 'has':''}}" >S</li>
+                    <li class="nav-item {{$doctor->has_sunday_schedules ? 'has':''}}"   >S</li>
+                    <li class="nav-item {{$doctor->has_monday_schedules ? 'has':''}}"   >M</li>
+                    <li class="nav-item {{$doctor->has_tuesday_schedules ? 'has':''}}"  >T</li>
+                    <li class="nav-item {{$doctor->has_wednesday_schedules ? 'has':''}}">W</li>
+                    <li class="nav-item {{$doctor->has_thursday_schedules ? 'has':''}}" >T</li>
+                    <li class="nav-item {{$doctor->has_friday_schedules ? 'has':''}}"   >F</li>
+                    <li class="nav-item {{$doctor->has_saturday_schedules ? 'has':''}}" >S</li>
                 </ul>
             </div>
           </div>
+
+          @can('edit', $doctor)
+            <div class="col">
+
+              @include('doctors.partials._availability')
+
+            </div>
+          @endcan
       </div>
       <div class="profile-details bg-theme-gradient">
           <div class="fee-wrap">
@@ -67,10 +83,8 @@
           </div>
       </div>
     </div>
-    --}}
-    <div class="jumbotron bg-white">
-      
-      @include('doctors.forms.fb-schedules')    
+   
+    <div class="jumbotron bg-white">   
 
       <div class="row">
         <div class="col-md-3 text-center">
@@ -146,7 +160,23 @@
     <div class="row">
 
       <div class="col-md-7">
+        @auth
+          @if((Auth::id() === $doctor->id) && !Auth::user()->isAuthenticatedDoctor())
+            <div class="p-2 mb-2 border-bottom bg-light text-sm">
+              To edit your schedules <a href="{{ route('doctor.login') }}" class="btn btn-sm btn-primary"><i class="fa fa-sign-in-alt"></i> &nbsp; Sign in as doctor</a>
+            </div>
+          @endif
+        @endauth
 
+        <schedule-index 
+            :doctor="{{ $doctor }}" 
+            :is-doctor-owner="{{ intval( Auth::check() 
+                                    && ( Auth::id() === $doctor->id ) 
+                                    && ( Auth::user()->isAuthenticatedDoctor()) 
+                                 ) }}"
+        ></schedule-index>
+
+          {{-- 
           @can ('edit', $doctor)
           
             <!-- Schedules/Available Hours Section -->
@@ -156,7 +186,7 @@
           
             @include('doctors.partials._schedules_users')
             
-          @endcan
+          @endcan --}}
 
           {{-- <schedule-list :doctor_id="{{$doctor->id}}"></schedule-list> --}}
 

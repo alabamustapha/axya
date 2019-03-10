@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
-use Carbon\Carbon;
 use App\Appointment;
-use App\Subscription;
-use Illuminate\Http\Request;
-use App\Traits\MobilpayTrait;
 use App\Notifications\Subscriptions\SubscriptionFailedNotification;
 use App\Notifications\Subscriptions\SubscriptionSuccessfulNotification;
+use App\Subscription;
+use App\SubscriptionPlan;
+use App\Traits\MobilpayTrait;
+use App\User;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class SubscriptionController extends Controller
 {
@@ -32,7 +33,7 @@ class SubscriptionController extends Controller
     {
         $this->authorize('index', Subscription::class); 
 
-        $subscriptions = Subscription::where('doctor_id', $user->id)
+        $subscriptions = Subscription::with(['doctor', 'subscriptionPlan'])->where('doctor_id', $user->id)
                                     ->latest()
                                     ->paginate(15);
         return view('subscriptions.index', compact('user','subscriptions'));
@@ -67,55 +68,74 @@ class SubscriptionController extends Controller
      */
     public function store(Request $request)
     {
-        // $this->authorize('create', Subscription::class);
+        $this->authorize('create', Subscription::class);
 
-        $request->validate([
-            'type'     => 'required|integer|in:1,2,3',//|exists:subscription_categories,id',
-            'multiple' => 'required|integer',
-        ],[
-            'type.integer' => '',
-            'type.in' => 'The selected subscription type is invalid.',
-        ]);
+        $multipleActivated = setting('activate_multiple') == 'on';
 
+        $multipleActivated 
+            ? $request->validate([
+                'type'     => 'required|integer|exists:subscription_plans,id',
+                'multiple' => 'required|integer|min:1',])
+            : $request->validate(['type'     => 'required|integer|exists:subscription_plans,id'])
+            ;
+
+        $sub                = SubscriptionPlan::find($request->type);
+
+        $multiple           = $multipleActivated ? intval($request->multiple) : 1;
+        $typeDaysCount      = $request->type == '3' ? 365 : ($request->type == '2' ? (30*4) : 30); // Sub start+End date Calculation.
+        $noOfDays           = $typeDaysCount * $multiple; // No of days subscription will last.
+        $subscriptionAmount = $sub->price * $multiple;
         $transactionId = strtoupper('SUB'. date('Ymd') .'-'. str_random(18));
-        $app_weekly_rate      = 100;
-        $app_monthly_discount = 5; //5% Got from admin setting.
-        $app_yearly_discount  = 8; //8% Got from admin setting. Cost higher for yearly discount...Ratify soon
-        $monthly_discount     = ($app_monthly_discount / 100); // = 0.05;
-        $yearly_discount      = ($app_yearly_discount / 100);  // = 0.08;
 
-        $typeWeeksCount = $request->type == '3' ?  48 : ($request->type == '2' ?  4 : 1); // Discount+Fee Calculation (Adjusted: 48wks from 52wks based on discounting descrepancies).
-        $typeDaysCount  = $request->type == '3' ? 365 : ($request->type == '2' ? 30 : 7); // Sub start+End date Calculation.
-        $typeDiscount   = $request->type == '3' ? $yearly_discount : ($request->type == '2' ? $monthly_discount : 0.0); // Yearly 8%, Monthly 5%, Weekly 0%.
-        
-        // Get a unit Discount for a type
-        $discount       =  $app_weekly_rate * $typeWeeksCount * $typeDiscount;
-        $typeFee        = ($app_weekly_rate * $typeWeeksCount) - $discount;
+                /*  Former type* 
+                    $request->validate([
+                        'type'     => 'required|integer|in:1,2,3',//|exists:subscription_categories,id',
+                        'multiple' => 'required|integer',
+                    ],[
+                        'type.integer' => '',
+                        'type.in' => 'The selected subscription type is invalid.',
+                    ]);
 
-        // Get total Fee for present subscription by multiplying the multiple.
-        $subscriptionAmount = $typeFee * $request->multiple;
-        $noOfDays       = $typeDaysCount * $request->multiple; // No of days subscription will last.
-        // dd(
-        //     'transactionId     : '. $transactionId,
-        //     'request->type     : '. $request->type,
-        //     'request->multiple : '. $request->multiple,
-        //     'typeDaysCount     : '. $typeDaysCount,
-        //     'typeDiscount      : '. $typeDiscount,  
+                    $transactionId = strtoupper('SUB'. date('Ymd') .'-'. str_random(18));
+                    $app_weekly_rate      = 100;
+                    $app_monthly_discount = 5; //5% Got from admin setting.
+                    $app_yearly_discount  = 8; //8% Got from admin setting. Cost higher for yearly discount...Ratify soon
+                    $monthly_discount     = ($app_monthly_discount / 100); // = 0.05;
+                    $yearly_discount      = ($app_yearly_discount / 100);  // = 0.08;
 
-        //     'discount          : '. $discount,
-        //     'Base Fee          : '. $app_weekly_rate,
-        //     'Base Type Fee     : '. $app_weekly_rate * $typeWeeksCount,
-        //     'typeFee           : '. $typeFee,
-        //     'subscriptionAmount: '. $subscriptionAmount,
-        //     'noOfDays          : '. $noOfDays
-        // );
+                    $typeWeeksCount = $request->type == '3' ?  48 : ($request->type == '2' ?  4 : 1); // Discount+Fee Calculation (Adjusted: 48wks from 52wks based on discounting descrepancies).
+                    $typeDaysCount  = $request->type == '3' ? 365 : ($request->type == '2' ? 30 : 7); // Sub start+End date Calculation.
+                    $typeDiscount   = $request->type == '3' ? $yearly_discount : ($request->type == '2' ? $monthly_discount : 0.0); // Yearly 8%, Monthly 5%, Weekly 0%.
+                    
+                    // Get a unit Discount for a type
+                    $discount       =  $app_weekly_rate * $typeWeeksCount * $typeDiscount;
+                    $typeFee        = ($app_weekly_rate * $typeWeeksCount) - $discount;
+
+                    // Get total Fee for present subscription by multiplying the multiple.
+                    $subscriptionAmount = $typeFee * $multiple;
+                    $noOfDays       = $typeDaysCount * $multiple; // No of days subscription will last.
+                    // dd(
+                    //     'transactionId     : '. $transactionId,
+                    //     'request->type     : '. $request->type,
+                    //     'request->multiple : '. $multiple,
+                    //     'typeDaysCount     : '. $typeDaysCount,
+                    //     'typeDiscount      : '. $typeDiscount,  
+
+                    //     'discount          : '. $discount,
+                    //     'Base Fee          : '. $app_weekly_rate,
+                    //     'Base Type Fee     : '. $app_weekly_rate * $typeWeeksCount,
+                    //     'typeFee           : '. $typeFee,
+                    //     'subscriptionAmount: '. $subscriptionAmount,
+                    //     'noOfDays          : '. $noOfDays
+                    // );
+                */
 
         $request->merge([
             'user_id'       => auth()->id(),
             'doctor_id'     => auth()->id(),
 
-            'type'          => $request->type,    // For future reference.
-            'multiple'      => $request->multiple,// For future reference.
+            'subscription_plan_id' => $request->type,    // For future reference.
+            'multiple'      => $multiple,// For future reference.
             'days'          => $noOfDays, // Used internally to adjust Subscription Start and End dates.
 
             'amount'        => $subscriptionAmount,
@@ -126,77 +146,77 @@ class SubscriptionController extends Controller
         
         $subscription = Subscription::create($request->all());
 
-        // $this->mockedPayment($subscription);
+        // return redirect()->route('mobilpay_pay', ['model'=> $subscription]);
+        $this->mockedPayment($subscription);
 
-        return redirect()->route('mobilpay_pay', ['model'=> $subscription]);
 
-        // if ($subscription) {
-        //     $msg = 'Subscription created successfully.';
+        // // if ($subscription) {
+        // //     $msg = 'Subscription created successfully.';
 
-        //     // flash($msg)->success();
+        // //     // flash($msg)->success();
 
-        //     if (request()->expectsJson()) {
-        //         return response(['status' => $msg]);
-        //     }
-        // }
+        // //     if (request()->expectsJson()) {
+        // //         return response(['status' => $msg]);
+        // //     }
+        // // }
 
-        // // return redirect()->route('doctors.show', $subscription->doctor);
-        // return redirect()->route('subscriptions.show', $subscription);
+        // // // return redirect()->route('doctors.show', $subscription->doctor);
+        // // return redirect()->route('subscriptions.show', $subscription);
     }
 
     public function mockedPayment(Subscription $subscription)
     {
-        $this->paymentRequest($subscription, auth()->user());
+        // $this->paymentRequest($subscription, auth()->user());
 
-        // $response = array_rand(['success' => 1,'failed' => 0]);
+        $response = 'success';//array_rand(['success' => 1,'failed' => 0]);
         // // dd($response);
         // // $response      = $response_from_pymt_processor;
 
-        // if ($response == 'success'){
-        //     $doctor = $subscription->doctor;
-        //     $subscription_end = Carbon::parse($doctor->adjusted_subscription_end)
-        //                                 ->addDays($subscription->days)
-        //                                 ;
+        if ($response == 'success'){
+            $doctor = $subscription->doctor;
+            $subscription_end = Carbon::parse($doctor->adjusted_subscription_end)
+                                        ->addDays($subscription->days)
+                                        ;
 
-        //     $subscription->update([
-        //         'start'        => $doctor->adjusted_subscription_end,
-        //         'end'          => $subscription_end,
-        //         'status'       => '1',
-        //         'confirmed_at' => Carbon::now(),
-        //         // 'currency'      => ,
-        //         // 'channel'       => ,
-        //         // 'processor_id'  => ,
-        //         // 'processor_trxn_id' => ,
-        //     ]);
+            $subscription->update([
+                'start'        => $doctor->adjusted_subscription_end,
+                'end'          => $subscription_end,
+                'status'       => '1',
+                'confirmed_at' => Carbon::now(),
+                // 'currency'      => ,
+                // 'channel'       => ,
+                // 'processor_id'  => ,
+                // 'processor_trxn_id' => ,
+            ]);
             
-        //     $doctor->update([
-        //         'available' => '1',
-        //         'subscription_ends_at' => $subscription_end,
-        //     ]); 
+            $doctor->update([
+                'available' => '1',
+                'subscription_ends_at' => $subscription_end,
+            ]); 
             
-        //     $subscription->user->update([
-        //         'application_status' => '1',
-        //     ]); 
+            $subscription->user->update([
+                'application_status' => '1',
+            ]); 
 
-        //     // Notify concerned parties of success.
-        //     $subscription->user->notify(new SubscriptionSuccessfulNotification($subscription->user, $subscription));
-        //     // $admin->notify(new SubscriptionSuccessfulNotification($admin->user, $subscription));
+            // Notify concerned parties of success.
+            $subscription->user->notify(new SubscriptionSuccessfulNotification($subscription->user, $subscription));
+            // $admin->notify(new SubscriptionSuccessfulNotification($admin->user, $subscription));
             
-        //     flash('Subscription transaction was successful.')->success(); 
+            flash('Subscription transaction was successful.')->success(); 
 
-        //     return redirect()->route('subscriptions.show', $subscription);
-        // }
-        // else {
-        //     // No need to change status on appointment model, status quo maintained.
-        //     $subscription->update(['status' => '3']);
+            return redirect()->route('subscriptions.show', $subscription);
+        }
+        else {
+            // No need to change status on appointment model, status quo maintained.
+            $subscription->update(['status' => '3']);
 
-        //     // Notify doctor of failure. 
-        //     $subscription->user->notify(new SubscriptionFailedNotification($subscription->user, $subscription));
+            // Notify doctor of failure. 
+            $subscription->user->notify(new SubscriptionFailedNotification($subscription->user, $subscription));
 
-        //     flash('Subscription transaction was not successful, try again')->error();
+            flash('Subscription transaction was not successful, try again')->error();
 
-        //     return redirect()->route('subscriptions.show', $subscription);
-        // }
+            return redirect()->route('subscriptions.show', $subscription);
+        }
     }
 
     /**
