@@ -31123,6 +31123,7 @@ var toast = __WEBPACK_IMPORTED_MODULE_5_sweetalert2___default.a.mixin({
 window.toast = toast;
 
 // VueCtkDateTimePicker: https://vuejsexamples.com/a-vuejs-component-for-select-date-time-2/
+//                       https://github.com/chronotruck/vue-ctk-date-time-picker#readme
 
 
 
@@ -104487,6 +104488,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 // https://antoniandre.github.io/vue-cal/
 
@@ -104498,6 +104504,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   data: function data() {
     return {
+      thisDate: null,
       overlapEvents: false,
       minCellWidth: 150,
       timeCellHeight: 90,
@@ -111602,6 +111609,25 @@ var render = function() {
             slot: "arrowNext"
           })
         ]
+      ),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
+      _c(
+        "div",
+        {},
+        [
+          _c("vue-ctk-date-time-picker", {
+            model: {
+              value: _vm.thisDate,
+              callback: function($$v) {
+                _vm.thisDate = $$v
+              },
+              expression: "thisDate"
+            }
+          })
+        ],
+        1
       )
     ],
     1

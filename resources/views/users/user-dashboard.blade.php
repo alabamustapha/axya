@@ -24,11 +24,6 @@
             <div class="col-md-3"></div>
 
           </div>
-          <br>
-          <br>
-          <div class="">
-            <vue-ctk-date-time-picker></vue-ctk-date-time-picker>
-          </div>
         </div>
       </div>
     </div>

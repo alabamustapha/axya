@@ -56,6 +56,7 @@ window.toast = toast;
 
 
 // VueCtkDateTimePicker: https://vuejsexamples.com/a-vuejs-component-for-select-date-time-2/
+//                       https://github.com/chronotruck/vue-ctk-date-time-picker#readme
 import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
 import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
 

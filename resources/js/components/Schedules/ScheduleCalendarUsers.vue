@@ -30,6 +30,11 @@
           </small>
         </div>
     </vue-cal>
+    
+    <br>
+    <div class="">
+      <vue-ctk-date-time-picker v-model="thisDate"></vue-ctk-date-time-picker>
+    </div>
   </div>
 </template>
 
@@ -44,6 +49,7 @@
 
     data () {
       return {
+        thisDate: null,
         overlapEvents: false,
         minCellWidth  : 150,
         timeCellHeight: 90,
