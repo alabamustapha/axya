@@ -78,6 +78,27 @@ return [
     // Storage Directory (Saving and Rendering Links)
     'behealthy' => 
     [
+        // Temporary saving before processing and moving files to final storage by jobs...
+        'temporary' => 
+        [
+            'images' =>
+            [ 
+                'general' => storage_path() . '/uploads/images/',         // filesystems.behealthy.temporary.images.general
+                'message' => storage_path() . '/uploads/images/messages/',// filesystems.behealthy.temporary.images.message
+                'user'    => storage_path() . '/uploads/images/users/',   // filesystems.behealthy.temporary.images.user
+            ],
+            'videos' =>
+            [
+                'general' => storage_path() . '/uploads/videos/',         // filesystems.behealthy.temporary.videos.general
+                'message' => storage_path() . '/uploads/videos/messages/',// filesystems.behealthy.temporary.videos.message
+            ],
+            'other-files' =>
+            [
+                'general' => storage_path() . '/uploads/other-files/',         // filesystems.behealthy.temporary.other-files.general
+                'message' => storage_path() . '/uploads/other-files/messages/',// filesystems.behealthy.temporary.other-files.message
+            ],
+        ],
+
         // Link to saving files...
         'save' => 
         [

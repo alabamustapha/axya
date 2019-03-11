@@ -7,14 +7,15 @@ use App\Doctor;
 use App\Http\Requests\MessageRequest;
 use App\Message;
 use App\Traits\FileProcessing;
-use App\Traits\ImageProcessing;
+// use App\Traits\ImageProcessing;
+use App\Traits\ImageProcessing2;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class MessageController extends Controller
 {
-    use ImageProcessing, FileProcessing;
+    use /*ImageProcessing,*/ ImageProcessing2, FileProcessing;
 
     public function __construct()
     {
@@ -191,7 +192,7 @@ class MessageController extends Controller
         if ($isImage) {
             $request->merge(['no_resize' => true]);
 
-            $this->imageProcessing($request, $message);
+            $this->imageProcessing2($request, $message);
 
             flash('Image was successfully uploaded.')->success();
         } 
