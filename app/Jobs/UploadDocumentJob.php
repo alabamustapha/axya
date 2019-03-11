@@ -4,11 +4,14 @@ namespace App\Jobs;
 
 use File;
 use Storage;
+use App\Document;
+use Illuminate\Http\Request;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Intervention\Image\ImageManagerStatic as IntImage;
 
 class UploadDocumentJob implements ShouldQueue
 {
@@ -16,16 +19,33 @@ class UploadDocumentJob implements ShouldQueue
 
     public $model;
     public $filename;
+    public $path;
+    public $fStoragePath;
+    public $rStoragePath;
+    public $fileExtension;
+    public $uniqueFilename;
+    public $resizes;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($model, $filename)
+    public function __construct( $model, $filename )
     {
         $this->model    = $model;
         $this->filename = $filename;
+        $this->path           = config( 'filesystems.behealthy.temporary.images.general' ) . $this->filename;
+        $this->fileExtension  = File::extension($this->path);
+        $this->uniqueFilename = str_replace('.', '', uniqid('', true) . time());
+
+        $this->fStoragePath   = config( 'filesystems.behealthy.save.local-storage.images.general' );
+        $this->rStoragePath   = config( 'filesystems.behealthy.serve.local-storage.images.general' );
+
+        $this->resizes =  [
+            'tb' => [150, 250],
+            'md' => [400, 400]
+        ];
     }
 
     /**
@@ -33,14 +53,17 @@ class UploadDocumentJob implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(Request $request)
     {
-        $path          = config( 'filesystems.behealthy.temporary.images.general' ) . $this->filename;
-        $fStoragePath  = config( 'filesystems.behealthy.save.local-storage.images.general' ) . $this->filename;
-        $fileExtension = File::extension($path);
-        $unique_time   = time();
-        $newFilename   = uniqid('', true) . $unique_time;
-        // dd($path, $targetPath, $fileExtension, $newFilename);
+        // dd($request->all(), $this->model, $this->filename);
+
+        /*
+            // foreach ($this->resizes as $k => $v) {
+            // // list($a, $b) = $resize[$k];
+            //     $var = list($name, $w, $h) = array($k, $v['0'], $v[1]);
+            //     dd($var, $name, $w, $h);
+            // }
+        */
 
         /** 
          ## Move to the permanent storage location.
@@ -48,119 +71,57 @@ class UploadDocumentJob implements ShouldQueue
          * if ( Storage::disk('s3Videos')->put(...)) {};
          * A sub for the 3rd-party storage service used instead.
          */
-        if ( Storage::disk('local')->put($fStoragePath . $this->filename, $handler = fopen($path, 'r+')) ) {  
-            // delete from local.
-            fclose($handler);
-            File::delete($path);
-        }
-    }
+        if ($request->no_resize = false) {
+            $rzFStoragePath      = $this->fStoragePath . $this->uniqueFilename .'.'. $this->fileExtension;
+            $rzRenderStoragePath = $this->rStoragePath . $this->uniqueFilename .'.'. $this->fileExtension;
 
-    # Works for every other models
-    public function imageProcessing(Request $request, $model)
-    {
-        // dd('actual Processing');
-        $model_frags    = explode('\\', get_class($model));
-        $modelClassName = end($model_frags); 
-        $unique_time    = time();
+            if ( Storage::disk('local')->put($rzFStoragePath, $handler = fopen($this->path, 'r+')) ) {  
+                ## Add document details to 'documents' table.
+                $this->saveDocumentInfo( $request );
 
-        // $uploadModelImage = '\App\Jobs\\Upload'. $modelClassName .'Image';
-
-        // $this->authorize('upload', $model);
-
-        if ($request->file('uploadFile')) {
-
-            if (! is_array($request->file('uploadFile'))) {
-                request()->validate([
-                    'uploadFile' => 'required|array|max:5',
-                ]);
+                // delete from local.
+                fclose($handler);
+                File::delete($this->path);
             }
-
-            request()->validate([
-                // ...\vendor\fzaninotto\faker\src\Faker\Provider\File.php:$mimeTypes
-                'uploadFile.*'=> 'required|file|image|max:2000|mimes:jpeg,png|dimensions:min_width=300,min_height=300',
-                'caption'   => 'required_with:uploadFile|string|max:255',
-            ],
-            [
-                'uploadFile.mimes' => 'Only jpeg and png formats are allowed.',
-                'uploadFile.dimensions' => 'Your image dimensions must have a minimum width of 300px and minimum height of 300px.',
-                'uploadFile.*.dimensions' => 'All images must have a minimum width: 300px and minimum height: 300px.',
-                'uploadFile.*.max' => 'Image size must be a maximum of 2mb.',
-            ]);
-
-
-            $uploads_count = count($request->file('uploadFile'));
-            
-            foreach ($request->file('uploadFile') as $uploadFile) 
-            {
-                $unique_id = uniqid();
-
-                # Get file size and save to db - Helps get total space taken by files anytime later.
-                $fileSize = IntImage::make($uploadFile)->filesize();
-
-                $this->resizeImage($request, $model, $uploadFile, $modelClassName, $unique_time, $unique_id);
-
-                ## Move to storage provider by job.
-                // $this->dispatch(new $uploadModelImage($model, $filename));
-                // $this->dispatch(new $uploadModelImage($model, $file_md));
-                // $this->dispatch(new $uploadModelImage($model, $file_tb))
-
-                $this->saveImageInfo($request, $model, $uploadFile, $fileSize, $modelClassName, $unique_time, $unique_id);
-            } 
         }
-            
-        return;
+        else {
+            $i = 0;
+            foreach ($this->resizes as $key => $val) {
+                $resize 
+                    = list($name, $width, $height) 
+                        = array($key, $val['0'], $val[1]);
+                // dd($name, $width, $height);
+
+                $this->resizeImage2( $request, $resize );
+                $i++;
+
+                // If last resize, 
+                if ($i == sizeof($this->resizes)) {
+                    // // dd('Last loop: '. $i);
+                    // $handler = fopen($this->path, 'r');
+                    // fclose($handler);
+                    File::delete($this->path);
+                    dd('Done Job '. $i.' Kudos!!!');
+                }
+            }
+        }
     }
 
-    /**
-     * Create different resizes and save to local disk.
-     * Image can be moved to external storage server when necessary.
-     *
-     * Saving to storage provider (eg S3, dropbox) is done within $uploadModelImage($model, $filename)
-     */
-    public function resizeImage(Request $request, $model, $uploadFile, $modelClassName, $unique_time, $unique_id) 
+    public function resizeImage2( Request $request, $resize )
     {
-        // dd('resize script');
-        # Set basename for file.
-        $filename = $model->slug 
-                          ? $model->slug .'-'. $unique_time . $unique_id
-                          : md5(strval($model->id)) .'-'. $unique_time . $unique_id
-                          ;
-        $directory = public_path() . config('filesystems.storage.images') . strtolower(str_plural($modelClassName)); 
+        // dd($resize, 'Name: '.$resize[0], 'Width: '. $resize[1], 'Height: '. $resize[2]);
 
-        if (! $request->no_resize) {
-            # Once processed and moved to storage, image file is no more available 
-            # thus the need to hold as much as is needed with different variable names.
-            $uploadFile_tb = $uploadFile;
-            $uploadFile_md = $uploadFile;
+        $resizeSuffix = $resize[0];
+        $width        = $resize[1];
+        $height       = $resize[2];
 
-            # Save to disk (temporarily)
-            // Make Thumbnail:
-            IntImage::make($uploadFile_tb)
-                    ->fit(180)//resize(150,150, function($constraint){ $constraint->aspectRatio(); })
-                    ->save($directory .'/'. $filename .'-tb.png');
-
-            // Make Medium:
-            IntImage::make($uploadFile_md)
-                    ->resize(400,400, function($constraint){ $constraint->aspectRatio(); })
-                    ->save($directory .'/'. $filename .'-md.png');
-        }
-
-        $fullFilename = $filename . '.png';
-
-        ## Move Original:
-        // $uploadFile->storeAs( $path, $fullFilename );
-        $uploadFile->move($directory .'/', $fullFilename);
-        
-        return;
-    }
-    public function resizeImage2()
-    {
-        ## Get the image
-        $path     = storage_path() . '/uploads/' . $this->fileId;
-        $fileName = $this->fileId . '.png';
+        $rzPath              = $this->path;
+        $rzFStoragePath      = $this->fStoragePath . $this->uniqueFilename .'-'. $resizeSuffix .'.'. $this->fileExtension;
+        $rzRenderStoragePath = $this->rStoragePath . $this->uniqueFilename .'-'. $resizeSuffix .'.'. $this->fileExtension;
 
         ## Resize: With every new update to a job script always restart the console not just "queue:work".
-        Image::make($path)->encode('png')->fit(140, 140, function ($c) {
+        IntImage::make($this->path)->fit($width, $height, function ($c) {
+        // Image::make($this->path)->fit(140, 140, function ($c) {
             $c->upsize();
         })->save();
 
@@ -170,15 +131,16 @@ class UploadDocumentJob implements ShouldQueue
          * if ( Storage::disk('s3')->put(...)) {};
          * A sub for the 3rd-party storage service used instead.
          */
-        if ( Storage::disk('local')->put( config('filesystems.codetube.save.local-buckets.images.channel') . $fileName, $handler = fopen($path, 'r+')) ) {  
-            // delete from local.
-            fclose($handler);
-            File::delete($path);
-        }
+        if ( Storage::disk('local')->put( $rzFStoragePath, $handler = fopen($this->path, 'r+')) ) {  
+        // if ( Storage::disk('local')->put( $rzFStoragePath, $handler = fopen($this->path, 'r+')) ) {  
 
-        ## Update channel image, ...moved to Controller...not working here, WIERD!!!
-        $uploadedPath = config('filesystems.codetube.serve.local-buckets.images.channel') . $fileName;
-        $this->channel->update(['image_filename' => $uploadedPath]);
+            ## Add document details to 'documents' table.
+            $this->saveDocumentInfo( $request, $resizeSuffix='' );
+        //     // delete from local.
+        //     fclose($handler);
+        //     File::delete($this->path);
+        // }
+        }
     }
 
     /**
@@ -186,62 +148,27 @@ class UploadDocumentJob implements ShouldQueue
      *
      * Saving to storage provider eg S3, dropbox is done inside $uploadModelImage($model, $filename)
      */
-    public function saveImageInfo(Request $request, $model, $uploadFile, $fileSize, $modelClassName, $unique_time, $unique_id) 
-    {
-        // dd('save info');
-        # Set basename for file.
-        $filename = $model->slug 
-                        ? $model->slug .'-'. $unique_time . $unique_id 
-                        : md5(strval($model->id)) .'-'. $unique_time . $unique_id
-                        ;
-        $directory = config('filesystems.storage.images') . strtolower(str_plural($modelClassName));
+    public function saveDocumentInfo( Request $request, $resizeSuffix ) 
+    {        
+        $resizeSuffix = $resizeSuffix;//$request->no_resize ? '':$resizeSuffix;
+        $document     = New Document;
 
-        if ($request->no_resize) {
-
-            $image_location    = $directory .'/'. $filename .    '.png';
-            
-        } else {
-
-            $image_location    = $directory .'/'. $filename .    '.png';
-            $image_md_location = $directory .'/'. $filename . '-md.png';
-            $image_tb_location = $directory .'/'. $filename . '-tb.png';
-
-        }
-        
-        
-        if ($request->file('avatar')) {
-            $user = auth()->user();
-            $user->avatar = config('app.url') . $image_tb_location;
-            $user->save();
+        $document->user_id           = $this->model->user_id;//auth()->id();
+        $document->name              = File::name($this->path);
+        $document->unique_id         = $this->uniqueFilename . $resizeSuffix .'.'. $this->fileExtension; // getRouteKeyName()
+        $document->description       = $request->caption;//(get_class($model) == 'App\Message') ? $model->body : $request->caption;
+        $document->url               = $this->fStoragePath;
+        $document->documentable_id   = $this->model->id;
+        $document->documentable_type = get_class($this->model);
+        $document->mime              = strtolower(File::extension($this->path));
+        $document->size              = File::size($this->path);
+        if (get_class($this->model)       == 'App\Application') {
+            $document->issued_date   = $request->issued_date;
+            $document->expiry_date   = $request->expiry_date;
         }
 
-        $fileExtension = $request->file('avatar') 
-                        ? $request->file('avatar')->getClientOriginalExtension()
-                        : $uploadFile->getClientOriginalExtension()
-                        ;
-
-        $image = New Image;
-
-        $image->user_id        = auth()->id();
-        $image->url            = $image_location;
-        // $image->name           = $uploadFile->getClientOriginalName();
-        $image->caption        = $request->caption;
-        $image->imageable_id   = $model->id;
-        $image->imageable_type = get_class($model);
-        $image->mime           = $fileExtension;
-        $image->size           = $fileSize;
-
-        if (! $request->no_resize) {
-            $image->cover          = $request->file('avatar') ? (! $model->images->count() ? '1':'0'):false;
-            $image->medium_url     = $image_md_location;
-            $image->thumbnail_url  = $image_tb_location;
-        }
-
-        (get_class($model) == 'App\Message') 
-            ? $model->image()->save($image)
-            : $model->images()->save($image)
-            ;
-        // dd($model->images()->first()->caption);
+        $document->save();
+        // dd($document);
 
         return;
     }

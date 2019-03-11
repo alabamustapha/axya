@@ -67,7 +67,9 @@ trait ImageProcessing2
                 // upload to permanent storage
                 #  dd(config( 'filesystems.behealthy.save.local-storage.images.general' ), 'Image uploaded!');
                 // dd($filename, $uploadFile);
-                $this->dispatch(new UploadDocumentJob($model, $filename));
+
+                $rq = $request->except('uploadFile'); // Make request data availble in Doc Uploads job class.
+                $this->dispatch(new UploadDocumentJob( $model, $filename ));
 
                 return redirect()->back();
                 return response()->json(null, 200);
