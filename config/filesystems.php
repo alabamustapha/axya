@@ -81,6 +81,21 @@ return [
         // Temporary saving before processing and moving files to final storage by jobs...
         'temporary' => 
         [
+            // 'messages' =>
+            // [ 
+            //     'images' => storage_path() . '/uploads/messages/images/', // filesystems.behealthy.temporary.messages.images
+            //     'videos' => storage_path() . '/uploads/messages/videos/', // filesystems.behealthy.temporary.messages.videos
+            //     'others' => storage_path() . '/uploads/messages/others/', // filesystems.behealthy.temporary.messages.others
+            // ],
+            // 'users' =>
+            // [ 
+            //     'images' => storage_path() . '/uploads/users/images/', // filesystems.temporary.messages.images
+            // ],
+            // 'applications' =>
+            // [
+            //     'others' => storage_path() . '/uploads/applications/others/', // filesystems.temporary.messages.others
+            // ],
+
             'images' =>
             [ 
                 'general' => storage_path() . '/uploads/images/',         // filesystems.behealthy.temporary.images.general
@@ -102,6 +117,22 @@ return [
         // Link to saving files...
         'save' => 
         [
+            // 'messages' =>
+            // [ 
+            //     'images' => storage_path() . 'public/messages/images/', // filesystems.behealthy.save.messages.images
+            //     'videos' => storage_path() . 'public/messages/videos/', // filesystems.behealthy.save.messages.videos
+            //     'others' => storage_path() . 'public/messages/others/', // filesystems.behealthy.save.messages.others
+            // ],
+            // 'users' =>
+            // [ 
+            //     'images' => storage_path() . 'public/users/images/', // filesystems.save.messages.images
+            // ],
+            // 'applications' =>
+            // [
+            //     'others' => storage_path() . 'public/applications/others/', // filesystems.save.messages.others
+            // ],
+
+
             'local-storage' =>
             [
                 'images' =>
@@ -121,16 +152,32 @@ return [
                     'message' => 'public/other-files/messages/',// filesystems.behealthy.save.local-storage.other-files.message
                 ],
             ],
-            // 'external-storage' => [
-            //     'videos' => '',
-            //     'images' => '',
-            //     'other-files' => '',
-            // ]
+            'external-storage' => [
+                'videos' => '',
+                'images' => '',
+                'other-files' => '',
+            ]
         ],
 
         // Link to serving/rendering files...
         'serve' => 
         [ 
+            // 'messages' =>
+            // [ 
+            //     'images' => storage_path() . 'storage/messages/images/', // filesystems.behealthy.serve.messages.images
+            //     'videos' => storage_path() . 'storage/messages/videos/', // filesystems.behealthy.serve.messages.videos
+            //     'others' => storage_path() . 'storage/messages/others/', // filesystems.behealthy.serve.messages.others
+            // ],
+            // 'users' =>
+            // [ 
+            //     'images' => storage_path() . 'storage/users/images/', // filesystems.save.messages.images
+            // ],
+            // 'applications' =>
+            // [
+            //     'others' => storage_path() . 'storage/applications/others/', // filesystems.save.messages.others
+            // ],
+
+
             'local-storage' =>
             [
                 'images' =>

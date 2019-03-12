@@ -20,8 +20,8 @@ class UploadDocumentJob implements ShouldQueue
     public $model;
     public $filename;
     public $path;
-    public $fStoragePath;
-    public $rStoragePath;
+    public $finalStoragePath;
+    public $renderStoragePath;
     public $fileExtension;
     public $uniqueFilename;
     public $resizes;
@@ -33,14 +33,14 @@ class UploadDocumentJob implements ShouldQueue
      */
     public function __construct( $model, $filename )
     {
-        $this->model    = $model;
-        $this->filename = $filename;
-        $this->path           = config( 'filesystems.behealthy.temporary.images.general' ) . $this->filename;
-        $this->fileExtension  = File::extension($this->path);
-        $this->uniqueFilename = str_replace('.', '', uniqid('', true) . time());
+        $this->model            = $model;
+        $this->filename         = $filename;
+        $this->path             = config( 'filesystems.behealthy.temporary.images.general' ) . $this->filename;
+        $this->fileExtension    = strtolower(File::extension($this->path));
+        $this->uniqueFilename   = str_replace('.', '', uniqid('', true) . time());
 
-        $this->fStoragePath   = config( 'filesystems.behealthy.save.local-storage.images.general' );
-        $this->rStoragePath   = config( 'filesystems.behealthy.serve.local-storage.images.general' );
+        $this->finalStoragePath = config( 'filesystems.behealthy.save.local-storage.images.general' );
+        $this->renderStoragePath= config( 'filesystems.behealthy.serve.local-storage.images.general' );
 
         $this->resizes =  [
             'tb' => [150, 250],
@@ -56,6 +56,11 @@ class UploadDocumentJob implements ShouldQueue
     public function handle(Request $request)
     {
         // dd($request->all(), $this->model, $this->filename);
+        // dd(
+        //     'Name: '. File::name($this->path),
+        //     'BaseName: '. File::basename($this->path),
+        //     'DirName: '. File::dirname($this->path)
+        // );
 
         /*
             // foreach ($this->resizes as $k => $v) {
@@ -71,37 +76,35 @@ class UploadDocumentJob implements ShouldQueue
          * if ( Storage::disk('s3Videos')->put(...)) {};
          * A sub for the 3rd-party storage service used instead.
          */
-        if ($request->no_resize = false) {
-            $rzFStoragePath      = $this->fStoragePath . $this->uniqueFilename .'.'. $this->fileExtension;
-            $rzRenderStoragePath = $this->rStoragePath . $this->uniqueFilename .'.'. $this->fileExtension;
+        $resizedFinalStoragePath  = $this->finalStoragePath . $this->uniqueFilename .'.'. $this->fileExtension;
+        $resizedRenderStoragePath = $this->renderStoragePath . $this->uniqueFilename .'.'. $this->fileExtension;
 
-            if ( Storage::disk('local')->put($rzFStoragePath, $handler = fopen($this->path, 'r+')) ) {  
-                ## Add document details to 'documents' table.
-                $this->saveDocumentInfo( $request );
+        if ( Storage::disk('local')->put($resizedFinalStoragePath, $handler = fopen($this->path, 'r+')) ) {  
+            ## Add document details to 'documents' table.
+            $this->saveDocumentInfo( $request );
 
-                // delete from local.
+            if ($request->no_resize /*|| $fileNotImage*/) {
+                // delete from temporary local storage.
                 fclose($handler);
                 File::delete($this->path);
             }
-        }
-        else {
-            $i = 0;
-            foreach ($this->resizes as $key => $val) {
-                $resize 
-                    = list($name, $width, $height) 
-                        = array($key, $val['0'], $val[1]);
-                // dd($name, $width, $height);
+            else {                
+                $i = 0;
+                foreach ($this->resizes as $key => $val) {
+                    $resize 
+                        = list($name, $width, $height) 
+                            = array($key, $val['0'], $val[1]);
+                    // dd($name, $width, $height);
 
-                $this->resizeImage2( $request, $resize );
-                $i++;
+                    $this->resizeImage2( $request, $resize );
+                    $i++;
 
-                // If last resize, 
-                if ($i == sizeof($this->resizes)) {
-                    // // dd('Last loop: '. $i);
-                    // $handler = fopen($this->path, 'r');
-                    // fclose($handler);
-                    File::delete($this->path);
-                    dd('Done Job '. $i.' Kudos!!!');
+                    // If last resize, 
+                    if ($i == sizeof($this->resizes)) {
+                        fclose($handler);
+                        File::delete($this->path);
+                        // dd('Last loop: '. $i .'. Job done, Kudos!!!');
+                    }
                 }
             }
         }
@@ -115,31 +118,20 @@ class UploadDocumentJob implements ShouldQueue
         $width        = $resize[1];
         $height       = $resize[2];
 
-        $rzPath              = $this->path;
-        $rzFStoragePath      = $this->fStoragePath . $this->uniqueFilename .'-'. $resizeSuffix .'.'. $this->fileExtension;
-        $rzRenderStoragePath = $this->rStoragePath . $this->uniqueFilename .'-'. $resizeSuffix .'.'. $this->fileExtension;
+        $resizedPath         = $this->path;
+        $resizedFinalStoragePath = $this->finalStoragePath . $this->uniqueFilename .'-'. $resizeSuffix .'.'. $this->fileExtension;
+        $resizedRenderStoragePath = $this->renderStoragePath . $this->uniqueFilename .'-'. $resizeSuffix .'.'. $this->fileExtension;
 
-        ## Resize: With every new update to a job script always restart the console not just "queue:work".
+        ## Resize.
         IntImage::make($this->path)->fit($width, $height, function ($c) {
         // Image::make($this->path)->fit(140, 140, function ($c) {
             $c->upsize();
         })->save();
 
-        /** 
-         ## Move to the permanent storage location.
-         * 
-         * if ( Storage::disk('s3')->put(...)) {};
-         * A sub for the 3rd-party storage service used instead.
-         */
-        if ( Storage::disk('local')->put( $rzFStoragePath, $handler = fopen($this->path, 'r+')) ) {  
-        // if ( Storage::disk('local')->put( $rzFStoragePath, $handler = fopen($this->path, 'r+')) ) {  
-
+        ## Move to the permanent storage location (local in use here).
+        if ( Storage::disk('local')->put( $resizedFinalStoragePath, $handler = fopen($this->path, 'r+')) ) {  
             ## Add document details to 'documents' table.
-            $this->saveDocumentInfo( $request, $resizeSuffix='' );
-        //     // delete from local.
-        //     fclose($handler);
-        //     File::delete($this->path);
-        // }
+            $this->saveDocumentInfo( $request, $resizeSuffix );
         }
     }
 
@@ -148,16 +140,17 @@ class UploadDocumentJob implements ShouldQueue
      *
      * Saving to storage provider eg S3, dropbox is done inside $uploadModelImage($model, $filename)
      */
-    public function saveDocumentInfo( Request $request, $resizeSuffix ) 
-    {        
-        $resizeSuffix = $resizeSuffix;//$request->no_resize ? '':$resizeSuffix;
+    public function saveDocumentInfo( Request $request, $resizeSuffix='' ) 
+    {
+        $uniqueId     = $this->uniqueFilename .'-'. $resizeSuffix .'.'. $this->fileExtension;
+
         $document     = New Document;
 
         $document->user_id           = $this->model->user_id;//auth()->id();
-        $document->name              = File::name($this->path);
-        $document->unique_id         = $this->uniqueFilename . $resizeSuffix .'.'. $this->fileExtension; // getRouteKeyName()
+        $document->name              = File::basename($this->path);
+        $document->unique_id         = $uniqueId; // getRouteKeyName()
         $document->description       = $request->caption;//(get_class($model) == 'App\Message') ? $model->body : $request->caption;
-        $document->url               = $this->fStoragePath;
+        $document->url               = $this->renderStoragePath . $uniqueId;
         $document->documentable_id   = $this->model->id;
         $document->documentable_type = get_class($this->model);
         $document->mime              = strtolower(File::extension($this->path));

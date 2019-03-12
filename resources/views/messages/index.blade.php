@@ -310,7 +310,7 @@
                               <div class="pt-1">
                                 @if ($message->document->isImage())
                                   
-                                  <img src="{{$message->image->url}}" class="img-fluid">
+                                  <img src="{{ asset($message->document->url) }}" class="img-fluid">
 
                                 @elseif ($message->document->isVideo())
 
