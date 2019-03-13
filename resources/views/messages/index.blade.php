@@ -327,9 +327,10 @@
                                   </audio>
 
                                 @else
-                                  {{-- <embed src="{{ route('documents.show', $message->document) }}" type="application/pdf"> --}}
                                   <a href="{{ route('documents.show', $message->document) }}" target="_blank">
-                                    <i class="fa fa-file-{{$message->document->mime}} red"></i>
+                                  <embed style="height:300px;width:350px;" class="embed-responsive" src="{{ route('documents.show', $message->document) }}" type="application/pdf">
+                                    <br>
+                                    <span class="btn btn-sm btn-primary"><i class="fa fa-file-alt fa-fw red"></i>open in new tab</span>
                                   </a>
                                 @endif
 

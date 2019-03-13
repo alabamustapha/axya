@@ -9,8 +9,13 @@ class Document extends Model
     protected $dates = ['expiry_date'];
 
     protected $fillable = [
-      'user_id','name','description','url','documentable_id','documentable_type','issued_date','expiry_date','mime','size'
+      'user_id','name','description','url','documentable_id','documentable_type','issued_date','expiry_date','mime','size','unique_id',
     ];
+
+    public function getRouteKeyName()
+    {
+        return 'unique_id';
+    }
 
     /**
      * Get all of the owning documentable models.

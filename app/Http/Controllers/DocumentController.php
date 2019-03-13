@@ -87,53 +87,20 @@ class DocumentController extends Controller
      */
     public function show(Request $request, Document $document)
     {
-        // // For Application related docs, get hint from ApplicationController@showFile
-        // // $certType      = $request->type; // Med_col, Malpraxis etc
+        $filePath   = $document->url;
 
-        // // $file          = $application->{$certType};
-        // // $userDirectory = 'appl-'. $application->user->slug;
-        // // $filePath      = storage_path('app/'. $userDirectory .'/' . $file);
+        if(! File::exists($filePath)) { 
+            abort(404); // dd('File not found');//
+        }
 
-        // $filePath      = storage_path('app/'. $userDirectory .'/' . $file);
-        // // $filePath      = storage_path($document->url);
-        // // $filePath      = File::realPath($document->url);
-        // dd($filePath);
-
-        // // File not found?
-        // if(! File::exists($filePath)) { 
-        //     dd('File not found');//abort(404); 
-        // }
-
-        // $content    = File::get($filePath);
-        // $type       = File::mimeType($filePath);
-        // $fileName   = File::name($filePath);
-
-        // return response()->file($filePath, [
-        //   'Content-Type'        => $type,
-        //   'Content-Disposition' => 'inline; filename="'.$fileName.'"'
-        // ]);
-
-        $filePath   = storage_path() .'/app'. $document->url;
         $content    = File::get($filePath);
         $type       = File::mimeType($filePath);
         $fileName   = File::name($filePath);
-        // dd($type, $fileName);
 
         return response()->file($filePath, [
           'Content-Type'        => $type,
           'Content-Disposition' => 'inline; filename="'.$fileName.'"'
-        ]);
-
-
-        // $filename = storage_path() .'/app'. $document->url;
-        // // dd($filename);
-        // $headers = array(
-        //     'Content-type'          => 'application/pdf',
-        //     'Content-Disposition'   => 'inline; filename="' . $filename . '"'
-        // );
-        // return Response::make( file_get_contents($filename), 200, $headers);
-
-    
+        ]);   
     }
 
     /**

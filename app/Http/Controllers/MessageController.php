@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Appointment;
 use App\Doctor;
 use App\Http\Requests\MessageRequest;
+use App\Http\Requests\DocumentUploadRequest;
 use App\Message;
 use App\Traits\FileProcessing;
 // use App\Traits\ImageProcessing;
@@ -176,9 +177,9 @@ class MessageController extends Controller
      * Audio  : mp3, wav, ogg
      * Others : pdf, docx, xls, txt
      */
-    public function fileUpload(Request $request, Appointment $appointment) 
+    public function fileUpload(DocumentUploadRequest $request, Appointment $appointment) 
     {
-        $uploadFile = $request->uploadFile;
+        $uploadFile   = $request->uploadFile;
 
         $fileMimeType = $uploadFile[0]->getMimeType();
         $isImage      = starts_with($fileMimeType, 'image/');
@@ -214,7 +215,8 @@ class MessageController extends Controller
             $request->merge([ 'description' => $request->caption]);
             unset($request->caption);
 
-            $this->fileProcessing($request, $message);
+            // $this->fileProcessing($request, $message);
+            $this->imageProcessing2($request, $message);
             
             flash('File was successfully uploaded.')->success();
         }

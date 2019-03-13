@@ -8,6 +8,7 @@ use File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic as IntImage;
+use App\Http\Requests\DocumentUploadRequest;
 
 trait ImageProcessing2
 { 
@@ -18,59 +19,58 @@ trait ImageProcessing2
      */
 
     # Works for every other models
-    public function imageProcessing2(Request $request, $model)
+    public function imageProcessing2(DocumentUploadRequest $request, $model)
     {
-        // dd('actual Processing');
-        $model_frags    = explode('\\', get_class($model));
-        $modelClassName = end($model_frags); 
-        $unique_time    = time();
+        $uploadFile      = $request->uploadFile;
 
-        // $uploadModelImage = '\App\Jobs\\Upload'. $modelClassName .'Image';
-
-        // $this->authorize('upload', $model);
-
-        if ($request->file('uploadFile')) {
-
-            if (! is_array($request->file('uploadFile'))) {
-                request()->validate([
-                    'uploadFile' => 'required|array|max:5',
-                ]);
-            }
-
-            request()->validate([
-                // ...\vendor\fzaninotto\faker\src\Faker\Provider\File.php:$mimeTypes
-                'uploadFile.*'=> 'required|file|image|max:2000|mimes:jpeg,png|dimensions:min_width=300,min_height=300',
-                'caption'   => 'required_with:uploadFile|string|max:255',
-            ],
-            [
-                'uploadFile.mimes' => 'Only jpeg and png formats are allowed.',
-                'uploadFile.dimensions' => 'Your image dimensions must have a minimum width of 300px and minimum height of 300px.',
-                'uploadFile.*.dimensions' => 'All images must have a minimum width: 300px and minimum height: 300px.',
-                'uploadFile.*.max' => 'Image size must be a maximum of 2mb.',
-            ]);
+        $modelFrags      = explode('\\', get_class($model));
+        $modelClassName  = strtolower(str_plural(end($modelFrags))); 
+        $dynamicTempLink = 'filesystems.behealthy.temporary.'. $modelClassName;
 
 
-            $uploads_count = count($request->file('uploadFile'));
+        if ($uploadFile) {
+            // $fileMimeType = $uploadFile[0]->getMimeType();
+            // $isImage      = starts_with($fileMimeType, 'image/');
+            // $isVideo      = starts_with($fileMimeType, 'video/');
+
+            // if (! is_array($uploadFile)) {
+            //     // The uploaded file variable is expected to be an array.
+            //     $request->validate([ 'uploadFile' => 'required|array|max:5', ]);
+            // }
+
+            // if ( $isImage ) {
+            //     $request->validate([
+            //         'uploadFile.*' => 'required|file|image|max:2000|mimes:jpeg,png|dimensions:min_width=300,min_height=300',
+            //         'caption'      => 'required_with:uploadFile|string|max:255',
+            //     ]);
+            // }
+            // elseif ( $isVideo ) {
+            //     $request->validate([
+            //         'uploadFile.*' => 'required|file|max:2000|mimes:mp4,webm',
+            //         'caption'      => 'required_with:uploadFile|string|max:255',
+            //     ]);
+            // }
+            // else {
+            //     $request->validate([
+            //         'uploadFile.*' => 'required|file|max:2000|mimes:pdf,txt',
+            //         'caption'      => 'required_with:uploadFile|string|max:255',
+            //     ]);
+            // }
+
+
+
+            $uploads_count = count($uploadFile);
             
-            foreach ($request->file('uploadFile') as $uploadFile) 
+            foreach ($uploadFile as $newUploadedFile) 
             {
-                $filename = $uploadFile->getClientOriginalName();
-                // dd(
-                //     $filename,
-                //     storage_path () . config( 'filesystems.behealthy.save.local-storage.images.general' )
-                // );
+                $filename = $newUploadedFile->getClientOriginalName();
 
-                // move to temp location
-                # $jobRenamedFile = $uploadFile;
-                $uploadFile->move(config( 'filesystems.behealthy.temporary.images.general' ), $filename);
+                $newUploadedFile->move(config( $dynamicTempLink ), $filename);
 
                 // upload to permanent storage
-                #  dd(config( 'filesystems.behealthy.save.local-storage.images.general' ), 'Image uploaded!');
-                // dd($filename, $uploadFile);
-                $this->dispatch(new UploadDocumentJob( $model, $filename ));
+                $this->dispatch(new UploadDocumentJob( $model, $filename, $modelClassName ));
 
-                return redirect()->back();
-                return response()->json(null, 200);
+                return redirect()->back();// return response()->json(null, 200);
             } 
         }
             
