@@ -115,7 +115,14 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getOriginalAvatarFileAttribute($value)
     {
-        return $this->hasUploadedAvatar() ? $this->images()->first()->url:'#';
+        return $this->hasUploadedAvatar() 
+          ? $this->documents()
+               ->where('documentable_id', $this->id)
+               ->where('documentable_type', 'App\User')
+               ->first()
+               ->url
+          :'#';
+        // ? $this->images()->first()->url:'#';
     }
 
     public function hasUploadedAvatar()

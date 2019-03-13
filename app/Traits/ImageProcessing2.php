@@ -22,6 +22,7 @@ trait ImageProcessing2
     public function imageProcessing2(DocumentUploadRequest $request, $model)
     {
         $uploadFile      = $request->uploadFile;
+        // dd($request->all(), $uploadFile, $model);
 
         $modelFrags      = explode('\\', get_class($model));
         $modelClassName  = strtolower(str_plural(end($modelFrags))); 
@@ -29,66 +30,25 @@ trait ImageProcessing2
 
 
         if ($uploadFile) {
-            // $fileMimeType = $uploadFile[0]->getMimeType();
-            // $isImage      = starts_with($fileMimeType, 'image/');
-            // $isVideo      = starts_with($fileMimeType, 'video/');
 
-            // if (! is_array($uploadFile)) {
-            //     // The uploaded file variable is expected to be an array.
-            //     $request->validate([ 'uploadFile' => 'required|array|max:5', ]);
-            // }
-
-            // if ( $isImage ) {
-            //     $request->validate([
-            //         'uploadFile.*' => 'required|file|image|max:2000|mimes:jpeg,png|dimensions:min_width=300,min_height=300',
-            //         'caption'      => 'required_with:uploadFile|string|max:255',
-            //     ]);
-            // }
-            // elseif ( $isVideo ) {
-            //     $request->validate([
-            //         'uploadFile.*' => 'required|file|max:2000|mimes:mp4,webm',
-            //         'caption'      => 'required_with:uploadFile|string|max:255',
-            //     ]);
-            // }
-            // else {
-            //     $request->validate([
-            //         'uploadFile.*' => 'required|file|max:2000|mimes:pdf,txt',
-            //         'caption'      => 'required_with:uploadFile|string|max:255',
-            //     ]);
-            // }
-
-
-
-            $uploads_count = count($uploadFile);
+            if ($modelClassName == 'users') {
+                $this->imageDeleteTrait( $request, $model );
+            }
+            // dd($modelClassName, $request->all(), count($uploadFile), $uploadFile);
             
-            foreach ($uploadFile as $newUploadedFile) 
-            {
-                $filename = $newUploadedFile->getClientOriginalName();
+            foreach ($uploadFile as $newFile) {
+                $filename = $newFile->getClientOriginalName();
 
-                $newUploadedFile->move(config( $dynamicTempLink ), $filename);
+                $newFile->move(config( $dynamicTempLink ), $filename);
 
                 // upload to permanent storage
                 $this->dispatch(new UploadDocumentJob( $model, $filename, $modelClassName ));
 
-                return redirect()->back();// return response()->json(null, 200);
             } 
         }
-            
-        return;
+        return redirect()->back();// return response()->json(null, 200);
     }
 
-
-
-
-
-
-
-    public function imageUploadTrait(Request $request, $model)
-    {
-        $this->imageProcessing2($request, $model);
-
-        return;
-    }
 
     /**
      * Image delete is a two/three-step process

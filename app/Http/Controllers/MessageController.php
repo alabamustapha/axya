@@ -191,7 +191,7 @@ class MessageController extends Controller
             ]);
 
         if ($isImage) {
-            $request->merge(['no_resize' => true]);
+            // $request->merge(['no_resize' => true]);
 
             $this->imageProcessing2($request, $message);
 

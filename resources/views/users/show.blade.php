@@ -291,11 +291,13 @@
                   {{ method_field('PATCH') }}   
 
                   <div class="form-group text-center">
-                    <input type="file" name="avatar" id="avatar" class="form-control{{ $errors->has('avatar') ? ' is-invalid' : '' }}" accept="image/*" required>
+                    <input type="hidden" name="resize" value="true">
+                    <input type="hidden" name="caption" value="{{ auth()->user()->name }}'s profile avatar">
+                    <input type="file" name="uploadFile[]" id="uploadFile" class="form-control{{ $errors->has('uploadFile') ? ' is-invalid' : '' }}" accept="image/*" required>
 
-                    @if ($errors->has('avatar'))
+                    @if ($errors->has('uploadFile'))
                         <span class="invalid-feedback" role="alert">
-                            <strong>{{ $errors->first('avatar') }}</strong>
+                            <strong>{{ $errors->first('uploadFile') }}</strong>
                         </span>
                     @endif
                   </div> 
@@ -322,14 +324,15 @@
               {{ method_field('PATCH') }}   
 
               <div class="form-group text-center">
-                <label for="image_file" class="h5">Test Multiple Uploads (Max. 5)</label>
+                <label for="uploadFile" class="h5">Test Multiple Uploads (Max. 5)</label>
                 <br>
 
-                <input type="file" name="image_file[]" id="image_file" class="form-control{{ $errors->has('image_file') ? ' is-invalid' : '' }}" accept="image/*" multiple required>
+                <input type="hidden" name="resize" value="true">
+                <input type="file" name="uploadFile[]" id="uploadFile" class="form-control{{ $errors->has('uploadFile') ? ' is-invalid' : '' }}" accept="image/*" multiple required>
 
-                @if ($errors->has('image_file'))
+                @if ($errors->has('uploadFile'))
                     <span class="invalid-feedback" role="alert">
-                        <strong>{{ $errors->first('image_file') }}</strong>
+                        <strong>{{ $errors->first('uploadFile') }}</strong>
                     </span>
                 @endif
               </div> 

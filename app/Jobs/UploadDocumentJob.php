@@ -80,12 +80,12 @@ class UploadDocumentJob implements ShouldQueue
 
             $isImage = in_array(strtolower(File::extension($this->path)), ['jpg','jpeg', 'png']);
 
-            if ($request->no_resize || !$isImage) {
+            if ( !$isImage || ($isImage && !isset($request->resize)) ) {
                 // delete from temporary local storage.
                 fclose($handler);
                 File::delete($this->path);
             }
-            else {                
+            elseif ($isImage && isset($request->resize)) {               
                 $i = 0;
                 foreach ($this->resizes as $key => $val) {
                     $resize 
@@ -153,7 +153,7 @@ class UploadDocumentJob implements ShouldQueue
 
         $document = New Document;
 
-        $document->user_id           = $this->model->user_id;//auth()->id();
+        $document->user_id           = auth()->id();//$this->model->user_id;//
         $document->name              = File::basename($this->path);
         $document->unique_id         = $uniqueId; 
         $document->description       = $request->caption;
@@ -168,6 +168,8 @@ class UploadDocumentJob implements ShouldQueue
         }
 
         $document->save();
+
+        $this->modelClassName == 'users' ? auth()->user()->update(['avatar' => $document->url]):false;
 
         return;
     }

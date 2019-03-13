@@ -7,7 +7,8 @@ use App\Image;
 use App\Notifications\AccountVerificationNotification;
 use App\Notifications\PasswordChangeNotification;
 use App\Traits\CustomSluggableTrait;
-use App\Traits\ImageProcessing;
+// use App\Traits\ImageProcessing;
+use App\Traits\ImageProcessing2;
 use App\User;
 use Auth;
 use Carbon\Carbon;
@@ -17,10 +18,11 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use App\Http\Requests\DocumentUploadRequest;
 
 class UserController extends Controller
 {
-    use ImageProcessing, CustomSluggableTrait, VerifiesEmails;
+    use /*ImageProcessing,*/ ImageProcessing2, CustomSluggableTrait, VerifiesEmails;
 
     public function __construct()
     {
@@ -135,9 +137,10 @@ class UserController extends Controller
 
 
 
-    public function avatarUpload(Request $request, User $user) 
+    public function avatarUpload(DocumentUploadRequest $request, User $user) 
     {
-        $this->avatarProcessing($request, $user);
+        // $this->avatarProcessing($request, $user);
+        $this->imageProcessing2($request, $user);
 
         flash('Your profile image was successfully updated.')->success();
 
@@ -145,9 +148,10 @@ class UserController extends Controller
     }
 
     // For Multiples Uploads Test.
-    public function imageUpload(Request $request, User $user) 
+    public function imageUpload(DocumentUploadRequest $request, User $user) 
     {
-        $this->imageProcessing($request, $user);
+        // $this->imageProcessing($request, $user);
+        $this->imageProcessing2($request, $user);
         
         flash('Image was successfully updated.')->success();
 
