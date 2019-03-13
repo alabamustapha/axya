@@ -42,32 +42,36 @@ class DocumentUploadRequest extends FormRequest
     public function rules()
     {
         $uploadFile = request()->uploadFile;
-        $fileMimeType = $uploadFile[0]->getMimeType();
-        $isImage      = starts_with($fileMimeType, 'image/');
-        $isVideo      = starts_with($fileMimeType, 'video/');
-
         if (! is_array($uploadFile)) {
             // The uploaded file variable is expected to be an array.
             return [ 'uploadFile' => 'required|array|max:5', ];
         }
 
-        if ( $isImage ) {
-            return [
-                'uploadFile.*' => 'required|file|image|max:2000|mimes:jpeg,png|dimensions:min_width=300,min_height=300',
-                'caption'      => 'required_with:uploadFile|string|max:255',
-            ];
-        }
-        elseif ( $isVideo ) {
-            return [
-                'uploadFile.*' => 'required|file|max:2000|mimes:mp4,webm',
-                'caption'      => 'required_with:uploadFile|string|max:255',
-            ];
-        }
-        else {
-            return [
-                'uploadFile.*' => 'required|file|max:2000|mimes:pdf,txt',
-                'caption'      => 'required_with:uploadFile|string|max:255',
-            ];
+        foreach ($uploadFile as $newFile) {
+
+            $fileMimeType = $newFile->getMimeType();
+            $isImage      = starts_with($fileMimeType, 'image/');
+            $isVideo      = starts_with($fileMimeType, 'video/');
+
+
+            if ( $isImage ) {
+                return [
+                    'uploadFile.*' => 'required|file|image|max:2000|mimes:jpeg,png|dimensions:min_width=300,min_height=300',
+                    'caption'      => 'required_with:uploadFile|string|max:255',
+                ];
+            }
+            elseif ( $isVideo ) {
+                return [
+                    'uploadFile.*' => 'required|file|max:2000|mimes:mp4,webm',
+                    'caption'      => 'required_with:uploadFile|string|max:255',
+                ];
+            }
+            else {
+                return [
+                    'uploadFile.*' => 'required|file|max:2000|mimes:pdf,txt',
+                    'caption'      => 'required_with:uploadFile|string|max:255',
+                ];
+            }
         }
     }
 
@@ -78,32 +82,37 @@ class DocumentUploadRequest extends FormRequest
     */
     public function messages()
     {
-        $uploadFile = request()->uploadFile;
-        $fileMimeType = $uploadFile[0]->getMimeType();
-        $isImage      = starts_with($fileMimeType, 'image/');
-        $isVideo      = starts_with($fileMimeType, 'video/');
+        $uploadFile   = request()->uploadFile;
+        // dd(request()->all());
 
-        if ( $isImage ) {
-            return [
-                'uploadFile.mimes'      => 'Only jpeg and png formats are allowed.',
-                'uploadFile.dimensions' => 'Your image dimensions must have a minimum width of 300px and minimum height of 300px.',
-                'uploadFile.*.dimensions' => 'All images must have a minimum width: 300px and minimum height: 300px.',
-                'uploadFile.*.max'      => 'Image size must be a maximum of 2mb.',
-            ];
-        }
-        elseif ( $isVideo ) {
-            #  Video Length Validation: 
-            // https://www.magutti.com/blog/laravel-custom-validation-validate-video-length.
-            return [
-                'uploadFile.mimes' => 'Only mp4,webm formats are allowed.',
-                'uploadFile.*.max' => 'Video size must be a maximum of 2mb.',
-            ];
-        }
-        else {
-            return [
-                'uploadFile.mimes' => 'Only pdf, doc and docx formats are allowed.',
-                'uploadFile.*.max' => 'File size must be a maximum of 2mb.',
-            ];
+        foreach ($uploadFile as $newFile) {
+
+            $fileMimeType = $newFile->getMimeType();
+            $isImage      = starts_with($fileMimeType, 'image/');
+            $isVideo      = starts_with($fileMimeType, 'video/');
+
+            if ( $isImage ) {
+                return [
+                    'uploadFile.mimes'      => 'Only jpeg and png formats are allowed.',
+                    'uploadFile.dimensions' => 'Your image dimensions must have a minimum width of 300px and minimum height of 300px.',
+                    'uploadFile.*.dimensions' => 'All images must have a minimum width: 300px and minimum height: 300px.',
+                    'uploadFile.*.max'      => 'Image size must be a maximum of 2mb.',
+                ];
+            }
+            elseif ( $isVideo ) {
+                #  Video Length Validation: 
+                // https://www.magutti.com/blog/laravel-custom-validation-validate-video-length.
+                return [
+                    'uploadFile.mimes' => 'Only mp4,webm formats are allowed.',
+                    'uploadFile.*.max' => 'Video size must be a maximum of 2mb.',
+                ];
+            }
+            else {
+                return [
+                    'uploadFile.mimes' => 'Only pdf and docx formats are allowed.',
+                    'uploadFile.*.max' => 'File size must be a maximum of 2mb.',
+                ];
+            }
         }
     }
 }
