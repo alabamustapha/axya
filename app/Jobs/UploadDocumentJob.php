@@ -18,6 +18,7 @@ class UploadDocumentJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public $model;
+    public $modelClassName;
 
     public $filename;
     public $path;
@@ -38,10 +39,11 @@ class UploadDocumentJob implements ShouldQueue
     public function __construct( $model, $filename, $modelClassName )
     {
         $this->model            = $model;
+        $this->modelClassName   = $modelClassName;
 
-        $this->dynamicTempLink  = 'filesystems.behealthy.temporary.' . $modelClassName;
-        $this->dynamicSaveLink  = 'filesystems.behealthy.save.' . $modelClassName;
-        $this->dynamicServeLink = 'filesystems.behealthy.serve.' . $modelClassName;
+        $this->dynamicTempLink  = 'filesystems.behealthy.temporary.' . $this->modelClassName;
+        $this->dynamicSaveLink  = 'filesystems.behealthy.save.' . $this->modelClassName;
+        $this->dynamicServeLink = 'filesystems.behealthy.serve.' . $this->modelClassName;
 
         $this->filename         = $filename;
         $this->path             = config( $this->dynamicTempLink ) . $this->filename;
@@ -50,10 +52,10 @@ class UploadDocumentJob implements ShouldQueue
 
         $this->fileStoragePath  = config( $this->dynamicSaveLink );
         $this->fileRenderPath   = config( $this->dynamicServeLink );
-
+        
         $this->resizes =  [
+            'md' => [400, 400],
             'tb' => [150, 150],
-            'md' => [400, 400]
         ];
     }
 
@@ -121,14 +123,17 @@ class UploadDocumentJob implements ShouldQueue
         $resizedFileStoragePath = $this->fileStoragePath . $this->uniqueFilename . $resizeSuffix .'.'. $this->fileExtension;
 
         ## Resize.
-        // IntImage::make($this->path)->fit($width, $height, function ($c) {
-        // // Image::make($this->path)->fit(140, 140, function ($c) {
-        //     $c->upsize();
-        // })->save();
-
-        IntImage::make($this->path)
-            ->resize($width, $height, function($constraint){ $constraint->aspectRatio(); })
-            ->save();
+        if ($this->modelClassName == 'users') {
+            IntImage::make($this->path)
+                ->fit(   $width, $height, function ($constraint) { $constraint->upsize(); })     // SquareCut@centerBottom.
+                // ->encode('png')
+                ->save();
+        } else {
+            IntImage::make($this->path)
+                ->resize($width, $height, function ($constraint) { $constraint->aspectRatio(); })// 400x301 FullRzCut.
+                // ->encode('png')
+                ->save();
+        }
 
         ## Move to the permanent storage location (local in use here).
         if ( Storage::disk('local')->put( $resizedFileStoragePath, $handler = fopen($this->path, 'r+')) ) {  

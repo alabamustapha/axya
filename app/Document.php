@@ -32,17 +32,17 @@ class Document extends Model
 
     public function isImage()
     {
-        return in_array($this->mime, ['jpeg', 'png']);
+        return in_array($this->mime, ['jpg', 'jpeg', 'png']);
     }
 
     public function isVideo()
     {
-        return in_array($this->mime, ['mp4', 'webm', '3gp', 'avi']);
+        return in_array($this->mime, ['mp4', 'webm',]);
     }
 
     public function isAudio()
     {
-        return in_array($this->mime, ['mp3', 'wav', 'ogg']);
+        return in_array($this->mime, ['mp3', 'wav',]);
     }
 
     public function isOthers()
