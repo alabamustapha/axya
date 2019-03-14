@@ -32,9 +32,8 @@ trait ImageProcessing2
         if ($uploadFile) {
 
             if ($modelClassName == 'users') {
-                $this->imageDeleteTrait( $request, $model );
+                $this->fileDelete( $request, $model );
             }
-            // dd($modelClassName, $request->all(), count($uploadFile), $uploadFile);
             
             foreach ($uploadFile as $newFile) {
                 $filename = $newFile->getClientOriginalName();
@@ -61,58 +60,47 @@ trait ImageProcessing2
      * @param $model
      * @return void
      */
-    public function imageDeleteTrait(Request $request, $model)
+    public function fileDelete(Request $request, $model)
     {
-        $model_frags    = explode('\\',get_class($model));
-        $modelClassName = end($model_frags); 
+        $modelFrags     = explode('\\',get_class($model));
+        $modelClassName = strtolower(str_plural(end($modelFrags))); 
 
-        $storage_directory = public_path() .'/uploads/images/'. strtolower(str_plural($modelClassName)) .'/';
+        $storage_directory = config('filesystems.behealthy.serve.' . $modelClassName) .'/';
 
-        if (($modelClassName == 'User') && $model->avatar) {
-            if ($model->images()->first()) {
+        if (($modelClassName == 'users') && $model->hasUploadedAvatar()) {
+            $documents = $model->documents()->get();
+                    /*   $model->where('documentable_id', $model->id)
+                               ->where('documentable_type', 'App\User')
+                               ->get();
+                    */
+            foreach ($documents as $document) {
+                # Remove file from STORAGE disk.
+                $documentPath   = $storage_directory . $document->unique_id; 
+                File::delete($documentPath);
 
-              #1. Remove file(s) from Storage disk.
-               // Get avatar's filename. eg. john-doe-12345-tb.png
-                $avatar_frags   = explode('/', $model->avatar);
-                $_avatar        = end($avatar_frags);
-
-               // Get actual avatar's filename without mime. eg. john-doe-12345
-                $_avatar_frags  = explode('-tb', $_avatar);
-                reset($_avatar_frags);
-                    $original_file = current($_avatar_frags);
-
-               // Append respective resized names eg. john-doe-12345-md.png
-                $_avatar_md     = $original_file . '-md.png';
-                $_avatar_or     = $original_file .    '.png';
-
-                $image      = $storage_directory . $_avatar_or; 
-                $image_md   = $storage_directory . $_avatar_md; 
-                $image_tb   = $storage_directory . $_avatar; 
-
-               # Remove from STORAGE by leveraging queue jobs for faster user experience.
-                // $removeModelAvatar = '\App\Jobs\\'. $modelClassName .'RemoveAvatar';
-                // $this->dispatch(new $removeModelAvatar($model, $image));
-                // $this->dispatch(new $removeModelAvatar($model, $image_md));
-                // $this->dispatch(new $removeModelAvatar($model, $image_tb));
-
-               # Perform actual removal from STORAGE
-                File::delete($image, $image_md, $image_tb); // unlink($image_tb);
-
-
-              #2. Remove reference link from Images Table
-                $model->images()->first()
-                       ? $model->images()->first()->delete()
-                       : false
-                       ;
-
-              #3. Remove reference link from avatar field in Users Table
-                // $model->avatar_thumbnail_url = null;
-                $model->avatar = null;
-                $model->save();
+                #2. Remove reference link from Documents Table
+                $document->delete();
             }
+
+            #3. Remove reference link from avatar field in Users Table
+            $model->avatar = null;
+            $model->save();
+        }
+        else {
+            $document = 
+                Document::where('documentable_id', $model->id)
+                    ->where('documentable_type', get_class($model))
+                    ->first()
+                    ;
+            #1. Remove file from STORAGE disk.
+            $documentPath   = $storage_directory . $document->unique_id; 
+            File::delete($documentPath);
+
+            #2. Remove reference link from Documents Table
+            $document->delete();
         }
 
-        // #1. Remove image and resizes from disk.
+        // #1. Remove file from disk.
         // #2. Remove reference link from Images table in the database
         // // Image::where('imageable_id', $model->id)
         // //      ->where('imageable_type', get_class($model)

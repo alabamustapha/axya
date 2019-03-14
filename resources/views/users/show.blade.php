@@ -45,11 +45,6 @@
                             <i class="fa fa-image"></i> 
                             <span>Upload Avatar</span>
                           </button>
-
-                          <button class="dropdown-item" data-toggle="modal" data-target="#testMultipleForm" title=" Test Multiple Uploads">
-                            <i class="fa fa-upload"></i> 
-                            <span>Multiple Uploads</span>
-                          </button>
                           
                           @if ($user->hasUploadedAvatar())
                               <a href="{{route('user.avatar.delete', $user)}}" class="dropdown-item" title="Remove Avatar" onclick="return confirm('Do you want to remove current avatar?');">
@@ -308,46 +303,7 @@
                 </form> 
               </div>
             </div>
-          </div>
-        </div>
-
-        <div class="modal" tabindex="-1" role="dialog" id="testMultipleForm" style="display:none;" aria-labelledby="testMultipleFormLabel" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content px-2">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 5px 15px 0px;margin:10px auto -25px">
-                <span aria-hidden="true">&times;</span>
-              </button>
-              <br>
-              <div class="modal-body">
-            <form action="{{route('image.upload', auth()->user())}}" method="post" enctype="multipart/form-data">
-              {{ csrf_field() }}  
-              {{ method_field('PATCH') }}   
-
-              <div class="form-group text-center">
-                <label for="uploadFile" class="h5">Test Multiple Uploads (Max. 5)</label>
-                <br>
-
-                <input type="hidden" name="resize" value="true">
-                <input type="file" name="uploadFile[]" id="uploadFile" class="form-control{{ $errors->has('uploadFile') ? ' is-invalid' : '' }}" accept="image/*" multiple required>
-
-                @if ($errors->has('uploadFile'))
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $errors->first('uploadFile') }}</strong>
-                    </span>
-                @endif
-              </div> 
-
-              <div class="form-group">
-                <input type="text" name="caption" class="form-control" placeholder="write caption" required>
-              </div>
-
-              <div class="form-group">
-                <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-pencil"></i> Upload Images</button>
-              </div>
-            </form>
-              </div>
-            </div>
-          </div>
+          </div>        
         </div>
       @endif
   </div>

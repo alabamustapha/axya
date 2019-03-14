@@ -127,7 +127,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function hasUploadedAvatar()
     {
-        return $this->avatar !== config('app.url') . '/images/doc.jpg';
+        return !is_null($this->avatar) && $this->avatar !== config('app.url') . '/images/doc.jpg';
     }
 
     public function inconclusiveAppointments()
@@ -613,15 +613,15 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Subscription::class);
     }
 
-    public function documents()//uploaded_documents()
-    {
-        return $this->hasMany(Document::class, 'user_id');
-    }
-
-    // public function documents()
+    // public function documents()//uploaded_documents()
     // {
-    //     return $this->morphMany(Document::class, 'documentable');
+    //     return $this->hasMany(Document::class, 'user_id');
     // }
+
+    public function documents()
+    {
+        return $this->morphMany(Document::class, 'documentable');
+    }
 
     public function messages()
     {

@@ -161,6 +161,7 @@ class UploadDocumentJob implements ShouldQueue
         $document->documentable_id   = $this->model->id;
         $document->documentable_type = get_class($this->model);
         $document->mime              = strtolower(File::extension($this->path));
+        $document->mime_type         = File::mimeType($this->path); // For file rendering.
         $document->size              = File::size($this->path);
         if (get_class($this->model)       == 'App\Application') {
             $document->issued_date   = $request->issued_date;

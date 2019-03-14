@@ -328,10 +328,10 @@
 
                                 @else
                                   <a href="{{ route('documents.show', $message->document) }}" target="_blank">
-                                  <embed style="height:300px;width:350px;" class="embed-responsive" src="{{ route('documents.show', $message->document) }}" type="application/pdf">
-                                    <br>
-                                    <span class="btn btn-sm btn-primary"><i class="fa fa-file-alt fa-fw red"></i>open in new tab</span>
+                                  <embed style="max-height:300px;width:350px;" class="embed-responsive" src="{{ route('documents.show', $message->document) }}" type="{{ $message->document->mime_type }}">
+                                    <span class="btn btn-sm btn-primary float-right"><i class="fa fa-file-alt fa-fw red"></i>open in new tab</span>
                                   </a>
+                                  <br>
                                 @endif
 
                                 <p class="pt-1">
