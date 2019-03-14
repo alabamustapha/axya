@@ -160,7 +160,8 @@ class UserController extends Controller
 
     public function avatarDelete(Request $request, User $user) 
     {       
-        $this->imageDeleteTrait($request, $user);
+        // $this->imageDeleteTrait($request, $user);
+        $this->fileDelete( $user );
 
         flash('Your profile image was successfully removed.')->success();
 

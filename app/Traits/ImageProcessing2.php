@@ -31,7 +31,7 @@ trait ImageProcessing2
 
         if ($uploadFile) {
 
-            if ($modelClassName == 'users') {
+            if ($modelClassName == 'users' && $model->hasUploadedAvatar()) {
                 $this->fileDelete( $model );
             }
             

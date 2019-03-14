@@ -43,7 +43,7 @@
 
                           <button class="dropdown-item" data-toggle="modal" data-target="#updateAvatarForm" title=" Update Avatar">
                             <i class="fa fa-image"></i> 
-                            <span>Upload Avatar</span>
+                            <span>{{ $user->hasUploadedAvatar() ? 'Change':'Upload' }} Avatar</span>
                           </button>
                           
                           @if ($user->hasUploadedAvatar())
