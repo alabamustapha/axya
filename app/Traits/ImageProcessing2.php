@@ -32,7 +32,7 @@ trait ImageProcessing2
         if ($uploadFile) {
 
             if ($modelClassName == 'users') {
-                $this->fileDelete( $request, $model );
+                $this->fileDelete( $model );
             }
             
             foreach ($uploadFile as $newFile) {
@@ -60,8 +60,9 @@ trait ImageProcessing2
      * @param $model
      * @return void
      */
-    public function fileDelete(Request $request, $model)
+    public function fileDelete( $model )
     {
+        // dd($model);
         $modelFrags     = explode('\\',get_class($model));
         $modelClassName = strtolower(str_plural(end($modelFrags))); 
 
@@ -88,7 +89,7 @@ trait ImageProcessing2
         }
         else {
             $document = 
-                Document::where('documentable_id', $model->id)
+                \App\Document::where('documentable_id', $model->id)
                     ->where('documentable_type', get_class($model))
                     ->first()
                     ;

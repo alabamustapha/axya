@@ -156,7 +156,12 @@ class MessageController extends Controller
     {
         $this->authorize('delete', $message);
 
+        if ($message->document) { 
+            $this->fileDelete( $message ); 
+        }
+
         $message->delete();
+
         $msg = 'Message deleted successfully';
 
         // if ($message->delete()) {
@@ -166,7 +171,9 @@ class MessageController extends Controller
         // }
 
         flash($msg)->info();
-        return redirect()->route('appointments.show', $message->messageable);
+        return redirect()->back();
+        //->route('appointments.show', $message->messageable);
+        //->route('support_tickets.show', $message->messageable);
     }
 
     /**
@@ -175,7 +182,7 @@ class MessageController extends Controller
      * Image  : png, jpeg
      * Video  : mp4, 3gp, avi
      * Audio  : mp3, wav, ogg
-     * Others : pdf, docx, xls, txt
+     * Others : pdf, txt, docx, xls
      */
     public function fileUpload(DocumentUploadRequest $request, Appointment $appointment) 
     {
@@ -203,15 +210,6 @@ class MessageController extends Controller
         //     flash('Video was successfully uploaded.')->success();
         // } 
         else {
-            // // Expected to be other files eg .pdf, .docx, .xls. All monitored
-            // if($uploadFile){
-            //     $extension = $uploadFile->getClientOriginalExtension();
-            //     $name      = $appointment->slug .'_'. time() .'.'. $extension;
-
-            //     $path      = $uploadFile->storeAs( $directory, $name );
-            //     $application->image_file = $name;
-            // }
-
             $request->merge([ 'description' => $request->caption]);
             unset($request->caption);
 

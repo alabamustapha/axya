@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Message;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class MessagePolicy
@@ -24,6 +25,7 @@ class MessagePolicy
      */
     public function delete(User $user, Message $message)
     {
-        return $user->isAdmin() || $user->id == $message->user_id;
+        // Available for delete within 45minutes of posting.
+        return $user->id == $message->user_id || $user->isAdmin();
     }
 }

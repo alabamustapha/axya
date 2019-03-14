@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
 
@@ -175,6 +176,11 @@ class Message extends Model
     public function getAlternateLinkAttribute()
     {
       return $this->alternate_list .'#_'. md5($this->id);
+    }
+
+    public function canBeDeleted()
+    {
+      return $this->created_at->addMinutes(45) > Carbon::now();
     }
 
 }

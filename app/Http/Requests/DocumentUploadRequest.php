@@ -109,7 +109,7 @@ class DocumentUploadRequest extends FormRequest
             }
             else {
                 return [
-                    'uploadFile.mimes' => 'Only pdf and docx formats are allowed.',
+                    'uploadFile.mimes' => 'Only images and pdf formats are allowed.',
                     'uploadFile.*.max' => 'File size must be a maximum of 2mb.',
                 ];
             }

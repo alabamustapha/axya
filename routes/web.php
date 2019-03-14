@@ -196,13 +196,15 @@ Route::get('admin-dashboard', function(){return view('admin.dashboard');})->name
 Route::get('image/{image}',         'ImageController@destroy')->name('image.destroy');
 // ----! IMAGES RELATED ---------------->
 
-Route::post('/{appointment}', 'MessageController@store')->name('messages.store');
-Route::delete('/{message}',  'MessageController@destroy')->name('messages.destroy');
-Route::post('/{appointment}/chat-file-upload', 'MessageController@fileUpload')->name('chat.file.upload');
+Route::prefix('messages')->group(function(){
+  Route::get('/{user}/{appointment?}', 'MessageController@index')->name('messages.index');
+  Route::post('/{appointment}', 'MessageController@store')->name('messages.store');
+  Route::post('/{appointment}/chat-file-upload', 'MessageController@fileUpload')->name('chat.file.upload');
+  Route::delete('/{message}',  'MessageController@destroy')->name('messages.destroy');
+});
 // ----! USER MESSAGES RELATED ---------------->
 
 Route::prefix('{user}')->group(function(){
-  Route::get('/messages/{appointment?}', 'MessageController@index')->name('messages.index');
 
   Route::get('/appointments',    'AppointmentController@index')->name('appointments.index');
   Route::get('/prescriptions',   'PrescriptionController@index')->name('prescriptions.index');
