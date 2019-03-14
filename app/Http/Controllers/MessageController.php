@@ -7,16 +7,14 @@ use App\Doctor;
 use App\Http\Requests\MessageRequest;
 use App\Http\Requests\DocumentUploadRequest;
 use App\Message;
-use App\Traits\FileProcessing;
-// use App\Traits\ImageProcessing;
-use App\Traits\ImageProcessing2;
+use App\Traits\FileProcessorTrait;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class MessageController extends Controller
 {
-    use /*ImageProcessing,*/ ImageProcessing2, FileProcessing;
+    use FileProcessorTrait;
 
     public function __construct()
     {
@@ -180,9 +178,9 @@ class MessageController extends Controller
      * Accepted file types:
      *
      * Image  : png, jpeg
-     * Video  : mp4, 3gp, avi
+     * Video  : mp4, 3gp,
      * Audio  : mp3, wav, ogg
-     * Others : pdf, txt, docx, xls
+     * Others : pdf, txt,
      */
     public function fileUpload(DocumentUploadRequest $request, Appointment $appointment) 
     {
@@ -194,13 +192,13 @@ class MessageController extends Controller
 
         $message = $appointment->messages()->create([
                 'user_id'         => auth()->id(),
-                'body'            => $request->caption, // Doubles as Description, unset down in this method.
+                'body'            => $request->caption,
             ]);
 
         if ($isImage) {
             // $request->merge(['no_resize' => true]);
 
-            $this->imageProcessing2($request, $message);
+            $this->fileProcessor($request, $message);
 
             flash('Image was successfully uploaded.')->success();
         } 
@@ -213,8 +211,7 @@ class MessageController extends Controller
             $request->merge([ 'description' => $request->caption]);
             unset($request->caption);
 
-            // $this->fileProcessing($request, $message);
-            $this->imageProcessing2($request, $message);
+            $this->fileProcessor($request, $message);
             
             flash('File was successfully uploaded.')->success();
         }

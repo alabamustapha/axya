@@ -212,7 +212,6 @@ Route::prefix('{user}')->group(function(){
   Route::get('/subscriptions',   'SubscriptionController@index')->name('subscriptions.index');
 // ----! USERS RELATED MODELS INDEXES ---------------->
 
-  Route::patch('/image-upload',     'UserController@imageUpload')->name('image.upload');
   Route::patch('/avatar-upload',    'UserController@avatarUpload')->name('user.avatar.upload');
   Route::get('/avatar-delete',      'UserController@avatarDelete')->name('user.avatar.delete');
 // ----! IMAGE UPLOADS RELATED ---------------->

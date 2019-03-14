@@ -13,7 +13,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Intervention\Image\ImageManagerStatic as IntImage;
 
-class UploadDocumentJob implements ShouldQueue
+class DocumentUploadJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -81,6 +81,7 @@ class UploadDocumentJob implements ShouldQueue
             $isImage = in_array(strtolower(File::extension($this->path)), ['jpg','jpeg', 'png']);
 
             if ( !$isImage || ($isImage && !isset($request->resize)) ) {
+                
                 // delete from temporary local storage.
                 fclose($handler);
                 File::delete($this->path);
@@ -91,7 +92,6 @@ class UploadDocumentJob implements ShouldQueue
                     $resize 
                         = list($name, $width, $height) 
                             = array($key, $val['0'], $val[1]);
-                    // dd($name, $width, $height);
 
                     $this->resizeImage( $request, $resize );
                     $i++;
@@ -100,7 +100,6 @@ class UploadDocumentJob implements ShouldQueue
                     if ($i == sizeof($this->resizes)) {
                         fclose($handler);
                         File::delete($this->path);
-                        // dd('Last loop: '. $i .'. Job done, Kudos!!!');
                     }
                 }
             }

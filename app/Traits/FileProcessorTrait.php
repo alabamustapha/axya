@@ -3,14 +3,14 @@
 namespace App\Traits;
 
 use App\Image;
-use App\Jobs\UploadDocumentJob;
+use App\Jobs\DocumentUploadJob;
 use File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\ImageManagerStatic as IntImage;
 use App\Http\Requests\DocumentUploadRequest;
 
-trait ImageProcessing2
+trait FileProcessorTrait
 { 
     /**
      * Process image payload... Upload, Update or Delete
@@ -19,18 +19,15 @@ trait ImageProcessing2
      */
 
     # Works for every other models
-    public function imageProcessing2(DocumentUploadRequest $request, $model)
+    public function fileProcessor(DocumentUploadRequest $request, $model)
     {
         $uploadFile      = $request->uploadFile;
-        // dd($request->all(), $uploadFile, $model);
 
         $modelFrags      = explode('\\', get_class($model));
         $modelClassName  = strtolower(str_plural(end($modelFrags))); 
         $dynamicTempLink = 'filesystems.behealthy.temporary.'. $modelClassName;
 
-
         if ($uploadFile) {
-
             if ($modelClassName == 'users' && $model->hasUploadedAvatar()) {
                 $this->fileDelete( $model );
             }
@@ -41,8 +38,7 @@ trait ImageProcessing2
                 $newFile->move(config( $dynamicTempLink ), $filename);
 
                 // upload to permanent storage
-                $this->dispatch(new UploadDocumentJob( $model, $filename, $modelClassName ));
-
+                $this->dispatch(new DocumentUploadJob( $model, $filename, $modelClassName ));
             } 
         }
         return redirect()->back();// return response()->json(null, 200);
@@ -100,25 +96,6 @@ trait ImageProcessing2
             #2. Remove reference link from Documents Table
             $document->delete();
         }
-
-        // #1. Remove file from disk.
-        // #2. Remove reference link from Images table in the database
-        // // Image::where('imageable_id', $model->id)
-        // //      ->where('imageable_type', get_class($model)
-        // //      ->first()
-        // //      ->delete();
-        // $model->images()->find($request->image_id)->delete();
-
-        // // if no $request->avatar then this is plain DELETE request
-        // if (! $request->avatar){
-        //     // Remove reference link from images table in the database
-        //     $model->images()->first()->delete();
-
-        //     // Remove reference link from users table in the database
-        //     $model->avatar = null;
-        //     $model->avatar_thumbnail_url = null;
-        //     $model->save();
-        // }
 
         return;
     }
