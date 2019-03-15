@@ -109,7 +109,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return (is_null($value) || $value == 'images/doc.jpg') 
                 ? config('app.url') . '/images/doc.jpg' 
-                : $value
+                : config('app.url') .'/'. $value
                 ;
     }
 
