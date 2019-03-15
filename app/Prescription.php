@@ -2,17 +2,29 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Prescription extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
       'appointment_id','message_id','usage','comment', // 'status'
     ];
 
     protected $appends = ['user','doctor'];
 
-    protected $with = ['drugs'];
+    protected $with = ['drugs', 'appointment'];
+
+    protected $dates = ['deleted_at'];
+
+    public function canBeDeleted()
+    {
+      return ($this->created_at->addMinutes(60) > Carbon::now()) 
+             && (auth()->id() == $this->doctor->id);
+    }
 
     public function appointment()
     {

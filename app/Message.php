@@ -5,9 +5,12 @@ namespace App;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Message extends Model
 {
+    use SoftDeletes;
+    
     protected $fillable = [
       'user_id','body','messageable_id','messageable_type'
     ];
@@ -15,6 +18,8 @@ class Message extends Model
     protected $with = [
       'messageable', 'user',
     ];
+
+    protected $dates = ['deleted_at'];
 
     /**
      * Get all of the owning messageable models.

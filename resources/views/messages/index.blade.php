@@ -101,7 +101,7 @@
                                 class="btn btn-link btn-xs p-0 bg-transparent"
                                 onclick="return confirm('Delete this message?');" 
                                 >
-                                <i class="fa fa-ellipsis-h red" style="font-size: 12px;"></i></a>
+                                <i class="fa fa-ellipsis-h red" style="font-size: 12px;"></i>
                               </button>
                             </form>
                             @endif

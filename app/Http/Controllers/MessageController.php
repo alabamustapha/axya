@@ -154,8 +154,21 @@ class MessageController extends Controller
     {
         $this->authorize('delete', $message);
 
+        // Could be thrown into 'deleting' Model Observer.
         if ($message->document) { 
-            $this->fileDelete( $message ); 
+            $this->fileDelete( $message );
+
+            $message->forceDelete(); 
+        }
+
+        if ($message->prescription) { 
+            // if ($message->forceDelete() exerted){
+            //     $message->prescription->forceDelete();
+            // }
+            // if ($message->restore() exerted){
+            //     $message->prescription->restore();
+            // }
+            $message->prescription->delete(); 
         }
 
         $message->delete();

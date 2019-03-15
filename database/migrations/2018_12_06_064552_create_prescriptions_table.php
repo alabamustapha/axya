@@ -20,6 +20,7 @@ class CreatePrescriptionsTable extends Migration
             $table->string('usage');
             $table->string('comment')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('appointment_id')
                   ->references('id')->on('appointments')

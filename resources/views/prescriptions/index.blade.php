@@ -23,6 +23,7 @@
   @forelse($prescriptions as $prescription)
     
     @include('prescriptions._card')
+    
   @empty
     <div class="text-center">
       <div class="display-3"><i class="fa fa-prescription"></i></div> 

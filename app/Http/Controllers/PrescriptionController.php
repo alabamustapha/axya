@@ -255,8 +255,17 @@ class PrescriptionController extends Controller
     public function destroy(Prescription $prescription)
     {
         $this->authorize('delete', $prescription);
-
+        
+        // if ($prescription->forceDelete() exerted){
+        //     $prescription->message->forceDelete();
+        // }
+        // if ($prescription->restore() exerted){
+        //     $prescription->message->restore();
+        // }
+        
         if ($prescription->delete()) {
+            $prescription->message->delete(); 
+
             $message = 'Prescription deleted successfully';
 
             return response(['message' => $message], 204);
