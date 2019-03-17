@@ -16,7 +16,7 @@ use Faker\Generator as Faker;
 
 $factory->define(App\User::class, function (Faker $faker) {
     return [
-        'name' => $faker->name,
+        'name' => str_replace("'", "", $faker->name),
         // 'slug'
         // 'avatar'
         'gender'    => $faker->randomElement(['Male','Female','Other']),

@@ -19,7 +19,7 @@ trait CustomSluggableTrait
     public function updateSlug(Request $request, User $user)
     {
         if ($request->name !== $user->name) {
-            $name_slug = str_slug($request->name);
+            $name_slug = str_slug(str_replace("'", "", $request->name));
 
             $unique_user = 
                 // User::where('slug', 'like', '%'.$name_slug.'%')
