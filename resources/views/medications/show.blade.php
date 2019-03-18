@@ -82,7 +82,7 @@
 
             <div class="card-body">
 
-              <form action="{{route('medications.update', $medication)}}" method="post">
+              <form action="{{route('medications.update', [$medication->user, $medication])}}" method="post">
                 {{ csrf_field() }}
                 {{ method_field('PATCH') }} 
 

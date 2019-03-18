@@ -29,8 +29,8 @@ class CreateDocumentsTable extends Migration
             $table->string('mime')->nullable();
             $table->integer('size')->nullable();
             $table->timestamps();
-            $table->string('unique_id');
-            $table->string('mime_type');
+            $table->string('unique_id')->nullable();
+            $table->string('mime_type')->nullable();
         });
     }
 

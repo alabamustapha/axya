@@ -24,7 +24,7 @@ class CreateDoctorsTable extends Migration
             $table->text('about')->nullable();
 
             // Language
-            $table->integer('main_language')->unsigneed()->default('ro');
+            $table->integer('main_language')->unsigneed()->default(1);
             $table->integer('second_language')->unsigned()->nullable();
             $table->string('other_languages')->nullable();
 
@@ -39,7 +39,7 @@ class CreateDoctorsTable extends Migration
             $table->string('rate')->default('5.00'); // $ per session
             $table->integer('session')->default('30');// In Minutes
             $table->date('first_appointment');
-            $table->boolean('available')->default(0); // 0:Available, 1:Not Available.
+            $table->boolean('available')->default(1); // 1:Available, 0:Not Available.
             $table->timestamp('subscription_ends_at')->nullable();
 
             // Education

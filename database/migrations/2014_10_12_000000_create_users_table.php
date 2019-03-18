@@ -48,6 +48,7 @@ class CreateUsersTable extends Migration
             $table->boolean('as_doctor')->default(0);
 
             $table->string('last_four',4)->nullable();
+            $table->string('verification_link')->nullable();
             $table->boolean('terms')->default(0);
             $table->timestamp('application_retry_at')->nullable();
             $table->timestamp('email_verified_at')->nullable();
