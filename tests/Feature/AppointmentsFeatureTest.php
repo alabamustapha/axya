@@ -67,20 +67,20 @@ class AppointmentsFeatureTest extends TestCase
             ;
     }
 
-    // /** @test */
-    // public function show_an_appointment_can_be_viewed_by_attending_doctor()
-    // {
-    //     $this
-    //         ->actingAs($this->doctorUser)
-    //         ->get(route('dr_appointments', $this->appointment))
-    //         ->assertStatus(200)
-    //         ->assertSee($this->appointment->status_text)
-    //         ->assertSee($this->appointment->user->name)
-    //         ->assertSee($this->appointment->from)
-    //         ->assertSee($this->appointment->to)
-    //         ->assertSee($this->sub_description)
-    //         ;
-    // }
+    /** @test */
+    public function show_an_appointment_can_be_viewed_by_attending_doctor()
+    {
+        $this
+            ->actingAs($this->doctorUser)
+            ->get(route('dr_appointments', [$this->appointment->doctor, $this->appointment]))
+            ->assertStatus(200)
+            ->assertSee($this->appointment->status_text)
+            ->assertSee($this->appointment->user->name)
+            ->assertSee($this->appointment->start_time)
+            ->assertSee($this->appointment->end_time)
+            ->assertSee($this->sub_description)
+            ;
+    }
 
     /** @test */
     public function show_an_appointment_cannot_be_viewed_by_non_creator()
