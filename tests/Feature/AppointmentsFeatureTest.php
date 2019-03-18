@@ -32,20 +32,11 @@ class AppointmentsFeatureTest extends TestCase
         $this->user2       = factory(User::class)->states('verified')->create();
         $this->appointment2= factory(Appointment::class)->create(['user_id' => $this->user2->id]);
 
-        $this->data = [ 
+        $this->data = factory(Appointment::class)->raw([
             'type'        => 'Home',
-            'phone'       => $this->faker->e164PhoneNumber,
-            'address'     => '565 Kshlerin Wells Suite 835\nRebekachester, PA 44034',
-
-            'user_id'     => $this->user2->id,
-            'slug'        => $this->user2->slug,
+            'user_id' => $this->user2->id,
             'doctor_id'   => $this->doctor->id,
-            'description' => 'Reiciendis inventore et omnis non asperiores.',
-
-            'day'         => '2018-12-23 10:00:00',
-            'from'        => '05:00 AM',
-            'to'          => '11:00 PM',
-        ];
+        ]);
     } 
 
     /** @test */
@@ -136,6 +127,7 @@ class AppointmentsFeatureTest extends TestCase
     {
         $user = factory(User::class)->states('verified')->create();
 
+        // $data = factory(Appointment::class)->raw() ;
         $data = [ 
             'type'        => 'Home',
             'phone'       => $this->faker->e164PhoneNumber,
@@ -150,6 +142,8 @@ class AppointmentsFeatureTest extends TestCase
             'from'        => '05:00 AM',
             'to'          => '11:00 PM',
         ];
+
+
         // Caters for Concatenation to 2400 ::formatHourTo2400();
         $data_edited = $data;
         $data_edited = array_merge($data_edited, [

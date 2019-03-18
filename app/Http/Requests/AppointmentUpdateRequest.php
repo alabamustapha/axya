@@ -55,10 +55,11 @@ class AppointmentUpdateRequest extends FormRequest
             $rules = app()->environment('testing')
             # date_format:H:i not responding in testing thus needs to be seperated out.
                 ? array_merge($rules, [
-                    'day'       => 'required',//|string|max:19',
+                    'doctor_id' => 'required|integer',
                 ])
                 : array_merge($rules, [
                     'day'       => 'required|date|after_or_equal:today',
+                    'doctor_id' => 'required|integer|exists:doctors,id',
                 ]);
         }
 
