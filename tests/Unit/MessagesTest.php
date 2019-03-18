@@ -38,7 +38,7 @@ class MessagesTest extends TestCase
     {
         $this->assertTrue(Schema::hasColumns('messages', 
           [
-            'id','user_id','body','messageable_id','messageable_type'
+            'id','user_id','body','messageable_id','messageable_type','deleted_at'
           ]), 1);
     }
 

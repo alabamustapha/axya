@@ -17,6 +17,7 @@ class CreateMessagesTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned()->index();
             $table->string('body');
+            $table->softDeletes();
 
             $table->integer('messageable_id');
             $table->string('messageable_type');

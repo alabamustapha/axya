@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Document;
 use App\Http\Requests\DocumentRequest;
+use File;
+use Response;
 use Illuminate\Http\Request;
 
 class DocumentController extends Controller
@@ -83,9 +85,22 @@ class DocumentController extends Controller
      * @param  \App\Document  $document
      * @return \Illuminate\Http\Response
      */
-    public function show(Document $document)
+    public function show(Request $request, Document $document)
     {
-        // Get hint from ApplicationCOntroller@showFile
+        $filePath   = $document->url;
+
+        if(! File::exists($filePath)) { 
+            abort(404); // dd('File not found');//
+        }
+
+        $content    = File::get($filePath);
+        $type       = File::mimeType($filePath);
+        $fileName   = File::name($filePath);
+
+        return response()->file($filePath, [
+          'Content-Type'        => $type,
+          'Content-Disposition' => 'inline; filename="'.$fileName.'"'
+        ]);   
     }
 
     /**

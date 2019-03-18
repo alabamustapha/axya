@@ -68,16 +68,39 @@ return [
 
     // For Storage Directory
     'storage' => [
-        'images' => '/uploads/images',
-        'videos' => '/uploads/videos',
-        'documents'  => '/uploads/documents',
+        'images'    => '/uploads/images/',
+        'videos'    => '/uploads/videos/',
+        'documents' => '/uploads/documents/',
     ],
 
-    // For Public Directory
-    'public' => [
-        'images' => '/uploads/images',
-        'videos' => '/uploads/videos',
-        'documents'  => '/uploads/documents',
+
+
+    // Storage Directory (Saving and Rendering Links)
+    'behealthy' => 
+    [
+        // Temporary saving before processing and moving files to final storage by jobs...
+        'temporary' => 
+        [
+            'messages'     => storage_path() . '/uploads/messages/',     // filesystems.behealthy.temporary.messages
+            'users'        => storage_path() . '/uploads/users/',        // filesystems.behealthy.temporary.users
+            'applications' => storage_path() . '/uploads/applications/', // filesystems.behealthy.temporary.applications
+        ],
+
+        // Link to saving files...
+        'save' => 
+        [
+            'messages'     => 'public/messages/',     // filesystems.behealthy.save.messages
+            'users'        => 'public/users/',        // filesystems.behealthy.save.users
+            'applications' => 'public/applications/', // filesystems.behealthy.save.applications
+        ],
+
+        // Link to serving/rendering files...
+        'serve' => 
+        [ 
+            'messages'     => 'storage/messages/',     // filesystems.behealthy.serve.messages
+            'users'        => 'storage/users/',        // filesystems.behealthy.serve.users
+            'applications' => 'storage/applications/', // filesystems.behealthy.serve.applications
+        ]
     ]
 
 ];

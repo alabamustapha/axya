@@ -27,6 +27,20 @@
             <!-- schedule detail -->
             <div id="s-d" class="search-cell w-100">
                 <ul class="nav flex-sm-row">
+                    <li class="nav-item nav-opt p-0">
+                      <a class="nav-link" title="View Status" data-toggle="collapse" href="#docStatusDropdown" role="button" aria-expanded="false" aria-controls="docStatusDropdown">
+                          <i class="fa fa-ellipsis-h red" style="font-size: 12px;"></i>
+                      </a>
+                      <div class="collapse{{--  opt-menu --}} shadow-lg" id="docStatusDropdown">
+                        @can('edit', $doctor)
+                          <div class="col">
+
+                            @include('doctors.partials._availability')
+
+                          </div>
+                        @endcan
+                      </div>
+                    </li>
                     <li class="nav-item mr-3">Available on:</li>
                     <li class="nav-item {{$doctor->has_sunday_schedules ? 'has':''}}"   >S</li>
                     <li class="nav-item {{$doctor->has_monday_schedules ? 'has':''}}"   >M</li>
@@ -38,14 +52,6 @@
                 </ul>
             </div>
           </div>
-
-          @can('edit', $doctor)
-            <div class="col">
-
-              @include('doctors.partials._availability')
-
-            </div>
-          @endcan
       </div>
       <div class="profile-details bg-theme-gradient">
           <div class="fee-wrap">
@@ -159,7 +165,7 @@
 
     <div class="row">
 
-      <div class="col-md-7">
+      <div class="col-md-7" id="schedules">
         @auth
           @if((Auth::id() === $doctor->id) && !Auth::user()->isAuthenticatedDoctor())
             <div class="p-2 mb-2 border-bottom bg-light text-sm">

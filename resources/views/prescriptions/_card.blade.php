@@ -1,29 +1,65 @@
 <div class="card shadow">
   <div class="card-header">
     <div class="card-title">
-      <div class="border-bottom" style="font-size:12px;">
-        <span class="text-bold border-bottom">
-          <i class="fa fa-info"></i> Consultation Reason: 
-        </span>
-        <p>
-          {{ $prescription->appointment->description }}
-        </p>
+
+      <div class="tf-flex border-bottom mb-3 pb-2">
+          <span class="text-bold">
+            <i class="fa fa-calendar-alt"></i> Appointment Details <small class="text-sm"><em>{{ $prescription->created_at }}</em></small>
+          </span>
+          @if($prescription->canBeDeleted())
+          <form action="{{ route('prescriptions.destroy', $prescription) }}" method="post" class="d-inline">
+            @csrf
+            {{ method_field('DELETE') }}
+            <button type="submit" 
+              class="btn btn-link btn-xs p-0 bg-transparent"
+              onclick="return confirm('Delete this prescription?');" 
+              >
+              <i class="fa fa-ellipsis-h red" style="font-size: 12px;"></i>
+            </button>
+          </form>
+          @endif
       </div>
 
-      <div>
-        Attending Doctor: 
+      <div class="media">
+        @if (Auth::id() === $prescription->doctor->id)
 
-        <a href="{{ route('doctors.show', $prescription->doctor) }}" target="_blank" style="color:#6c757d !important;">
-          {{ $prescription->doctor->name }}
-        </a>
+          <a href="{{ route('users.show', $prescription->user) }}" target="_blank" title="{{ $prescription->user->name }}" class="text-muted font-weight-bold pr-2 mr-3">
+            <img src="{{ $prescription->user->avatar }}" alt="{{ $prescription->user->name }}" class="img-md img-circle">
+          </a>
+
+        @else
+
+          <a href="{{ route('doctors.show', $prescription->doctor) }}" target="_blank" title="{{ $prescription->doctor->name }}" class="text-muted font-weight-bold pr-2 mr-3">
+            <img src="{{ $prescription->doctor->avatar }}" alt="{{ $prescription->doctor->name }}" class="img-md img-circle">
+          </a>
+
+        @endif
+        <div class="media-body">
+          <h5 class="mt-0">
+            @if (Auth::id() === $prescription->doctor->id)
+              <a href="{{ route('users.show', $prescription->user) }}" target="_blank" title="{{ $prescription->user->name }}" class="text-muted font-weight-bold">
+                {{ $prescription->user->name }}
+              </a>
+              (Patient)
+            @else
+              <a href="{{ route('doctors.show', $prescription->doctor) }}" target="_blank" title="{{ $prescription->doctor->name }}" class="text-muted font-weight-bold">
+                {{ $prescription->doctor->name }}
+              </a>
+              (Attending Doctor)
+            @endif
+          </h5>
+
+          <p class="text-sm">{{ $prescription->appointment->description }}</p>
+        </div>
       </div>
+
     </div>
   </div>
 
   <div class="card-body p-3">
 
     <div>          
-      <h5 class="border-bottom">Drugs:</h5>
+      <h3 class="font-weight-bold">Prescriptions:</h3>
 
       <div class="table-responsive mb-3">
         <table class="table table-sm table-bordered">

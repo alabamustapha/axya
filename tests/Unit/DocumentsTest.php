@@ -30,7 +30,7 @@ class DocumentsTest extends TestCase
     {
         $this->assertTrue(Schema::hasColumns('documents', 
           [
-            'id','user_id','description','url','documentable_id','documentable_type','expiry_date','mime','size' 
+            'id','user_id','description','url','documentable_id','documentable_type','expiry_date','mime','size','unique_id','mime_type' 
           ]), 1);
     }
 

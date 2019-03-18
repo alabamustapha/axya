@@ -20,28 +20,23 @@ class AppointmentsFeatureTest extends TestCase
         parent::setUp();
 
         $this->user        = factory(User::class)->states('verified')->create();
+        $this->doctorUser  = factory(User::class)->states(['verified', 'doctor'])->create();
         $this->specialty   = factory(Specialty::class)->create();
-        $this->doctor      = factory(Doctor::class)->states('active')->create();
+        $this->doctor      = factory(Doctor::class)->states('active')->create([
+            'id'      => $this->doctorUser->id,
+            'user_id' => $this->doctorUser->id
+        ]);
         $this->appointment = factory(Appointment::class)->create(['user_id' => $this->user->id]);
         $this->sub_description = substr($this->appointment->description, 0,100);
 
         $this->user2       = factory(User::class)->states('verified')->create();
         $this->appointment2= factory(Appointment::class)->create(['user_id' => $this->user2->id]);
 
-        $this->data = [ 
+        $this->data = factory(Appointment::class)->raw([
             'type'        => 'Home',
-            'phone'       => $this->faker->e164PhoneNumber,
-            'address'     => '565 Kshlerin Wells Suite 835\nRebekachester, PA 44034',
-
-            'user_id'     => $this->user2->id,
-            'slug'        => $this->user2->slug,
+            'user_id' => $this->user2->id,
             'doctor_id'   => $this->doctor->id,
-            'description' => 'Reiciendis inventore et omnis non asperiores.',
-
-            'day'         => '2018-12-23 10:00:00',
-            'from'        => '05:00 AM',
-            'to'          => '11:00 PM',
-        ];
+        ]);
     } 
 
     /** @test */
@@ -68,6 +63,21 @@ class AppointmentsFeatureTest extends TestCase
             ->assertSee($this->appointment->doctor->name)
             ->assertSee($this->appointment->from)
             ->assertSee($this->appointment->to)
+            ->assertSee($this->sub_description)
+            ;
+    }
+
+    /** @test */
+    public function show_an_appointment_can_be_viewed_by_attending_doctor()
+    {
+        $this
+            ->actingAs($this->doctorUser)
+            ->get(route('dr_appointments', [$this->appointment->doctor, $this->appointment]))
+            ->assertStatus(200)
+            ->assertSee($this->appointment->status_text)
+            ->assertSee($this->appointment->user->name)
+            ->assertSee($this->appointment->start_time)
+            ->assertSee($this->appointment->end_time)
             ->assertSee($this->sub_description)
             ;
     }
@@ -117,6 +127,7 @@ class AppointmentsFeatureTest extends TestCase
     {
         $user = factory(User::class)->states('verified')->create();
 
+        // $data = factory(Appointment::class)->raw() ;
         $data = [ 
             'type'        => 'Home',
             'phone'       => $this->faker->e164PhoneNumber,
@@ -131,6 +142,8 @@ class AppointmentsFeatureTest extends TestCase
             'from'        => '05:00 AM',
             'to'          => '11:00 PM',
         ];
+
+
         // Caters for Concatenation to 2400 ::formatHourTo2400();
         $data_edited = $data;
         $data_edited = array_merge($data_edited, [
@@ -158,7 +171,7 @@ class AppointmentsFeatureTest extends TestCase
         $appointment = factory(Appointment::class)->create([
             'user_id'     => $user->id,
             'doctor_id'   => $this->doctor->id,
-            'status'      => $this->faker->numberBetween(0,5),
+            'status'      => '0',
         ]);
 
         // Update the Appointment's details

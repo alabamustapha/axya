@@ -109,18 +109,25 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return (is_null($value) || $value == 'images/doc.jpg') 
                 ? config('app.url') . '/images/doc.jpg' 
-                : $value
+                : config('app.url') .'/'. $value
                 ;
     }
 
     public function getOriginalAvatarFileAttribute($value)
     {
-        return $this->hasUploadedAvatar() ? $this->images()->first()->url:'#';
+        return $this->hasUploadedAvatar() 
+          ? $this->documents()
+               ->where('documentable_id', $this->id)
+               ->where('documentable_type', 'App\User')
+               ->first()
+               ->url
+          :'#';
+        // ? $this->images()->first()->url:'#';
     }
 
     public function hasUploadedAvatar()
     {
-        return $this->avatar !== config('app.url') . '/images/doc.jpg';
+        return !is_null($this->avatar) && $this->avatar !== config('app.url') . '/images/doc.jpg';
     }
 
     public function inconclusiveAppointments()
@@ -606,15 +613,15 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Subscription::class);
     }
 
-    public function documents()//uploaded_documents()
-    {
-        return $this->hasMany(Document::class, 'user_id');
-    }
-
-    // public function documents()
+    // public function documents()//uploaded_documents()
     // {
-    //     return $this->morphMany(Document::class, 'documentable');
+    //     return $this->hasMany(Document::class, 'user_id');
     // }
+
+    public function documents()
+    {
+        return $this->morphMany(Document::class, 'documentable');
+    }
 
     public function messages()
     {

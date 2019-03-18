@@ -29,7 +29,6 @@ class AppointmentRequest extends FormRequest
             'address'   => 'nullable|required_if:type,Home|string',
             'phone'     => 'nullable|required_if:type,Home|string',
 
-            'doctor_id' => 'required|integer|exists:doctors,id',
             'description' => 'required|string|max:1500',
 
             'from'      => 'required|date_format:h:i A',
@@ -40,9 +39,11 @@ class AppointmentRequest extends FormRequest
         # date_format:H:i not responding in testing thus needs to be seperated out.
             ? array_merge($rules, [
                 'day'       => 'required',//|string|max:19',
+                'doctor_id' => 'required|integer',
             ])
             : array_merge($rules, [
                 'day'       => 'required|date|after_or_equal:today',
+                'doctor_id' => 'required|integer|exists:doctors,id',
             ]);
 
         return $rules;

@@ -7,7 +7,7 @@ use App\Image;
 use App\Notifications\AccountVerificationNotification;
 use App\Notifications\PasswordChangeNotification;
 use App\Traits\CustomSluggableTrait;
-use App\Traits\ImageProcessing;
+use App\Traits\FileProcessorTrait;
 use App\User;
 use Auth;
 use Carbon\Carbon;
@@ -17,10 +17,11 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use App\Http\Requests\DocumentUploadRequest;
 
 class UserController extends Controller
 {
-    use ImageProcessing, CustomSluggableTrait, VerifiesEmails;
+    use FileProcessorTrait, CustomSluggableTrait, VerifiesEmails;
 
     public function __construct()
     {
@@ -135,30 +136,20 @@ class UserController extends Controller
 
 
 
-    public function avatarUpload(Request $request, User $user) 
+    public function avatarUpload(DocumentUploadRequest $request, User $user) 
     {
-        $this->avatarProcessing($request, $user);
+        $this->fileProcessor($request, $user);
 
-        flash('Your profile image was successfully updated.')->success();
-
-        return redirect()->route('users.show', $user); 
-    }
-
-    // For Multiples Uploads Test.
-    public function imageUpload(Request $request, User $user) 
-    {
-        $this->imageProcessing($request, $user);
-        
-        flash('Image was successfully updated.')->success();
+        flash('Profile image upload successful.')->success();
 
         return redirect()->route('users.show', $user); 
     }
 
     public function avatarDelete(Request $request, User $user) 
     {       
-        $this->imageDeleteTrait($request, $user);
+        $this->fileDelete( $user );
 
-        flash('Your profile image was successfully removed.')->success();
+        flash('Profile image removal successful.')->success();
 
         return redirect()->route('users.show', $user);
     }

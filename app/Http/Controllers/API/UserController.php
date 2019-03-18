@@ -9,7 +9,7 @@ use App\Http\Resources\User\UserResource;
 use App\Notifications\PasswordChangeNotification;
 use App\Traits\CustomAuthorizationsTrait;
 use App\Traits\CustomSluggableTrait;
-use App\Traits\ImageProcessing;
+use App\Traits\FileProcessorTrait;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
-    use CustomAuthorizationsTrait, ImageProcessing, CustomSluggableTrait;
+    use CustomAuthorizationsTrait, FileProcessorTrait, CustomSluggableTrait;
 
     public function __construct()
     {

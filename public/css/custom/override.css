@@ -97,3 +97,8 @@ i.fas {
   top:16px;
   display: inline-block;
 }
+
+.appmt-edit-form-append {
+   display:inline-block;
+   min-width: 70px;
+}

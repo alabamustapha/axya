@@ -2,11 +2,15 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Message extends Model
 {
+    use SoftDeletes;
+    
     protected $fillable = [
       'user_id','body','messageable_id','messageable_type'
     ];
@@ -14,6 +18,8 @@ class Message extends Model
     protected $with = [
       'messageable', 'user',
     ];
+
+    protected $dates = ['deleted_at'];
 
     /**
      * Get all of the owning messageable models.
@@ -175,6 +181,11 @@ class Message extends Model
     public function getAlternateLinkAttribute()
     {
       return $this->alternate_list .'#_'. md5($this->id);
+    }
+
+    public function canBeDeleted()
+    {
+      return $this->created_at->addMinutes(45) > Carbon::now();
     }
 
 }

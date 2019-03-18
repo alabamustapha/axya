@@ -5,16 +5,16 @@ namespace App\Http\Controllers;
 use App\Appointment;
 use App\Doctor;
 use App\Http\Requests\MessageRequest;
+use App\Http\Requests\DocumentUploadRequest;
 use App\Message;
-use App\Traits\FileProcessing;
-use App\Traits\ImageProcessing;
+use App\Traits\FileProcessorTrait;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class MessageController extends Controller
 {
-    use ImageProcessing, FileProcessing;
+    use FileProcessorTrait;
 
     public function __construct()
     {
@@ -79,15 +79,15 @@ class MessageController extends Controller
     {
         // Active + Pending Appointments.
         $activeAppointments = $doctor->appointments()
-                                     ->hasPrescription()
-                                     // ->hasActiveCorrespondence()
+                                     // ->hasPrescription()
+                                     ->hasActiveCorrespondence()
                                      ->paginate(10)
                                      ;
 
         // Inactive + Past Successful Appointments.
         $inactiveAppointments = $doctor->appointments()
-                                     ->hasPrescription()
-                                     // ->hasInactiveCorrespondence()
+                                     // ->hasPrescription()
+                                     ->hasInactiveCorrespondence()
                                      ->paginate(5)
                                      ;
         
@@ -154,7 +154,25 @@ class MessageController extends Controller
     {
         $this->authorize('delete', $message);
 
+        // Could be thrown into 'deleting' Model Observer.
+        if ($message->document) { 
+            $this->fileDelete( $message );
+
+            $message->forceDelete(); 
+        }
+
+        if ($message->prescription) { 
+            // if ($message->forceDelete() exerted){
+            //     $message->prescription->forceDelete();
+            // }
+            // if ($message->restore() exerted){
+            //     $message->prescription->restore();
+            // }
+            $message->prescription->delete(); 
+        }
+
         $message->delete();
+
         $msg = 'Message deleted successfully';
 
         // if ($message->delete()) {
@@ -164,20 +182,22 @@ class MessageController extends Controller
         // }
 
         flash($msg)->info();
-        return redirect()->route('appointments.show', $message->messageable);
+        return redirect()->back();
+        //->route('appointments.show', $message->messageable);
+        //->route('support_tickets.show', $message->messageable);
     }
 
     /**
      * Accepted file types:
      *
      * Image  : png, jpeg
-     * Video  : mp4, 3gp, avi
+     * Video  : mp4, 3gp,
      * Audio  : mp3, wav, ogg
-     * Others : pdf, docx, xls, txt
+     * Others : pdf, txt,
      */
-    public function fileUpload(Request $request, Appointment $appointment) 
+    public function fileUpload(DocumentUploadRequest $request, Appointment $appointment) 
     {
-        $uploadFile = $request->uploadFile;
+        $uploadFile   = $request->uploadFile;
 
         $fileMimeType = $uploadFile[0]->getMimeType();
         $isImage      = starts_with($fileMimeType, 'image/');
@@ -185,13 +205,13 @@ class MessageController extends Controller
 
         $message = $appointment->messages()->create([
                 'user_id'         => auth()->id(),
-                'body'            => $request->caption, // Doubles as Description, unset down in this method.
+                'body'            => $request->caption,
             ]);
 
         if ($isImage) {
-            $request->merge(['no_resize' => true]);
+            // $request->merge(['no_resize' => true]);
 
-            $this->imageProcessing($request, $message);
+            $this->fileProcessor($request, $message);
 
             flash('Image was successfully uploaded.')->success();
         } 
@@ -201,19 +221,10 @@ class MessageController extends Controller
         //     flash('Video was successfully uploaded.')->success();
         // } 
         else {
-            // // Expected to be other files eg .pdf, .docx, .xls. All monitored
-            // if($uploadFile){
-            //     $extension = $uploadFile->getClientOriginalExtension();
-            //     $name      = $appointment->slug .'_'. time() .'.'. $extension;
-
-            //     $path      = $uploadFile->storeAs( $directory, $name );
-            //     $application->image_file = $name;
-            // }
-
             $request->merge([ 'description' => $request->caption]);
             unset($request->caption);
 
-            $this->fileProcessing($request, $message);
+            $this->fileProcessor($request, $message);
             
             flash('File was successfully uploaded.')->success();
         }
