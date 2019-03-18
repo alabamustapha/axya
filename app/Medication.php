@@ -9,7 +9,7 @@ class Medication extends Model
     protected $dates = ['start_date', 'end_date'];
 
     protected $fillable = [
-        'user_id', 'title', 'prescription_id', 'appointment_id', 'description', 'start_date', 'start_time', 'end_date', 'notify_by', 'recurrence', 'recurrence_type',
+        'user_id', 'title', 'prescription_id', 'appointment_id', 'description', 'start_date', 'start_time', 'end_date', 'notify_by', 'recurrence', 'recurrence_type', 'link',
     ];
 
     public function calendar_events()
@@ -45,6 +45,11 @@ class Medication extends Model
     public function getEndAttribute()
     {
         return $this->end_date->format('d/M/y');
+    }
+
+    public function getLinkAttribute()
+    {
+        return route('medications.show', ['id'=> $this, 'user'=> $this->user]);
     }
 
     public $reccurrenceInMinutes = array(

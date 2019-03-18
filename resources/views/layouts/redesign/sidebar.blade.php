@@ -351,7 +351,7 @@
     </li>
 
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('medications.index') }}">
+        <a class="nav-link" href="{{ route('medications.index', Auth::user()) }}">
           <span class="tf-flex">
             <span>
               <span class="icon">

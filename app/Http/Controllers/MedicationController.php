@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\MedicationRequest;
+use App\User;
 use App\Medication;
 use App\Prescription;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 class MedicationController extends Controller
 {
-    public function __construct()
+    public function __construct(User $user)
     {
         $this->middleware('auth');
         $this->middleware('verified');
@@ -20,7 +21,7 @@ class MedicationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(User $user)
     {
         $user = auth()->user();
 
@@ -68,7 +69,7 @@ class MedicationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(MedicationRequest $request)
+    public function store(MedicationRequest $request, User $user)
     {
         $this->authorize('create', Medication::class);
         // dd($request->prescription_id, $request->all());
@@ -102,7 +103,7 @@ class MedicationController extends Controller
      * @param  \App\Medication  $medication
      * @return \Illuminate\Http\Response
      */
-    public function show(Medication $medication)
+    public function show(User $user, Medication $medication)
     {
         $this->authorize('edit', $medication);
 
@@ -122,7 +123,7 @@ class MedicationController extends Controller
      * @param  \App\Medication  $medication
      * @return \Illuminate\Http\Response
      */
-    public function update(MedicationRequest $request, Medication $medication)
+    public function update(MedicationRequest $request, User $user, Medication $medication)
     {
         $this->authorize('edit', $medication);
 
@@ -139,7 +140,7 @@ class MedicationController extends Controller
      * @param  \App\Medication  $medication
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Medication $medication)
+    public function destroy(User $user, Medication $medication)
     {
         $this->authorize('delete', $medication);
         //

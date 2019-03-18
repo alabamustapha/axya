@@ -20,7 +20,7 @@
       <div class="card shadow-sm">
         <div class="card-body">
           <blockquote class="blockquote mb-0">
-            <a href="{{ route('medications.show', $medication) }}">
+            <a href="{{ $medication->link }}">
               <p>
 
                 {{ $medication->title }}
@@ -54,7 +54,7 @@
         </div>
 
         <div class="card-body">
-					<form action="{{route('medications.store')}}" method="post" class="text-left">
+					<form action="{{route('medications.store', Auth::user())}}" method="post" class="text-left">
 						{{ csrf_field() }}
 
             <div class="form-group">

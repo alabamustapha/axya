@@ -32,7 +32,7 @@ class MedicationFeatureTest extends TestCase
         $this->appointment  = factory(Appointment::class)->create();
 
         $this->message      = factory(Message::class)->states('appointment')->create();
-        $this->medication = factory(Prescription::class)->create();
+        $this->prescription = factory(Prescription::class)->create();
 
         $this->medication   = factory(Medication::class)->create();
 
@@ -48,7 +48,7 @@ class MedicationFeatureTest extends TestCase
     {
         $this
             ->actingAs($this->medication->user)
-            ->get(route('medications.index'))//, $this->medication->user
+            ->get(route('medications.index', $this->medication->user))
             ->assertStatus(200)
             ->assertSee($this->medication->title)
             ->assertSee($this->medication->description)
@@ -59,9 +59,9 @@ class MedicationFeatureTest extends TestCase
     /** @test */
     public function show_a_medication_page_can_be_accessed_by_creator()
     {
-        $this
+        $this->withoutExceptionHandling()
             ->actingAs($this->medication->user)
-            ->get(route('medications.show', $this->medication))
+            ->get(route('medications.show', [$this->medication->user, $this->medication]))
             ->assertStatus(200)
             ->assertSee($this->medication->title)
             ->assertSee($this->medication->description)
@@ -81,7 +81,7 @@ class MedicationFeatureTest extends TestCase
     {
         $this
             ->actingAs($this->user)
-            ->post(route('medications.store'), $this->data)
+            ->post(route('medications.store', $this->medication->user), $this->data)
             ;
 
         $this->assertDatabaseHas('medications', $this->data);
@@ -98,7 +98,7 @@ class MedicationFeatureTest extends TestCase
 
         $this
             ->actingAs($this->user)
-            ->put(route('medications.update', $medication), $updated_data)
+            ->put(route('medications.update', [$this->medication->user, $medication]), $updated_data)
             ->assertStatus(302)
             ;
 
