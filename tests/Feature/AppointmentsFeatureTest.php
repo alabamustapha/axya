@@ -51,7 +51,7 @@ class AppointmentsFeatureTest extends TestCase
             ->actingAs($this->user)
             ->get(route('appointments.index', $this->appointment->user))
             ->assertStatus(200)
-            // ->assertSee($this->appointment->statusText())
+            ->assertSee($this->appointment->statusText())
             ->assertSee($this->appointment->doctor->name)
             ->assertSee($this->sub_description)
             ;
@@ -64,7 +64,7 @@ class AppointmentsFeatureTest extends TestCase
             ->actingAs($this->user)
             ->get(route('appointments.show', $this->appointment))
             ->assertStatus(200)
-            // ->assertSee($this->appointment->statusText())
+            ->assertSee($this->appointment->statusText())
             ->assertSee($this->appointment->doctor->name)
             ->assertSee($this->appointment->from)
             ->assertSee($this->appointment->to)
