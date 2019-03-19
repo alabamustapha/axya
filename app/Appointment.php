@@ -216,7 +216,9 @@ class Appointment extends Model
     public function scopeAwaitingAppointmentTime($query)
     {
         // Fee paid, awaiting appointment time.
-        return $query->where('status', '5');
+        return $query->where('status', '5')
+                     ->where('from', '>', Carbon::now())
+                     ;
     }
     public function scopeAbscond($query)
     {
@@ -239,9 +241,14 @@ class Appointment extends Model
     public function scopeHasActiveCorrespondence($query)
     {
         return $query->whereIn('status', ['1','5'])
-                     // ->where('from', '>', Carbon::now()) // We need pendings...
                      ->where('from', '<', $this->correspondence_ends_at)
                      ;
+    }
+
+    // Fee paid, awaiting appointment time.
+    public function scopeActivateMessaging($query)
+    {
+        return $query->whereIn('status', ['1','5']);
     }
 
     // Main appointment completed, correspondence period past.

@@ -36,6 +36,11 @@ class AppointmentController extends Controller
                  ->orderBy('day', 'desc')
                  ->paginate(25)
                  ;
+        $active_appointments = $user->appointments()
+                 ->hasActiveCorrespondence()
+                 ->orderBy('day', 'desc')
+                 ->paginate(25)
+                 ;
         $upcoming_appointments = $user->appointmentsAwaitingAppointmentTime()
                  ->orderBy('day', 'desc')
                  ->paginate(25)
@@ -54,6 +59,7 @@ class AppointmentController extends Controller
             compact(
                 'user',
                 'appointments',
+                'active_appointments',
                 'upcoming_appointments', // Paid for, awaiting schedule time
                 'pending_appointments',  // Still processing
                 'past_appointments'      // Done!
@@ -68,6 +74,11 @@ class AppointmentController extends Controller
     public function drindex(Doctor $doctor)
     {
         $appointments = Appointment::where('doctor_id', $doctor->id)
+                 ->orderBy('day', 'desc')
+                 ->paginate(25)
+                 ;
+        $active_appointments = $doctor->appointments()
+                 ->hasActiveCorrespondence()
                  ->orderBy('day', 'desc')
                  ->paginate(25)
                  ;
@@ -87,6 +98,7 @@ class AppointmentController extends Controller
         return view('appointments.index', compact(
                 'doctor',
                 'appointments',
+                'active_appointments',
                 'upcoming_appointments', // Paid for, awaiting schedule time
                 'pending_appointments',  // Still processing
                 'past_appointments'      // Done!

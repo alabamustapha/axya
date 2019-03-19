@@ -31,31 +31,41 @@
                         </li>
 
                         <li class="list-group-item">
-                            <a class="nav-link tf-flex" id="v-pills-upcoming-appointments-tab" data-toggle="pill" href="#v-pills-upcoming-appointments" role="tab"
+                            <a class="nav-link" id="v-pills-active-appointments-tab" data-toggle="pill" href="#v-pills-active-appointments" role="tab"
+                            aria-controls="v-pills-home" aria-selected="false">
+                                <span><i class="fas fa-calendar-plus fa-fw"></i> Active</span>
+                                @if (count($active_appointments))
+                                    <span class="badge badge-danger float-right">{{ count($active_appointments) }}</span>
+                                @endif
+                            </a>
+                        </li>
+
+                        <li class="list-group-item">
+                            <a class="nav-link" id="v-pills-upcoming-appointments-tab" data-toggle="pill" href="#v-pills-upcoming-appointments" role="tab"
                             aria-controls="v-pills-home" aria-selected="false">
                                 <span><i class="fas fa-calendar-plus fa-fw"></i> Upcoming</span>
                                 @if (count($upcoming_appointments))
-                                    <span class="badge badge-danger">{{ count($upcoming_appointments) }}</span>
+                                    <span class="badge badge-danger float-right">{{ count($upcoming_appointments) }}</span>
                                 @endif
                             </a>
                         </li>
 
                         <li class="list-group-item">
-                            <a class="nav-link tf-flex" id="v-pills-pending-appointments-tab" data-toggle="pill" href="#v-pills-pending-appointments" role="tab"
+                            <a class="nav-link" id="v-pills-pending-appointments-tab" data-toggle="pill" href="#v-pills-pending-appointments" role="tab"
                             aria-controls="v-pills-home" aria-selected="false">
                                 <span><i class="fas fa-calendar fa-fw"></i> Pending</span>
                                 @if (count($pending_appointments))
-                                    <span class="badge badge-danger">{{ count($pending_appointments) }}</span>
+                                    <span class="badge badge-danger float-right">{{ count($pending_appointments) }}</span>
                                 @endif
                             </a>
                         </li>
 
                         <li class="list-group-item">
-                            <a class="nav-link tf-flex" id="v-pills-past-appointments-tab" data-toggle="pill" href="#v-pills-past-appointments" role="tab"
+                            <a class="nav-link" id="v-pills-past-appointments-tab" data-toggle="pill" href="#v-pills-past-appointments" role="tab"
                             aria-controls="v-pills-home" aria-selected="false">
                                 <span><i class="fas fa-calendar-check fa-fw"></i> Past</span>
                                 @if (count($past_appointments))
-                                    <span class="badge badge-danger">{{ count($past_appointments) }}</span>
+                                    <span class="badge badge-danger float-right">{{ count($past_appointments) }}</span>
                                 @endif
                             </a>
                         </li>
@@ -101,11 +111,29 @@
                                                     @endif
                                                 </td>
                                                 <td title="{{ $appointment->description_preview }}">
-                                                    <a href="{{ route('appointments.show', $appointment) }}" class="text-primary"> 
-                                                        {{ $appointment->day }}
-                                                    </a>
+                                                    @if ($appointment->activateMessaging())
+                                                        @if ($appointment->user_id == Auth::id())
+                                                            <a href="{{ route('messages.index', [$appointment->user, $appointment->slug]) }}" class="text-primary"> 
+                                                                {{ $appointment->day }}
+                                                            </a>
+                                                        @else
+                                                            <a href="{{ route('dr_messages', [$appointment->doctor, $appointment->slug]) }}" class="text-primary"> 
+                                                                {{ $appointment->day }}
+                                                            </a>
+                                                        @endif
+                                                    @else
+                                                        <a href="{{ route('appointments.show', $appointment) }}" class="text-primary"> 
+                                                            {{ $appointment->day }}
+                                                        </a>
+                                                    @endif
                                                 </td>
-                                                <td>{{ $appointment->statusTextOutput() }}</td>
+                                                <td>
+                                                    @if ($appointment->hasActiveCorrespondence())
+                                                        <span class="font-weight-bold text-info">Active correspondence</span>
+                                                    @else
+                                                        {{ $appointment->statusTextOutput() }}
+                                                    @endif
+                                                </td>
                                             </tr>
                                         @empty
                                             <tr>
@@ -114,7 +142,7 @@
 
                                                     <br>
 
-                                                    <p><strong>0</strong> {{ request()->status }} appointments at this time.</p>
+                                                    <p><strong>0</strong> appointments at this time.</p>
                                                 </td>
                                             </tr>
                                         @endforelse
@@ -130,6 +158,71 @@
                    </div>
                 </div>
 
+                <div class="tab-pane fade " id="v-pills-active-appointments" role="tabpanel" aria-labelledby="v-pills-active-appointments-tab">
+                    <div class="card p-3">
+                        <h5 class="card-title text-center">Active Appointments
+                            <small class="text-sm font-weight-bold text-info">(active)</small>
+                        </h5>
+
+                        <div class="card-body">
+                            <div class="table-responsive-md transaction-table">
+                                <table class="table table-borderless">
+                                    <thead >
+                                        <tr>
+                                            <th scope="col">Fee <small class="text-sm">({{ setting('base_currency') }})</small></th>
+                                            <th scope="col">Doctor</th>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @forelse($active_appointments as $active_appointment)
+                                            <tr>                                                
+                                                <td>{{ $active_appointment->fee }}</td>
+                                                <td>
+                                                    @if($appointment->creator)
+                                                        <a href="{{route('doctors.show', $active_appointment->doctor)}}" style="color:inherit;">{{$active_appointment->doctor->name}}</a>
+                                                    @else
+                                                        <a href="{{route('users.show', $active_appointment->user)}}" style="color:inherit;">{{$active_appointment->user->name}}</a>
+                                                    @endif
+                                                </td>
+                                                <td title="{{ $active_appointment->schedule }}: {{ $active_appointment->description_preview }}">
+                                                    @if ($active_appointment->user_id == Auth::id())
+                                                        <a href="{{ route('messages.index', [$active_appointment->user, $active_appointment->slug]) }}" class="text-primary"> 
+                                                            {{ $active_appointment->day }}
+                                                        </a>
+                                                    @else
+                                                        <a href="{{ route('dr_messages', [$active_appointment->doctor, $active_appointment->slug]) }}" class="text-primary"> 
+                                                            {{ $active_appointment->day }}
+                                                        </a>
+                                                    @endif
+                                                </td>
+                                                <td><span class="text-info font-weight-bold">Active correspondence</span></td>
+                                            </tr>
+                                        @empty
+                                            <tr>
+                                                <td colspan="4" class="bg-white p-4 text-center">
+                                                    <div class="display-3"><i class="fa fa-calendar-plus"></i></div> 
+
+                                                    <br>
+
+                                                    <p><strong>0</strong> active appointments at this time.</p>
+                                                </td>
+                                            </tr>
+                                        @endforelse
+                                        <tr>
+                                            <td colspan="4" class="text-center py-3">{{ $upcoming_appointments->appends(request()->query())->links() }}</td>
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
                 <div class="tab-pane fade " id="v-pills-upcoming-appointments" role="tabpanel" aria-labelledby="v-pills-upcoming-appointments-tab">
                     <div class="card p-3">
                         <h5 class="card-title text-center">Upcoming Appointments
@@ -141,7 +234,7 @@
                                 <table class="table table-borderless">
                                     <thead >
                                         <tr>
-                                            <th scope="col">Cost</th>
+                                            <th scope="col">Fee <small class="text-sm">({{ setting('base_currency') }})</small></th>
                                             <th scope="col">Doctor</th>
                                             <th scope="col">Date</th>
                                             <th scope="col">Status</th>
@@ -160,9 +253,19 @@
                                                     @endif
                                                 </td>
                                                 <td title="{{ $upcoming_appointment->description_preview }}">
-                                                    <a href="{{ route('appointments.show', $upcoming_appointment) }}" class="text-primary"> 
-                                                        {{ $upcoming_appointment->day }}
-                                                    </a>
+                                                    
+                                                    @if ($upcoming_appointment->activateMessaging())
+                                                        @if ($upcoming_appointment->user_id == Auth::id())
+                                                            <a href="{{ route('messages.index', [$upcoming_appointment->user, $upcoming_appointment->slug]) }}" class="text-primary"> 
+                                                                {{ $upcoming_appointment->day }}
+                                                            </a>
+                                                        @else
+                                                            <a href="{{ route('dr_messages', [$upcoming_appointment->doctor, $upcoming_appointment->slug]) }}" class="text-primary"> 
+                                                                {{ $upcoming_appointment->day }}
+                                                            </a>
+                                                        @endif
+                                                    @endif
+                                                    
                                                 </td>
                                                 <td>{{ $upcoming_appointment->statusTextOutput() }}</td>
                                             </tr>
@@ -173,7 +276,7 @@
 
                                                     <br>
 
-                                                    <p><strong>0</strong> {{ request()->status }} appointments at this time.</p>
+                                                    <p><strong>0</strong> upcoming appointments at this time.</p>
                                                 </td>
                                             </tr>
                                         @endforelse
@@ -200,7 +303,7 @@
                                 <table class="table table-borderless">
                                     <thead >
                                         <tr>
-                                            <th scope="col">Cost</th>
+                                            <th scope="col">Fee <small class="text-sm">({{ setting('base_currency') }})</small></th>
                                             <th scope="col">Doctor</th>
                                             <th scope="col">Date</th>
                                             <th scope="col">Status</th>
@@ -232,7 +335,7 @@
 
                                                     <br>
 
-                                                    <p><strong>0</strong> {{ request()->status }} appointments at this time.</p>
+                                                    <p><strong>0</strong> pending appointments at this time.</p>
                                                 </td>
                                             </tr>
                                         @endforelse
@@ -259,7 +362,7 @@
                                 <table class="table table-borderless">
                                     <thead >
                                         <tr>
-                                            <th scope="col">Cost</th>
+                                            <th scope="col">Fee <small class="text-sm">({{ setting('base_currency') }})</small></th>
                                             <th scope="col">Doctor</th>
                                             <th scope="col">Date</th>
                                             <th scope="col">Status</th>
@@ -291,7 +394,7 @@
 
                                                     <br>
 
-                                                    <p><strong>0</strong> {{ request()->status }} appointments at this time.</p>
+                                                    <p><strong>0</strong> past appointments at this time.</p>
                                                 </td>
                                             </tr>
                                         @endforelse
