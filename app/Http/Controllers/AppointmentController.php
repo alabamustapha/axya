@@ -32,72 +32,32 @@ class AppointmentController extends Controller
      */
     public function index(User $user)
     {
-        // $user = auth()->user();
-
-        switch (request()->status) {
-            case 'awaiting-confirmation': // 0.: New appointment, awaiting doctor's confirmation.
-                $appointments = $user->appointmentsAwaitingConfirmation()
-                         ->orderBy('day', 'desc')
-                         ->paginate(25)
-                         ; 
-            case 'success': // 1. Appointment/Consultation completed successfully.
-                $appointments = $user->appointmentsCompleted()
-                         ->orderBy('day', 'desc')
-                         ->paginate(25)
-                         ;
-                break;
-            case 'confirmed': // 2. Confirmed, awaiting fees payment
-                $appointments = $user->appointmentsConfirmed()
-                         ->orderBy('day', 'desc')
-                         ->paginate(25)
-                         ;
-                break;
-            case 'schedule-change-suggestion': // 3. Schedule change suggestion by doctor
-                $appointments = $user->appointmentsScheduleChangeSuggestion()
-                         ->orderBy('day', 'desc')
-                         ->paginate(25)
-                         ;
-                break;
-            case 'rejected': // 4. Rejected by doctor!
-                $appointments = $user->appointmentsRejected()
-                         ->orderBy('day', 'desc')
-                         ->paginate(25)
-                         ;
-                break;
-            case 'other-doctor-recommendation': // 5. Another doctor recommended.
-                $appointments = $user->appointmentsOtherDoctorRecommendation()
-                         ->orderBy('day', 'desc')
-                         ->paginate(25)
-                     ;
-                break;
-            case 'cancelled': // 6. Cancelled by patient
-                $appointments = $user->appointmentsCancelled()
-                         ->orderBy('day', 'desc')
-                         ->paginate(25)
-                         ;
-                break;
-            case 'uncompleted': // All uncompleted Appointments.
-                $appointments = $user->appointmentsUncompleted()
-                         ->orderBy('day', 'desc')
-                         ->paginate(25)
-                         ;
-                break;
-            case 'awaiting-appointment-time': // Confirmed, payment made, awaiting appointment time.
-                $appointments = $user->appointmentsAwaitingAppointmentTime()
-                         ->orderBy('day', 'desc')
-                         ->paginate(25)
-                         ;
-                break;
-            default:
-                $appointments // = $user->appointments()
-                              = Appointment::with(['doctor','doctor.specialty'])->where('user_id', $user->id)
-                         ->orderBy('day', 'desc')
-                         ->paginate(25)
-                         ;
-                break;
-        }
-
-        return view('appointments.index', compact('user','appointments'));
+        $appointments = Appointment::with(['doctor','doctor.specialty'])->where('user_id', $user->id)
+                 ->orderBy('day', 'desc')
+                 ->paginate(25)
+                 ;
+        $upcoming_appointments = $user->appointmentsAwaitingAppointmentTime()
+                 ->orderBy('day', 'desc')
+                 ->paginate(25)
+                 ;
+        $pending_appointments = Appointment::with(['doctor','doctor.specialty'])
+                 ->where('user_id', $user->id)
+                 ->whereIn('status', ['0','2','5'])
+                 ->orderBy('day', 'desc')
+                 ->paginate(25)
+                 ;
+        $past_appointments = $user->appointmentsCompleted()
+                 ->orderBy('day', 'desc')
+                 ->paginate(25)
+                 ;
+        return view('appointments.index', 
+            compact(
+                'user',
+                'appointments',
+                'upcoming_appointments', // Paid for, awaiting schedule time
+                'pending_appointments',  // Still processing
+                'past_appointments'      // Done!
+            ));
     }
     
     /**
@@ -107,70 +67,30 @@ class AppointmentController extends Controller
      */
     public function drindex(Doctor $doctor)
     {
-        // $doctor = Doctor::find(auth()->id());
-
-        switch (request()->status) {
-            case 'awaiting-confirmation': // 0.: New appointment, awaiting doctor's confirmation.
-                $appointments = $doctor->appointmentsAwaitingConfirmation()
-                         ->orderBy('day', 'desc')
-                         ->paginate(25)
-                         ; 
-            case 'success': // 1. Appointment/Consultation completed successfully.
-                $appointments = $doctor->appointmentsCompleted()
-                         ->orderBy('day', 'desc')
-                         ->paginate(25)
-                         ;
-                break;
-            case 'confirmed': // 2. Confirmed, awaiting fees payment
-                $appointments = $doctor->appointmentsConfirmed()
-                         ->orderBy('day', 'desc')
-                         ->paginate(25)
-                         ;
-                break;
-            case 'schedule-change-suggestion': // 3. Schedule change suggestion by doctor
-                $appointments = $doctor->appointmentsScheduleChangeSuggestion()
-                         ->orderBy('day', 'desc')
-                         ->paginate(25)
-                         ;
-                break;
-            case 'rejected': // 4. Rejected by doctor!
-                $appointments = $doctor->appointmentsRejected()
-                         ->orderBy('day', 'desc')
-                         ->paginate(25)
-                         ;
-                break;
-            case 'other-doctor-recommendation': // 5. Another doctor recommended.
-                $appointments = $doctor->appointmentsOtherDoctorRecommendation()
-                         ->orderBy('day', 'desc')
-                         ->paginate(25)
-                     ;
-                break;
-            case 'cancelled': // 6. Cancelled by patient
-                $appointments = $doctor->appointmentsCancelled()
-                         ->orderBy('day', 'desc')
-                         ->paginate(25)
-                         ;
-                break;
-            case 'uncompleted': // All uncompleted Appointments.
-                $appointments = $doctor->appointmentsUncompleted()
-                         ->orderBy('day', 'desc')
-                         ->paginate(25)
-                         ;
-                break;
-            case 'awaiting-appointment-time': // Confirmed, payment made, awaiting appointment time.
-                $appointments = $doctor->appointmentsAwaitingAppointmentTime()
-                         ->orderBy('day', 'desc')
-                         ->paginate(25)
-                         ;
-                break;
-            default:
-                $appointments = $doctor->appointments()
-                         ->orderBy('day', 'desc')
-                         ->paginate(25)
-                         ;
-                break;
-        }
-        return view('appointments.index', compact('doctor','appointments'));
+        $appointments = Appointment::where('doctor_id', $doctor->id)
+                 ->orderBy('day', 'desc')
+                 ->paginate(25)
+                 ;
+        $upcoming_appointments = $doctor->appointmentsAwaitingAppointmentTime()
+                 ->orderBy('day', 'desc')
+                 ->paginate(25)
+                 ;
+        $pending_appointments = Appointment::where('doctor_id', $doctor->id)
+                 ->whereIn('status', ['0','2','5'])
+                 ->orderBy('day', 'desc')
+                 ->paginate(25)
+                 ;
+        $past_appointments = $doctor->appointmentsCompleted()
+                 ->orderBy('day', 'desc')
+                 ->paginate(25)
+                 ;
+        return view('appointments.index', compact(
+                'doctor',
+                'appointments',
+                'upcoming_appointments', // Paid for, awaiting schedule time
+                'pending_appointments',  // Still processing
+                'past_appointments'      // Done!
+            ));
     }
 
     /**
