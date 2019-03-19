@@ -42,7 +42,7 @@ class AppointmentController extends Controller
                  ;
         $pending_appointments = Appointment::with(['doctor','doctor.specialty'])
                  ->where('user_id', $user->id)
-                 ->whereIn('status', ['0','2','5'])
+                 ->whereIn('status', ['0','2'])
                  ->orderBy('day', 'desc')
                  ->paginate(25)
                  ;
@@ -76,7 +76,7 @@ class AppointmentController extends Controller
                  ->paginate(25)
                  ;
         $pending_appointments = Appointment::where('doctor_id', $doctor->id)
-                 ->whereIn('status', ['0','2','5'])
+                 ->whereIn('status', ['0','2'])
                  ->orderBy('day', 'desc')
                  ->paginate(25)
                  ;

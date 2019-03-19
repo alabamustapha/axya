@@ -33,15 +33,15 @@ class MessageController extends Controller
     {
         // Active + Pending Appointments.
         $activeAppointments = $user->appointments()
-                                     ->hasPrescription()
-                                     // ->hasActiveCorrespondence()
+                                     // ->hasPrescription()
+                                     ->hasActiveCorrespondence()
                                      ->paginate(10)
                                      ;
 
         // Inactive + Past Successful Appointments.
         $inactiveAppointments = $user->appointments()
-                                     ->hasPrescription()
-                                     // ->hasInactiveCorrespondence()
+                                     // ->hasPrescription()
+                                     ->hasInactiveCorrespondence()
                                      ->paginate(5)
                                      ;
         

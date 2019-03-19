@@ -2,9 +2,11 @@
 
   @if ($appointment->attendant_doctor)
     <div class="card">
-      <div class="d-block" style="max-height: 180px;overflow: hidden;">
+      {{-- <div class="d-block" style="max-height: 180px;overflow: hidden;">
+        
         <img class="card-img-top" src="{{Auth::user()->avatar}}" alt="Card image cap">
-      </div>
+        
+      </div> --}}
 
       <div class="card-body p-3 px-sm-2">
         <h5 class="card-title border-bottom">Patient Details</h5>
@@ -35,11 +37,11 @@
     </div>
   @elseif ($appointment->creator)
     <div class="card">
-      <div class="d-block" style="max-height: 180px;overflow: hidden;">
+      {{-- <div class="d-block" style="max-height: 180px;overflow: hidden;">
 
         <img class="card-img-top" src="{{$appointment->doctor->avatar}}" alt="Card image cap">
 
-      </div>
+      </div> --}}
 
       <div class="card-body p-3 px-sm-2">
         <h5 class="card-title border-bottom">Doctor Details</h5>

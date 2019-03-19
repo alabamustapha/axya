@@ -100582,23 +100582,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['appointment'],
@@ -100792,30 +100775,6 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "d-block m-auto text-center bg-white rounded" }, [
-      _c(
-        "div",
-        {
-          staticClass: "text-left shadow-lg p-3 mb-3",
-          attrs: { title: "Appointment Description" }
-        },
-        [
-          _c(
-            "h5",
-            {
-              staticClass: "pb-2 border-bottom",
-              attrs: { title: "appointment status" }
-            },
-            [_vm._v("Description")]
-          ),
-          _vm._v(" "),
-          _c("p", { staticClass: "text-small" }, [
-            _vm._v(_vm._s(_vm.appointment.description))
-          ])
-        ]
-      )
-    ]),
-    _vm._v(" "),
     _c("div", { staticClass: "card" }, [
       _vm._m(0),
       _vm._v(" "),
@@ -100880,7 +100839,7 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _c("li", { staticClass: "tf-flex p-1" }, [
+          _c("li", { staticClass: "tf-flex p-1 border-bottom mb-3 pb-3" }, [
             _vm._m(6),
             _vm._v(" "),
             _c("span", { staticClass: "text-sm" }, [
@@ -100888,13 +100847,11 @@ var render = function() {
             ])
           ]),
           _vm._v(" "),
-          _vm._m(7),
-          _vm._v(" "),
           _vm.appointment.creator
-            ? _c("li", { staticClass: "tf-flex p-1" }, [_vm._m(8)])
+            ? _c("li", { staticClass: "tf-flex p-1 border-bottom" }, [
+                _vm._m(7)
+              ])
             : _vm._e(),
-          _vm._v(" "),
-          _c("hr"),
           _vm._v(" "),
           _c("li", { attrs: { title: "Appointment Status" } }, [
             _c("span", { staticClass: "h6" }, [_vm._v("Status: ")]),
@@ -100952,7 +100909,7 @@ var render = function() {
             _vm._v(" "),
             _vm.appointment.creator
               ? _c("span", [
-                  _vm.status == "2" ? _c("li", [_vm._m(9)]) : _vm._e(),
+                  _vm.status == "2" ? _c("li", [_vm._m(8)]) : _vm._e(),
                   _vm._v(" "),
                   _vm.status == "0" && !_vm.appointment.schedule_is_past
                     ? _c("li", { staticClass: "mb-2" }, [
@@ -100988,7 +100945,7 @@ var render = function() {
               ? _c("li", [
                   _vm.appointment.creator && _vm.reviewed == "0"
                     ? _c("span", [
-                        _vm._m(10),
+                        _vm._m(9),
                         _vm._v(" "),
                         _c("br"),
                         _vm._v(" "),
@@ -101009,7 +100966,7 @@ var render = function() {
                               _vm._v("Rate This Service")
                             ]),
                             _vm._v(" "),
-                            _vm._m(11),
+                            _vm._m(10),
                             _vm._v(" "),
                             _c("div", { staticClass: "table-responsive" }, [
                               _c(
@@ -101452,20 +101409,7 @@ var staticRenderFns = [
     return _c(
       "div",
       { staticClass: "card-header bg-primary text-center p-2 mb-0" },
-      [
-        _c("span", { staticClass: "h4" }, [_vm._v("Appointment Details")]),
-        _vm._v(" "),
-        _c("div", { staticClass: "card-tools" }, [
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-tool",
-              attrs: { type: "button", "data-wslugget": "collapse" }
-            },
-            [_c("i", { staticClass: "fa fa-minus" })]
-          )
-        ])
-      ]
+      [_c("span", { staticClass: "h4" }, [_vm._v("Appointment Details")])]
     )
   },
   function() {
@@ -101526,12 +101470,6 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("li", [_c("hr")])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
     return _c(
       "button",
       {
@@ -101564,7 +101502,7 @@ var staticRenderFns = [
       },
       [
         _c("i", { staticClass: "fa fa-handshake" }),
-        _vm._v("  Pay Consultation Fee\n              ")
+        _vm._v("  Pay Fee\n              ")
       ]
     )
   },

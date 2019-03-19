@@ -1,25 +1,11 @@
 <template>
   <div class="container">
-    
-    <div class="d-block m-auto text-center bg-white rounded">
-
-      <div class="text-left shadow-lg p-3 mb-3" title="Appointment Description">
-        <h5 title="appointment status" class="pb-2 border-bottom">Description</h5>
-        
-        <p class="text-small">{{appointment.description}}</p>
-      </div>
-    </div>
 
     <div class="card">
       <div class="card-header bg-primary text-center p-2 mb-0">
         <span class="h4">Appointment Details</span>
-
-        <div class="card-tools">
-          <button type="button" class="btn btn-tool" data-wslugget="collapse">
-            <i class="fa fa-minus"></i>
-          </button>
-        </div>
       </div>
+
       <div class="card-body p-2">
         <ul class="list-unstyled">
           <li class="tf-flex p-1">
@@ -55,14 +41,12 @@
             <span class="text-bold"><span>{{ appointment.illness_duration }}</span></span>
           </li>
 
-          <li class="tf-flex p-1">
+          <li class="tf-flex p-1 border-bottom mb-3 pb-3">
             <span><i class="fa fa-history"></i> Illness History</span>
             <span class="text-sm"><span>{{ appointment.illness_history }}</span></span>
           </li>
-          <li>
-            <hr>
-          </li>
-          <li class="tf-flex p-1" v-if="appointment.creator">
+
+          <li class="tf-flex p-1 border-bottom" v-if="appointment.creator">
             <button 
               class="btn btn-sm btn-block btn-primary col" 
               data-toggle="modal" data-target="#appointmentForm" 
@@ -71,7 +55,6 @@
             </button>
           </li>
 
-          <hr>
           <li title="Appointment Status">
             <span class="h6">Status: </span>
 
