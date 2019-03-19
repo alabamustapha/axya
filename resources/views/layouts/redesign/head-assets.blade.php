@@ -21,12 +21,12 @@
     
     <!-- BOOTSTRAP STYLE -->
     {{-- <link rel="stylesheet" href="{{asset('css/vendor/bootstrap.min.css')}}">     --}}
-    <!-- FULLCALENDAR STYLE -->
-    <link rel="stylesheet" href="{{asset('css/vendor/fullcalendar.min.css')}}">
     <!-- MAIN STYLE -->
     <link rel="stylesheet" href="{{asset('css/custom/style.css')}}">
     <!-- DASHBOARD STYLE -->
     <link rel="stylesheet" href="{{asset('css/custom/dashboard.css')}}">
+    <!-- ADMIN STYLE -->
+    <link rel="stylesheet" href="{{asset('css/custom/admin.css')}}">
 
     @yield('styles')
     <style>

@@ -102,3 +102,9 @@ i.fas {
    display:inline-block;
    min-width: 70px;
 }
+
+
+#header{
+    margin: 0;
+    background-image: url();/*url(../images/header-image.jpg);*/
+}

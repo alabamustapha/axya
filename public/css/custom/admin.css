@@ -1,0 +1,164 @@
+/* ADMIN CSS */
+
+.section-heading{
+    font-size: 1.8rem;
+    margin: 1rem 0;
+}
+
+
+/* SIDEBAR */
+
+#sidebar{
+    margin-top: 0;
+    height: 100vh;
+}
+#sidebar .sidebar-header{
+    background: transparent;
+}
+
+#sidebar .sidebar-brand{
+    height: 68px;
+    display: flex;
+    align-items: center;
+    padding: 0 1.5rem;
+    background-color: rgba(0, 0, 0, .15);
+}
+
+.sidebar-brand h3{
+    font-size: 20px;
+    font-weight: 700;
+}
+
+
+/* CONTENT */
+#content{
+    margin-top: 0;
+}
+
+#content-navbar {
+    background: #1a84b4;
+    border-left: 1px solid rgba(0,0,0, .05896);
+}
+
+.content-nav-flexer{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.content-navbar-nav{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.content-navbar-nav .notification-count {
+    border: 4px solid #1a84b4;
+    text-align: center;
+}
+
+
+
+/* INFO WIDGET */
+
+.info-widget{
+    height: 120px;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+}
+
+
+.info-widget .info-widget-icon{
+    margin-right: 1.2rem;
+}
+.info-widget .info-widget-value{
+   font-size: 2.4rem;
+   font-weight: 500;
+   margin: 0;
+}
+
+
+/* INFO-BOX */
+
+.ibox{
+    border-radius: 4px;
+    width: 100%;
+    border: 1px solid #062f42;
+    box-sizing: border-box;
+    margin: 0;
+    padding:  0;
+}
+
+.ibox-header{
+    padding: .5rem 2rem;
+    background-color: #062f42;
+    border-radius: 4px 4px 0 0;
+}
+.ibox-title{
+    color:#fff;
+    font-size: 1.4rem;
+}
+.ibox-body{
+    padding: 1rem;
+}
+
+
+.ibox-table thead{
+    color: #062f42;
+}
+
+/* DATA CHART */
+
+.data-chart{
+    /* height: 295px; */
+    width: 100%;
+}
+
+.data-chart canvas{
+    width: 100%;
+    /* height: 100%; */
+}
+
+
+/* ACTIVITY */
+
+.activity-list{
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: .5rem;
+}
+
+.activity-icon{
+    margin-right: 1rem;
+}
+.activity-info{
+    flex: 90% 0 0;
+    font-size: 14px;
+}
+.activity-link{
+    color: #209fd9;
+}
+.activity-time{
+    display: inline-block;
+    margin-left: 5px;
+    /* color: #209fd9; */
+}
+
+
+
+
+@media (max-width: 992px){
+    
+}
+@media (max-width: 768px){
+
+}
+@media (max-width: 576px){
+    .content-nav-flexer{
+        display: block;
+        
+    }
+}

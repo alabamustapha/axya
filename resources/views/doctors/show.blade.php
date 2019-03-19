@@ -25,7 +25,7 @@
 
           <div class="search-item mb-3">
             <!-- schedule detail -->
-            <div id="s-d" class="search-cell w-100">
+            <div id="s-d" class="search-cell w-100" style="z-index: 2000;">
                 <ul class="nav flex-sm-row">
                     <li class="nav-item nav-opt p-0">
                       <a class="nav-link" title="View Status" data-toggle="collapse" href="#docStatusDropdown" role="button" aria-expanded="false" aria-controls="docStatusDropdown">

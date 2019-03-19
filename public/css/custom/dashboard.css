@@ -64,9 +64,9 @@ i, span {
     HEADING STYLE
 ----------------------------------------------------- */
 
-h3, h4, h5 {
+/* h3, h4, h5 {
     font-size: 14px;
-}
+} */
 
 
 
@@ -1005,7 +1005,10 @@ a.sign-out{
 }
 
 .f-s-16 {
-    font-size: 16px;
+    font-size: 1rem;
+}
+.f-s-lg {
+    font-size: 1.6rem;
 }
 
 
@@ -1101,6 +1104,17 @@ nav[aria-label="breadcrumb"].dot-separator .breadcrumb-item+.breadcrumb-item::be
 
 .form-check {
     padding-left: 0 !important;
+}
+
+.form-category:not(:last-child){
+    margin-bottom: 3rem;
+}
+
+.form-category-title{
+    font-size: 1.6rem;
+    padding: 1rem 0;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(0,0,0,.15);
 }
 
 

@@ -4,12 +4,10 @@
       {{-- Get all vendor scripts from CDN --}}
       <script src="{{asset('js/vendor/moment.min.js')}}"></script>
       <script src="{{asset('js/vendor/pikaday.js')}}"></script>
-      <script src="{{asset('js/vendor/fullcalendar.min.js')}}"></script>
     @else
       <script src="{{asset('js/vendor/moment.min.js')}}"></script>
       <script src="{{asset('js/vendor/pikaday.js')}}"></script>
       <!-- full Calender js -->
-      <script src="{{asset('js/vendor/fullcalendar.min.js')}}"></script>
       <script src="{{asset('js/vendor/shuffle.min.js')}}"></script>
     @endif
     
@@ -50,38 +48,6 @@
 
 
     <!-- inline scripts -->
-
-    <!-- Full Calendar SCRIPT -->
-    <script>
-      $(document).ready(function () {
-
-            // page is now ready, initialize the calendar...
-
-           $('#calendar').fullCalendar({
-             height: 500,
-           
-            dayClick: function (date, jsEvent, view) {
-                
-                   alert('Clicked on: ' + date.format());
-
-               },
-            events: [
-                   {
-                       title: 'Appointment',
-                       start: '2019-01-03T13:13:55.008',
-                       end: '2019-01-03T13:13:55.008'
-                   },
-                   {
-                       title: 'Event Title2',
-                       start: '2019-01-05T13:13:55-0400',
-                       end: '2019-01-05T13:13:55-0400'
-                   }
-               ]
-              
-          });
-            
-        });
-    </script>
 
     <!-- SEARCH RESULT SCRIPT -->
     <script>
