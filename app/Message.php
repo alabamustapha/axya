@@ -185,7 +185,7 @@ class Message extends Model
 
     public function canBeDeleted()
     {
-      return $this->created_at->addMinutes(45) > Carbon::now();
+      return (auth()->id() == $this->user_id) && ($this->created_at->addMinutes(45) > Carbon::now());
     }
 
 }

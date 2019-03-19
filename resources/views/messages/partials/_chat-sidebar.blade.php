@@ -17,7 +17,7 @@
                 </div>
 
                 <div class="msg-contact-body scroll">
-                  <h4 class="p-2 text-center">Active Correspondence</h4>
+                  <strong class="p-2 text-center">Active Correspondence</strong>
 
                   @forelse ($activeAppointments->load('user') as $ac_appointment)
                     <!-- If Auth User is appointment creator, display doctor's name -->
@@ -74,7 +74,7 @@
                     <hr>
 
                     <!-- Past Appointments Chats: Inactive correspondence -->
-                    <h4 class="p-2 text-center">Inactive/Past Correspondences</h4>
+                    <strong class="p-2 text-center">Inactive/Past Correspondences</strong>
 
                     @forelse ($inactiveAppointments as $in_appointment)
                       <!-- If Auth User is appointment creator, display doctor's name -->

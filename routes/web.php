@@ -197,7 +197,6 @@ Route::get('image/{image}',         'ImageController@destroy')->name('image.dest
 // ----! IMAGES RELATED ---------------->
 
 Route::prefix('messages')->group(function(){
-  Route::get('/{user}/{appointment?}', 'MessageController@index')->name('messages.index');
   Route::post('/{appointment}', 'MessageController@store')->name('messages.store');
   Route::post('/{appointment}/chat-file-upload', 'MessageController@fileUpload')->name('chat.file.upload');
   Route::delete('/{message}',  'MessageController@destroy')->name('messages.destroy');
@@ -205,6 +204,7 @@ Route::prefix('messages')->group(function(){
 // ----! USER MESSAGES RELATED ---------------->
 
 Route::prefix('{user}')->group(function(){
+  Route::get('/messages/{appointment?}', 'MessageController@index')->name('messages.index');
 
   Route::get('/appointments',    'AppointmentController@index')->name('appointments.index');
   Route::get('/prescriptions',   'PrescriptionController@index')->name('prescriptions.index');

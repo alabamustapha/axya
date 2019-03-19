@@ -288,7 +288,11 @@
         <div class="modal-body">
           <div class="text-center">
             <div class="form-group text-center">
-              <label for="uploadFile" class="h5">Upload Chat Related Files</label>
+              <label for="uploadFile" class="h6">
+                <span>Attach File</span>
+                <br>
+                <small class="text-sm">image, video, PDF (max. 2mb)</small>
+              </label>
             </div>
           </div>
 
