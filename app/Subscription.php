@@ -8,7 +8,7 @@ class Subscription extends Model
 {
     protected $appends = ['status_text','status_indicator','type_text'];
 
-    protected $dates = ['confirmed_at','cancelled_at' ];
+    protected $dates = ['confirmed_at','cancelled_at','start','end' ];
 
     protected $fillable = [      
         'user_id','doctor_id','subscription_plan_id','start','end','multiple','days',
@@ -33,6 +33,11 @@ class Subscription extends Model
     public function subscriptionPlan()
     {
         return $this->belongsTo(SubscriptionPlan::class);
+    }
+
+    public function isActive()
+    {
+        return $this->end > \Carbon\Carbon::now();
     }
 
     public function makeTransactionId() 

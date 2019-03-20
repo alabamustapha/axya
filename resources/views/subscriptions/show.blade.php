@@ -9,8 +9,7 @@
             <div class="table-responsive">
                 <table class="table border">
                     <tr>
-                        <td><kbd class="bg-info"><a href="{{route('subscriptions.show', $subscription)}}" class="card-link"><i class="fa fa-eye"></i> View Subscription</a></kbd></td>
-                        <td colspan="2">Doctor's subscription.</td>
+                        <td colspan="3">Doctor's subscription.</td>
                         <td colspan="2"><kbd><i class="fa fa-clock"></i> Created: {{$subscription->created_at}}</kbd></td>
                     </tr>
 

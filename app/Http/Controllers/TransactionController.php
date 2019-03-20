@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
-use App\Doctor;
-use Carbon\Carbon;
 use App\Appointment;
-use App\Transaction;
-use Illuminate\Http\Request;
+use App\Doctor;
 use App\Notifications\Transactions\TransactionFailedNotification;
 use App\Notifications\Transactions\TransactionSuccessfulNotification;
+use App\Subscription;
+use App\Transaction;
+use App\User;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
@@ -30,7 +31,7 @@ class TransactionController extends Controller
     {
         $transactions = Transaction::where('user_id', $user->id)
                                     ->latest()
-                                    ->paginate(15);
+                                    ->paginate(25);
         return view('transactions.index', compact('user','transactions'));
     }
 
@@ -40,8 +41,20 @@ class TransactionController extends Controller
 
         $transactions = Transaction::where('doctor_id', $doctor->id)
                                     ->latest()
-                                    ->paginate(15);
-        return view('transactions.doctor', compact('doctor','transactions'));
+                                    ->paginate(25);
+
+        $subscriptions = Subscription::with(['doctor', 'subscriptionPlan'])
+                                    ->where('doctor_id', $doctor->id)
+                                    ->where('status', '1')
+                                    ->latest()
+                                    ->paginate(25);
+        $latestSubscription = Subscription::with(['doctor', 'subscriptionPlan'])
+                                    ->where('doctor_id', $doctor->id)
+                                    ->where('status', '1')
+                                    ->latest()
+                                    ->first()
+                                    ;
+        return view('transactions.doctor', compact('doctor','transactions','subscriptions','latestSubscription'));
     }
 
     public function admindex()
