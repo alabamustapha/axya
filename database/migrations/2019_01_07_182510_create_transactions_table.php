@@ -22,6 +22,8 @@ class CreateTransactionsTable extends Migration
             // Money Related
             $table->integer('amount')->default(0);        // Amount Paid
             $table->string('currency')->default('usd');   // USD, BTC
+            $table->string('doctor_earning');
+            $table->string('platform_earning');
 
             // Transaction Related
             $table->tinyInteger('channel')->nullable();   // Payment Channel [Bank Deposit, Mobile/Online, Online Payment Processor]

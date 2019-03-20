@@ -107,6 +107,10 @@ class TransactionController extends Controller
             return redirect()->route('transactions.index', $transactionExists->user);
         }
 
+        $adminCut        = setting('fee_commission') / 100; // 15% = 0.15
+        $doctorEarning   = $appointment->fee * (1 - $adminCut);
+        $platformEarning = $appointment->fee - $doctorEarning;
+
         $request->merge([
             'user_id'       => auth()->id(),
             'doctor_id'     => $appointment->doctor_id,
@@ -115,6 +119,9 @@ class TransactionController extends Controller
             'transaction_id'=> $appointment->makeTransactionId(),
             'status'        => '2',
             'currency'      => setting('base_currency'),
+            'doctor_earning'   => $doctorEarning,
+            'platform_earning' => $platformEarning,
+
             // 'channel'       => ,
             // 'processor_id'  => ,
             // 'processor_trxn_id' => ,

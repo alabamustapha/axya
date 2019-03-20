@@ -13,7 +13,7 @@ class Transaction extends Model
     protected $fillable = [      
         'user_id','doctor_id','appointment_id',
         // Money Related
-        'amount','currency',
+        'amount','currency','doctor_earning','platform_earning',
         // Transaction Related
         'channel','transaction_id','processor_id','processor_trxn_id','status',
         // Time Related 
