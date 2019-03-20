@@ -26,7 +26,7 @@ class BankAccountTest extends TestCase
     {
         $this->assertTrue(Schema::hasColumns('bank_accounts', 
           [
-            'id', 'user_id', 'bank_name', 'bank_acct_name', 'bank_account_number',
+            'id', 'user_id', 'name', 'account_name', 'account_number',
           ]), 1);
     }
 
