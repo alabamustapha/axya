@@ -15,14 +15,14 @@
       <li class="nav-item">
 
         <a class="nav-link" data-toggle="collapse" href="#adminSubmenu" role="button" aria-expanded="false" aria-controls="adminSubmenu">
-          <span class="tf-flex">
+          
             <span>
               <i class="icon fa fa-th-list fa-fw"></i>
               <span class="navlink-active">Admin</span>
               <span class="sub-online-status sub-online ml-1" title="online"></span>
             </span>
-            <span style="font-size: 12px"><i class="fa fa-plus fa-fw"></i></span>
-          </span>
+            <small class="text-sm float-right"><i class="fa fa-plus fa-fw"></i></small>
+          
         </a>
         <ul id="adminSubmenu" class=" collapse sub-menu nav flex-sm-column">
           <li class="nav-item">
@@ -71,7 +71,7 @@
               <span class="navlink-active">Admin</span>
               <span class="sub-online-status sub-offline ml-1" title="offline"></span>
             </span>
-            <span style="font-size: 12px"><i class="fa fa-plus fa-fw"></i></span>
+            <small class="text-sm float-right"><i class="fa fa-plus fa-fw"></i></small>
           </span>
         </a>
 
@@ -110,14 +110,14 @@
       <li class="nav-item">
 
         <a class="nav-link" data-toggle="collapse" href="#doctorSubmenu" role="button" aria-expanded="false" aria-controls="doctorSubmenu">
-          <span class="tf-flex">
+          
             <span>
               <i class="icon fa fa-user-md fa-fw"></i>
               <span class="navlink-active">Doctor</span>
               <span class="sub-online-status sub-online ml-1" title="online"></span>
             </span>
-            <span style="font-size: 12px"><i class="fa fa-plus fa-fw"></i></span>
-          </span>
+            <small class="text-sm float-right"><i class="fa fa-plus fa-fw"></i></small>
+          
         </a>
         <ul id="doctorSubmenu" class=" collapse sub-menu nav flex-sm-column">
           <li class="nav-item">
@@ -129,7 +129,7 @@
             </a>
 
             <a href="{{Auth::user()->doctor->appointments_list}}" class="nav-link tf-flex">
-              <span class="tf-flex">
+              
                 <span>
                   <span class="icon">
                     <i class="fa fa-stopwatch fa-fw"></i>
@@ -137,9 +137,9 @@
                   <span class="navlink-active">Appointments</span>
                 </span>
                 @if (Auth::user()->doctor->pending_appointments_count)
-                  <span class="badge badge-danger">{{Auth::user()->doctor->pending_appointments_count}}</span>
+                  <span class="badge badge-danger float-right">{{Auth::user()->doctor->pending_appointments_count}}</span>
                 @endif
-              </span>
+              
             </a>
 
             <a href="{{Auth::user()->doctor->transactions_list}}" class="nav-link">
@@ -166,7 +166,7 @@
               <span class="navlink-active">Subscriptions</span>
             </a> --}}
                 
-            <a class="nav-link" href="patient.html">
+            <a class="nav-link" href="{{ route('dr_patients', Auth::user()->doctor) }}">
                 <span class="icon">
                     <svg width="26" height="26" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
@@ -187,7 +187,7 @@
             </a>
         
             <a class="nav-link" href="{{ route('dr_messages', Auth::user()->doctor) }}">
-              <span class="tf-flex">
+              
                 <span>
                   <span class="icon">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -201,10 +201,10 @@
                             fill="white" />
                     </svg>
                   </span>
-                  <span class="navlink-active">Direct Messages</span>
+                  <span class="navlink-active">Chats</span>
                 </span> 
-                <span class="badge badge-danger">1</span>
-              </span>
+                <span class="badge badge-danger float-right">1</span>
+              
             </a>
 
             <a href="{{route('dr_dashboard', Auth::user()->doctor)}}" class="nav-link" title="View Dashboard">
@@ -234,14 +234,14 @@
       <li class="nav-item">
 
         <a class="nav-link" data-toggle="collapse" href="#doctorSubmenu" role="button" aria-expanded="false" aria-controls="doctorSubmenu">
-          <span class="tf-flex">
+          
             <span>
               <i class="icon fa fa-user-md fa-fw"></i>
               <span class="navlink-active">Doctor</span>
               <span class="sub-online-status sub-offline ml-1" title="offline"></span>
             </span>
-            <span style="font-size: 12px"><i class="fa fa-plus fa-fw"></i></span>
-          </span>
+            <small class="text-sm float-right"><i class="fa fa-plus fa-fw"></i></small>
+          
         </a>
 
         <ul id="doctorSubmenu" class=" collapse sub-menu nav flex-sm-column">
@@ -250,7 +250,7 @@
             @if (is_null(Auth::user()->doctor_password))
               <a href="{{route('doctor.password')}}" class="nav-link">
                 <span class="icon fa fa-key"></span>
-                <span class="navlink-active">Create Doctor Password</span>
+                <span class="navlink-active">Add Doctor's Password</span>
               </a>
             @else
               <a href="{{route('doctor.login')}}" class="nav-link">
@@ -326,18 +326,18 @@
       </a>
       <ul id="doctorListSubmenu" class=" collapse sub-menu nav flex-sm-column">
         <li class="nav-item">
+          <a class="nav-link" href="{{ route('user.doctors', Auth::user()) }}">
+              <span class="icon">
+                <i class="fas fa-user-md fa-fw"></i>
+              </span>
+              <span class="navlink-active">My Doctors</span>
+          </a>
+
           <a class="nav-link" href="{{route('doctors.index')}}">
               <span class="icon">
                 <i class="fas fa-user-md fa-fw"></i>
               </span>
               <span class="navlink-active">Doctors List</span>
-          </a>
-
-          <a class="nav-link" href="{{--route('user_doctors.index')--}}">
-              <span class="icon">
-                <i class="fas fa-user-md fa-fw"></i>
-              </span>
-              <span class="navlink-active">My Doctors</span>
           </a>
         </li>
       </ul>
@@ -404,7 +404,7 @@
           <span class="icon">
             <i class="fa fa-user fa-fw"></i>
           </span>
-          <span class="navlink-active">My Profile</span>
+          <span class="navlink-active">Profile</span>
         </a>
     </li>
 
@@ -414,27 +414,26 @@
         <span class="icon">
           <i class="fa fa-prescription fa-fw"></i>
         </span>
-        <span class="navlink-active">My Prescriptions</span>
+        <span class="navlink-active">Prescriptions</span>
       </a>
     </li>
 
     <li class="nav-item">
         <a class="nav-link" href="{{ route('medications.index', Auth::user()) }}">
-          <span class="tf-flex">
+          
             <span>
               <span class="icon">
                 <i class="fas fa-pills fa-fw"></i>
               </span>
               <span class="navlink-active">Medications</span>
             </span> 
-            <span class="badge badge-danger">5</span>
-          </span>
+            <span class="badge badge-danger float-right">5</span>
+          
         </a>
     </li>
 
-    <li class="nav-item">
+    <li class="nav-item mb-4">
         <a class="nav-link" href="{{ route('messages.index', Auth::user()) }}">
-          <span class="tf-flex">
             <span>
               <span class="icon">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -448,10 +447,9 @@
                         fill="white" />
                 </svg>
               </span>
-              <span class="navlink-active">Direct Messages</span>
+              <span class="navlink-active">Chats</span>
             </span> 
-            <span class="badge badge-danger">1</span>
-          </span>
+            <span class="badge badge-danger float-right">1</span>
         </a>
     </li>
 </ul>

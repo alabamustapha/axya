@@ -296,7 +296,7 @@ class Doctor extends Model
     public function patients()
     {
         $ids = $this->appointments()
-                ->completed()
+                ->activateMessaging()
                 ->pluck('user_id')
                 ->toArray()
                 ;

@@ -14,13 +14,14 @@
         @forelse ($doctors as $doctor)
         
           <div class="list-group-item list-group-item-action ">
-            <div class="tf-flex">
-              <a href="{{route('doctors.show', $doctor)}}" class="text-left">
-                <img src="{{$doctor->avatar}}" height="40" alt="doctor avatar" class="rounded">
+            <div class="row text-left">
+              <a href="{{route('doctors.show', $doctor)}}" class="col-md-5">
+                <img src="{{$doctor->avatar}}" height="30" alt="doctor avatar" class="rounded">
                 {{$doctor->name}}
               </a>
               
-              {{-- <a href="tel:{{ $doctor->phone }}" class="text-muted">{{ $doctor->phone }}</a> --}}
+              <span class="text-muted col-md-3">{{ $doctor->specialty->name }}</span>
+              <span class="text-muted col-md-4 text-truncate">{{ $doctor->location }}</span>
             </div>
           </div>
 
@@ -37,15 +38,20 @@
       </div>
     </div>
 
-    <div class="col-md-3 order-sm-2 order-1 text-center bg-light rounded py-3">
-      <h1>
-        Doctors
+    <div class="col-md-3 order-sm-2 order-1 text-center">
+      <div class="card shadow-none">
+        <div class="card-heading bg-light p-4 border-bottom">
+          <span class="h2">Doctors</span>
+        </div>
 
-        <br>
+        <div class="card-body">
 
-        <small>{{ $user->doctors_count }}</small>
-      </h1>
+          <span class="display-4">{{ $user->doctors_count }}</span>
+          
+        </div>
+      </div>
     </div>
+
   </div>
 </div>
 

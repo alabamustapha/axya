@@ -704,7 +704,7 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $ids = $this->appointments()
                   // \App\Appointment::where('user_id', $this->id)
-                  ->completed()
+                  ->activateMessaging()
                   ->pluck('doctor_id')
                   ->toArray()
                   ;
