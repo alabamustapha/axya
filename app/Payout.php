@@ -19,4 +19,22 @@ class Payout extends Model
     {
         return $this->belongsTo(BankAccount::class);
     }
+
+    public function getStatusTextAttribute()
+    {
+        return $this->status == '0' 
+                ? 'Processing' 
+                : ($this->status == '1' 
+                    ? 'Successful' : 'Failed')
+                ;
+    }
+
+    public function getStatusIndicatorAttribute()
+    {
+        return $this->status == '0' 
+                ? 'bg-warning' 
+                : ($this->status == '1' 
+                    ? 'bg-success' : 'bg-danger')
+                ;
+    }
 }

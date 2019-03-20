@@ -17,10 +17,10 @@ class CreatePayoutsTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned(); 
             $table->integer('amount')->default(0); 
-            $table->tinyInteger('status')->default(0); //0=Processing, 1=Recieved, 2=Paid
+            $table->tinyInteger('status')->default(0); //0=Processing, 1=Success, 2=Failed
             $table->string('transaction_id', 100)->nullable(); 
             $table->string('processor_transaction_id', 100)->nullable(); 
-            $table->string('bank_account_id'); 
+            $table->integer('bank_account_id')->unsigned(); 
 
             $table->timestamp('confirmed_at')->nullable(); 
             $table->timestamps();
