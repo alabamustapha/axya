@@ -56,16 +56,6 @@
 
                     <tr>
                         <td colspan="5">
-                            <span class="border px-4 my-2 text-center text-sm col">
-                                Actual:     <strong></strong> <br>
-                                Saved:      <strong></strong> <br>
-                                % Discount: <strong></strong>
-                            </span>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td colspan="5">
                             <blockquote class="blockquote">
                                 <footer class="blockquote-footer">                            
                                     <i class="fa fa-stopwatch"></i>&nbsp; 

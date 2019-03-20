@@ -33,7 +33,7 @@
                         <li class="list-group-item">
                             <a class="nav-link" id="v-pills-active-appointments-tab" data-toggle="pill" href="#v-pills-active-appointments" role="tab"
                             aria-controls="v-pills-home" aria-selected="false">
-                                <span><i class="fas fa-calendar-plus fa-fw"></i> Active</span>
+                                <span><i class="fas fa-calendar fa-fw"></i> Active</span>
                                 @if (count($active_appointments))
                                     <span class="badge badge-danger float-right">{{ count($active_appointments) }}</span>
                                 @endif
@@ -53,7 +53,7 @@
                         <li class="list-group-item">
                             <a class="nav-link" id="v-pills-pending-appointments-tab" data-toggle="pill" href="#v-pills-pending-appointments" role="tab"
                             aria-controls="v-pills-home" aria-selected="false">
-                                <span><i class="fas fa-calendar fa-fw"></i> Pending</span>
+                                <span><i class="fas fa-calendar-minus fa-fw"></i> Pending</span>
                                 @if (count($pending_appointments))
                                     <span class="badge badge-danger float-right">{{ count($pending_appointments) }}</span>
                                 @endif
@@ -203,7 +203,7 @@
                                         @empty
                                             <tr>
                                                 <td colspan="4" class="bg-white p-4 text-center">
-                                                    <div class="display-3"><i class="fa fa-calendar-plus"></i></div> 
+                                                    <div class="display-3"><i class="fa fa-calendar"></i></div> 
 
                                                     <br>
 
@@ -331,7 +331,7 @@
                                         @empty
                                             <tr>
                                                 <td colspan="4" class="bg-white p-4 text-center">
-                                                    <div class="display-3"><i class="fa fa-calendar"></i></div> 
+                                                    <div class="display-3"><i class="fa fa-calendar-minus"></i></div> 
 
                                                     <br>
 

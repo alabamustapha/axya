@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Transaction extends Model
 {
-    protected $appends = ['status_text','status_indicator','link'];
+    protected $appends = ['status_text','status_indicator','link','doctor_earning'];
 
     protected $dates = ['confirmed_at','cancelled_at' ];
 
@@ -33,6 +33,14 @@ class Transaction extends Model
     public function doctor()
     {
         return $this->belongsTo(Doctor::class);
+    }
+
+    public function doctorEarning()
+    {
+        // Should be saved to DB for proper summing and reference.
+        $earning_ratio = setting('earning_ratio') ?: 0.8;
+
+        return $this->amount * $earning_ratio;
     }
 
     public function appointment()
@@ -79,5 +87,10 @@ class Transaction extends Model
     public function getLinkAttribute()
     {
         return route('transactions.show', [$this->user, $this]);
+    }
+
+    public function getDoctorEarningAttribute()
+    {
+        return $this->doctorEarning();
     }
 }
