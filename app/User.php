@@ -75,6 +75,11 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
+    public function bankAccounts()
+    {
+        return $this->hasMany(BankAccount::class);
+    }
+
     public function calendar_events()
     {
         return $this->hasMany(CalendarEvent::class);

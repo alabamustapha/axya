@@ -70,6 +70,12 @@ class UsersTest extends TestCase
     }
 
     /** @test  */
+    public function a_user_has_many_bank_accounts()
+    {
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->user->bankAccounts);
+    }
+
+    /** @test  */
     public function a_user_has_many_images()
     {
         $image   = factory(Image::class)->create(['user_id' => $this->user->id]);
