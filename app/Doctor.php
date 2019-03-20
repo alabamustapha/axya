@@ -36,6 +36,44 @@ class Doctor extends Model
       'sunday_schedules', 'monday_schedules', 'tuesday_schedules', 'wednesday_schedules', 'thursday_schedules', 'friday_schedules', 'saturday_schedules',
     ];
 
+
+    /**
+     * All earnings summed from accross all successfyul appointment fees.
+     */
+    public function totalEarning()
+    {
+        return $this->transactions()
+                    ->where('status', '1')
+                    ->sum('doctor_earning')
+                    ;
+    }
+
+    /**
+     * Sum of all successful payouts.
+     */
+    public function totalPayout()
+    {
+        return $this->user->payouts()
+                    ->where('status', '1')
+                    ->sum('amount')
+                    ;
+    }
+
+    public function currentBalance()
+    {
+        return $this->totalEarning() - $this->totalPayout();
+    }
+
+    public function hasCashableBalance()
+    {
+        return (bool) ($this->currentBalance() > setting('minimum_payout'));
+    }
+
+    public function canMakePayout()
+    {
+        return (bool) $this->hasCashableBalance() && setting('payout_on');
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -666,5 +704,10 @@ class Doctor extends Model
     public function getAvailabilityStatusAttribute()
     {
         return $this->availabilityStatus($this);
+    }
+
+    public function getTotalEarningAttribute()
+    {
+        return $this->totalEarning();
     }
 }

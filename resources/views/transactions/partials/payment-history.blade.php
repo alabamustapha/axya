@@ -8,10 +8,16 @@
 
         <div>
             <p class="text-right text-theme-blue font-weight-bold">
-                Current Balance: <span class="current-earned">$1700</span>
+                Current Balance: 
+                <span class="current-earned h2 text-muted">
+                    <small class="text-sm">{{ setting('base_currency') }}</small>{{ $doctor->currentBalance() }}
+                </span>
             </p>
             <p class="text-right font-weight-bold">
-                Total Earned <span class="Total-earning">$1900</span>
+                Total Earned: 
+                <span class="total-earning h3 text-muted">
+                    <small class="text-sm">{{ setting('base_currency') }}</small>{{ $doctor->totalEarning() }}
+                </span>
             </p>
         </div>
     </div>

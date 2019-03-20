@@ -6,6 +6,7 @@ use App\Appointment;
 use App\Doctor;
 use App\Notifications\Transactions\TransactionFailedNotification;
 use App\Notifications\Transactions\TransactionSuccessfulNotification;
+use App\Payout;
 use App\Subscription;
 use App\Transaction;
 use App\User;
@@ -47,14 +48,20 @@ class TransactionController extends Controller
                                     ->where('doctor_id', $doctor->id)
                                     ->where('status', '1')
                                     ->latest()
-                                    ->paginate(25);
+                                    ->paginate(25)
+                                    ;
         $latestSubscription = Subscription::with(['doctor', 'subscriptionPlan'])
                                     ->where('doctor_id', $doctor->id)
                                     ->where('status', '1')
                                     ->latest()
                                     ->first()
                                     ;
-        return view('transactions.doctor', compact('doctor','transactions','subscriptions','latestSubscription'));
+        $payouts = Payout::where('user_id', $doctor->id)
+                                    // ->where('status', '1')
+                                    ->latest()
+                                    ->paginate(25)
+                                    ;
+        return view('transactions.doctor', compact('doctor','transactions','subscriptions','latestSubscription','payouts'));
     }
 
     public function admindex()

@@ -87,11 +87,11 @@
         </div>
         <div class="paycard-detail">
             <p class="paycard-detail--title">Card Number</p>
-            <p class="paycard-detail--info">53610600XXXXXXXXX</p>
+            <p class="paycard-detail--info">--{{-- 53610600XXXXXXXXX --}}</p>
         </div>
         <div class="paycard-detail">
             <p class="paycard-detail--title">Expiration Date</p>
-            <p class="paycard-detail--info">01/2022</p>
+            <p class="paycard-detail--info">--{{-- 01/2022 --}}</p>
         </div>
     </div>
 

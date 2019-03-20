@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
 
         // // factory(App\User::class, 30)->create();
         // factory(App\Specialty::class, 5)->create();
-        factory(App\Tag::class, 50)->create();
+        // // factory(App\Tag::class, 50)->create();
         // // factory(App\Application::class, 10)->create();
 
         // // factory(App\Doctor::class, 15)->create();
@@ -30,5 +30,7 @@ class DatabaseSeeder extends Seeder
         // factory(App\Drug::class, 40)->create();
         // factory(App\Medication::class, 60)->create();
         // factory(App\CalendarEvent::class, 130)->create();
+        // factory(App\BankAccount::class, 3)->create();
+        // factory(App\Payout::class, 10)->create();
     }
 }

@@ -234,7 +234,7 @@ return [
                 [
                     'name' => 'booking_countdown',
                     'type' => 'number',
-                    'data_type' => 'numeric',
+                    // 'data_type' => 'numeric',
                     'label'=> 'Cancel Booking After (Minutes)',
                     'placeholder' => 'Minutes',
                     'class' => 'form-control form-control-sm', 
@@ -249,7 +249,7 @@ return [
                 [
                     'name' => 'correspondence_period',
                     'type' => 'number',
-                    'data_type' => 'numeric',
+                    // 'data_type' => 'numeric',
                     'label'=> 'Correspondence Period (in days)',
                     'placeholder' => 'No of Days',
                     'class' => 'form-control form-control-sm', 
@@ -263,18 +263,55 @@ return [
             ]
         ],
 
-        'more' => [
-            'title' => 'More Settings',
-            'descriptions' => 'Description of extra app settings.',
-            'icon' => 'fa fa-question-mark',
+        'Transaction Setings' => [
+            'title' => 'Payout/Transactions',
+            'descriptions' => 'Payout and other transactions settings.',
+            'icon' => 'fa fa-money',
 
             'inputs' => [
+
+                /* Min Appointment Fee */
                 [
-                    'name' => 'extra stuff',
-                    'type' => 'text',
-                    'label' => 'Extra stuff',
-                    'placeholder' => 'extra stuff',
-                    'rules' => '',
+                    'name' => 'minimum_payout',
+                    'type' => 'number',
+                    // 'data_type' => 'numeric',
+                    'label'=> 'Minimum Payout',
+                    'placeholder' => '100',
+                    'class' => 'form-control form-control-sm', 
+                    'style' => '', 
+                    'rules' => 'required|between:1,10000000',
+                    'step'  => '1',
+                    'min'   => 1,
+                    'hint'  => 'Minimum allowed payout amount for doctors.'
+                ],
+
+                [
+                    'name' => 'payout_space',
+                    'type' => 'number',
+                    // 'data_type' => 'numeric',
+                    'label'=> 'Payout Spacing (days)',
+                    'placeholder' => '7',
+                    'class' => 'form-control form-control-sm', 
+                    'style' => '', 
+                    'rules' => 'required|between:1,100',
+                    'step' => '1',
+                    'min'  => 1,
+                    'hint' => 'Time spacing between payouts.'
+                ],
+
+                [
+                    // select options
+                    'name'  => 'payout_on', 
+                    'type'  => 'boolean',
+                    'label' => 'Activate Payout',
+                    'class' => 'w-auto', 
+                    'style' => '', 
+                    'rules' => 'required|in:on,off',
+                    'hint'  => 'Allow doctor\'s to withdraw from balance',
+                    'value' => false,
+                    // optional fields
+                    'true_value' => 'on',
+                    'false_value' => 'off',
                 ],
             ]
         ]
