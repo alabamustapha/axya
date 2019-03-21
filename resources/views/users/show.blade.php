@@ -10,199 +10,222 @@
       <section class="content">
         <div class="container-fluid">
 
-          <div class="row">
-            <div class="col-md-4">
-
-              <div class="card card-dark card-outline">
-                <div class="card-body box-profile">
-                  <!-- Profile Image -->
-                  <div class="text-center">
-                    <a href="{{$user->originalAvatarFile}}" target="_blank" style="text-decoration:none;color: inherit;">
-                      <img class="profile-user-img img-fluid img-circle profile-img" src="{{$user->avatar}}" alt="{{$user->name}} profile picture">
-                    </a>
-                  </div>
-
-                  @if ($user->isAccountOwner())
-                    <div class="tf-flex">
-                      <span class="mr-3" title="Profile Settings">              
-                        <button id="navbarDropdown" class="btn btn-sm btn-dark dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-cog"></i> Settings
-                        </button>
-
-                        <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown">
-
-                          <button onclick="return false;" class="dropdown-item" title="Update Profile" data-toggle="modal" data-target="#updateUserProfileForm">
-                            <i class="fa fa-edit"></i> 
-                            <span>Edit Profile</span>
-                          </button>
-
-                          <button class="dropdown-item" data-toggle="modal" data-target="#updatePasswordForm">
-                            <i class="fa fa-key"></i>
-                            <span>Change Password</span>
-                          </button>
-
-                          <button class="dropdown-item" data-toggle="modal" data-target="#updateAvatarForm" title=" Update Avatar">
-                            <i class="fa fa-image"></i> 
-                            <span>{{ $user->hasUploadedAvatar() ? 'Change':'Upload' }} Avatar</span>
-                          </button>
+              <div class="row">
+                                        
+                  <div class="col-md-4 bg-light border-right py-3 my-0 text-center">
+                      <div class="pb-2 p-img">
                           
-                          @if ($user->hasUploadedAvatar())
-                              <a href="{{route('user.avatar.delete', $user)}}" class="dropdown-item" title="Remove Avatar" onclick="return confirm('Do you want to remove current avatar?');">
-                              <i class="fa fa-trash red"></i>
-                              <span>Remove Avatar</span>
-                            </a>
-                          @endif
+                          <img src="{{ $user->avatar_md }}" alt="profile image" class="rounded" height="250">
+                          <!-- <div class="text-center py-3">
+                              <a href="#" class="text-theme-blue">View my profile</a>
+                          </div> -->
+                      </div>
+                        
+
+                      @if ($user->isAccountOwner())
+
+                        <div class="p-2 mb-2">
+                          <div>
+                              <strong>
+                                <span class="red" title="Certified Doctor?"><i class="fa fa-{{$user->is_doctor ? 'certificate green':''}}"></i> {{$user->professionalType()}}</span> | 
+                                <span class="teal" title="User Status">{{$user->status()}}</span>
+                              </strong>
+                          </div>
+
+                          <div class="p-2">
+                            <span class="mr-3" title="Profile Settings">              
+                              <button id="navbarDropdown" class="btn btn-sm btn-dark btn-block dropdown-toggle shadow-lg" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  <i class="fa fa-cog"></i> Settings
+                              </button>
+
+                              <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown">
+
+                                <button onclick="return false;" class="dropdown-item" title="Update Profile" data-toggle="modal" data-target="#updateUserProfileForm">
+                                  <i class="fa fa-edit"></i> 
+                                  <span>Edit Profile</span>
+                                </button>
+
+                                <button class="dropdown-item" data-toggle="modal" data-target="#updateAvatarForm" title=" Update Avatar">
+                                  <i class="fa fa-image"></i> 
+                                  <span>{{ $user->hasUploadedAvatar() ? 'Change':'Upload' }} Avatar</span>
+                                </button>
+                                
+                                @if ($user->hasUploadedAvatar())
+                                    <a href="{{route('user.avatar.delete', $user)}}" class="dropdown-item" title="Remove Avatar" onclick="return confirm('Do you want to remove current avatar?');">
+                                    <i class="fa fa-trash red"></i>
+                                    <span>Remove Avatar</span>
+                                  </a>
+                                @endif
+                              </div>
+                            </span>
+                          </div>
                         </div>
-                      </span>
-                    
-                      <strong>
-                        <span class="red" title="Certified Doctor?"><i class="fa fa-{{$user->is_doctor ? 'certificate green':''}}"></i> {{$user->professionalType()}}</span> | 
-                        <span class="teal" title="User Status">{{$user->status()}}</span>
-                      </strong>
-                    </div>
-                  @endif
 
-            <hr>
-
-                  <h3 class="profile-username text-center">{{$user->name}}</h3>
-
-                  <p class="text-muted text-center">
-                    
-                    <br>
-                    @auth
-                      @if (Auth::user()->isAdmin())
-                        <b title="Admin Type" class="purple">{{$user->type()}}</b> 
                       @endif
-                    @endauth
-                  </p>
+                                               
+                     <div class="form-category">
+                        {{-- <h4 class="form-category-title mb-0">Basic Infomation</h4> --}}
 
-                  <ul class="list-group list-group-unbordered mb-3">
-                    <li class="list-group-item p-1">
-                      <b>Date of Birth</b> <a class="float-right">{{$user->dob()}}</a>
-                    </li>
-                    <li class="list-group-item p-1">
-                      <b>Age</b> <a class="float-right">{{$user->age()}}</a>
-                    </li>
-                    <li class="list-group-item p-1">
-                      <b>Gender</b> <a class="float-right">{{$user->gender}}</a>
-                    </li>
-                    <li class="list-group-item p-1">
-                      <b>Weight</b> <a class="float-right">{{$user->weight}} (kg)</a>
-                    </li>
-                    <li class="list-group-item p-1">
-                      <b>Height</b> <a class="float-right">{{$user->height}} (m)</a>
-                    </li>
+                         <ul class="nav flex-column bg-white rounded shadow-sm">
+                             <li class="border-bottom p-2">
+                                 <span class="name f-s-lg font-weight-bold">
+                                  <span>{{ $user->name }} </span>
 
-                    @can ('isAccountOwner')
-                      <li class="list-group-item p-1">
-                        <b>Phone</b> <a class="float-right">{{$user->phone}}</a>
-                      </li>
-                      <li class="list-group-item p-1">
-                        <b>Email</b> <a class="float-right">{{$user->email}}</a>
-                      </li>
-                    @endcan
-
-                    <li class="list-group-item p-1">
-                      <b>Location</b> <a class="float-right">{{$user->address}}</a>
-                    </li>
-                  </ul>
-                </div>
-                <!-- /.card-body -->
-              </div>
-
-            </div>
-            <!-- /.col -->
-
-            <div class="col-md-8">             
-
-              @if($user->isAccountOwner())
-              <div class="row">  
-                <div class="col-sm-6">
-                  <div class="card card-dark">
-                    <div class="card-header">
-                      <h3 class="card-title">Payment Details</h3>
-                    </div>
-                    <div class="card-body box-profile">
-                          
-                      <ul class="list-group list-group-unbordered mb-0">
-                        <li class="list-group-item p-1 tf-flex"><b>Card 1:</b> <span>*********{{$user->last_four}}</span></li>
-                        <li class="list-group-item p-1 tf-flex"><b>Card 2:</b> <span>*********{{$user->last_four}}</span></li>
-                        <li class="list-group-item p-1"><button class="btn btn-dark btn-block text-light">Add new</button></li>
-                      </ul>
-                    </div>
+                                  <small class="text-sm text-muted" title="Age">
+                                    ({{ $user->age }}y/o)
+                                  </small>
+                                 </span>
+                             </li>
+                             <li class="border-bottom p-2">
+                                 <span class="dob tf-flex px-3">
+                                  <span class=" font-weight-bold">Date of Birth: </span>
+                                  <span>{{ $user->dob_text }}</span>
+                                </span>
+                             </li>
+                             <li class="border-bottom p-2">
+                                <span class="gender tf-flex px-3">
+                                  <span class=" font-weight-bold">Gender: </span>
+                                  <span>{{ $user->gender }}</span>
+                                </span>
+                             </li>
+                             <li class="border-bottom p-2">
+                                 <span class="height tf-flex px-3">
+                                  <span class=" font-weight-bold">Height: </span>
+                                  <span>{{ $user->height }}(m)</span>
+                                </span>
+                             </li>
+                             <li class="border-bottom p-2">
+                                 <span class="weight tf-flex px-3">
+                                  <span class=" font-weight-bold">Weight: </span>
+                                  <span>{{ $user->weight }}(kg)</span>
+                                </span>
+                             </li>
+                             <li class="p-2">
+                                 <span class="language tf-flex px-3">
+                                  <span class=" font-weight-bold">Language: </span>
+                                  <span>{{ $user->language }}</span>
+                                </span>
+                             </li>
+                         </ul>
+                     </div>
                   </div>
-                </div>
-
-                <div class="col-sm-6">
-                  <div class="card card-dark">
-                    <div class="card-header">
-                      <h3 class="card-title">Payment Options</h3>
-                    </div>
-                    <div class="card-body box-profile">
-
-                      <ul class="list-group list-group-unbordered mb-0">
-                        <li class="list-group-item p-1">Bank Transfer</li>
-                        <li class="list-group-item p-1">Credit/Debit cards</li>
-                        <li class="list-group-item p-1">Others</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              @endif
-
-              <!-- Medical History Section -->
-              <div class="card card-dark">
-                <div class="card-header">
-                  <h3 class="card-title">Basic Medical History</h3>
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body">
-                  <div class="tf-flex">
-                    <strong><i class="fa fa-allergies mr-1"></i> Allergies</strong>
-
-                    @if($user->isAccountOwner())
-                      <a style="cursor: pointer;" onclick="return false;" title="Update Allergies" data-toggle="modal" data-target="#updateAllergyProfileForm">
-                        <span><i class="fa fa-edit mr-1"></i> Edit</span>
-                      </a>
-                      @endif
-
-                  </div>
-                  <ul class="list-inline text-muted">
-                    <li class="list-inline-item">{{$user->allergies}}</li>
-                  </ul>
-
-                  <hr>
-                  <div class="tf-flex">
-                    <strong><i class="fa fa-diagnoses mr-1"></i> Chronic Conditions</strong>
-
-                    @if($user->isAccountOwner())
-                      <a style="cursor: pointer;" onclick="return false;" title="Update Chronic Conditions" data-toggle="modal" data-target="#updateChronicsProfileForm">
-                        <span><i class="fa fa-edit mr-1"></i> Edit</span>
-                      </a>
-                      @endif
-                  </div>
-
-                  <p class="text-muted">
-                    {{$user->chronics}}
-                  </p>
-                </div>
-                <!-- /.card-body -->
-              </div>
-              <!-- /.card -->
+                  
               
-            </div>
-            <!-- /.col -->
-          </div>
-          <!-- /.row -->
+                  <div class="col-md-7">
+                      <div class="profile-view profile-view--self">
+                         
+                          <div id="#form">
+
+                              <!-- FORM CATEGORY  HERE-->
+                              
+                              @if ($user->isAccountOwner())
+                                <div class="form-category">
+                                    <h4 class="form-category-title">Log in</h4>
+
+                                    <div class="form-group row">
+                                        <label for="email" class="col-sm-3 col-form-label text-right">Your Email</label>
+                                        <div class="col-sm-9">
+                                            <input type="email" class="form-control" name="email" id="email" placeholder="email" value="{{ $user->email }}" disabled>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="password" class="col-sm-3 col-form-label text-right">Password</label>
+                                        <div class="col-sm-9">
+                                          <button class="btn btn-md btn-block btn-primary" data-toggle="modal" data-target="#updatePasswordForm">
+                                            <i class="fa fa-key"></i>
+                                            <span>Change Login Password</span>
+                                          </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- FORM CATEGORY  HERE CONTACT INFO-->
+
+                                <div class="form-category">
+                                    <h4 class="form-category-title">Contact Infomation</h4>
+
+                                    <div class="form-group row">
+                                        <label for="tel" class="col-sm-3 col-form-label text-right">Phone</label>
+                                        <div class="col-sm-9">
+                                            <input type="tel" class="form-control" name="tel" id="tel" placeholder="tel" value="{{ $user->phone }}" disabled>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="form-group row">
+                                        <label for="home-address" class="col-sm-3 col-form-label text-right">Home Address</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" name="home-address" id="home-address" placeholder="your home address" value="{{ $user->address }}" disabled>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                              @endif
+
+                              <!-- FORM CATEGORY  HERE BASIC INFO-->
+
+                              <div class="form-category">
+
+                                  <h4 class="form-category-title mb-0">Medical Information</h4>
+
+                                  <ul class="nav flex-column mb-4">
+                                      <li class="pb-4 border-bottom">
+                                          <div class="tf-flex mb-3 p-2 bg-light">
+                                            <strong><i class="fa fa-allergies mr-1"></i> Allergies</strong>
+
+                                            @if($user->isAccountOwner())
+                                              <a style="cursor: pointer;" onclick="return false;" title="Update Allergies" data-toggle="modal" data-target="#updateAllergyProfileForm">
+                                                <span><i class="fa fa-edit mr-1"></i> Edit</span>
+                                              </a>
+                                              @endif
+
+                                          </div>
+
+                                          <p class="text-muted">{{$user->allergies}}</p>
+                                      </li>
+                                      <li class="pb-4 border-bottom">
+                                          <div class="tf-flex mb-3 p-2 bg-light">
+                                            <strong><i class="fa fa-diagnoses mr-1"></i> Chronic Conditions</strong>
+
+                                            @if($user->isAccountOwner())
+                                              <a style="cursor: pointer;" onclick="return false;" title="Update Chronic Conditions" data-toggle="modal" data-target="#updateChronicsProfileForm">
+                                                <span><i class="fa fa-edit mr-1"></i> Edit</span>
+                                              </a>
+                                              @endif
+                                          </div>
+
+                                          <p class="text-muted"> {{$user->chronics}} </p>
+                                      </li>
+
+                                      <li class="pb-4 border-bottom">
+                                          <a class="nav-link" href="#">
+                                            <strong><i class="fa fa-syringe mr-1"></i> Treatments</strong>
+                                          </a>
+                                      </li>
+
+                                      <li class="nav-item">
+                                          <a class="nav-link" href="#">
+                                            <strong><i class="fa fa-first-aid-kit mr-1"></i> Medical Tests</strong>
+                                          </a>
+                                      </li>
+                                      
+                                  </ul>
+                                  
+                              </div>
+
+                          </div>
+                      </div>
+                  </div>
+              </div> 
+
+
 
         </div><!-- /.container-fluid -->
       </section>
       <!-- /.content -->
 
       @if ($user->isAccountOwner())
-        <div class="modal" tabindex="-1" role="dialog" id="updateUserProfileForm" style="display:none;" aria-labelledby="updateUserProfileFormLabel" aria-hidden="true">
-          <div class="modal-dialog{{--  modal-dialog-centered --}}" role="document">
+        <div class="modal fade" tabindex="-1" role="dialog" id="updateUserProfileForm" style="display:none;" aria-labelledby="updateUserProfileFormLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 5px 15px 0px;margin:10px auto -25px">
                 <span aria-hidden="true">&times;</span>
@@ -217,8 +240,8 @@
           </div>
         </div>
 
-        <div class="modal" tabindex="-1" role="dialog" id="updateAllergyProfileForm" style="display:none;" aria-labelledby="updateAllergyProfileFormLabel" aria-hidden="true">
-          <div class="modal-dialog{{--  modal-dialog-centered --}}" role="document">
+        <div class="modal fade" tabindex="-1" role="dialog" id="updateAllergyProfileForm" style="display:none;" aria-labelledby="updateAllergyProfileFormLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 5px 15px 0px;margin:10px auto -25px">
                 <span aria-hidden="true">&times;</span>
@@ -233,8 +256,8 @@
           </div>
         </div>
 
-        <div class="modal" tabindex="-1" role="dialog" id="updateChronicsProfileForm" style="display:none;" aria-labelledby="updateChronicsProfileFormLabel" aria-hidden="true">
-          <div class="modal-dialog{{--  modal-dialog-centered --}}" role="document">
+        <div class="modal fade" tabindex="-1" role="dialog" id="updateChronicsProfileForm" style="display:none;" aria-labelledby="updateChronicsProfileFormLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 5px 15px 0px;margin:10px auto -25px">
                 <span aria-hidden="true">&times;</span>
@@ -249,8 +272,8 @@
           </div>
         </div>
 
-        <div class="modal" tabindex="-1" role="dialog" id="updatePasswordForm" style="display:none;" aria-labelledby="updatePasswordFormLabel" aria-hidden="true">
-          <div class="modal-dialog" role="document">
+        <div class="modal fade" tabindex="-1" role="dialog" id="updatePasswordForm" style="display:none;" aria-labelledby="updatePasswordFormLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 5px 15px 0px;margin:10px auto -25px">
                 <span aria-hidden="true">&times;</span>
@@ -265,7 +288,7 @@
           </div>
         </div>
 
-        <div class="modal" tabindex="-1" role="dialog" id="updateAvatarForm" style="display:none;" aria-labelledby="updateAvatarFormLabel" aria-hidden="true">
+        <div class="modal fade" tabindex="-1" role="dialog" id="updateAvatarForm" style="display:none;" aria-labelledby="updateAvatarFormLabel" aria-hidden="true">
           <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
             <div class="modal-content px-3">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 5px 15px 0px;margin:10px auto -25px">
@@ -274,10 +297,10 @@
               <br>
               <div class="modal-body">
                 <div class="text-center">
-                  <img class="img-fluid img-circle profile-img" src="{{$user->avatar}}" alt="{{$user->name}} profile picture">
+                  <img class="img-circle" height="75" src="{{$user->avatar}}" alt="{{$user->name}} profile picture">
 
                   <div class="form-group text-center">
-                    <label for="avatar" class="h5">Update Display Picture</label>
+                    <label for="avatar" class="h6">Update Avatar</label>
                   </div>
                 </div>
 

@@ -27,7 +27,7 @@ class User extends Authenticatable implements MustVerifyEmail
       'is_superadmin','is_admin','is_administrator','is_staff',
       'is_authenticated_superadmin','is_authenticated_admin','is_authenticated_staff',
       'is_doctor','is_potential_doctor',
-      'type','status','doctors_count',
+      'age','avatar_md','type','status','doctors_count',
       'appointments_count','transactions_count','subscriptions_count',
       'appointments_list','transactions_list','subscriptions_list','prescriptions_list',
       'completed_appointments_list','upcoming_appointments_list','pending_appointments_list',
@@ -120,6 +120,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return (is_null($value) || $value == 'images/doc.jpg') 
                 ? config('app.url') . '/images/doc.jpg' 
                 : config('app.url') .'/'. $value
+                ;
+    }
+
+    public function getAvatarMdAttribute()
+    {
+        $avatarMd = str_replace('-tb', '-md', $this->avatar);
+
+        return (is_null($this->avatar) || $this->avatar == config('app.url') . 'images/doc.jpg') 
+                ? config('app.url') . '/images/doc.jpg' 
+                : $avatarMd
                 ;
     }
 
@@ -257,7 +267,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * 
      * @return integer
      */
-    public function age()
+    public function getAgeAttribute()
     {
         return is_null($this->dob) ? 0 : $this->dob->diffInYears(\Carbon\Carbon::now());
     }
@@ -270,6 +280,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function dob()
     {
         return is_null($this->dob) ? 'not set' : substr($this->dob, 0, 10);
+    }
+
+    public function getDobTextAttribute()
+    {
+        return Carbon::parse($this->dob())->format('M d, Y');
     }
 
 

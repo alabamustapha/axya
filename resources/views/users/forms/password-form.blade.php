@@ -3,7 +3,16 @@
     {{ method_field('PATCH') }}
 
     <div class="form-group row">
-        <label class="col-12 text-center h4">{{$user->name}} {{ __('Password Update') }}</label>  
+        <label class="col-12 text-center h4 mb-4 p-3 bg-light">
+            <i class="fa fa-key mr-1"></i> 
+            {{ __('Password Update') }}
+
+            <br>
+
+            <small class="text-sm p-1 rounded bg-white">
+                <em>This is different from forgot password.</em>
+            </small>
+        </label>  
     </div>
 
     <div class="form-group row">
@@ -49,7 +58,7 @@
         </div>
     </div>
 
-    <div class="form-group col-12">
+    <div class="form-group col-md-6 offset-md-4">
         <button type="submit" class="btn btn-primary btn-block">
             {{ __('Update Password') }}
         </button>

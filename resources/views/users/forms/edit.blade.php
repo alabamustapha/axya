@@ -3,7 +3,7 @@
     {{ method_field('PATCH') }}
     
     <div class="form-group row">
-        <label class="col-12 text-center h4">{{$user->name}} Profile Update</label>
+        <label class="col-12 text-center h4 mb-4 p-3 bg-light">Update your profile</label>
     </div>
 
     <div class="form-group row">

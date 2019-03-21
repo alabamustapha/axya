@@ -3,9 +3,10 @@
     {{ method_field('PATCH') }}
 
     <div class="form-group">
-        <label for="allergies" class="col-12 text-center h4">{{$user->name}} {{ __('Allergies Update') }}</label>
-
-        <br>
+        <label for="allergies" class="col-12 text-center h4 mb-4 p-3 bg-light">
+            <i class="fa fa-allergies mr-1"></i> 
+            {{ __('Allergies Update') }}
+        </label>
 
         <div class="col-12">
 
