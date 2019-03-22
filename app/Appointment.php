@@ -277,7 +277,9 @@ class Appointment extends Model
 
         7 => 'Doctor did not confirm 1-hour to scheduled time.',
 
-        8 => 'Something fishy.',
+        8 => 'Active correspondence.',
+
+        9 => 'Something fishy.',
     );
 
     public static $appointmentStatusColor = array(
@@ -297,7 +299,9 @@ class Appointment extends Model
 
         7 => 'red',
 
-        8 => 'red',
+        8 => 'teal',
+
+        9 => 'red',
     );
 
     // If the status code is not in the provided list above return 'something fishy'.
@@ -307,6 +311,7 @@ class Appointment extends Model
                     ? (sizeof(self::$appointmentStatus) + 1) // Something fishy.
                     : intval($this->status)
                     ;
+        $status = $this->chatable ? '8' : $status;
 
         return self::$appointmentStatus[$status];
     }
@@ -316,6 +321,7 @@ class Appointment extends Model
                     ? (sizeof(self::$appointmentStatusColor) + 1) // red
                     : intval($this->status)
                     ;
+        $status = $this->chatable ? '8' : $status;
 
         return self::$appointmentStatusColor[$status];
     }

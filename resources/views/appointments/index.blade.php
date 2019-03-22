@@ -110,7 +110,7 @@
                                                         <a href="{{route('users.show', $appointment->user)}}" style="color:inherit;">{{$appointment->user->name}}</a>
                                                     @endif
                                                 </td>
-                                                <td title="{{ $appointment->description_preview }}">
+                                                <td title="{{ $appointment->schedule }}: {{ $appointment->description_preview }}">
                                                     @if ($appointment->activateMessaging())
                                                         @if ($appointment->user_id == Auth::id())
                                                             <a href="{{ route('messages.index', [$appointment->user, $appointment->slug]) }}" class="text-primary"> 
@@ -128,11 +128,7 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    @if ($appointment->hasActiveCorrespondence())
-                                                        <span class="font-weight-bold text-info">Active correspondence</span>
-                                                    @else
-                                                        {{ $appointment->statusTextOutput() }}
-                                                    @endif
+                                                    {{ $appointment->statusTextOutput() }}
                                                 </td>
                                             </tr>
                                         @empty
@@ -198,7 +194,9 @@
                                                         </a>
                                                     @endif
                                                 </td>
-                                                <td><span class="text-info font-weight-bold">Active correspondence</span></td>
+                                                <td>
+                                                    {{ $active_appointment->statusTextOutput() }}
+                                                </td>
                                             </tr>
                                         @empty
                                             <tr>
@@ -252,7 +250,7 @@
                                                         <a href="{{route('users.show', $upcoming_appointment->user)}}" style="color:inherit;">{{$upcoming_appointment->user->name}}</a>
                                                     @endif
                                                 </td>
-                                                <td title="{{ $upcoming_appointment->description_preview }}">
+                                                <td title="{{ $upcoming_appointment->schedule }}: {{ $upcoming_appointment->description_preview }}">
                                                     
                                                     @if ($upcoming_appointment->activateMessaging())
                                                         @if ($upcoming_appointment->user_id == Auth::id())
@@ -321,7 +319,7 @@
                                                         <a href="{{route('users.show', $pending_appointment->user)}}" style="color:inherit;">{{$pending_appointment->user->name}}</a>
                                                     @endif
                                                 </td>
-                                                <td title="{{ $pending_appointment->description_preview }}">
+                                                <td title="{{ $pending_appointment->schedule }}: {{ $pending_appointment->description_preview }}">
                                                     <a href="{{ route('appointments.show', $pending_appointment) }}" class="text-primary"> 
                                                         {{ $pending_appointment->day }}
                                                     </a>
@@ -380,7 +378,7 @@
                                                         <a href="{{route('users.show', $past_appointment->user)}}" style="color:inherit;">{{$past_appointment->user->name}}</a>
                                                     @endif
                                                 </td>
-                                                <td title="{{ $past_appointment->description_preview }}">
+                                                <td title="{{ $past_appointment->schedule }}: {{ $past_appointment->description_preview }}">
                                                     <a href="{{ route('appointments.show', $past_appointment) }}" class="text-primary"> 
                                                         {{ $past_appointment->day }}
                                                     </a>

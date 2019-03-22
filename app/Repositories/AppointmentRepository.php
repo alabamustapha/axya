@@ -15,14 +15,14 @@ class AppointmentRepository
     }
 
 
-    public function hasActiveCorrespondence()
-    {
-        // Active + Pending Appointments.
-        return Appointment::whereIn('status', ['1','5'])
-                     ->where('from', '>', Carbon::now()) // We need pendings...
-                     // ->where('from', '<', $this->correspondence_end)
-                     ->paginate(10)
-                     ;
-    }
+    // public function hasActiveCorrespondence()
+    // {
+    //     // Active + Pending Appointments.
+    //     return Appointment::whereIn('status', ['1','5'])
+    //                  ->where('from', '>', Carbon::now()) // We need pendings...
+    //                  // ->where('from', '<', $this->correspondence_end)
+    //                  ->paginate(10)
+    //                  ;
+    // }
   
 }
