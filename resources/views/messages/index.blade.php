@@ -30,7 +30,7 @@
   <div class="content">
     <div id="messaging">
       <div class="row">
-        <div class="col-md-3 pr-0">
+        <div class="col-md-3 pr-0 bg-light">
             
             @include('messages.partials._chat-sidebar')
 
@@ -179,15 +179,31 @@
                       </div>
                     @empty
 
-                      <div class="col-md-6 offset-md-3">
-                        <p>
-                          <strong>Select a chat now...</strong>
-                        </p>
-                        <p>
+                      <div class="text-center">
+                        @if (Request::is('*/messages/*'))
+
+                          <p class="border-bottom border-light p-4 mb-4">
+
+                            {{ $appointment->description }}
+
+                          </p>
+
+                          <p>
+
+                            0 messages.
+
+                          </p>
+
+                        @else
+                          <p>
+                            <strong>Select a chat...</strong>
+                          </p>
+                        @endif
+                        {{-- <p>
                           Green  - Active <br>
                           Yellow - Pending (Awaiting schedule time) <br>
                           Red    - Past
-                        </p>
+                        </p> --}}
                       </div>
 
                     @endforelse  

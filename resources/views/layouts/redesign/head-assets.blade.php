@@ -26,7 +26,7 @@
     <!-- DASHBOARD STYLE -->
     <link rel="stylesheet" href="{{asset('css/custom/dashboard.css')}}">
     <!-- ADMIN STYLE -->
-    <link rel="stylesheet" href="{{asset('css/custom/admin.css')}}">
+    {{-- <link rel="stylesheet" href="{{asset('css/custom/admin.css')}}"> --}}
 
     @yield('styles')
     <style>
