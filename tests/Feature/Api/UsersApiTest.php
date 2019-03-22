@@ -54,7 +54,7 @@ class UsersApiTest extends TestCase
             ->actingAs($this->superadmin, 'api')
             ->get(route('users_api.index'))
             ->assertSee($this->user->name)
-            ->assertSee($this->user->age())
+            ->assertSee($this->user->age)
             ;
     }
 
@@ -65,7 +65,7 @@ class UsersApiTest extends TestCase
             ->actingAs($this->user, 'api')
             ->get(route('users_api.show', $this->user))
             ->assertSee($this->user->name)
-            ->assertSee($this->user->age())
+            ->assertSee($this->user->age)
             ;
     }
 
@@ -77,7 +77,7 @@ class UsersApiTest extends TestCase
             ->get(route('users_api.show', $this->user))
             ->assertStatus(200)
             ->assertSee($this->user->name)
-            ->assertSee($this->user->age())
+            ->assertSee($this->user->age)
             ;
     }
 
@@ -91,7 +91,7 @@ class UsersApiTest extends TestCase
             ->get(route('users_api.show', $this->user))
             ->assertStatus(401)
             ->assertDontSee($this->user->name)
-            ->assertDontSee($this->user->age())
+            ->assertDontSee($this->user->age)
             ;
     }
      
