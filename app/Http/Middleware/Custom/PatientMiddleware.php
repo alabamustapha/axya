@@ -36,10 +36,10 @@ class PatientMiddleware
             {
                 return $next($request);
             }
-            elseif (Auth::user()->isDoctor()) {// && !Auth::user()->isAdmin()
+            elseif (Auth::user()->is_doctor) {// && !Auth::user()->isAdmin()
                 return redirect(route('doctor.login'));
             }
-            elseif (Auth::user()->isAdmin() && !Auth::user()->isDoctor()) {
+            elseif (Auth::user()->isAdmin() && !Auth::user()->is_doctor) {
                 return redirect(route('admin.login'));
             }
         return abort('403');

@@ -21,12 +21,12 @@ class PrescriptionPolicy
 
     public function create(User $user)
     {
-        return $user->isDoctor() && $user->doctor->isActive();
+        return $user->is_doctor && $user->doctor->isActive();
     }
 
     public function edit(User $user, Prescription $prescription)
     {
-        return $user->isDoctor() 
+        return $user->is_doctor 
             && $user->id == $prescription->appointment->doctor_id 
             && $user->doctor->isActive() 
             // && $prescription->created_at->addMinutes(90) < Carbon::now()
@@ -35,7 +35,7 @@ class PrescriptionPolicy
 
     public function delete(User $user, Prescription $prescription)
     {
-        return $user->isDoctor() 
+        return $user->is_doctor 
             && $user->id == $prescription->appointment->doctor_id 
             && $user->doctor->isActive() 
             // && $prescription->created_at->addMinutes(90) < Carbon::now()

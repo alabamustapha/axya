@@ -27,7 +27,7 @@
 
       @else
 
-        @if (/*Auth::user()->is_potential_doctor &&*/ !Auth::user()->isDoctor() && Auth::user()->isAccountOwner())
+        @if (/*Auth::user()->is_potential_doctor &&*/ !Auth::user()->is_doctor && Auth::user()->isAccountOwner())
           @if (! Request::is('appointments/*') && ! Request::is('doctors/create'))
               <h4 class="pt-2 text-center">
                 {{-- Extract this to a view for doctors personal notifications only. --}}
@@ -39,7 +39,7 @@
         @endif
       @endunless
 
-      @if (Auth::user()->isDoctor() && Request::is('*/notifications'))
+      @if (Auth::user()->is_doctor && Request::is('*/notifications'))
         @if (!Auth::user()->doctor->is_subscribed)
           <small>
             You must be subscribed to appear in search results and to receive appointment from patients on this platform.

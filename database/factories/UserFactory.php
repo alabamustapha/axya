@@ -94,6 +94,7 @@ $factory->state(App\User::class, 'superadmin', function (Faker $faker) {
 
 $factory->state(App\User::class, 'doctor', function (Faker $faker) {
     return [
+        'is_doctor' => 1,
         'doctor_mode' => 1,
         'doctor_password' => 'abcdefg',
     ];

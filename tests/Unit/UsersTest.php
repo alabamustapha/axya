@@ -33,7 +33,7 @@ class UsersTest extends TestCase
         [
             'id','name','slug','email','email_verified_at','address','phone',
             'gender','avatar','acl','application_status','blocked','dob','weight','height',
-            'allergies','chronics','password','last_four','terms','as_doctor',
+            'allergies','chronics','password','last_four','terms','is_doctor','as_doctor',
             'admin_mode','admin_password','doctor_mode','doctor_password',
         ]), 1);
     }

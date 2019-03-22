@@ -45,6 +45,7 @@ class CreateUsersTable extends Migration
 
             // Other Details
             $table->tinyInteger('application_status')->default(0); // Tracks current status in doctor's application process.
+            $table->boolean('is_doctor')->default(0);
             $table->boolean('as_doctor')->default(0);
 
             $table->string('last_four',4)->nullable();

@@ -185,7 +185,7 @@ class ApplicationController extends Controller
             $directory = 'appl-'. $application->user->slug;
             Storage::deleteDirectory($directory);
 
-            if (! $application->user->isDoctor()){
+            if (! $application->user->is_doctor){
                 $application->user->updateApplicationStatus('rejected');
 
                 // Notify About Rejection

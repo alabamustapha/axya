@@ -103,7 +103,7 @@ class LoginController extends Controller
     //         Auth::user()->update(['admin_mode' => 0]);
     //     }
 
-    //     if (Auth::check() && (Auth::user()->isDoctor())) 
+    //     if (Auth::check() && (Auth::user()->is_doctor)) 
     //     {
     //         Auth::user()->update(['doctor_mode' => 0]);
     //     }

@@ -18,13 +18,13 @@ class ApplicationMiddleware
     public function handle($request, Closure $next)
     {
         if (Auth::check() && 
-                (!Auth::user()->isDoctor() 
+                (!Auth::user()->is_doctor 
                     && !Auth::user()->application()->count() 
                     && !Auth::user()->applicationIsRejected()
                 )
             ){ return $next($request); }
         
-        if (Auth::user()->isDoctor()){
+        if (Auth::user()->is_doctor){
             flash('You are already a doctor on this platform and can apply once only!')->error();
         }
         if (Auth::user()->application()->count()){

@@ -23,9 +23,9 @@ class DoctorAndAdminMiddleware
                 Auth::user()->isAdmin() || 
                     (
                         \Route::input('doctor') 
-                        ? ( Auth::user()->isDoctor() && 
+                        ? ( Auth::user()->is_doctor && 
                             Auth::user()->doctor->slug == \Route::input('doctor.slug')) 
-                        : Auth::user()->isDoctor()
+                        : Auth::user()->is_doctor
                     )
                 )
             )
@@ -34,10 +34,10 @@ class DoctorAndAdminMiddleware
             if (Auth::user()->isAuthenticatedAdmin() || Auth::user()->isAuthenticatedDoctor()) {
                 return $next($request);
             }
-            elseif(Auth::user()->isDoctor() && !Auth::user()->isAdmin()) {
+            elseif(Auth::user()->is_doctor && !Auth::user()->isAdmin()) {
                 return redirect(route('doctor.login'));
             }
-            elseif(Auth::user()->isAdmin() && !Auth::user()->isDoctor()) {
+            elseif(Auth::user()->isAdmin() && !Auth::user()->is_doctor) {
                 return redirect(route('admin.login'));
             }
             
@@ -49,7 +49,7 @@ class DoctorAndAdminMiddleware
 
         // if (Auth::check()
         //     && (Auth::user()->isAuthenticatedAdmin()
-        //         || (Auth::user()->isDoctor() && Auth::id() == request()->user()->id))
+        //         || (Auth::user()->is_doctor && Auth::id() == request()->user()->id))
         //     ) {
         //     return $next($request);
         // }

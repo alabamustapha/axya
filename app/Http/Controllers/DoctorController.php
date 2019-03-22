@@ -101,6 +101,10 @@ class DoctorController extends Controller
         $doctor->verified_by  = auth()->id();
         
         if ($doctor->save()) {
+            // Update user table as dcotor
+            $doctor->user->is_doctor = '1';
+            $doctor->user->save();
+
             // Add a new entry into doctor_specialty intermediate table;
             // $doctor->specialties()->sync($appl->specialty_id);
             $doctor->user->updateApplicationStatus('accepted_not_subscribed');
@@ -285,5 +289,9 @@ class DoctorController extends Controller
     public function destroy(Doctor $doctor)
     {
         // Admin and Doctor
+
+        // Update user table as dcotor
+        $doctor->user->is_doctor = '0';
+        $doctor->user->save();
     }
 }

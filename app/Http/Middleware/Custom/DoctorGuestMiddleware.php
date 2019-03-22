@@ -18,7 +18,7 @@ class DoctorGuestMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->isDoctor()){
+        if (Auth::check() && Auth::user()->is_doctor){
 
             if (Auth::user()->isAuthenticatedDoctor()) {
                 return redirect(route('dr_dashboard', Auth::user()->doctor));

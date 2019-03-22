@@ -17,7 +17,7 @@ class DoctorMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->isDoctor()) {
+        if (Auth::check() && Auth::user()->is_doctor) {
 
             if (Auth::user()->isAuthenticatedDoctor() 
                 // && Auth::user()->doctor->slug == \Route::input('doctor.slug')

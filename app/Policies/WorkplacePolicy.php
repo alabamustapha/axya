@@ -18,7 +18,7 @@ class WorkplacePolicy
      */
     public function create(User $user)
     {
-        return $user->isDoctor() || $user->isAdmin();
+        return $user->is_doctor || $user->isAdmin();
     }
 
     /**
@@ -30,7 +30,7 @@ class WorkplacePolicy
      */
     public function edit(User $user, Workplace $workplace)
     {
-        return ($workplace->doctor_id == $user->id && $user->isDoctor()) || $user->isAdmin();
+        return ($workplace->doctor_id == $user->id && $user->is_doctor) || $user->isAdmin();
     }
 
     /**
@@ -42,6 +42,6 @@ class WorkplacePolicy
      */
     public function delete(User $user, Workplace $workplace)
     {
-        return ($workplace->doctor_id == $user->id && $user->isDoctor()) || $user->isAdmin();
+        return ($workplace->doctor_id == $user->id && $user->is_doctor) || $user->isAdmin();
     }
 }
