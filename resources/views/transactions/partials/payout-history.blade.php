@@ -8,7 +8,7 @@
 
             <div>
                 <p class="text-right text-theme-blue font-weight-bold">
-                    Current Balance: <span class="current-earned">{{ $doctor->currentBalance() }}</span>
+                    Current Balance: <span class="current-earned">{{ $doctor->current_balance }}</span>
                 </p>
             </div>
         </div>

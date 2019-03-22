@@ -10,13 +10,13 @@
             <p class="text-right text-theme-blue font-weight-bold">
                 Current Balance: 
                 <span class="current-earned h2 text-muted">
-                    <small class="text-sm">{{ setting('base_currency') }}</small>{{ $doctor->currentBalance() }}
+                    <small class="text-sm">{{ setting('base_currency') }}</small>{{ $doctor->current_balance }}
                 </span>
             </p>
             <p class="text-right font-weight-bold">
                 Total Earned: 
                 <span class="total-earning h3 text-muted">
-                    <small class="text-sm">{{ setting('base_currency') }}</small>{{ $doctor->totalEarning() }}
+                    <small class="text-sm">{{ setting('base_currency') }}</small>{{ $doctor->total_earning }}
                 </span>
             </p>
         </div>

@@ -42,7 +42,7 @@ class Doctor extends Model
      */
     public function totalEarning()
     {
-        return $this->transactions()
+        return $this->transactions
                     ->where('status', '1')
                     ->sum('doctor_earning')
                     ;
@@ -53,7 +53,7 @@ class Doctor extends Model
      */
     public function totalPayout()
     {
-        return $this->user->payouts()
+        return $this->user->payouts
                     ->where('status', '1')
                     ->sum('amount')
                     ;
@@ -706,8 +706,19 @@ class Doctor extends Model
         return $this->availabilityStatus($this);
     }
 
+
     public function getTotalEarningAttribute()
     {
         return $this->totalEarning();
+    }
+
+    public function getTotalPayoutAttribute()
+    {
+        return $this->totalPayout();
+    }
+
+    public function getCurrentBalanceAttribute()
+    {
+        return $this->currentBalance();
     }
 }
