@@ -4,7 +4,9 @@
 
 @section('content')
 
-@section('page-title', 'My Appointments')
+@section('page-title')
+  <i class="fa fa-calendar-alt"></i> My Events 
+@endsection
 
   <!-- end breadcrumbs -->
 
@@ -49,7 +51,7 @@
                         <span class="badge badge-warning">{{ $doctorAppointmentsCount }}</span>
                     </div>
                     <div class="legend l-requested pb-2 border-bottom border-info tf-flex">
-                        <span><i class="fas fa-pills fa-fw"></i> Medication Time</span>
+                        <span><i class="fas fa-pills fa-fw"></i> Medications</span>
                         <span class="badge badge-warning">{{ $medicationEventsCount }}</span>
                     </div>
                     <div class="legend l-requested tf-flex">

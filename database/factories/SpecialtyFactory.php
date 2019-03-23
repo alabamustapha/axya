@@ -3,10 +3,10 @@
 use Faker\Generator as Faker;
 
 $factory->define(App\Specialty::class, function (Faker $faker) {
-    $name = $faker->randomElement(['Opthamology','Gynaecology','Dentistry','Dermatology','Oncology']);
+    $name = $faker->randomElement(['Opthamology','Gynaecology','Dentistry','Dermatology','Oncology']) . ' ' . ucfirst($faker->word);
 
     return [
-        'name'        => $name . ' ' . ucfirst($faker->word),
+        'name'        => $name,
         'slug'        => str_slug($name),
         'description' => $faker->sentences(1,3),
         'user_id'     => App\User::all()->random()->id,

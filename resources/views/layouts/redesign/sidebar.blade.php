@@ -308,6 +308,11 @@
 
         </span>
         <span class="navlink-active">Dashboard</span>
+        @if ($events_count)
+        <span class="badge badge-warning float-right">
+          {{ $events_count }}
+        </span>
+        @endif
       </a>
     </li> 
 
@@ -366,9 +371,6 @@
 
             </span>
             <span class="navlink-active">Appointments</span>
-            <span class="badge badge-warning float-right">
-              {{ $events_count }}
-            </span>
         </a>
     </li>
 

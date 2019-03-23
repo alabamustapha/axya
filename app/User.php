@@ -284,7 +284,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getDobTextAttribute()
     {
-        return Carbon::parse($this->dob())->format('M d, Y');
+        return is_null($this->dob) ? 'not set' : Carbon::parse($this->dob)->format('M d, Y');
     }
 
 
