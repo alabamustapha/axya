@@ -41,10 +41,8 @@ class AppointmentUpdateRequest extends FormRequest
                 'type'      => 'required|in:Online,Home',
                 'address'   => 'nullable|required_if:type,Home|string',
                 'phone'     => 'nullable|required_if:type,Home|string',
-
-                'doctor_id' => 'required|integer|exists:doctors,id',
-                'description' => 'required|string|max:1500',
                 
+                'description' => 'required|string|max:1500',
                 'illness_duration'=> 'nullable|string|max:255',
                 'illness_history' => 'nullable|string|max:255',
 

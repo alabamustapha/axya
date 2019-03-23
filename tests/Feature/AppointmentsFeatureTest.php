@@ -177,7 +177,6 @@ class AppointmentsFeatureTest extends TestCase
         // Update the Appointment's details
         $updated_data = [ 
             'type'        => 'Online',
-            'user_id'     => $user->id,
             'doctor_id'   => $this->doctor->id,
 
             'description' => $this->faker->sentence,           
