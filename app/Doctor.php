@@ -31,7 +31,6 @@ class Doctor extends Model
       'adjusted_subscription_end','is_subscribed','patients_count',
       'pending_appointments_count','appointments_count','transactions_count','subscriptions_count',
       'appointments_list','transactions_list','subscriptions_list','prescriptions_list',
-      'completed_appointments_list','upcoming_appointments_list','pending_appointments_list',
       // From serialized schedules
       'sunday_schedules', 'monday_schedules', 'tuesday_schedules', 'wednesday_schedules', 'thursday_schedules', 'friday_schedules', 'saturday_schedules',
     ];
@@ -611,21 +610,6 @@ class Doctor extends Model
     public function getAppointmentsListAttribute() 
     {
         return route('dr_appointments', $this);
-    }
-
-    public function getCompletedAppointmentsListAttribute() 
-    {
-        return route('dr_appointments', ['doctor'=> $this, 'status' => 'success']);
-    }
-
-    public function getUpcomingAppointmentsListAttribute() 
-    {
-        return route('dr_appointments', ['doctor'=> $this, 'status' => 'awaiting-appointment-time']);
-    }    
-
-    public function getPendingAppointmentsListAttribute() 
-    {
-        return route('dr_appointments', ['doctor'=> $this, 'status' => 'awaiting-confirmation']);
     }
 
 

@@ -26,7 +26,7 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $appends = ['link','is_verified',
       'is_superadmin','is_admin','is_administrator','is_staff',
       'is_authenticated_superadmin','is_authenticated_admin','is_authenticated_staff',
-      'is_doctor','is_potential_doctor',
+      'is_potential_doctor',
       'age','avatar_md','type','status','doctors_count',
       'appointments_count','transactions_count','subscriptions_count',
       'appointments_list','transactions_list','subscriptions_list','prescriptions_list',
@@ -42,7 +42,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name','slug','email','password','address','phone',
         'gender','avatar','blocked','dob','weight','height','allergies','chronics',
         'last_four','terms','application_retry_at',
-        'verification_link','as_doctor','application_status',
+        'verification_link','is_doctor','as_doctor','application_status',
         'admin_mode','admin_password','doctor_mode','doctor_password',
     ];
 
@@ -213,7 +213,7 @@ class User extends Authenticatable implements MustVerifyEmail
                 $this->update(['admin_mode' => 0]);
             }
 
-            if ($this->isDoctor()) {
+            if ($this->is_doctor) {
                 $this->update(['doctor_mode' => 0]);
             }
 
@@ -400,26 +400,26 @@ class User extends Authenticatable implements MustVerifyEmail
         return !! ($this->doctor_mode == '1' && !is_null($this->doctor_password));
     }
 
-    public function isDoctor() 
-    {
-        // return !! $this->has('doctor')->count();
-        // return !! $this->doctor()->exists();
-        return !! $this->doctor()->count();
-    }
+    // public function isDoctor() 
+    // {
+    //     // return !! $this->has('doctor')->count();
+    //     // return !! $this->doctor()->exists();
+    //     return !! $this->doctor()->count();
+    // }
 
     public function isAuthenticatedDoctor() 
     {
-        return $this->isDoctor() && $this->isLoggedInAsDoctor();        
+        return $this->is_doctor && $this->isLoggedInAsDoctor();        
     }
 
     public function isActiveDoctor() 
     {
-        return $this->isDoctor() && $this->doctor()->isActive();
+        return $this->is_doctor && $this->doctor()->isActive();
     }
 
     public function isSuspendedDoctor() 
     {
-        return $this->isDoctor() && $this->doctor()->isSuspended();
+        return $this->is_doctor && $this->doctor()->isSuspended();
     }
 
 
@@ -505,7 +505,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function professionalType() 
     {
-        return $this->isDoctor() ? 'Doctor':'User';
+        return $this->is_doctor ? 'Doctor':'User';
     }
 
 
@@ -845,10 +845,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->isAuthenticatedDoctor();
     }
 
-    public function getIsDoctorAttribute() 
-    {
-        return $this->isDoctor(); 
-    }
+    // public function getIsDoctorAttribute() 
+    // {
+    //     return $this->is_doctor; 
+    // }
  
     public function getIsDoctorUserAttribute() 
     {

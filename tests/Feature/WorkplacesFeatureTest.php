@@ -19,13 +19,12 @@ class WorkplacesFeatureTest extends TestCase
     {
         parent::setUp();        
 
-        $this->doc_user   = factory(User::class)->create();
+        $this->doc_user   = factory(User::class)->states(['verified','doctor'])->create();
         $this->specialty  = factory(Specialty::class)->create();
-        $this->doctor     = factory(Doctor::class)
-             ->create([
-                    'id'      => $this->doc_user->id, 
-                    'user_id' => $this->doc_user->id,
-                ]);
+        $this->doctor     = factory(Doctor::class)->create([
+            'id'      => $this->doc_user->id, 
+            'user_id' => $this->doc_user->id,
+        ]);
         $this->workplace  = factory(Workplace::class)->create();
 
         $this->name = $this->faker->word;

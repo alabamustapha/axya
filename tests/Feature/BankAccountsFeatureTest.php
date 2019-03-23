@@ -2,8 +2,10 @@
 
 namespace Tests\Feature;
 
-use App\User;
 use App\BankAccount;
+use App\Doctor;
+use App\Specialty;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -17,6 +19,8 @@ class BankAccountsFeatureTest extends TestCase
         parent::setUp();
 
         $this->user        = factory(User::class)->states(['verified','doctor'])->create();
+        $this->specialty   = factory(Specialty::class)->create();
+        $this->doctor      = factory(Doctor::class)->states('active')->create(['user_id'=> $this->user->id]);
         $this->bankAccount = factory(BankAccount::class)->create();
 
         $this->data = factory(BankAccount::class)->raw();

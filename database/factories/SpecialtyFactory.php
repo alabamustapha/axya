@@ -6,7 +6,7 @@ $factory->define(App\Specialty::class, function (Faker $faker) {
     $name = $faker->randomElement(['Opthamology','Gynaecology','Dentistry','Dermatology','Oncology']);
 
     return [
-        'name'        => $name,
+        'name'        => $name . ' ' . ucfirst($faker->word),
         'slug'        => str_slug($name),
         'description' => $faker->sentences(1,3),
         'user_id'     => App\User::all()->random()->id,
