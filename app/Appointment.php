@@ -241,11 +241,12 @@ class Appointment extends Model
     public function scopeHasActiveCorrespondence($query)
     {
         return $query->whereIn('status', ['1','5'])
+                     ->where('from', '<', Carbon::now())
                      ->where('from', '<', $this->correspondence_ends_at)
                      ;
     }
 
-    // Fee paid, awaiting appointment time.
+    // Activate Messaging Link.
     public function scopeActivateMessaging($query)
     {
         return $query->whereIn('status', ['1','5']);
@@ -349,7 +350,7 @@ class Appointment extends Model
 
     public function getDayAttribute($value)
     {
-        return Carbon::parse($value)->format('M d, Y');
+        return Carbon::parse($value)->format('D d M \'y');
     }
 
     // Formatted for edit form.

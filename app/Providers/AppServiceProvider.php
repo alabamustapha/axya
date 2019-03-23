@@ -21,6 +21,15 @@ class AppServiceProvider extends ServiceProvider
         });
 
         view()->composer(['layouts.redesign.sidebar'], function($view){
+
+            $today = date('Y-m-d');            
+            $eventsCount = 
+                \App\CalendarEvent::where('user_id', auth()->id())
+                    ->where('start', 'like', "%$today%")
+                    ->count()
+                    ;
+
+            $view->with('events_count', $eventsCount);
             $view->with('applications_count', \App\Application::all()->count());
             // $view->with('transactions_count', \App\Transaction::all()->count());
         });

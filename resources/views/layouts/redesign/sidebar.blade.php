@@ -366,6 +366,9 @@
 
             </span>
             <span class="navlink-active">Appointments</span>
+            <span class="badge badge-warning float-right">
+              {{ $events_count }}
+            </span>
         </a>
     </li>
 

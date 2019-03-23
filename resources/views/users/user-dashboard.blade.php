@@ -53,7 +53,7 @@
                         <span class="badge badge-warning">{{ $medicationEventsCount }}</span>
                     </div>
                     <div class="legend l-requested tf-flex">
-                        <span><i class="fas fa-calendar-alt fa-fw"></i> Booking/Pending</span>
+                        <span><i class="fas fa-calendar-alt fa-fw"></i> Pending</span>
                         <span class="badge badge-warning">{{ $transactionEventsCount }}</span>
                     </div>
                 </div>
