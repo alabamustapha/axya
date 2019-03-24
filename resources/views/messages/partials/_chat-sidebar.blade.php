@@ -33,7 +33,7 @@
                               @else
                                 <span class="online-status offline"></span>
                               @endif
-                              {{ $ac_appointment->doctor->name }}    
+                              {{ $ac_appointment->doctor->name }}     
                             </span>
 
                             <i class="fa {{ $ac_appointment->has_prescription ? 'fa-prescription':'' }}"></i>
@@ -41,7 +41,9 @@
                             <span id="msg-count" class="badge badge-danger">1</span>
 
                             <span id="last-online">
-                                <span>2m</span>
+                                <span>
+                                 {{ $ac_appointment->lastMessageTimeByDoctor() }}
+                               </span>
                             </span>
                     
                           </div>
@@ -68,7 +70,9 @@
                             <span id="msg-count" class="badge badge-danger">1</span>
 
                             <span id="last-online">
-                                <span>2m</span>
+                                <span>
+                                 {{ $ac_appointment->lastMessageTimeByPatient() }}
+                               </span>
                             </span>
                     
                           </div>

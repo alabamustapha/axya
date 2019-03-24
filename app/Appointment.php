@@ -52,6 +52,36 @@ class Appointment extends Model
         return $this->morphMany(Message::class, 'messageable');
     }
 
+    public function lastMessageTimeByPatient()
+    {
+        $lastMessageTime =
+            count($this->messages) 
+                ? $this->messages()
+                    ->where('messageable_id', $this->id)
+                    ->where('user_id', $this->user_id)
+                    ->latest()
+                    ->first()
+                    ->created_at
+                : 'na'
+                ;
+        return $lastMessageTime === 'na' ? '--' : Carbon::parse($lastMessageTime)->diffForHumans();
+    }
+
+    public function lastMessageTimeByDoctor()
+    {
+        $lastMessageTime = 
+            count($this->messages ) 
+                ? $this->messages()
+                    ->where('messageable_id', $this->id)
+                    ->where('user_id', $this->doctor_id)
+                    ->latest()
+                    ->first()
+                    ->created_at
+                : 'na'
+                ;
+        return $lastMessageTime === 'na' ? '--' : Carbon::parse($lastMessageTime)->diffForHumans();
+    }
+
     public function calendar_events()
     {
         return $this->morphMany(CalendarEvent::class, 'eventable');
