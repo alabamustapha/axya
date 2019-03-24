@@ -28,7 +28,11 @@
                           <div class="media-body">
                                
                             <span class="text-darker d-inline-block text-truncate name"> 
-                              <span class="online-status online"></span>
+                              @if ($ac_appointment->doctor->isOnline())
+                                <span class="online-status online"></span>
+                              @else
+                                <span class="online-status offline"></span>
+                              @endif
                               {{ $ac_appointment->doctor->name }}    
                             </span>
 
@@ -51,7 +55,11 @@
                           <div class="media-body">
                              
                             <span class="text-darker d-inline-block text-truncate name"> 
-                              <span class="online-status online"></span>
+                              @if ($ac_appointment->user->isOnline())
+                                <span class="online-status online"></span>
+                              @else
+                                <span class="online-status offline"></span>
+                              @endif
                               {{ $ac_appointment->user->name }}    
                             </span>
 

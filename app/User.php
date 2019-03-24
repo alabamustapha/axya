@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Cache;
 use App\Doctor;
 use Carbon\Carbon;
 use Cviebrock\EloquentSluggable\Sluggable;
@@ -23,7 +24,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ]; 
 
-    protected $appends = ['link','is_verified',
+    protected $appends = [
+      'link','is_verified','is_online',
       'is_superadmin','is_admin','is_administrator','is_staff',
       'is_authenticated_superadmin','is_authenticated_admin','is_authenticated_staff',
       'is_potential_doctor',
@@ -422,6 +424,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->is_doctor && $this->doctor()->isSuspended();
     }
 
+
+    /**
+     * Check the ONLINE status of this user.
+     * 
+     * @return  boolean
+     */
+    public function isOnline() 
+    {
+        return Cache::has('user-is-online-' . $this->id);
+    }
 
     /**
      * Change a user's authorization level.
@@ -923,5 +935,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getSubscriptionsCountAttribute() 
     {
         return $this->subscriptions()->where('status', '1')->count();
+    }
+
+    public function getIsOnlineAttribute() 
+    {
+        return $this->isOnline();
     }
 }

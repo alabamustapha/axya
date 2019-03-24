@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Cache;
 use App\User;
 use Carbon\Carbon;
 use App\Traits\DoctorViewsTrait;
@@ -26,7 +27,7 @@ class Doctor extends Model
 
     protected $appends = [
       'name','link','avatar','practice_years','is_active','availability_text',
-      'license_status','is_suspended','availability_status','subscription_end_formatted',
+      'license_status','is_suspended','availability_status','subscription_end_formatted','is_online',
       'rating','rating_digit',
       'adjusted_subscription_end','is_subscribed','patients_count',
       'pending_appointments_count','appointments_count','transactions_count','subscriptions_count',
@@ -462,6 +463,16 @@ class Doctor extends Model
         );
     }
 
+    /**
+     * Check the ONLINE STATUS of this DOCTOR.
+     * 
+     * @return  boolean
+     */
+    public function isOnline() 
+    {
+        return $this->user->isOnline() && $this->user->isAuthenticatedDoctor();
+    }
+
     public function isAvailable()
     {
         return $this->available == '1' && $this->revoked == '0';
@@ -704,5 +715,10 @@ class Doctor extends Model
     public function getCurrentBalanceAttribute()
     {
         return $this->currentBalance();
+    }
+
+    public function getIsOnlineAttribute() 
+    {
+        return $this->isOnline();
     }
 }

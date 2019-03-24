@@ -37,6 +37,8 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             
             \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
+
+            \App\Http\Middleware\Custom\UserOnlineMiddleware::class,
         ],
 
         'api' => [
