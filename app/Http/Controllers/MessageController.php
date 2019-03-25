@@ -45,20 +45,20 @@ class MessageController extends Controller
                                      ->paginate(5)
                                      ;
         
-        $messages = $appointment->messages()
-                 ->oldest()
-                 ->paginate(150)
-                 ; 
+        // $messages = $appointment->messages()
+        //          ->oldest()
+        //          ->paginate(150)
+        //          ; 
         $prescriptions = $appointment->prescriptions()->pluck('message_id', 'created_at');
 
-        // $cachedChatName = 'chat_messages_'. $appointment->id;
-        // $messages = Cache::rememberForever($cachedChatName, function() use($appointment) {
-        //     return $appointment->messages()
-        //          ->oldest()
-        //          ->paginate(50)
-        //          ; 
-        //     });
-        // dd(Cache::has($cachedChatName));
+        $cachedChatName = 'chat_messages_'. $appointment->slug;
+        $messages = Cache::rememberForever($cachedChatName, function() use($appointment) {
+            return $appointment->messages()
+                 ->oldest()
+                 ->paginate(50)
+                 ; 
+            });
+        // dd(Cache::has($cachedChatName), Cache::get($cachedChatName));
         return view('messages.index', 
             compact(
                 'appointment', 
@@ -91,20 +91,21 @@ class MessageController extends Controller
                                      ->paginate(5)
                                      ;
         
-        $messages = $appointment->messages()
-                 ->oldest()
-                 ->paginate(50)
-                 ;
-        $prescriptions = $appointment->prescriptions()->pluck('message_id', 'created_at');
-
-        // $messages = Cache::rememberForever('messages.paginate', function() use($appointment) {
-        //     return $appointment->messages()
+        // $messages = $appointment->messages()
         //          ->oldest()
         //          ->paginate(50)
         //          ;
-        //     }); 
+        $prescriptions = $appointment->prescriptions()->pluck('message_id', 'created_at');
 
-        // dd($messages, Cache::has('messages.paginate'));
+        $cachedChatName = 'chat_messages_'. $appointment->slug;
+        $messages = Cache::rememberForever($cachedChatName, function() use($appointment) {
+            return $appointment->messages()
+                 ->oldest()
+                 ->paginate(50)
+                 ;
+            }); 
+
+        // dd(Cache::has($cachedChatName), Cache::get($cachedChatName));
         return view('messages.index', 
             compact(
                 'appointment', 
@@ -132,7 +133,7 @@ class MessageController extends Controller
         $message = $appointment->messages()->create($request->all());
 
         if ($message) {
-            $msg = 'Message submitted successfully';
+            $msg = 'Message created';
 
             if (request()->expectsJson()) {
                 return response(['status' => $msg]);

@@ -161,6 +161,8 @@ return [
         App\Providers\TelescopeServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\NovaServiceProvider::class,
+        
+        App\Providers\ObserverServiceProvider::class,
 
     ],
 

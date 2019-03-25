@@ -103,36 +103,6 @@ class Message extends Model
             return \App\Prescription::find($id);
         }
     }
-
-
-
-    /** ~~~~~~~~~~ Caching Handling ~~~~~~~~~~ */
-
-    /**
-     * Flush the cache
-     */
-    public static function flushCache()
-    {
-        Cache::forget('messages.paginate');
-    }
-
-    /**
-     * The "booting" method of the model.
-     *
-     * @return void
-     */
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::updated(function () {
-            self::flushCache();
-        });
-
-        static::created(function() {
-            self::flushCache();
-        });
-    }
     
 
 
