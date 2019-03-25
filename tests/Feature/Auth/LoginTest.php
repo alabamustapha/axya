@@ -2,15 +2,16 @@
 
 namespace Tests\Feature\Auth;
 
-use Auth;
+use App\Traits\UserLoginActivityRecording;
 use App\User;
+use Auth;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class LoginTest extends TestCase
 {
-    use RefreshDatabase, WithFaker;
+    use RefreshDatabase, WithFaker, UserLoginActivityRecording;
 
     /** Nice Guide
      *  https://medium.com/@DCzajkowski/testing-laravel-authentication-flow-573ea0a96318
@@ -59,6 +60,20 @@ class LoginTest extends TestCase
              ;
         $this->assertAuthenticatedAs($user);
     }
+
+
+    /** @test */
+    public function a_user_login_details_are_recorded()
+    {
+        $user = factory(User::class)->create(['password'=> bcrypt($password = '123-456')]);
+
+        $this->post( route('login'), ['email'=> $user->email, 'password'=> $password] );
+        $this->assertAuthenticatedAs($user);
+
+        $loginData = $this->collectUserLoginData()->toArray();
+        $this->assertDatabaseHas('user_logins', $loginData);
+    }
+
 
     /** @test */   
     public function test_remember_me_functionality()
