@@ -70,10 +70,7 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         if (Auth::attempt([ 'email' => $request->email, 'password' => $request->password])) {
-
-            Auth::user()->logOutAsAdminOrDoctor();
-
-            $this->collectUserLoginData(); 
+            // Others in AuthyEventSubscriber
 
             if (isset(request()->ref)){
                 // Prevent double slash '//' if referring url is '/'.
@@ -102,13 +99,11 @@ class LoginController extends Controller
      */
     public function logout(Request $request)
     {
-        Auth::user()->logOutAsAdminOrDoctor();
-
-        $this->collectUserLogoutData(); 
+        // Others in AuthyEventSubscriber
 
         Auth::logout();
 
-        return redirect('/'); //->route('doctors.index') 
+        return redirect('/');
     }
 
 }

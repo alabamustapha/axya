@@ -120,8 +120,6 @@ class RegisterController extends Controller
 
         Auth::login($user);
 
-        $this->collectUserLoginData('r');
-
         return redirect()->route('user_dashboard');
     }
     

@@ -18,8 +18,10 @@ trait UserLoginActivityRecording
         return \Browser::platformName() .' | '. \Browser::platformFamily() .' | '. \Browser::platformVersion();
     }
 
-    public function collectUserLoginData($type = 'l') 
+    public function collectUserLoginData() 
     {
+        $type = request()->is('register') ? 'r':'l';
+
         return UserLogin::create([
             'user_id'     => auth()->id(),
             'ip'          => request()->ip(),
@@ -45,15 +47,15 @@ trait UserLoginActivityRecording
     public function collectUserLogoutData()
     {
         $loginActivity = 
-            UserLogin::where('user_id', auth()->id())
-                 ->where('session_id', session()->getId())
-
-                 // // to cater for (a bug) if logged in through registration
-                 // ->orWhere(function($query) {
-                 //    $query->where('user_id', auth()->id()); 
-                 // })
-                 ->orderBy('logged_in_at', 'desc')
-                 ->first();
+            auth()->user()->logins()
+                        ->where('session_id', session()->getId())
+                        ->latest()
+                        ->first()
+                // If logged in through registration
+                ?: auth()->user()->logins()
+                        ->latest()
+                        ->first()
+                ;
 
         if ($loginActivity) {
             $loginActivity->logged_in_seconds = Carbon::now()->diffInSeconds($loginActivity->created_at);
@@ -63,11 +65,7 @@ trait UserLoginActivityRecording
             $loginActivity->logged_out_at = Carbon::now();
             $loginActivity->exit_page = request()->server('HTTP_REFERER');        
 
-            if ($loginActivity->save()) {
-
-                Auth::logout();
-
-            }
+            $loginActivity->save();
         }
         else {
             UserLogin::create([
