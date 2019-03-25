@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Traits\UserLoginActivityRecording;
 use App\Notifications\AccountVerificationNotification;
 use App\User;
 use Auth;
@@ -15,6 +16,8 @@ use Illuminate\Support\Facades\URL;
 
 class RegisterController extends Controller
 {
+    use UserLoginActivityRecording;
+
     /*
     |--------------------------------------------------------------------------
     | Register Controller
@@ -110,14 +113,15 @@ class RegisterController extends Controller
 
         event(new Registered($user = $this->create($request->all())));
 
-        $user->notify(new AccountVerificationNotification($user));
-
         $verLink = URL::temporarySignedRoute('verification.verify', \Carbon\Carbon::now()->addMinutes(60), ['id' => $user->id]);
         $user->update([ 'verification_link' => $verLink, ]);
         
         flash('A verification link was sent to '. $user->email .', kindly verify your account with the link. Update your profile details completely for a wider access on '. config('app.name') .'.')->info()->important();
 
         Auth::login($user);
+
+        $this->collectUserLoginData('r');
+
         return redirect()->route('user_dashboard');
     }
     
