@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use Auth;
+use App\User;
 use App\UserLogin;
 use Carbon\Carbon;
 
@@ -44,32 +45,37 @@ trait UserLoginActivityRecording
         elseif (\Browser::isBot()) {return 'Bot';}
     }
 
-    public function collectUserLogoutData()
+    public function collectUserLogoutData($userId = null, $minutes = 0)
     {
-        $loginActivity = 
-            auth()->user()->logins()
+        $user = User::find($userId) ?: auth()->user();
+
+        $lastLoginRecord = 
+            $user->logins()
                         ->where('session_id', session()->getId())
                         ->latest()
                         ->first()
                 // If logged in through registration
-                ?: auth()->user()->logins()
+                ?: $user->logins()
                         ->latest()
                         ->first()
                 ;
 
-        if ($loginActivity) {
-            $loginActivity->logged_in_seconds = Carbon::now()->diffInSeconds($loginActivity->created_at);
-            $loginActivity->logged_in_minutes = Carbon::now()->diffInMinutes($loginActivity->created_at);
-            $loginActivity->logged_in_hours   = Carbon::now()->diffInHours($loginActivity->created_at);
+        $lastActivityTime = $lastLoginRecord->last_activity_at ?: Carbon::now();
 
-            $loginActivity->logged_out_at = Carbon::now();
-            $loginActivity->exit_page = request()->server('HTTP_REFERER');        
+        if ($lastLoginRecord) {
+            $lastLoginRecord->logged_in_seconds = Carbon::now()->diffInSeconds($lastLoginRecord->created_at);
+            $lastLoginRecord->logged_in_minutes = Carbon::now()->diffInMinutes($lastLoginRecord->created_at);
+            $lastLoginRecord->logged_in_hours   = Carbon::now()->diffInHours($lastLoginRecord->created_at);
 
-            $loginActivity->save();
+            $lastLoginRecord->last_activity_at  = $lastActivityTime;
+            $lastLoginRecord->logged_out_at     = Carbon::now()->subMinutes($minutes);
+            $lastLoginRecord->exit_page         = request()->server('HTTP_REFERER');        
+
+            $lastLoginRecord->save();
         }
         else {
             UserLogin::create([
-                'user_id'     => auth()->id(),
+                'user_id'     => $user->id,
                 'ip'          => request()->ip(),
                 'device'      => $this->deviceType(),
                 'os'          => $this->osType(),
@@ -77,8 +83,9 @@ trait UserLoginActivityRecording
                 'type'        => 'n',
                 'browser'     => request()->server('HTTP_USER_AGENT'),
                 'session_id'  => session()->getId(),
-                'logged_out_at' => Carbon::now(),  
-                'exit_page'   => url()->previous(),      
+                'last_activity_at' => $lastActivityTime,  
+                'logged_out_at'    => Carbon::now()->subMinutes($minutes),  
+                'exit_page'        => url()->previous(),      
 
             ]);
         }

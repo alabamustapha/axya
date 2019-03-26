@@ -8,7 +8,7 @@ class UserLogin extends Model
 {
     // public $timestamps = false;
 
-    public $dates = ['logged_out_at',];
+    public $dates = ['logged_out_at','last_activity_at'];
 
     protected $fillable = [
         'user_id',
@@ -26,8 +26,8 @@ class UserLogin extends Model
         'referer_page',
         'exit_page',
         'session_id',
-        // 'logged_in_at',
         'logged_out_at',
+        'last_activity_at',
     ];
 
     /**
