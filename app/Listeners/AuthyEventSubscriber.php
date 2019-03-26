@@ -25,7 +25,7 @@ class AuthyEventSubscriber //implements ShouldQueue
      */
     public function onUserLogout($event) 
     {
-        Auth::user()->logOutAsAdminOrDoctor();
+        // Auth::user()->logOutAsAdminOrDoctor();
 
         $this->collectUserLogoutData(); 
     }

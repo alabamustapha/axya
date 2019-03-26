@@ -28,7 +28,6 @@ trait UserLoginActivityRecording
             Auth::user()->logins()
                ->where('session_id', '!=', session()->getId())
                ->whereNull('logged_out_at')
-               ->whereNull('logged_in_seconds')
                ->first();
         if ($unhandledLogout) {
             $unhandledLogout->update([
@@ -39,14 +38,6 @@ trait UserLoginActivityRecording
                 'exit_page'         => config('app.url'),
                 'logged_out_at'     => $unhandledLogout->last_activity_at,
             ]);
-
-            // $unhandledLogout->logged_in_seconds = Carbon::parse($unhandledLogout->last_activity_at)->diffInSeconds($unhandledLogout->created_at);
-            // $unhandledLogout->logged_in_minutes = Carbon::parse($unhandledLogout->last_activity_at)->diffInMinutes($unhandledLogout->created_at);
-            // $unhandledLogout->logged_in_hours   = Carbon::parse($unhandledLogout->last_activity_at)->diffInHours($unhandledLogout->created_at);
-
-            // $unhandledLogout->logged_out_at     = $unhandledLogout->last_activity_at;
-            // $unhandledLogout->exit_page         = config('app.url');        
-            // $unhandledLogout->save();
         }
 
         $type = request()->is('register') ? 'r':'l';
@@ -79,13 +70,16 @@ trait UserLoginActivityRecording
     {
         $user = User::find($userId) ?: auth()->user();
 
+        $user->logOutAsAdminOrDoctor();
+
         $lastLoginRecord = 
-            $user->logins()
+            $user->logins()->where('session_id', session()->getId())->exists()
+                ? $user->logins()
                         ->where('session_id', session()->getId())
                         ->latest()
                         ->first()
                 // If logged in through registration
-                ?: $user->logins()
+                : $user->logins()
                         ->latest()
                         ->first()
                 ;
@@ -127,8 +121,6 @@ trait UserLoginActivityRecording
 
             ]);
         }        
-
-        // $user->logOutAsAdminOrDoctor();
 
         return;
     }
