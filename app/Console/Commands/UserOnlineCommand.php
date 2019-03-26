@@ -2,9 +2,11 @@
 
 namespace App\Console\Commands;
 
+use Auth;
+use Carbon\Carbon;
 use App\Traits\UserLoginActivityRecording;
-use App\Traits\collectUserLogoutData;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Event;
 
 class UserOnlineCommand extends Command
 {
@@ -15,7 +17,7 @@ class UserOnlineCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'user:online';
+    protected $signature = 'users:online';
 
     /**
      * The console command description.
@@ -51,14 +53,25 @@ class UserOnlineCommand extends Command
 
         $inactiveOnlineUserIds = \App\UserLogin::whereNull('logged_out_at')
                                   ->whereNotNull('last_activity_at')
+                                  ->where('last_activity_at', '>', Carbon::now()->subMinutes(15))
                                   ->pluck('user_id')
                                   ;
-        // dd($activelyOnlineUserIds, $usersOnlineCountLst5Minutes, $inactiveOnlineUserIds);
+
+        // $inactiveOnlineUserLastActs = \App\UserLogin::whereNull('logged_out_at')
+        //                           ->whereNotNull('last_activity_at')
+        //                           ->where('last_activity_at', '>', Carbon::now()->subMinutes(15))
+        //                           ->first(['last_activity_at'])
+        //                           ;
+        // dd(
+        //     $inactiveOnlineUserLastActs->last_activity_at > Carbon::now()->subMinutes(15), 
+        //     'AcTm: ' . $inactiveOnlineUserIds->last_activity_at, 
+        //     'SubT: ' . Carbon::now()->subMinutes(15),
+        //     carbon::parse($inactiveOnlineUserIds->last_activity_at)->diffInSeconds(Carbon::now()->subMinutes(15))
+        // );
         
         // First passing, mark last activity.
         foreach ($activelyOnlineUserIds as $userId) {
             $user = \App\User::find($userId);
-            // dd($user, session()->getId());
 
             if (! $user->isOnline()) {
                     
@@ -83,7 +96,7 @@ class UserOnlineCommand extends Command
             }
         }
 
-        // First passing, mark last activity.
+        // Track inactivity for 30 minutes and quit.
         foreach ($inactiveOnlineUserIds as $userId) {
             $user = \App\User::find($userId);
 
@@ -106,13 +119,20 @@ class UserOnlineCommand extends Command
                 ;
             }
 
-            # check the last activity time
-            $lastActivityTime = $user->last_activity_at; ->loginUsingId()
-            if (! $user->isOnline() && (\Carbon\Carbon::parse($lastActivityTime)->addMinutes(10) > \Carbon\Carbon::now()))  {
+            // # Check the last activity time
+            // if (! $user->isOnline() && (\Carbon\Carbon::parse($user->last_activity_at)->addMinutes(15) > \Carbon\Carbon::now()))  {
 
-                // # if inactive for 30minutes log out and record -logged_out_at == -30minutes
-                $this->collectUserLogoutData($userId= $user->id, $minutes= 10);
-            }
+            //     $this->collectUserLogoutData($userId= $user->id, $minutes= 15);
+
+            //     # Manually log out the user.
+            //     Auth::logout();
+            //     # Event::fire('auth.logout', [$user]);
+
+            //     // A call to route('auth.logout')
+            //     // logoutOtherDevices($password, $attribute = 'password')
+            //     // Illuminate\Auth\SessionGuard @logout()
+            // }
         }
+      // dd($usersOnlineCountLst5Minutes, $activelyOnlineUserIds, $inactiveOnlineUserIds);
     }
 }
