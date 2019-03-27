@@ -27,7 +27,7 @@ class CreateUserLoginsTable extends Migration
             $table->integer('logged_in_minutes')->nullable();
             $table->integer('logged_in_hours')->nullable();
             /**/
-            // $table->timestamp('logged_in_at')->nullable(); // Set at AuthenticatesUsers@login  update->NOW()
+            $table->timestamp('last_activity_at')->nullable(); 
             $table->timestamp('logged_out_at')->nullable();// Set at AuthenticatesUsers@logout update->NOW()
             $table->string('browser');
             $table->string('referer_page')->nullable();
