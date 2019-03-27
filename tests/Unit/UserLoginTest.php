@@ -26,7 +26,10 @@ class UserLoginTest extends TestCase
     {
         $this->assertTrue( Schema::hasColumns('user_logins', 
         [
-            'id', 'user_id', 'ip', 'device', 'os', 'type', 'agent', 'logged_in_seconds', 'logged_in_minutes', 'logged_in_hours', 'logged_out_at', 'browser', 'referer_page', 'exit_page', 'session_id',
+            'id', 'user_id', 'ip', 'device', 'os', 'type', 'agent', 
+            'logged_in_seconds', 'logged_in_minutes', 'logged_in_hours', 
+            'last_activity_at', 'logged_out_at', 
+            'browser', 'referer_page', 'exit_page', 'session_id',
         ]), 1);
     }
 

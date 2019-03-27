@@ -26,8 +26,8 @@ class UserLogin extends Model
         'referer_page',
         'exit_page',
         'session_id',
-        'logged_out_at',
         'last_activity_at',
+        'logged_out_at',
     ];
 
     /**

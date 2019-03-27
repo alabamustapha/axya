@@ -53,7 +53,7 @@ trait UserLoginActivityRecording
 
         $type = request()->is('register') ? 'r':'l';
 
-        UserLogin::create([
+        return UserLogin::create([
             'user_id'     => auth()->id(),
             'ip'          => request()->ip(),
             'device'      => $this->deviceType(),
@@ -66,7 +66,7 @@ trait UserLoginActivityRecording
             'session_id'  => session()->getId(),
         ]); 
         
-        return;
+        // return;
     }
 
     public function detectAgentType() 
