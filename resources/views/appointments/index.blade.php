@@ -114,16 +114,16 @@
                                                     @if ($appointment->activateMessaging())
                                                         @if ($appointment->user_id == Auth::id())
                                                             <a href="{{ route('messages.index', [$appointment->user, $appointment->slug]) }}" class="text-primary"> 
-                                                                {{ $appointment->day }}
+                                                                {{ $appointment->day_text }}
                                                             </a>
                                                         @else
                                                             <a href="{{ route('dr_messages', [$appointment->doctor, $appointment->slug]) }}" class="text-primary"> 
-                                                                {{ $appointment->day }}
+                                                                {{ $appointment->day_text }}
                                                             </a>
                                                         @endif
                                                     @else
                                                         <a href="{{ route('appointments.show', $appointment) }}" class="text-primary"> 
-                                                            {{ $appointment->day }}
+                                                            {{ $appointment->day_text }}
                                                         </a>
                                                     @endif
                                                 </td>
@@ -186,11 +186,11 @@
                                                 <td title="{{ $active_appointment->schedule }}: {{ $active_appointment->description_preview }}">
                                                     @if ($active_appointment->user_id == Auth::id())
                                                         <a href="{{ route('messages.index', [$active_appointment->user, $active_appointment->slug]) }}" class="text-primary"> 
-                                                            {{ $active_appointment->day }}
+                                                            {{ $active_appointment->day_text }}
                                                         </a>
                                                     @else
                                                         <a href="{{ route('dr_messages', [$active_appointment->doctor, $active_appointment->slug]) }}" class="text-primary"> 
-                                                            {{ $active_appointment->day }}
+                                                            {{ $active_appointment->day_text }}
                                                         </a>
                                                     @endif
                                                 </td>
@@ -255,11 +255,11 @@
                                                     @if ($upcoming_appointment->activateMessaging())
                                                         @if ($upcoming_appointment->user_id == Auth::id())
                                                             <a href="{{ route('messages.index', [$upcoming_appointment->user, $upcoming_appointment->slug]) }}" class="text-primary"> 
-                                                                {{ $upcoming_appointment->day }}
+                                                                {{ $upcoming_appointment->day_text }}
                                                             </a>
                                                         @else
                                                             <a href="{{ route('dr_messages', [$upcoming_appointment->doctor, $upcoming_appointment->slug]) }}" class="text-primary"> 
-                                                                {{ $upcoming_appointment->day }}
+                                                                {{ $upcoming_appointment->day_text }}
                                                             </a>
                                                         @endif
                                                     @endif
@@ -321,7 +321,7 @@
                                                 </td>
                                                 <td title="{{ $pending_appointment->schedule }}: {{ $pending_appointment->description_preview }}">
                                                     <a href="{{ route('appointments.show', $pending_appointment) }}" class="text-primary"> 
-                                                        {{ $pending_appointment->day }}
+                                                        {{ $pending_appointment->day_text }}
                                                     </a>
                                                 </td>
                                                 <td>{{ $pending_appointment->statusTextOutput() }}</td>
@@ -380,7 +380,7 @@
                                                 </td>
                                                 <td title="{{ $past_appointment->schedule }}: {{ $past_appointment->description_preview }}">
                                                     <a href="{{ route('appointments.show', $past_appointment) }}" class="text-primary"> 
-                                                        {{ $past_appointment->day }}
+                                                        {{ $past_appointment->day_text }}
                                                     </a>
                                                 </td>
                                                 <td>{{ $past_appointment->statusTextOutput() }}</td>

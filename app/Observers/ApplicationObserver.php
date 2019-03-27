@@ -15,41 +15,41 @@ class ApplicationObserver
      */
     public function creating(Application $application)
     {
-        $directory = 'appl-'. auth()->user()->slug;
+        // $directory = 'appl-'. auth()->user()->slug;
 
-        if ($request->medical_college){
-            Storage::makeDirectory($directory);
-        }
+        // if ($request->medical_college){
+        //     Storage::makeDirectory($directory);
+        // }
 
-        if($request->medical_college){
-            $extension = $request->medical_college->getClientOriginalExtension();
-            $name      = 'appl-mc-'. auth()->user()->slug .'.'. $extension;
-            $path      = $request->file('medical_college')->storeAs( $directory, $name );
-            $application->medical_college = $name;
-        }
+        // if($request->medical_college){
+        //     $extension = $request->medical_college->getClientOriginalExtension();
+        //     $name      = 'appl-mc-'. auth()->user()->slug .'.'. $extension;
+        //     $path      = $request->file('medical_college')->storeAs( $directory, $name );
+        //     $application->medical_college = $name;
+        // }
 
-        if($request->specialist_diploma){
-            $extension = $request->specialist_diploma->getClientOriginalExtension();
-            $name      = 'appl-sd-'. auth()->user()->slug .'.'. $extension;
-            $path      = $request->file('specialist_diploma')->storeAs( $directory, $name );
-            $application->specialist_diploma = $name;
-        }
+        // if($request->specialist_diploma){
+        //     $extension = $request->specialist_diploma->getClientOriginalExtension();
+        //     $name      = 'appl-sd-'. auth()->user()->slug .'.'. $extension;
+        //     $path      = $request->file('specialist_diploma')->storeAs( $directory, $name );
+        //     $application->specialist_diploma = $name;
+        // }
 
-        if($request->competences){
-            $extension = $request->competences->getClientOriginalExtension();
-            $name      = 'appl-cp-'. auth()->user()->slug .'.'. $extension;
-            $path      = $request->file('competences')->storeAs( $directory, $name );
-            $application->competences = $name;
-        }
+        // if($request->competences){
+        //     $extension = $request->competences->getClientOriginalExtension();
+        //     $name      = 'appl-cp-'. auth()->user()->slug .'.'. $extension;
+        //     $path      = $request->file('competences')->storeAs( $directory, $name );
+        //     $application->competences = $name;
+        // }
 
-        if($request->malpraxis){
-            $extension = $request->malpraxis->getClientOriginalExtension();
-            $name      = 'appl-mp-'. auth()->user()->slug .'.'. $extension;
-            $path      = $request->file('malpraxis')->storeAs( $directory, $name );
-            $application->malpraxis = $name;
-        }
+        // if($request->malpraxis){
+        //     $extension = $request->malpraxis->getClientOriginalExtension();
+        //     $name      = 'appl-mp-'. auth()->user()->slug .'.'. $extension;
+        //     $path      = $request->file('malpraxis')->storeAs( $directory, $name );
+        //     $application->malpraxis = $name;
+        // }
 
-        $application->save();
+        // $application->save();
     }
     /**
      * Handle the application "created" event.

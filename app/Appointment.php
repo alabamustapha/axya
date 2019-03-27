@@ -378,9 +378,9 @@ class Appointment extends Model
         return Carbon::now() < Carbon::parse($this->from)->subHour();
     }
 
-    public function getDayAttribute($value)
+    public function getDayTextAttribute()
     {
-        return Carbon::parse($value)->format('D d M \'y');
+        return Carbon::parse($this->day)->format('D d M \'y');
     }
 
     // Formatted for edit form.

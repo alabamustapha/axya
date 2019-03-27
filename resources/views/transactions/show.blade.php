@@ -53,7 +53,7 @@
                             <div class="tf-flex mb-3">
                                 <span class="border p-2">
                                     <span class="text-muted" style="font-size: 1rem;">Amount:</span>
-                                    <span class="text-bold">${{$transaction->appointment->fee}}</span>
+                                    <span class="text-bold">${{$transaction->amount}}</span>
                                 </span>
                                 <span class="border p-2">
                                     <span class="text-muted" style="font-size: 1rem;">Sessions:</span>

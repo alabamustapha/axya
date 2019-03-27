@@ -35,9 +35,6 @@
 
 <body>    
     <div id="app">
-        @auth
-        <h1>{{ dd(Auth::user()->lastActivityTime()) }}</h1>
-        @endauth
         <div id="wrapper">
             <!-- HEADER  -->
             <div id="header">

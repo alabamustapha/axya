@@ -126,7 +126,7 @@ class UsersFeatureTest extends TestCase
             ->get( $this->user->link )
             ->assertStatus(403)
             ->assertDontSee($this->user->name)
-            ->assertDontSee($this->user->age)
+            ->assertDontSee($this->user->dob_text)
             ;
     }
      
