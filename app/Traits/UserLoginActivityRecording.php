@@ -30,13 +30,24 @@ trait UserLoginActivityRecording
                ->whereNull('logged_out_at')
                ->first();
         if ($unhandledLogout) {
+            $calcTime = null;
+            // # Catches some edge cases when ->last_activity_at is null, eg reset by user b4 cron. Highly unlikely!
+            // if (is_null($unhandledLogout->last_activity_at)) {
+            //     $allMins       = Auth::user()->logins()->whereNull('logged_out_at')->sum('logged_in_minutes');
+            //     $calcTimeSpent = $allMins / Auth::user()->logins()->whereNull('logged_out_at')->count();
+            //     $calcTime      = Carbon::parse($unhandledLogout->created_at)->addSeconds($calcTimeSpent);
+            // }
+            
+            $lastActivityTime = $unhandledLogout->last_activity_at ?: $calcTime;
+
             $unhandledLogout->update([
-                'logged_in_seconds' => Carbon::parse($unhandledLogout->last_activity_at)->diffInSeconds($unhandledLogout->created_at),
-                'logged_in_minutes' => Carbon::parse($unhandledLogout->last_activity_at)->diffInMinutes($unhandledLogout->created_at),
-                'logged_in_hours'   => Carbon::parse($unhandledLogout->last_activity_at)->diffInHours($unhandledLogout->created_at),
+                'logged_in_seconds' => Carbon::parse($lastActivityTime)->diffInSeconds($unhandledLogout->created_at),
+                'logged_in_minutes' => Carbon::parse($lastActivityTime)->diffInMinutes($unhandledLogout->created_at),
+                'logged_in_hours'   => Carbon::parse($lastActivityTime)->diffInHours($unhandledLogout->created_at),
 
                 'exit_page'         => config('app.url'),
-                'logged_out_at'     => $unhandledLogout->last_activity_at,
+                'last_activity_at'  => $lastActivityTime,
+                'logged_out_at'     => $lastActivityTime,
             ]);
         }
 

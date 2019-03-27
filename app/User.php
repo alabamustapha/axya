@@ -85,14 +85,20 @@ class User extends Authenticatable implements MustVerifyEmail
     public function lastActivityTime()
     {
         return $this->isOnline()
-          ? 'online' //now()->diffForHumans()
-          : Carbon::parse(
-              $this->logins()
-                  ->latest()
-                  ->first()
-                  ->last_activity_at)
-                    ->diffForHumans()
-                  ;
+          ? now()
+          : $this->logins()
+                 ->latest()
+                 ->first()
+                 ->last_activity_at
+                 ;
+    }
+
+    public function lastActivityTimeText()
+    {
+        return $this->isOnline()
+          ? 'online'
+          : Carbon::parse($this->lastActivityTime())->diffForHumans()
+          ;
     }
 
     public function bankAccounts()

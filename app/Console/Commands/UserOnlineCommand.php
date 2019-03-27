@@ -41,7 +41,7 @@ class UserOnlineCommand extends Command
      *
      * @return mixed
      */
-    public function handle() // RUN EVERY 5MINUTES..................................................
+    public function handle() // RUN EVERY 3 MINUTES........................
     {
         $activelyOnlineUserIds = \App\UserLogin::whereNull('logged_out_at')
                                   ->whereNull('last_activity_at')
@@ -51,8 +51,8 @@ class UserOnlineCommand extends Command
             = $activelyOnlineUserIds->count(); // Log to a DB Table.
 
         $inactiveOnlineUserIds = \App\UserLogin::whereNull('logged_out_at')
-                                  ->whereNotNull('last_activity_at')
-                                  // ->where('last_activity_at', '>', Carbon::now()->subMinutes(45))
+                                  ->whereNotNull('last_activity_at')       // Checked for 2 hours.
+                                  ->where('last_activity_at', '>', Carbon::now()->subMinutes(120))
                                   ->pluck('user_id')
                                   ;
         
@@ -82,7 +82,7 @@ class UserOnlineCommand extends Command
             }
         }
 
-        // Second passing: Track inactivity for 45 minutes and quit.
+        // Second passing: Track inactivity for 2 hours and quit.
         foreach ($inactiveOnlineUserIds as $userId) {
             $user = \App\User::find($userId);
 
