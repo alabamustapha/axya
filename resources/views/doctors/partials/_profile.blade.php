@@ -1,30 +1,53 @@
 
-                <div class="card mr-1 shadow-sm" style="min-width: 18rem;max-width: 18rem;">
-                    <div style="display:block;min-height: 200px;height: 200px;overflow: hidden;">
-                        <img class="card-img-top" src="{{ $doctor->dummyAvatar()/*$doctor->avatar*/ }}" alt="{{ $doctor->name }}" style="display:block;min-height: 200px;">
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title d-block text-truncate">
-                            <a href="{{route('doctors.show', $doctor->user)}}">{{ $doctor->name }}</a>
-                        </h5>
-                        <h6 class="card-subtitle mb-2 text-muted">
-                            <a href="#" style="color: inherit;">{{ $doctor->specialty->name }}</a>
-                        </h6>
-                        <p class="card-text">Practice Years: {{random_int(2,10)}}</p>
-                    </div>
-                    <div class="card-footer">
-                        <span class="tf-flex mb-2">
-                            <small class="text-muted">
-                                <span class="fa fa-star text-primary p-0 m-0"></span>
-                                <span class="fa fa-star text-primary p-0 m-0"></span>
-                                <span class="fa fa-star text-primary p-0 m-0"></span>
-                                <span class="fa fa-star text-primary p-0 m-0"></span>
-                                <span class="fa fa-star text-primary p-0 m-0"></span>
-                            </small>
-                            <span>&nbsp;{{random_int(1,5)}}({{random_int(10,100)}})</span>
-                        </span>
-                        <a href="{{route('doctors.show', $doctor)}}" class="btn btn-primary btn-sm btn-block" title="View Profile and Make Appointment">
-                            <i class="fa fa-user-check"></i>&nbsp; View Profile
-                        </a>
-                    </div>
-                </div>
+<a href="{{route('doctors.show', $doctor)}}" class="search-item">
+    <img src="{{ $doctor->avatar }}" height="60" class="rounded-circle doc-img" alt="doctor's image">
+    
+    {{-- $doctor->availability_status --}}
+    @if ($doctor->is_active)
+        <span class="bg-success doc-avail-indicator" title="Available"></span>
+    @else
+        <span class="bg-danger doc-avail-indicator" title="Unavailable"></span>
+    {{-- @elseif ($doctor->is_suspended) { {
+        <span class="bg-warning doc-avail-indicator" title="***"></span> --}}
+    @endif
+
+    <!-- personal detail -->
+    <div id="p-d" class="search-cell">
+        <span class="name">{{ $doctor->name }}</span>
+        <span class="speciality text-muted">{{ $doctor->specialty->name }}</span>
+    </div>
+
+    <!-- work detail -->
+    <div id="w-d" class="search-cell">
+        <span class="name mb-2">{{ $doctor->work_address }}</span>
+        <span class="fee">{{-- Fee -  --}}<strong>{{setting('base_currency')}} {{ $doctor->rate }}</strong> </span>
+    </div>
+
+    <!-- schedule detail -->
+    
+    <div id="s-d" class="search-cell">
+        <ul class="nav flex-sm-row">
+            <li class="nav-item {{$doctor->has_sunday_schedules ? 'has':''}}"   >S</li>
+            <li class="nav-item {{$doctor->has_monday_schedules ? 'has':''}}"   >M</li>
+            <li class="nav-item {{$doctor->has_tuesday_schedules ? 'has':''}}"  >T</li>
+            <li class="nav-item {{$doctor->has_wednesday_schedules ? 'has':''}}">W</li>
+            <li class="nav-item {{$doctor->has_thursday_schedules ? 'has':''}}" >T</li>
+            <li class="nav-item {{$doctor->has_friday_schedules ? 'has':''}}"   >F</li>
+            <li class="nav-item {{$doctor->has_saturday_schedules ? 'has':''}}" >S</li>
+        </ul>
+    </div>
+    
+
+    <!-- ratings -->
+    <span class="ratings" class="search-cell">
+      <span>
+        @php
+          // Reduce queries by 7
+          $rating = $doctor->rating_digit;
+        @endphp
+        @for($i=1; $i <= $rating; $i++)
+          <i class="fa fa-star"></i>
+        @endfor
+      </span>
+    </span>
+</a>
