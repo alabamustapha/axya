@@ -41,7 +41,7 @@ class UserOnlineCommand extends Command
      *
      * @return mixed
      */
-    public function handle() // RUN EVERY 3 MINUTES........................
+    public function handle()
     {
         $activelyOnlineUserIds = \App\UserLogin::whereNull('logged_out_at')
                                   ->whereNull('last_activity_at')
@@ -130,8 +130,9 @@ class UserOnlineCommand extends Command
                 // Illuminate\Auth\SessionGuard @logout()
             }
         }
-      $this->info($usersOnlineCountLst5Minutes);
-      $this->info($activelyOnlineUserIds);
-      $this->info($inactiveOnlineUserIds);
+        
+        $this->info($usersOnlineCountLst5Minutes);
+        $this->info($activelyOnlineUserIds);
+        $this->info($inactiveOnlineUserIds);
     }
 }
