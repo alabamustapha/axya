@@ -55,7 +55,7 @@ class Appointment extends Model
     public function lastMessageTimeByPatient()
     {
         $lastMessageTime =
-            count($this->messages) 
+            ($this->messages && in_array($this->user_id, array_unique($this->messages->pluck('user_id')->toArray()))) 
                 ? $this->messages()
                     ->where('messageable_id', $this->id)
                     ->where('user_id', $this->user_id)
@@ -70,7 +70,7 @@ class Appointment extends Model
     public function lastMessageTimeByDoctor()
     {
         $lastMessageTime = 
-            count($this->messages ) 
+            ($this->messages && in_array($this->doctor_id, array_unique( $this->messages->pluck('user_id')->toArray() ))) 
                 ? $this->messages()
                     ->where('messageable_id', $this->id)
                     ->where('user_id', $this->doctor_id)
