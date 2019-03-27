@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
+use App\Traits\UserLoginActivityRecording;
 use Auth;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
+    use UserLoginActivityRecording;
+
     /*
     |--------------------------------------------------------------------------
     | Login Controller
@@ -37,8 +40,23 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+        $this->middleware('admin')->only('index');
     }
     
+    /**
+     * Display a listing of the resource.
+     * Just for reference usage, not need giving access to users.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(User $user)
+    {
+        // Use this to list a user's UserLogin list.
+        $logins = UserLogin::where('user_id', $user);
+
+        return response()->toJson($logins);
+        // return view('logins.index', compact('user', 'logins'));
+    }
 
     /**
      * Logs user out of the app.
@@ -52,8 +70,7 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         if (Auth::attempt([ 'email' => $request->email, 'password' => $request->password])) {
-
-            Auth::user()->logOutAsAdminOrDoctor();
+            // Others in AuthyEventSubscriber
 
             if (isset(request()->ref)){
                 // Prevent double slash '//' if referring url is '/'.
@@ -82,31 +99,11 @@ class LoginController extends Controller
      */
     public function logout(Request $request)
     {
-        Auth::user()->logOutAsAdminOrDoctor();
+        // Others in AuthyEventSubscriber
 
         Auth::logout();
 
-        return redirect('/'); //->route('doctors.index') 
+        return redirect('/');
     }
-
-
-    // /**
-    //  * If user is admin/staff and is logged in as admin, log him out. 
-    //  * Persistent admin log in could be due to session expiration.
-    //  *
-    //  * @return void
-    //  */
-    // public function logOutAsAdminOrDoctor()
-    // {
-    //     if (Auth::check() && (Auth::user()->isAdmin() || Auth::user()->isStaff())) 
-    //     {
-    //         Auth::user()->update(['admin_mode' => 0]);
-    //     }
-
-    //     if (Auth::check() && (Auth::user()->is_doctor)) 
-    //     {
-    //         Auth::user()->update(['doctor_mode' => 0]);
-    //     }
-    // }
 
 }

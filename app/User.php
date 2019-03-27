@@ -77,6 +77,30 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
+    public function logins()
+    {
+        return $this->hasMany(UserLogin::class);
+    }
+
+    public function lastActivityTime()
+    {
+        return $this->isOnline()
+          ? now()
+          : $this->logins()
+                 ->latest()
+                 ->first()
+                 ->last_activity_at
+                 ;
+    }
+
+    public function lastActivityTimeText()
+    {
+        return $this->isOnline()
+          ? 'online'
+          : Carbon::parse($this->lastActivityTime())->diffForHumans()
+          ;
+    }
+
     public function bankAccounts()
     {
         return $this->hasMany(BankAccount::class);
@@ -211,11 +235,13 @@ class User extends Authenticatable implements MustVerifyEmail
     public function logOutAsAdminOrDoctor()
     {
         if (Auth::check() && Auth::id() == $this->id) {
-            if ($this->isAdmin() || $this->isStaff()) {
+            if ($this->isAuthenticatedStaff()) {
+            // if ($this->isAdmin() || $this->isStaff()) {
                 $this->update(['admin_mode' => 0]);
             }
 
-            if ($this->is_doctor) {
+            if ($this->isLoggedInAsDoctor()) {
+            // if ($this->is_doctor) {
                 $this->update(['doctor_mode' => 0]);
             }
 

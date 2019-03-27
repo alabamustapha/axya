@@ -64,6 +64,12 @@ class UsersTest extends TestCase
     }
 
     /** @test  */
+    public function a_user_has_many_logins()
+    {
+        $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->user->logins);
+    }
+
+    /** @test  */
     public function a_user_has_many_calendar_events()
     {
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->user->calendar_events);
