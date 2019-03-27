@@ -7,7 +7,7 @@
                       <div class=" dashboard-navbar" id="navbarSupportedContent">
                           <ul class="navbar-nav ml-auto xs-nav  align-items-center">
                               <li class="nav-item active">
-                                  <a class="nav-link" href="{{route('home')}}">Home</a>
+                                  <a class="nav-link" href="{{route('user_dashboard')}}">Dashboard</a>
                               </li>
                               <li class="nav-item dropdown">
 
@@ -83,18 +83,22 @@
                                           </div>
                                           <a href="{{route('user_dashboard')}}" class="opt-item">
                                             <i class="fas fa-tachometer-alt fa-fw"></i>&nbsp; {{ __('Dashboard') }}</a>
-                                          @if (Auth::user()->is_doctor)
-                                          <a href="{{route('doctors.show', Auth::user())}}" class="opt-item">
-                                            <i class="fas fa-user-md fa-fw"></i>&nbsp; {{ __('Doctor Profile') }}
-                                          </a>
-                                          @endif
                                           <a href="{{route('users.show', Auth::user())}}" class="opt-item">
                                             <i class="fas fa-user fa-fw"></i>&nbsp; {{ __('Profile') }}
                                           </a>
                                          
-                                          <a href="#" class="opt-item">Account</a>
-                                          <a href="#" class="opt-item">Payment Option</a>
-                                          <a href="#" class="opt-item">Help</a>
+                                          @if (Auth::user()->is_doctor)
+                                            <a href="{{route('doctors.show', Auth::user())}}" class="opt-item">
+                                              <i class="fas fa-user-md fa-fw"></i>&nbsp; {{ __('Doctor Profile') }}
+                                            </a>
+
+                                            <a href="{{ Auth::user()->transactions_list }}" class="opt-item">
+                                              <i class="fas fa-money-check-alt fa-fw"></i>&nbsp; Payments
+                                            </a>
+                                          @endif
+                                          <a href="#" class="opt-item teal">
+                                              <i class="fas fa-question-circle fa-fw"></i>&nbsp; Help
+                                          </a>
                                           <a href="{{ route('logout') }}" title="Log out of app"
                                             onclick="event.preventDefault(); 
                                             document.getElementById('logout-form').submit();" 

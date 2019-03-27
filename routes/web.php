@@ -13,6 +13,7 @@
 
 // Route::get('/', function () { return view('welcome'); })->name('home');
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@home')->name('user_dashboard');
 
 Route::get('/settings', '\QCod\AppSettings\Controllers\AppSettingController@index')->name('app-settings')->middleware('superadmin');
 
@@ -191,7 +192,7 @@ Route::prefix('searches')->group(function(){
 });
 
 
-Route::get('user-dashboard',        'PatientController@dashboard')->name('user_dashboard');
+// Route::get('user-dashboard',        'PatientController@dashboard')->name('user_dashboard');
 Route::get('admin-dashboard', function(){return view('admin.dashboard');})->name('admin_dashboard')->middleware('auth');
 // ----  DASHBOARDS RELATED ---------------->
 
