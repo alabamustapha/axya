@@ -95,8 +95,8 @@
     @endif
 
     {{-- {{dd(Auth::user()->is_doctor)}} --}}
-    @if (!Auth::user()->is_doctor)
-    <li class="nav-item">
+    @if (!Auth::user()->is_doctor && (Request::is('home') || Request::is('*/notifications')))
+    <li class="nav-item bg-warning">
 
       <a href="{{route('doctors.create')}}" class="nav-link">
         <i class="icon fa fa-user-md fa-fw"></i>

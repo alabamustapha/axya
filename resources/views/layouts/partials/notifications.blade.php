@@ -27,14 +27,14 @@
 
       @else
 
-        @if (/*Auth::user()->is_potential_doctor &&*/ !Auth::user()->is_doctor && Auth::user()->isAccountOwner())
-          @if (! Request::is('appointments/*') && ! Request::is('doctors/create'))
-              <h4 class="pt-2 text-center">
+        @if (Auth::user()->is_potential_doctor && !Auth::user()->is_doctor && Auth::user()->isAccountOwner())
+          @if (Request::is('home') || Request::is('*/notifications'))
+              <h5 class="py-2 mb-0 rounded text-center bg-dark">
                 {{-- Extract this to a view for doctors personal notifications only. --}}
 
                 {{ Auth::user()->applicationStatus() }}
 
-              </h4>
+              </h5>
           @endif
         @endif
       @endunless

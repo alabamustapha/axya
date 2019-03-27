@@ -549,12 +549,16 @@ class User extends Authenticatable implements MustVerifyEmail
 
     /*<!---------------- Update Doctor Application Status ---------------->*/
     public static $applicationStatus = array(
-        0 => 'Are you a <i class="fa fa-user-md"></i> Medical Doctor? 
-              <a class="btn btn-success btn-sm" href="http://axya.be-healthy.ro/doctors/create">Register Here!</a>',
+        0 => '<span class="text-light text-bold h5"><i class="fa fa-user-md"></i>&nbsp; You Registered As a Doctor.</span>
+              <br> 
+              <small class="text-sm">
+                Submit verification documents <a class="btn btn-success btn-sm" href="http://axya.be-healthy.ro/doctors/create"> HERE </a>
+                &nbsp; Not a doctor? <button class="btn btn-warning btn-sm" title="Not a doctor?">Do not show again</button>
+              </small>',
 
         1 => '<span class="teal text-bold"><i class="fa fa-info-circle"></i>&nbsp; Notifications</span>
               <hr> 
-              <small style="font-size:12px;">
+              <small class="text-sm">
                 Notifications and updates on professional stuffs.
                 <br>
                 <small class="red"><em>You may recieve appiontment from patients now.</em></small>
@@ -564,7 +568,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
         2 => '<span class="green text-bold"><i class="fa fa-info-circle"></i>&nbsp; Application Accepted</span>
               <hr>
-              <small style="font-size:12px;">
+              <small class="text-sm">
                 Your information has been <b>verified</b>, your application is <b>accepted</b> 
                 <br>
                 You can now attend to patients and receive appointments on this platform after subscription.
@@ -575,7 +579,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
         3 => '<span class="orange text-bold"><i class="fa fa-info-circle"></i>&nbsp; Ongoing Verification</span>
               <hr>
-              <small style="font-size:12px;">
+              <small class="text-sm">
                 Your application as a <b>&nbsp;<i class="fa fa-user-md"></i>&nbsp; Medical Doctor</b> is being reviewed...
                 <br>
                 Wait for your documents verification and eventual administrator\'s decision (approval/rejection).
@@ -584,7 +588,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
         4 => '<span class="teal text-bold"><i class="fa fa-info-circle"></i>&nbsp; Application Received!</span>
               <hr>
-              <small style="font-size:12px;">
+              <small class="text-sm">
                 We have received your application as a <b>&nbsp;<i class="fa fa-user-md"></i>&nbsp; Medical Doctor</b> on this platform. Your details will be reviewed within 48hours. 
                 <br>
                 Keep checking this section for updates on your application status.
@@ -592,7 +596,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
         5 => '<span class="red text-bold"><i class="fa fa-info-circle red"></i>&nbsp; Application Rejected!</span>
               <hr>
-              <small style="font-size:12px;">
+              <small class="text-sm">
                 <b>We cannot accept your application as a medical doctor</b> on our platform at this time. 
                 <br>
                 Kindly update your documents and reapply later.
