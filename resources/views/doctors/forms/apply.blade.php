@@ -1,19 +1,9 @@
 <form method="POST" action="{{ route('applications.store') }}" enctype="multipart/form-data">
     @csrf
-
-    <div class="form-group card shadow text-center">
-        <div class="card-body">
-            <span class="h1">
-                <strong><i class="fa fa-user-md"></i>&nbsp; Doctor's Application</strong>
-            </span>
-            <br>
-            Kindly supply all <span class="red">required</span> details and documents with this form.
-        </div>
-    </div>
-
-    <div class="card card-primary card-outline text-center shadow mb-4">
+    
+    <div class="card text-center shadow mb-4">
       <div class="card-header">
-        <div class="card-title">
+        <div class="card-title pt-4">
           <i class="fa fa-user-md"></i> Basic Details
         </div>
       </div>
@@ -28,7 +18,7 @@
         <div class="form-group" data-toggle="tooltip" title="">
             <label for="specialties" class="tf-flex">
                 <span>{{ __('Specialty') }}</span>
-                <small class="red">required</small>
+                <small title="required" class="red">**</small>
             </label>
 
             <select id="specialty_id" class="form-control{{ $errors->has('specialty_id') ? ' is-invalid' : '' }}" name="specialty_id[]" {{-- multiple --}} required autofocus>
@@ -50,17 +40,13 @@
             @endif
         </div>
       </div>
-
-      <div class="card-footer">
-        <small class="text-muted">...</small>
-      </div>
     </div>
 
 
 
-    <div class="card card-primary card-outline text-center shadow mb-4">
+    <div class="card text-center shadow mb-4">
       <div class="card-header">
-        <div class="card-title">
+        <div class="card-title pt-4">
           <i class="fa fa-hospital-alt"></i> Work Experience
         </div>
       </div>
@@ -68,11 +54,22 @@
       <div class="card-body">
         <div class="form-group">
             <label for="datepicker" class="tf-flex">
-                <span>{{ __('Date You Started Work (First Appointment)') }}</span>
-                <small class="red">required</small>
+                <span>{{ __('Date You Started Work') }}
+                    <small class="text-muted">(First Appointment)</small>
+                </span>
+                <small title="required" class="red">**</small>
             </label>
 
-            <input id="datepicker" id="first_appointment" type="text{{-- date --}}" class="form-control{{ $errors->has('first_appointment') ? ' is-invalid' : '' }}" name="first_appointment" value="{{ old('first_appointment') }}" placeholder="select date" required>
+            <input 
+                id="datepicker" id="first_appointment" 
+                type="text{{-- date --}}" 
+                class="form-control{{ $errors->has('first_appointment') ? ' is-invalid' : '' }}" 
+                name="first_appointment" 
+                value="{{ old('first_appointment') }}" 
+                placeholder="select date" 
+                required
+                autocomplete="off"
+            >
 
             @if ($errors->has('first_appointment'))
                 <span class="invalid-feedback" role="alert">
@@ -89,7 +86,7 @@
                 <div class="card-body bg-transparent shadow-none">
                     <label for="workplace" class="tf-flex">
                         <small style="size:10px;">{{ __('Name') }}</small>
-                        <small class="red">required</small>
+                        <small title="required" class="red">**</small>
                     </label>
 
                     <input id="workplace" type="text" class="form-control{{ $errors->has('workplace') ? ' is-invalid' : '' }}" name="workplace" value="{{ old('workplace') }}" placeholder="name of hospital, clinic..." required>
@@ -104,7 +101,7 @@
                         <div class="col-sm-6 mt-3">
                             <label for="workplace_address" class="tf-flex">
                                 <small style="size:10px;">{{ __('Address') }}</small>
-                                <small class="red">required</small>
+                                <small title="required" class="red">**</small>
                             </label>
                             <input id="workplace_address" type="text" class="form-control{{ $errors->has('workplace_address') ? ' is-invalid' : '' }}" name="workplace_address" value="{{ old('workplace_address') }}" placeholder="eg state, country" required>
 
@@ -117,9 +114,17 @@
                         <div class="col-sm-6 mt-3">
                             <label for="datepicker2" class="tf-flex">
                                 <small style="size:10px;">{{ __('Date Started') }}</small>
-                                <small class="red">required</small>
+                                <small title="required" class="red">**</small>
                             </label>
-                            <input id="datepicker2" id="workplace_start" type="text{{-- date --}}" class="form-control{{ $errors->has('workplace_start') ? ' is-invalid' : '' }}" name="workplace_start" value="{{ old('workplace_start') }}" placeholder="select date" required>
+                            <input 
+                                id="datepicker2" id="workplace_start" 
+                                type="text{{-- date --}}" 
+                                class="form-control{{ $errors->has('workplace_start') ? ' is-invalid' : '' }}"
+                                name="workplace_start" 
+                                value="{{ old('workplace_start') }}" 
+                                placeholder="select date" 
+                                required
+                                autocomplete="off">
 
                             @if ($errors->has('workplace_start'))
                                 <span class="invalid-feedback" role="alert">
@@ -135,7 +140,7 @@
     </div>
 
 
-    <div class="card card-primary card-outline text-center shadow mb-4">
+    <div class="card text-center shadow mb-4">
       <div class="card-header">
         <div class="card-title">
           <i class="fa fa-certificate"></i> Certifications
@@ -145,16 +150,17 @@
       <div class="card-body">
 
         <div class="form-group">
-            <label for="medical_college" class="tf-flex">
-                <span>{{ __('Medical College Practice Certificate') }}</span>
-            </label>
             <div class="card border-secondary">
-                <div class="card-body bg-transparent shadow-none">
+                <label for="medical_college" class="text-left pt-3 px-3 pb-0">
+                    <span>{{ __('Medical College Practice Certificate') }}</span>
+                </label>
+
+                <div class="card-body bg-transparent shadow-none pb-0">
                     <div class="form-group row">
                         <div class="col-sm-6">
                             <label for="medical_college" class="tf-flex">
                                 <small>{{ __('Certificate') }}</small>
-                                <small> (pdf) <span class="red">required</span></small>
+                                <small> (pdf) <span title="required" class="red">**</span></small>
                             </label>
 
                             <div class="">
@@ -170,9 +176,18 @@
                         <div class="col-sm-6">
                             <label for="datepicker3" class="tf-flex">
                                 <small>{{ __('Expiry Date') }}</small>
-                                <small class="red">required</small>
+                                <small title="required" class="red">**</small>
                             </label>
-                            <input id="datepicker3" id="medical_college_expiry" type="text{{-- date --}}" class="form-control{{ $errors->has('medical_college_expiry') ? ' is-invalid' : '' }}" name="medical_college_expiry" value="{{ old('medical_college_expiry') }}"  placeholder="select date" required>
+                            <input 
+                                id="datepicker3" id="medical_college_expiry" 
+                                type="text{{-- date --}}" 
+                                class="form-control{{ $errors->has('medical_college_expiry') ? ' is-invalid' : '' }}" 
+                                name="medical_college_expiry" v
+                                alue="{{ old('medical_college_expiry') }}"  
+                                placeholder="select date" 
+                                required
+                                autocomplete="off"
+                            >
 
                             @if ($errors->has('medical_college_expiry'))
                                 <span class="invalid-feedback" role="alert">
@@ -185,10 +200,10 @@
             </div>
         </div>
 
-        <div class="form-group mt-4">
-            <label for="specialist_diploma" class="tf-flex">
+        <div class="form-group mt-4 border border-secondary p-3 rounded">
+            <label for="specialist_diploma" class="tf-flex mb-3">
                 <span>{{ __('Specialist Diploma') }}</span>
-                <small>(pdf) <span class="red">required</span></small>
+                <small>(pdf) <span title="required" class="red">**</span></small>
             </label>
 
             <input id="specialist_diploma" type="file" class="form-control{{ $errors->has('specialist_diploma') ? ' is-invalid' : '' }}" name="specialist_diploma" value="{{ old('specialist_diploma') }}" accept="application/pdf" required>
@@ -200,10 +215,10 @@
             @endif
         </div> 
 
-        <div class="form-group mt-4">
-            <label for="competences" class="tf-flex">
+        <div class="form-group mt-4 border border-secondary p-3 rounded">
+            <label for="competences" class="tf-flex mb-3">
                 <span>{{ __('Competences Certificate') }}</span>
-                <small>(pdf) <span class="red">required</span></small>
+                <small>(pdf) <span title="required" class="red">**</span></small>
             </label>
 
             <input id="competences" type="file" class="form-control{{ $errors->has('competences') ? ' is-invalid' : '' }}" name="competences" value="{{ old('competences') }}" accept="application/pdf" required>
@@ -215,10 +230,10 @@
             @endif
         </div> 
 
-        <div class="form-group mt-4">
-            <label for="malpraxis" class="tf-flex">
+        <div class="form-group mt-4 border border-secondary p-3 rounded">
+            <label for="malpraxis" class="tf-flex mb-3">
                 <span>{{ __('Malpraxis Insurance') }}</span>
-                <small>(pdf) <span class="red">required</span></small>
+                <small>(pdf) <span title="required" class="red">**</span></small>
             </label>
 
             <input id="malpraxis" type="file" class="form-control{{ $errors->has('malpraxis') ? ' is-invalid' : '' }}" name="malpraxis" value="{{ old('malpraxis') }}" accept="application/pdf" required>
@@ -230,7 +245,7 @@
             @endif
         </div> 
         {{-- 
-            <div class="form-group mt-4">
+            <div class="form-group mt-4 border border-secondary p-3 rounded">
                 <label for="other_certificates" class="tf-flex">
                     <span>{{ __('Other Relevant Certificate(s)') }}</span>
                     <small>(pdf) <span class="teal">multiple files allowed</span></small>
@@ -247,9 +262,13 @@
         --}}
       </div>
       <div class="card-footer">
-            <small>All details and documents must be correct and valid! <br>
-              If your application is rejected, <b class="red">you may only re-apply one week after the rejection date</b>. Kindly supply appropriate details once.
-            </small>
+        <small class="text-sm">
+            <ul class="text-left">
+                <li>All details and documents must be correct and valid!</li>
+                <li>If your application is rejected, <b class="red">you may only re-apply one week after the rejection date</b>.</li>
+                <li>Kindly supply appropriate details once.</li>
+            </ul>
+        </small>
       </div>
     </div> 
 
