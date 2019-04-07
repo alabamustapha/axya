@@ -22,6 +22,8 @@
           <p><strong>0</strong> doctors at this time.</p>
         </div> 
       @endforelse
+
+      <div>{{ $doctors->links() }}</div>
     </div>
     <div class="col-md-3"></div>
   </div>

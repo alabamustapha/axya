@@ -220,7 +220,11 @@ class DoctorController extends Controller
                              ;
         $current_workplace = $doctor->currentWorkplace();
         $specialties = Specialty::all();
-        $reviews     = Review::where('doctor_id', $doctor->id)->latest()->paginate('10');
+        $reviews     = Review::where('doctor_id', $doctor->id)
+                             ->latest()
+                             ->take(2)
+                             ->get()
+                             ;
 
         return view('doctors.show', compact('doctor','workplaces','certificates',
             'sun_schedules',

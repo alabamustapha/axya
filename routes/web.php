@@ -85,6 +85,7 @@ Route::prefix('doctors')->group(function(){
     Route::get('/prescriptions','PrescriptionController@drindex')->name('dr_prescriptions');
     Route::get('/transactions', 'TransactionController@drindex')->name('dr_transactions'); 
     Route::get('/patients',     'DoctorController@patients')->name('dr_patients'); 
+    Route::get('/reviews',      'ReviewController@drindex')->name('dr_reviews'); 
     Route::get('/messages/{appointment?}', 'MessageController@drindex')->name('dr_messages');
     
     Route::patch('/revoke','AppDoctorController@licenseRevoke')->name('revoke_license');

@@ -96,6 +96,9 @@
                                               <i class="fas fa-money-check-alt fa-fw"></i>&nbsp; Payments
                                             </a>
                                           @endif
+                                          <a href="{{ route('reviews.index') }}" class="opt-item teal">
+                                              <i class="fas fa-user-tie fa-fw"></i>&nbsp; Doctor Reviews
+                                          </a>
                                           <a href="#" class="opt-item teal">
                                               <i class="fas fa-question-circle fa-fw"></i>&nbsp; Help
                                           </a>

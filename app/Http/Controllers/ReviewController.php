@@ -16,9 +16,8 @@ class ReviewController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth')->except('show');
-        $this->middleware('verified')->except('show');
-        $this->middleware('doctor')->only('drindex');
+        $this->middleware('auth')->except('show', 'drindex');
+        $this->middleware('verified')->except('show', 'drindex');
         // $this->middleware('admin')->only('index');
     }
     
@@ -32,11 +31,11 @@ class ReviewController extends Controller
         $user = auth()->user();
         $reviews = $user->reviews()
                  // = Review::with(['doctor','doctor.specialty'])->where('user_id', $user->id)
-                 ->orderBy('day', 'desc')
+                 ->latest()
                  ->paginate(25)
                  ;
 
-        return view('reviews.index', compact('reviews'));
+        return view('reviews.index', compact('reviews', 'user'));
     }
     
     /**
@@ -46,12 +45,11 @@ class ReviewController extends Controller
      */
     public function drindex(Doctor $doctor)
     {
-        $dr = $doctor ?: Doctor::find(auth()->id());
-        $reviews = $dr->reviews()
+        $reviews = $doctor->reviews()
                  ->latest()
                  ->paginate(25)
                  ;
-        return view('reviews.index', compact('reviews'));
+        return view('doctors.models.reviews', compact('doctor', 'reviews'));
     }
 
     /**
