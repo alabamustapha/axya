@@ -68,7 +68,9 @@ p{
 .text-alert{
     color: #C72121;
 }
-
+.text-review{
+    color: #F37113;
+}
 .bg-theme-blue{
     background-color: #209fd9 !important;
     color: #fff;

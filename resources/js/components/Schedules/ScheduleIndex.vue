@@ -1,6 +1,6 @@
 <template>
-  <div class="col schedule-table table-responsive">
-    <table cellspacing="0" cellpadding="0" class="w-100">
+  <div class="table-responsive">
+    <table cellspacing="0" cellpadding="0">
       <tbody>
         <tr>
           <td>

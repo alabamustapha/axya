@@ -112760,85 +112760,76 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "col schedule-table table-responsive" }, [
-    _c(
-      "table",
-      { staticClass: "w-100", attrs: { cellspacing: "0", cellpadding: "0" } },
-      [
-        _c("tbody", [
-          _c("tr", [
-            _c("td", [
-              _c("div", { staticClass: "px-3" }, [
-                _c("h5", { staticClass: "font-weight-bold text-uppercase" }, [
-                  _vm._v("Schedules")
-                ]),
-                _vm._v(" "),
-                _vm.isDoctorOwner
-                  ? _c(
-                      "ul",
-                      {
-                        staticClass:
-                          "list-unstyled ml-3 text-muted font-weight-bold"
-                      },
-                      [_vm._m(0), _vm._v(" "), _vm._m(1)]
-                    )
-                  : _vm._e()
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("tr", [
-            _c("td", [
-              _vm.isAvailable || _vm.isDoctorOwner
-                ? _c("div", { staticClass: "px-3 schedule-table__font-size" }, [
-                    _c("div", [
-                      _c(
-                        "table",
-                        {
-                          attrs: {
-                            cols: "3",
-                            cellspacing: "0",
-                            cellpadding: "0"
-                          }
-                        },
-                        [
-                          _c(
-                            "tbody",
-                            _vm._l(_vm.days, function(day, index) {
-                              return _c(
-                                "div",
-                                {
-                                  key: index,
-                                  class:
-                                    index % 2 == 0 ? "bg-light" : "bg-white"
-                                },
-                                [
-                                  _c("schedule-base", {
-                                    attrs: {
-                                      "day-id": index + 1,
-                                      "day-name": day,
-                                      doctor: _vm.doctor,
-                                      "is-doctor-owner": _vm.isDoctorOwner
-                                    }
-                                  })
-                                ],
-                                1
-                              )
-                            }),
-                            0
-                          )
-                        ]
-                      )
-                    ])
-                  ])
-                : _c("div", { staticClass: "px-3 schedule-table__font-size" }, [
-                    _vm._m(2)
-                  ])
+  return _c("div", { staticClass: "table-responsive" }, [
+    _c("table", { attrs: { cellspacing: "0", cellpadding: "0" } }, [
+      _c("tbody", [
+        _c("tr", [
+          _c("td", [
+            _c("div", { staticClass: "px-3" }, [
+              _c("h5", { staticClass: "font-weight-bold text-uppercase" }, [
+                _vm._v("Schedules")
+              ]),
+              _vm._v(" "),
+              _vm.isDoctorOwner
+                ? _c(
+                    "ul",
+                    {
+                      staticClass:
+                        "list-unstyled ml-3 text-muted font-weight-bold"
+                    },
+                    [_vm._m(0), _vm._v(" "), _vm._m(1)]
+                  )
+                : _vm._e()
             ])
           ])
+        ]),
+        _vm._v(" "),
+        _c("tr", [
+          _c("td", [
+            _vm.isAvailable || _vm.isDoctorOwner
+              ? _c("div", { staticClass: "px-3 schedule-table__font-size" }, [
+                  _c("div", [
+                    _c(
+                      "table",
+                      {
+                        attrs: { cols: "3", cellspacing: "0", cellpadding: "0" }
+                      },
+                      [
+                        _c(
+                          "tbody",
+                          _vm._l(_vm.days, function(day, index) {
+                            return _c(
+                              "div",
+                              {
+                                key: index,
+                                class: index % 2 == 0 ? "bg-light" : "bg-white"
+                              },
+                              [
+                                _c("schedule-base", {
+                                  attrs: {
+                                    "day-id": index + 1,
+                                    "day-name": day,
+                                    doctor: _vm.doctor,
+                                    "is-doctor-owner": _vm.isDoctorOwner
+                                  }
+                                })
+                              ],
+                              1
+                            )
+                          }),
+                          0
+                        )
+                      ]
+                    )
+                  ])
+                ])
+              : _c("div", { staticClass: "px-3 schedule-table__font-size" }, [
+                  _vm._m(2)
+                ])
+          ])
         ])
-      ]
-    )
+      ])
+    ])
   ])
 }
 var staticRenderFns = [
