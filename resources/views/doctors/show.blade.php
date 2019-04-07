@@ -9,7 +9,7 @@
 
 @section('content')
 
-  <div class="row my-0">                                        
+  <div class="row my-0">
     <div class="col-md-5 bg-light">
       <div class="p-img text-center">          
         <img src="{{ $doctor->avatar }}" alt="{{ $doctor->name }} avatar" class="rounded" height="250">
@@ -71,12 +71,10 @@
                       <i class="fa fa-calendar-alt" style="font-size: 12px;"></i> Availability
                   </button>
 
-                  <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown">                  
-                    {{-- <div class="col p-0"> --}}
+                  <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown">
 
                       @include('doctors.partials._availability')
 
-                    {{-- </div> --}}
                   </div>
               </li>
 
@@ -130,7 +128,7 @@
             @auth
               @if((Auth::id() === $doctor->id) && !Auth::user()->isAuthenticatedDoctor())
                 <div class="p-2 mb-2 border-bottom bg-light text-sm" title="To edit dchedules login as a doctor.">
-                  <a href="{{ route('doctor.login') }}" class="btn btn-sm btn-primary"><i class="fa fa-sign-in-alt"></i> &nbsp; Login as Doctor</a> to edit
+                  <a href="{{ route('doctor.login') }}" class="btn btn-sm btn-primary"><i class="fa fa-sign-in-alt"></i> Login as Doctor</a> to edit
                 </div>
               @endif
             @endauth
@@ -161,15 +159,18 @@
 
                 <li class="nav-item">
                   
-                  {{-- $doctor->availability_status --}}
-                  @if ($doctor->is_active)
-                      <span class="bg-success doc-avail-indicator" title="Available"></span>
-                  @else
-                      <span class="bg-danger doc-avail-indicator" title="Unavailable"></span>
-                  @endif
+                  <small class="py-1 px-2 my-3 rounded-pill bg-light d-inline-block text-sm text-muted border " title="{{ $doctor->is_active ? 'Available' :'Unavailable' }} for appointments">
+                    {{ $doctor->is_active ? 'Available' :'Unavailable' }} &nbsp;
+
+                    @if ($doctor->is_active)
+                        <span class="bg-success doc-avail-indicator"></span>
+                    @else
+                        <span class="bg-danger doc-avail-indicator"></span>
+                    @endif
+                  </small>
                 </li>
                 <li class="nav-item">
-                  <p class="speciality font-weight-normal text-theme-blue">{{ $doctor->degree }} - {{ $doctor->specialty->name }}</p>
+                  <p class="speciality font-weight-normal text-theme-blue">{{ $doctor->degree }}</p>
                 </li>
                 <li class="nav-item">
                   <p class="office  font-weight-normal">{{ $doctor->work_address }}</p>
@@ -211,7 +212,7 @@
           <ul class="nav flex-column">
       
             <li class="nav-item">
-              <p class="phone  font-weight-normal">phone: {{ $doctor->phone }}</p>
+              <p class="phone  font-weight-normal">Phone: {{ $doctor->phone }}</p>
             </li>
             @can('delete', $doctor)
             <li class="nav-item">
@@ -237,38 +238,13 @@
               <a href="{ route('reviews.index', $doctor) }}" class="text-theme-blue">View more</a>
             </div>
 
-            <div class="review-content my-2">
-              <div class="media">
-                <img src="../images/a4.jpg" alt="image" height="50" class="rounded-circle">
-
-                <div class="media-body pl-2">
-                  <div class="review-head d-flex justify-content-between align-items-center">
-                    <p class="lead name m-0">Ofelia Arghezi</p>
-                    <span class="text-review review-star">
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                    </span>
-                  </div>
-
-                  <span class="review-time small">23 Nov 2018</span>
-
-                  <span class="review-message">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veniam, voluptatibus iusto. Dolorum voluptatem tenetur minima doloremque deserunt
-                  </span>
-                </div>
-              </div>
-            </div>
-
             {{-- @include('doctors.partials._review-section')  --}}
             <div class="review-content my-2" id="reviews">
               @forelse ($reviews as $review)
                 <div class="media">
                   <img src="{{ $review->user->avatar }}" alt="{{ $review->user->name }} avatar" height="50" class="rounded-circle">
 
-                  <div class="media-body pl-2">
+                  <div class="media-body pl-2 border-bottom pb-3 mb-3">
                     <div class="review-head d-flex justify-content-between align-items-center">
                       <p class="lead name m-0">
                         {{ $review->user->name }}
@@ -290,7 +266,8 @@
                       </span>
                     </div>
 
-                    <span class="review-time small">{{$review->created_at->format('D m Y')}}</span>
+                    <span class="review-time small">{{$review->created_at}}</span>
+                    <br>
 
                     <span class="review-message">
                       {{ $review->comment }}

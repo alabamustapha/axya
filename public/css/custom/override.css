@@ -91,7 +91,7 @@ i.fas {
   border: 2px solid #b8b9ba;
 }
 
-.doc-avail-indicator {
+.doc-avail-indicator--relative {
   position: relative;
   left:-20px;
   top:16px;

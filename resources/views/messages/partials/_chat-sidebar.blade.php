@@ -22,14 +22,15 @@
                   @forelse ($activeAppointments->load('user') as $ac_appointment)
                     <!-- If Auth User is appointment creator, display doctor's name -->
                     @if ($ac_appointment->creator)
-                      <a href="{{ route('messages.index', [ 'user' => Auth::user(), 'appointment' => $ac_appointment]) }}" class="msg-contact-list-item" title="{{ $ac_appointment->description_preview }}">
+                      <a href="{{ route('messages.index', [ 'user' => Auth::user(), 'appointment' => $ac_appointment]) }}" class="msg-contact-list-item">
                         <div class="media align-items-center">
                           <img src="{{ $ac_appointment->doctor->avatar }}" height="45" class="mr-3 rounded-circle avatar" alt="Doctor image">
-                          <div class="media-body">
+                          <div class="media-body" title="{{ $ac_appointment->description_preview }}">
                                
                             <span class="text-darker d-inline-block text-truncate name"> 
                               @if ($ac_appointment->doctor->isOnline())
-                                <span class="online-status online"></span>
+                                {{-- <span class="online-status online"></span> --}}
+                                <img src="/images/online-flash.gif" alt="online" class="img-circle" width="10" title="Online">
                               @else
                                 <span class="online-status offline"></span>
                               @endif
@@ -51,14 +52,15 @@
                       </a>
                     @else
                       <!-- If Auth User is appointment doctor, display patient's name -->
-                      <a href="{{ route('dr_messages', [ 'doctor' => Auth::user()->doctor, 'appointment' => $ac_appointment]) }}" class="msg-contact-list-item" title="{{ $ac_appointment->description_preview }}">
+                      <a href="{{ route('dr_messages', [ 'doctor' => Auth::user()->doctor, 'appointment' => $ac_appointment]) }}" class="msg-contact-list-item">
                         <div class="media align-items-center">
                           <img src="{{ $ac_appointment->user->avatar }}" height="45" class="mr-3 rounded-circle avatar" alt="Doctor image">
-                          <div class="media-body">
+                          <div class="media-body" title="{{ $ac_appointment->description_preview }}">
                              
                             <span class="text-darker d-inline-block text-truncate name"> 
                               @if ($ac_appointment->user->isOnline())
-                                <span class="online-status online"></span>
+                                {{-- <span class="online-status online"></span> --}}
+                                <img src="/images/online-flash.gif" alt="online" class="img-circle" width="10" title="Online">
                               @else
                                 <span class="online-status offline"></span>
                               @endif
@@ -91,10 +93,10 @@
                     @forelse ($inactiveAppointments as $in_appointment)
                       <!-- If Auth User is appointment creator, display doctor's name -->
                       @if ($in_appointment->creator)
-                        <a href="{{ route('messages.index', [ 'user' => Auth::user(), 'appointment' => $in_appointment]) }}" class="msg-contact-list-item" title="{{ $in_appointment->description_preview }}">
+                        <a href="{{ route('messages.index', [ 'user' => Auth::user(), 'appointment' => $in_appointment]) }}" class="msg-contact-list-item">
                           <div class="media align-items-center">
                               <img src="{{ $in_appointment->doctor->avatar }}" height="45" class="mr-3 rounded-circle avatar" alt="Doctor image">
-                              <div class="media-body">
+                              <div class="media-body" title="{{ $in_appointment->description_preview }}">
                                    
                                 <span class="text-darker d-inline-block text-truncate name"> 
                                   <span class="online-status online"></span>
@@ -115,10 +117,10 @@
                        </a>
                       @else
                         <!-- If Auth User is appointment doctor, display patient's name -->
-                        <a href="{{ route('dr_messages', [ 'doctor' => Auth::user()->doctor, 'appointment' => $in_appointment]) }}" class="msg-contact-list-item" title="{{ $in_appointment->description_preview }}">
+                        <a href="{{ route('dr_messages', [ 'doctor' => Auth::user()->doctor, 'appointment' => $in_appointment]) }}" class="msg-contact-list-item">
                           <div class="media align-items-center">
                               <img src="{{ $in_appointment->user->avatar }}" height="45" class="mr-3 rounded-circle avatar" alt="Doctor image">
-                              <div class="media-body">
+                              <div class="media-body" title="{{ $in_appointment->description_preview }}">
                                    
                                 <span class="text-darker d-inline-block text-truncate name"> 
                                   <span class="online-status online"></span>

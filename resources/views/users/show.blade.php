@@ -1,6 +1,7 @@
 @extends('layouts.master')
 
 @section('title', $user->name .' Profile')
+@section('page-title', 'User\'s Profile')
 
 @section('content')
 
@@ -120,8 +121,6 @@
                               
                               @if ($user->isAccountOwner())
                                 <div class="form-category">
-                                    <h4 class="form-category-title">Log in</h4>
-
                                     <div class="form-group row">
                                         <label for="email" class="col-sm-3 col-form-label text-right">Your Email</label>
                                         <div class="col-sm-9">
