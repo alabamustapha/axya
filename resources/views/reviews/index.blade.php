@@ -43,13 +43,13 @@
                                   <p class="lead name m-0">
                                     {{ $review->user->name }}
 
-                                    @auth
+                                    {{-- @auth
                                       @if(Auth::id() == $review->user_id)
                                         <button class="btn btn-link btn-sm" title="Update this review">
                                           <i class="fa fa-cog"></i>
                                         </button>
                                       @endif
-                                    @endauth
+                                    @endauth --}}
                                   </p>
                                   <span class="text-review review-star">
 

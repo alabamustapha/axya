@@ -222,7 +222,7 @@ class DoctorController extends Controller
         $specialties = Specialty::all();
         $reviews     = Review::where('doctor_id', $doctor->id)
                              ->latest()
-                             ->take(2)
+                             ->take(3)
                              ->get()
                              ;
 
