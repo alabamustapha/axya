@@ -111739,6 +111739,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -112161,7 +112162,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "py-2 border-bottom" }, [
+  return _c("div", { staticClass: "py-0 border-bottom" }, [
     _c("tr", {}, [
       _c("td", [
         _vm.isDoctorOwner
@@ -112802,6 +112803,7 @@ var render = function() {
                               "div",
                               {
                                 key: index,
+                                staticClass: "p-1",
                                 class: index % 2 == 0 ? "bg-light" : "bg-white"
                               },
                               [

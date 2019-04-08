@@ -1,5 +1,5 @@
 <template>
-  <div class="py-2 border-bottom">
+  <div class="py-0 border-bottom">
     <tr class="">
       
       <td>
