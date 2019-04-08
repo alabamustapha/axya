@@ -57,9 +57,10 @@
                           <tr>
                             <td>
                               <!-- Start Time -->
-                              <div>
+                              <div class="schedule-input--edit">
                                 <span placeholder="Time">
-                                  <label>
+                                  <!--
+                                    <label>
                                     <input type="time"
                                       :id="'start_at_' + index" class="day-time-field"
                                       v-model="schedule.start_at"
@@ -68,8 +69,18 @@
                                       <!-- type="text" 
                                       @keyup="regCleanUp('start_at_' + index)"
                                       aria-autocomplete="list" aria-expanded="false" 
-                                      autocomplete="off" autocorrect="off" minlength="8" maxlength="8" placeholder="08:00:00" -->
-                                  </label>
+                                      autocomplete="off" autocorrect="off" minlength="8" maxlength="8" placeholder="08:00:00" - ->
+
+                                    </label>
+                                  -->
+                                    <VueCtkDateTimePicker 
+                                      v-model="schedule.start_at"
+                                      format="HH:mm:ss"
+                                      formatted="hh:mm a"
+                                      :only-time="true"
+                                      :label="'Start'"
+                                      :disabled-hours="['','']"
+                                    ></VueCtkDateTimePicker>
                                 </span>
                               </div>
                             </td>
@@ -78,19 +89,29 @@
                             </td>
                             <td>
                               <!-- End Time -->
-                              <div>
+                              <div class="schedule-input--edit">
                                 <span placeholder="Time">
-                                  <label>
-                                    <input type="time" 
-                                      :id="'end_at_' + index" class="day-time-field" 
+                                  <!--
+                                    <label>
+                                      <input type="time" 
+                                        :id="'end_at_' + index" class="day-time-field" 
+                                        v-model="schedule.end_at"
+                                        required 
+                                      >
+                                        <!-- type="text" 
+                                        @keyup="regCleanUp('end_at_' + index)"
+                                        aria-autocomplete="list" aria-expanded="false" 
+                                        autocomplete="off" autocorrect="off" minlength="8" maxlength="8" placeholder="23:59:59" - ->
+                                    </label>
+                                  -->
+                                    <VueCtkDateTimePicker 
                                       v-model="schedule.end_at"
-                                      required 
-                                    >
-                                      <!-- type="text" 
-                                      @keyup="regCleanUp('end_at_' + index)"
-                                      aria-autocomplete="list" aria-expanded="false" 
-                                      autocomplete="off" autocorrect="off" minlength="8" maxlength="8" placeholder="23:59:59" -->
-                                  </label>
+                                      format="HH:mm:ss"
+                                      formatted="hh:mm a"
+                                      :only-time="true"
+                                      :label="'End'"
+                                      :disabled-hours="['','']"
+                                    ></VueCtkDateTimePicker>
                                 </span>
                               </div>
                             </td>
@@ -139,7 +160,7 @@
                   <div class="mr-2">
                     <button v-if="editing" @click="cancelEditSchedules" title="Cancel edit">
                       <i class="fa fa-times text-danger"></i>
-                      <span>Cancel Editing</span>
+                      <span>Cancel</span>
                     </button>
                   </div>
                 </td>
@@ -180,7 +201,7 @@
                             <!-- Start Time -->
                             <div class="mb-1">
                               <input 
-                                class="day-time-field bg-white border-0 text-center"
+                                class="day-time-field bg-white border-0 text-center schedule-input"
                                 v-model="schedule.start" type="text" 
                                 disabled
                               >
@@ -193,7 +214,7 @@
                             <!-- End Time -->
                             <div class="mb-1">
                               <input 
-                                class="day-time-field bg-white border-0 text-center"
+                                class="day-time-field bg-white border-0 text-center schedule-input"
                                 v-model="schedule.end" type="text" 
                                 disabled
                               >
@@ -229,6 +250,11 @@
 </template>
 
 <script>
+  import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
+  import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
+
+  Vue.component('VueCtkDateTimePicker', VueCtkDateTimePicker);
+
   export default {
     props: ['doctor', 'isDoctorOwner', 'dayId', 'dayName'],
     
