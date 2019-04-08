@@ -56,11 +56,24 @@
       @unless (Request::is('*/messages') || Request::is('*/messages/*'))
         @include('layouts.partials.footer')
       @endunless
-                
+      
+      <!-- Trigger login modals from any page -->          
       @guest
           @include('auth.partials.registration-login-modal')
+      @else
+        @if (Auth::user()->is_doctor && ! Auth::user()->isAuthenticatedDoctor())
+
+          @include('auth.partials.doctor-login-modal')
+
+        @endif
+        @if (Auth::user()->isStaff() && ! Auth::user()->isAuthenticatedStaff())
+
+          @include('auth.partials.admin-login-modal')
+
+        @endif
       @endguest
       
+      <!-- Trigger subscription form modals from any page --> 
       @auth
         @if (Auth::user()->is_doctor)
           <!-- Appointment Subscription Form-->

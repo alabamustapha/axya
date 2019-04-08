@@ -55,7 +55,7 @@
           <div class="table-responsive">
               <table class="table border">
                   <tr>
-                      <td colspan="2"><kbd class="bg-info"><a href="{{route('transactions.show', $transaction)}}" class="card-link"><i class="fa fa-eye"></i> View Transaction</a></kbd></td>
+                      <td colspan="2"><kbd class="bg-info"><a href="{{$transaction->link}}" class="card-link"><i class="fa fa-eye"></i> View Transaction</a></kbd></td>
                       <td></td>
                       <td colspan="2"><kbd><i class="fa fa-clock"></i> Created: {{$transaction->created_at}}</kbd></td>
                   </tr>

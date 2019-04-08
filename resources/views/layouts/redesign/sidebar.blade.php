@@ -84,7 +84,10 @@
                 <span class="navlink-active">Create Admin Password</span>
               </a>
             @else
-              <a href="{{route('admin.login')}}" class="nav-link">
+              <a href="{{route('admin.login')}}" 
+                class="nav-link"
+                data-toggle="modal" data-target="#admin-sign-in-modal"
+                >
                 <span class="icon fa fa-sign-in-alt"></span>
                 <span class="navlink-active">Admin Sign In</span>
               </a>
@@ -253,7 +256,10 @@
                 <span class="navlink-active">Add Doctor's Password</span>
               </a>
             @else
-              <a href="{{route('doctor.login')}}" class="nav-link">
+              <a href="{{route('doctor.login')}}" 
+                class="nav-link"
+                data-toggle="modal" data-target="#doctor-sign-in-modal"
+                >
                 <span class="icon fa fa-sign-in-alt"></span>
                 <span class="navlink-active">Doctor Sign In</span>
               </a>
