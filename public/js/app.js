@@ -31170,7 +31170,7 @@ Vue.component('schedule', __webpack_require__(229));
 Vue.component('pagination', __webpack_require__(231));
 Vue.component('loading-spinner', __webpack_require__(232));
 
-Vue.component('vue-ctk-date-time-picker', __WEBPACK_IMPORTED_MODULE_6_vue_ctk_date_time_picker___default.a);
+// Vue.component('vue-ctk-date-time-picker', VueCtkDateTimePicker);
 
 var app = new Vue({
     el: '#app',
@@ -111739,6 +111739,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -111810,6 +111811,10 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_ctk_date_time_picker__ = __webpack_require__(175);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_ctk_date_time_picker___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue_ctk_date_time_picker__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_ctk_date_time_picker_dist_vue_ctk_date_time_picker_css__ = __webpack_require__(176);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_ctk_date_time_picker_dist_vue_ctk_date_time_picker_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_ctk_date_time_picker_dist_vue_ctk_date_time_picker_css__);
 //
 //
 //
@@ -112040,6 +112045,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+Vue.component('VueCtkDateTimePicker', __WEBPACK_IMPORTED_MODULE_0_vue_ctk_date_time_picker___default.a);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['doctor', 'isDoctorOwner', 'dayId', 'dayName'],
@@ -112161,7 +112192,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "py-2 border-bottom" }, [
+  return _c("div", { staticClass: "py-0 border-bottom" }, [
     _c("tr", {}, [
       _c("td", [
         _vm.isDoctorOwner
@@ -112299,108 +112330,89 @@ var render = function() {
                                     _c("tbody", [
                                       _c("tr", [
                                         _c("td", [
-                                          _c("div", [
-                                            _c(
-                                              "span",
-                                              {
-                                                attrs: { placeholder: "Time" }
-                                              },
-                                              [
-                                                _c("label", [
-                                                  _c("input", {
-                                                    directives: [
-                                                      {
-                                                        name: "model",
-                                                        rawName: "v-model",
-                                                        value:
-                                                          schedule.start_at,
-                                                        expression:
-                                                          "schedule.start_at"
-                                                      }
-                                                    ],
-                                                    staticClass:
-                                                      "day-time-field",
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass:
+                                                "schedule-input--edit"
+                                            },
+                                            [
+                                              _c(
+                                                "span",
+                                                {
+                                                  attrs: { placeholder: "Time" }
+                                                },
+                                                [
+                                                  _c("VueCtkDateTimePicker", {
                                                     attrs: {
-                                                      type: "time",
-                                                      id: "start_at_" + index,
-                                                      required: ""
+                                                      format: "HH:mm:ss",
+                                                      formatted: "hh:mm a",
+                                                      "only-time": true,
+                                                      label: "Start",
+                                                      "disabled-hours": ["", ""]
                                                     },
-                                                    domProps: {
-                                                      value: schedule.start_at
-                                                    },
-                                                    on: {
-                                                      input: function($event) {
-                                                        if (
-                                                          $event.target
-                                                            .composing
-                                                        ) {
-                                                          return
-                                                        }
+                                                    model: {
+                                                      value: schedule.start_at,
+                                                      callback: function($$v) {
                                                         _vm.$set(
                                                           schedule,
                                                           "start_at",
-                                                          $event.target.value
+                                                          $$v
                                                         )
-                                                      }
+                                                      },
+                                                      expression:
+                                                        "schedule.start_at"
                                                     }
                                                   })
-                                                ])
-                                              ]
-                                            )
-                                          ])
+                                                ],
+                                                1
+                                              )
+                                            ]
+                                          )
                                         ]),
                                         _vm._v(" "),
                                         _vm._m(0, true),
                                         _vm._v(" "),
                                         _c("td", [
-                                          _c("div", [
-                                            _c(
-                                              "span",
-                                              {
-                                                attrs: { placeholder: "Time" }
-                                              },
-                                              [
-                                                _c("label", [
-                                                  _c("input", {
-                                                    directives: [
-                                                      {
-                                                        name: "model",
-                                                        rawName: "v-model",
-                                                        value: schedule.end_at,
-                                                        expression:
-                                                          "schedule.end_at"
-                                                      }
-                                                    ],
-                                                    staticClass:
-                                                      "day-time-field",
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass:
+                                                "schedule-input--edit"
+                                            },
+                                            [
+                                              _c(
+                                                "span",
+                                                {
+                                                  attrs: { placeholder: "Time" }
+                                                },
+                                                [
+                                                  _c("VueCtkDateTimePicker", {
                                                     attrs: {
-                                                      type: "time",
-                                                      id: "end_at_" + index,
-                                                      required: ""
+                                                      format: "HH:mm:ss",
+                                                      formatted: "hh:mm a",
+                                                      "only-time": true,
+                                                      label: "End",
+                                                      "disabled-hours": ["", ""]
                                                     },
-                                                    domProps: {
-                                                      value: schedule.end_at
-                                                    },
-                                                    on: {
-                                                      input: function($event) {
-                                                        if (
-                                                          $event.target
-                                                            .composing
-                                                        ) {
-                                                          return
-                                                        }
+                                                    model: {
+                                                      value: schedule.end_at,
+                                                      callback: function($$v) {
                                                         _vm.$set(
                                                           schedule,
                                                           "end_at",
-                                                          $event.target.value
+                                                          $$v
                                                         )
-                                                      }
+                                                      },
+                                                      expression:
+                                                        "schedule.end_at"
                                                     }
                                                   })
-                                                ])
-                                              ]
-                                            )
-                                          ])
+                                                ],
+                                                1
+                                              )
+                                            ]
+                                          )
                                         ])
                                       ])
                                     ])
@@ -112502,7 +112514,7 @@ var render = function() {
                                     staticClass: "fa fa-times text-danger"
                                   }),
                                   _vm._v(" "),
-                                  _c("span", [_vm._v("Cancel Editing")])
+                                  _c("span", [_vm._v("Cancel")])
                                 ]
                               )
                             : _vm._e()
@@ -112602,7 +112614,7 @@ var render = function() {
                                                   }
                                                 ],
                                                 staticClass:
-                                                  "day-time-field bg-white border-0 text-center",
+                                                  "day-time-field bg-white border-0 text-center schedule-input",
                                                 attrs: {
                                                   type: "text",
                                                   disabled: ""
@@ -112642,7 +112654,7 @@ var render = function() {
                                                   }
                                                 ],
                                                 staticClass:
-                                                  "day-time-field bg-white border-0 text-center",
+                                                  "day-time-field bg-white border-0 text-center schedule-input",
                                                 attrs: {
                                                   type: "text",
                                                   disabled: ""
@@ -112802,6 +112814,7 @@ var render = function() {
                               "div",
                               {
                                 key: index,
+                                staticClass: "p-1",
                                 class: index % 2 == 0 ? "bg-light" : "bg-white"
                               },
                               [

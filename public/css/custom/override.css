@@ -108,3 +108,15 @@ i.fas {
     margin: 0;
     background-image: url();/*url(../images/header-image.jpg);*/
 }
+
+.schedule-input,
+.schedule-input--edit {
+  display: inline-block;
+}
+.schedule-input {
+  width: 100px;
+}
+
+.schedule-input--edit {
+  width: 120px;
+}

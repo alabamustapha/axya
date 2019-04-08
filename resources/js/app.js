@@ -102,7 +102,7 @@ Vue.component('schedule',         require('./components/Schedules/OldAttempt/Sch
 Vue.component('pagination',       require('laravel-vue-pagination'));
 Vue.component('loading-spinner',  require('./components/Utilities/LoadingSpinner.vue'));
 
-Vue.component('vue-ctk-date-time-picker', VueCtkDateTimePicker);
+// Vue.component('vue-ctk-date-time-picker', VueCtkDateTimePicker);
 
 const app = new Vue({
     el: '#app',

@@ -24,7 +24,8 @@
                     <div 
                         v-for="(day, index) in days" 
                         :key="index" 
-                        :class="(index % 2) == 0 ? 'bg-light':'bg-white'">
+                        :class="(index % 2) == 0 ? 'bg-light':'bg-white'"
+                        class="p-1">
 
                         <schedule-base 
                           :day-id="index + 1" 
