@@ -3,14 +3,15 @@
 use Faker\Generator as Faker;
 
 $factory->define(App\Appointment::class, function (Faker $faker) {
-    $id          = App\User::all()->random()->id;
-    $slug        = App\User::find($id)->slug;
+    $user        = App\User::all()->random();
+    $doctor      = App\Doctor::where('available', '1')->get()->random();
+    $slug        = $user->slug .'--'. $doctor->slug;
 
     return [
       'status'    => $faker->numberBetween(0,5),
-      'user_id'   => $id,
+      'user_id'   => $user->id,
       'slug'      => $slug,
-      'doctor_id' => App\Doctor::all()->random()->id,
+      'doctor_id' => $doctor->id,
 
       'day'       => $faker->dateTimeBetween('-50 day', '-1day'),
       'from'      => date('Y-m-d') .' '. $faker->time('H:i', '7:00'), // 'H:i:s'
