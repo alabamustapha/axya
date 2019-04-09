@@ -33,6 +33,15 @@
     </span>
     <span>Transactions</span>
   </a>
-
-  {{-- <a class="list-group-item list-group-item-action"></a> --}}
+{{-- 
+  <form action="{{ route('manual.populate') }}" method="post">
+    @csrf
+    <button class="list-group-item list-group-item-action tf-flex nav-link bg-warning" title="Autopopulate contents">
+      <span class="icon">
+        <i class="fa fa-bug"></i>
+      </span>
+      <span>Auto Populate CTRL</span>
+    </button>
+  </form>
+--}}
 </div>

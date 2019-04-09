@@ -25,6 +25,8 @@ Auth::routes(['verify' => true]);
 
 // ---- ADMIN RELATED ---------------->
 Route::prefix('admin')->group(function(){
+  // Route::post('/manualPopulate',  'AutoPopulateController@manualPopulate')->name('manual.populate');
+
   Route::get('login',     'AdminAuthController@adminLoginForm')->name('admin.login');
   Route::post('login',    'AdminAuthController@adminLogin')->name('admin.login');
   Route::patch('logout',  'AdminAuthController@adminLogout')->name('admin.logout');
