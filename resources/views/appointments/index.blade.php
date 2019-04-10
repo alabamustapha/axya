@@ -86,23 +86,44 @@
                                 <table class="table table-borderless">
                                     <thead >
                                         <tr>
-                                            <th scope="col">Fee <small class="text-sm">({{ setting('base_currency') }})</small></th>
+                                            <th scope="col">Info</th>
+                                            <th scope="col">Chat</th>
+                                            <th scope="col">Amount</th>
                                             <th scope="col">
                                                 @if(\Route::input('doctor.slug'))
                                                     Patient
                                                 @else
                                                     Doctor
                                                 @endif
+                                                {{-- Patient/Doctor --}}
                                             </th>
                                             <th scope="col">Date</th>
-                                            <th scope="col">Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
 
                                         @forelse($appointments as $appointment)
-                                            <tr>                                                
-                                                <td>{{ $appointment->fee }}</td>
+                                            <tr>
+                                                <td>
+                                                    <a href="{{ route('appointments.show', $appointment) }}" class="text-primary"> 
+                                                        {{-- $appointment->fee --}}
+                                                        <i class="fa fa-link btn btn-sm"></i>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    @if ($appointment->isPendingChatTime())
+                                                    {{-- @if ($appointment->activateMessaging()) --}}
+                                                    {{-- @if ($appointment->chatable) --}}
+                                                        <a href="{{ ($appointment->user_id == Auth::id()) 
+                                                            ? route('messages.index', [$appointment->user, $appointment->slug]) 
+                                                            : route('dr_messages', [$appointment->doctor, $appointment->slug]) }}" 
+                                                            class="text-primary"> 
+                                                            {{-- $appointment->fee --}}
+                                                            <i class="fa fa-comments btn btn-sm"></i>
+                                                        </a>
+                                                    @endif
+                                                </td>
+                                                <td><small class="text-sm">({{ setting('base_currency') }})</small>{{ $appointment->fee }}</td>
                                                 <td>
                                                     @if($appointment->creator)
                                                         <a href="{{route('doctors.show', $appointment->doctor)}}" style="color:inherit;">{{$appointment->doctor->name}}</a>
@@ -111,24 +132,16 @@
                                                     @endif
                                                 </td>
                                                 <td title="{{ $appointment->schedule }}: {{ $appointment->description_preview }}">
-                                                    @if ($appointment->activateMessaging())
-                                                        @if ($appointment->user_id == Auth::id())
-                                                            <a href="{{ route('messages.index', [$appointment->user, $appointment->slug]) }}" class="text-primary"> 
-                                                                {{ $appointment->day_text }}
-                                                            </a>
-                                                        @else
-                                                            <a href="{{ route('dr_messages', [$appointment->doctor, $appointment->slug]) }}" class="text-primary"> 
-                                                                {{ $appointment->day_text }}
-                                                            </a>
-                                                        @endif
-                                                    @else
-                                                        <a href="{{ route('appointments.show', $appointment) }}" class="text-primary"> 
-                                                            {{ $appointment->day_text }}
-                                                        </a>
-                                                    @endif
+                                                    <small class="text-sm">
+                                                        <i class="fa fa-clock"></i>{{ $appointment->day_text }}
+                                                    </small>
                                                 </td>
-                                                <td>
-                                                    {{ $appointment->statusTextOutput() }}
+                                            </tr>
+                                            <tr>
+                                                <td colspan="5" class="text-center" title="Status">
+                                                    <div class="shadow shadow-sm">
+                                                        <small class="text-sm">{{ $appointment->statusTextOutput() }}</small>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         @empty
@@ -252,7 +265,8 @@
                                                 </td>
                                                 <td title="{{ $upcoming_appointment->schedule }}: {{ $upcoming_appointment->description_preview }}">
                                                     
-                                                    @if ($upcoming_appointment->activateMessaging())
+                                                    @if ($upcoming_appointment->isPendingChatting())
+                                                    {{-- @if ($upcoming_appointment->activateMessaging()) --}}
                                                         @if ($upcoming_appointment->user_id == Auth::id())
                                                             <a href="{{ route('messages.index', [$upcoming_appointment->user, $upcoming_appointment->slug]) }}" class="text-primary"> 
                                                                 {{ $upcoming_appointment->day_text }}

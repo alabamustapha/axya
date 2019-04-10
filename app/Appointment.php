@@ -290,6 +290,7 @@ class Appointment extends Model
                      ;
     }
 
+
     /*<!---------------- Update Doctor Application Status ---------------->*/
     public static $appointmentStatus = array(
         0 => 'Awaiting doctor\'s confirmation',
@@ -522,12 +523,20 @@ class Appointment extends Model
             {{$appointment->status_text}}
         </span>
       */
-      $str  = '<span class="'. $this->status_text_color .' text-bold">';
+      $str  = '<small class="'. $this->status_text_color .' text-sm">';
       $str .= '<i class="fa fa-info-circle"></i>&nbsp;';
       $str .= $this->status_text;
-      $str .= '</span>';
+      $str .= '</small>';
 
       echo $str;
+    }
+
+    // Awaiting chat time.
+    public function isPendingChatTime()
+    {
+        return (bool) ($this->status == '1' || $this->status == '5') 
+                   && $this->from < Carbon::now()
+                    ;
     }
 
     // Fee paid, awaiting appointment time.

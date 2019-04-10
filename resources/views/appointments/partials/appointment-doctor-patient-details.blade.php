@@ -14,7 +14,7 @@
         <dl>
           <dd>
               <span class="tf-flex">
-                <span>Age:</span> <strong>{{$appointment->user->age()}}</strong>
+                <span>Age:</span> <strong>{{$appointment->user->age}}</strong>
               </span>
               <span class="tf-flex">
                 <span>Gender:</span> <strong>{{$appointment->user->gender}}</strong>
