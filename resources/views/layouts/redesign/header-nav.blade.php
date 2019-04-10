@@ -96,12 +96,18 @@
                                               <i class="fas fa-money-check-alt fa-fw"></i>&nbsp; Payments
                                             </a>
                                           @endif
-                                          <a href="{{ route('reviews.index') }}" class="opt-item teal">
-                                              <i class="fas fa-user-tie fa-fw"></i>&nbsp; Doctor Reviews
+                                          <a href="{{Auth::user()->prescriptions_list}}" class="opt-item">
+                                              <i class="fas fa-prescription fa-fw"></i>&nbsp; Prescriptions
                                           </a>
+                                          
+                                          <a href="{{ route('medications.index', Auth::user()) }}" class="opt-item">
+                                              <i class="fas fa-pills fa-fw"></i>&nbsp; Medications
+                                          </a>
+
                                           <a href="#" class="opt-item teal">
                                               <i class="fas fa-question-circle fa-fw"></i>&nbsp; Help
                                           </a>
+                                          
                                           <a href="{{ route('logout') }}" title="Log out of app"
                                             onclick="event.preventDefault(); 
                                             document.getElementById('logout-form').submit();" 

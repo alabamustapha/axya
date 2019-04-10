@@ -103,7 +103,7 @@
 
       <a href="{{route('doctors.create')}}" class="nav-link">
         <i class="icon fa fa-user-md fa-fw"></i>
-        <span class="navlink-active">Apply As Doctor</span>
+        <span class="navlink-active">Verify As Doctor</span>
       </a>
 
     </li>
@@ -381,32 +381,7 @@
     </li>
 
     <li class="nav-item">
-        
-      <a class="nav-link" href="{{Auth::user()->prescriptions_list}}">
-        <span class="icon">
-          <i class="fa fa-prescription fa-fw"></i>
-        </span>
-        <span class="navlink-active">Prescriptions</span>
-      </a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link" href="{{ route('medications.index', Auth::user()) }}">
-          
-            <span>
-              <span class="icon">
-                <i class="fas fa-pills fa-fw"></i>
-              </span>
-              <span class="navlink-active">Medications</span>
-            </span> 
-            <span class="badge badge-danger float-right">5</span>
-          
-        </a>
-    </li>
-
-
-    <li class="nav-item">
-      <a class="nav-link" data-toggle="collapse" href="#doctorListSubmenu" role="button" aria-expanded="false" aria-controls="doctorListSubmenu">
+      <a class="nav-link" href="{{route('doctors.index')}}">
         <span>
           <span class="icon">
             <svg width="22" height="25" viewBox="0 0 12 15" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -418,23 +393,6 @@
           <span class="navlink-active">Doctors</span>
         </span>
       </a>
-      <ul id="doctorListSubmenu" class=" collapse sub-menu nav flex-sm-column">
-        <li class="nav-item">
-          <a class="nav-link" href="{{ route('user.doctors', Auth::user()) }}">
-              <span class="icon">
-                <i class="fas fa-user-md fa-fw"></i>
-              </span>
-              <span class="navlink-active">My Doctors</span>
-          </a>
-
-          <a class="nav-link" href="{{route('doctors.index')}}">
-              <span class="icon">
-                <i class="fas fa-user-md fa-fw"></i>
-              </span>
-              <span class="navlink-active">Doctors List</span>
-          </a>
-        </li>
-      </ul>
     </li>
 
     <li class="nav-item mb-4">
