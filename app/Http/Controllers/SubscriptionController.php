@@ -161,7 +161,14 @@ class SubscriptionController extends Controller
         // // }
 
         // // // return redirect()->route('doctors.show', $subscription->doctor);
-        // // return redirect()->route('subscriptions.show', $subscription);
+        // // return redirect()->route('subscriptions.show', $subscription); 
+
+        if ($subscription->status == '1') {
+            flash('Subscription transaction was successful.')->success();
+            
+            // return redirect($subscription->link);
+            return redirect(route('subscriptions.index', $subscription->user));
+        }
     }
 
     public function mockedPayment(Subscription $subscription)
@@ -201,10 +208,6 @@ class SubscriptionController extends Controller
             // Notify concerned parties of success.
             $subscription->user->notify(new SubscriptionSuccessfulNotification($subscription->user, $subscription));
             // $admin->notify(new SubscriptionSuccessfulNotification($admin->user, $subscription));
-            
-            flash('Subscription transaction was successful.')->success(); 
-
-            return redirect()->route('subscriptions.show', $subscription);
         }
         else {
             // No need to change status on appointment model, status quo maintained.

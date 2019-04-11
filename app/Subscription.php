@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Subscription extends Model
 {
-    protected $appends = ['status_text','status_indicator','type_text'];
+    protected $appends = ['status_text','status_indicator','type_text','link'];
 
     protected $dates = ['confirmed_at','cancelled_at','start','end' ];
 
@@ -74,5 +74,10 @@ class Subscription extends Model
         }
 
         return $status;
+    }
+
+    public function getLinkAttribute()
+    {
+        return route('subscriptions.show', $this);
     }
 }
