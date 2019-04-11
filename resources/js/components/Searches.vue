@@ -1,222 +1,162 @@
 <template>
-  <div id="search-result" class=" shadow ">
-    <div class="result">
-      <div class="result-header text-center p-3">
-        <span class="h4 result-title  text-darker"></span>
-      </div>
 
-      <div class="result-nav px-3 ">
-        <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
-          <li class="nav-item">
-            <a class="nav-link active" id="doctor-tab" data-toggle="tab" href="#doctor" role="tab" aria-controls="doctor" aria-selected="true">Doctor</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" id="tag-tab" data-toggle="tab" href="#tag" role="tab" aria-controls="tag" aria-selected="false">Keyword/Tag</a>
-          </li>
-        </ul>
-      </div>
+  <div class="modal fade bg-theme-blue" style="color:inherit;" role="dialog" id="sitewideSearchContent" aria-labelledby="sitewideSearchContentLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
 
-      <div class="result-body">
-        <div class="tab-content" id="myTabContent">
+        <button type="button" class="close text-danger" data-dismiss="modal" aria-label="Close" style="padding: 5px 15px 0px;margin:10px auto -25px">
+          <span aria-hidden="true">&times;</span>
+        </button>
 
-          <div class="tab-pane fade show active" id="doctor" role="tabpanel" aria-labelledby="doctor-tab">
+        <br>
+        <div class="modal-body">
 
-            <div v-if="doctors.data != undefined && doctors.data.length">
-              <div class="d-r result-row" v-for="doctor in doctors.data" :key="doctor.id">
-                <div class="img-side">
-                  <a :href="doctor.link" :title="doctor.name +' - '+ doctor.specialty.name" style="color:inherit;">
-                    <img :src="doctor.avatar" class="img-fluid rounded-circle" alt="">
-                  </a>
-                </div>
-                <div class="info-side">
-                  <div class="doc">
-                    <div class="d-block">
-                      <a class="d-inline-block" :href="doctor.link" :title="doctor.name +' - '+ doctor.specialty.name" style="color:inherit;">
-                        <span class="d-block h2" v-text="doctor.name"></span>
-                      </a>
+          <form @submit.prevent="this.$parent.searchForQuery" class="form-inline">
+              <input
+                v-model="this.search"
+                @keyup="this.$parent.searchForQuery"
+                type="search"
+                name="query" id="query"
+                aria-label="Search" 
+                placeholder="search..."
+                class="form-control w-100 input-lg mr-sm-2 m-0 border-0 rounded search-form bg-dark"
+                required>
+          </form>
+            <!--  
+             <button @click="this.$parent.searchForQuery" type="submit" class="search-icon bg-theme-blue">
+                  <i class="fa fa-search "></i>
+              </button>
+            -->
+          <div class="text-center">
+            <h1>
+              <small class="text-sm">Search results for</small> <em class="text-warning">{{this.query}}</em></h1>            
+          </div>
 
-                      <div class="d-inline-block" v-if="$acl.isSuperAdmin()" :title="'Admin '+ doctor.user.name">
-                        <button id="navbarDropdown" class="btn btn-sm dropdown-toggle d-inline" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-cog"></i>
-                        </button>
-                        <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown" style="font-size:12px;">
 
-                            <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to STAFF?');" title="Demote Admin">
-                              <i class="fa fa-user-tie teal"></i>&nbsp; Upgrade to Admin
-                            </button>
+          <div class="result">
 
-                            <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
-                              <i class="fa fa-user-tag indigo"></i>&nbsp; Upgrade to Staff
-                            </button>
+            <div class="result-nav px-3 ">
+              <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link active" id="doctor-tab" data-toggle="tab" href="#doctor" role="tab" aria-controls="doctor" aria-selected="true">Doctor</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" id="tag-tab" data-toggle="tab" href="#tag" role="tab" aria-controls="tag" aria-selected="false">Keyword/Tag</a>
+                </li>
+              </ul>
+            </div>
 
-                            <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
-                              <i class="fa fa-user-slash orange"></i>&nbsp; Demote to Normal User
-                            </button>
+            <div class="result-body">
+              <div class="tab-content" id="myTabContent">
 
-                            <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
-                              <i class="fa fa-ban red"></i>&nbsp; Block/Suspend
-                            </button>
-                        </div>
+                <div class="tab-pane fade show active" id="doctor" role="tabpanel" aria-labelledby="doctor-tab">
+
+                  <div v-if="doctors.data != undefined && doctors.data.length">
+                    <div class="d-r result-row" v-for="doctor in doctors.data" :key="doctor.id">
+                      <div class="img-side">
+                        <a :href="doctor.link" :title="doctor.name +' - '+ doctor.specialty.name" style="color:inherit;">
+                          <img :src="doctor.avatar" class="img-fluid rounded-circle" alt="">
+                        </a>
                       </div>
-                    </div>
-
-                    <span class="d-block occupation text-muted" v-text="doctor.location"></span>
-                    <a :href="doctor.specialty.link" :title="doctor.specialty.name" style="color:inherit;">
-                      <span class="occupation" v-text="doctor.specialty.name"></span>
-                    </a>
-                  </div>
-                  <span class="ratings">
-                    <a :href="doctor.link +'#reviews'" :title="doctor.name +' - '+ doctor.specialty.name" style="color:inherit;">
-                      <i class="fas fa-star" v-for="i in doctor.rating_digit"></i>
-                    </a>
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div v-else>
-              <div class="text-center" v-show="!loading">
-                <div class="display-3"><i class="fa fa-user-md"></i></div> 
-
-                <br>
-
-                <p><strong>0</strong> results for <b>{{this.$parent.search}}</b> in <em class="text-bold">doctors</em>.</p>
-              </div>
-            </div>
-
-            <div class="text-center" v-show="loading">
-              <span class="d-inline-block">
-                Searching doctors <i class="fa fa-user-md"></i> for <b>{{this.$parent.search}}</b>...
-              </span>
-              <span class="d-inline-block fa-3x h5">
-                <i class="fas fa-sync fa-spin"></i>
-              </span>
-            </div>
-
-            <div class="card-footer text-center mb-0 pb-1 px-2">
-              <div class="table-responsive tp-scrollbar m-0">
-                <div style="flex-flow: nowrap;">
-                  <pagination :data="doctors" @pagination-change-page="doctorsPagination"></pagination>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="tab-pane fade" id="tag" role="tabpanel" aria-labelledby="tag-tab">
-            <div v-if="tags.data != undefined && tags.data.length">
-              <div class="result-row" v-for="tag in tags.data" :key="tag.id">
-                <span class="tag">
-                  <a :href="tag.link" :title="tag.name +' - '+ tag.specialty.name" v-text="tag.name"></a>
-                </span>
-                &nbsp;-&nbsp; 
-                <span v-text="tag.description_preview"></span>                         
-              </div>
-            </div>
-
-            <div v-else>
-              <div class="text-center" v-show="!loading">
-                <div class="display-3"><i class="fa fa-tags"></i></div> 
-
-                <br>
-
-                <p><strong>0</strong> results for <b>{{this.$parent.search}}</b> in <em class="text-bold">tags</em>.</p>
-              </div>
-            </div>
-
-            <div class="text-center" v-show="loading">
-              <span class="d-inline-block">
-                Searching keywords <i class="fa fa-tags"></i> for <b>{{this.$parent.search}}</b>...
-              </span>
-              <span class="d-inline-block fa-3x h5">
-                <i class="fas fa-sync fa-spin"></i>
-              </span>
-            </div>
-
-            <div class="card-footer text-center mb-0 pb-1 px-2">
-              <div class="table-responsive tp-scrollbar m-0">
-                <div style="flex-flow: nowrap;">
-                  <pagination :data="tags" @pagination-change-page="tagsPagination"></pagination>
-                </div>
-              </div>
-            </div>
-          </div>
-            
-        </div>
-      </div>
-    </div>
-
-    <!-- <div class="card shadow-none text-left">
-      <div class="card-header bg-primary text-center p-2">
-        <span>Results found for <b class="h4">{{this.$parent.search}}</b></span>
-      </div>
-
-      <div class="card-body" id="search-list">
-
-        <div class="card-deck">
-          <div class="card card-primary shadow-none mx-1" v-if="$acl.isSuperAdmin()">
-            <div class="card-header">
-              <i class="fa fa-users"></i>&nbsp; Users
-            </div>
-            <div class="card-body p-2 text-small">
-              <div v-if="users.data != undefined && users.data.length">
-                <div class="p-1" v-for="user in users.data" :key="user.id">
-                  
-                  <span :title="user.name">
-                    <a :href="user.link">
-                      <img :src="user.avatar" class="text-sm-center" style="display:inline-block;width:80px;height: 80px;" alt="Doctor Image">
-                    </a>
-
-                    <div class="text-left ml-2 ml-sm-0 ml-lg-2 d-flex flex-column justify-content-between h-100">
-                      <div class="d-flex flex-row justify-content-between w-100">
-                        <a class="users-list-name":href="user.link">{{user.name}}</a>
-
-                        <div v-if="$acl.isSuperAdmin()">
-                          <button id="navbarDropdown" class="btn btn-sm dropdown-toggle d-inline" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              <i class="fa fa-cog"></i>
-                          </button>
-                          <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown" style="font-size:12px;">
-
-                              <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to STAFF?');" title="Demote Admin">
-                                <i class="fa fa-user-tie teal"></i>&nbsp; Upgrade to Admin
-                              </button>
-
-                              <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
-                                <i class="fa fa-user-tag indigo"></i>&nbsp; Upgrade to Staff
-                              </button>
-
-                              <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
-                                <i class="fa fa-user-slash orange"></i>&nbsp; Demote to Normal User
-                              </button>
-
-                              <button type="submit" class="dropdown-item" onclick="return confirm('You really want to demote this admin to NORMAL User?');" title="Demote Admin">
-                                <i class="fa fa-ban red"></i>&nbsp; Block/Suspend
-                              </button>
+                      <div class="info-side">
+                        <div class="doc">
+                          <div class="d-block">
+                            <a class="d-inline-block" :href="doctor.link" :title="doctor.name +' - '+ doctor.specialty.name" style="color:inherit;">
+                              <span class="d-block h2" v-text="doctor.name"></span>
+                            </a>
                           </div>
+
+                          <span class="d-block occupation text-muted" v-text="doctor.location"></span>
+                          <a :href="doctor.specialty.link" :title="doctor.specialty.name" style="color:inherit;">
+                            <span class="occupation" v-text="doctor.specialty.name"></span>
+                          </a>
                         </div>
+                        <span class="ratings">
+                          <a :href="doctor.link +'#reviews'" :title="doctor.name +' - '+ doctor.specialty.name" style="color:inherit;">
+                            <i class="fas fa-star" v-for="i in doctor.rating_digit"></i>
+                          </a>
+                        </span>
                       </div>
                     </div>
-                  </span>
+                  </div>
 
-                </div>
-              </div>
-              <div class="short-content-bg" v-else>
-                0 results for <b>{{this.$parent.search}}</b> in <em class="text-bold">users</em>.
-              </div>
-            </div>
+                  <div v-else>
+                    <div class="text-center" v-show="!loading">
+                      <div class="display-3"><i class="fa fa-user-md"></i></div> 
 
-            <div class="card-footer text-center mb-0 pb-1 px-2">
-              <div class="table-responsive tp-scrollbar m-0">
-                <div style="flex-flow: nowrap;">
-                  <pagination :data="users" @pagination-change-page="usersPagination"></pagination>
+                      <br>
+
+                      <p><strong>0</strong> results for <b>{{this.$parent.search}}</b> in <em class="text-bold">doctors</em>.</p>
+                    </div>
+                  </div>
+
+                  <div class="text-center" v-show="loading">
+                    <span class="d-inline-block">
+                      Searching doctors <i class="fa fa-user-md"></i> for <b>{{this.$parent.search}}</b>...
+                    </span>
+                    <span class="d-inline-block fa-fw h5">
+                      <i class="fas fa-sync fa-spin"></i>
+                    </span>
+                  </div>
+
+                  <div class="card-footer text-center mb-0 pb-1 px-2">
+                    <div class="table-responsive tp-scrollbar m-0">
+                      <div style="flex-flow: nowrap;">
+                        <pagination :data="doctors" @pagination-change-page="doctorsPagination"></pagination>
+                      </div>
+                    </div>
+                  </div>
                 </div>
+
+                <div class="tab-pane fade" id="tag" role="tabpanel" aria-labelledby="tag-tab">
+                  <div v-if="tags.data != undefined && tags.data.length">
+                    <div class="result-row" v-for="tag in tags.data" :key="tag.id">
+                      <span class="tag">
+                        <a :href="tag.link" :title="tag.name +' - '+ tag.specialty.name" v-text="tag.name"></a>
+                      </span>
+                      &nbsp;-&nbsp; 
+                      <span v-text="tag.description_preview"></span>                         
+                    </div>
+                  </div>
+
+                  <div v-else>
+                    <div class="text-center" v-show="!loading">
+                      <div class="display-3"><i class="fa fa-tags"></i></div> 
+
+                      <br>
+
+                      <p><strong>0</strong> results for <b>{{this.$parent.search}}</b> in <em class="text-bold">tags</em>.</p>
+                    </div>
+                  </div>
+
+                  <div class="text-center" v-show="loading">
+                    <span class="d-inline-block">
+                      Searching keywords <i class="fa fa-tags"></i> for <b>{{this.$parent.search}}</b>...
+                    </span>
+                    <span class="d-inline-block fa-fw h5">
+                      <i class="fas fa-sync fa-spin"></i>
+                    </span>
+                  </div>
+
+                  <div class="card-footer text-center mb-0 pb-1 px-2">
+                    <div class="table-responsive tp-scrollbar m-0">
+                      <div style="flex-flow: nowrap;">
+                        <pagination :data="tags" @pagination-change-page="tagsPagination"></pagination>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                  
               </div>
             </div>
           </div>
-        </div>
-      </div>
 
-    </div> -->
-  </div>
+
+        </div><!-- modal-body -->
+      </div><!-- modal-content -->
+    </div><!-- modal-dialog -->
+  </div><!-- modal -->
+
 </template>
 
 <script>
@@ -228,6 +168,20 @@
         doctors : {},
         tags    : {},
         // users   : {},
+        search : '',
+        query : this.computedQuery,
+      }
+    },
+
+    computed: {
+      // a computed getter
+      computedQuery: function () {
+        console.log(this.search != undefined);
+        console.log(this.search.length);
+
+        return (this.search != undefined && this.search.length) 
+              ? this.search : this.$parent.search
+              ;
       }
     },
 
@@ -237,12 +191,12 @@
       /*******************************/
       searchDoctors() {
         // $parent needed to access the root instance at ...resources\js\app.js
-        let query = this.$parent.search;
+
         // const searchUrl = appUrl +'/searches?q=';
         const searchUrl = appUrl +'/searches/doctors?q=';
 
-        // axios.get(searchUrl + query +'&type=dr')
-        axios.get(searchUrl + query)
+        // axios.get(searchUrl + this.query +'&type=dr')
+        axios.get(searchUrl + this.query)
         .then(({data}) => (this.doctors = data))
         .then(() => { this.loading = false; })
         .then(() =>{
@@ -256,19 +210,19 @@
       },
       searchTags() {
         // $parent needed to access the root instance at ...resources\js\app.js
-        let query = this.$parent.search;
+        this.query = (this.search != undefined && this.search.length) ? this.search : this.$parent.search;
         const searchUrl = appUrl +'/searches/tags?q=';
 
-        axios.get(searchUrl + query)
+        axios.get(searchUrl + this.query)
         .then(({data}) => (this.tags = data))
         .then(() => { this.loading = false; })
       },
       // searchUsers() {
       //   // $parent needed to access the root instance at ...resources\js\app.js
-      //   let query = this.$parent.search;
+      //   this.query = (this.search != undefined && this.search.length) ? this.search : this.$parent.search;
       //   const searchUrl = appUrl +'/searches/users?q=';
 
-      //   axios.get(searchUrl + query)
+      //   axios.get(searchUrl + this.query)
       //   .then(({data}) => (this.users = data))
       //   .then(() => { this.loading = false; })
       // },
@@ -277,28 +231,25 @@
       /*~~~~ PAGINATION OF MODELS ~~~~*/
       /*******************************/
       doctorsPagination(page = 1) {
-        let query = this.$parent.search; 
         const searchUrl = appUrl +'/searches/doctors?q=';
 
-        axios.get(searchUrl + query + '&page=' + page)
+        axios.get(searchUrl + this.query + '&page=' + page)
           .then(response => {
             this.doctors = response.data;
           });
       },
       tagsPagination(page = 1) {
-        let query = this.$parent.search; 
         const searchUrl = appUrl +'/searches/tags?q=';
 
-        axios.get(searchUrl + query + '&page=' + page)
+        axios.get(searchUrl + this.query + '&page=' + page)
           .then(response => {
             this.tags = response.data;
           });
       },
       // usersPagination(page = 1) {
-      //   let query = this.$parent.search; 
       //   const searchUrl = appUrl +'/searches/users?q=';
 
-      //   axios.get(searchUrl + query + '&page=' + page)
+      //   axios.get(searchUrl + this.query + '&page=' + page)
       //     .then(response => {
       //       this.users = response.data;
       //     });
@@ -310,6 +261,7 @@
     /*******************************/
     created() {
       Event.$on('search_stuff', () => {
+        $('#sitewideSearchContent').modal('show');
         this.searchDoctors();
         this.searchTags();
         // this.searchUsers();

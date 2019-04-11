@@ -41,7 +41,8 @@
                                 name="search" id="search"
                                 aria-label="Search" 
                                 placeholder="search..."
-                                class="form-control mr-sm-2 m-0 border-0 rounded search-form" >
+                                class="form-control mr-sm-2 m-0 border-0 rounded search-form"
+                                required>
                 
                                 {{-- <button @click="searchForQuery" type="submit" class="search-icon bg-theme-blue">
                                     <i class="fa fa-search "></i>

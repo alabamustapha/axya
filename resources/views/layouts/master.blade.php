@@ -40,13 +40,17 @@
 
 
           <div class="search-container">
-            @include('layouts.redesign.search-container')
+                
+            <searches></searches>
+
           </div>
 
           <router-view></router-view>
 
           <div class="p-3">
+            
             @yield('content')
+            
           </div>
 
           <vue-progress-bar></vue-progress-bar>
