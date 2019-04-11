@@ -50,7 +50,11 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        return view('users.show', compact('user'));
+        $treatments    = $user->appointments()->where('status', '1')->latest()->take(2)->get();
+        $prescriptions = $user->prescriptions()->latest()->take(2)->get();
+        $medications   = $user->medications()->latest()->take(2)->get();
+        
+        return view('users.show', compact('user', 'treatments', 'prescriptions', 'medications'));
     }
 
     /**

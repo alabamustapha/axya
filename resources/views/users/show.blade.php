@@ -16,7 +16,7 @@
                   <div class="col-md-4 bg-light border-right py-3 my-0 text-center">
                       <div class="pb-2 p-img">
                           
-                          <img src="{{ $user->avatar_md }}" alt="profile image" class="rounded" height="250">
+                          <img src="{{ $user->avatar_md }}" alt="profile image" class="img-responsive rounded" style="min-height:200px;max-height:250px;">
                           <!-- <div class="text-center py-3">
                               <a href="#" class="text-theme-blue">View my profile</a>
                           </div> -->
@@ -145,7 +145,7 @@
                                             <div class="">
                                               <button class="btn btn-md btn-block btn-primary" data-toggle="modal" data-target="#updatePasswordForm">
                                                 <i class="fa fa-key"></i>
-                                                <span>Change Login Password</span>
+                                                <span>Change Password</span>
                                               </button>
                                             </div>
                                         </div>
@@ -216,46 +216,141 @@
 
                                   <ul class="nav flex-column mb-4">
 
-                                      <li class="pb-4 border-bottom">
+                                      <li class="pb-5 border-bottom">
                                           <div class="tf-flex mb-3 p-2 bg-light">
-                                            <strong><i class="fa fa-syringe mr-1"></i> Treatments</strong>
+                                            <strong><i class="fa fa-diagnoses mr-1"></i> Previous Treatments</strong>
                                           </div>
-
-                                          <p class="text-muted">                                            
-                                              // List 3 completed appointment/consultation/teratments on this app, others in medication index <br>
-                                              + view more
-                                          </p>
                                           
-                                          <a class="btn btn-sm btn-info" href="#" title="View more treatments">View <pre class="d-inline text-white"><i class="fa fa-syringe mr-1"></i>s</pre></a>
-                                      </li>
+                                          <div class="ml-4 text-sm">
+                                            <div class="table-responsive">
+                                                <table class="table table-borderless">
+                                                    <thead >
+                                                        <tr>
+                                                            <th scope="col" class="text-muted">Info</th>
+                                                            <th scope="col" class="text-muted">Chat</th>
+                                                            <th scope="col" class="text-muted">Doctor</th>
+                                                            <th scope="col" class="text-muted">Date</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="text-sm">
 
-                                      <li class="pb-4 border-bottom">
-                                          <div class="tf-flex mb-3 p-2 bg-light">
-                                            <strong><i class="fa fa-prescription mr-1"></i> Prescriptions</strong>
-                                          </div>
+                                                        @forelse($treatments as $appointment)
+                                                            <tr>
+                                                                <td>
+                                                                    <a href="{{ route('appointments.show', $appointment) }}" class="text-primary"> 
+                                                                        <i class="fa fa-link btn btn-sm"></i>
+                                                                    </a>
+                                                                </td>
+                                                                <td>
+                                                                  <a href="{{ route('messages.index', [$user, $appointment->slug]) }}" class="text-primary">
+                                                                    <i class="fa fa-comments btn btn-sm"></i>
+                                                                  </a>
+                                                                </td>
+                                                                <td>
+                                                                  <a href="{{route('doctors.show', $appointment->doctor)}}" style="color:inherit;">{{$appointment->doctor->name}}</a>
+                                                                </td>
+                                                                <td title="{{ $appointment->schedule }}: {{ $appointment->description_preview }}">
+                                                                    <small class="text-sm">
+                                                                        <i class="fa fa-clock"></i>{{ $appointment->day_text }}
+                                                                    </small>
+                                                                </td>
+                                                            </tr>
+                                                            <tr class="shadow-sm">
+                                                                <td colspan="5" title="Status">
+                                                                  <p><small>{{ $appointment->description_preview }}</small></p>
+                                                                  <small>{{ $appointment->statusTextOutput() }}</small>
+                                                                </td>
+                                                            </tr>
+                                                        @empty
+                                                            <tr>
+                                                                <td colspan="4" class="bg-white p-4 text-center">
+                                                                    <div class="h1"><i class="fa fa-diagnoses"></i></div> 
 
-                                          <p class="text-muted">                                            
-                                              // List 3 Prescriptions, others in Prescriptions index <br>
-                                              + view more
-                                          </p>
+                                                                    <br>
+
+                                                                    <p><strong>0</strong> appointments at this time.</p>
+                                                                </td>
+                                                            </tr>
+                                                        @endforelse
+                                                        
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                           
-                                          <a class="btn btn-sm btn-info" href="{{ route('prescriptions.index', Auth::user()) }}" title="View more Medications">View <pre class="d-inline text-white"><i class="fa fa-prescription">s</i></pre></a>
+                                            @if ($treatments->count())
+                                              <a class="btn btn-sm btn-info" href="#" title="View more treatments">More treatments</a>
+                                            @endif
+                                        </div>
                                       </li>
 
                                       @if($user->isAccountOwner())
-                                      <li class="pb-4">
+                                      <li class="pb-5 border-bottom">
                                           <div class="tf-flex mb-3 p-2 bg-light">
                                             <strong><i class="fa fa-pills mr-1"></i> Medications</strong>
                                           </div>
 
-                                          <p class="text-muted">                                            
-                                              // List 3 medications, others in medication index <br>
-                                              + view more
-                                          </p>
+                                          <div class="ml-4 text-sm">
+                                              @forelse ($medications as $medication)
+                                                
+                                                <div class="border-bottom p-2 mb-2">
 
-                                          <a class="btn btn-sm btn-info" href="{{ route('medications.index', Auth::user()) }}" title="View more Medications">View <pre class="d-inline text-white"><i class="fa fa-pills"></i>s</pre></a>
+                                                    <blockquote class="blockquote mb-0">
+                                                      <a href="{{ $medication->link }}">
+                                                        <p>
+
+                                                          {{ $medication->title }}
+
+                                                        </p>
+                                                      </a>
+                                                      <footer class="blockquote-footer">{{ $medication->description }}</footer>
+                                                    </blockquote>
+
+                                                </div>
+                                              @empty
+                                                <div class="text-center">
+                                                  <div class="h1"><i class="fa fa-pills"></i></div> 
+
+                                                  <br>
+
+                                                  <p>You have <strong>0</strong> medications at this time.</p>
+                                                </div>
+                                              @endforelse
+
+                                              @if ($medications->count())
+                                                <a class="btn btn-sm btn-info" href="{{ route('medications.index', Auth::user()) }}" title="View more Medications">View medications</a>
+                                              @endif
+                                          </div>
                                       </li>
                                       @endif
+
+                                      <li class="pb-5">
+                                          <div class="tf-flex mb-3 p-2 bg-light">
+                                            <strong><i class="fa fa-prescription mr-1"></i> Prescriptions</strong>
+                                          </div>
+
+                                          <div class="ml-4 text-sm">
+                                            <div class="table-responsive tp-scrollbar">
+                                                    
+                                              @forelse($prescriptions as $prescription)
+                                                
+                                                @include('prescriptions._card')
+                                                
+                                              @empty
+                                                <div class="text-center">
+                                                  <div class="h1"><i class="fa fa-prescription"></i></div> 
+
+                                                  <br>
+
+                                                  <p>You have <strong>0</strong> prescriptions at this time.</p>
+                                                </div>
+                                              @endforelse
+                                            </div>
+                                          
+                                            @if ($prescriptions->count())
+                                              <a class="btn btn-sm btn-info" href="{{ route('prescriptions.index', Auth::user()) }}" title="View more Medications">More prescriptions</a>
+                                            @endif
+                                          </div>
+                                      </li>
                                       
                                   </ul>
                                   
@@ -272,112 +367,7 @@
       </section>
       <!-- /.content -->
 
-      @if ($user->isAccountOwner())
-        <div class="modal fade" tabindex="-1" role="dialog" id="updateUserProfileForm" style="display:none;" aria-labelledby="updateUserProfileFormLabel" aria-hidden="true">
-          <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 5px 15px 0px;margin:10px auto -25px">
-                <span aria-hidden="true">&times;</span>
-              </button>
-              <br>
-              <div class="modal-body">
-
-                @include('users.forms.edit')
-
-              </div> <!-- modal-body -->    
-            </div> <!-- modal-content -->    
-          </div>
-        </div>
-
-        <div class="modal fade" tabindex="-1" role="dialog" id="updateAllergyProfileForm" style="display:none;" aria-labelledby="updateAllergyProfileFormLabel" aria-hidden="true">
-          <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 5px 15px 0px;margin:10px auto -25px">
-                <span aria-hidden="true">&times;</span>
-              </button>
-              <br>
-              <div class="modal-body">
-
-                @include('users.forms.allergies')
-
-              </div> <!-- modal-body -->    
-            </div> <!-- modal-content -->    
-          </div>
-        </div>
-
-        <div class="modal fade" tabindex="-1" role="dialog" id="updateChronicsProfileForm" style="display:none;" aria-labelledby="updateChronicsProfileFormLabel" aria-hidden="true">
-          <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 5px 15px 0px;margin:10px auto -25px">
-                <span aria-hidden="true">&times;</span>
-              </button>
-              <br>
-              <div class="modal-body">
-
-                @include('users.forms.chronics-form')
-
-              </div> <!-- modal-body -->    
-            </div> <!-- modal-content -->    
-          </div>
-        </div>
-
-        <div class="modal fade" tabindex="-1" role="dialog" id="updatePasswordForm" style="display:none;" aria-labelledby="updatePasswordFormLabel" aria-hidden="true">
-          <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 5px 15px 0px;margin:10px auto -25px">
-                <span aria-hidden="true">&times;</span>
-              </button>
-              <br>
-              <div class="modal-body">
-
-                @include('users.forms.password-form')
-
-              </div> <!-- modal-body -->    
-            </div> <!-- modal-content -->    
-          </div>
-        </div>
-
-        <div class="modal fade" tabindex="-1" role="dialog" id="updateAvatarForm" style="display:none;" aria-labelledby="updateAvatarFormLabel" aria-hidden="true">
-          <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-            <div class="modal-content px-3">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding: 5px 15px 0px;margin:10px auto -25px">
-                <span aria-hidden="true">&times;</span>
-              </button>
-              <br>
-              <div class="modal-body">
-                <div class="text-center">
-                  <img class="img-circle" height="75" src="{{$user->avatar}}" alt="{{$user->name}} profile picture">
-
-                  <div class="form-group text-center">
-                    <label for="avatar" class="h6">Update Avatar</label>
-                  </div>
-                </div>
-
-                <form action="{{route('user.avatar.upload', $user)}}" method="post" enctype="multipart/form-data">
-                  {{ csrf_field() }}  
-                  {{ method_field('PATCH') }}   
-
-                  <div class="form-group text-center">
-                    <input type="hidden" name="resize" value="true">
-                    <input type="hidden" name="caption" value="{{ auth()->user()->name }}'s profile avatar">
-                    <input type="file" name="uploadFile[]" id="uploadFile" class="form-control{{ $errors->has('uploadFile') ? ' is-invalid' : '' }}" accept="image/*" required>
-
-                    @if ($errors->has('uploadFile'))
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $errors->first('uploadFile') }}</strong>
-                        </span>
-                    @endif
-                  </div> 
-
-                  <div class="form-group">
-                    <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-image"></i> Upload Avatar</button>
-                  </div>
-                </form> 
-              </div>
-            </div>
-          </div>        
-        </div>
-      @endif
+      @include('users.partials.modals')
   </div>
 
 @endsection

@@ -139,7 +139,7 @@
                                             </tr>
                                             <tr>
                                                 <td colspan="5" class="text-center" title="Status">
-                                                    <div class="shadow shadow-sm">
+                                                    <div class="shadow-sm">
                                                         <small class="text-sm">{{ $appointment->statusTextOutput() }}</small>
                                                     </div>
                                                 </td>
@@ -178,61 +178,161 @@
                                 <table class="table table-borderless">
                                     <thead >
                                         <tr>
-                                            <th scope="col">Fee <small class="text-sm">({{ setting('base_currency') }})</small></th>
-                                            <th scope="col">Doctor</th>
+                                            <th scope="col">Info</th>
+                                            <th scope="col">Chat</th>
+                                            <th scope="col">Amount</th>
+                                            <th scope="col">
+                                                @if(\Route::input('doctor.slug'))
+                                                    Patient
+                                                @else
+                                                    Doctor
+                                                @endif
+                                                {{-- Patient/Doctor --}}
+                                            </th>
                                             <th scope="col">Date</th>
-                                            <th scope="col">Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
 
                                         @forelse($active_appointments as $active_appointment)
-                                            <tr>                                                
-                                                <td>{{ $active_appointment->fee }}</td>
+                                            <tr>
                                                 <td>
-                                                    @if($appointment->creator)
+                                                    <a href="{{ route('appointments.show', $active_appointment) }}" class="text-primary"> 
+                                                        <i class="fa fa-link btn btn-sm"></i>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    {{-- @if ($active_appointment->isPendingChatTime()) --}}
+                                                    {{-- @if ($active_appointment->activateMessaging()) --}}
+                                                    @if ($active_appointment->chatable)
+                                                        <a href="{{ ($active_appointment->user_id == Auth::id()) 
+                                                            ? route('messages.index', [$active_appointment->user, $active_appointment->slug]) 
+                                                            : route('dr_messages', [$active_appointment->doctor, $active_appointment->slug]) }}" 
+                                                            class="text-primary"> 
+                                                            {{-- $active_appointment->fee --}}
+                                                            <i class="fa fa-comments btn btn-sm"></i>
+                                                        </a>
+                                                    @endif
+                                                </td>
+                                                <td><small class="text-sm">({{ setting('base_currency') }})</small>{{ $active_appointment->fee }}</td>
+                                                <td>
+                                                    @if($active_appointment->creator)
                                                         <a href="{{route('doctors.show', $active_appointment->doctor)}}" style="color:inherit;">{{$active_appointment->doctor->name}}</a>
                                                     @else
                                                         <a href="{{route('users.show', $active_appointment->user)}}" style="color:inherit;">{{$active_appointment->user->name}}</a>
                                                     @endif
                                                 </td>
                                                 <td title="{{ $active_appointment->schedule }}: {{ $active_appointment->description_preview }}">
-                                                    @if ($active_appointment->user_id == Auth::id())
-                                                        <a href="{{ route('messages.index', [$active_appointment->user, $active_appointment->slug]) }}" class="text-primary"> 
-                                                            {{ $active_appointment->day_text }}
-                                                        </a>
-                                                    @else
-                                                        <a href="{{ route('dr_messages', [$active_appointment->doctor, $active_appointment->slug]) }}" class="text-primary"> 
-                                                            {{ $active_appointment->day_text }}
-                                                        </a>
-                                                    @endif
+                                                    <small class="text-sm">
+                                                        <i class="fa fa-clock"></i>{{ $active_appointment->day_text }}
+                                                    </small>
                                                 </td>
-                                                <td>
-                                                    {{ $active_appointment->statusTextOutput() }}
+                                            </tr>
+                                            <tr class="shadow-sm text-sm text-center" title="Status">
+                                                <td colspan="5">
+                                                    <small class="text-sm">{{ $active_appointment->statusTextOutput() }}</small>
                                                 </td>
                                             </tr>
                                         @empty
                                             <tr>
                                                 <td colspan="4" class="bg-white p-4 text-center">
-                                                    <div class="display-3"><i class="fa fa-calendar"></i></div> 
+                                                    <div class="display-3"><i class="fa fa-calendar-alt"></i></div> 
 
                                                     <br>
 
-                                                    <p><strong>0</strong> active appointments at this time.</p>
+                                                    <p><strong>0</strong> appointments at this time.</p>
                                                 </td>
                                             </tr>
                                         @endforelse
                                         <tr>
-                                            <td colspan="4" class="text-center py-3">{{ $upcoming_appointments->appends(request()->query())->links() }}</td>
+                                            <td colspan="4" class="text-center py-3">{{ $active_appointments->appends(request()->query())->links() }}</td>
                                         </tr>
                                         
                                     </tbody>
                                 </table>
                             </div>
                         </div>
+                        {{-- 
+                            <!-- Active Appmts -->
+                            <div class="card-body">
+                                <div class="table-responsive-md transaction-table">
+                                    <table class="table table-borderless">
+                                        <thead >
+                                            <tr>
+                                                <th scope="col">Fee <small class="text-sm">({{ setting('base_currency') }})</small></th>
+                                                <th scope="col">Doctor</th>
+                                                <th scope="col">Date</th>
+                                                <th scope="col">Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            @forelse($active_appointments as $active_appointment)
+                                                <tr>                                                
+                                                    <td>{{ $active_appointment->fee }}</td>
+                                                    <td>
+                                                        @if($appointment->creator)
+                                                            <a href="{{route('doctors.show', $active_appointment->doctor)}}" style="color:inherit;">{{$active_appointment->doctor->name}}</a>
+                                                        @else
+                                                            <a href="{{route('users.show', $active_appointment->user)}}" style="color:inherit;">{{$active_appointment->user->name}}</a>
+                                                        @endif
+                                                    </td>
+                                                    <td title="{{ $active_appointment->schedule }}: {{ $active_appointment->description_preview }}">
+                                                        @if ($active_appointment->user_id == Auth::id())
+                                                            <a href="{{ route('messages.index', [$active_appointment->user, $active_appointment->slug]) }}" class="text-primary"> 
+                                                                {{ $active_appointment->day_text }}
+                                                            </a>
+                                                        @else
+                                                            <a href="{{ route('dr_messages', [$active_appointment->doctor, $active_appointment->slug]) }}" class="text-primary"> 
+                                                                {{ $active_appointment->day_text }}
+                                                            </a>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        {{ $active_appointment->statusTextOutput() }}
+                                                    </td>
+                                                </tr>
+                                            @empty
+                                                <tr>
+                                                    <td colspan="4" class="bg-white p-4 text-center">
+                                                        <div class="display-3"><i class="fa fa-calendar"></i></div> 
+
+                                                        <br>
+
+                                                        <p><strong>0</strong> active appointments at this time.</p>
+                                                    </td>
+                                                </tr>
+                                            @endforelse
+                                            <tr>
+                                                <td colspan="4" class="text-center py-3">{{ $upcoming_appointments->appends(request()->query())->links() }}</td>
+                                            </tr>
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        --}}
 
                     </div>
                 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 <div class="tab-pane fade " id="v-pills-upcoming-appointments" role="tabpanel" aria-labelledby="v-pills-upcoming-appointments-tab">
                     <div class="card p-3">
