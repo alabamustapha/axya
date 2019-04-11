@@ -150,6 +150,13 @@ class TransactionController extends Controller
         // }
 
         // return redirect()->route('appointments.show', $transaction->appointment);
+        
+        if ($transaction->status == '1') {
+            flash('Payment was successful, the attending doctor has been notified.')->success(); 
+
+            // return redirect($transaction->link);//->route('transactions.index', $transaction->user);
+            return redirect()->route('transactions.index', $transaction->user);
+        }
     }
 
     public function mockedPayment(Transaction $transaction)
@@ -180,10 +187,6 @@ class TransactionController extends Controller
             // Notify concerned parties of success.
             $transaction->user->notify(new TransactionSuccessfulNotification($transaction->user, $transaction));
             $transaction->doctor->user->notify(new TransactionSuccessfulNotification($transaction->doctor->user, $transaction));
-            
-            flash('Payment was successful, notification has been sent to the attending doctor.')->success(); 
-
-            return redirect()->route('transactions.index', $transaction->user);
         }
         else {
             // No need to change status on appointment model, status quo maintained.
