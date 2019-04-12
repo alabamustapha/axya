@@ -11,23 +11,39 @@
   <div class="col-md-7">
     <div class="card shadow-sm">
       <div class="card-body">
-        @can('edit', $medication)  
-          <span class="mr-3">
-            <button class="btn btn-sm" data-toggle="modal" data-target="#medicationUpdateForm" title="Update Medication">
-              <i class="fa fa-edit teal"></i>&nbsp; edit
-            </button>
-          </span>
-        @endcan
 
-        <p class="border-bottom">
-          <b>{{ $medication->title }}</b> - {{ $medication->description }}
-        </p>
+        <div class="border-bottom pb-2 mb-3">
+          <strong>{{ $medication->title }}</strong>
 
-        @if ($prescription)
-          <p>
-            <b><a href="{{ route('prescriptions.show', $prescription) }}">Prescription: {{ $prescription->id }}</a></b> - {{ $prescription->appointment->description }}
-          </p>
-        @endif
+          @can('edit', $medication)  
+            <span class="float-right">
+              <button class="btn btn-sm btn-info" data-toggle="modal" data-target="#medicationUpdateForm" title="Update Medication">
+                <i class="fa fa-edit teal"></i>&nbsp; edit
+              </button>
+            </span>
+          @endcan
+        </div>
+
+
+        <div class="blockquote mb-0">
+          @if ($prescription)
+            <div class="blockquote-footer mb-4">
+                <a href="{{ route('prescriptions.show', $prescription) }}" class="teal">
+                  Linked Prescription <i class="fa fa-external-link-alt"></i>
+                </a>:&nbsp;
+                {{ $prescription->appointment->description }}
+            </div>
+
+            @if ($medication->description)
+              <h5>More description:</h5>
+            @endif
+          @endif
+
+          <div class="blockquote-footer mt-2">
+            {{ $medication->description }}
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
@@ -102,8 +118,8 @@
                     <i class="fa fa-file-prescription"></i> Link to an Active Prescription
                     <small class="text-info" title="Not Required">Not Required</small>
                   </label>
-                  <select type="text" name="prescription_id" class="form-control-sm form-control{{ $errors->has('prescription_id') ? ' is-invalid' : '' }}" value="{{ old('prescription_id') ?:$medication->prescription_id }}" placeholder="medication prescription_id">
-                    <option>Select Prescription</option>
+                  <select name="prescription_id" class="form-control-sm form-control{{ $errors->has('prescription_id') ? ' is-invalid' : '' }}">
+                    <option value="">Select Prescription</option>
                     @forelse ($prescriptions as $prescription)
                       <option value="{{ $prescription->id }}" 
                           {{ ((old('prescription_id') == $prescription->id) || ($medication->prescription_id == $prescription->id)) ? 'selected':'' }}>
@@ -122,7 +138,13 @@
 
                 <div class="form-group">
                   <label class="text-sm" for="title">Medication Description <small class="red" title="Required field">*</small></label>
-                  <textarea name="description" class="form-control-sm form-control{{ $errors->has('description') ? ' is-invalid' : '' }}"  style="min-height: 100px;max-height: 150px;" placeholder="description" required>{{ old('description') ?: $medication->description }}</textarea>
+                  <textarea 
+                    name="description" 
+                    class="form-control-sm form-control{{ $errors->has('description') ? ' is-invalid' : '' }}"
+                    style="min-height: 100px;max-height: 150px;" 
+                    placeholder="description" 
+                    maxlength="450" 
+                    required>{{ old('description') ?: $medication->description }}</textarea>
 
                   @if ($errors->has('description'))
                       <span class="invalid-feedback" role="alert">

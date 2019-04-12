@@ -27,7 +27,7 @@ class MedicationRequest extends FormRequest
         $rules = array_merge($rules, [
             'title'            => 'required|string|max:100',
             'prescription_id'  => 'nullable',//|integer|exists:prescriptions,id', 
-            'description'      => 'required|string|max:1000', 
+            'description'      => 'required|string|max:450', 
             'start_date'       => 'required|date',
             'end_date'         => 'required|date:after,start_date',
             'notify_by'        => 'required|numeric', 

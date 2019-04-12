@@ -19,7 +19,7 @@ class CreateMedicationsTable extends Migration
             $table->string('title');
             $table->integer('prescription_id')->unsigned()->nullable();
             $table->integer('appointment_id')->unsigned()->nullable();
-            $table->string('description');
+            $table->text('description');
             $table->datetime('start_date');
             $table->time('start_time');
             $table->datetime('end_date');

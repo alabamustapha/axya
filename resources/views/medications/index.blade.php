@@ -19,16 +19,28 @@
       
       <div class="card shadow-sm">
         <div class="card-body">
-          <blockquote class="blockquote mb-0">
+          <div class="blockquote mb-0">
             <a href="{{ $medication->link }}">
-              <p>
 
-                {{ $medication->title }}
+              <p class="bg-white p-2 mb-1 border-bottom">
+                <strong>{{ $medication->title }}</strong>
+                
+                <small class="float-right">
+                    <i class="fas fa-clock fa-fw"></i>
 
+                    <kbd>
+                      {{ $medication->start_time }}, {{ $medication->start }}
+                    </kbd> - 
+                    <kbd>{{ $medication->end }}</kbd>
+                </small>
               </p>
+
             </a>
-            <footer class="blockquote-footer">{{ $medication->description }}</footer>
-          </blockquote>
+
+            <footer class="blockquote-footer mt-2">
+              {{ $medication->description }}
+            </footer>
+          </div>
         </div>
       </div>
     @empty
@@ -69,8 +81,8 @@
             </div>
 
 	       		<div class="form-group">
-              <label class="text-sm" for="title" title="Link to an Active Prescription">
-                <i class="fa fa-file-prescription"></i> Link to an Active Prescription
+              <label class="text-sm" for="title" title="Link an Active Prescriptions">
+                <i class="fa fa-file-prescription"></i> Link an Active Prescriptions
                 <small class="text-info" title="Not Required">Not Required</small>
               </label>
 							<select type="text" name="prescription_id" class="form-control-sm form-control{{ $errors->has('prescription_id') ? ' is-invalid' : '' }}" value="{{ old('prescription_id') }}" placeholder="medication prescription_id">

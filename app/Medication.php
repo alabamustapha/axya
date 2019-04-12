@@ -8,9 +8,12 @@ class Medication extends Model
 {
     protected $dates = ['start_date', 'end_date'];
 
+
     protected $fillable = [
         'user_id', 'title', 'prescription_id', 'appointment_id', 'description', 'start_date', 'start_time', 'end_date', 'notify_by', 'recurrence', 'recurrence_type', 'link',
     ];
+
+    // protected $appends = ['link'];
 
     public function calendar_events()
     {

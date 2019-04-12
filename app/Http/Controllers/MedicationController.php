@@ -109,7 +109,7 @@ class MedicationController extends Controller
 
         $user = auth()->user();
 
-        $prescription = Prescription::findOrfail($medication->prescription_id);
+        $prescription = Prescription::find($medication->prescription_id) ?: null;/*findOrfail throws 404*/
 
         $prescriptions = $this->activePrescriptions();
 
@@ -131,7 +131,7 @@ class MedicationController extends Controller
 
         // return response()->json([status => 'Successfully updated'], 200);
 
-        return redirect(route('medications.index', $medication->user));
+        return redirect($medication->link);
     }
 
     /**
@@ -148,7 +148,7 @@ class MedicationController extends Controller
 
     /**
      * Get all prescriptions from active appointments.
-     * se this for the create/edit.
+     * Use this for the create/edit.
      *
      * @param  \App\Medication  $medication
      * @return \Illuminate\Http\Collection
