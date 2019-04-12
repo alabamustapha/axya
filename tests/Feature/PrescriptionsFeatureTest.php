@@ -26,7 +26,7 @@ class PrescriptionsFeatureTest extends TestCase
         $this->doctor      = factory(Doctor::class)->states('active')->create([ 
             'id' => $this->doc_user->id, 'user_id' => $this->doc_user->id,
         ]);
-        $this->appointment = factory(Appointment::class)->create([
+        $this->appointment = factory(Appointment::class)->states('chatable')->create([
           'user_id'   => $this->user->id, 'doctor_id' => $this->doctor->user_id,
         ]);
 

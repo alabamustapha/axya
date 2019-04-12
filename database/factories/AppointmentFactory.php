@@ -29,3 +29,12 @@ $factory->define(App\Appointment::class, function (Faker $faker) {
       'phone'     => $faker->e164PhoneNumber,
     ];
 });
+
+
+$factory->state(App\Appointment::class, 'chatable', function (Faker $faker) {
+    return [
+      'status'    => $faker->randomElement(['1','5']),
+      'from'      => \Carbon\Carbon::now()->subMinute(),
+    ];
+
+});

@@ -27,7 +27,7 @@ class DrugsTest extends TestCase
         $this->user       = factory(User::class)->states('verified')->create();
         $this->specialty  = factory(Specialty::class)->create();
         $this->doctor     = factory(Doctor::class)->states('active')->create();
-        $this->appointment= factory(Appointment::class)->create();
+        $this->appointment= factory(Appointment::class)->states('chatable')->create();
         $this->image      = factory(Image::class)->create();
         $this->document   = factory(Document::class)->create();
 

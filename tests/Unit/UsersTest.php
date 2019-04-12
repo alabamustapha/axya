@@ -53,7 +53,7 @@ class UsersTest extends TestCase
     /** @test  */
     public function a_user_has_many_messages()
     {
-        $appointment = factory(Appointment::class)->create();
+        $appointment = factory(Appointment::class)->states('chatable')->create();
 
         // Method 1:
         $message   = factory(Message::class)->create(['user_id' => $this->user->id]);        

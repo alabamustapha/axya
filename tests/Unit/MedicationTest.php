@@ -29,7 +29,7 @@ class MedicationTest extends TestCase
         $this->user         = factory(User::class)->states('verified')->create();
         $this->specialty    = factory(Specialty::class)->create();
         $this->doctor       = factory(Doctor::class)->states('active')->create(['id'=>$this->docUser, 'user_id'=>$this->docUser,]);
-        $this->appointment  = factory(Appointment::class)->create();
+        $this->appointment  = factory(Appointment::class)->states('chatable')->create();
 
         $this->message      = factory(Message::class)->states('appointment')->create();
         $this->prescription = factory(Prescription::class)->create();

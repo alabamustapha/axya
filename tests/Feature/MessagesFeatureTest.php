@@ -23,22 +23,14 @@ class MessagesFeatureTest extends TestCase
         $this->user         = factory(User::class)->states('verified')->create();
         $this->specialty    = factory(Specialty::class)->create();
         $this->doctor       = factory(Doctor::class)->states('active')->create();
-        $this->appointment  = factory(Appointment::class)->create();
-        $this->message      = factory(Message::class)->create([
+        $this->appointment  = factory(Appointment::class)->states('chatable')->create();
+        $this->message      = factory(Message::class)->raw([
           'user_id'         => $this->user->id,
           'messageable_id'  => $this->appointment->id,
           'messageable_type'=> get_class($this->appointment)
         ]);
 
         $this->document   = factory(Document::class)->create();
-
-        $this->data = [ 
-            'user_id'         => $this->user->id,
-            'body'            => $this->faker->sentences(2,5),
-
-            'messageable_id'  => $this->message->messageable_id,
-            'messageable_type'=> $this->message->messageable_type,
-        ];
     } 
 
     /** @test */
@@ -61,22 +53,12 @@ class MessagesFeatureTest extends TestCase
     {
         $user = factory(User::class)->states('unverified')->create();
         
-        $this->actingAs($user);
-        
-        $data = [ 
-            'user_id'         => auth()->id(),
-            'body'            => $this->faker->sentences(2,5),
-
-            'messageable_id'  => $this->message->messageable_id,
-            'messageable_type'=> $this->message->messageable_type,
-        ];
-
         $this
-            ->post(route('messages.store', $this->user), $data)
-            ->assertStatus(302) // Redirected to verify page
+            ->actingAs($user)
+            ->post(route('messages.store', $this->appointment), $this->message)
             ;
 
-        $this->assertDatabaseMissing('messages', $data);
+        $this->assertDatabaseMissing('messages', $this->message);
     }
 
     /**  @test */
@@ -84,10 +66,10 @@ class MessagesFeatureTest extends TestCase
     {
         $this
             ->actingAs($this->user)
-            ->post(route('messages.store', $this->user), $this->data)
+            ->post(route('messages.store', $this->appointment), $this->message)
             ;
 
-        $this->assertDatabaseHas('messages', $this->data);
+        $this->assertDatabaseHas('messages', $this->message);
     }
 
     // /** @test */

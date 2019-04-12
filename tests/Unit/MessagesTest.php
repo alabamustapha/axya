@@ -25,7 +25,7 @@ class MessagesTest extends TestCase
         $this->user       = factory(User::class)->create();
         $this->specialty  = factory(Specialty::class)->create();
         $this->doctor     = factory(Doctor::class)->states('active')->create();
-        $this->appointment= factory(Appointment::class)->create();
+        $this->appointment= factory(Appointment::class)->states('chatable')->create();
         $this->message    = factory(Message::class)->create([
           'messageable_id'  => $this->appointment->id,
           'messageable_type'=> get_class($this->appointment)
