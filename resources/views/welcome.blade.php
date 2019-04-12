@@ -115,26 +115,27 @@
                                 </div>
 
                                 <div class="search-container">
-                                    <div class="search-close">
-                                        <span class="s-close">&times;</span>
-                                    </div>
-                                    {{-- <form method="post"> --}}
+                                    <form @submit.prevent="searchForQuery">
                                         <div class="search-area">
                                             <div class="search-box">
                                                 <input 
                                                     v-model="search"
-                                                    @keyup="searchForQuery"
+                                                    {{-- @keyup="searchForQuery" --}}
                                                     type="search"
                                                     name="search" id="search"
                                                     aria-label="Search" 
-                                                    placeholder="search doctors, illness, topics, cities etc">
+                                                    placeholder="search doctors, illness, topics, etc"
+                                                    minlength="3"
+                                                    required>
                                             </div>
                                 
-                                            <button @click="searchForQuery" type="submit" class="search-icon ">
+                                            <button 
+                                                {{-- @click="searchForQuery"  --}}
+                                                type="submit" class="search-icon ">
                                                 <i class="fa fa-search fa-lg"></i>
                                             </button>
                                         </div>                            
-                                    {{-- </form> --}}
+                                    </form>
 
                                     <!-- Vue Search Results Component -->
                                     <searches></searches>
@@ -161,7 +162,6 @@
                     <!-- page option section -->
                     <div class="page-content-body opt">
                         <div class="page-dos">
-                            <searches></searches>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="page-dos-head">
@@ -348,84 +348,6 @@
     <script> $('div.alert').not('.alert-important').delay(7000).fadeOut(350); </script>
 
     <!-- inline scripts -->
-
-    <!-- SEARCH RESULT SCRIPT -->
-    <script>
-
-        $(document).ready(function () {
-
-            /**
-            * SCRIPT TO SHOW THE SEARCH RESULT AREA
-            */
-
-            let $searchBox = $('#search');
-            // create the overlay and append to body
-            let $searchOverlay = $("<div id='search-overlay'></div>");
-            $('body').append($searchOverlay);
-
-            function removeSearchResult() {
-                $('.search-container').removeClass('search-active'),
-                    $('#search-result').fadeOut(500),
-                    $('.search-close').fadeOut(500),
-                    $searchOverlay.fadeOut(500),
-                    $('.search-icon').removeClass('bg-white text-theme-blue'),
-                    $searchBox.val("");
-            }
-
-            function showSearchResult() {
-                $searchOverlay.fadeIn(500);
-
-                // push search-container up wards
-                $('.search-container').addClass('search-active');
-
-                // display the search list and close btn
-
-                $('#search-result').fadeIn(500);
-                $('.search-close').fadeIn(500);
-
-                // change search icon style
-                $('.search-icon').addClass('bg-white text-theme-blue');
-            }
-            // show on keypress to search
-
-            $searchBox.on('keypress', showSearchResult);
-            $('button.search-icon').click(function (event) {
-                event.preventDefault();
-                showSearchResult();
-            });
-            $searchBox.click(function () {
-                if ($searchBox.val() == "") {
-                    console.log('empty');
-                } else {
-                    console.log('not empty');
-
-                }
-
-            });
-
-            $('.s-close').click(removeSearchResult);
-
-            $searchBox.on('keyup', function () {
-                if ($(this).val() == "") {
-                    removeSearchResult();
-                }
-            });
-
-
-            /**
-            * SCRIPT TO DISPLAY RESULTS
-            */
-
-            //search query
-
-            $searchBox.on('keyup', function () {
-                let searchQuery = $searchBox.val();
-                $('.result-title').text('Search Result for ' + searchQuery);
-            })
-
-        });
-
-    </script>
 
     <!-- SIGN UP SCRIPT -->
     <script>        

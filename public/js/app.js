@@ -55024,9 +55024,9 @@ var app = new Vue({
         search: ''
     },
     methods: {
-        searchForQuery: _.debounce(function () {
-            Event.$emit('search_stuff');
-        }, 750),
+        // searchForQuery: _.debounce(() => {
+        //   Event.$emit('search_stuff');
+        // }, 750),
 
         searchForUser: _.debounce(function () {
             Event.$emit('search_user');
@@ -55034,12 +55034,12 @@ var app = new Vue({
 
         searchForDoctor: _.debounce(function () {
             Event.$emit('search_doctor');
-        }, 750)
+        }, 750),
 
         // Used with @keyup.enter
-        // searchForQuery(){ 
-        //   Event.$emit('search_stuff');
-        // }
+        searchForQuery: function searchForQuery() {
+            Event.$emit('search_stuff');
+        }
     }
 });
 
@@ -96203,6 +96203,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this = this;
 
       // $parent needed to access the root instance at ...resources\js\app.js
+      this.query = this.$parent.search;
 
       // const searchUrl = appUrl +'/searches?q=';
       var searchUrl = appUrl + '/searches/doctors?q=';
@@ -96213,10 +96214,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return _this.doctors = data;
       }).then(function () {
         _this.loading = false;
-      }).then(function () {
-        if (_this.doctors.length) {
-          $('#search-list').css('display', 'block'); //.show();
-        }
       }).catch(function () {
         //...
       });
@@ -96225,20 +96222,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this2 = this;
 
       // $parent needed to access the root instance at ...resources\js\app.js
-      this.query = this.search != undefined && this.search.length ? this.search : this.$parent.search;
+      this.query = this.$parent.search;
       var searchUrl = appUrl + '/searches/tags?q=';
 
       axios.get(searchUrl + this.query).then(function (_ref2) {
         var data = _ref2.data;
         return _this2.tags = data;
-      }).then(function () {
-        _this2.loading = false;
       });
+      // Commented out to prevent premature Loading... in doctors, comes later.
+      // .then(() => { this.loading = false; })
     },
+
 
     // searchUsers() {
     //   // $parent needed to access the root instance at ...resources\js\app.js
-    //   this.query = (this.search != undefined && this.search.length) ? this.search : this.$parent.search;
+    //   this.query = this.$parent.search;
     //   const searchUrl = appUrl +'/searches/users?q=';
 
     //   axios.get(searchUrl + this.query)
@@ -96318,51 +96316,6 @@ var render = function() {
             _c("br"),
             _vm._v(" "),
             _c("div", { staticClass: "modal-body" }, [
-              _c(
-                "form",
-                {
-                  staticClass: "form-inline",
-                  on: {
-                    submit: function($event) {
-                      $event.preventDefault()
-                      return this.$parent.searchForQuery($event)
-                    }
-                  }
-                },
-                [
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: this.search,
-                        expression: "this.search"
-                      }
-                    ],
-                    staticClass:
-                      "form-control w-100 input-lg mr-sm-2 m-0 border-0 rounded search-form bg-dark",
-                    attrs: {
-                      type: "search",
-                      name: "query",
-                      id: "query",
-                      "aria-label": "Search",
-                      placeholder: "search...",
-                      required: ""
-                    },
-                    domProps: { value: this.search },
-                    on: {
-                      keyup: this.$parent.searchForQuery,
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(this, "search", $event.target.value)
-                      }
-                    }
-                  })
-                ]
-              ),
-              _vm._v(" "),
               _c("div", { staticClass: "text-center" }, [
                 _c("h1", [
                   _c("small", { staticClass: "text-sm" }, [

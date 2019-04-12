@@ -11,17 +11,17 @@
         <br>
         <div class="modal-body">
 
+                <!-- @keyup="this.$parent.searchForQuery"
           <form @submit.prevent="this.$parent.searchForQuery" class="form-inline">
               <input
                 v-model="this.search"
-                @keyup="this.$parent.searchForQuery"
                 type="search"
                 name="query" id="query"
                 aria-label="Search" 
                 placeholder="search..."
                 class="form-control w-100 input-lg mr-sm-2 m-0 border-0 rounded search-form bg-dark"
                 required>
-          </form>
+          </form> -->
             <!--  
              <button @click="this.$parent.searchForQuery" type="submit" class="search-icon bg-theme-blue">
                   <i class="fa fa-search "></i>
@@ -191,6 +191,7 @@
       /*******************************/
       searchDoctors() {
         // $parent needed to access the root instance at ...resources\js\app.js
+        this.query = this.$parent.search;
 
         // const searchUrl = appUrl +'/searches?q=';
         const searchUrl = appUrl +'/searches/doctors?q=';
@@ -199,27 +200,25 @@
         axios.get(searchUrl + this.query)
         .then(({data}) => (this.doctors = data))
         .then(() => { this.loading = false; })
-        .then(() =>{
-          if(this.doctors.length){
-            $('#search-list').css('display', 'block');//.show();
-          }
-        })
         .catch(()=>{
           //...
         })
       },
+
       searchTags() {
         // $parent needed to access the root instance at ...resources\js\app.js
-        this.query = (this.search != undefined && this.search.length) ? this.search : this.$parent.search;
+        this.query = this.$parent.search;
         const searchUrl = appUrl +'/searches/tags?q=';
 
         axios.get(searchUrl + this.query)
         .then(({data}) => (this.tags = data))
-        .then(() => { this.loading = false; })
+        // Commented out to prevent premature Loading... in doctors, comes later.
+        // .then(() => { this.loading = false; })
       },
+
       // searchUsers() {
       //   // $parent needed to access the root instance at ...resources\js\app.js
-      //   this.query = (this.search != undefined && this.search.length) ? this.search : this.$parent.search;
+      //   this.query = this.$parent.search;
       //   const searchUrl = appUrl +'/searches/users?q=';
 
       //   axios.get(searchUrl + this.query)

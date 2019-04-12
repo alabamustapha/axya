@@ -17,9 +17,7 @@
         <div class="wrapper">
             <section id="content-override" style="min-height: 80vh;">
 
-              <div class="search-container">
-                @include('layouts.redesign.search-container')
-              </div>
+              <searches></searches>
 
               <router-view></router-view>
 
@@ -47,8 +45,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
-
-    <script src="{{asset('js/vendor/jquery-2.0.3.js')}}"></script>
+    
     <script src="{{asset('js/custom.js')}}"></script>
     <script src="{{asset('js/main.js')}}"></script>
     <script>

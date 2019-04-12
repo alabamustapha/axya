@@ -36,12 +36,13 @@
                           <form @submit.prevent="searchForQuery" class="form-inline">
                               <input
                                 v-model="search"
-                                @keyup="searchForQuery"
+                                {{-- @keyup="searchForQuery" --}}
                                 type="search"
                                 name="search" id="search"
                                 aria-label="Search" 
-                                placeholder="search..."
+                                placeholder="search doctors, illness..."
                                 class="form-control mr-sm-2 m-0 border-0 rounded search-form"
+                                minlength="3"
                                 required>
                 
                                 {{-- <button @click="searchForQuery" type="submit" class="search-icon bg-theme-blue">
