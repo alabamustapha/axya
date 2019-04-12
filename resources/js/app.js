@@ -111,6 +111,11 @@ const app = new Vue({
       search: ''
     },
     methods: {
+      // Used with @keyup.enter
+      searchForQuery(){ 
+        Event.$emit('search_stuff');
+      },
+
       // searchForQuery: _.debounce(() => {
       //   Event.$emit('search_stuff');
       // }, 750),
@@ -122,10 +127,5 @@ const app = new Vue({
       searchForDoctor: _.debounce(() => {
         Event.$emit('search_doctor');
       }, 750),
-
-      // Used with @keyup.enter
-      searchForQuery(){ 
-        Event.$emit('search_stuff');
-      }
     }
 });

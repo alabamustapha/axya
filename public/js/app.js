@@ -55024,6 +55024,12 @@ var app = new Vue({
         search: ''
     },
     methods: {
+        // Used with @keyup.enter
+        searchForQuery: function searchForQuery() {
+            Event.$emit('search_stuff');
+        },
+
+
         // searchForQuery: _.debounce(() => {
         //   Event.$emit('search_stuff');
         // }, 750),
@@ -55034,12 +55040,7 @@ var app = new Vue({
 
         searchForDoctor: _.debounce(function () {
             Event.$emit('search_doctor');
-        }, 750),
-
-        // Used with @keyup.enter
-        searchForQuery: function searchForQuery() {
-            Event.$emit('search_stuff');
-        }
+        }, 750)
     }
 });
 
