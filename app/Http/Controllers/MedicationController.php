@@ -105,7 +105,7 @@ class MedicationController extends Controller
      */
     public function show(User $user, Medication $medication)
     {
-        $this->authorize('edit', $medication);
+        $this->authorize('view', $medication);
 
         $user = auth()->user();
 
@@ -128,6 +128,30 @@ class MedicationController extends Controller
         $this->authorize('edit', $medication);
 
         $medication->update($request->all());
+            
+        // Update recurrence in the event table.
+        if (   $request->start_date != $medication->start_date 
+            || $request->start_time != $medication->start_time 
+            || $request->end_date   != $medication->end_date 
+            || $request->recurrence != $medication->recurrence 
+            || $request->recurrence_type != $medication->recurrence_type) {
+            //remove every occucrrence from calaendar event 
+            $events = $user->calendar_events()
+                 ->where('eventable_id', $medication->id)
+                 ->where('eventable_type', 'App\Medication')
+                 ->delete()
+                 ;
+
+            // recreate calendar event.
+            if ($events) {
+                $medication->user
+                   ->calendar_events()
+                   ->createMany(\App\CalendarEvent::medicationEventData($medication))
+                   ;
+            }
+        }
+
+        flash('Medication updated successfully.')->success();
 
         // return response()->json([status => 'Successfully updated'], 200);
 

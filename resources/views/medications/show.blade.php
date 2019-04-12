@@ -30,7 +30,10 @@
             <div class="blockquote-footer mb-4">
                 <a href="{{ route('prescriptions.show', $prescription) }}" class="teal">
                   Linked Prescription <i class="fa fa-external-link-alt"></i>
-                </a>:&nbsp;
+                </a>:
+
+                <br>
+
                 {{ $prescription->appointment->description }}
             </div>
 
@@ -60,12 +63,12 @@
 
       <li class="bg-white p-2 mb-1">
         <i class="fas fa-bell fa-fw"></i> &nbsp; Time to Nofity: 
-        <kbd class="float-right">{{ $medication->notify_by }}minutes</kbd>
+        <kbd class="float-right">{{ $medication->notify_by }} minutes</kbd>
       </li>
 
       <li class="bg-white p-2 mb-1">
         <i class="fas fa-hourglass-half fa-fw"></i> &nbsp; Notify Every: 
-        <kbd class="float-right">{{ $medication->recurrence }}{{ $medication->recurrence_type }}</kbd>
+        <kbd class="float-right">{{ $medication->recurrence }} {{ $medication->recurrence_type }}</kbd>
       </li>
 
       <li>&nbsp;</li>
@@ -181,7 +184,7 @@
 
                 <div class="form-group">
                   <label class="text-sm" for="end_date">End Date <small class="red" title="Required field">yyyy-mm-dd *</small></label>
-                  <input type="text" maxlength="8" minlength="8" name="end_date" class="form-control-sm form-control{{ $errors->has('end_date') ? ' is-invalid' : '' }}" value="{{ old('end_date') ?: substr($medication->end_date, 0, 10) }}" placeholder="{{ date('Y-m-d') }}" required>
+                  <input type="text" maxlength="10" minlength="10" name="end_date" class="form-control-sm form-control{{ $errors->has('end_date') ? ' is-invalid' : '' }}" value="{{ old('end_date') ?: substr($medication->end_date, 0, 10) }}" placeholder="{{ date('Y-m-d') }}" required>
 
                   @if ($errors->has('end_date'))
                       <span class="invalid-feedback" role="alert">

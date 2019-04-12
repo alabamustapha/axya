@@ -15,9 +15,14 @@ class MedicationPolicy
         return $user->isVerified() && !$user->isSuspended();
     }
 
-    public function edit(User $user, Medication $medication)
+    public function view(User $user, Medication $medication)
     {
         return $user->id == $medication->user_id;
+    }
+
+    public function edit(User $user, Medication $medication)
+    {
+        return $user->id == $medication->user_id && now() < $medication->end_date;
     }
 
     public function delete(User $user, Medication $medication)
