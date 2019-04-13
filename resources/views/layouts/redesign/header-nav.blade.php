@@ -41,7 +41,8 @@
                                 name="search" id="search"
                                 aria-label="Search" 
                                 placeholder="search doctors, illness..."
-                                class="form-control mr-sm-2 m-0 border-0 rounded search-form"
+                                class="form-control mr-sm-2 m-0 border-0 rounded search-form bg-dark"
+                                autocomplete="off"
                                 minlength="3"
                                 required>
                 

@@ -11,17 +11,19 @@
         <br>
         <div class="modal-body">
 
-                <!-- @keyup="this.$parent.searchForQuery"
-          <form @submit.prevent="this.$parent.searchForQuery" class="form-inline">
+                <!-- @keyup="this.$parent.searchForQuery" -->
+          <form @submit.prevent="$parent.searchForQuery" class="form-inline">
               <input
-                v-model="this.search"
+                v-model="search"
                 type="search"
                 name="query" id="query"
                 aria-label="Search" 
-                placeholder="search..."
-                class="form-control w-100 input-lg mr-sm-2 m-0 border-0 rounded search-form bg-dark"
+                placeholder="search doctor, city, illness, specialty..."
+                class="form-control w-100 input-lg border-0 rounded search-form bg-dark text-center p-4"
+                autocomplete="off"
+                minlength="3"
                 required>
-          </form> -->
+          </form>
             <!--  
              <button @click="this.$parent.searchForQuery" type="submit" class="search-icon bg-theme-blue">
                   <i class="fa fa-search "></i>
@@ -168,21 +170,23 @@
         doctors : {},
         tags    : {},
         // users   : {},
-        search : '',
-        query : this.computedQuery,
+        search  : '',
+        query   : '',
+        doctorSearchUrl : appUrl +'/searches/doctors?q=',
+        tagSearchUrl    : appUrl +'/searches/tags?q=',
       }
     },
 
     computed: {
       // a computed getter
       computedQuery: function () {
-        console.log(this.search != undefined);
-        console.log(this.search.length);
 
-        return (this.search != undefined && this.search.length) 
+        // $parent needed to access the root instance at ...resources\js\app.js
+        return (this.search.length) 
               ? this.search : this.$parent.search
               ;
       }
+
     },
 
     methods: {
@@ -190,38 +194,26 @@
       /** ~~~~ MAKE NEW SEARCHES ~~~~*/
       /*******************************/
       searchDoctors() {
-        // $parent needed to access the root instance at ...resources\js\app.js
-        this.query = this.$parent.search;
+        this.query = this.computedQuery;
 
-        // const searchUrl = appUrl +'/searches?q=';
-        const searchUrl = appUrl +'/searches/doctors?q=';
-
-        // axios.get(searchUrl + this.query +'&type=dr')
-        axios.get(searchUrl + this.query)
+        axios.get(this.doctorSearchUrl + this.query)
         .then(({data}) => (this.doctors = data))
         .then(() => { this.loading = false; })
-        .catch(()=>{
-          //...
-        })
+        .catch(()=>{ /*...*/ })
       },
 
       searchTags() {
-        // $parent needed to access the root instance at ...resources\js\app.js
-        this.query = this.$parent.search;
-        const searchUrl = appUrl +'/searches/tags?q=';
+        this.query = this.computedQuery;
 
-        axios.get(searchUrl + this.query)
+        axios.get(this.tagSearchUrl + this.query)
         .then(({data}) => (this.tags = data))
-        // Commented out to prevent premature Loading... in doctors, comes later.
-        // .then(() => { this.loading = false; })
       },
 
       // searchUsers() {
-      //   // $parent needed to access the root instance at ...resources\js\app.js
-      //   this.query = this.$parent.search;
-      //   const searchUrl = appUrl +'/searches/users?q=';
+      //   this.query = this.computedQuery;
+      //   const this.userSearchUrl = appUrl +'/searches/users?q=';
 
-      //   axios.get(searchUrl + this.query)
+      //   axios.get(this.userSearchUrl + this.query)
       //   .then(({data}) => (this.users = data))
       //   .then(() => { this.loading = false; })
       // },
@@ -230,25 +222,23 @@
       /*~~~~ PAGINATION OF MODELS ~~~~*/
       /*******************************/
       doctorsPagination(page = 1) {
-        const searchUrl = appUrl +'/searches/doctors?q=';
 
-        axios.get(searchUrl + this.query + '&page=' + page)
+        axios.get(this.doctorSearchUrl + this.query + '&page=' + page)
           .then(response => {
             this.doctors = response.data;
           });
       },
       tagsPagination(page = 1) {
-        const searchUrl = appUrl +'/searches/tags?q=';
 
-        axios.get(searchUrl + this.query + '&page=' + page)
+        axios.get(this.tagSearchUrl + this.query + '&page=' + page)
           .then(response => {
             this.tags = response.data;
           });
       },
       // usersPagination(page = 1) {
-      //   const searchUrl = appUrl +'/searches/users?q=';
+      //   const this.userSearchUrl = appUrl +'/searches/users?q=';
 
-      //   axios.get(searchUrl + this.query + '&page=' + page)
+      //   axios.get(this.userSearchUrl + this.query + '&page=' + page)
       //     .then(response => {
       //       this.users = response.data;
       //     });

@@ -96171,6 +96171,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -96181,7 +96183,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       tags: {},
       // users   : {},
       search: '',
-      query: this.computedQuery
+      query: '',
+      doctorSearchUrl: appUrl + '/searches/doctors?q=',
+      tagSearchUrl: appUrl + '/searches/tags?q='
     };
   },
 
@@ -96189,11 +96193,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   computed: {
     // a computed getter
     computedQuery: function computedQuery() {
-      console.log(this.search != undefined);
-      console.log(this.search.length);
 
-      return this.search != undefined && this.search.length ? this.search : this.$parent.search;
+      // $parent needed to access the root instance at ...resources\js\app.js
+      return this.search.length ? this.search : this.$parent.search;
     }
+
   },
 
   methods: {
@@ -96203,44 +96207,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     searchDoctors: function searchDoctors() {
       var _this = this;
 
-      // $parent needed to access the root instance at ...resources\js\app.js
-      this.query = this.$parent.search;
+      this.query = this.computedQuery;
 
-      // const searchUrl = appUrl +'/searches?q=';
-      var searchUrl = appUrl + '/searches/doctors?q=';
-
-      // axios.get(searchUrl + this.query +'&type=dr')
-      axios.get(searchUrl + this.query).then(function (_ref) {
+      axios.get(this.doctorSearchUrl + this.query).then(function (_ref) {
         var data = _ref.data;
         return _this.doctors = data;
       }).then(function () {
         _this.loading = false;
-      }).catch(function () {
-        //...
-      });
+      }).catch(function () {/*...*/});
     },
     searchTags: function searchTags() {
       var _this2 = this;
 
-      // $parent needed to access the root instance at ...resources\js\app.js
-      this.query = this.$parent.search;
-      var searchUrl = appUrl + '/searches/tags?q=';
+      this.query = this.computedQuery;
 
-      axios.get(searchUrl + this.query).then(function (_ref2) {
+      axios.get(this.tagSearchUrl + this.query).then(function (_ref2) {
         var data = _ref2.data;
         return _this2.tags = data;
       });
-      // Commented out to prevent premature Loading... in doctors, comes later.
-      // .then(() => { this.loading = false; })
     },
 
 
     // searchUsers() {
-    //   // $parent needed to access the root instance at ...resources\js\app.js
-    //   this.query = this.$parent.search;
-    //   const searchUrl = appUrl +'/searches/users?q=';
+    //   this.query = this.computedQuery;
+    //   const this.userSearchUrl = appUrl +'/searches/users?q=';
 
-    //   axios.get(searchUrl + this.query)
+    //   axios.get(this.userSearchUrl + this.query)
     //   .then(({data}) => (this.users = data))
     //   .then(() => { this.loading = false; })
     // },
@@ -96253,9 +96245,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
-      var searchUrl = appUrl + '/searches/doctors?q=';
 
-      axios.get(searchUrl + this.query + '&page=' + page).then(function (response) {
+      axios.get(this.doctorSearchUrl + this.query + '&page=' + page).then(function (response) {
         _this3.doctors = response.data;
       });
     },
@@ -96264,9 +96255,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
-      var searchUrl = appUrl + '/searches/tags?q=';
 
-      axios.get(searchUrl + this.query + '&page=' + page).then(function (response) {
+      axios.get(this.tagSearchUrl + this.query + '&page=' + page).then(function (response) {
         _this4.tags = response.data;
       });
     }
@@ -96317,6 +96307,52 @@ var render = function() {
             _c("br"),
             _vm._v(" "),
             _c("div", { staticClass: "modal-body" }, [
+              _c(
+                "form",
+                {
+                  staticClass: "form-inline",
+                  on: {
+                    submit: function($event) {
+                      $event.preventDefault()
+                      return _vm.$parent.searchForQuery($event)
+                    }
+                  }
+                },
+                [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.search,
+                        expression: "search"
+                      }
+                    ],
+                    staticClass:
+                      "form-control w-100 input-lg border-0 rounded search-form bg-dark text-center p-4",
+                    attrs: {
+                      type: "search",
+                      name: "query",
+                      id: "query",
+                      "aria-label": "Search",
+                      placeholder: "search doctor, city, illness, specialty...",
+                      autocomplete: "off",
+                      minlength: "3",
+                      required: ""
+                    },
+                    domProps: { value: _vm.search },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.search = $event.target.value
+                      }
+                    }
+                  })
+                ]
+              ),
+              _vm._v(" "),
               _c("div", { staticClass: "text-center" }, [
                 _c("h1", [
                   _c("small", { staticClass: "text-sm" }, [

@@ -124,7 +124,8 @@
                                                     type="search"
                                                     name="search" id="search"
                                                     aria-label="Search" 
-                                                    placeholder="search doctors, illness, topics, etc"
+                                                    placeholder="search doctor, city, illness, specialty..."
+                                                    autocomplete="off"
                                                     minlength="3"
                                                     required>
                                             </div>
