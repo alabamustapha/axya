@@ -26,7 +26,7 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('patient')->except('resend','verified'); // Prevents viewing another user's profile
+        $this->middleware('patient')->except('resend','verified','disallowDoctorVerify'); // Prevents viewing another user's profile
         $this->middleware('verified')->only(['changePassword']);
     }
 
@@ -213,5 +213,22 @@ class UserController extends Controller
         flash('Congratulations! Account verification successful.')->success();
 
         return back();
+    }
+
+    /**
+     * Removes notification to verify as a doctor.
+     *
+     * @return response
+     */
+    public function disallowDoctorVerify()
+    {
+        $user = auth()->user();
+        $this->authorize('edit', $user);
+
+        $user->as_doctor = 0;
+        $user->allows_doctor_verify = 0;
+        $user->save();
+
+        return response()->json(['data' => 'Notification hidden']);
     }
 }

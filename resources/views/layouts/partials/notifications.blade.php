@@ -27,14 +27,14 @@
 
       @else
 
-        @if (Auth::user()->is_potential_doctor && !Auth::user()->is_doctor && Auth::user()->isAccountOwner())
-          @if (Request::is('home') || Request::is('*/notifications'))
-              <h5 class="py-2 mb-0 rounded text-center bg-dark">
-                {{-- Extract this to a view for doctors personal notifications only. --}}
+        @if ((Request::is('home') || Request::is('*/notifications')) && Auth::user()->isAccountOwner())
+          @if (Auth::user()->is_potential_doctor && Auth::user()->allows_doctor_verify && !Auth::user()->is_doctor)
+          
+            <doctor-verify-notif 
+                :status="{{ Auth::user()->application_status }}"
+                :doc-notify="{{ Auth::user()->allows_doctor_verify }}"
+            ></doctor-verify-notif>
 
-                {{ Auth::user()->applicationStatus() }}
-
-              </h5>
           @endif
         @endif
       @endunless

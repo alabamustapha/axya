@@ -244,3 +244,4 @@ Route::prefix('{user}')->group(function(){
 
 Route::post('/verify_resend',   'UserController@resend')->name('verify_resend');
 Route::post('/email_verified',  'UserController@verified')->name('email_verified');
+Route::post('/doctor-verify',   'UserController@disallowDoctorVerify')->name('doctor-verify');

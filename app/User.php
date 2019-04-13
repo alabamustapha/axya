@@ -44,7 +44,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'name','slug','email','password','address','phone',
         'gender','avatar','blocked','dob','weight','height','allergies','chronics',
         'last_four','terms','application_retry_at',
-        'verification_link','is_doctor','as_doctor','application_status',
+        'verification_link','is_doctor','as_doctor','application_status','allows_doctor_verify',
         'admin_mode','admin_password','doctor_mode','doctor_password',
     ];
 
@@ -632,6 +632,8 @@ class User extends Authenticatable implements MustVerifyEmail
     public function updateApplicationStatus($code) 
     {
         $this->application_status = self::$rStatus[$code];
+        // For users who fill incorrectly during registration. Helps display notification.
+        $this->as_doctor = '1'; 
 
         if ($code == 'rejected') { $this->application_retry_at = Carbon::now()->addDays(7); }
 

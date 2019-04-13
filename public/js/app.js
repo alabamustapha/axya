@@ -55014,6 +55014,7 @@ Vue.component('schedule', __webpack_require__(229));
 
 Vue.component('pagination', __webpack_require__(231));
 Vue.component('loading-spinner', __webpack_require__(232));
+Vue.component('doctor-verify-notif', __webpack_require__(249));
 
 // Vue.component('vue-ctk-date-time-picker', VueCtkDateTimePicker);
 
@@ -115391,6 +115392,496 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 236 */,
+/* 237 */,
+/* 238 */,
+/* 239 */,
+/* 240 */,
+/* 241 */,
+/* 242 */,
+/* 243 */,
+/* 244 */,
+/* 245 */,
+/* 246 */,
+/* 247 */,
+/* 248 */,
+/* 249 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(250)
+/* template */
+var __vue_template__ = __webpack_require__(251)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/Utilities/DoctorVerifyNotif.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-99c419d0", Component.options)
+  } else {
+    hotAPI.reload("data-v-99c419d0", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 250 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['status', 'docNotify'],
+
+  data: function data() {
+    return {
+      allow: this.docNotify,
+      registerUrl: appUrl + '/doctors/create'
+    };
+  },
+
+
+  methods: {
+    disallowDoctorVerify: function disallowDoctorVerify() {
+      var _this = this;
+
+      if (confirm('You really want to close this reminder? \n\n It will be hidden forever.')) {
+        this.$Progress.start();
+
+        axios.post(appUrl + '/doctor-verify').then(function () {
+          _this.allow = 0;
+          _this.docNotify = 0;
+
+          toast({
+            type: 'success',
+            title: 'Notification hidden.'
+          });
+          _this.$Progress.finish();
+        }).catch(function () {/*...*/});
+      }
+    }
+  }
+});
+
+/***/ }),
+/* 251 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.allow
+    ? _c("div", [
+        _c("h5", { staticClass: "py-2 mb-0 rounded text-center bg-dark" }, [
+          _vm.status == 0
+            ? _c("span", [
+                _vm._m(0),
+                _vm._v(" "),
+                _c("br"),
+                _vm._v(" "),
+                _c("small", { staticClass: "text-sm" }, [
+                  _c(
+                    "span",
+                    {
+                      staticClass:
+                        "d-inline-block p-2 border border-success rounded"
+                    },
+                    [
+                      _vm._v(
+                        "\n              Submit verification documents \n              "
+                      ),
+                      _c(
+                        "a",
+                        {
+                          staticClass: "btn btn-success btn-sm",
+                          attrs: { href: _vm.registerUrl }
+                        },
+                        [
+                          _c("i", { staticClass: "fa fa-user-check" }, [
+                            _vm._v("  ")
+                          ]),
+                          _vm._v("HERE \n              ")
+                        ]
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "span",
+                    {
+                      staticClass:
+                        "d-inline-block p-2 border border-danger rounded"
+                    },
+                    [
+                      _vm._v("\n              Not a doctor? \n              "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-danger btn-sm",
+                          attrs: { title: "Not a doctor?" },
+                          on: { click: _vm.disallowDoctorVerify }
+                        },
+                        [
+                          _c("i", { staticClass: "fa fa-times" }),
+                          _vm._v("  Close Reminder\n              ")
+                        ]
+                      )
+                    ]
+                  )
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.status == 1
+            ? _c("span", [
+                _vm._m(1),
+                _vm._v(" "),
+                _c("hr"),
+                _vm._v(" "),
+                _vm._m(2)
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.status == 2
+            ? _c("span", [
+                _vm._m(3),
+                _vm._v(" "),
+                _c("hr"),
+                _vm._v(" "),
+                _vm._m(4)
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.status == 3
+            ? _c("span", [
+                _vm._m(5),
+                _vm._v(" "),
+                _c("hr"),
+                _vm._v(" "),
+                _vm._m(6)
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.status == 4
+            ? _c("span", [
+                _vm._m(7),
+                _vm._v(" "),
+                _c("hr"),
+                _vm._v(" "),
+                _vm._m(8)
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.status == 5
+            ? _c("span", [
+                _vm._m(9),
+                _vm._v(" "),
+                _c("hr"),
+                _vm._v(" "),
+                _vm._m(10)
+              ])
+            : _vm._e()
+        ])
+      ])
+    : _vm._e()
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "text-light text-bold h5" }, [
+      _c("i", { staticClass: "fa fa-user-md" }),
+      _vm._v("  You Registered As a Doctor.")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "teal text-bold" }, [
+      _c("i", { staticClass: "fa fa-info-circle" }),
+      _vm._v("  Notifications")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("small", { staticClass: "text-sm" }, [
+      _vm._v(
+        "\n          Notifications and updates on professional stuffs.\n          "
+      ),
+      _c("br"),
+      _vm._v(" "),
+      _c("small", { staticClass: "red" }, [
+        _c("em", [_vm._v("You may recieve appiontment from patients now.")])
+      ]),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v(" "),
+      _c("small", { staticClass: "red" }, [
+        _c("em", [
+          _vm._v("You must be "),
+          _c("b", [_vm._v("subscribed")]),
+          _vm._v(" to appear in search results.")
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "green text-bold" }, [
+      _c("i", { staticClass: "fa fa-info-circle" }),
+      _vm._v("  Application Accepted")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("small", { staticClass: "text-sm" }, [
+      _vm._v("\n          Your information has been "),
+      _c("b", [_vm._v("verified")]),
+      _vm._v(", your application is "),
+      _c("b", [_vm._v("accepted")]),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v(
+        "\n          You can now attend to patients and receive appointments on this platform after subscription.\n          "
+      ),
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary btn-sm",
+          attrs: {
+            "data-toggle": "modal",
+            "data-target": "#newSubscriptionForm",
+            title: "New Subscription"
+          }
+        },
+        [_vm._v("Subscribe Now")]
+      ),
+      _vm._v(".\n        ")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "orange text-bold" }, [
+      _c("i", { staticClass: "fa fa-info-circle" }),
+      _vm._v("  Ongoing Verification")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("small", { staticClass: "text-sm" }, [
+      _vm._v("\n          Your application as a "),
+      _c("b", [
+        _vm._v(" "),
+        _c("i", { staticClass: "fa fa-user-md" }),
+        _vm._v("  Medical Doctor")
+      ]),
+      _vm._v(" is being reviewed...\n          "),
+      _c("br"),
+      _vm._v(
+        "\n          Wait for your documents verification and eventual administrator\\'s decision (approval/rejection).\n        "
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "teal text-bold" }, [
+      _c("i", { staticClass: "fa fa-info-circle" }),
+      _vm._v("  Application Received!")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("small", { staticClass: "text-sm" }, [
+      _vm._v("\n          We have received your application as a "),
+      _c("b", [
+        _vm._v(" "),
+        _c("i", { staticClass: "fa fa-user-md" }),
+        _vm._v("  Medical Doctor")
+      ]),
+      _vm._v(
+        " on this platform. Your details will be reviewed within 48hours. \n          "
+      ),
+      _c("br"),
+      _vm._v(
+        "\n          Keep checking this section for updates on your application status.\n        "
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "red text-bold" }, [
+      _c("i", { staticClass: "fa fa-info-circle red" }),
+      _vm._v("  Application Rejected!")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("small", { staticClass: "text-sm" }, [
+      _c("b", [
+        _vm._v("We cannot accept your application as a medical doctor")
+      ]),
+      _vm._v(" on our platform at this time. \n          "),
+      _c("br"),
+      _vm._v(
+        "\n          Kindly update your documents and reapply later.\n        "
+      )
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-99c419d0", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

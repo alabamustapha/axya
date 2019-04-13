@@ -53,6 +53,7 @@ class CreateUsersTable extends Migration
             $table->boolean('terms')->default(0);
             $table->timestamp('application_retry_at')->nullable();
             $table->timestamp('email_verified_at')->nullable();
+            $table->boolean('allows_doctor_verify')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

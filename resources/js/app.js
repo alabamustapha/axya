@@ -101,6 +101,7 @@ Vue.component('schedule',         require('./components/Schedules/OldAttempt/Sch
 
 Vue.component('pagination',       require('laravel-vue-pagination'));
 Vue.component('loading-spinner',  require('./components/Utilities/LoadingSpinner.vue'));
+Vue.component('doctor-verify-notif',  require('./components/Utilities/DoctorVerifyNotif.vue'));
 
 // Vue.component('vue-ctk-date-time-picker', VueCtkDateTimePicker);
 
