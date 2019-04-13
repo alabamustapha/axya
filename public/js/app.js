@@ -96174,6 +96174,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -96186,7 +96190,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       search: '',
       query: '',
       doctorSearchUrl: appUrl + '/searches/doctors?q=',
-      tagSearchUrl: appUrl + '/searches/tags?q='
+      tagSearchUrl: appUrl + '/searches/tags?q=',
+      doctorsCount: 0,
+      tagsCount: 0
     };
   },
 
@@ -96198,6 +96204,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       // $parent needed to access the root instance at ...resources\js\app.js
       return this.search.length ? this.search : this.$parent.search;
     }
+    // doctorsCount: function () {
+    //   return this.doctors.data.length;
+    // },
+    // tagsCount: function () {
+    //   return this.tags.data.length;
+    // }
 
   },
 
@@ -96215,6 +96227,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return _this.doctors = data;
       }).then(function () {
         _this.loading = false;
+        _this.doctorsCount = _this.doctors.data.length;
       }).catch(function () {/*...*/});
     },
     searchTags: function searchTags() {
@@ -96225,6 +96238,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       axios.get(this.tagSearchUrl + this.query).then(function (_ref2) {
         var data = _ref2.data;
         return _this2.tags = data;
+      }).then(function () {
+        _this2.tagsCount = _this2.tags.data.length;
       });
     },
 
@@ -96367,7 +96382,66 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "result" }, [
-                _vm._m(1),
+                _c("div", { staticClass: "result-nav px-3 " }, [
+                  _c(
+                    "ul",
+                    {
+                      staticClass: "nav nav-tabs justify-content-center",
+                      attrs: { id: "myTab", role: "tablist" }
+                    },
+                    [
+                      _c("li", { staticClass: "nav-item" }, [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "nav-link active",
+                            attrs: {
+                              id: "doctor-tab",
+                              "data-toggle": "tab",
+                              href: "#doctor",
+                              role: "tab",
+                              "aria-controls": "doctor",
+                              "aria-selected": "true"
+                            }
+                          },
+                          [
+                            _vm._v("\n                  Doctors ("),
+                            _c("span", {
+                              domProps: {
+                                textContent: _vm._s(_vm.doctorsCount)
+                              }
+                            }),
+                            _vm._v(")\n                ")
+                          ]
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("li", { staticClass: "nav-item" }, [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "nav-link",
+                            attrs: {
+                              id: "tag-tab",
+                              "data-toggle": "tab",
+                              href: "#tag",
+                              role: "tab",
+                              "aria-controls": "tag",
+                              "aria-selected": "false"
+                            }
+                          },
+                          [
+                            _vm._v("\n                  Keyword/Tag ("),
+                            _c("span", {
+                              domProps: { textContent: _vm._s(_vm.tagsCount) }
+                            }),
+                            _vm._v(")\n                ")
+                          ]
+                        )
+                      ])
+                    ]
+                  )
+                ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "result-body" }, [
                   _c(
@@ -96388,8 +96462,7 @@ var render = function() {
                           }
                         },
                         [
-                          _vm.doctors.data != undefined &&
-                          _vm.doctors.data.length
+                          _vm.doctors.data != undefined && _vm.doctorsCount
                             ? _c(
                                 "div",
                                 _vm._l(_vm.doctors.data, function(doctor) {
@@ -96538,16 +96611,14 @@ var render = function() {
                                     staticClass: "text-center"
                                   },
                                   [
-                                    _vm._m(2),
+                                    _vm._m(1),
                                     _vm._v(" "),
                                     _c("br"),
                                     _vm._v(" "),
                                     _c("p", [
                                       _c("strong", [_vm._v("0")]),
                                       _vm._v(" results for "),
-                                      _c("b", [
-                                        _vm._v(_vm._s(this.$parent.search))
-                                      ]),
+                                      _c("b", [_vm._v(_vm._s(this.query))]),
                                       _vm._v(" in "),
                                       _c("em", { staticClass: "text-bold" }, [
                                         _vm._v("doctors")
@@ -96578,11 +96649,11 @@ var render = function() {
                                 ),
                                 _c("i", { staticClass: "fa fa-user-md" }),
                                 _vm._v(" for "),
-                                _c("b", [_vm._v(_vm._s(this.$parent.search))]),
+                                _c("b", [_vm._v(_vm._s(this.query))]),
                                 _vm._v("...\n                  ")
                               ]),
                               _vm._v(" "),
-                              _vm._m(3)
+                              _vm._m(2)
                             ]
                           ),
                           _vm._v(" "),
@@ -96632,7 +96703,7 @@ var render = function() {
                           }
                         },
                         [
-                          _vm.tags.data != undefined && _vm.tags.data.length
+                          _vm.tags.data != undefined && _vm.tagsCount
                             ? _c(
                                 "div",
                                 _vm._l(_vm.tags.data, function(tag) {
@@ -96684,16 +96755,14 @@ var render = function() {
                                     staticClass: "text-center"
                                   },
                                   [
-                                    _vm._m(4),
+                                    _vm._m(3),
                                     _vm._v(" "),
                                     _c("br"),
                                     _vm._v(" "),
                                     _c("p", [
                                       _c("strong", [_vm._v("0")]),
                                       _vm._v(" results for "),
-                                      _c("b", [
-                                        _vm._v(_vm._s(this.$parent.search))
-                                      ]),
+                                      _c("b", [_vm._v(_vm._s(this.query))]),
                                       _vm._v(" in "),
                                       _c("em", { staticClass: "text-bold" }, [
                                         _vm._v("tags")
@@ -96724,11 +96793,11 @@ var render = function() {
                                 ),
                                 _c("i", { staticClass: "fa fa-tags" }),
                                 _vm._v(" for "),
-                                _c("b", [_vm._v(_vm._s(this.$parent.search))]),
+                                _c("b", [_vm._v(_vm._s(this.query))]),
                                 _vm._v("...\n                  ")
                               ]),
                               _vm._v(" "),
-                              _vm._m(5)
+                              _vm._m(4)
                             ]
                           ),
                           _vm._v(" "),
@@ -96795,57 +96864,6 @@ var staticRenderFns = [
       },
       [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
     )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "result-nav px-3 " }, [
-      _c(
-        "ul",
-        {
-          staticClass: "nav nav-tabs justify-content-center",
-          attrs: { id: "myTab", role: "tablist" }
-        },
-        [
-          _c("li", { staticClass: "nav-item" }, [
-            _c(
-              "a",
-              {
-                staticClass: "nav-link active",
-                attrs: {
-                  id: "doctor-tab",
-                  "data-toggle": "tab",
-                  href: "#doctor",
-                  role: "tab",
-                  "aria-controls": "doctor",
-                  "aria-selected": "true"
-                }
-              },
-              [_vm._v("Doctor")]
-            )
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "nav-item" }, [
-            _c(
-              "a",
-              {
-                staticClass: "nav-link",
-                attrs: {
-                  id: "tag-tab",
-                  "data-toggle": "tab",
-                  href: "#tag",
-                  role: "tab",
-                  "aria-controls": "tag",
-                  "aria-selected": "false"
-                }
-              },
-              [_vm._v("Keyword/Tag")]
-            )
-          ])
-        ]
-      )
-    ])
   },
   function() {
     var _vm = this

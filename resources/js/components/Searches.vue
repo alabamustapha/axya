@@ -40,10 +40,14 @@
             <div class="result-nav px-3 ">
               <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
                 <li class="nav-item">
-                  <a class="nav-link active" id="doctor-tab" data-toggle="tab" href="#doctor" role="tab" aria-controls="doctor" aria-selected="true">Doctor</a>
+                  <a class="nav-link active" id="doctor-tab" data-toggle="tab" href="#doctor" role="tab" aria-controls="doctor" aria-selected="true">
+                    Doctors (<span v-text="doctorsCount"></span>)
+                  </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" id="tag-tab" data-toggle="tab" href="#tag" role="tab" aria-controls="tag" aria-selected="false">Keyword/Tag</a>
+                  <a class="nav-link" id="tag-tab" data-toggle="tab" href="#tag" role="tab" aria-controls="tag" aria-selected="false">
+                    Keyword/Tag (<span v-text="tagsCount"></span>)
+                  </a>
                 </li>
               </ul>
             </div>
@@ -53,7 +57,7 @@
 
                 <div class="tab-pane fade show active" id="doctor" role="tabpanel" aria-labelledby="doctor-tab">
 
-                  <div v-if="doctors.data != undefined && doctors.data.length">
+                  <div v-if="doctors.data != undefined && doctorsCount">
                     <div class="d-r result-row" v-for="doctor in doctors.data" :key="doctor.id">
                       <div class="img-side">
                         <a :href="doctor.link" :title="doctor.name +' - '+ doctor.specialty.name" style="color:inherit;">
@@ -88,13 +92,13 @@
 
                       <br>
 
-                      <p><strong>0</strong> results for <b>{{this.$parent.search}}</b> in <em class="text-bold">doctors</em>.</p>
+                      <p><strong>0</strong> results for <b>{{this.query}}</b> in <em class="text-bold">doctors</em>.</p>
                     </div>
                   </div>
 
                   <div class="text-center" v-show="loading">
                     <span class="d-inline-block">
-                      Searching doctors <i class="fa fa-user-md"></i> for <b>{{this.$parent.search}}</b>...
+                      Searching doctors <i class="fa fa-user-md"></i> for <b>{{this.query}}</b>...
                     </span>
                     <span class="d-inline-block fa-fw h5">
                       <i class="fas fa-sync fa-spin"></i>
@@ -111,7 +115,7 @@
                 </div>
 
                 <div class="tab-pane fade" id="tag" role="tabpanel" aria-labelledby="tag-tab">
-                  <div v-if="tags.data != undefined && tags.data.length">
+                  <div v-if="tags.data != undefined && tagsCount">
                     <div class="result-row" v-for="tag in tags.data" :key="tag.id">
                       <span class="tag">
                         <a :href="tag.link" :title="tag.name +' - '+ tag.specialty.name" v-text="tag.name"></a>
@@ -127,13 +131,13 @@
 
                       <br>
 
-                      <p><strong>0</strong> results for <b>{{this.$parent.search}}</b> in <em class="text-bold">tags</em>.</p>
+                      <p><strong>0</strong> results for <b>{{this.query}}</b> in <em class="text-bold">tags</em>.</p>
                     </div>
                   </div>
 
                   <div class="text-center" v-show="loading">
                     <span class="d-inline-block">
-                      Searching keywords <i class="fa fa-tags"></i> for <b>{{this.$parent.search}}</b>...
+                      Searching keywords <i class="fa fa-tags"></i> for <b>{{this.query}}</b>...
                     </span>
                     <span class="d-inline-block fa-fw h5">
                       <i class="fas fa-sync fa-spin"></i>
@@ -174,6 +178,8 @@
         query   : '',
         doctorSearchUrl : appUrl +'/searches/doctors?q=',
         tagSearchUrl    : appUrl +'/searches/tags?q=',
+        doctorsCount    : 0,
+        tagsCount       : 0,
       }
     },
 
@@ -185,7 +191,7 @@
         return (this.search.length) 
               ? this.search : this.$parent.search
               ;
-      }
+      },
 
     },
 
@@ -198,7 +204,10 @@
 
         axios.get(this.doctorSearchUrl + this.query)
         .then(({data}) => (this.doctors = data))
-        .then(() => { this.loading = false; })
+        .then(() => { 
+          this.loading = false; 
+          this.doctorsCount = this.doctors.data.length;
+        })
         .catch(()=>{ /*...*/ })
       },
 
@@ -207,6 +216,9 @@
 
         axios.get(this.tagSearchUrl + this.query)
         .then(({data}) => (this.tags = data))
+        .then(() => { 
+          this.tagsCount = this.tags.data.length;
+        })
       },
 
       // searchUsers() {
