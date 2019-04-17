@@ -733,8 +733,11 @@ class Doctor extends Model
         return $this->isOnline();
     }
 
-    public function setLocationAttribute($value) 
+    public function getLocationAttribute($value) 
     {
-        return $this->city->name .', '. $this->region->name;
+        $cityName   = $this->city   ? $this->city->name : '';
+        $regionName = $this->region ? $this->region->name: '';
+        
+        return $cityName .', '. $regionName;
     }
 }

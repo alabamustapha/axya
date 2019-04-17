@@ -173,10 +173,14 @@
                   <p class="speciality font-weight-normal text-theme-blue">{{ $doctor->degree }}</p>
                 </li>
                 <li class="nav-item">
-                  <p class="office  font-weight-normal">{{ $doctor->work_address }}</p>
+                  <p class="office  font-weight-normal">
+                    <span>{{ $doctor->work_address }}</span>
+                    <br>
+                    <span>{{ $doctor->location }}</span>
+                  </p>
                 </li>
                 <li class="nav-item">
-                  <p class="experience">{{ $doctor->practice_years }}years in practice</p>
+                  <p class="experience">{{ $doctor->practice_years }} years in practice</p>
                 </li>
                      
               </ul>
