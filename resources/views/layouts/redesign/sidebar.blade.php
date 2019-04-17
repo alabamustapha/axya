@@ -97,17 +97,15 @@
       </li>
     @endif
 
-    @if (Request::is('home') || Request::is('*/notifications'))
-      @if (Auth::user()->isVerified() && !Auth::user()->is_doctor  && Auth::user()->allows_doctor_verify)
-        <li class="nav-item bg-warning">
+    @if (Auth::user()->isVerified() && !Auth::user()->is_doctor  && Auth::user()->allows_doctor_verify)
+      <li class="nav-item bg-warning">
 
-          <a href="{{route('doctors.create')}}" class="nav-link">
-            <i class="icon fa fa-user-md fa-fw"></i>
-            <span class="navlink-active">Verify As Doctor</span>
-          </a>
+        <a href="{{route('doctors.create')}}" class="nav-link">
+          <i class="icon fa fa-user-md fa-fw"></i>
+          <span class="navlink-active">Verify As Doctor</span>
+        </a>
 
-        </li>
-      @endif
+      </li>
     @endif
 
     @if (Auth::user()->is_authenticated_doctor)

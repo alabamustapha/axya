@@ -39,6 +39,56 @@
                 </span>
             @endif
         </div>
+
+        
+
+        <div class="form-group">
+            <label for="region_id" class="tf-flex">
+                <span>{{ __('Location') }}</span>
+            </label>
+            <div class="card border-secondary">
+                <div class="card-body bg-transparent shadow-none">
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label for="region_id" class="tf-flex">
+                                <small style="size:10px;">{{ __('Region') }}</small>
+                                <small title="required" class="red">**</small>
+                            </label>
+
+                            <select name="region_id" id="region_id" class="form-control{{ $errors->has('region_id') ? ' is-invalid' : '' }}" required>
+                                <option value="">Select Region</option>
+                                @foreach ($regions as $region)
+                                    <option value="{{ $region->id }}">{{ $region->name }}</option>
+                                @endforeach
+                            </select>
+
+                            @if ($errors->has('region_id'))
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $errors->first('region_id') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="city_id" class="tf-flex">
+                                <small style="size:10px;">{{ __('City') }}</small>
+                                <small title="required" class="red">**</small>
+                            </label>
+
+                            <select name="city_id" id="city_id" class="form-control{{ $errors->has('city_id') ? ' is-invalid' : '' }}" required>
+                                <option value="">Select City</option>
+                            </select>
+
+                            @if ($errors->has('city_id'))
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $errors->first('city_id') }}</strong>
+                                </span>
+                            @endif                 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
       </div>
     </div>
 
@@ -80,7 +130,7 @@
 
         <div class="form-group">
             <label for="workplace" class="tf-flex">
-                <span>{{ __('Present Place of Work') }}</span>
+                <span>{{ __('Current Work Details') }}</span>
             </label>
             <div class="card border-secondary">
                 <div class="card-body bg-transparent shadow-none">
