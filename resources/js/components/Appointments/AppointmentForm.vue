@@ -42,13 +42,28 @@
             </div>
 
             <div class="col-md-6">
-              <label for="day">Select Day <small>(yyyy-mm-dd)</small></label>
-              <input v-model="form.day" 
+              <label for="day">Select Day</label>
+                                    <!-- 
+                                      format="yyyy-mm-dd" Format for BE
+                                      formatted="yyyy-mm-dd" Format for FE view
+                                    -->
+
+                                    <VueCtkDateTimePicker 
+                                      v-model="form.day"
+                                      format="YYYY-MM-d"
+                                      formatted="lll"
+                                      :only-day="true"
+                                      :label="'Start'"
+                                      :disabled-hours="['','']"
+                                      class="form-control" 
+                                      :class="{ 'is-invalid': form.errors.has('day') }"
+                                    ></VueCtkDateTimePicker>
+              <!-- <input v-model="form.day" 
                 id="datepicker" 
                 type="text" name="day" minlength="10" maxlength="15"
                 placeholder="yyyy-mm-dd" autocomplete="off" 
                 class="form-control" :class="{ 'is-invalid': form.errors.has('day') }" 
-                required>
+                required> -->
                 <!-- :min="this.getMoment().format('Y-M-D')" :placeholder="this.getMoment().format('Y-M-D')"  -->
               <has-error :form="form" field="day"></has-error>    
             </div>
@@ -81,25 +96,45 @@
 
         <div class="form-group text-center">
           <div class="row" id="timepicker">
-            <div class="col-md-5">
+            <div class="col-md-5"><!-- HH:mm:ss -->
+                                    <VueCtkDateTimePicker 
+                                      v-model="form.from"
+                                      format="hh:mm a"
+                                      formatted="hh:mm a"
+                                      :only-time="true"
+                                      :label="'From'"
+                                      :disabled-hours="['','']"
+                                      class="form-control" 
+                                      :class="{ 'is-invalid': form.errors.has('from') }"
+                                    ></VueCtkDateTimePicker>
               <!-- <label for="from">Start <small>(eg 11:30 or 11:30 AM)</small></label> -->
-              <input v-model="form.from" type="text" name="from" 
+              <!-- <input v-model="form.from" type="text" name="from" 
                 minlength="5" maxlength="5" min="00:00" max="23:59" 
                 placeholder="hh:mm am"
                 id="from" class="time start form-control" :class="{ 'is-invalid': form.errors.has('type') }"
-                required> 
+                required> --> 
               <has-error :form="form" field="from"></has-error>  
             </div>
 
             <div class="col-xs-1 mx-auto p-0 m-0"> to </div>
 
-            <div class="col-md-6">
+            <div class="col-md-6"><!-- HH:mm:ss -->
+                                    <VueCtkDateTimePicker 
+                                      v-model="form.to"
+                                      format="hh:mm a"
+                                      formatted="hh:mm a"
+                                      :only-time="true"
+                                      :label="'End'"
+                                      :disabled-hours="['','']"
+                                      class="form-control" 
+                                      :class="{ 'is-invalid': form.errors.has('to') }"
+                                    ></VueCtkDateTimePicker>
               <!-- <label for="to">End <small>(eg 22:15 or 10:15 PM)</small></label> -->
-              <input v-model="form.to" type="text" name="to" 
+              <!-- <input v-model="form.to" type="text" name="to" 
                 minlength="5" maxlength="5" min="00:00" max="23:59" 
                 placeholder="hh:mm am"
                 id="to" class="time end form-control" :class="{ 'is-invalid': form.errors.has('to') }"
-                required>
+                required> -->
               <has-error :form="form" field="to"></has-error>                   
             </div>
           </div>
@@ -148,6 +183,10 @@
 </template>
 
 <script>
+  import VueCtkDateTimePicker from 'vue-ctk-date-time-picker';
+  // import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
+
+  // Vue.component('VueCtkDateTimePicker', VueCtkDateTimePicker);
   export default {
     props: ['doctor'],
 

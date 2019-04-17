@@ -11,6 +11,7 @@ class AppointmentRequest extends FormRequest
      *
      * @return bool
      */
+    
     public function authorize()
     {
         return true;
@@ -31,8 +32,8 @@ class AppointmentRequest extends FormRequest
 
             'description' => 'required|string|max:1500',
 
-            'from'      => 'required|date_format:h:i A',
-            'to'        => 'required|date_format:h:i A|after:from',
+            'from'      => 'required|date_format:h:i a',
+            'to'        => 'required|date_format:h:i a|after:from',
         ]);
 
         $rules = app()->environment('testing')
