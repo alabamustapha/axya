@@ -23,12 +23,19 @@
                 autocomplete="off"
                 minlength="3"
                 required>
-          </form>
-            <!--  
-             <button @click="this.$parent.searchForQuery" type="submit" class="search-icon bg-theme-blue">
+                <!-- <location-selection
+                            :set-row-class="'row'"
+                            :region-div="'col-6'"
+                            :city-div="'col-6'"
+                ></location-selection> -->
+                <!-- :required="true":label="true" -->
+             
+             <br>
+             <button @click="$parent.searchForQuery" type="submit" class="btn btn-block bg-theme-blue">
                   <i class="fa fa-search "></i>
               </button>
-            -->
+           
+          </form>
           <div class="text-center">
             <h1>
               <small class="text-sm">Search results for</small> <em class="text-warning">{{this.query}}</em></h1>            
@@ -73,15 +80,16 @@
                           </div>
 
                           <span class="d-block occupation text-muted" v-text="doctor.location"></span>
+
                           <a :href="doctor.specialty.link" :title="doctor.specialty.name" style="color:inherit;">
                             <span class="occupation" v-text="doctor.specialty.name"></span>
                           </a>
                         </div>
-                        <span class="ratings">
+                        <small class="ratings text-review review-star text-sm">
                           <a :href="doctor.link +'#reviews'" :title="doctor.name +' - '+ doctor.specialty.name" style="color:inherit;">
                             <i class="fas fa-star" v-for="i in doctor.rating_digit"></i>
                           </a>
-                        </span>
+                        </small>
                       </div>
                     </div>
                   </div>
