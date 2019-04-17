@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Application;
 use App\Doctor;
+use App\Region;
 use App\Document;
 use App\Notifications\Applications\ApplicationAcceptedNotification;
 use App\Schedule;
@@ -74,8 +75,9 @@ class DoctorController extends Controller
     public function create()
     {
         $specialties = Specialty::all();
+        $regions = Region::all();
 
-        return view('doctors.create', compact('specialties'));
+        return view('doctors.create', compact('specialties', 'regions'));
     }
 
     /**

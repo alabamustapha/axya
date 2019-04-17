@@ -192,6 +192,9 @@ Route::prefix('searches')->group(function(){
   Route::get('/tags',        'SearchController@tags')->name('search.tags');
   Route::get('/specialties', 'SearchController@specialties')->name('search.specialties');
   Route::get('/users',       'SearchController@users')->name('search.users');
+
+  Route::get('/load-regions/{countryId}', 'SearchController@loadRegions')->name('load.regions');
+  Route::get('/load-cities/{regionId}', 'SearchController@loadCities')->name('load.cities');
 });
 
 

@@ -100,8 +100,10 @@ Vue.component('schedule-list',    require('./components/Schedules/OldAttempt/Sch
 Vue.component('schedule',         require('./components/Schedules/OldAttempt/Schedule.vue'));
 
 Vue.component('pagination',       require('laravel-vue-pagination'));
+// UTILITIES
 Vue.component('loading-spinner',  require('./components/Utilities/LoadingSpinner.vue'));
-Vue.component('doctor-verify-notif',  require('./components/Utilities/DoctorVerifyNotif.vue'));
+Vue.component('doctor-verify-notif', require('./components/Utilities/DoctorVerifyNotif.vue'));
+Vue.component('location-selection',  require('./components/Utilities/LocationSelection.vue'));
 
 // Vue.component('vue-ctk-date-time-picker', VueCtkDateTimePicker);
 

@@ -113,4 +113,26 @@ class SearchController extends Controller
         return response()->json($results);
       }
     }
+
+    public function loadRegions($countryId)
+    {
+        $countryId = $countryId ?: \App\Region::where('name', 'Romania')->first()->country_id;
+
+        $regions = \App\Region::where('country_id', $countryId)
+                     ->get()
+                     ;
+
+        return response()->json($regions);
+    }
+
+    public function loadCities($regionId)
+    {
+        $regionId = $regionId ?: \App\City::where('name', 'Bucuresti')->first()->region_id;
+
+        $cities = \App\City::where('region_id', $regionId)
+                     ->get()
+                     ;
+
+        return response()->json($cities);
+    }
 }

@@ -115,8 +115,8 @@
           <br>
           <div class="modal-body">
 
-            @include('appointments.partials.form')
-            {{-- <appointment-form :doctor="{{$doctor}}"></appointment-form> --}}
+            {{-- @include('appointments.partials.form') --}}
+            <appointment-form :doctor="{{$doctor}}"></appointment-form>
 
           </div>
         </div>

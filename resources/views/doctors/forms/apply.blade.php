@@ -49,7 +49,7 @@
             <div class="card border-secondary">
                 <div class="card-body bg-transparent shadow-none">
 
-                    <div class="row">
+                    {{-- <div class="row">
                         <div class="col-sm-6">
                             <label for="region_id" class="tf-flex">
                                 <small style="size:10px;">{{ __('Region') }}</small>
@@ -85,6 +85,15 @@
                                 </span>
                             @endif                 
                         </div>
+                    </div> --}}
+                    <div class="row">
+                        <location-selection
+                            :set-row-class="'row'"
+                            :region-div="'col-sm-6'"
+                            :city-div="'col-sm-6'"
+                            :label="true"
+                            :required="true"
+                            ></location-selection>
                     </div>
                 </div>
             </div>
