@@ -10,6 +10,8 @@ use App\Message;
 use App\Prescription;
 use App\Specialty;
 use App\User;
+use App\Region;
+use App\City;
 use App\Medication;
 
 use Schema;
@@ -25,6 +27,8 @@ class MedicationFeatureTest extends TestCase
     {
         parent::setUp();
 
+        $this->region = factory(Region::class)->create();
+        $this->city   = factory(City::class)->create();
         $this->docUser      = factory(User::class)->states('verified')->create();
         $this->user         = factory(User::class)->states('verified')->create();
         $this->specialty    = factory(Specialty::class)->create();

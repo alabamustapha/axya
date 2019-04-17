@@ -6,6 +6,8 @@ use App\Doctor;
 use App\Image;
 use App\Specialty;
 use App\User;
+use App\Region;
+use App\City;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Schema;
@@ -19,6 +21,8 @@ class DoctorsTest extends TestCase
     {
         parent::setUp();
 
+        $this->region = factory(Region::class)->create();
+        $this->city   = factory(City::class)->create();
         $this->image  = factory(Image::class)->create();
         $this->user   = factory(User::class)->create();
         $this->specialty = factory(Specialty::class)->create();
@@ -33,6 +37,7 @@ class DoctorsTest extends TestCase
             'id','user_id','email','phone','slug','about',
             'main_language','second_language','other_languages',
             'country_id','state_id','home_address','work_address','location',
+            'region_id','city_id',        
             'rate','session','first_appointment','available','subscription_ends_at',
             'graduate_school','degree','residency','specialty_id',
             'verified_at','verified_by','revoked', 'serialized_schedules',

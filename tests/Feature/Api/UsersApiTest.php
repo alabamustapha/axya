@@ -5,6 +5,8 @@ namespace Tests\Feature;
 use App\Doctor;
 use App\Specialty;
 use App\User;
+use App\Region;
+use App\City;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Hash;
@@ -18,6 +20,8 @@ class UsersApiTest extends TestCase
     {
         parent::setUp();
 
+        $this->region     = factory(Region::class)->create();
+        $this->city       = factory(City::class)->create();
         $this->user       = factory(User::class)->create();
         $this->superadmin = factory(User::class)->states('superadmin')->create();
     }

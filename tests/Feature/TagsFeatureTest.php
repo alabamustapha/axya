@@ -5,6 +5,8 @@ namespace Tests\Feature;
 use App\Doctor;
 use App\Tag;
 use App\User;
+use App\Region;
+use App\City;
 use App\Specialty;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -18,6 +20,8 @@ class TagsFeatureTest extends TestCase
     {
         parent::setUp();
         
+        $this->region = factory(Region::class)->create();
+        $this->city   = factory(City::class)->create();
         $this->doc_user  = factory(User::class)->states('verified')->create();
         $this->specialty = factory(Specialty::class)->create();
         $this->doctor    = factory(Doctor::class)->states('active')->create(['id' => $this->doc_user->id, 'user_id' => $this->doc_user->id]);

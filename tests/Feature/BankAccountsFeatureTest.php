@@ -6,6 +6,8 @@ use App\BankAccount;
 use App\Doctor;
 use App\Specialty;
 use App\User;
+use App\Region;
+use App\City;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -18,6 +20,8 @@ class BankAccountsFeatureTest extends TestCase
     {
         parent::setUp();
 
+        $this->region = factory(Region::class)->create();
+        $this->city   = factory(City::class)->create();
         $this->user        = factory(User::class)->states(['verified','doctor'])->create();
         $this->specialty   = factory(Specialty::class)->create();
         $this->doctor      = factory(Doctor::class)->states('active')->create(['user_id'=> $this->user->id]);

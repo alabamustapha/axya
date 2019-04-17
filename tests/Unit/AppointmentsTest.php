@@ -8,6 +8,8 @@ use App\Document;
 use App\Image;
 use App\Specialty;
 use App\User;
+use App\Region;
+use App\City;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Schema;
@@ -21,6 +23,8 @@ class AppointmentsTest extends TestCase
     {
         parent::setUp();
 
+        $this->region     = factory(Region::class)->create();
+        $this->city       = factory(City::class)->create();
         $this->user       = factory(User::class)->create();
         $this->specialty  = factory(Specialty::class)->create();
         $this->doctor     = factory(Doctor::class)->states('active')->create();

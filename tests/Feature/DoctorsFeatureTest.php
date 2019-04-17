@@ -5,6 +5,8 @@ namespace Tests\Feature;
 use App\Appointment;
 use App\Review;
 use App\User;
+use App\Region;
+use App\City;
 use App\Doctor;
 use App\Specialty;
 use App\Workplace;
@@ -20,6 +22,8 @@ class DoctorsFeatureTest extends TestCase
     {
         parent::setUp();
 
+        $this->region    = factory(Region::class)->create();
+        $this->city      = factory(City::class)->create();
         $this->dr_user   = factory(User::class)->states(['verified','doctor'])->create();
         $this->specialty = factory(Specialty::class)->create();
         $this->doctor    = factory(Doctor::class)->states('active')->create(['user_id'=> $this->dr_user->id]);

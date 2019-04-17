@@ -6,6 +6,8 @@ use App\Doctor;
 use App\Payout;
 use App\Specialty;
 use App\User;
+use App\Region;
+use App\City;
 use App\BankAccount;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -19,6 +21,8 @@ class PayoutsFeatureTest extends TestCase
     {
         parent::setUp();
 
+        $this->region = factory(Region::class)->create();
+        $this->city   = factory(City::class)->create();
         $this->user        = factory(User::class)->states(['verified','doctor'])->create();
         $this->bankAccount = factory(BankAccount::class)->create();
         $this->specialty   = factory(Specialty::class)->create();

@@ -6,6 +6,8 @@ use App\Doctor;
 use App\Specialty;
 use App\Tag;
 use App\User;
+use App\Region;
+use App\City;
 use App\Workplace;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -19,6 +21,8 @@ class WorkplacesFeatureTest extends TestCase
     {
         parent::setUp();        
 
+        $this->region     = factory(Region::class)->create();
+        $this->city       = factory(City::class)->create();
         $this->doc_user   = factory(User::class)->states(['verified','doctor'])->create();
         $this->specialty  = factory(Specialty::class)->create();
         $this->doctor     = factory(Doctor::class)->create([
