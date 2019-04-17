@@ -15,6 +15,11 @@ class Region extends Model
         return $this->hasMany(City::class);
     }
 
+    public function doctors()
+    {
+        return $this->hasMany(Doctor::class);
+    }
+
     // public function country()
     // {
     //     return $this->belongsTo(Country::class);

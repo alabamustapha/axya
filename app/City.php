@@ -14,4 +14,9 @@ class City extends Model
     {
         return $this->belongsTo(Region::class);
     }
+
+    public function doctors()
+    {
+        return $this->hasMany(Doctor::class);
+    }
 }

@@ -80,6 +80,16 @@ class Doctor extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function region()
+    {
+        return $this->belongsTo(Region::class);
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+
     public function reviews()
     {
         return $this->hasMany(Review::class);
@@ -721,5 +731,10 @@ class Doctor extends Model
     public function getIsOnlineAttribute() 
     {
         return $this->isOnline();
+    }
+
+    public function setLocationAttribute($value) 
+    {
+        return $this->city->name .', '. $this->region->name;
     }
 }
