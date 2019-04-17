@@ -15,7 +15,8 @@ class Doctor extends Model
     protected $fillable = [        
         'id','user_id','email','phone','slug','about',                          // Profile      
         'main_language','second_language','other_languages',                    // Language        
-        'country_id','state_id','home_address','work_address','location',       // Location        
+        'country_id','state_id','home_address','work_address','location',       // Location
+        'region_id','city_id',        
         'rate','session','first_appointment','available','subscription_ends_at',// Work        
         'graduate_school','degree','residency','specialty_id',                  // Education        
         'verified_at','verified_by','revoked', 'serialized_schedules' // Others

@@ -101,6 +101,8 @@ class DoctorController extends Controller
         $doctor->slug         = $appl->user->slug;
         $doctor->verified_at  = Carbon::now();
         $doctor->verified_by  = auth()->id();
+        $doctor->region_id    = $appl->region_id;
+        $doctor->city_id      = $appl->city_id;
         
         if ($doctor->save()) {
             // Update user table as dcotor

@@ -34,6 +34,8 @@ class CreateDoctorsTable extends Migration
             $table->string('home_address')->nullable();
             $table->string('work_address')->nullable();
             $table->string('location')->nullable()->index();
+            $table->integer('region_id')->unsigned();
+            $table->integer('city_id')->unsigned();      
 
             // Work
             $table->string('rate')->default('5.00'); // $ per session

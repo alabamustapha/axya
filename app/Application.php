@@ -10,6 +10,7 @@ class Application extends Model
 
     protected $fillable = [
       'user_id','specialty_id','first_appointment',
+      'region_id','city_id',        
       'workplace','workplace_address','workplace_start',
       'specialist_diploma','competences','malpraxis',
       'medical_college','medical_college_expiry',

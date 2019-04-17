@@ -18,6 +18,8 @@ class CreateApplicationsTable extends Migration
             $table->integer('user_id')->unsigned()->index();
             $table->integer('specialty_id')->unsigned()->index();
             $table->date('first_appointment');
+            $table->integer('region_id')->unsigned();
+            $table->integer('city_id')->unsigned();  
 
             $table->string('workplace')->nullable();
             $table->string('workplace_address')->nullable();

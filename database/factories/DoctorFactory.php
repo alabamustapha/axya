@@ -9,6 +9,8 @@ $factory->define(App\Doctor::class, function (Faker $faker) {
 
     $name        = $faker->randomElement(['Medical School','College','University']);
     $grad_school = ucfirst($faker->word) . ' '. $name .', '. $faker->country;/* '. $faker->city .',*/
+    $region      = App\Region::all()->random();
+    $city        = App\City::find($region->id); 
 
     return [        
       'id'               => $id,
@@ -26,6 +28,8 @@ $factory->define(App\Doctor::class, function (Faker $faker) {
       'work_address'     => $faker->address,
       'email'            => $faker->email,
       'phone'            => $faker->e164PhoneNumber,
+      'region_id'         => $region->id,
+      'city_id'           => $city->id,  
 
 
       'main_language'    => $faker->randomElement(['1','2','3','4']),

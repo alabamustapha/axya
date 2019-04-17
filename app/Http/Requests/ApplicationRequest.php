@@ -28,8 +28,10 @@ class ApplicationRequest extends FormRequest
         
         $rules = array_merge($rules, [
             'specialty_id'      => 'required|array',
-            'specialty_id.*'      => 'required|integer|exists:specialties,id',
+            'specialty_id.*'    => 'required|integer|exists:specialties,id',
             'first_appointment' => 'required|date|before_or_equal:'. $date,
+            'region_id'         => 'required|integer',// |exists:regions,id
+            'city_id'           => 'required|integer',// |exists:cities,id
 
             'workplace'         => 'required|string',
             'workplace_address' => 'required|string',

@@ -49,6 +49,8 @@ class ApplicationController extends Controller
         $application->user_id           = auth()->id();
         $application->specialty_id      = $request->specialty_id[0];
         $application->first_appointment = $request->first_appointment;
+        $application->region_id         = $request->region_id;
+        $application->city_id           = $request->city_id;
 
         // Workplace Table
         $application->workplace         = $request->workplace;
