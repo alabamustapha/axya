@@ -218,7 +218,7 @@ a[data-toggle="collapse"] {
 ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;
-    background: rgba(0,0,0, .13896);
+    /*background: rgba(0,0,0, .13896);*/
 }
 
 ul.CTAs {

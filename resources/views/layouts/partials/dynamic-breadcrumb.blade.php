@@ -5,27 +5,27 @@
 </a>
 
 <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" aria-labelledby="navbarDropdown">
-    <a href="{{ route('doctors.index') }}" class="dropdown-item text-secondary">Doctors</a>
-    <a href="{{ route('subscription_plans.index') }}" class="dropdown-item text-secondary">Subscription Plans</a>
+    <a href="{{ route('doctors.index') }}" class="dropdown-item {{Request::path() == 'doctors' ? 'active':''}}">Doctors</a>
+    <a href="{{ route('subscription_plans.index') }}" class="dropdown-item {{Request::path() == 'subscription_plans' ? 'active':''}}">Subscription Plans</a>
     
     @if (Request::path() == 'specialties')
-      <a href="#" class="dropdown-item text-secondary"><b>Specialties</b></a>
+      <a href="#" class="dropdown-item active"><b>Specialties</b></a>
     @else
-      <a href="{{ route('specialties.index') }}" class="dropdown-item text-secondary">Specialties</a>
+      <a href="{{ route('specialties.index') }}" class="dropdown-item">Specialties</a>
     @endif
 
     @if (Request::is('specialties/*'))
-      <a href="#" class="dropdown-item text-secondary"><b>{{ $specialty->name }}</b></a>
+      <a href="#" class="dropdown-item"><b>{{ $specialty->name }}</b></a>
     @endif
 
     @if (Request::is('tags/*'))
-      <a href="{{ route('specialties.show', $tag->specialty) }}" class="dropdown-item text-secondary">{{ $tag->specialty->name }}</a>
-      <a href="#" class="dropdown-item text-secondary"><b>{{ $tag->name }}</b></a>
+      <a href="{{ route('specialties.show', $tag->specialty) }}" class="dropdown-item">{{ $tag->specialty->name }}</a>
+      <a href="#" class="dropdown-item"><b>{{ $tag->name }}</b></a>
     @endif
 
     @if (Request::path() == 'tags')
-      <a href="#" class="dropdown-item text-secondary"><b>Tags</b></a>
+      <a href="#" class="dropdown-item active"><b>Tags</b></a>
     @else
-      <a class="dropdown-item text-secondary" href="{{ route('tags.index') }}">Keywords</a>
+      <a class="dropdown-item" href="{{ route('tags.index') }}">Keywords</a>
     @endif
 </div>

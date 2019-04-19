@@ -120,3 +120,11 @@ i.fas {
 .schedule-input--edit {
   width: 120px;
 }
+
+.opt-items {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+.opt-item {
+  padding-left: 15px;
+}
