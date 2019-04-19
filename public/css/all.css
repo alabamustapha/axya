@@ -577,19 +577,23 @@ a.download {
 
 }
 
+.notification-icon {
+    font-size: 20px;
+}
+
 .notification-count{
     position: absolute;
     display: block;
-    width: 20px;
-    height: 20px;
-   top: 12px;
-    left: 24px;
+    width: 18px;
+    height: 18px;
+    top: 12px;
+    left: 20px;
     border-radius: 50%;
     background-color: #fff;
     color: #CF2929;
     font-size: 8px;
     font-weight: 700;
-    border: 4px solid #209fd9;
+    border: 3px solid #209fd9;
     text-align: center;
 }
 
@@ -1697,3 +1701,49 @@ i.fas {
 .schedule-input--edit {
   width: 120px;
 }
+
+.opt-items {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+.opt-item {
+  padding-left: 15px;
+}
+
+
+
+/* HEADER and WRAPPER Overlap */
+/* Tablets */
+@media (max-width: 714px) {
+  .wrapper {
+    margin-top: 40px;
+  }
+}
+/* Larger mobile */
+@media (max-width: 650px) {
+  .sm-float-right {
+    float: right !important;
+  }
+  .wrapper {
+    margin-top: 43px;
+  }
+}
+/* Larger mobile */
+@media (max-width: 480px) {
+  .wrapper {
+    margin-top: 48px;
+  }
+}
+/* Mobile */
+@media (max-width: 375px) {
+  .wrapper {
+    margin-top: 80px;
+  }
+}
+/* Smaller mobile */
+@media (max-width: 320px) {
+  .wrapper {
+    margin-top: 130px;
+  }
+}
+/* HEADER */

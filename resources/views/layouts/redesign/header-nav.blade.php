@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg main-nav ">
     <div class="container-fluid">
         <a class="navbar-brand" href="{{route('home')}}">
-          <img src="{{asset('images/axya-logo.png')}}" height="47" alt="axya logo">
+            <img src="{{ (\Browser::isMobile() || \Browser::isTablet()) ? asset('images/axya-logo-mini.svg') : asset('images/axya-logo.png')}}" height="47" alt="axya logo">
         </a>
 
         <div class="navbar-nav mr-auto">
@@ -56,7 +56,7 @@
                       <li class="nav-item mb-2 list-inline-item nav-avatar" title="Viewing profile of {{Auth::user()->name}}">
                           <img src="{{ Auth::user()->avatar }}"  height="41" alt="user avatar" class="rounded-circle">
                       </li>
-                      <li class="nav-item mb-2 list-inline-item" title="Dropdown">
+                      <li class="nav-item mb-2 list-inline-item sm-float-right" title="Dropdown">
 
                           <div title="Appointment Details">
                             <a id="navbarDropdown" class="bg-dark rounded nav-link mr-0 px-2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
