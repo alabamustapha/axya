@@ -144,7 +144,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getAvatarAttribute($value)
     {
         return (is_null($value) || $value == 'images/doc.jpg') 
-                ? config('app.url') . '/images/doc.jpg' 
+                ? config('app.url') . '/images/doc.jpg' // (($this->gender == 'Female') ? config('app.url') . '/images/avatar_female.png' : config('app.url') . '/images/avatar_male.png') 
                 : config('app.url') .'/'. $value
                 ;
     }
@@ -154,7 +154,7 @@ class User extends Authenticatable implements MustVerifyEmail
         $avatarMd = str_replace('-tb', '-md', $this->avatar);
 
         return (is_null($this->avatar) || $this->avatar == config('app.url') . 'images/doc.jpg') 
-                ? config('app.url') . '/images/doc.jpg' 
+                ? config('app.url') . '/images/doc.jpg' // (($this->gender == 'Female') ? config('app.url') . '/images/avatar_female.png' : config('app.url') . '/images/avatar_male.png') 
                 : $avatarMd
                 ;
     }

@@ -208,7 +208,7 @@
                             @foreach ($doctors as $i => $doctor)
                                 <div class="d-r {{(($i % 2) == 0) ? 'bg-darker':'bg-theme-blue'}}">
                                     <div class="img-side">
-                                        <img src="{{$doctor->dummyAvatar()}}" class="img-fluid rounded-circle" alt="">
+                                        <img src="{{$doctor->avatar}}" class="img-fluid rounded-circle" alt="">
                                     </div>
                                     <div class="info-side">
                                         <div class="doc" >

@@ -598,7 +598,8 @@ class Doctor extends Model
 
     public function getAvatarAttribute()
     {
-        return $this->dummyAvatar();//$this->user->avatar;
+        return $this->dummyAvatar();
+        // return $this->user->avatar;
     }
 
     public function getPracticeYearsAttribute()
