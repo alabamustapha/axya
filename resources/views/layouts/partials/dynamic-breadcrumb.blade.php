@@ -1,5 +1,5 @@
 
-<a id="navbarDropdown" class="nav-link mr-0 px-3 dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+<a id="navbarDropdown" class="nav-link mr-0 px-3 dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre title="Some site resources">
     <span>Resources</span>
     <span class="caret"></span>
 </a>

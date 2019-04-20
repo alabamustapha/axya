@@ -1,12 +1,13 @@
 <nav class="navbar navbar-expand-lg main-nav ">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{{route('home')}}">
+        <a class="navbar-brand d-inline-block" href="{{route('home')}}">
             <img 
                 src="{{ (\Browser::isMobile() || \Browser::isTablet()) 
                           ? asset('images/axya-logo-mini.svg') 
                           : asset('images/axya-logo.png')
                       }}" 
-                style="max-height: {{ (Request::path() != '/') ? 47 : 100 }}px"
+                style="height: {{ (Request::path() != '/') ? 47 : 100 }}px;"
+                height="{{ (Request::path() != '/') ? 47 : 100 }}"
                 alt="axya logo"
             >
         </a>
@@ -33,7 +34,7 @@
         </div>
         @endif
 
-        <div class=" dashboard-navbar" id="navbarSupportedContent">
+        <div class="dashboard-navbar" id="navbarSupportedContent">
 
             <ul class="mx-auto list-unstyled">
                 <ul class="list-inline">
@@ -63,11 +64,11 @@
                           </span>
                       </li>
 
-                      <li class="nav-item mb-2 list-inline-item nav-avatar d-none d-sm-inline-block" title="Viewing profile of {{Auth::user()->name}}">
+                      <li class="nav-item mb-2 list-inline-item nav-avatar d-none d-sm-inline-block" title="Logged in user is {{Auth::user()->name}}">
                           <img src="{{ Auth::user()->avatar }}"  height="41" alt="user avatar" class="rounded-circle">
                       </li>
 
-                      <li class="nav-item mb-2 list-inline-item{{--  sm-float-right --}}" title="Dropdown">
+                      <li class="nav-item mb-2 list-inline-item{{--  sm-float-right --}}" title="More menu links">
 
                           <div class="">
                             <a id="navbarDropdown" class="bg-dark rounded nav-link mr-0 px-2" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
