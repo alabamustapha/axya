@@ -12,10 +12,12 @@
     <link rel="icon" href="images/favicon.png" type="image/png" >
 
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
-    <link rel="stylesheet" href="{{asset('css/vendor/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{asset('css/all.css')}}">
+    {{-- <link rel="stylesheet" href="{{asset('css/vendor/bootstrap.min.css')}}"> --}}
 
     <!-- MAIN STYLE -->
     <link href="{{ asset('css/custom/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/custom/override.css') }}" rel="stylesheet">
     
     @yield('styles')
 
@@ -39,70 +41,9 @@
             <!-- HEADER  -->
             <div id="header">
                 <div class="trans-box">
-                    <nav class="navbar navbar-expand-lg main-nav">
-                        <div class="container-fluid">
-                            <a class="navbar-brand" href="#"><img src="images/axya-logo.png"  class="img-fluid" alt="axya logo" style="max-height:100px;"></a>
-                            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                                <span class="navbar-toggler-icon">
-                                    <svg width="40" height="25" viewBox="0 0 40 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M0 0H40V4H0V0Z" fill="white" />
-                                        <path d="M0.5 10.5H35.5V14.5H0.5V10.5Z" fill="white" />
-                                        <path d="M0 21H40V25H0V21Z" fill="white" />
-                                    </svg>
 
-                                </span>
-                            </button>
-                            
-                            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                                <ul class="navbar-nav ml-auto">
-                                    <li class="nav-item active">
-                                        <a class="nav-link" href="{{route('user_dashboard')}}">Dashboard
-                                            <span class="sr-only">(current)</span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item dropdown">
-
-                                        @include('layouts.partials.dynamic-breadcrumb')
-
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">About</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">FAQs</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">Contact Us</a>
-                                    </li>
-                                    @guest
-                                        <li class="nav-item">
-                                            <a class="nav-link sign-in" href="#" data-toggle="modal" data-target="#sign-in-up-modal">Sign in</a>
-                                        </li>
-                                    @else
-                                        <!-- Notifications Section -->
-                                        <li class="nav-item">
-                                            <a id="navbarDropdown" class="nav-link {{auth()->user()->notifications->count() ? 'text-danger':'text-secondary'}}" role="button" 
-                                                href="{{ route('notifications.display', auth()->user()) }}" 
-                                                title="{{ auth()->user()->notifications->count() }} notifications"
-                                            >
-                                                <span style="max-width: 30px;">
-                                                    <i class="fa fa-bell mr-0" style="font-size: 120%;"></i>
-
-                                                    <sup style="font-size: 50%;" class="p-1 ml-0 bg-light rounded text-danger text-bold">{{ auth()->user()->notifications->count() }}</sup>
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item dropdown">
-
-                                            @include('layouts.partials.profile-dropdown')
-
-                                        </li>
-                                    @endguest
-                                </ul>                               
-                            </div>
-                        </div>
-                    </nav>
+                    @include('layouts.redesign.header-nav')
+                    
                     <div class="intro"> 
                         <div class="container">
                             <div class="row">
@@ -146,6 +87,7 @@
 
                         </div>
                     </div>
+
                 </div>
             </div>
 
