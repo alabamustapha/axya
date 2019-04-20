@@ -27,7 +27,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $doctors = Doctor::active()->inRandomOrder()->get()->take(3);
+        $doctors = Doctor::with(['region', 'city'])->active()->inRandomOrder()->get()->take(3);
         
         return view('welcome', compact('doctors'));
     }

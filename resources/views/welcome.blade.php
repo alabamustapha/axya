@@ -150,11 +150,11 @@
                             @foreach ($doctors as $i => $doctor)
                                 <div class="d-r {{(($i % 2) == 0) ? 'bg-dark':'bg-theme-blue'}}">
                                     <div class="img-side">
-                                        <img src="{{$doctor->avatar}}" class="img-fluid rounded-circle" height="70" alt="">
+                                        <img src="{{$doctor->avatar}}" class="{{-- img-fluid  --}}rounded-circle" height="70" alt="">
                                     </div>
                                     <div class="info-side">
                                         <div class="doc" >
-                                            <span class="d-block h2 text-truncate">
+                                            <span class="d-block h2 text-truncate" title="{{$doctor->name}}">
                                                 <a class="text-white" href="{{route('doctors.show', $doctor)}}">{{$doctor->name}}</a>
                                             </span>
                                             <span class="d-block occupation text-truncate">

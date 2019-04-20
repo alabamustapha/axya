@@ -739,6 +739,6 @@ class Doctor extends Model
         $cityName   = $this->city   ? $this->city->name : '';
         $regionName = $this->region ? $this->region->name: '';
         
-        return $cityName .', '. $regionName;
+        return (empty($cityName) && empty($regionName)) ? 'not set' : $cityName .', '. $regionName;
     }
 }
