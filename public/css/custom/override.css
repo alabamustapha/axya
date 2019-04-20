@@ -179,3 +179,45 @@ i.fas {
   }
 }
 /* HEADER */
+
+
+/* WELCOME PAGE */
+.main-search-container {
+  margin-bottom: 7rem;
+}
+.page-content {
+  margin-top: -7rem;
+  margin-bottom: 7rem;
+}
+#doc-rating {
+  margin-bottom: -7rem;
+}
+.page-dos {
+  padding: 2rem;
+}
+.page-dos-body {
+  padding: 1rem;
+}
+@media (min-width: 768px) {
+  .navbar-brand {
+    width: 41px;
+  }
+  #header {
+     height: auto; 
+  }
+}
+
+.info-side .doc {
+  width: 70%;
+}
+.info-side .ratings {
+  width: 30%;
+}
+@media (max-width: 480px) {
+  .info-side .doc {
+    width: 100%;
+  }
+  .info-side .ratings {
+    width: 100%;
+  }
+}

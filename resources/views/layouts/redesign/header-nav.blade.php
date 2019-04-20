@@ -6,8 +6,8 @@
                           ? asset('images/axya-logo-mini.svg') 
                           : asset('images/axya-logo.png')
                       }}" 
-                style="height: {{ (Request::path() != '/') ? 47 : 100 }}px;"
-                height="{{ (Request::path() != '/') ? 47 : 100 }}"
+                style="max-height: {{ (Request::path() != '/') ? 47 : 100 }}px;"
+                {{-- height="{{ (Request::path() != '/') ? 47 : 100 }}" --}}
                 alt="axya logo"
             >
         </a>

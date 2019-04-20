@@ -55,7 +55,7 @@
                                    <h1>Premium Healthcare Platform</h1> 
                                 </div>
 
-                                <div class="search-container">
+                                <div class="search-container main-search-container">
                                     <form @submit.prevent="searchForQuery">
                                         <div class="search-area">
                                             <div class="search-box">
@@ -100,13 +100,13 @@
             <main>
                 
                 <!-- start section -->
-                <section id="dos" class="page-content pc-home ">
+                <section id="dos" class="page-content">
         
                     <!-- page option section -->
-                    <div class="page-content-body opt">
+                    <div class="page-content-body {{-- opt --}}">
                         <div class="page-dos">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-lg-6">
                                     <div class="page-dos-head">
                                         <div class="dos-icon">
                                             <img src="images/chat-icon.png" class="img-fluid" alt="">
@@ -120,14 +120,14 @@
                                         On this platform are top notch specialists and professionals. Search through, make your pick, book an appointment and start messaging. You must book appointments with doctors to chat expressly. 
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-lg-6">
                                     <div class="page-dos-head">
                                         <div class="dos-icon">
                                             <img src="images/calender-icon.png" class="img-fluid" alt="">
                                             <!-- <i class="fa fa-calendar-alt fa-2x"></i> -->
                                         </div>
                                         <div class="dos-title">
-                                            <span>Booking Appointments</span>
+                                            <span>Book Appointment</span>
                                         </div>
                                     </div>
                                     <div class="page-dos-body">
@@ -148,17 +148,20 @@
                     <div class="page-content p-0">
                         <div class="doc-ratings ">
                             @foreach ($doctors as $i => $doctor)
-                                <div class="d-r {{(($i % 2) == 0) ? 'bg-darker':'bg-theme-blue'}}">
+                                <div class="d-r {{(($i % 2) == 0) ? 'bg-dark':'bg-theme-blue'}}">
                                     <div class="img-side">
-                                        <img src="{{$doctor->avatar}}" class="img-fluid rounded-circle" alt="">
+                                        <img src="{{$doctor->avatar}}" class="img-fluid rounded-circle" height="70" alt="">
                                     </div>
                                     <div class="info-side">
                                         <div class="doc" >
-                                            <span class="d-block h2">
+                                            <span class="d-block h2 text-truncate">
                                                 <a class="text-white" href="{{route('doctors.show', $doctor)}}">{{$doctor->name}}</a>
                                             </span>
-                                            <span class="occupation">
-                                                <a class="text-white" href="{{route('specialties.show', $doctor->specialty)}}">{{$doctor->specialty->name}}</a>
+                                            <span class="d-block occupation text-truncate">
+                                                <a class="text-light h5" href="{{route('specialties.show', $doctor->specialty)}}" title="{{$doctor->specialty->name}}">{{$doctor->specialty->name}}</a>
+                                            </span>
+                                            <span class="d-block text-sm text-truncate" title="{{$doctor->location}}">
+                                                <span>{{$doctor->location}}</span>
                                             </span>
                                         </div>
                                         <span class="ratings">
@@ -166,9 +169,9 @@
                                               @php
                                                 $rating = $doctor->rating_digit;
                                               @endphp
-                                              
+
                                               @for($i=1; $i <= $rating; $i++)
-                                                <i class="fas fa-star pr-0 mr-0"></i>
+                                                <i class="fas fa-star pr-0 mr-0 text-review review-star"></i>
                                               @endfor
 
                                               @for($i=1; $i <= (5 - $rating); $i++)
@@ -188,32 +191,27 @@
                 <!-- end section -->        
                 
                 <!-- start section -->
-                <section id="about" class="page-content p-0 mt-4">
-                    <div class="bg-theme-gradient">
-                            <div class="container">
-                                <div class="page-content-intro">
-                                    <h2 class="text-center">ABOUT</h2>
-                                </div>
-        
-                                <div class="page-content-body ">
-                                    <div class="abt">
-                                         Axya allows users to search for doctors and book appointments seamlessly. Providing an environment of trust and comfort and also guaranteeing clients confidentiality.
-                                    </div>
-                                </div>
-        
-                                <div class="about-quote">
-                                    <span>I...really enjoy the interpersonal relationship it gives you with the doctor, also flexibility is just amazing.</span>
-                                    <div class="quote-author">
-                                        <div class="author">
-                                            <div class="line"></div>
-                                            John Doe
-                                        </div>
-                                    </div>
-                                </div>
-        
-                               
-        
+                <section id="about" class="page-content mt-4 bg-theme-gradient">
+                    <div class="container p-3">
+                        <div class="page-content-intro">
+                            <h2 class="text-center">ABOUT</h2>
+                        </div>
+
+                        <div class="page-content-body ">
+                            <div class="abt">
+                                 Axya allows users to search for doctors and book appointments seamlessly. Providing an environment of trust and comfort and also guaranteeing clients confidentiality.
                             </div>
+                        </div>
+
+                        <div class="about-quote">
+                            <span>I...really enjoy the interpersonal relationship it gives you with the doctor, also flexibility is just amazing.</span>
+                            <div class="quote-author">
+                                <div class="author">
+                                    <div class="line"></div>
+                                    John Doe
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </section>
         
