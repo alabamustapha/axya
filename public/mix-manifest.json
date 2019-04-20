@@ -1,5 +1,6 @@
 {
-    "/js/app.js": "/js/app.js",
-    "/css/app.css": "/css/app.css",
-    "/css/all.css": "/css/all.css"
+    "/js/vendors.min.js": "/js/vendors.min.js?id=87ed243ab7bb44c62676",
+    "/js/custom.min.js": "/js/custom.min.js?id=c8ca1d1de4a727e7fd22",
+    "/css/vendors.min.css": "/css/vendors.min.css?id=eb0747d30b80078df14c",
+    "/css/custom.min.css": "/css/custom.min.css?id=65882a8a4893685f3610"
 }

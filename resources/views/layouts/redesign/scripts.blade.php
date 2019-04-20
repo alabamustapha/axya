@@ -1,3 +1,14 @@
+{{-- 
+    // Assets compilation and minification
+    @if (app()->environment('local'))
+        <script src="{{asset('js/vendors.js')}}"></script>
+        <script src="{{asset('js/custom.js')}}"></script>
+    @else
+        <script src="{{asset('js/vendors.min.js')}}"></script>
+        <script src="{{asset('js/custom.min.js')}}"></script>
+    @endif
+--}}    
+    
     <script src="{{asset('js/app.js')}}"></script>
 
     @if (app()->environment('production'))
@@ -13,7 +24,10 @@
     
     <script src="{{asset('js/custom.js')}}"></script>
     <script src="{{asset('js/main.js')}}"></script>
+
+
     <script> $('div.alert').not('.alert-important').delay(7000).fadeOut(350); </script>
+
 
     <script>
       // https://github.com/Pikaday/Pikaday ..Customization..

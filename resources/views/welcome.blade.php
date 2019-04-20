@@ -11,15 +11,22 @@
     <title>{{ config('app.name') }}</title>
     <link rel="icon" href="images/favicon.png" type="image/png" >
 
-    <link rel="stylesheet" href="{{asset('css/app.css')}}">
+    {{-- <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <link rel="stylesheet" href="{{asset('css/all.css')}}">
-    {{-- <link rel="stylesheet" href="{{asset('css/vendor/bootstrap.min.css')}}"> --}}
 
-    <!-- MAIN STYLE -->
+    MAIN STYLE
     <link href="{{ asset('css/custom/style.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/custom/override.css') }}" rel="stylesheet">
-    
+    <link href="{{ asset('css/custom/override.css') }}" rel="stylesheet"> --}}
+    @if (app()->environment('local'))
+        <link rel="stylesheet" href="{{asset('css/vendors.css')}}">
+        <link rel="stylesheet" href="{{asset('css/custom.css')}}">
+    @else
+        <link rel="stylesheet" href="{{asset('css/vendors.min.css')}}">
+        <link rel="stylesheet" href="{{asset('css/custom.min.css')}}">
+    @endif
+
     @yield('styles')
+    <link rel="stylesheet" href="{{asset('css/custom/override.css')}}">
 
     <!-- fonts -->
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">

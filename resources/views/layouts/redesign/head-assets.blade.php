@@ -9,6 +9,18 @@
     <link rel="icon" href="images/favicon.png" type="image/png" >
 
     <!-- Styles -->
+
+    {{-- 
+        // Assets compilation and minification
+        @if (app()->environment('local'))
+            <link rel="stylesheet" href="{{asset('css/vendors.css')}}">
+            <link rel="stylesheet" href="{{asset('css/custom.css')}}">
+        @else
+            <link rel="stylesheet" href="{{asset('css/vendors.min.css')}}">
+            <link rel="stylesheet" href="{{asset('css/custom.min.css')}}">
+        @endif
+    --}}
+
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <link rel="stylesheet" href="{{asset('css/all.css')}}">
     @if (app()->environment('production'))
@@ -29,25 +41,18 @@
     {{-- <link rel="stylesheet" href="{{asset('css/custom/admin.css')}}"> --}}
 
     @yield('styles')
-    <style>
-        .form-section textarea {
-            border: 1px solid #302C2C;
-            box-sizing: border-box;
-            border-radius: 4px;
-        }
-    </style>
+    
+    <!-- STYLE OVERRIDE -->
+    <link rel="stylesheet" href="{{asset('css/custom/override.css')}}">
 
     <!-- fonts -->
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
-    
-    <!-- STYLE OVERRIDE -->
-    <link rel="stylesheet" href="{{asset('css/custom/override.css')}}">
 
     <script>
       @auth
-        window.user = @json(auth()->user());
+        window.user = @json(auth()->id());//auth()->user()
       @endauth
       
       window.appUrl  = @json(config('app.url'));

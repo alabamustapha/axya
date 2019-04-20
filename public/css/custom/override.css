@@ -103,6 +103,11 @@ i.fas {
    min-width: 70px;
 }
 
+.form-section textarea {
+    border: 1px solid #302C2C;
+    box-sizing: border-box;
+    border-radius: 4px;
+}
 
 #header-bg  {
     margin: 0;
