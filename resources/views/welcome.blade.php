@@ -40,54 +40,56 @@
         <div id="wrapper">
             <!-- HEADER  -->
             <div id="header">
-                <div class="trans-box">
+                <div id="header-bg">
+                    <div class="trans-box">
 
-                    @include('layouts.redesign.header-nav')
-                    
-                    <div class="intro"> 
-                        <div class="container">
-                            <div class="row">
-                                @include('layouts.partials.notifications')
-                            </div>
-
-                            <div class="intro-content">
-                                <div class="intro-text">
-                                   <h1>Premium Healthcare Platform</h1> 
+                        @include('layouts.redesign.header-nav')
+                        
+                        <div class="intro"> 
+                            <div class="container">
+                                <div class="row">
+                                    @include('layouts.partials.notifications')
                                 </div>
 
-                                <div class="search-container main-search-container">
-                                    <form @submit.prevent="searchForQuery">
-                                        <div class="search-area">
-                                            <div class="search-box">
-                                                <input 
-                                                    v-model="search"
-                                                    {{-- @keyup="searchForQuery" --}}
-                                                    type="search"
-                                                    name="search" id="search"
-                                                    aria-label="Search" 
-                                                    placeholder="search doctor, city, illness, specialty..."
-                                                    autocomplete="off"
-                                                    minlength="3"
-                                                    required>
-                                            </div>
-                                
-                                            <button 
-                                                {{-- @click="searchForQuery"  --}}
-                                                type="submit" class="search-icon ">
-                                                <i class="fa fa-search fa-lg"></i>
-                                            </button>
-                                        </div>                            
-                                    </form>
+                                <div class="intro-content">
+                                    <div class="intro-text">
+                                       <h1>Premium Healthcare Platform</h1> 
+                                    </div>
 
-                                    <!-- Vue Search Results Component -->
-                                    <searches></searches>
+                                    <div class="search-container main-search-container">
+                                        <form @submit.prevent="searchForQuery">
+                                            <div class="search-area">
+                                                <div class="search-box">
+                                                    <input 
+                                                        v-model="search"
+                                                        {{-- @keyup="searchForQuery" --}}
+                                                        type="search"
+                                                        name="search" id="search"
+                                                        aria-label="Search" 
+                                                        placeholder="search doctor, city, illness, specialty..."
+                                                        autocomplete="off"
+                                                        minlength="3"
+                                                        required>
+                                                </div>
+                                    
+                                                <button 
+                                                    {{-- @click="searchForQuery"  --}}
+                                                    type="submit" class="search-icon ">
+                                                    <i class="fa fa-search fa-lg"></i>
+                                                </button>
+                                            </div>                            
+                                        </form>
 
+                                        <!-- Vue Search Results Component -->
+                                        <searches></searches>
+
+                                    </div>
                                 </div>
-                            </div>
 
+                            </div>
                         </div>
-                    </div>
 
+                    </div>
                 </div>
             </div>
 
@@ -191,8 +193,8 @@
                 <!-- end section -->        
                 
                 <!-- start section -->
-                <section id="about" class="page-content mt-4 bg-theme-gradient">
-                    <div class="container p-3">
+                <section id="about" class="page-content mt-4 bg-theme-gradient parallax-scroll">
+                    <div class="container p-3 trans-box-alt">
                         <div class="page-content-intro">
                             <h2 class="text-center">ABOUT</h2>
                         </div>

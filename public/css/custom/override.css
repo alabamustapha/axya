@@ -104,10 +104,27 @@ i.fas {
 }
 
 
-#header{
+#header-bg  {
     margin: 0;
-    background-image: url();/*url(../images/header-image.jpg);*/
 }
+
+.d-header {
+    background-image: url("../../images/header-image.jpg")!important;
+    background-size: cover !important;
+    background-position: center center !important;
+}
+
+/* Parallax Scrolling effect */
+#header-bg,
+.parallax-scroll {
+    background-image: url("../../images/header-image.jpg");
+    /*min-height: 100vh; */
+  
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  } 
 
 .schedule-input,
 .schedule-input--edit {
@@ -220,4 +237,15 @@ i.fas {
   .info-side .ratings {
     width: 100%;
   }
+}
+
+.trans-box-alt {
+    background: rgba(32, 161, 217, 0.904);
+    height: 100%;
+    border-radius: 30px;
+}
+.trans-box-dark {
+    background: rgba(0, 0, 0, 0.704);
+    height: 100%;
+    border-radius: 30px;
 }
