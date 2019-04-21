@@ -1,10 +1,10 @@
 <nav class="navbar navbar-expand-lg main-nav ">
     <div class="container-fluid">
-        <a class="navbar-brand d-inline-block" href="{{route('home')}}">
-            <img 
-                src="{{ (\Browser::isMobile() || \Browser::isTablet()) 
-                          ? asset('images/axya-logo-mini.svg') 
-                          : asset('images/axya-logo.png')
+        <a class="navbar-brand d-inline-block" href="{{route('home')}}">        
+            <img
+                src="{{-- asset('images/axya-logo.png') --}}{{ (\Browser::isDesktop()) 
+                          ? asset('images/axya-logo.png') 
+                          : asset('images/axya-logo-mini.svg')
                       }}" 
                 style="max-height: {{ (Request::path() != '/') ? 47 : 100 }}px;"
                 {{-- height="{{ (Request::path() != '/') ? 47 : 100 }}" --}}
@@ -12,36 +12,40 @@
             >
         </a>
         
-        @if (Request::path() != '/')
-        <div class="navbar-nav mr-auto">
-            <form @submit.prevent="searchForQuery" class="form-inline mb-2 w-100">
-                <input
-                  v-model="search"
-                  {{-- @keyup/@key.enter="searchForQuery" --}}
-                  type="search"
-                  name="search" id="search"
-                  aria-label="Search" 
-                  placeholder="search doctors, illness..."
-                  class="form-control mr-sm-2 m-0 border-0 rounded search-form bg-light px-4"
-                  autocomplete="off"
-                  minlength="3"
-                  required>
-  
-                  {{-- <button @click="searchForQuery" type="submit" class="search-icon bg-theme-blue">
-                      <i class="fa fa-search "></i>
-                  </button>  --}}                             
-            </form>
-        </div>
-        @endif
+        
 
         <div class="dashboard-navbar" id="navbarSupportedContent">
 
             <ul class="mx-auto list-unstyled">
                 <ul class="list-inline">
+                    @if (Request::path() != '/')
+                      <li class="rounded nav-item mb-2 list-inline-item" title="Search">        
+                        <div class="{{-- navbar-nav  --}}mr-auto">
+                            <form @submit.prevent="searchForQuery" class="form-inline mb-2 w-100">
+                                <input
+                                  v-model="search"
+                                  {{-- @keyup/@key.enter="searchForQuery" --}}
+                                  type="search"
+                                  name="search" id="search"
+                                  aria-label="Search" 
+                                  placeholder="search doctors, illness..."
+                                  class="form-control mr-sm-2 m-0 border-0 rounded search-form bg-light px-4"
+                                  autocomplete="off"
+                                  minlength="3"
+                                  required>
+                  
+                                  {{-- <button @click="searchForQuery" type="submit" class="search-icon bg-theme-blue">
+                                      <i class="fa fa-search "></i>
+                                  </button>  --}}                             
+                            </form>
+                        </div>
+                      </li>
+                    @endif
+
                     @auth
-                    <li class="rounded nav-item mb-2 list-inline-item d-none d-sm-inline-block" title="Visit your dashboard">
+                      <li class="rounded nav-item mb-2 list-inline-item d-none d-sm-inline-block" title="Visit your dashboard">
                         <a class="nav-link mr-0 px-3" href="{{route('user_dashboard')}}">Dashboard</a>
-                    </li>
+                      </li>
                     @endauth
 
                     <li class="rounded nav-item mb-2 list-inline-item dropdown d-none d-sm-inline-block">
@@ -93,8 +97,6 @@
                                     <a href="{{ route('doctors.index') }}" class="opt-item d-md-none">
                                       <i class="fas fa-user-md fa-fw"></i>&nbsp; {{ __('Doctors Index') }}
                                     </a>
-
-                                    <span class="dropdown-divider"></span>
                                    
                                     @if (Auth::user()->is_doctor)
                                       <a href="{{route('doctors.show', Auth::user())}}" class="opt-item">
