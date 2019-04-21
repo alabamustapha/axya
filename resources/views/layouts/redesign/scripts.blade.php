@@ -1,5 +1,4 @@
  
-    <script src="{{asset('js/pikaday.js')}}"></script>
     @if (app()->environment('local'))
         <script src="{{asset('js/vendors.js')}}"></script>
         <script src="{{asset('js/custom.js')}}"></script>
