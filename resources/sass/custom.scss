@@ -1,0 +1,25 @@
+
+.navbar-laravel {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.router-link-exact-active {
+  background-color: #453411;
+  color: #fff !important;
+}
+
+.container, 
+.container-fluid {
+  padding: 5px;
+}
+
+// Customs Styles
+@import 'custom/aesthetics.scss';
+@import 'custom/style.scss';
+@import 'custom/dashboard.scss';
+//@import 'custom/admin.scss';
+
+@import 'custom/_custom.scss';
+@import 'custom/_override.scss';
+
