@@ -1,5 +1,5 @@
-{{-- 
-    // Assets compilation and minification
+ 
+    <script src="{{asset('js/pikaday.js')}}"></script>
     @if (app()->environment('local'))
         <script src="{{asset('js/vendors.js')}}"></script>
         <script src="{{asset('js/custom.js')}}"></script>
@@ -7,24 +7,6 @@
         <script src="{{asset('js/vendors.min.js')}}"></script>
         <script src="{{asset('js/custom.min.js')}}"></script>
     @endif
---}}    
-    
-    <script src="{{asset('js/app.js')}}"></script>
-
-    @if (app()->environment('production'))
-      {{-- Get all vendor scripts from CDN --}}
-      <script src="{{asset('js/vendor/moment.min.js')}}"></script>
-      <script src="{{asset('js/vendor/pikaday.js')}}"></script>
-    @else
-      <script src="{{asset('js/vendor/moment.min.js')}}"></script>
-      <script src="{{asset('js/vendor/pikaday.js')}}"></script>
-      <!-- full Calender js -->
-      <script src="{{asset('js/vendor/shuffle.min.js')}}"></script>
-    @endif
-    
-    <script src="{{asset('js/custom.js')}}"></script>
-    <script src="{{asset('js/main.js')}}"></script>
-
 
     <script> $('div.alert').not('.alert-important').delay(7000).fadeOut(350); </script>
 

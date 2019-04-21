@@ -9,41 +9,19 @@
     <link rel="icon" href="images/favicon.png" type="image/png" >
 
     <!-- Styles -->
-
-    {{-- 
-        // Assets compilation and minification
-        @if (app()->environment('local'))
-            <link rel="stylesheet" href="{{asset('css/vendors.css')}}">
-            <link rel="stylesheet" href="{{asset('css/custom.css')}}">
-        @else
-            <link rel="stylesheet" href="{{asset('css/vendors.min.css')}}">
-            <link rel="stylesheet" href="{{asset('css/custom.min.css')}}">
-        @endif
-    --}}
-
-    <link rel="stylesheet" href="{{asset('css/app.css')}}">
-    <link rel="stylesheet" href="{{asset('css/all.css')}}">
-    @if (app()->environment('production'))
-        {{-- Get all vendor styles from CDN --}}
-        <link rel="stylesheet" href="{{asset('css/vendor/pikaday.css')}}">
+    @if (app()->environment('local'))
+        <link rel="stylesheet" href="{{asset('css/vendors.css')}}">
+        <link rel="stylesheet" href="{{asset('css/custom.css')}}">
     @else
-        <link rel="stylesheet" href="{{asset('css/vendor/pikaday.css')}}">
+        <link rel="stylesheet" href="{{asset('css/vendors.min.css')}}">
+        <link rel="stylesheet" href="{{asset('css/custom.min.css')}}">
     @endif
-    
-    
-    <!-- BOOTSTRAP STYLE -->
-    {{-- <link rel="stylesheet" href="{{asset('css/vendor/bootstrap.min.css')}}">     --}}
-    <!-- MAIN STYLE -->
-    <link rel="stylesheet" href="{{asset('css/custom/style.css')}}">
-    <!-- DASHBOARD STYLE -->
-    <link rel="stylesheet" href="{{asset('css/custom/dashboard.css')}}">
-    <!-- ADMIN STYLE -->
-    {{-- <link rel="stylesheet" href="{{asset('css/custom/admin.css')}}"> --}}
-
+    {{-- 
+        <!--To be used strictly on Admin dashboard sectons only -->
+        <link rel="stylesheet" href="{{asset('css/custom/admin.css')}}">
+    --}}
     @yield('styles')
-    
-    <!-- STYLE OVERRIDE -->
-    <link rel="stylesheet" href="{{asset('css/custom/override.css')}}">
+    <!-- ./Styles -->
 
     <!-- fonts -->
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">

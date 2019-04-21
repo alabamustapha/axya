@@ -60,142 +60,31 @@
 /******/ 	__webpack_require__.p = "/";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 243);
+/******/ 	return __webpack_require__(__webpack_require__.s = 246);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 243:
+/***/ 246:
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(244);
-module.exports = __webpack_require__(245);
+__webpack_require__(247);
+module.exports = __webpack_require__(248);
 
 
 /***/ }),
 
-/***/ 244:
+/***/ 247:
 /***/ (function(module, exports) {
 
-!function (t) {
-  var n = {};function o(e) {
-    if (n[e]) return n[e].exports;var c = n[e] = { i: e, l: !1, exports: {} };return t[e].call(c.exports, c, c.exports, o), c.l = !0, c.exports;
-  }o.m = t, o.c = n, o.d = function (t, n, e) {
-    o.o(t, n) || Object.defineProperty(t, n, { configurable: !1, enumerable: !0, get: e });
-  }, o.n = function (t) {
-    var n = t && t.__esModule ? function () {
-      return t.default;
-    } : function () {
-      return t;
-    };return o.d(n, "a", n), n;
-  }, o.o = function (t, n) {
-    return Object.prototype.hasOwnProperty.call(t, n);
-  }, o.p = "/", o(o.s = 1);
-}({ 1: function _(t, n, o) {
-    o("7jk3"), t.exports = o("D5ON");
-  }, "7jk3": function jk3(t, n) {
-    !function (t) {
-      var n = {};function o(e) {
-        if (n[e]) return n[e].exports;var c = n[e] = { i: e, l: !1, exports: {} };return t[e].call(c.exports, c, c.exports, o), c.l = !0, c.exports;
-      }o.m = t, o.c = n, o.d = function (t, n, e) {
-        o.o(t, n) || Object.defineProperty(t, n, { configurable: !1, enumerable: !0, get: e });
-      }, o.n = function (t) {
-        var n = t && t.__esModule ? function () {
-          return t.default;
-        } : function () {
-          return t;
-        };return o.d(n, "a", n), n;
-      }, o.o = function (t, n) {
-        return Object.prototype.hasOwnProperty.call(t, n);
-      }, o.p = "/", o(o.s = 243);
-    }({ 243: function _(t, n, o) {
-        o(244), t.exports = o(245);
-      }, 244: function _(t, n) {
-        !function (t) {
-          var n = {};function o(e) {
-            if (n[e]) return n[e].exports;var c = n[e] = { i: e, l: !1, exports: {} };return t[e].call(c.exports, c, c.exports, o), c.l = !0, c.exports;
-          }o.m = t, o.c = n, o.d = function (t, n, e) {
-            o.o(t, n) || Object.defineProperty(t, n, { configurable: !1, enumerable: !0, get: e });
-          }, o.n = function (t) {
-            var n = t && t.__esModule ? function () {
-              return t.default;
-            } : function () {
-              return t;
-            };return o.d(n, "a", n), n;
-          }, o.o = function (t, n) {
-            return Object.prototype.hasOwnProperty.call(t, n);
-          }, o.p = "/", o(o.s = 245);
-        }({ 245: function _(t, n, o) {
-            o(246), t.exports = o(247);
-          }, 246: function _(t, n) {
-            $(document).ready(function () {
-              $("#login-form").show() && $("#login").css("background", "rgba(36, 250, 161, 0.74)"), $("#login,#login-trigger").click(function () {
-                $("#login").css("background", "rgba(36, 250, 161, 0.74)"), $("#regform").css("background", "rgba(36, 130, 161, 0.9)"), $("#login-form").show(), $("#reg-form").hide();
-              }), $("#regform,#register-trigger").click(function () {
-                $("#regform").css("background", "rgba(36, 250, 161, 0.74)"), $("#login").css("background", "rgba(36, 130, 161, 0.9)"), $("#reg-form").show(), $("#login-form").hide();
-              });
-            });
-          }, 247: function _(t, n) {
-            $(document).ready(function () {
-              $("#sidebarCollapse").on("click", function () {
-                $("#sidebar").toggleClass("active"), $("#content").toggleClass("active");
-              });var t = $(".xs-nav"),
-                  n = $("#extra-buttom-nav"),
-                  o = $(".buttom-nav-toggler");document.body.scrollWidth <= 992 ? (t.hide(), n.addClass("collapse "), $(".navbar-brand img").attr("src", "../images/axya-logo-mini.svg").css("margin", "0"), $(".main-nav").find(".search-form").css("padding", ".25rem"), $(".notification-count").css("borderColor", "#147ba7")) : (t.show(), n.show()), o.click(function () {
-                $("#buttom-nav").append(n), $("#content").toggleClass("active-buttom"), $("#sidebar").toggleClass("active-buttom"), n.find(".nav-avatar").hide(), n.toggleClass("active");
-              }), $(".msg-search-icon").click(function () {
-                $(".msg-contact-head .head-main").hide(), $(".msg-search").show();
-              }), $(".search-close").click(function () {
-                $(".msg-contact-head .head-main").show(), $(".msg-search").hide();
-              }), window.screen.width < 768 && $("#msg-contact-over").append($(".msg-contact")), $(".msg-contact-toggle").click(function (t) {
-                t.preventDefault(), $(".contact-over").addClass("active");
-              }), $(".contact-close").click(function (t) {
-                t.preventDefault(), $(".contact-over").removeClass("active");
-              });
-            });
-          } });
-      }, 245: function _(t, n) {
-        $(document).ready(function () {
-          $("#sidebarCollapse").on("click", function () {
-            $("#sidebar").toggleClass("active"), $("#content").toggleClass("active");
-          });var t = $(".xs-nav"),
-              n = $("#extra-buttom-nav"),
-              o = $(".buttom-nav-toggler");document.body.scrollWidth <= 992 ? (t.hide(), n.addClass("collapse "), $(".navbar-brand img").attr("src", "../images/axya-logo-mini.svg").css("margin", "0"), $(".main-nav").find(".search-form").css("padding", ".25rem"), $(".notification-count").css("borderColor", "#147ba7")) : (t.show(), n.show()), o.click(function () {
-            $("#buttom-nav").append(n), $("#content").toggleClass("active-buttom"), $("#sidebar").toggleClass("active-buttom"), n.find(".nav-avatar").hide(), n.toggleClass("active");
-          }), $(".msg-search-icon").click(function () {
-            $(".msg-contact-head .head-main").hide(), $(".msg-search").show();
-          }), $(".search-close").click(function () {
-            $(".msg-contact-head .head-main").show(), $(".msg-search").hide();
-          }), window.screen.width < 768 && $("#msg-contact-over").append($(".msg-contact")), $(".msg-contact-toggle").click(function (t) {
-            t.preventDefault(), $(".contact-over").addClass("active");
-          }), $(".contact-close").click(function (t) {
-            t.preventDefault(), $(".contact-over").removeClass("active");
-          });
-        });
-      } });
-  }, D5ON: function D5ON(t, n) {
-    $(document).ready(function () {
-      $("#sidebarCollapse").on("click", function () {
-        $("#sidebar").toggleClass("active"), $("#content").toggleClass("active");
-      });var t = $(".xs-nav"),
-          n = $("#extra-buttom-nav"),
-          o = $(".buttom-nav-toggler");document.body.scrollWidth <= 992 ? (t.hide(), n.addClass("collapse "), $(".navbar-brand img").attr("src", "../images/axya-logo-mini.svg").css("margin", "0"), $(".main-nav").find(".search-form").css("padding", ".25rem"), $(".notification-count").css("borderColor", "#147ba7")) : (t.show(), n.show()), o.click(function () {
-        $("#buttom-nav").append(n), $("#content").toggleClass("active-buttom"), $("#sidebar").toggleClass("active-buttom"), n.find(".nav-avatar").hide(), n.toggleClass("active");
-      }), $(".msg-search-icon").click(function () {
-        $(".msg-contact-head .head-main").hide(), $(".msg-search").show();
-      }), $(".search-close").click(function () {
-        $(".msg-contact-head .head-main").show(), $(".msg-search").hide();
-      }), window.screen.width < 768 && $("#msg-contact-over").append($(".msg-contact")), $(".msg-contact-toggle").click(function (t) {
-        t.preventDefault(), $(".contact-over").addClass("active");
-      }), $(".contact-close").click(function (t) {
-        t.preventDefault(), $(".contact-over").removeClass("active");
-      });
-    });
-  } });
+
+$('[data-toggle="tooltip"]').tooltip();
+$('[data-toggle="popover"]').popover();
+$('.carousel').carousel();
 
 /***/ }),
 
-/***/ 245:
+/***/ 248:
 /***/ (function(module, exports) {
 
 $(document).ready(function () {

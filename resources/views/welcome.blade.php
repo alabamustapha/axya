@@ -11,22 +11,12 @@
     <title>{{ config('app.name') }}</title>
     <link rel="icon" href="images/favicon.png" type="image/png" >
 
-    {{-- <link rel="stylesheet" href="{{asset('css/app.css')}}">
-    <link rel="stylesheet" href="{{asset('css/all.css')}}">
-
-    MAIN STYLE
-    <link href="{{ asset('css/custom/style.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/custom/override.css') }}" rel="stylesheet"> --}}
+    <!-- Styles -->
     @if (app()->environment('local'))
-        <link rel="stylesheet" href="{{asset('css/vendors.css')}}">
-        <link rel="stylesheet" href="{{asset('css/custom.css')}}">
+        <link rel="stylesheet" href="{{asset('css/welcome.css')}}">
     @else
-        <link rel="stylesheet" href="{{asset('css/vendors.min.css')}}">
-        <link rel="stylesheet" href="{{asset('css/custom.min.css')}}">
+        <link rel="stylesheet" href="{{asset('css/welcome.min.css')}}">
     @endif
-
-    @yield('styles')
-    <link rel="stylesheet" href="{{asset('css/custom/override.css')}}">
 
     <!-- fonts -->
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -288,11 +278,8 @@
         </div>
     </div>
     <!-- SCRIPTS -->
-    <!-- Compiled Scripts: jQuery.js, Popper.js, Bootstrap.min.js -->
-    <script src="{{ asset('js/app.js') }}"></script>
-
-    <!-- bootstrap js -->
-    <script src="{{asset('js/main.js')}}"></script>
+    <script src="{{asset('js/vendors.min.js')}}"></script>
+    <script src="{{asset('js/custom.min.js')}}"></script>
 
     <!-- Laraflash -->
     <script> $('div.alert').not('.alert-important').delay(7000).fadeOut(350); </script>

@@ -1,6 +1,7 @@
 {
-    "/js/vendors.min.js": "/js/vendors.min.js?id=87ed243ab7bb44c62676",
-    "/js/custom.min.js": "/js/custom.min.js?id=c8ca1d1de4a727e7fd22",
-    "/css/vendors.min.css": "/css/vendors.min.css?id=eb0747d30b80078df14c",
-    "/css/custom.min.css": "/css/custom.min.css?id=65882a8a4893685f3610"
+    "/js/vendors.min.js": "/js/vendors.min.js?id=5f2cf3c882cc4ad81009",
+    "/css/welcome.min.css": "/css/welcome.min.css?id=d38fb89382c999232e7d",
+    "/css/custom.min.css": "/css/custom.min.css?id=5833a31de1ce419d4ef3",
+    "/css/vendor.min.css": "/css/vendor.min.css?id=30e8f58f51a3b91fb615",
+    "/js/custom.min.js": "/js/custom.min.js?id=349fa76678fb3f6130bb"
 }

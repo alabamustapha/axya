@@ -6,31 +6,13 @@
 @import 'variables';
 $fa-font-path: "../webfonts";
 
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
-// AdminLTE
-@import '~admin-lte/dist/css/adminlte.css';
-
-
-// Customs Styles
-@import 'custom/_custom.scss';
-
-
 @import '~@fortawesome/fontawesome-free/scss/fontawesome.scss';
 @import '~@fortawesome/fontawesome-free/scss/solid.scss';
 @import '~@fortawesome/fontawesome-free/scss/brands.scss';
 
-.navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-}
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
 
-.router-link-exact-active {
-  background-color: #453411;
-  color: #fff !important;
-}
-
-.container, 
-.container-fluid {
-  padding: 5px;
-}
+@import '~admin-lte/dist/css/adminlte.css';
+@import 'vendor/jquery.timepicker.css';
+@import 'vendor/pikaday.css';
