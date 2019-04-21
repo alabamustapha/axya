@@ -152,35 +152,37 @@
                                         <img src="{{$doctor->avatar}}" class="{{-- img-fluid  --}}rounded-circle" height="70" alt="">
                                     </div>
                                     <div class="info-side">
-                                        <div class="doc" >
-                                            <span class="d-block h2 text-truncate" title="{{$doctor->name}}">
-                                                <a class="text-white" href="{{route('doctors.show', $doctor)}}">{{$doctor->name}}</a>
-                                            </span>
-                                            <span class="d-block occupation text-truncate">
-                                                <a class="text-light h5" href="{{route('specialties.show', $doctor->specialty)}}" title="{{$doctor->specialty->name}}">{{$doctor->specialty->name}}</a>
-                                            </span>
-                                            <span class="d-block text-sm text-truncate" title="{{$doctor->location}}">
-                                                <span>{{$doctor->location}}</span>
-                                            </span>
+                                        <div class="row{{-- info-side --}}">
+                                            <div class="col-sm-8{{-- doc --}}" >
+                                                <span class="d-block h2 text-truncate" title="{{$doctor->name}}">
+                                                    <a class="text-white" href="{{route('doctors.show', $doctor)}}">{{$doctor->name}}</a>
+                                                </span>
+                                                <span class="d-block occupation text-truncate">
+                                                    <a class="text-light h5" href="{{route('specialties.show', $doctor->specialty)}}" title="{{$doctor->specialty->name}}">{{$doctor->specialty->name}}</a>
+                                                </span>
+                                                <span class="d-block text-white text-small text-truncate" title="{{$doctor->location}}">
+                                                    <span>{{$doctor->location}}</span>
+                                                </span>
+                                            </div>
+                                            <div class="col-sm-4{{-- ratings --}}">
+                                                <span>
+                                                  @php
+                                                    $rating = $doctor->rating_digit;
+                                                  @endphp
+
+                                                  @for($i=1; $i <= $rating; $i++)
+                                                    <i class="fas fa-star pr-0 mr-0 text-review review-star"></i>
+                                                  @endfor
+
+                                                  @for($i=1; $i <= (5 - $rating); $i++)
+                                                    <i class="fas fa-star pr-0 mr-0 text-muted"></i>
+                                                  @endfor
+                                                </span>
+
+                                                <br>
+                                                <span class="text-light text-small">{{$doctor->rating}}</span>
+                                            </div>
                                         </div>
-                                        <span class="ratings">
-                                            <span>
-                                              @php
-                                                $rating = $doctor->rating_digit;
-                                              @endphp
-
-                                              @for($i=1; $i <= $rating; $i++)
-                                                <i class="fas fa-star pr-0 mr-0 text-review review-star"></i>
-                                              @endfor
-
-                                              @for($i=1; $i <= (5 - $rating); $i++)
-                                                <i class="fas fa-star pr-0 mr-0 text-muted"></i>
-                                              @endfor
-                                            </span>
-
-                                            <br>
-                                            {{$doctor->rating}}
-                                        </span>
                                     </div>
                                 </div>
                             @endforeach

@@ -12,32 +12,37 @@ const mix = require('laravel-mix');
  */
 
 mix
+  /* Burst only when new packages or Vue components are added */
+  //---VENDOR--->
   .js([
       'resources/js/app.js',
       'resources/js/vendor/shuffle.min.js',
       'resources/js/vendor/jquery.timepicker.min.js',
     ], 
     'public/js/vendors.js')
+  // STYLES
+  .sass('resources/sass/app.scss',    'public/css/vendors.css')
+
+  //---CUSTOM--->
   .js([
       'resources/js/custom/custom.js',
       'resources/js/custom/main.js',
     ], 
     'public/js/custom.js')
-
   // STYLES
   .sass('resources/sass/welcome.scss','public/css/welcome.css')
   .sass('resources/sass/custom.scss', 'public/css/custom.css')
-  .sass('resources/sass/app.scss',    'public/css/vendors.css')
 ;
 
 // // For Production  
 // mix
-//   .js('public/js/vendors.js',         'public/js/vendors.min.js')
+//   /* Burst only when new packages or Vue components are added */
+//   // .js('public/js/vendors.js',         'public/js/vendors.min.js')
+//   // .sass('resources/sass/app.scss',    'public/css/vendors.min.css')
 //   .js('public/js/custom.js',          'public/js/custom.min.js')
 //   .sass('resources/sass/welcome.scss','public/css/welcome.min.css')
 //   .sass('resources/sass/custom.scss', 'public/css/custom.min.css')
-//   .sass('resources/sass/app.scss',    'public/css/vendor.min.css')
-//   ;
+// ;
 
 if (mix.inProduction()) {
     mix.version();

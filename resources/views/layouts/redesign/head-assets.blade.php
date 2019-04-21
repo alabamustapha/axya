@@ -17,7 +17,7 @@
         <link rel="stylesheet" href="{{asset('css/custom.min.css')}}">
     @endif
     {{-- 
-        <!--To be used strictly on Admin dashboard sectons only -->
+        <!-- To be used strictly on Admin dashboard sectons only -->
         <link rel="stylesheet" href="{{asset('css/custom/admin.css')}}">
     --}}
     @yield('styles')
