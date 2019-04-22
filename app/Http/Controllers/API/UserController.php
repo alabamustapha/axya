@@ -42,14 +42,17 @@ class UserController extends Controller
      */
     public function store(UserRequest $request)
     {
+        $name = ucwords($request['firstname']) .' '. ucwords($request['lastname']);
         // 1.
         $user = User::create([
-            'name'     => $request['name'],
+            'name'     => $name,
             'email'    => $request['email'],
             'gender'   => $request['gender'],
             'password' => Hash::make($request['password']),
             'dob'      => $request['dob'],
             'terms'    => $request['terms'],
+            'region_id'=> $request['region_id'],
+            'city_id'  => $request['city_id'],
         ]);
 
         // 2.

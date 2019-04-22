@@ -3,6 +3,8 @@
 namespace Tests\Unit;
 
 use App\User;
+use App\Region;
+use App\City;
 use App\BankAccount;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -17,6 +19,8 @@ class BankAccountTest extends TestCase
     {
         parent::setUp();
 
+        $this->region     = factory(Region::class)->create();
+        $this->city       = factory(City::class)->create();
         $this->user       = factory(User::class)->create();
         $this->bankAccount= factory(BankAccount::class)->create();
     } 

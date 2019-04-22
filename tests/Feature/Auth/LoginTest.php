@@ -4,6 +4,8 @@ namespace Tests\Feature\Auth;
 
 use App\Traits\UserLoginActivityRecording;
 use App\User;
+use App\Region;
+use App\City;
 use Auth;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -19,7 +21,9 @@ class LoginTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        
+
+        $this->region     = factory(Region::class)->create();
+        $this->city       = factory(City::class)->create();
         $this->user      = factory(User::class)->create([ 
           'password' => $this->password  = bcrypt($password = '123-456'),
         ]);

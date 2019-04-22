@@ -3,6 +3,8 @@
 namespace Tests\Unit;
 
 use App\User;
+use App\Region;
+use App\City;
 use App\UserLogin;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -17,6 +19,8 @@ class UserLoginTest extends TestCase
     {
         parent::setUp();
 
+        $this->region     = factory(Region::class)->create();
+        $this->city       = factory(City::class)->create();
         $this->user      = factory(User::class)->create();
         $this->userLogin = factory(UserLogin::class)->create();
     }

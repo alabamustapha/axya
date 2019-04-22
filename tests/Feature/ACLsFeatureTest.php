@@ -5,6 +5,8 @@ namespace Tests\Feature;
 use App\Doctor;
 use App\Specialty;
 use App\User;
+use App\Region;
+use App\City;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -17,6 +19,8 @@ class ACLsFeatureTest extends TestCase
     {
         parent::setUp();
 
+        $this->region     = factory(Region::class)->create();
+        $this->city       = factory(City::class)->create();
         // Create a Super Admin
         $this->superadmin = factory(User::class)->states('superadmin')->create();
         $this->admin = factory(User::class)->states('admin')->create();

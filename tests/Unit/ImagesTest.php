@@ -4,6 +4,8 @@ namespace Tests\Unit;
 
 use App\Image;
 use App\User;
+use App\Region;
+use App\City;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Schema;
@@ -17,6 +19,8 @@ class ImagesTest extends TestCase
     {
         parent::setUp();
 
+        $this->region     = factory(Region::class)->create();
+        $this->city       = factory(City::class)->create();
         $this->image = factory(Image::class)->create();
     } 
 
