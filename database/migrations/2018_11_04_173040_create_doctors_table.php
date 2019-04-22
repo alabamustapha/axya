@@ -62,6 +62,9 @@ class CreateDoctorsTable extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('verified_by')->references('id')->on('users')->onDelete('cascade');
 
+            $table->foreign('region_id')->references('id')->on('regions');
+            $table->foreign('city_id')->references('id')->on('cities');
+
             // $table->foreign('specialty_id')->references('id')->on('specialties')->onDelete('cascade');
         });
 

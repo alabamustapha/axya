@@ -29,7 +29,9 @@ class UserRequest extends FormRequest
             'email'    => 'required|string|email|max:255|unique:users',
             'gender'   => 'required|in:Male,Female,Other',
             'dob'      => 'required|date|max:10',
-            'terms'    => 'required|boolean',        
+            'terms'    => 'required|boolean',
+            'region_id'=> 'required|integer|exists:regions,id',
+            'city_id'  => 'required|integer|exists:cities,id',
         ]);
 
         $rules = app()->environment('testing')

@@ -5,6 +5,8 @@ use Illuminate\Database\Seeder;
 class DatabaseSeeder extends Seeder
 {
     // private $tables = [
+    //     'regions',
+    //     'cities',
     //     'users',
     //     'specialties',
     //     'tags',
@@ -39,6 +41,8 @@ class DatabaseSeeder extends Seeder
         // // https://laravel.com/docs/5.7/migrations#foreign-key-constraints
         // // $this->call(UsersTableSeeder::class);
 
+        // factory(App\Region::class, 10)->create();
+        // factory(App\City::class, 30)->create();
         // factory(App\User::class, 30)->create();
         // factory(App\Specialty::class, 5)->create();
         // factory(App\Tag::class, 250)->create();
@@ -48,9 +52,9 @@ class DatabaseSeeder extends Seeder
         // factory(App\Workplace::class, 10)->create();
         // factory(App\Day::class, 7)->create();
         // factory(App\Schedule::class, 20)->create();
-        factory(App\Appointment::class, 500)->create();
-        factory(App\Message::class, 1500)->create();
-        factory(App\Review::class, 490)->create();
+        // factory(App\Appointment::class, 500)->create();
+        // factory(App\Message::class, 1500)->create();
+        // factory(App\Review::class, 490)->create();
         // factory(App\Transaction::class, 60)->create();
         // factory(App\Prescription::class, 10)->create();
         // factory(App\Drug::class, 40)->create();

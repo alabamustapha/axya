@@ -58,6 +58,9 @@ class CreateUsersTable extends Migration
             $table->boolean('allows_doctor_verify')->default(0);
             $table->rememberToken();
             $table->timestamps();
+
+            $table->foreign('region_id')->references('id')->on('regions');
+            $table->foreign('city_id')->references('id')->on('cities');
         });
 
         // DB::statement('ALTER TABLE users ADD FULLTEXT fulltext_users (name)');

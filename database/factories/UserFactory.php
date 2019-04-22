@@ -19,7 +19,7 @@ $factory->define(App\User::class, function (Faker $faker) {
     $city        = App\City::find($region->id); 
     
     return [
-        'name' => str_replace("'", "", $faker->name),
+        'name'      => str_replace("'", "", $faker->name),
         // 'slug'
         // 'avatar'
         'gender'    => $faker->randomElement(['Male','Female','Other']),
