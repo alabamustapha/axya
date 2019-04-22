@@ -44,14 +44,7 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+    @include('layouts.redesign.scripts') 
     
-    <script src="{{asset('js/custom.js')}}"></script>
-    <script src="{{asset('js/main.js')}}"></script>
-    <script>
-      $('div.alert').not('.alert-important').delay(7000).fadeOut(350);
-    </script>
-
-    @yield('scripts')
 </body>
 </html>

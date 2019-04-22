@@ -28,6 +28,8 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('phone', 25)->nullable();
             $table->string('address')->nullable();
+            $table->integer('region_id')->unsigned();
+            $table->integer('city_id')->unsigned();   
 
             // Health Details
             $table->string('height', 10)->nullable();

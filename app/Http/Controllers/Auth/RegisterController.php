@@ -57,14 +57,16 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-                'firstname'     => 'required|string|max:255',
-                'lastname'     => 'required|string|max:255',
-                'email'    => 'required|string|email|max:255|unique:users',
+                'firstname' => 'required|string|max:255',
+                'lastname'  => 'required|string|max:255',
+                'email'     => 'required|string|email|max:255|unique:users',
                 // 'gender'   => 'required|in:Male,Female,Other',
-                'password' => 'required|string|min:6|confirmed',
+                'password'  => 'required|string|min:6|confirmed',
                 // 'dob'      => 'required|date|max:10',
                 // 'terms'    => 'required|boolean',  
                 'as_doctor' => 'required|boolean',   
+                'region_id' => 'required|integer|exists:regions,id',
+                'city_id'   => 'required|integer|exists:cities,id',
             ],
             [
                 // 'gender.required' => 'You must select your gender',
@@ -94,6 +96,8 @@ class RegisterController extends Controller
             // 'terms'  =>  $data['terms'],
             // 'is_doctor' => $is_doctor,
             'as_doctor' => $data['as_doctor'],
+            'region_id' => $data['region_id'],
+            'city_id'   => $data['city_id'],
         ]);
 
         return $user;

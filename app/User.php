@@ -41,7 +41,8 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name','slug','email','password','address','phone',
+        'name','slug','email','password','address','phone', 
+        'region_id','city_id',        
         'gender','avatar','blocked','dob','weight','height','allergies','chronics',
         'last_four','terms','application_retry_at',
         'verification_link','is_doctor','as_doctor','application_status','allows_doctor_verify',
@@ -75,6 +76,16 @@ class User extends Authenticatable implements MustVerifyEmail
                 'source' => 'name'
             ]
         ];
+    }
+
+    public function region()
+    {
+        return $this->belongsTo(Region::class);
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class);
     }
 
     public function logins()

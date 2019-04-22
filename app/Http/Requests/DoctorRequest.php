@@ -28,6 +28,8 @@ class DoctorRequest extends FormRequest
             'id'          => 'required|integer|exists:users,id',
             'user_id'     => 'required|integer|exists:users,id',
             'specialty_id'=> 'required|integer|exists:specialties,id',
+            'region_id'   => 'required|integer|exists:regions,id',
+            'city_id'     => 'required|integer|exists:cities,id',
             'first_appointment'=> 'required|date|before_or_equal:'. $date,
             'slug'        => 'required|string|exists:users,slug',
         ];

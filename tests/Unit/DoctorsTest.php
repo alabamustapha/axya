@@ -103,4 +103,16 @@ class DoctorsTest extends TestCase
     {
         $this->assertInstanceOf('Illuminate\Database\Eloquent\Collection', $this->doctor->prescriptions); 
     }
+
+    /** @test */
+    public function a_doctor_belongs_to_a_region()
+    {
+        $this->assertInstanceOf(Region::class, $this->doctor->region);
+    }
+
+    /** @test */
+    public function a_doctor_belongs_to_a_city()
+    {
+        $this->assertInstanceOf(City::class, $this->doctor->city);
+    }
 }

@@ -15,6 +15,9 @@ use Faker\Generator as Faker;
 */
 
 $factory->define(App\User::class, function (Faker $faker) {
+    $region      = App\Region::all()->random();
+    $city        = App\City::find($region->id); 
+    
     return [
         'name' => str_replace("'", "", $faker->name),
         // 'slug'
@@ -27,6 +30,8 @@ $factory->define(App\User::class, function (Faker $faker) {
         'email'     => $faker->unique()->safeEmail,
         'phone'     => $faker->e164PhoneNumber,
         'address'   => $faker->address,
+        'region_id' => $region->id,
+        'city_id'   => $city->id,  
 
         // Health Details
         'height'    => $faker->numberbetween(10,100),
@@ -41,6 +46,7 @@ $factory->define(App\User::class, function (Faker $faker) {
         // Other Details
         // 'application_status' => $faker->randomElement([0,1,2,3,4,5]),
         'email_verified_at'  => $faker->boolean(15) ? $faker->dateTimeBetween('-7 week', '-5 hour') : null,
+        'terms'    => '1',
     ];
 });
 
