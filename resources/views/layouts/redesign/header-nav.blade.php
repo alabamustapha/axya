@@ -91,7 +91,7 @@
                                     </a>
 
                                     <a href="{{route('users.show', Auth::user())}}" class="opt-item">
-                                      <i class="fas fa-user fa-fw"></i>&nbsp; {{ __('Your User Profile') }}
+                                      <i class="fas fa-user fa-fw"></i>&nbsp; {{ __('Profile') }}
                                     </a>
 
                                     <a href="{{ route('doctors.index') }}" class="opt-item d-md-none">
@@ -100,7 +100,7 @@
                                    
                                     @if (Auth::user()->is_doctor)
                                       <a href="{{route('doctors.show', Auth::user())}}" class="opt-item">
-                                        <i class="fas fa-user-md fa-fw"></i>&nbsp; {{ __('Your Doctor Profile') }}
+                                        <i class="fas fa-user-md fa-fw"></i>&nbsp; {{ __('Doctor Profile') }}
                                       </a>
 
                                       <a href="{{ Auth::user()->transactions_list }}" class="opt-item">

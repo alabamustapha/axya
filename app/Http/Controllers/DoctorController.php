@@ -56,10 +56,14 @@ class DoctorController extends Controller
      */
     public function index()
     {
-        $doctors = Doctor::where('revoked', '0')
-                         ->orderBy('subscription_ends_at', 'desc')
-                         ->orderBy('available')
-                         // ->orderBy('rating')
+        $doctors = Doctor::with(['region','city'])
+                         ->where('revoked', '0')
+                         // ->whereHas('reviews')
+                         // ->whereHas('schedules')
+                         // ->orderBy('serialized_schedules', 'asc')
+                         // ->orderBy('subscription_ends_at', 'desc')
+                         ->orderBy('updated_at', 'desc')
+                         ->orderBy('available', 'desc')
                          // ->whereHas(áppointments)->orderBy('AVERAGE_RATING')
                          ->paginate(25)
                          ;

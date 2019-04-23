@@ -20,121 +20,147 @@
                
       <div class="p-img text-left">   
         <div>
-          <div class="search-item mb-3">
+
+          <div class="search-item" style="cursor: context-menu;">
             <!-- schedule detail -->
-            <div id="s-d" class="search-cell w-100">
-                <ul class="nav flex-sm-row">
-                    <li class="nav-item">Available on:</li>
-                    <li class="nav-item">
-                      <ul class="nav flex-sm-row">
-                        {{-- <li class="nav-item mr-3">Available on:</li> --}}
-                        <li class="nav-item {{$doctor->has_sunday_schedules ? 'has':''}}"   title="Sunday">S</li>
-                        <li class="nav-item {{$doctor->has_monday_schedules ? 'has':''}}"   title="Monday">M</li>
-                        <li class="nav-item {{$doctor->has_tuesday_schedules ? 'has':''}}"  title="Tuesday">T</li>
-                        <li class="nav-item {{$doctor->has_wednesday_schedules ? 'has':''}}" title="Wednesday">W</li>
-                        <li class="nav-item {{$doctor->has_thursday_schedules ? 'has':''}}" title="Thursday">T</li>
-                        <li class="nav-item {{$doctor->has_friday_schedules ? 'has':''}}"   title="Friday">F</li>
-                        <li class="nav-item {{$doctor->has_saturday_schedules ? 'has':''}}" title="Saturday">S</li>
-                      </ul>
-                    </li>
-                </ul>
+            <div id="s-d" class="mx-auto">
+
+              <span class="text-center font-weight-bold">Available on:</span>
+              <ul class="list-inline">
+                <li class="nav-item list-inline-item mr-0 {{$doctor->has_sunday_schedules ? 'has':''}}"   title="Sunday">S</li>
+                <li class="nav-item list-inline-item mr-0 {{$doctor->has_monday_schedules ? 'has':''}}"   title="Monday">M</li>
+                <li class="nav-item list-inline-item mr-0 {{$doctor->has_tuesday_schedules ? 'has':''}}"  title="Tuesday">T</li>
+                <li class="nav-item list-inline-item mr-0 {{$doctor->has_wednesday_schedules ? 'has':''}}" title="Wednesday">W</li>
+                <li class="nav-item list-inline-item mr-0 {{$doctor->has_thursday_schedules ? 'has':''}}" title="Thursday">T</li>
+                <li class="nav-item list-inline-item mr-0 {{$doctor->has_friday_schedules ? 'has':''}}"   title="Friday">F</li>
+                <li class="nav-item list-inline-item mr-0 {{$doctor->has_saturday_schedules ? 'has':''}}" title="Saturday">S</li>
+              </ul>
+
             </div>
           </div>
 
           @if ($doctor->user->isAccountOwner())
-          <div class="search-item mb-3">
-            <ul class="nav flex-sm-row">
-              <li class="nav-item mr-3 mb-3" title="settings">
-                  <button id="navbarDropdown" class="btn btn-sm btn-dark dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="fa fa-cog"></i> Account Settings
-                  </button>
-
-                  <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{{route('doctors.edit', $doctor)}}">
-                      <i class="fa fa-edit mr-1"></i>&nbsp; Edit Profile
-                    </a>
-
-                    <button class="dropdown-item" data-toggle="modal" data-target="#updateAvatarForm" title=" Update Avatar">
-                      <i class="fa fa-upload"></i>&nbsp; Change Avatar
+          <div class="search-item" style="background: none;">
+            <div id="s-d" class=" mx-auto">
+              <ul class="list-inline">
+                <li class="list-inline-item mr-3" title="settings">
+                    <button id="navbarDropdown" class="btn btn-sm btn-dark dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-cog"></i> Account Settings
                     </button>
-                
-                    @if ($doctor->user->hasUploadedAvatar())
-                        <a href="{{route('user.avatar.delete', $doctor->user)}}" class="dropdown-item" title="Remove Avatar" onclick="return confirm('Do you want to remove current avatar?');">
-                        <i class="fa fa-trash"></i>&nbsp; Remove Avatar
+
+                    <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="{{route('doctors.edit', $doctor)}}">
+                        <i class="fa fa-edit mr-1"></i>&nbsp; Edit Profile
                       </a>
-                    @endif
-                  </div>
-              </li>
 
-              <li class="nav-item mr-3 mb-3" title="availability">
-                  <button id="navbarDropdown" class="btn btn-sm btn-info dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <i class="fa fa-calendar-alt" style="font-size: 12px;"></i> Availability
-                  </button>
+                      <button class="dropdown-item" data-toggle="modal" data-target="#updateAvatarForm" title=" Update Avatar">
+                        <i class="fa fa-upload"></i>&nbsp; Change Avatar
+                      </button>
+                  
+                      @if ($doctor->user->hasUploadedAvatar())
+                          <a href="{{route('user.avatar.delete', $doctor->user)}}" class="dropdown-item" title="Remove Avatar" onclick="return confirm('Do you want to remove current avatar?');">
+                          <i class="fa fa-trash"></i>&nbsp; Remove Avatar
+                        </a>
+                      @endif
+                    </div>
+                </li>
 
-                  <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown">
+                <li class="list-inline-item" title="availability">
+                    <button id="navbarDropdown" class="btn btn-sm btn-info dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-calendar-alt" style="font-size: 12px;"></i> Availability
+                    </button>
 
-                      @include('doctors.partials._availability')
+                    <div class="dropdown-menu dropdown-menu-lg" aria-labelledby="navbarDropdown">
 
-                  </div>
-              </li>
+                        @include('doctors.partials._availability')
 
-            </ul>
+                    </div>
+                </li>
+
+              </ul>
+            </div>
           </div>
           @endif
         </div>
 
-        <div class="mb-4">
-          @auth  
-            @if (Auth::id() !== $doctor->user_id)                 
-              <button class="btn btn-secondary" data-toggle="modal" data-target="#appointmentForm" title="Book Appointment">
-                <i class="fa fa-calendar-check"></i>&nbsp; Request Appointment
-              </button>
-            @endif
-          @else
-            <a href="{{ route('login') }}"
-              class="btn btn-secondary" 
-              data-toggle="modal" data-target="#sign-in-up-modal" 
-              title="Log in now to book an appointment with {{$doctor->name}}">
-              <i class="fa fa-calendar-check"></i>&nbsp; Request Appointment
-            </a>
-          @endauth
+        @auth  
+          @if (Auth::id() !== $doctor->user_id) 
+            <div class="search-item" style="background: none;">
+              <div id="s-d" class=" mx-auto">
+                <ul class="list-inline">
+                  <li class="list-inline-item" title="Request Appointment">
+                    
+                        <button class="btn btn-secondary" data-toggle="modal" data-target="#appointmentForm" title="Book Appointment">
+                          <i class="fa fa-calendar-check"></i>&nbsp; Request Appointment
+                        </button>
+
+                  </li>
+                </ul>
+              </div>
+            </div>
+          @endif
+        @else
+        <div class="search-item" style="background: none;">
+          <div id="s-d" class=" mx-auto">
+            <ul class="list-inline">
+              <li class="list-inline-item" title="Request Appointment">
+
+                  <a href="{{ route('login') }}"
+                    class="btn btn-secondary" 
+                    data-toggle="modal" data-target="#sign-in-up-modal" 
+                    title="Log in now to book an appointment with {{$doctor->name}}">
+                    <i class="fa fa-calendar-check"></i>&nbsp; Request Appointment
+                  </a>
+
+              </li>
+            </ul>
+          </div>
         </div>
+        @endauth
       </div>
 
       <!-- doctor schedules row -->
-      <div class="mt-4">
-        <div id="schedules">
+        <div id="schedules" class="search-item bg-white" style="background: none;">
+          <div id="s-d" class=" mx-auto">
+            <div class="list-inline">
+              <div class="list-inline-item" title="Request Appointment">
 
-          <schedule-index 
-              :doctor="{{ $doctor }}" 
-              :is-doctor-owner="{{ intval( Auth::check() 
-                                      && ( Auth::id() === $doctor->id ) 
-                                      && ( Auth::user()->isAuthenticatedDoctor()) 
-                                   ) }}"
-          ></schedule-index>
-          {{-- 
-            @can ('edit', $doctor)
-            
-              <!-- Schedules/Available Hours Section -->
-              @include('doctors.partials._schedules')
-              
-            @else
-            
-              @include('doctors.partials._schedules_users')
-              
-            @endcan 
-          --}}
-          <div class="text-center">
-            @auth
-              @if((Auth::id() === $doctor->id) && !Auth::user()->isAuthenticatedDoctor())
-                <div class="p-2 mb-2 border-bottom bg-light text-sm" title="To edit dchedules login as a doctor.">
-                  <a href="{{ route('doctor.login') }}" class="btn btn-sm btn-primary"><i class="fa fa-sign-in-alt"></i> Login as Doctor</a> to edit
+                <schedule-index 
+                    :doctor="{{ $doctor }}" 
+                    :is-doctor-owner="{{ intval( Auth::check() 
+                                            && ( Auth::id() === $doctor->id ) 
+                                            && ( Auth::user()->isAuthenticatedDoctor()) 
+                                         ) }}"
+                ></schedule-index>
+                {{-- 
+                  @can ('edit', $doctor)
+                  
+                    <!-- Schedules/Available Hours Section -->
+                    @include('doctors.partials._schedules')
+                    
+                  @else
+                  
+                    @include('doctors.partials._schedules_users')
+                    
+                  @endcan 
+                --}}
+                <div class="text-center">
+                  @auth
+                    @if((Auth::id() === $doctor->id) && !Auth::user()->isAuthenticatedDoctor())
+                      <div class="p-2 mb-2 border-bottom bg-light text-sm" title="To edit dchedules login as a doctor.">
+                        <a href="{{ route('doctor.login') }}"
+                          data-toggle="modal" data-target="#doctor-sign-in-modal"
+                          class="btn btn-sm btn-primary"
+                        ><i class="fa fa-sign-in-alt"></i> Login as Doctor</a> to edit
+                      </div>
+                    @endif
+                  @endauth
                 </div>
-              @endif
-            @endauth
+
+              </div>
+            </div>
           </div>
         </div>
-      </div>
     </div>
     
 
@@ -186,6 +212,40 @@
               </ul>
             </div>
           </div>
+        </div>
+
+        <div class="form-category">
+            <h4 class="form-category-title">My Subscription Plan</h4>
+            <div class="row align-items-center">
+                <div class="col-sm-8 ">
+                    <p>
+                      @if ($doctor->is_subscribed)
+                        <span class="text-muted">Current subscription ends by:</span>
+                        <br>
+                        <strong>{{ $doctor->subscription_end_formatted }}</strong>
+                      @else
+                        You have no subscription.
+                        <br>
+                        <small>  You must be subscribed to appear in search results or receive appointment from patients. </small>
+                      @endif
+                    </p>
+                </div>
+                <div class="col-sm-4">
+                    @if ($doctor->is_subscribed)
+                        {{-- <button class="btn btn-secondary btn-sm" 
+                          data-toggle="modal" data-target="#newSubscriptionForm" 
+                          title="New Subscription">Extend current subscription</button> --}}
+
+                        <a href="{{ route('subscription_plans.index') }}" class="btn btn-secondary btn-sm" 
+                          title="New Subscription">Extend current subscription</a>
+                    @else
+                        {{-- <button class="btn btn-secondary btn-sm" 
+                          data-toggle="modal" data-target="#newSubscriptionForm" 
+                          title="New Subscription">Subscribe Now</button> --}}
+                        <a href="{{ route('subscription_plans.index') }}" class="btn btn-secondary btn-sm" title="New Subscription">Subscribe Now</a>
+                    @endif
+                </div>
+            </div>
         </div>
       </div>
 

@@ -446,6 +446,11 @@ class User extends Authenticatable implements MustVerifyEmail
     //     return !! $this->doctor()->count();
     // }
 
+    public function isDoctorUser() 
+    {
+      return $this->is_doctor == '1';
+    }
+
     public function isAuthenticatedDoctor() 
     {
         return $this->is_doctor && $this->isLoggedInAsDoctor();        

@@ -29,47 +29,49 @@
                         <span class="name mb-2">
                             <span>{{ $doctor->location }}</span>
                         </span>
-                        <span class="fee">{{-- Fee -  --}}<strong>{{setting('base_currency')}} {{ $doctor->rate }}</strong> </span>
                     </div>
                 </div>
             </td>
         </tr>
         <tr>
             <td class="border-top-0">
-                <div class="row mx-auto text-center">
+                <div class="row mx-auto text-center text-md-left">
 
-                    <!-- schedule detail -->
-                    
-                    <div id="s-d" class="offset-md-3 col-md-6 col-8 search-cell text-center">
-                        <ul class="nav">
-                            <li class="nav-item {{$doctor->has_sunday_schedules ? 'has':''}}"   >S</li>
-                            <li class="nav-item {{$doctor->has_monday_schedules ? 'has':''}}"   >M</li>
-                            <li class="nav-item {{$doctor->has_tuesday_schedules ? 'has':''}}"  >T</li>
-                            <li class="nav-item {{$doctor->has_wednesday_schedules ? 'has':''}}">W</li>
-                            <li class="nav-item {{$doctor->has_thursday_schedules ? 'has':''}}" >T</li>
-                            <li class="nav-item {{$doctor->has_friday_schedules ? 'has':''}}"   >F</li>
-                            <li class="nav-item {{$doctor->has_saturday_schedules ? 'has':''}}" >S</li>
+                    <!-- schedule detail -->                    
+                    <div class="col-md-3">                        
+                        <span class="fee">{{-- Fee -  --}}<strong>{{setting('base_currency')}} {{ $doctor->rate }}</strong> </span>
+                    </div>
+
+                    <div id="s-d" class="col-md-5">
+                        <ul class="list-inline mx-auto">
+                            <li class="nav-item list-inline-item mr-0 {{$doctor->has_sunday_schedules ? 'has':''}}"   >S</li>
+                            <li class="nav-item list-inline-item mr-0 {{$doctor->has_monday_schedules ? 'has':''}}"   >M</li>
+                            <li class="nav-item list-inline-item mr-0 {{$doctor->has_tuesday_schedules ? 'has':''}}"  >T</li>
+                            <li class="nav-item list-inline-item mr-0 {{$doctor->has_wednesday_schedules ? 'has':''}}">W</li>
+                            <li class="nav-item list-inline-item mr-0 {{$doctor->has_thursday_schedules ? 'has':''}}" >T</li>
+                            <li class="nav-item list-inline-item mr-0 {{$doctor->has_friday_schedules ? 'has':''}}"   >F</li>
+                            <li class="nav-item list-inline-item mr-0 {{$doctor->has_saturday_schedules ? 'has':''}}" >S</li>
                         </ul>
                     </div>
                     
 
                     <!-- ratings -->
-                    <div class="ratings" class=" col-md-3 col-4 search-cell text-center">
-                        <ul class="nav">
+                    <div class=" col-md-4">
+                        <ul class="list-inline mx-auto">
                             @php
                               // Reduce queries by 7
                               $rating = $doctor->rating_digit;
                             @endphp
                             @if ($rating)
                                 @for($i=1; $i <= $rating; $i++)
-                                  <li class="nav-item text-review review-star" ><i class="fa fa-star"></i></li>
+                                  <li class="list-inline-item mr-0 text-review review-star" ><i class="fa fa-star"></i></li>
                                 @endfor
                             @else
-                                <li class="nav-item" ><i class="fa fa-star text-secondary"></i></li>
-                                <li class="nav-item" ><i class="fa fa-star text-secondary"></i></li>
-                                <li class="nav-item" ><i class="fa fa-star text-secondary"></i></li>
-                                <li class="nav-item" ><i class="fa fa-star text-secondary"></i></li>
-                                <li class="nav-item" ><i class="fa fa-star text-secondary"></i></li>
+                                <li class="list-inline-item mr-0" ><i class="fa fa-star text-secondary"></i></li>
+                                <li class="list-inline-item mr-0" ><i class="fa fa-star text-secondary"></i></li>
+                                <li class="list-inline-item mr-0" ><i class="fa fa-star text-secondary"></i></li>
+                                <li class="list-inline-item mr-0" ><i class="fa fa-star text-secondary"></i></li>
+                                <li class="list-inline-item mr-0" ><i class="fa fa-star text-secondary"></i></li>
                             @endif
                         </ul>
                     </div>

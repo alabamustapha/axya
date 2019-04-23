@@ -18,7 +18,7 @@
                                 @csrf
                                 {{ method_field('PATCH') }}
 
-                                @include('doctor.forms._new-password')
+                                @include('doctors.forms.auth-new-password')
 
                             </form>
 
