@@ -116009,13 +116009,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['setRowClass', // .row
+  'labelStyle', // ...
+  'inputStyle', // .form-default
   'regionDiv', // .col-sm-6
   'cityDiv', // .col-sm-6
   'label', // true
-  'required'],
+  'required', 'regionId', 'cityId'],
 
   data: function data() {
     return {
@@ -116025,14 +116035,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       // regionId  : 1, // Default = (Location region id (what if guest?))
 
       form: new Form({
-        region_id: '',
-        city_id: ''
+        region_id: this.regionId,
+        city_id: this.cityId
       })
     };
   },
   created: function created() {
     this.loadRegions(this.countryId);
-    // this.loadCities(regionId);
+    this.loadCities(this.regionId);
   },
 
 
@@ -116078,13 +116088,25 @@ var render = function() {
   return _c("div", { class: _vm.setRowClass }, [
     _c("div", { class: _vm.regionDiv }, [
       _vm.label
-        ? _c("label", { staticClass: "tf-flex", attrs: { for: "region_id" } }, [
-            _c("small", { staticStyle: { size: "10px" } }, [_vm._v("Region")]),
-            _vm._v(" "),
-            _c("small", { staticClass: "red", attrs: { title: "required" } }, [
-              _vm._v("**")
-            ])
-          ])
+        ? _c(
+            "label",
+            {
+              staticClass: "tf-flex",
+              class: _vm.labelStyle,
+              attrs: { for: "region_id" }
+            },
+            [
+              _c("small", { staticStyle: { size: "10px" } }, [
+                _vm._v("Region")
+              ]),
+              _vm._v(" "),
+              _c(
+                "small",
+                { staticClass: "red", attrs: { title: "required" } },
+                [_vm._v("**")]
+              )
+            ]
+          )
         : _vm._e(),
       _vm._v(" "),
       _c(
@@ -116098,7 +116120,7 @@ var render = function() {
               expression: "form.region_id"
             }
           ],
-          staticClass: "form-control",
+          staticClass: "form-control form-default",
           class: { "is-invalid": _vm.form.errors.has("region_id") },
           attrs: { name: "region_id", id: "region_id", required: _vm.required },
           on: {
@@ -116127,7 +116149,7 @@ var render = function() {
         [
           _c("option", { attrs: { value: "" } }, [_vm._v("Select Region")]),
           _vm._v(" "),
-          _vm._l(_vm.regions, function(region, index) {
+          _vm._l(_vm.regions, function(region) {
             return _c("option", {
               key: region.id,
               domProps: { value: region.id, textContent: _vm._s(region.name) }
@@ -116140,13 +116162,23 @@ var render = function() {
     _vm._v(" "),
     _c("div", { class: _vm.cityDiv }, [
       _vm.label
-        ? _c("label", { staticClass: "tf-flex", attrs: { for: "city_id" } }, [
-            _c("small", { staticStyle: { size: "10px" } }, [_vm._v("City")]),
-            _vm._v(" "),
-            _c("small", { staticClass: "red", attrs: { title: "required" } }, [
-              _vm._v("**")
-            ])
-          ])
+        ? _c(
+            "label",
+            {
+              staticClass: "tf-flex",
+              class: _vm.labelStyle,
+              attrs: { for: "city_id" }
+            },
+            [
+              _c("small", { staticStyle: { size: "10px" } }, [_vm._v("City")]),
+              _vm._v(" "),
+              _c(
+                "small",
+                { staticClass: "red", attrs: { title: "required" } },
+                [_vm._v("**")]
+              )
+            ]
+          )
         : _vm._e(),
       _vm._v(" "),
       _c(
@@ -116160,7 +116192,7 @@ var render = function() {
               expression: "form.city_id"
             }
           ],
-          staticClass: "form-control",
+          staticClass: "form-control form-default",
           class: { "is-invalid": _vm.form.errors.has("city_id") },
           attrs: { name: "city_id", id: "city_id", required: _vm.required },
           on: {
@@ -116187,7 +116219,7 @@ var render = function() {
         [
           _c("option", { attrs: { value: "" } }, [_vm._v("Select City")]),
           _vm._v(" "),
-          _vm._l(_vm.cities, function(city, index) {
+          _vm._l(_vm.cities, function(city) {
             return _c("option", {
               key: city.id,
               domProps: { value: city.id, textContent: _vm._s(city.name) }
@@ -116922,7 +116954,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;var _typeof = 
 /* 244 */
 /***/ (function(module, exports) {
 
-// removed by extract-text-webpack-plugin
+throw new Error("Module build failed: ModuleBuildError: Module build failed: \r\n@import 'custom/style.scss';\r\n^\r\n      File to import not found or unreadable: custom/style.scss.\r\n      in C:\\xmp\\htdocs\\Tony\\clients\\axya\\resources\\sass\\welcome.scss (line 10, column 1)\n    at runLoaders (C:\\xmp\\htdocs\\Tony\\clients\\axya\\node_modules\\webpack\\lib\\NormalModule.js:195:19)\n    at C:\\xmp\\htdocs\\Tony\\clients\\axya\\node_modules\\loader-runner\\lib\\LoaderRunner.js:364:11\n    at C:\\xmp\\htdocs\\Tony\\clients\\axya\\node_modules\\loader-runner\\lib\\LoaderRunner.js:230:18\n    at context.callback (C:\\xmp\\htdocs\\Tony\\clients\\axya\\node_modules\\loader-runner\\lib\\LoaderRunner.js:111:13)\n    at Object.asyncSassJobQueue.push [as callback] (C:\\xmp\\htdocs\\Tony\\clients\\axya\\node_modules\\sass-loader\\lib\\loader.js:55:13)\n    at Object.done [as callback] (C:\\xmp\\htdocs\\Tony\\clients\\axya\\node_modules\\neo-async\\async.js:8077:18)\n    at options.error (C:\\xmp\\htdocs\\Tony\\clients\\axya\\node_modules\\node-sass\\lib\\index.js:294:32)");
 
 /***/ }),
 /* 245 */

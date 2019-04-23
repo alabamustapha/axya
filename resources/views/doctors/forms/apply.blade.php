@@ -86,15 +86,16 @@
                             @endif                 
                         </div>
                     </div> --}}
-                    <div class="row">
-                        <location-selection
-                            :set-row-class="'row'"
-                            :region-div="'col-sm-6'"
-                            :city-div="'col-sm-6'"
-                            :label="true"
-                            :required="true"
-                            ></location-selection>
-                    </div>
+                    <location-selection
+                        :set-row-class="'row'"
+                        :region-div="'col-sm-6'"
+                        :city-div="'col-sm-6'"
+                        :label="true"
+                        :required="true"
+                        :region-id="{{ Auth::user()->region_id }}"
+                        :city-id="{{ Auth::user()->city_id }}"
+                        >
+                    </location-selection>
                 </div>
             </div>
         </div>

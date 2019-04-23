@@ -161,6 +161,19 @@
         <label for="password_confirmation">Confirm Password</label>
         <input type="password" name="password_confirmation" id="password_confirmation" class="form-control form-default" placeholder="Confirm password" required>
     </div>
+    
+    <div class="form-group">
+        <location-selection
+            :label-style="''"
+            :input-style="' form-default'"
+            :set-row-class="'row'"
+            :region-div="'col-sm-6'"
+            :city-div="'col-sm-6'"
+            :label="true"
+            :required="true"
+            ></location-selection>
+    </div>
+
     <div class="acct-type">
         <h4 class="text-center font-weight-bold border-bottom pb-3">I WANT TO</h4>
         <div class="row" class="form-control{{ $errors->has('as_doctor') ? ' is-invalid' : '' }}">

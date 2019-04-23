@@ -194,7 +194,7 @@
           <h4 class="form-category-title">Speciality</h4>
           <div class="row bg-theme-gradient category p-3">
             {{-- @foreach ($doctor->specialties as $specialty) --}}
-              <div class="col-sm-3">
+              <div class="">
                 <a href="{{ $doctor->specialty->link }}" class="btn  p-2 rounded-pill spec d-block">{{ $doctor->specialty->name }}</a>
               </div>
             {{-- <div class="col-sm-3">

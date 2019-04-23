@@ -94,9 +94,27 @@
             @endif
         </div>
     </div>
+    
+    <div class="form-group row">
+        <label for="location" class="col-md-4 col-form-label text-md-right">{{ __('Location') }}</label>
+
+        <div class="col-md-6">
+            <location-selection
+                :label-style="''"
+                :input-style="' form-default'"
+                :set-row-class="'row'"
+                :region-div="'col-sm-6'"
+                :city-div="'col-sm-6'"
+                :label="true"
+                :required="true"
+                :region-id="{{ $user->region_id }}"
+                :city-id="{{ $user->city_id }}"
+                ></location-selection>
+        </div>
+    </div>
 
     <div class="form-group row">
-        <label for="address" class="col-md-4 col-form-label text-md-right">{{ __('Address Location') }}</label>
+        <label for="address" class="col-md-4 col-form-label text-md-right">{{ __('Address') }}</label>
 
         <div class="col-md-6">
             <input id="address" type="text" class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" name="address" value="{{ old('address') ?: $user->address }}" placeholder="address">

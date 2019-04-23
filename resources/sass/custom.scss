@@ -15,11 +15,11 @@
 }
 
 // Customs Styles
-@import 'custom/aesthetics.scss';
-@import 'custom/style.scss';
-@import 'custom/dashboard.scss';
-//@import 'custom/admin.scss';
+@import 'custom/aesthetics.css';
+@import 'custom/style.css';
+@import 'custom/dashboard.css';
+//@import 'custom/admin.css';
 
 @import 'custom/_custom.scss';
-@import 'custom/_override.scss';
+@import 'custom/override.css';
 

@@ -97,18 +97,6 @@
                                   <span>{{ $user->weight }}(kg)</span>
                                 </span>
                              </li>
-                             {{-- <li class="border-bottom p-2">
-                                 <span class="weight tf-flex px-3">
-                                  <span class=" font-weight-bold">Phone: </span>
-                                  <span>{{ $user->phone }}</span>
-                                </span>
-                             </li>
-                             <li class="border-bottom p-2">
-                                 <span class="weight tf-flex px-3">
-                                  <span class=" font-weight-bold">Address: </span>
-                                </span>
-                                <span>{{ $user->address }}</span>
-                             </li> --}}
                              <li class="p-2">
                                  <span class="language tf-flex px-3">
                                   <span class=" font-weight-bold">Language: </span>
@@ -164,10 +152,10 @@
                                         </div>
                                         
                                         <div class="form-group">
-                                            <label for="home-address" class="">Home Address</label>
+                                            <label for="home-address" class="">Address</label>
                                             <br>
                                             <div class="">
-                                                <textarea class="form-control" style="max-height: 150px;" name="home-address" id="home-address" placeholder="your home address" value="" disabled>{{ $user->address }}</textarea>
+                                                <textarea class="form-control" style="max-height: 150px;" name="home-address" id="home-address" placeholder="your home address" value="" disabled>{{ $user->address }} {{ $user->city->name }}, {{ $user->region->name }}</textarea>
                                             </div>
                                         </div>
                                         

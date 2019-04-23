@@ -20,7 +20,6 @@ mix
       'resources/js/vendor/jquery.timepicker.min.js',
     ], 
     'public/js/vendors.js')
-  // STYLES
   .sass('resources/sass/app.scss',    'public/css/vendors.css')
 
   //---CUSTOM--->
@@ -29,12 +28,11 @@ mix
       'resources/js/custom/main.js',
     ], 
     'public/js/custom.js')
-  // STYLES
   .sass('resources/sass/welcome.scss','public/css/welcome.css')
   .sass('resources/sass/custom.scss', 'public/css/custom.css')
 ;
 
-// // For Production  
+// // For Production (Use this occasionally)
 // mix
 //   /* Burst only when new packages or Vue components are added */
 //   // .js('public/js/vendors.js',         'public/js/vendors.min.js')
