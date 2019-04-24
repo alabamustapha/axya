@@ -1,11 +1,12 @@
  
-    {{-- @if (app()->environment('local'))
+    {{-- @if (app()->environment('local')) --}}
         <script src="{{asset('js/vendors.js')}}"></script>
         <script src="{{asset('js/custom.js')}}"></script>
-    @else --}}
+    {{-- @else
         <script src="{{asset('js/vendors.min.js')}}"></script>
         <script src="{{asset('js/custom.min.js')}}"></script>
-    {{-- @endif --}}
+    @endif --}}
+    <script src="{{asset('js/vendor/pikaday.js')}}"></script>
 
     <script> $('div.alert').not('.alert-important').delay(7000).fadeOut(350); </script>
 

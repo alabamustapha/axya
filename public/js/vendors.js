@@ -54895,10 +54895,7 @@ function applyToTag (styleElement, obj) {
 
 __webpack_require__(144);
 __webpack_require__(241);
-__webpack_require__(242);
-__webpack_require__(243);
-__webpack_require__(244);
-module.exports = __webpack_require__(245);
+module.exports = __webpack_require__(242);
 
 
 /***/ }),
@@ -54939,6 +54936,7 @@ Vue.prototype.$acl = new __WEBPACK_IMPORTED_MODULE_0__custom_acl__["a" /* defaul
 
 // Moment:
 
+window.moment = __WEBPACK_IMPORTED_MODULE_1_moment___default.a;
 
 // VueForm:
 
@@ -96192,6 +96190,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -96375,6 +96374,15 @@ var render = function() {
                     }
                   }),
                   _vm._v(" "),
+                  _c("location-selection", {
+                    attrs: {
+                      "set-row-class": "row",
+                      "region-div": "col-6",
+                      "city-div": "col-6",
+                      "is-search-form": true
+                    }
+                  }),
+                  _vm._v(" "),
                   _c("br"),
                   _vm._v(" "),
                   _c(
@@ -96386,7 +96394,8 @@ var render = function() {
                     },
                     [_c("i", { staticClass: "fa fa-search " })]
                   )
-                ]
+                ],
+                1
               ),
               _vm._v(" "),
               _c("div", { staticClass: "text-center" }, [
@@ -99866,6 +99875,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 // import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css';
@@ -99876,6 +99893,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
   data: function data() {
     return {
+      thisMinute: '',
+      nextTwoMonths: '',
       form: new Form({
         id: '',
         // user_id   : '',Model::boot()
@@ -99889,6 +99908,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         phone: ''
       })
     };
+  },
+  created: function created() {
+    this.thisMinute = moment().add(1, 'seconds').format('YYYY-MM-DD');
+    this.nextTwoMonths = moment().add(2, 'months').format('YYYY-MM-DD');
+    console.log(this.thisMinute);
+    console.log(this.nextTwoMonths);
   },
 
 
@@ -100053,11 +100078,14 @@ var render = function() {
                     staticClass: "form-control",
                     class: { "is-invalid": _vm.form.errors.has("day") },
                     attrs: {
-                      format: "YYYY-MM-d",
-                      formatted: "lll",
-                      "only-day": true,
-                      label: "Start",
-                      "disabled-hours": ["", ""]
+                      id: "day",
+                      format: "'YYYY-MM-d'",
+                      formatted: "ll",
+                      "only-date": true,
+                      label: "Day",
+                      "min-date": _vm.thisMinute,
+                      "max-date": _vm.nextTwoMonths,
+                      "input-size": "sm"
                     },
                     model: {
                       value: _vm.form.day,
@@ -100085,11 +100113,12 @@ var render = function() {
                     staticClass: "form-control",
                     class: { "is-invalid": _vm.form.errors.has("from") },
                     attrs: {
+                      id: "from",
                       format: "hh:mm a",
                       formatted: "hh:mm a",
+                      "minute-interval": 30,
                       "only-time": true,
-                      label: "From",
-                      "disabled-hours": ["", ""]
+                      label: "From"
                     },
                     model: {
                       value: _vm.form.from,
@@ -100117,11 +100146,13 @@ var render = function() {
                     staticClass: "form-control",
                     class: { "is-invalid": _vm.form.errors.has("to") },
                     attrs: {
+                      id: "to",
                       format: "hh:mm a",
                       formatted: "hh:mm a",
+                      "minute-interval": 30,
                       "only-time": true,
                       label: "End",
-                      "disabled-hours": ["", ""]
+                      "disabled-hours": ["0", "11"]
                     },
                     model: {
                       value: _vm.form.to,
@@ -104349,7 +104380,7 @@ exports = module.exports = __webpack_require__(5)(false);
 
 
 // module
-exports.push([module.i, "\n.vuecal__cells.years-view .vuecal__cell,\n.vuecal__cells.year-view .vuecal__cell,\n.vuecal__cells.month-view .vuecal__cell {height:70px;\n}\n.vuecal__event .vuecal__event-title {font-weight:bold;display:inline-block;padding:5px;margin-bottom:3px;\n}\n\n/* Cell background indicator */\n.vuecal__cell--has-events {background-color: #fffacd;\n}\n.vuecal__cell-events-count {display: block;\n}/*none*/\n\n/* Cell Event Type Background */\n.vuecal__event.others {background-color: #0ffac0;\n}\n.vuecal__event.medication {background-color: #ff09cd;color: #fff9f9;\n}\n.vuecal__event.home-appointment {background-color: #fffa00;\n}\n.vuecal__event.online-appointment {background-color: #a0facd;\n}\n.vuecal__event.fee {\n  background: repeating-linear-gradient(45deg, #ffffff, #ffffff 10px, #f2f2f2 10px, #f2f2f2 20px);/* IE 10+ */\n  color: #999;\n  display: -webkit-box;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n.vuecal__event.fee .vuecal__event-time {-webkit-box-align: center;-ms-flex-align: center;align-items: center;\n}\n", ""]);
+exports.push([module.i, "\n.vuecal__cells.years-view .vuecal__cell,\n.vuecal__cells.year-view .vuecal__cell,\n.vuecal__cells.month-view .vuecal__cell {height:70px;\n}\n.vuecal__event .vuecal__event-title {font-weight:bold;display:inline-block;padding:5px;margin-bottom:3px;\n}\n\n/* Cell background indicator */\n.vuecal__cell--has-events {background-color: #fffacd;\n}\n.vuecal__cell-events-count {display: block;\n}/*none*/\n\n/* Cell Event Type Background */\n.vuecal__event.others {background-color: #0ffac0;\n}\n.vuecal__event.medication {background-color: #ff09cd;color: #fff9f9;\n}\n.vuecal__event.home-appointment {background-color: #fffa00;\n}\n.vuecal__event.online-appointment {background-color: #a0facd;\n}\n.vuecal__event.fee {\n  background: repeating-linear-gradient(45deg, #ffffff, #ffffff 10px, #f2f2f2 10px, #f2f2f2 20px);/* IE 10+ */\n  color: #999;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n.vuecal__event.fee .vuecal__event-time {align-items: center;\n}\n", ""]);
 
 // exports
 
@@ -111673,7 +111704,7 @@ exports = module.exports = __webpack_require__(5)(false);
 
 
 // module
-exports.push([module.i, "\n.schedule-table {\n  color: #660f0b;\n  font-size: 14px;\n}\n.schedule-table__font-size {\n  color: gray;\n  font-size: 12px;\n}\ntd div label input[type='text'] {\n  font-family: monospace;    \n  padding-left: 10px;\n  -webkit-box-sizing: border-box;\n          box-sizing: border-box;\n}\n", ""]);
+exports.push([module.i, "\n.schedule-table {\n  color: #660f0b;\n  font-size: 14px;\n}\n.schedule-table__font-size {\n  color: gray;\n  font-size: 12px;\n}\ntd div label input[type='text'] {\n  font-family: monospace;    \n  padding-left: 10px;\n  box-sizing: border-box;\n}\n", ""]);
 
 // exports
 
@@ -112784,9 +112815,11 @@ var render = function() {
         _c("tr", [
           _c("td", [
             _c("div", { staticClass: "px-3" }, [
-              _c("h5", { staticClass: "font-weight-bold text-uppercase" }, [
-                _vm._v("Schedules")
-              ]),
+              _c(
+                "h5",
+                { staticClass: "font-weight-bold text-uppercase text-center" },
+                [_vm._v("Schedules")]
+              ),
               _vm._v(" "),
               _vm.isDoctorOwner
                 ? _c(
@@ -116025,7 +116058,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   'regionDiv', // .col-sm-6
   'cityDiv', // .col-sm-6
   'label', // true
-  'required', 'regionId', 'cityId'],
+  'required', 'regionId', 'cityId', 'isSearchForm'],
 
   data: function data() {
     return {
@@ -116043,6 +116076,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   created: function created() {
     this.loadRegions(this.countryId);
     this.loadCities(this.regionId);
+    this.form.region_id = this.regionId ? this.regionId : '';
+    this.form.city_id = this.cityId ? this.cityId : '';
   },
 
 
@@ -116068,11 +116103,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         var data = _ref2.data;
         return _this2.cities = data;
       }).then(function () {
+        _this2.form.city_id = '';
+        _this2.cityId = '';
         _this2.$Progress.finish();
       }).catch(function () {/*...*/});
     },
     makeSearch: function makeSearch() {
-      console.log('Search thru...Region: ' + this.form.region_id + ' :City ' + this.form.city_id);
+      if (this.isSearchForm) {
+        console.log('Search thru...Region: ' + this.form.region_id + ' :City ' + this.form.city_id);
+      } else {
+        console.log('Not a search form');
+      }
     }
   }
 });
@@ -116943,24 +116984,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;var _typeof = 
   };
 });
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(6)(module)))
-
-/***/ }),
-/* 243 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 244 */
-/***/ (function(module, exports) {
-
-throw new Error("Module build failed: ModuleBuildError: Module build failed: \r\n@import 'custom/style.scss';\r\n^\r\n      File to import not found or unreadable: custom/style.scss.\r\n      in C:\\xmp\\htdocs\\Tony\\clients\\axya\\resources\\sass\\welcome.scss (line 10, column 1)\n    at runLoaders (C:\\xmp\\htdocs\\Tony\\clients\\axya\\node_modules\\webpack\\lib\\NormalModule.js:195:19)\n    at C:\\xmp\\htdocs\\Tony\\clients\\axya\\node_modules\\loader-runner\\lib\\LoaderRunner.js:364:11\n    at C:\\xmp\\htdocs\\Tony\\clients\\axya\\node_modules\\loader-runner\\lib\\LoaderRunner.js:230:18\n    at context.callback (C:\\xmp\\htdocs\\Tony\\clients\\axya\\node_modules\\loader-runner\\lib\\LoaderRunner.js:111:13)\n    at Object.asyncSassJobQueue.push [as callback] (C:\\xmp\\htdocs\\Tony\\clients\\axya\\node_modules\\sass-loader\\lib\\loader.js:55:13)\n    at Object.done [as callback] (C:\\xmp\\htdocs\\Tony\\clients\\axya\\node_modules\\neo-async\\async.js:8077:18)\n    at options.error (C:\\xmp\\htdocs\\Tony\\clients\\axya\\node_modules\\node-sass\\lib\\index.js:294:32)");
-
-/***/ }),
-/* 245 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

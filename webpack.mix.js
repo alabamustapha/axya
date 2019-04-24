@@ -20,16 +20,16 @@ mix
       'resources/js/vendor/jquery.timepicker.min.js',
     ], 
     'public/js/vendors.js')
-  .sass('resources/sass/app.scss',    'public/css/vendors.css')
+  // .sass('resources/sass/app.scss',    'public/css/vendors.css')
 
-  //---CUSTOM--->
-  .js([
-      'resources/js/custom/custom.js',
-      'resources/js/custom/main.js',
-    ], 
-    'public/js/custom.js')
-  .sass('resources/sass/welcome.scss','public/css/welcome.css')
-  .sass('resources/sass/custom.scss', 'public/css/custom.css')
+  // //---CUSTOM--->
+  // .js([
+  //     'resources/js/custom/custom.js',
+  //     'resources/js/custom/main.js',
+  //   ], 
+  //   'public/js/custom.js')
+  // .sass('resources/sass/welcome.scss','public/css/welcome.css')
+  // .sass('resources/sass/custom.scss', 'public/css/custom.css')
 ;
 
 // // For Production (Use this occasionally)

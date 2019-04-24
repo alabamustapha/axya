@@ -18,7 +18,7 @@ Vue.prototype.$acl = new Acl(window.user);
 
 // Moment:
 import moment from 'moment'
-
+window.moment = moment;
 
 // VueForm:
 import { Form, HasError, AlertError } from 'vform'

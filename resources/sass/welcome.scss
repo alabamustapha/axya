@@ -4,8 +4,9 @@
 // Variables
 @import 'variables';
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
+// @import '~bootstrap/scss/bootstrap';// 4.1.0
+@import 'vendor/bootstrap.min.css';    // 4.2.1
 
 // Custom
-@import 'custom/style.scss';
-@import 'custom/_override.scss';
+@import 'custom/style.css';
+@import 'custom/override.css';

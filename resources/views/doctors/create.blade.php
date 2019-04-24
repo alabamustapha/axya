@@ -17,9 +17,3 @@
     </div>
 
 @endsection
-
-@section('styles')
-
-    <script src="{{asset('js/vendor/pikaday.js')}}"></script>
-    
-@endsection

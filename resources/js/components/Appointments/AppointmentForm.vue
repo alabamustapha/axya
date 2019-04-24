@@ -46,17 +46,21 @@
                                     <!-- 
                                       format="yyyy-mm-dd" Format for BE
                                       formatted="yyyy-mm-dd" Format for FE view
+                                      :disabled-hours="['','']"
                                     -->
 
                                     <VueCtkDateTimePicker 
+                                      :id="'day'"
                                       v-model="form.day"
-                                      format="YYYY-MM-d"
-                                      formatted="lll"
-                                      :only-day="true"
-                                      :label="'Start'"
-                                      :disabled-hours="['','']"
-                                      class="form-control" 
+                                      format="'YYYY-MM-d'"
+                                      formatted="ll"
+                                      :only-date="true"
+                                      :label="'Day'"
+                                      class="form-control"
+                                      :min-date="thisMinute" 
+                                      :max-date="nextTwoMonths" 
                                       :class="{ 'is-invalid': form.errors.has('day') }"
+                                      :input-size="'sm'"
                                     ></VueCtkDateTimePicker>
               <!-- <input v-model="form.day" 
                 id="datepicker" 
@@ -96,14 +100,16 @@
 
         <div class="form-group text-center">
           <div class="row" id="timepicker">
-            <div class="col-md-5"><!-- HH:mm:ss -->
+            <div class="col-md-5"><!-- HH:mm:ss 
+                                      :disabled-hours="['','']"-->
                                     <VueCtkDateTimePicker 
+                                      :id="'from'"
                                       v-model="form.from"
                                       format="hh:mm a"
                                       formatted="hh:mm a"
+                                      :minute-interval="30"
                                       :only-time="true"
                                       :label="'From'"
-                                      :disabled-hours="['','']"
                                       class="form-control" 
                                       :class="{ 'is-invalid': form.errors.has('from') }"
                                     ></VueCtkDateTimePicker>
@@ -118,16 +124,18 @@
 
             <div class="col-xs-1 mx-auto p-0 m-0"> to </div>
 
-            <div class="col-md-6"><!-- HH:mm:ss -->
+            <div class="col-md-6"><!-- HH:mm:ss "-->
                                     <VueCtkDateTimePicker 
+                                      :id="'to'"
                                       v-model="form.to"
                                       format="hh:mm a"
                                       formatted="hh:mm a"
+                                      :minute-interval="30"
                                       :only-time="true"
                                       :label="'End'"
-                                      :disabled-hours="['','']"
                                       class="form-control" 
                                       :class="{ 'is-invalid': form.errors.has('to') }"
+                                      :disabled-hours="['0','11']"
                                     ></VueCtkDateTimePicker>
               <!-- <label for="to">End <small>(eg 22:15 or 10:15 PM)</small></label> -->
               <!-- <input v-model="form.to" type="text" name="to" 
@@ -192,6 +200,8 @@
 
     data() {
       return {
+        thisMinute : '',
+        nextTwoMonths : '',
         form: new Form({
           id        : '',
           // user_id   : '',Model::boot()
@@ -205,6 +215,13 @@
           phone     : ''
         })
       }
+    },
+
+    created() {
+        this.thisMinute    = moment().add(1, 'seconds').format('YYYY-MM-DD');
+        this.nextTwoMonths = moment().add(2, 'months').format('YYYY-MM-DD');
+        console.log(this.thisMinute);
+        console.log(this.nextTwoMonths);
     },
 
     methods: {
