@@ -13,26 +13,37 @@
 
                 <!-- @keyup="this.$parent.searchForQuery" -->
           <form @submit.prevent="$parent.searchForQuery" class="form-inline">
-              <input
-                v-model="search"
-                type="search"
-                name="query" id="query"
-                aria-label="Search" 
-                placeholder="search doctor, city, illness, specialty..."
-                class="form-control w-100 input-lg border-0 rounded search-form bg-dark text-center p-4"
-                autocomplete="off"
-                minlength="3"
-                required>
-                <!-- <location-selection
+              <!-- <div class="form-group"> -->
+                <input
+                  v-model="search"
+                  type="search"
+                  name="query" id="query"
+                  aria-label="Search" 
+                  placeholder="search doctor, city, illness, specialty..."
+                  class="form-control w-100 input-lg border-0 rounded search-form bg-dark text-white text-center p-4"
+                  autocomplete="off"
+                  minlength="3"
+                  required
+                >
+              <!-- </div> -->
+              <div class="container w-100 d-block">
+                <location-selection
                             :set-row-class="'row'"
                             :region-div="'col-6'"
                             :city-div="'col-6'"
-                ></location-selection> -->
-                <!-- :required="true":label="true" -->
+                            :required="false"
+                            :is-search-form="true"
+                            :region-select-text="'Search By Region'"
+                            :city-select-text="'Search By City'"
+                ></location-selection>
+                <!-- :required="true"
+                  :label="true" -->
+              </div>
              
              <br>
-             <button @click="$parent.searchForQuery" type="submit" class="btn btn-block bg-theme-blue">
+             <button @click="$parent.searchForQuery" type="button" class="btn btn-block bg-theme-blue">
                   <i class="fa fa-search "></i>
+                  <!-- -->
               </button>
            
           </form>
@@ -177,6 +188,8 @@
   export default {
     data() {
       return {
+        regionId : '',
+        cityId   : '',
         loading : true,
         // searches: {},
         doctors : {},
@@ -184,7 +197,7 @@
         // users   : {},
         search  : '',
         query   : '',
-        doctorSearchUrl : appUrl +'/searches/doctors?q=',
+        doctorSearchUrl : appUrl +'/searches/doctors',
         tagSearchUrl    : appUrl +'/searches/tags?q=',
         doctorsCount    : 0,
         tagsCount       : 0,
@@ -194,7 +207,6 @@
     computed: {
       // a computed getter
       computedQuery: function () {
-
         // $parent needed to access the root instance at ...resources\js\app.js
         return (this.search.length) 
               ? this.search : this.$parent.search
@@ -209,8 +221,15 @@
       /*******************************/
       searchDoctors() {
         this.query = this.computedQuery;
+        // Event.$emit('search_by_location', this.regionId, this.cityId);
 
-        axios.get(this.doctorSearchUrl + this.query)
+        axios.get(this.doctorSearchUrl, {
+          params: {
+            q        : this.query,
+            regionId : this.regionId,
+            cityId   : this.cityId,
+          }
+        })
         .then(({data}) => (this.doctors = data))
         .then(() => { 
           this.loading = false; 
@@ -243,7 +262,14 @@
       /*******************************/
       doctorsPagination(page = 1) {
 
-        axios.get(this.doctorSearchUrl + this.query + '&page=' + page)
+        axios.get(this.doctorSearchUrl, {
+            params: {
+              q        : this.query,
+              page     : page,
+              regionId : this.regionId,
+              cityId   : this.cityId,
+            }
+          })
           .then(response => {
             this.doctors = response.data;
           });
@@ -274,6 +300,14 @@
         this.searchDoctors();
         this.searchTags();
         // this.searchUsers();
+      });
+
+      Event.$on('search_by_location', (qRegionId, qCityId) => {
+        this.regionId = qRegionId;
+        console.log(this.regionId);
+
+        this.cityId   = qCityId;
+        console.log(this.cityId);
       })
     }
   }

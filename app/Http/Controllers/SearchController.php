@@ -53,7 +53,7 @@ class SearchController extends Controller
       }
     }
 
-    public function doctors()
+    public function doctors(Request $request)
     {
       if (request()->q){
         $q = request()->q;
@@ -63,12 +63,44 @@ class SearchController extends Controller
         // Get doctors based on specialties.
         $doc_specialty = array_unique($specialties->pluck('id')->toArray());
         
-        $results = Doctor::with('user')
+        $searchType = isset($request->cityId) 
+                      ? 'city' : (isset($request->regionId) 
+                               ? 'region' : 'all')
+                      ;
+
+        switch ($searchType) {
+          case 'city':
+              $results = Doctor::with('user')
+                   ->where('region_id', $request->regionId)
+                   ->where('city_id', $request->cityId)
+                   ->where('slug', 'like', "%$q%")
+                   ->orderBy('slug')
+                   ->orderBy('updated_at', 'desc')
+                   ->orderBy('available', 'desc')
+                   ->paginate(6);
+            break;
+
+          case 'region':
+              $results = Doctor::with('user')
+                   ->where('region_id', $request->regionId)
+                   ->where('slug', 'like', "%$q%")
+                   ->orderBy('slug')
+                   ->orderBy('updated_at', 'desc')
+                   ->orderBy('available', 'desc')
+                   ->paginate(6);
+            break;
+          
+          case 'all':
+              $results = Doctor::with('user')
                    ->where('slug', 'like', "%$q%")
                    ->orWhere('location', 'like', "%$q%")
                    ->orWhere('about', 'like', "%$q%")
                    ->orWhereIn('specialty_id', $doc_specialty)
+                   ->orderBy('updated_at', 'desc')
+                   ->orderBy('available', 'desc')
                    ->paginate(6);
+            break;
+        }
 
         return response()->json($results);
       }

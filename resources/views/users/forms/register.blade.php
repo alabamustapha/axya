@@ -171,6 +171,7 @@
             :city-div="'col-sm-6'"
             :label="true"
             :required="true"
+            :is-search-form="false"
             ></location-selection>
     </div>
 

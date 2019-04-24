@@ -263,14 +263,14 @@
                             
                             </div>
                             <div class="row">
-                                <div class="col-sm-6">
+                                <div class="col-sm-4">
                                     <div class="form-group">
                                         <label for="country_id">Country</label>
                                        
                                         <select id="country_id" class="custom-select form-control{{ $errors->has('country_id') ? ' is-invalid' : '' }}" name="country_id" required>
                                             <option>Select Country</option>
                                             <option value="1" {{ (old('country_id') == 1 || $doctor->country_id == 1) ? 'selected' : '' }}>Romania</option>
-                                            <option value="2" {{ (old('country_id') == 2 || $doctor->country_id == 2) ? 'selected' : '' }}>Nigeria</option>   
+                                            {{-- <option value="2" {{ (old('country_id') == 2 || $doctor->country_id == 2) ? 'selected' : '' }}>Nigeria</option>    --}}
                                         </select>
                                         @if ($errors->has('country_id'))
                                             <span class="invalid-feedback" role="alert">
@@ -279,9 +279,19 @@
                                         @endif
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="state_id">State</label>
+                                <div class="col-sm-8">
+                                    <div class="form-group">                                        
+                                        <location-selection
+                                            :label-style="'h4'"
+                                            :input-style="' form-default'"
+                                            :set-row-class="'row'"
+                                            :region-div="'col-sm-6'"
+                                            :city-div="'col-sm-6'"
+                                            :label="true"
+                                            :required="true"
+                                            :is-search-form="false"
+                                            ></location-selection>
+                                        {{-- <label for="state_id">State</label>
 
                                         <select id="state_id" class="custom-select form-control{{ $errors->has('state_id') ? ' is-invalid' : '' }}" name="state_id" required>
                                             <option>Select State</option>
@@ -292,7 +302,7 @@
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $errors->first('state_id') }}</strong>
                                             </span>
-                                        @endif
+                                        @endif --}}
                                     </div>
                                 </div>
                             </div>

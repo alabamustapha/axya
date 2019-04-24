@@ -13,13 +13,13 @@
             <select v-model="form.region_id" 
               name="region_id" 
               id="region_id" 
-              class="form-control form-default" 
+              class="form-control form-default d-inline-block w-100" 
               :class="{ 'is-invalid': form.errors.has('region_id') }" 
               :required="required"
-              @change="loadCities(form.region_id), makeSearch"
+              @change="loadCities(form.region_id)"
               >
 
-                <option value="">Select Region</option>
+                <option value="" v-text="computedRegionSelectText"></option>
                 <option 
                   v-for="region in regions" 
                   :key="region.id" 
@@ -41,12 +41,12 @@
             <select v-model="form.city_id" 
               name="city_id" 
               id="city_id" 
-              class="form-control form-default" 
+              class="form-control form-default d-inline-block w-100" 
               :class="{ 'is-invalid': form.errors.has('city_id') }" 
               :required="required"
               @change="makeSearch"
               >
-                <option value="">Select City</option>
+                <option value="" v-text="computedCitySelectText"></option>
                 <option 
                   v-for="city in cities" 
                   :key="city.id" 
@@ -60,15 +60,18 @@
 <script>
   export default { 
     props: [
-      'setRowClass',// .row
-      'labelStyle', // ...
-      'inputStyle', // .form-default
-      'regionDiv',  // .col-sm-6
-      'cityDiv',    // .col-sm-6
-      'label',      // true
+      'setRowClass',      // .row
+      'labelStyle',       // ...
+      'inputStyle',       // .form-default
+      'regionDiv',        // .col-sm-6|.col-6
+      'cityDiv',          // .col-sm-6|.col-6
+      'label',            // true|false
       'required',
       'regionId',
       'cityId',
+      'isSearchForm',     // true|false
+      'regionSelectText', // Search By/Select Region
+      'citySelectText',   // Search By/Select City
     ],
 
     data() {
@@ -85,9 +88,23 @@
       }
     },
 
+    computed: {
+      computedCityId() {
+        return this.cityId ? this.cityId : '';
+      },
+      computedRegionSelectText() {
+        return this.regionSelectText ? this.regionSelectText : 'Select Region';
+      },
+      computedCitySelectText() {
+        return this.citySelectText ? this.citySelectText : 'Select City';
+      },
+    },
+
     created() {
       this.loadRegions(this.countryId);
       this.loadCities(this.regionId);
+      this.form.region_id = this.regionId ? this.regionId : '';
+      this.form.city_id   = this.computedCityId;
     },
 
     methods: {
@@ -102,15 +119,28 @@
 
       loadCities(regionId) {
           this.$Progress.start();
+          this.form.city_id = '';
 
           this.form.get(appUrl + '/searches/load-cities/' + regionId)
           .then(({data}) => (this.cities = data))
-          .then(() => { this.$Progress.finish(); })
+          .then(() => { 
+            this.makeSearch();
+
+            this.$Progress.finish(); 
+          })
           .catch(()=> { /*...*/ })
       },
 
       makeSearch() {
+        if (this.isSearchForm) {
+          let qRegionId = this.form.region_id;
+          let qCityId   = this.form.city_id;
+
+          Event.$emit('search_by_location', qRegionId, qCityId);
           console.log('Search thru...Region: ' + this.form.region_id + ' :City ' + this.form.city_id);
+        } else {
+          console.log('Not a search form');
+        }
       },
     }
   }

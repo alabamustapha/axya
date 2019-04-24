@@ -96191,10 +96191,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      regionId: '',
+      cityId: '',
       loading: true,
       // searches: {},
       doctors: {},
@@ -96202,7 +96214,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       // users   : {},
       search: '',
       query: '',
-      doctorSearchUrl: appUrl + '/searches/doctors?q=',
+      doctorSearchUrl: appUrl + '/searches/doctors',
       tagSearchUrl: appUrl + '/searches/tags?q=',
       doctorsCount: 0,
       tagsCount: 0
@@ -96213,7 +96225,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   computed: {
     // a computed getter
     computedQuery: function computedQuery() {
-
       // $parent needed to access the root instance at ...resources\js\app.js
       return this.search.length ? this.search : this.$parent.search;
     }
@@ -96228,8 +96239,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this = this;
 
       this.query = this.computedQuery;
+      // Event.$emit('search_by_location', this.regionId, this.cityId);
 
-      axios.get(this.doctorSearchUrl + this.query).then(function (_ref) {
+      axios.get(this.doctorSearchUrl, {
+        params: {
+          q: this.query,
+          regionId: this.regionId,
+          cityId: this.cityId
+        }
+      }).then(function (_ref) {
         var data = _ref.data;
         return _this.doctors = data;
       }).then(function () {
@@ -96269,7 +96287,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
 
 
-      axios.get(this.doctorSearchUrl + this.query + '&page=' + page).then(function (response) {
+      axios.get(this.doctorSearchUrl, {
+        params: {
+          q: this.query,
+          page: page,
+          regionId: this.regionId,
+          cityId: this.cityId
+        }
+      }).then(function (response) {
         _this3.doctors = response.data;
       });
     },
@@ -96295,6 +96320,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       _this5.searchDoctors();
       _this5.searchTags();
       // this.searchUsers();
+    });
+
+    Event.$on('search_by_location', function (qRegionId, qCityId) {
+      _this5.regionId = qRegionId;
+      console.log(_this5.regionId);
+
+      _this5.cityId = qCityId;
+      console.log(_this5.cityId);
     });
   }
 });
@@ -96352,7 +96385,7 @@ var render = function() {
                       }
                     ],
                     staticClass:
-                      "form-control w-100 input-lg border-0 rounded search-form bg-dark text-center p-4",
+                      "form-control w-100 input-lg border-0 rounded search-form bg-dark text-white text-center p-4",
                     attrs: {
                       type: "search",
                       name: "query",
@@ -96374,14 +96407,24 @@ var render = function() {
                     }
                   }),
                   _vm._v(" "),
-                  _c("location-selection", {
-                    attrs: {
-                      "set-row-class": "row",
-                      "region-div": "col-6",
-                      "city-div": "col-6",
-                      "is-search-form": true
-                    }
-                  }),
+                  _c(
+                    "div",
+                    { staticClass: "container w-100 d-block" },
+                    [
+                      _c("location-selection", {
+                        attrs: {
+                          "set-row-class": "row",
+                          "region-div": "col-6",
+                          "city-div": "col-6",
+                          required: false,
+                          "is-search-form": true,
+                          "region-select-text": "Search By Region",
+                          "city-select-text": "Search By City"
+                        }
+                      })
+                    ],
+                    1
+                  ),
                   _vm._v(" "),
                   _c("br"),
                   _vm._v(" "),
@@ -96389,13 +96432,12 @@ var render = function() {
                     "button",
                     {
                       staticClass: "btn btn-block bg-theme-blue",
-                      attrs: { type: "submit" },
+                      attrs: { type: "button" },
                       on: { click: _vm.$parent.searchForQuery }
                     },
                     [_c("i", { staticClass: "fa fa-search " })]
                   )
-                ],
-                1
+                ]
               ),
               _vm._v(" "),
               _c("div", { staticClass: "text-center" }, [
@@ -116055,10 +116097,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   props: ['setRowClass', // .row
   'labelStyle', // ...
   'inputStyle', // .form-default
-  'regionDiv', // .col-sm-6
-  'cityDiv', // .col-sm-6
-  'label', // true
-  'required', 'regionId', 'cityId', 'isSearchForm'],
+  'regionDiv', // .col-sm-6|.col-6
+  'cityDiv', // .col-sm-6|.col-6
+  'label', // true|false
+  'required', 'regionId', 'cityId', 'isSearchForm', // true|false
+  'regionSelectText', // Search By/Select Region
+  'citySelectText'],
 
   data: function data() {
     return {
@@ -116073,11 +116117,25 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       })
     };
   },
+
+
+  computed: {
+    computedCityId: function computedCityId() {
+      return this.cityId ? this.cityId : '';
+    },
+    computedRegionSelectText: function computedRegionSelectText() {
+      return this.regionSelectText ? this.regionSelectText : 'Select Region';
+    },
+    computedCitySelectText: function computedCitySelectText() {
+      return this.citySelectText ? this.citySelectText : 'Select City';
+    }
+  },
+
   created: function created() {
     this.loadRegions(this.countryId);
     this.loadCities(this.regionId);
     this.form.region_id = this.regionId ? this.regionId : '';
-    this.form.city_id = this.cityId ? this.cityId : '';
+    this.form.city_id = this.computedCityId;
   },
 
 
@@ -116098,18 +116156,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this2 = this;
 
       this.$Progress.start();
+      this.form.city_id = '';
 
       this.form.get(appUrl + '/searches/load-cities/' + regionId).then(function (_ref2) {
         var data = _ref2.data;
         return _this2.cities = data;
       }).then(function () {
-        _this2.form.city_id = '';
-        _this2.cityId = '';
+        _this2.makeSearch();
+
         _this2.$Progress.finish();
       }).catch(function () {/*...*/});
     },
     makeSearch: function makeSearch() {
       if (this.isSearchForm) {
+        var qRegionId = this.form.region_id;
+        var qCityId = this.form.city_id;
+
+        Event.$emit('search_by_location', qRegionId, qCityId);
         console.log('Search thru...Region: ' + this.form.region_id + ' :City ' + this.form.city_id);
       } else {
         console.log('Not a search form');
@@ -116161,7 +116224,7 @@ var render = function() {
               expression: "form.region_id"
             }
           ],
-          staticClass: "form-control form-default",
+          staticClass: "form-control form-default d-inline-block w-100",
           class: { "is-invalid": _vm.form.errors.has("region_id") },
           attrs: { name: "region_id", id: "region_id", required: _vm.required },
           on: {
@@ -116182,13 +116245,16 @@ var render = function() {
                 )
               },
               function($event) {
-                _vm.loadCities(_vm.form.region_id), _vm.makeSearch
+                return _vm.loadCities(_vm.form.region_id)
               }
             ]
           }
         },
         [
-          _c("option", { attrs: { value: "" } }, [_vm._v("Select Region")]),
+          _c("option", {
+            attrs: { value: "" },
+            domProps: { textContent: _vm._s(_vm.computedRegionSelectText) }
+          }),
           _vm._v(" "),
           _vm._l(_vm.regions, function(region) {
             return _c("option", {
@@ -116233,7 +116299,7 @@ var render = function() {
               expression: "form.city_id"
             }
           ],
-          staticClass: "form-control form-default",
+          staticClass: "form-control form-default d-inline-block w-100",
           class: { "is-invalid": _vm.form.errors.has("city_id") },
           attrs: { name: "city_id", id: "city_id", required: _vm.required },
           on: {
@@ -116258,7 +116324,10 @@ var render = function() {
           }
         },
         [
-          _c("option", { attrs: { value: "" } }, [_vm._v("Select City")]),
+          _c("option", {
+            attrs: { value: "" },
+            domProps: { textContent: _vm._s(_vm.computedCitySelectText) }
+          }),
           _vm._v(" "),
           _vm._l(_vm.cities, function(city) {
             return _c("option", {
