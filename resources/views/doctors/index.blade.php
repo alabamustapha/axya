@@ -31,9 +31,9 @@
 
           <ul class="nav w-100 d-block">
             <li class="nav-item list-group">
-              <span class="list-group-item">
+              {{-- <span class="list-group-item">
                 <input type="text" class="list-group-item form-control" placeholder="search...">
-              </span>
+              </span> --}}
 
               <a class="nav-link list-group-item" href="{{ route('user.doctors', Auth::user()) }}">
                   <span class="icon">
@@ -46,7 +46,7 @@
                   <span class="icon">
                     <i class="fas fa-user-check fa-fw"></i>
                   </span>
-                  <span class="navlink-active">Reviews</span>
+                  <span class="navlink-active">My Reviews</span>
               </a>
             </li>
           </ul>

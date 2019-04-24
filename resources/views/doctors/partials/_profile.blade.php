@@ -43,15 +43,9 @@
                     </div>
 
                     <div id="s-d" class="col-md-5">
-                        <ul class="list-inline mx-auto">
-                            <li class="nav-item list-inline-item mr-0 {{$doctor->has_sunday_schedules ? 'has':''}}"   >S</li>
-                            <li class="nav-item list-inline-item mr-0 {{$doctor->has_monday_schedules ? 'has':''}}"   >M</li>
-                            <li class="nav-item list-inline-item mr-0 {{$doctor->has_tuesday_schedules ? 'has':''}}"  >T</li>
-                            <li class="nav-item list-inline-item mr-0 {{$doctor->has_wednesday_schedules ? 'has':''}}">W</li>
-                            <li class="nav-item list-inline-item mr-0 {{$doctor->has_thursday_schedules ? 'has':''}}" >T</li>
-                            <li class="nav-item list-inline-item mr-0 {{$doctor->has_friday_schedules ? 'has':''}}"   >F</li>
-                            <li class="nav-item list-inline-item mr-0 {{$doctor->has_saturday_schedules ? 'has':''}}" >S</li>
-                        </ul>
+                        
+                        @include('doctors.partials._days-available')
+                        
                     </div>
                     
 

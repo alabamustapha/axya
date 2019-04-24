@@ -26,15 +26,8 @@
             <div id="s-d" class="mx-auto">
 
               <span class="text-center font-weight-bold">Available on:</span>
-              <ul class="list-inline">
-                <li class="nav-item list-inline-item mr-0 {{$doctor->has_sunday_schedules ? 'has':''}}"   title="Sunday">S</li>
-                <li class="nav-item list-inline-item mr-0 {{$doctor->has_monday_schedules ? 'has':''}}"   title="Monday">M</li>
-                <li class="nav-item list-inline-item mr-0 {{$doctor->has_tuesday_schedules ? 'has':''}}"  title="Tuesday">T</li>
-                <li class="nav-item list-inline-item mr-0 {{$doctor->has_wednesday_schedules ? 'has':''}}" title="Wednesday">W</li>
-                <li class="nav-item list-inline-item mr-0 {{$doctor->has_thursday_schedules ? 'has':''}}" title="Thursday">T</li>
-                <li class="nav-item list-inline-item mr-0 {{$doctor->has_friday_schedules ? 'has':''}}"   title="Friday">F</li>
-                <li class="nav-item list-inline-item mr-0 {{$doctor->has_saturday_schedules ? 'has':''}}" title="Saturday">S</li>
-              </ul>
+              
+              @include('doctors.partials._days-available')
 
             </div>
           </div>
@@ -121,7 +114,7 @@
 
       <!-- doctor schedules row -->
         <div id="schedules" class="search-item bg-white" style="background: none;">
-          <div id="s-d" class=" mx-auto">
+          <div id="s-d" class="table-responsive mx-auto">
             <div class="list-inline">
               <div class="list-inline-item" title="Request Appointment">
 
