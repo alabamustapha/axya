@@ -12,88 +12,33 @@
 <ul class="nav flex-sm-column">
 
     @if (Auth::user()->is_authenticated_admin)
-      <li class="nav-item">
+      <li class="nav-item bg-dark">
 
-        <a class="nav-link" data-toggle="collapse" href="#adminSubmenu" role="button" aria-expanded="false" aria-controls="adminSubmenu">
-          
-            <span>
-              <i class="icon fa fa-th-list fa-fw"></i>
-              <span class="navlink-active">Admin</span>
-              <span class="sub-online-status sub-online ml-1" title="online"></span>
-            </span>
-            <small class="text-sm float-right"><i class="fa fa-plus fa-fw"></i></small>
-          
+        <a class="nav-link" href="{{route('dashboard-main')}}">
+          <span>
+            <i class="icon fa fa-th-list fa-fw"></i>
+            <span class="navlink-active">&nbsp; Admin Portal</span>
+            <span class="sub-online-status sub-online ml-1" title="online"></span>
+          </span>          
         </a>
-        <ul id="adminSubmenu" class=" collapse sub-menu nav flex-sm-column">
-          <li class="nav-item">
-
-            @if (Auth::user()->is_super_admin)
-            <a href="{{ route('app-settings') }}" class="nav-link" title="App General Settings">
-              <span class="icon">
-                <i class="fa fa-cogs fa-fw"></i>
-              </span>
-              <span class="navlink-active">App Settings</span>
-            </a>
-            @endif
-
-            <a href="{{route('dashboard-main')}}" class="nav-link" title="View Dashboard">
-              <span class="icon">
-                <i class="fa fa-tachometer-alt fa-fw"></i>
-              </span>
-              <span class="navlink-active">App Dashboard</span>
-            </a>
-
-            <hr class="py-1 m-0">
-
-            <a href="#" class="nav-link"
-            onclick="event.preventDefault();
-            document.getElementById('admin-logout-form').submit();">
-              <span class="icon">
-                <i class="fa fa-sign-out-alt fa-fw"></i>
-              </span>
-              <span>{{ __('Admin Sign Out') }}</span>
-            </a>
-
-            <form id="admin-logout-form" action="{{ route('admin.logout') }}" method="POST" style="display: none;">
-              @csrf
-              {{method_field('PATCH')}}
-            </form>                  
-          </li>
-        </ul>
       </li>
     @elseif (Auth::user()->is_administrator)
-      <li class="nav-item">
+      <li class="nav-item bg-dark">
 
-        <a class="nav-link" data-toggle="collapse" href="#adminSubmenu" role="button" aria-expanded="false" aria-controls="adminSubmenu">
-          <span class="tf-flex">
-            <span>
-              <i class="icon fa fa-th-list fa-fw"></i>
-              <span class="navlink-active">Admin</span>
-              <span class="sub-online-status sub-offline ml-1" title="offline"></span>
-            </span>
-            <small class="text-sm float-right"><i class="fa fa-plus fa-fw"></i></small>
-          </span>
-        </a>
-
-        <ul id="adminSubmenu" class=" collapse sub-menu nav flex-sm-column">
-          <li class="nav-item">
-
-            @if (is_null(Auth::user()->admin_password))
-              <a href="{{route('admin.password')}}" class="nav-link">
-                <span class="icon fa fa-key"></span>
-                <span class="navlink-active">Create Admin Password</span>
-              </a>
-            @else
-              <a href="{{route('admin.login')}}" 
-                class="nav-link"
-                data-toggle="modal" data-target="#admin-sign-in-modal"
-                >
-                <span class="icon fa fa-sign-in-alt"></span>
-                <span class="navlink-active">Admin Sign In</span>
-              </a>
-            @endif
-          </li>
-        </ul>
+        @if (is_null(Auth::user()->admin_password))
+          <a href="{{route('admin.password')}}" class="nav-link">
+            <span class="icon fa fa-key"></span>
+            <span class="navlink-active">&nbsp; Create Admin Password</span>
+          </a>
+        @else
+          <a href="{{route('admin.login')}}" 
+            class="nav-link"
+            data-toggle="modal" data-target="#admin-sign-in-modal"
+            >
+            <span class="icon fa fa-sign-in-alt"></span>
+            <span class="navlink-active">&nbsp; Admin Login</span>
+          </a>
+        @endif
       </li>
     @endif
 

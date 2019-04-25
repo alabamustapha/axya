@@ -1,4 +1,5 @@
-@extends('layouts.master')
+@extends('layouts.admin')
+{{-- @extends('layouts.master') --}}
 
 @section('title', 'App Main Dashboard')
 @section('page-title')

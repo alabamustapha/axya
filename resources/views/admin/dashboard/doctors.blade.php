@@ -1,12 +1,12 @@
-@extends('layouts.master')
+{{-- @extends('layouts.master') --}}
+@extends('layouts.admin')
 
-@section('title', 'Doctors Management/Dashboard')
+@section('title', 'Doctors Management')
 @section('page-title')
     <i class="fa fa-user-md"></i>&nbsp;  {{ __('Doctors Management') }}
 @endsection
 
 @section('content')
-
 <div class="container-fluid">
   <div class="row">
     <!-- Left col -->

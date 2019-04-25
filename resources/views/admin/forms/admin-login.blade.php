@@ -1,8 +1,8 @@
-@extends('layouts.master')
+@extends('layouts.admin')
 
 @section('title', 'Admin Login')
 @section('page-title')
-    <i class="fa fa-user-tie"></i>&nbsp; {{ __('Admin Sign In') }}
+    <i class="fa fa-user-tie"></i>&nbsp; {{ __('Admin Login') }}
 @endsection
 
 @section('content')

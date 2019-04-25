@@ -1,6 +1,6 @@
-@extends('layouts.master')
+@extends('layouts.admin')
 
-@section('title', 'Subscriptions Management/Dashboard')
+@section('title', 'Subscriptions Management')
 @section('page-title')
     <i class="fa fa-rss"></i>&nbsp;  {{ __('Subscriptions Management') }}
 @endsection

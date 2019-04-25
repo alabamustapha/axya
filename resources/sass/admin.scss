@@ -1,0 +1,26 @@
+
+$fa-font-path: "../webfonts";
+
+@import '~@fortawesome/fontawesome-free/scss/fontawesome.scss';
+@import '~@fortawesome/fontawesome-free/scss/solid.scss';
+@import '~@fortawesome/fontawesome-free/scss/brands.scss';
+
+// Bootstrap 4.2.1
+@import 'vendor/bootstrap.min.css';
+
+// ADMINLTE 
+@import '~admin-lte/dist/css/adminlte.css';
+
+//@import 'custom/fullcalendar.min.css';
+
+// MAIN STYLE
+@import 'custom/style.css';
+
+// DASHBOARD STYLE
+@import 'custom/dashboard.css';
+
+// ADMIN STYLE
+@import 'custom/admin.css';
+
+// OVERRIDE STYLES
+@import 'custom/override_admin.css';
