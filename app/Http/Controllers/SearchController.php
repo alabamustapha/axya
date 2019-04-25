@@ -63,17 +63,33 @@ class SearchController extends Controller
         // Get doctors based on specialties.
         $doc_specialty = array_unique($specialties->pluck('id')->toArray());
         
-        $searchType = isset($request->cityId) 
-                      ? 'city' : (isset($request->regionId) 
+        $regionId = $request->regionId == '-1' ? null : $request->regionId;
+        $cityId   = $request->cityId;
+
+        $searchType = isset($cityId) 
+                      ? 'city' : (isset($regionId)
                                ? 'region' : 'all')
                       ;
 
         switch ($searchType) {
           case 'city':
               $results = Doctor::with('user')
-                   ->where('region_id', $request->regionId)
-                   ->where('city_id', $request->cityId)
+                   // ->where('region_id', $regionId)
+                   ->where('city_id', $cityId)
                    ->where('slug', 'like', "%$q%")
+                   ->orWhere(function ($query) use ($cityId, $regionId, $doc_specialty) {
+                      $query->where('city_id', $cityId)
+                            ->whereIn('specialty_id', $doc_specialty)
+                            ->where('region_id', $regionId)
+                            ;
+                   })
+                   ->orWhere(function ($query) use ($cityId, $regionId, $doc_specialty, $q) {
+                      $query->where('city_id', $cityId)
+                            ->where('region_id', $regionId)
+                            ->where('about', 'like', "%$q%")
+                            ;
+                   })
+                   ->orderBy('city_id')
                    ->orderBy('slug')
                    ->orderBy('updated_at', 'desc')
                    ->orderBy('available', 'desc')
@@ -82,8 +98,19 @@ class SearchController extends Controller
 
           case 'region':
               $results = Doctor::with('user')
-                   ->where('region_id', $request->regionId)
+                   ->where('region_id', $regionId)
                    ->where('slug', 'like', "%$q%")
+                   ->orWhere(function ($query) use ($regionId, $doc_specialty) {
+                      $query->where('region_id', $regionId)
+                            ->whereIn('specialty_id', $doc_specialty)
+                            ;
+                   })
+                   ->orWhere(function ($query) use ($regionId, $doc_specialty, $q) {
+                      $query->where('region_id', $regionId)
+                            ->where('about', 'like', "%$q%")
+                            ;
+                   })
+                   ->orderBy('region_id')
                    ->orderBy('slug')
                    ->orderBy('updated_at', 'desc')
                    ->orderBy('available', 'desc')

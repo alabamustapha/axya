@@ -116092,6 +116092,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['setRowClass', // .row
@@ -116120,8 +116124,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
   computed: {
+    computedCountryId: function computedCountryId() {
+      return this.countryId ? this.countryId : '';
+    },
+    computedRegionId: function computedRegionId() {
+      return this.regionId ? this.regionId : this.form.region_id;
+    },
     computedCityId: function computedCityId() {
-      return this.cityId ? this.cityId : '';
+      // return this.cityId ? this.cityId : '';
+      return this.cityId ? this.cityId : this.form.city_id;
     },
     computedRegionSelectText: function computedRegionSelectText() {
       return this.regionSelectText ? this.regionSelectText : 'Select Region';
@@ -116132,9 +116143,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
 
   created: function created() {
-    this.loadRegions(this.countryId);
-    this.loadCities(this.regionId);
-    this.form.region_id = this.regionId ? this.regionId : '';
+    // // Computed properties not necessary when initializing.
+    // this.loadRegions(this.countryId);
+    // this.loadCities(this.regionId);
+    // this.form.region_id = this.regionId ? this.regionId : '';
+    // this.form.city_id   = this.cityId ? this.cityId : '';
+
+    this.loadRegions(this.computedCountryId);
+    this.loadCities(this.computedRegionId);
+    this.form.region_id = this.computedRegionId;
     this.form.city_id = this.computedCityId;
   },
 
@@ -116143,7 +116160,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     loadRegions: function loadRegions(countryId) {
       var _this = this;
 
-      this.countryId = countryId ? countryId : this.countryId;
+      // this.countryId = countryId ? countryId : this.countryId;
+      this.countryId = countryId ? countryId : this.computedCountryId;
 
       this.form.get(appUrl + '/searches/load-regions/' + countryId).then(function (_ref) {
         var data = _ref.data;
@@ -116156,7 +116174,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var _this2 = this;
 
       this.$Progress.start();
-      this.form.city_id = '';
+      this.form.city_id = ''; // Clear loaded cities for a fresh loading.
 
       this.form.get(appUrl + '/searches/load-cities/' + regionId).then(function (_ref2) {
         var data = _ref2.data;
@@ -116252,7 +116270,7 @@ var render = function() {
         },
         [
           _c("option", {
-            attrs: { value: "" },
+            attrs: { value: "-1" },
             domProps: { textContent: _vm._s(_vm.computedRegionSelectText) }
           }),
           _vm._v(" "),

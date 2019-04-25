@@ -19,7 +19,11 @@
               @change="loadCities(form.region_id)"
               >
 
-                <option value="" v-text="computedRegionSelectText"></option>
+                <option value="-1" v-text="computedRegionSelectText"></option>
+                <!-- 
+                  value="-1" is very important to clear region field value when appropriate.
+                  DO NOT CHANGE unless you have created a better hack.
+                 -->
                 <option 
                   v-for="region in regions" 
                   :key="region.id" 
@@ -89,8 +93,15 @@
     },
 
     computed: {
+      computedCountryId() {
+        return this.countryId ? this.countryId : '';
+      },
+      computedRegionId() {
+        return this.regionId ? this.regionId : this.form.region_id;
+      },
       computedCityId() {
-        return this.cityId ? this.cityId : '';
+        // return this.cityId ? this.cityId : '';
+        return this.cityId ? this.cityId : this.form.city_id;
       },
       computedRegionSelectText() {
         return this.regionSelectText ? this.regionSelectText : 'Select Region';
@@ -101,15 +112,22 @@
     },
 
     created() {
-      this.loadRegions(this.countryId);
-      this.loadCities(this.regionId);
-      this.form.region_id = this.regionId ? this.regionId : '';
+      // // Computed properties not necessary when initializing.
+      // this.loadRegions(this.countryId);
+      // this.loadCities(this.regionId);
+      // this.form.region_id = this.regionId ? this.regionId : '';
+      // this.form.city_id   = this.cityId ? this.cityId : '';
+      
+      this.loadRegions(this.computedCountryId);
+      this.loadCities(this.computedRegionId);
+      this.form.region_id = this.computedRegionId;
       this.form.city_id   = this.computedCityId;
     },
 
     methods: {
       loadRegions(countryId) {
-          this.countryId = countryId ? countryId : this.countryId;
+          // this.countryId = countryId ? countryId : this.countryId;
+          this.countryId = countryId ? countryId : this.computedCountryId;
 
           this.form.get(appUrl + '/searches/load-regions/' + countryId)
           .then(({data}) => (this.regions = data))
@@ -119,7 +137,7 @@
 
       loadCities(regionId) {
           this.$Progress.start();
-          this.form.city_id = '';
+          this.form.city_id = ''; // Clear loaded cities for a fresh loading.
 
           this.form.get(appUrl + '/searches/load-cities/' + regionId)
           .then(({data}) => (this.cities = data))
