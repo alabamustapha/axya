@@ -23,11 +23,21 @@
     
     <title>{{ config('app.name') }} - @yield('title')</title>
 
+    <script>
+      @auth
+        @if (Auth::user()->isStaff() && Auth::user()->isAuthenticatedStaff())
+            window.user = @json(auth()->user());//auth()->id());//
+        @endif
+      @endauth
+      
+      window.appUrl  = @json(config('app.url'));
+    </script>
+
 </head>
 
 <body>
     
-  <div class="wrapper">
+  <div id="app" class="wrapper">
 
     <nav id="sidebar">
         <div class="sidebar-brand">

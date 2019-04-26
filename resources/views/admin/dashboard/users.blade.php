@@ -12,51 +12,49 @@
     <!-- Left col -->
 
 
-    <div class="col-md-9">
-      <div class="order-sm-1 order-2 text-center">
-        <div class="row">
-          <div class="col-md-12">
-            <!-- small box -->
-            <div class="small-box bg-info p-1">
-              <div class="inner pt-5">
-                <div class="row">
-                  <div class="col-sm-5">
-                    <i class="fa fa-users display-3"></i>
-                  </div>
-                  <div class="col-sm-7">
-                    <h1 class="font-weight-light">{{$users_count}}</h1>
+    <div class="col-md-9 order-md-1 order-2">
+      <div class="row text-center">
+        <div class="col-md-12">
+          <!-- small box -->
+          <div class="small-box bg-info p-1">
+            <div class="inner pt-5">
+              <div class="row">
+                <div class="col-sm-5">
+                  <i class="fa fa-users display-3"></i>
+                </div>
+                <div class="col-sm-7">
+                  <h1 class="font-weight-light">{{$users_count}}</h1>
 
-                    <p>All Registered Users</p>
-                  </div>
+                  <p>All Registered Users</p>
                 </div>
               </div>
-              <div class="small-box-footer p-2">
+            </div>
+            <div class="small-box-footer p-2">
 
-                <form @submit.prevent="searchForUser" class="form-inline">
-                  <div class="form-group mb-2 d-inline-block w-100">
-                    <input
-                      v-model="search"
-                      @keyup="searchForUser"
-                      type="search" name="search"
-                      placeholder="search users..." aria-label="Search Users" 
-                      class="form-control form-control-lg text-center w-100 bg-dark" id="userSearchForm">
-        
-                  </div>        
-                  <button @click="searchForUser" type="submit" class="btn btn-primary d-block mx-auto">
-                      <i class="fa fa-search "></i> Search
-                  </button>                    
-                </form>
-              </div>
+              <form @submit.prevent="searchForUser" class="form-inline">
+                <div class="form-group mb-2 d-inline-block w-100">
+                  <input
+                    v-model="search"
+                    @keyup="searchForUser"
+                    type="search" name="search"
+                    placeholder="search users..." aria-label="Search Users" 
+                    class="form-control form-control-lg text-center w-100 bg-dark" id="userSearchForm">
+      
+                </div>        
+                <button @click="searchForUser" type="submit" class="btn btn-primary d-block mx-auto">
+                    <i class="fa fa-search "></i> Search
+                </button>                    
+              </form>
+            </div>
 
-              <div class="bg-light">
-              <user-search :admins_count="{{$admins_count}}" :staffs_count="{{$staffs_count}}"></user-search>
-              </div>
+            <div class="bg-light">
+            <user-search :admins_count="{{$admins_count}}" :staffs_count="{{$staffs_count}}"></user-search>
             </div>
           </div>
-          <!-- ./col -->
         </div>
-        <!-- ./row -->
+        <!-- ./col -->
       </div>
+      <!-- ./row -->
 
       <div class="mb-4">
         <div class="h4 text-center text-bold p-3 bg-secondary rounded-top">
@@ -225,7 +223,7 @@
     </div>
     <!-- /.col -->
 
-    <div class="col-md-3">
+    <div class="col-md-3 order-md-2 order-1">
       <nav>
         
         <!-- Admin Nav -->

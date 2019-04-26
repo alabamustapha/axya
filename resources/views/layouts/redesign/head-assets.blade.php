@@ -30,7 +30,9 @@
 
     <script>
       @auth
-        window.user = @json(auth()->id());//auth()->user()
+        @if (Auth::user()->isStaff() && Auth::user()->isAuthenticatedStaff())
+            window.user = @json(auth()->user());//auth()->id());//
+        @endif
       @endauth
       
       window.appUrl  = @json(config('app.url'));

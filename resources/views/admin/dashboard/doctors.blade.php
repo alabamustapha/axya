@@ -10,50 +10,48 @@
 <div class="container-fluid">
   <div class="row">
     <!-- Left col -->
-    <div class="col-md-9">
-      <div class="order-sm-1 order-2 text-center">
-        <div class="row">
-          <div class="col-md-12">
-            <!-- small box -->
-            <div class="small-box bg-info p-1">
-              <div class="inner pt-5">
-                <div class="row">
-                  <div class="col-sm-5">
-                    <i class="fa fa-user-md display-3"></i>
-                  </div>
-                  <div class="col-sm-7">
-                    <h1 class="font-weight-light">{{$doctors_count}}</h1>
+    <div class="col-md-9 order-md-1 order-2">
+      <div class="row text-center">
+        <div class="col-md-12">
+          <!-- small box -->
+          <div class="small-box bg-info p-1">
+            <div class="inner pt-5">
+              <div class="row">
+                <div class="col-sm-5">
+                  <i class="fa fa-user-md display-3"></i>
+                </div>
+                <div class="col-sm-7">
+                  <h1 class="font-weight-light">{{$doctors_count}}</h1>
 
-                    <p>Verified Doctors</p>
-                  </div>
+                  <p>Verified Doctors</p>
                 </div>
               </div>
-              <div class="small-box-footer p-2">
-                <form @submit.prevent="searchForDoctor" class="form-inline">
-                  <div class="form-group mb-2 d-inline-block w-100">
-                    <input
-                      v-model="search"
-                      @keyup="searchForDoctor"
-                      type="search" name="search"
-                      placeholder="search doctors..." aria-label="Search Doctors..." 
-                      class="form-control form-control-lg text-center w-100 bg-dark" id="doctorSearchForm">
-        
-                  </div>        
-                  <button @click="searchForDoctor" type="submit" class="btn btn-primary d-block mx-auto">
-                      <i class="fa fa-search "></i> Search
-                  </button>                    
-                </form>
-              </div>
+            </div>
+            <div class="small-box-footer p-2">
+              <form @submit.prevent="searchForDoctor" class="form-inline">
+                <div class="form-group mb-2 d-inline-block w-100">
+                  <input
+                    v-model="search"
+                    @keyup="searchForDoctor"
+                    type="search" name="search"
+                    placeholder="search doctors..." aria-label="Search Doctors..." 
+                    class="form-control form-control-lg text-center w-100 bg-dark" id="doctorSearchForm">
+      
+                </div>        
+                <button @click="searchForDoctor" type="submit" class="btn btn-primary d-block mx-auto">
+                    <i class="fa fa-search "></i> Search
+                </button>                    
+              </form>
+            </div>
 
-              <div class="bg-light">
-                <doctor-search></doctor-search>
-              </div>
+            <div class="bg-light">
+              <doctor-search></doctor-search>
             </div>
           </div>
-          <!-- ./col -->
         </div>
-        <!-- ./row -->
+        <!-- ./col -->
       </div>
+      <!-- ./row -->
       
       <div>
         <h3 class="text-bold pt-3 mt-3 pb-2 bg-secondary">
@@ -240,7 +238,7 @@
     </div>
     <!-- /.col -->
 
-    <div class="col-md-3">
+    <div class="col-md-3 order-md-2 order-1 mb-3">
       <nav>
         
         <!-- Admin Nav -->

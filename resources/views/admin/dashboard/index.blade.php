@@ -10,7 +10,7 @@
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-9 order-sm-1 order-2 text-center">
+    <div class="col-md-9 order-md-1 order-2 text-center">
 
       <!-- Users/Patients -->
       <div class="row">
@@ -147,7 +147,7 @@
 
     </div>
 
-    <div class="col-md-3 order-sm-2 order-1">
+    <div class="col-md-3 order-md-2 order-1">
       <div>
         @if (Auth::user()->isSuperAdmin())
         <!-- Info Boxes Style 2 -->
