@@ -116151,7 +116151,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     this.loadRegions(this.computedCountryId);
     this.loadCities(this.computedRegionId);
-    this.form.region_id = this.computedRegionId;
+    this.form.region_id = this.computedRegionId == undefined ? '-1' : this.computedRegionId;
     this.form.city_id = this.computedCityId;
   },
 
@@ -116191,7 +116191,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         var qCityId = this.form.city_id;
 
         Event.$emit('search_by_location', qRegionId, qCityId);
-        console.log('Search thru...Region: ' + this.form.region_id + ' :City ' + this.form.city_id);
+        console.log('[Region: ' + this.form.region_id + ' ++ City: ' + this.form.city_id + ']');
       } else {
         console.log('Not a search form');
       }
