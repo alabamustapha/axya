@@ -1,6 +1,6 @@
 
     <!-- Optional JavaScript -->
-    {{-- <script src="{{asset('js/admin.js')}}"></script> --}}
+    <script src="{{asset('js/vendors.js')}}"></script>
     
     <!-- jquery script -->
     <script src="{{asset('js/vendor/jquery-3.3.1.min.js')}}"></script>
@@ -23,6 +23,8 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"
       integrity="sha256-oSgtFCCmHWRPQ/JmR4OoZ3Xke1Pw4v50uh6pLcu+fIc=" crossorigin="anonymous"></script>
     @endif
+
+    <script> $('div.alert').not('.alert-important').delay(7000).fadeOut(350); </script>
 
     <script>
 

@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-<div class="container-fluid">
+
   <div class="row">
     <!-- Left col -->
     <div class="col-md-9 order-md-1 order-2">
@@ -248,6 +248,5 @@
     </div>
     <!-- /.col -->
   </div>
-</div>
 
 @endsection

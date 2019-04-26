@@ -7,9 +7,8 @@
 
 @section('content')
 
-<div class="container-fluid">
   <div class="row">
-    <div class="col-md-9 order-md-1 order-2 text-center">
+    <div class="col-md-9 order-md-1 order-2 mb-3 text-center">
       <div class="row">
         <div class="col-md-12">
           <!-- small box -->
@@ -162,7 +161,7 @@
       </div> 
     </div>
 
-    <div class="col-md-3 order-md-2 order-1">
+    <div class="col-md-3 order-md-2 order-1 mb-3">
       <nav>
         
         <!-- Admin Nav -->
@@ -172,6 +171,5 @@
     </div>
     <!-- /.col -->
   </div>
-</div>
 
 @endsection

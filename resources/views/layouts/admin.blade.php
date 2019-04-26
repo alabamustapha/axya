@@ -75,7 +75,7 @@
                        <!-- Shrink Sidebar -->
                    </button>
            
-                   <a class="crumb h4 text-white text-uppercase">
+                   <a class="crumb h4 text-white text-capitalize">
                        
                       @yield('page-title')
 
@@ -91,8 +91,13 @@
 
       <section class="main-content mt-40" style="min-height: 70vh;">
 
-        @yield('content')
+        <div class="container-fluid">
 
+          @include('layouts.partials.notifications')
+          
+          @yield('content', 'Admin portal content will go here...')
+
+        </div>
       </section>                    
       <!-- end admin content -->
 

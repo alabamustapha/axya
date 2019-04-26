@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row">
-        <div class="col-md-9 offset-md-1">
+        <div class="col-md-9{{--  offset-md-1 --}}">
 
             @includeIf(config('app_settings.flash_partial'))
 
@@ -39,6 +39,9 @@
                     </div>
                 </div>
             </form>
+        </div>
+        <div class="col-md-3">
+            ...
         </div>
     </div>
 </div>

@@ -65,7 +65,7 @@
                        <!-- Shrink Sidebar -->
                    </button>
            
-                   <a class="crumb h4 text-white text-uppercase">
+                   <a class="crumb h4 text-white text-capitalize">
                        
                       @yield('page-title')
 
@@ -80,9 +80,12 @@
       <!-- end content navbar -->          
 
       <section class="main-content mt-40" style="min-height: 70vh;">
+
         <div class="container-fluid">
+
+            @include('layouts.partials.notifications')
         
-            @yield('content')
+            @yield('content', 'Doctor portal content will go here...')
             
         </div>
 

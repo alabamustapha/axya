@@ -7,10 +7,6 @@
 
 @section('content')
 
-  <div class="container-fluid">
-
     @include('admin.partials._subscriptions')
-
-  </div>
 
 @endsection

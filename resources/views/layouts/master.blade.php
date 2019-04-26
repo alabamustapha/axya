@@ -31,12 +31,12 @@
           <div id="content-navbar">
             <div class="container-fluid">
               @include('layouts.redesign.button-page-title') 
-
-              @include('layouts.partials.notifications')
             </div>
               <!-- end container fluid -->
           </div>
           <!-- end content navbar -->
+          
+          <div> @include('layouts.partials.notifications') </div>
 
 
           <div class="search-container">
@@ -49,7 +49,7 @@
 
           <div class="p-3">
             
-            @yield('content')
+            @yield('content', 'Master page sub-content will go here...')
             
           </div>
 

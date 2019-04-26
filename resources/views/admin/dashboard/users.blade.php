@@ -7,7 +7,6 @@
 
 @section('content')
 
-<div class="container-fluid">
   <div class="row">
     <!-- Left col -->
 
@@ -233,6 +232,5 @@
     </div>
     <!-- /.col -->
   </div>
-</div>
 
 @endsection
