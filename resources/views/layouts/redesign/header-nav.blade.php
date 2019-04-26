@@ -42,12 +42,6 @@
                       </li>
                     @endif
 
-                    @auth
-                      <li class="rounded nav-item mb-2 list-inline-item d-none d-sm-inline-block" title="Visit your dashboard">
-                        <a class="nav-link mr-0 px-3" href="{{route('user_dashboard')}}">Dashboard</a>
-                      </li>
-                    @endauth
-
                     <li class="rounded nav-item mb-2 list-inline-item dropdown d-none d-sm-inline-block">
                         @include('layouts.partials.dynamic-breadcrumb')
                     </li>

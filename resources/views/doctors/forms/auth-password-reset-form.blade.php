@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('layouts.doctor')
 
 @section('title', 'Doctor Account Password Reset Form')
 @section('page-title')

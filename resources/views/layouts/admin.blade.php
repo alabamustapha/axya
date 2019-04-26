@@ -51,11 +51,11 @@
         <!-- Sidebar Header -->
         <div class="sidebar-header ">
             <div class="avatar">
-                <img src="../images/a1.jpg" height="50" class="rounded-circle" alt=""> 
+                <img src="{{ Auth::user()->avatar }}" height="50" class="rounded-circle" alt="{{ Auth::user()->name}} avatar"> 
                 <span class="online-status online mx-1"></span> {{ Auth::user()->name }}
             </div>
             <div class="avatar-mini">
-                <img src="../images/a1.jpg" height="50" class="rounded-circle" alt="">
+                <img src="{{ Auth::user()->avatar }}" height="50" class="rounded-circle" alt="{{ Auth::user()->name}} avatar">
                 <span class="online-status online"></span>
             </div>
         </div>

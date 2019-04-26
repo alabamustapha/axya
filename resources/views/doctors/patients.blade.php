@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('layouts.doctor')
 
 @section('title', 'Doctor Patients Dashboard')
 @section('page-title')

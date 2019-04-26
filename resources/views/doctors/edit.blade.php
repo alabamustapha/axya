@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('layouts.doctor')
 
 @section('title', 'Medical Doctors Profile Update')
 @section('page-title', 'Edit Doctor Profile')
