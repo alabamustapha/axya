@@ -28,13 +28,13 @@ mix
   //     'resources/js/custom/main.js',
   //   ], 
   //   'public/js/custom.js')
-  .js([
-      'public/js/vendor/jquery-3.3.1.min.js',
-      'public/js/vendor/popper.min.js',
-      'public/js/vendor/bootstrap.min.js',
-      'public/js/custom/main.js',
-    ], 
-    'public/js/admin.js')
+  // .js([
+  //     'public/js/vendor/jquery-3.3.1.min.js',
+  //     'public/js/vendor/popper.min.js',
+  //     'public/js/vendor/bootstrap.min.js',
+  //     'public/js/custom/main.js',
+  //   ], 
+  //   'public/js/admin.js')
   // .sass('resources/sass/admin.scss','public/css/admin.css')
 //   // .sass('resources/sass/welcome.scss','public/css/welcome.css')
 //   // .sass('resources/sass/custom.scss', 'public/css/custom.css')
