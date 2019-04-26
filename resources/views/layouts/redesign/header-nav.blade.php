@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg main-nav ">
     <div class="container-fluid">
-        <a class="navbar-brand d-inline-block" href="{{route('home')}}">        
+        <a class="navbar-brand d-inline-block" href="{{route('user_dashboard')}}">        
             <img
                 src="{{-- asset('images/axya-logo.png') --}}{{ (\Browser::isDesktop()) 
                           ? asset('images/axya-logo.png') 

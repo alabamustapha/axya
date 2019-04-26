@@ -1,16 +1,13 @@
 
     <!-- Optional JavaScript -->
-    <script src="{{asset('js/vendors.js')}}"></script>
-    <script src="{{asset('js/custom.js')}}"></script>
+    {{-- <script src="{{asset('js/admin.js')}}"></script> --}}
     
-    {{-- <!-- jquery script -->
+    <!-- jquery script -->
     <script src="{{asset('js/vendor/jquery-3.3.1.min.js')}}"></script>
     <!-- popper js -->
-    <script src="{{asset('js/vendor/popper.min.js')}}"></script>
-    
+    <script src="{{asset('js/vendor/popper.min.js')}}"></script>    
     <!-- bootstrap js -->
-    <script src="{{asset('js/vendor/bootstrap.min.js')}}"></script> --}}
-    
+    <script src="{{asset('js/vendor/bootstrap.min.js')}}"></script>    
     <!-- Main js -->
     <script src="{{asset('js/custom/main.js')}}"></script>
 
@@ -27,7 +24,7 @@
       integrity="sha256-oSgtFCCmHWRPQ/JmR4OoZ3Xke1Pw4v50uh6pLcu+fIc=" crossorigin="anonymous"></script>
     @endif
 
-  {{--   <script>
+    <script>
 
         // instantiating the chart class
 
@@ -64,4 +61,4 @@
                 }
             }
         });
-    </script> --}}
+    </script>

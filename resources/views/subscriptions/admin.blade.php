@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('layouts.admin')
 
 @section('title', 'Subscriptions Management/Dashboard')
 @section('page-title')
