@@ -31,7 +31,7 @@
                     @endif
 
                     <a href="#" class="opt-item">
-                        <i class="fas fa-question fa-fw"></i>&nbsp; Help
+                        <i class="fas fa-question-circle fa-fw"></i>&nbsp; Help
                     </a>
 
                     <a  href="{{ route('logout') }}" class="opt-item sign-out" title="Sign out of app"

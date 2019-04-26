@@ -75,11 +75,6 @@
 
                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right shadow-lg" aria-labelledby="navbarDropdown">
                                 <div class="opt-items text-left">
-                                    <div class="extra-opt-items">
-                                        <a href="{{route('home')}}" class="opt-item">
-                                          <i class="fas fa-home fa-fw"></i>&nbsp; {{ __('Home') }}</a>
-                                       
-                                    </div>
                                     <a href="{{route('user_dashboard')}}" class="opt-item">
                                       <i class="fas fa-tachometer-alt fa-fw"></i>&nbsp; {{ __('Dashboard') }}
                                     </a>
