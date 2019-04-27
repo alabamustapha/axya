@@ -15,7 +15,7 @@
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('/home', 'HomeController@home')->name('user_dashboard');
 
-Route::get('/settings', '\QCod\AppSettings\Controllers\AppSettingController@index')->name('app-settings')->middleware('superadmin');
+Route::get('/settings', '\QCod\AppSettings\Controllers\AppSettingController@index')->name('app-settings')->middleware(['auth','superadmin']);
 
 Route::get('/nova');
 
@@ -173,6 +173,7 @@ Route::prefix('dashboard')->group(function(){
   Route::get('/users',        'DashboardController@users')->name('dashboard-users');
   Route::get('/doctors',      'DashboardController@doctors')->name('dashboard-doctors');
   Route::get('/admins',       'DashboardController@admins')->name('dashboard-admins');
+  Route::get('/notifications','DashboardController@notifications')->name('dashboard-notifications');
 
   Route::get('adm-transactions',        'TransactionController@admindex')->name('adm_transactions');
   Route::get('adm-subscriptions',       'SubscriptionController@admindex')->name('adm_subscriptions');

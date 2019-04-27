@@ -128,6 +128,11 @@ class DashboardController extends Controller
         return view('admin.dashboard.admins', compact('admins','staffs','admins_count'));
     }
 
+    public function notifications()
+    {
+        return view('admin.dashboard.notifications', compact('notifications'));
+    }
+
     public function subscriptions()
     {
         $successful_subscriptions_count = Subscription::completed()->count();

@@ -65,6 +65,11 @@
                                         <label for="available">{{ __('Availability for Appointments') }}</label>
 
                                         <div>
+                                            {{-- <div class="custom-control custom-switch">
+                                                <input type="checkbox" class="custom-control-input" name="available" id="available" value="1">
+                                                <label class="custom-control-label" for="available">Available?</label>
+                                            </div> --}}
+
                                           <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" name="available" id="available" value="1" 
                                               {{(old('available') == '1' || $doctor->available == '1') ? 'checked':''}}>

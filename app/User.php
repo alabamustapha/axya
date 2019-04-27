@@ -32,6 +32,7 @@ class User extends Authenticatable implements MustVerifyEmail
       'age','avatar_md','type','status','doctors_count',
       'appointments_count','transactions_count','subscriptions_count',
       'appointments_list','transactions_list','subscriptions_list','prescriptions_list','medications_list',
+      'messages_list',
       'completed_appointments_list','upcoming_appointments_list','pending_appointments_list',
     ];
 
@@ -954,6 +955,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return route('appointments.index', ['user'=> $this, 'status' => 'awaiting-confirmation']);
     }
 
+
+    public function getMessagesListAttribute() 
+    {
+        return route('messages.index', $this);
+    }
 
     public function getMedicationsListAttribute() 
     {
