@@ -21,6 +21,17 @@
 
         <nav id="sidebar">
           @auth
+            <div class="sidebar-header ">
+              <div class="avatar">
+                <img src="{{Auth::user()->avatar}}" height="50" class="rounded-circle" alt="user avatar"> 
+                <span class="online-status online mx-1"></span>{{Auth::user()->name}}
+              </div>
+              <div class="avatar-mini">
+                <img src="{{Auth::user()->avatar}}" height="50" class="rounded-circle" alt="user avatar">
+                <span class="online-status online"></span>
+              </div>
+            </div>
+            
             <!-- Sidebar Header -->
             @include('layouts.redesign.sidebar')              
           @endauth

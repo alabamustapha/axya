@@ -1,13 +1,4 @@
-<div class="sidebar-header ">
-    <div class="avatar">
-        <img src="{{Auth::user()->avatar}}" height="50" class="rounded-circle" alt="user avatar"> 
-        <span class="online-status online mx-1"></span>{{Auth::user()->name}}
-    </div>
-    <div class="avatar-mini">
-        <img src="{{Auth::user()->avatar}}" height="50" class="rounded-circle" alt="user avatar">
-        <span class="online-status online"></span>
-    </div>
-</div>
+
 
 <ul class="nav flex-sm-column">
 
@@ -16,7 +7,7 @@
 
         <a class="nav-link" href="{{route('dashboard-main')}}">
           <span>
-            <i class="icon fa fa-th-list fa-fw"></i>
+            <i class="icon fas fa-th-list"></i>
             <span class="navlink-active">&nbsp; Admin Portal</span>
             <span class="sub-online-status sub-online ml-1" title="Online as admin"></span>
           </span>          
@@ -27,7 +18,7 @@
 
         @if (is_null(Auth::user()->admin_password))
           <a href="{{route('admin.password')}}" class="nav-link">
-            <span class="icon fa fa-key"></span>
+            <span class="icon fas fa-key"></span>
             <span class="navlink-active">&nbsp; Create Admin Password</span>
           </a>
         @else
@@ -35,7 +26,7 @@
             class="nav-link"
             data-toggle="modal" data-target="#admin-sign-in-modal"
             >
-            <span class="icon fa fa-sign-in-alt"></span>
+            <span class="icon fas fa-sign-in-alt"></span>
             <span class="navlink-active">&nbsp; Admin Login</span>
             <span class="sub-online-status sub-offline ml-1" title="Offline as admin"></span>
           </a>
@@ -49,8 +40,8 @@
 
         <a class="nav-link" href="{{route('dr_dashboard', Auth::user()->doctor)}}">
           <span>
-            <i class="icon fa fa-user-md fa-fw"></i>
-            <span class="navlink-active">&nbsp; Doctor Portal</span>
+            <i class="icon fas fa-user-md"></i>
+            <span class="navlink-active"> Doctor Portal</span>
             <span class="sub-online-status sub-online ml-1" title="Online as doctor"></span>
           </span>          
         </a>
@@ -60,7 +51,7 @@
 
         @if (is_null(Auth::user()->doctor_password))
           <a href="{{route('doctor.password')}}" class="nav-link">
-            <span class="icon fa fa-key"></span>
+            <span class="icon fas fa-key"></span>
             <span class="navlink-active">&nbsp; Create Doctor Password</span>
           </a>
         @else
@@ -68,7 +59,7 @@
             class="nav-link"
             data-toggle="modal" data-target="#doctor-sign-in-modal"
             >
-            <span class="icon fa fa-sign-in-alt"></span>
+            <span class="icon fas fa-sign-in-alt"></span>
             <span class="navlink-active">&nbsp; Doctor Login</span>
             <span class="sub-online-status sub-offline ml-1" title="Offline as doctor"></span>
           </a>
@@ -80,7 +71,7 @@
       <li class="nav-item bg-warning">
 
         <a href="{{route('doctors.create')}}" class="nav-link">
-          <i class="icon fa fa-user-md fa-fw"></i>
+          <i class="icon fas fa-user-md fa-fw"></i>
           <span class="navlink-active">Verify As Doctor</span>
         </a>
 
@@ -90,14 +81,14 @@
     {{-- @if (Auth::user()->is_administrator || Auth::user()->is_doctor)
       <li class="nav-item"><hr></li>
     @endif
- --}}
+    --}}
     
 
     <li class="nav-item">
     
         <a class="nav-link" href="{{Auth::user()->link}}">
           <span class="icon">
-            <i class="fa fa-user fa-fw"></i>
+            <i class="fas fa-user fa-fw"></i>
           </span>
           <span class="navlink-active">Profile</span>
         </a>
@@ -118,7 +109,7 @@
                         fill="white" />
                 </svg>
               </span>
-              <span class="navlink-active">Chats</span>
+              <span class="navlink-active">Personal Chats</span>
             </span> 
             <span class="badge badge-danger float-right">1</span>
         </a>
