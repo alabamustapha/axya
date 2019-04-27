@@ -29,4 +29,9 @@ class Region extends Model
     // {
     //     return $this->belongsTo(Country::class);
     // }
+
+    public function adminNotifications()
+    {
+        return $this->hasMany(AdminNotification::class);
+    }
 }

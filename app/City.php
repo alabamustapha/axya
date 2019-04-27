@@ -24,4 +24,9 @@ class City extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    public function adminNotifications()
+    {
+        return $this->hasMany(AdminNotification::class);
+    }
 }

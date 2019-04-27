@@ -26,6 +26,7 @@ Auth::routes(['verify' => true]);
 // ---- ADMIN RELATED ---------------->
 Route::prefix('admin')->group(function(){
   // Route::post('/manualPopulate',  'AutoPopulateController@manualPopulate')->name('manual.populate');
+  Route::post('admin_notifications', 'AdminNotificationController@store')->name('admin_notifications.store');
 
   Route::get('login',     'AdminAuthController@adminLoginForm')->name('admin.login');
   Route::post('login',    'AdminAuthController@adminLogin')->name('admin.login');
@@ -173,7 +174,7 @@ Route::prefix('dashboard')->group(function(){
   Route::get('/users',        'DashboardController@users')->name('dashboard-users');
   Route::get('/doctors',      'DashboardController@doctors')->name('dashboard-doctors');
   Route::get('/admins',       'DashboardController@admins')->name('dashboard-admins');
-  Route::get('/notifications','DashboardController@notifications')->name('dashboard-notifications');
+  Route::get('/notifications','AdminNotificationController@index')->name('dashboard-notifications');
 
   Route::get('adm-transactions',        'TransactionController@admindex')->name('adm_transactions');
   Route::get('adm-subscriptions',       'SubscriptionController@admindex')->name('adm_subscriptions');

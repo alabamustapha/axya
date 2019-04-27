@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
     //     'calendar_events',
     //     'bank_accounts',
     //     'payouts',
+    //     'admin_notifications',
     // ];
 
     /**
@@ -62,6 +63,7 @@ class DatabaseSeeder extends Seeder
         // factory(App\CalendarEvent::class, 130)->create();
         // factory(App\BankAccount::class, 3)->create();
         // factory(App\Payout::class, 10)->create();
+        factory(App\AdminNotification::class, 5)->create();
     }
 
 
