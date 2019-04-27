@@ -56,10 +56,11 @@
 
                       <li class="nav-item mb-2 list-inline-item position-relative" title="{{auth()->user()->notifications->count()}} unread notifications">
                           <a class="nav-link mr-0 px-2 text-white" 
-                            href="{{ route('notifications.display', auth()->user()) }}"><i class="fas fa-bell{{--  fa-2x --}} notification-icon"></i></a>
-                          <span class="notification-count">
-                            {{auth()->user()->notifications->count()}}
-                          </span>
+                            href="{{ route('notifications.display', auth()->user()) }}"><i class="fas fa-bell{{--  fa-2x --}} notification-icon"></i>
+                            <span class="notification-count">
+                              {{auth()->user()->notifications->count()}}
+                            </span>
+                          </a>
                       </li>
 
                       <li class="nav-item mb-2 list-inline-item nav-avatar d-none d-sm-inline-block" title="Logged in user is {{Auth::user()->name}}">

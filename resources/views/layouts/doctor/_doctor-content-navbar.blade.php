@@ -1,10 +1,11 @@
 <div class="content-navbar-nav">
     <ul class="nav flex-sm-row">
         <li class="nav-item position-relative" title="{{auth()->user()->notifications->count()}} unread notifications">
-            <a class="nav-link mr-1 text-white" href="{{ route('notifications.display', auth()->user()) }}"><i class="fas fa-bell fa-2x"></i></a>
-            <span class="notification-count">
-                {{auth()->user()->notifications->count()}}
-            </span>
+            <a class="nav-link mr-1 text-white" href="{{ route('notifications.display', auth()->user()) }}"><i class="fas fa-bell fa-2x"></i>
+                <span class="notification-count">
+                    {{auth()->user()->notifications->count()}}
+                </span>
+            </a>
         </li>
         
         <li class="nav-item nav-opt">

@@ -12,7 +12,7 @@
         <div class="form-group">
             <label for="name" class="tf-flex">{{ __('Name') }}</label>
 
-            <input type="text" class="form-control" value="{{ Auth::user()->name }}" readonly>
+            <input type="text" class="form-control-plaintext" value="{{ Auth::user()->name }}" readonly>
         </div>
 
         <div class="form-group" data-toggle="tooltip" title="">

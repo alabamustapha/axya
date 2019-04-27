@@ -107,7 +107,8 @@
 
     @endif
 
-    @include('layouts.admin.admin-scripts')
+    {{-- @include('layouts.admin.admin-scripts') --}}
+    @include('layouts.redesign.scripts') 
 
 </body>
 
