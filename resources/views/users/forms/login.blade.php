@@ -44,16 +44,16 @@
 
         <div class="form-group">
             <ul class="list-inline">
-                <li class="list-inline-item">
+                <li class="list-inline-item" title="Forgot Your Password?">
                     <a class="btn btn-link" href="{{ route('password.request') }}">
-                        {{ __('Forgot Your Password?') }}
+                        {{ __('Forgot password?') }}
                     </a>
                 </li>
                 @if (request()->url() == route('login' ))
                     <!-- Not displayed on other pages except Login since both forms are available in the modal -->
-                    <li class="list-inline-item">
+                    <li class="list-inline-item" title="New user? Register here.">
                         <a class="btn btn-link" href="{{ route('register') }}">
-                            {{ __('New user? Register') }}
+                            {{ __('Register') }}
                         </a>
                     </li>
                 @endif

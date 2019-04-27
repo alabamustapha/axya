@@ -209,7 +209,7 @@
         @if (request()->url() == route('register' ))
             <div class="form-group mt-2">
                 <a class="btn btn-link" href="{{ route('login') }}">
-                    {{ __('Already registered? Sign in') }}
+                    {{ __('Sign In Here') }}
                 </a>  
             </div>
         @endif

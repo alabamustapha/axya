@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('layouts.doctor')
 
 @section('title', $appointment->user->name .' Appointments - '. $appointment->day)
 
