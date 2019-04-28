@@ -10,7 +10,7 @@ class AdminNotification extends Model
 
     protected $fillable = [
         'user_id', 'as_notice', 'as_email', 'as_push', 'as_text', 
-        'to', 'region_id', 'city_id', 'receiver_id', 
+        'to', 'region_id', 'city_id', 'receiver_id', 'search_email',
         'title', 'content',
     ]; 
 

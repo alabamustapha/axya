@@ -66,9 +66,11 @@
                         >
                     </location-selection>
                   </div>
+
+                  <small class="text-small text-danger">Selectively display Email/Location input fields</small>
                   
                   <div class="">
-                    <input type="email" name="searchEmail" class="form-control form-control-sm form-default" id="searchEmail" placeholder="user/doctor email seperated by ;" value="{{ old('searchEmail') ?: '' }}">
+                    <input type="text" name="search_email" class="form-control form-control-sm form-default" id="search_email" placeholder="user/doctor email seperated by ;" value="{{ old('search_email') ?: '' }}">
                   </div>
                 </div>
               </div>

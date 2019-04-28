@@ -24,7 +24,8 @@ class CreateAdminNotificationsTable extends Migration
             $table->enum('to', ['Everyone','Admins','Doctors','Users']);
             $table->integer('region_id')->unsigned()->nullable();
             $table->integer('city_id')->unsigned()->nullable();
-            $table->integer('receiver_id')->unsigned()->nullable(); // Determined by searchMail.
+            $table->integer('receiver_id')->unsigned()->nullable(); // Determined by search_email.
+            $table->string('search_email')->nullable();
 
             $table->string('title');
             $table->text('content');

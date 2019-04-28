@@ -48,9 +48,8 @@ class AdminNotificationController extends Controller
 
         if ($notification){
 
-            // auth()->user()->notify(new SendAdminNotification(auth()->user(), $notification));
             $recipients = $this->recipients($notification);
-            dd($recipients->pluck('name', 'email'));
+            // dd($recipients->pluck('name', 'email'));
 
             Notification::send($recipients, new SendAdminNotification($notification));
 
@@ -65,6 +64,18 @@ class AdminNotificationController extends Controller
         }
     }
 
+    public function trimEmailsWhitespaces($rqEmails)
+    {
+        $emails        = explode(';', $rqEmails);
+        $trimmedEmails = [];
+
+        foreach ($emails as $email) {
+            array_push($trimmedEmails, trim($email));
+        }
+
+        return $trimmedEmails;
+    }
+
     public function recipients($notification)
     {
         $to         = $notification->to;
@@ -72,7 +83,7 @@ class AdminNotificationController extends Controller
         $cityId     = $notification->city_id     ?: null;
         # NB: A doctor's location and email is diff from user instance thus some confusing returned list. 
         # User profile (Region/Email) is used in this Admin Notif not Doctor table profiles.
-        $rqEmails   = $notification->searchEmail ?: null;
+        $rqEmails   = $notification->search_email ?: null;
         $recipients = null;
         // dd($regionId, $cityId, $rqEmails);
 
@@ -87,10 +98,9 @@ class AdminNotificationController extends Controller
 
             case 'Doctors':
                 if ($rqEmails) { 
-                    // foreach found user collect()
-                    // $recipients = User::where('email', $rqEmails)                    
-                    dd('Email Thingy on DDDDDDDDoctors!!!!!');
-                    $recipients = User::whereIn('email', $rqEmails)
+                    $trimmedEmails = $this->trimEmailsWhitespaces($rqEmails);
+
+                    $recipients = User::whereIn('email', $trimmedEmails)
                         ->get()
                         ;
                 } 
@@ -113,10 +123,9 @@ class AdminNotificationController extends Controller
 
             case 'Users':
                 if ($rqEmails) { 
-                    // foreach found user collect()
-                    // $recipients = User::where('email', $rqEmails)                    
-                    dd('Email Thingy on UUUUUsers!!!!!');
-                    $recipients = User::whereIn('email', $rqEmails)
+                    $trimmedEmails = $this->trimEmailsWhitespaces($rqEmails);
+
+                    $recipients = User::whereIn('email', $trimmedEmails)
                         ->get()
                         ;
                 } 

@@ -24,15 +24,16 @@ class AdminNotificationRequest extends FormRequest
     public function rules()
     {
         request()->region_id = (request()->region_id > 0) ? request()->region_id : null;
+        // dd(request()->region_id);
         return [
-            "as_notice"   => "boolean",
+            "as_notice"   => "boolean|required_without_all:as_email,as_push,as_text",
             "as_email"    => "boolean",
             "as_push"     => "boolean",
             "as_text"     => "boolean",
             "to"          => "required|in:Everyone,Admins,Doctors,Users",
-            "region_id"   => "nullable|integer|exists:regions,id",
-            "city_id"     => "nullable|integer|exists:cities,id",
-            "searchEmail" => "nullable|email",
+            "region_id"   => "nullable|integer",//|exists:regions,id|required_with:to.Doctors|required_with:to.Users
+            "city_id"     => "nullable|integer|exists:cities,id",//|required_with:region_id
+            "search_email" => "nullable|string",
             "title"       => "required|string|max:50",
             "content"     => "required|string|max:450",
         ];
@@ -46,7 +47,7 @@ class AdminNotificationRequest extends FormRequest
     public function messages()
     {
         return [
-            //
+            "as_notice.required_without_all" => 'A "Send As" option must be selected.',
         ];
     }
 }

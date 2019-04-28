@@ -44,7 +44,7 @@ class AdminNotificationsTest extends TestCase
         $this->assertTrue(Schema::hasColumns('admin_notifications', 
           [
             'id', 'user_id','as_notice', 'as_email', 'as_push', 'as_text', 
-            'to', 'region_id', 'city_id', 'receiver_id',
+            'to', 'region_id', 'city_id', 'receiver_id', 'search_email',
             'title', 'content',
           ]), 1);
     }
