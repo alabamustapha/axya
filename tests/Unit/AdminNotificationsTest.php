@@ -61,6 +61,18 @@ class AdminNotificationsTest extends TestCase
         $this->assertTrue($this->adminNotif->user->isAdmin());
     }
 
+    /** @test */
+    public function an_admin_notification_belongs_to_a_region()
+    {
+        $this->assertInstanceOf(Region::class, $this->adminNotif->region);
+    }
+
+    /** @test */
+    public function an_admin_notification_belongs_to_an_city()
+    {
+        $this->assertInstanceOf(City::class, $this->adminNotif->city);
+    }
+
     /** @test  */
     public function a_user_has_as_notice_attribute()
     {

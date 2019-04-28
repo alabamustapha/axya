@@ -23,6 +23,7 @@ class AdminNotificationRequest extends FormRequest
      */
     public function rules()
     {
+        request()->region_id = (request()->region_id > 0) ? request()->region_id : null;
         return [
             "as_notice"   => "boolean",
             "as_email"    => "boolean",
@@ -32,21 +33,9 @@ class AdminNotificationRequest extends FormRequest
             "region_id"   => "nullable|integer|exists:regions,id",
             "city_id"     => "nullable|integer|exists:cities,id",
             "searchEmail" => "nullable|email",
-            "title"       => "required|string|max:120",
+            "title"       => "required|string|max:50",
             "content"     => "required|string|max:450",
         ];
-        // [
-        //     'drugs'          => 'required|array',
-        //     // REQUIREDS
-        //     // 'drugs.prescription_id'=> 'required|integer|exists:prescriptions,id',
-        //     'drugs.*.name'           => 'required|string|max:100',
-        //     'drugs.*.dosage'         => 'required|string',
-        //     'drugs.*.usage'          => 'required|string',
-        //     // NULLABLES
-        //     'drugs.*.texture'        => 'nullable|string',
-        //     'drugs.*.manufacturer'   => 'nullable|string',
-        //     'drugs.*.comment'        => 'nullable|string',
-        // ]
     }
 
     /**
