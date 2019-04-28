@@ -14,7 +14,7 @@
               name="region_id" 
               id="region_id" 
               class="form-control form-default d-inline-block w-100" 
-              :class="{ 'is-invalid': form.errors.has('region_id') }" 
+              :class="[{ 'is-invalid': form.errors.has('region_id')}, regionInputStyle ]" 
               :required="required"
               @change="loadCities(form.region_id)"
               >
@@ -46,7 +46,7 @@
               name="city_id" 
               id="city_id" 
               class="form-control form-default d-inline-block w-100" 
-              :class="{ 'is-invalid': form.errors.has('city_id') }" 
+              :class="[{ 'is-invalid': form.errors.has('city_id')}, cityInputStyle ]" 
               :required="required"
               @change="makeSearch"
               >
@@ -66,7 +66,8 @@
     props: [
       'setRowClass',      // .row
       'labelStyle',       // ...
-      'inputStyle',       // .form-default
+      'regionInputStyle', // .form-default
+      'cityInputStyle',   // .form-default
       'regionDiv',        // .col-sm-6|.col-6
       'cityDiv',          // .col-sm-6|.col-6
       'label',            // true|false

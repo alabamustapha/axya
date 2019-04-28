@@ -30,15 +30,15 @@
                     <label class="text-sm font-weight-normal mb-0" for="as_notice">In-app Notice</label>
 
                     <br>
-                    <input type="checkbox" name="as_email" value="1" class="" id="as_email" {{ old('as_email') ? 'checked' : '' }}>
+                    <input type="checkbox" name="as_email" value="1" class="" id="as_email" {{ old('as_email') ? 'checked' : '' }} disabled>
                     <label class="text-sm font-weight-normal mb-0" for="as_email">Email notifications</label>
 
                     <br>
-                    <input type="checkbox" name="as_push" value="1" class="" id="as_push" {{ old('as_push') ? 'checked' : '' }}>
+                    <input type="checkbox" name="as_push" value="1" class="" id="as_push" {{ old('as_push') ? 'checked' : '' }} disabled>
                     <label class="text-sm font-weight-normal mb-0" for="as_push">Push notifications</label>
 
                     <br>
-                    <input type="checkbox" name="as_text" value="1" class="" id="as_text" {{ old('as_text') ? 'checked' : '' }}>
+                    <input type="checkbox" name="as_text" value="1" class="" id="as_text" {{ old('as_text') ? 'checked' : '' }} disabled>
                     <label class="text-sm font-weight-normal mb-0" for="as_text">SMS notifications</label>
                   </div>
                 </div>
@@ -48,12 +48,12 @@
 
                   <hr class="mt-0">
 
-                  <select class="form-control form-default mb-1" name="to" id="to" required>
+                  <select class="form-control form-control-sm form-default mb-1" name="to" id="to" required>
                     <option value="">Send To</option>
-                    <option>Everyone</option>
-                    <option>Admins</option>
-                    <option>Doctors</option>
-                    <option>Users</option>
+                    <option {{ (old('to') == 'Everyone') ? 'selected' : '' }}>Everyone</option>
+                    <option {{ (old('to') == 'Admins') ? 'selected' : '' }}>Admins</option>
+                    <option {{ (old('to') == 'Doctors') ? 'selected' : '' }}>Doctors</option>
+                    <option {{ (old('to') == 'Users') ? 'selected' : '' }}>Users</option>
                   </select>
 
                   <div class="mb-1">
@@ -61,14 +61,19 @@
                         :set-row-class="'row'"
                         :region-div="'col-6'"
                         :city-div="'col-6'"
+                        :region-input-style="'form-control-sm'"
+                        :city-input-style="'form-control-sm'"
                         >
                     </location-selection>
                   </div>
                   
                   <div class="">
-                    <input type="email" name="searchEmail" class="form-control form-default" id="searchEmail" placeholder="user/doctor email seperated by ;">
+                    <input type="email" name="searchEmail" class="form-control form-control-sm form-default" id="searchEmail" placeholder="user/doctor email seperated by ;" value="{{ old('searchEmail') ?: '' }}">
                   </div>
                 </div>
+              </div>
+              <div class="col text-center">
+                <small class="text-small text-danger">(Mass emails must be handled with 3rd party services)</small>
               </div>
 
               <div class="form-group">
@@ -76,7 +81,7 @@
 
                 <hr class="mt-0">
 
-                <input class="form-control form-default" name="title" id="title" type="text" placeholder="message title" maxlength="120" autocomplete="off">
+                <input class="form-control form-default" name="title" id="title" type="text" placeholder="message title" maxlength="50" autocomplete="off" value="{{ old('title') ?: '' }}">
               </div>
 
               <div class="form-group">
@@ -87,7 +92,7 @@
                   style="min-height: 150px; max-height: 250px;"
                   placeholder="message content" maxlength="450"
                   required 
-                ></textarea>
+                >{{ old('content') ?: '' }}</textarea>
               </div>
             </div>
 
@@ -98,7 +103,6 @@
             </div>
           </form>
         </div>
-
     </div>
 
     <div class="col-md-3 order-md-2 order-1 mb-3">
@@ -119,30 +123,22 @@
         <div class="ibox-header">
           <div class="row">
 
-            {{-- <div class="list-inline">
-              <div class="list-inline-item justify-content-start">
-                <div class="row"> --}}
-                  <div class="col row justify-content-start align-content-center">
-                    <div class="col col-sm-7">
-                      <h5 class="text-white font-weight-bold">
-                        <span class="justify-content-center">Sent Notifications</span>
-                      </h5>
-                    </div>
-                  </div>{{--                                                 
+              <div class="col row justify-content-start align-content-center">
+                <div class="col col-sm-7">
+                  <h5 class="text-white font-weight-bold">
+                    <span class="justify-content-center">Sent Notifications</span>
+                  </h5>
                 </div>
-              </div> --}}
+              </div>
 
-              {{-- <div class="list-inline-item justify-content-end">
-                <div class="row"> --}}
-                  <div class="col row justify-content-end">
-                    <div class="col col-sm-7">
-                      <form action="#">
-                        <input type="text" class="form-control" placeholder="search...">
-                      </form>
-                    </div>
-                  </div>{{--                                                 
+              <div class="col row justify-content-end">
+                <div class="col col-sm-7">
+                  <form action="#">
+                    <input type="text" class="form-control" placeholder="search...">
+                  </form>
                 </div>
-              </div> --}}
+              </div>
+
             </div>
           </div>
         </div>
@@ -193,8 +189,19 @@
           </table>
 
         </div>
+
+        <div>{{ $notifications->links() }}</div>
       </div>
-    </div>          
+    </div>  
+        
+    <small class="card text-sm p-3 bg-dark rounded">
+      <ul>
+        <li><strong>Handling mass email/notifs</strong></li>
+        <li><strong>Mailgun Hint by – NoNameProvided</strong> >> https://stackoverflow.com/questions/45910859/how-to-mass-email-with-laravel-mailgun</li>
+        <li><strong>Google Guidelines by – Self</strong> >> https://support.google.com/a/answer/81126?hl=en</li>
+        <li><strong>Laracast Hints by – Members</strong> >> https://laracasts.com/discuss/channels/general-discussion/send-mass-email-using-laravel</li>
+      </ul>
+    </small>        
   </div>
 
 @endsection

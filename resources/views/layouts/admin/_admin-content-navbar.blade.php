@@ -31,6 +31,10 @@
                         </a>
                     @endif
 
+                    <a href="{{ route('doctors.index') }}" class="opt-item">
+                        <i class="fas fa-user-md fa-fw"></i>&nbsp; Doctors Index
+                    </a>
+
                     <a href="#" class="opt-item">
                         <i class="fas fa-question-circle fa-fw"></i>&nbsp; Help
                     </a>
