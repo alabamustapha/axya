@@ -8,7 +8,17 @@
 @section('content')
   <div class="container"> 
     <div class="row">
-      <div class="col-md-6 col-md-offset-3">
+      <div class="col-md-8">
+
+        @if (Auth::user()->unreadNotifications()->count())
+
+          <form action="{{ route('notifications.markAllAsRead', Auth::user()) }}" method="post" class="form-inline float-right">
+            @csrf
+            <button class="btn btn-sm border border-warning">              
+              Mark All as Read&nbsp;<i class="fas fa-check text-info" title="Unread. Mark All as Read"></i>
+            </button>
+          </form>
+        @endif
 
         @forelse ($dayStats as $notif)
 
@@ -36,8 +46,29 @@
                 as 
                   $dNotif
                 )
-                <div class="notification-item first">
+                <div class="notification-item first border-bottom pb-1">
                   <span class="time">{{ $dNotif->created_at->format('h:ia') }}</span>
+                  <span class="float-right">
+                    <small class="text-small">
+                      @if ($dNotif->isRead())
+
+                        <form action="{{ route('notifications.markOneAsUnread', [Auth::user(), $dNotif->id]) }}" method="post" class="form-inline">
+                          @csrf
+                          <button class="btn btn-sm btn-link">
+                            <i class="fas fa-check-double text-info" title="Read. Mark as Unead"></i>
+                          </button>
+                        </form>
+                      @else
+
+                        <form action="{{ route('notifications.markOneAsRead', [Auth::user(), $dNotif->id]) }}" method="post" class="form-inline">
+                          @csrf
+                          <button class="btn btn-sm btn-link">
+                            <i class="fas fa-check text-info" title="Unread. Mark as Read"></i>
+                          </button>
+                        </form>
+                      @endif
+                    </small>
+                  </span>
 
                   <span class="icon fa-lg"><i class="fas  fa-{{ $dNotif->icon() }}"></i></span>
                   <span class="notification-details">{!! $dNotif->data['message'] !!}</span>
@@ -57,6 +88,11 @@
           </div>
 
         @endforelse 
+      </div> 
+
+      {{-- <div class="justify-content-center">{{ $dayStats->link()}}</div>      --}}
+      
+      <div class="col-md-8">      
       </div>      
     </div>
   </div>

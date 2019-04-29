@@ -49,9 +49,42 @@ class NotificationsController extends Controller
         return view('notifications.index', compact('notifications','dayStats', 'dailyNotifs'));
     }
 
+    public function markOneAsUnread(User $user, $notificationId)
+    {
+        auth()->user()
+              ->notifications()
+              ->findOrFail($notificationId)
+              ->markAsUnread()
+              ;
+        return redirect(route('notifications.display', auth()->user()));
+    }
+
+    public function markOneAsRead(User $user, $notificationId)
+    {
+        auth()->user()
+              ->notifications()
+              ->findOrFail($notificationId)
+              ->markAsRead()
+              ;
+        return redirect(route('notifications.display', auth()->user()));
+    }
+
+    public function markAllAsRead(User $user)
+    {
+        auth()->user()
+              ->unreadNotifications()
+              ->update(['read_at' => now()])
+              ;
+        return redirect(route('notifications.display', auth()->user()));
+    }
+
     public function destroy(User $user, $notificationId)
     {
-        auth()->user()->notifications()->findOrFail($notificationId)->markAsRead();
-        // auth()->user()->notifications()->findOrFail($notificationId)->delete();
+        auth()->user()
+              ->notifications()
+              ->findOrFail($notificationId)
+              ->delete()
+              ;
+        return redirect(route('notifications.display', auth()->user()));
     }
 }

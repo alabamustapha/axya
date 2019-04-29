@@ -243,6 +243,9 @@ Route::prefix('{user}')->group(function(){
 
   Route::get('/notifs',         'NotificationsController@index')->name('notifications.index');
   Route::get('/notifications',  'NotificationsController@display')->name('notifications.display');
+  Route::post('/notifications/allRead',  'NotificationsController@markAllAsRead')->name('notifications.markAllAsRead');
+  Route::post('/notif/unread/{notificationId}',  'NotificationsController@markOneAsRead')->name('notifications.markOneAsRead');
+  Route::post('/notif/read/{notificationId}',  'NotificationsController@markOneAsUnread')->name('notifications.markOneAsUnread');
 
   Route::get('/',               'UserController@show')->name('users.show');
 });

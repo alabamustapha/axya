@@ -54,12 +54,14 @@
                         @endif
                     @else
 
-                      <li class="nav-item mb-2 list-inline-item position-relative" title="{{auth()->user()->notifications->count()}} unread notifications">
+                      <li class="nav-item mb-2 list-inline-item position-relative" title="{{Auth::user()->unreadNotifications->count()}} unread notifications">
                           <a class="nav-link mr-0 px-2 text-white" 
-                            href="{{ route('notifications.display', auth()->user()) }}"><i class="fas fa-bell{{--  fa-2x --}} notification-icon"></i>
-                            <span class="notification-count">
-                              {{auth()->user()->notifications->count()}}
-                            </span>
+                            href="{{ route('notifications.display', auth()->user()) }}"><i class="fas fa-bell notification-icon"></i>
+                            @if (Auth::user()->unreadNotifications->count())
+                              <span class="notification-count">
+                                {{Auth::user()->unreadNotifications->count()}}
+                              </span>
+                            @endif
                           </a>
                       </li>
 

@@ -9,6 +9,11 @@ use Illuminate\Notifications\DatabaseNotification;
  */
 class Notification extends DatabaseNotification
 {    
+    public function isRead()
+    {
+        return !! $this->read_at;
+    }
+
     public function icon()
     {
         $message = $this->type;
@@ -35,6 +40,9 @@ class Notification extends DatabaseNotification
         }
         if (str_contains(strtolower($message), 'prescription')) {
             $icon = 'prescription'; //prescription
+        }
+        if (str_contains(strtolower($message), 'sendadmin')) {
+            $icon = 'bullhorn'; //adminnotification
         }
 
         return $icon;

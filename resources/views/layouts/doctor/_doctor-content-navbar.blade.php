@@ -1,9 +1,11 @@
 <div class="content-navbar-nav">
     <ul class="nav flex-sm-row">
-        <li class="nav-item position-relative" title="{{auth()->user()->notifications->count()}} unread notifications">
-            <a class="nav-link mr-1 text-white" href="{{ route('notifications.display', auth()->user()) }}"><i class="fas fa-bell fa-2x"></i>
+        <li class="nav-item position-relative" title="{{Auth::user()->unreadNotifications->count()}} unread notifications">
+            <a class="nav-link mr-1 text-white" href="{{ route('notifications.display', Auth::user()) }}"><i class="fas fa-bell fa-2x"></i>
                 <span class="notification-count">
-                    {{auth()->user()->notifications->count()}}
+                    @if (Auth::user()->unreadNotifications->count())
+                        {{Auth::user()->unreadNotifications->count()}}
+                    @endif
                 </span>
             </a>
         </li>
