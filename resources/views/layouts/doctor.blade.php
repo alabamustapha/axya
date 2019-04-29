@@ -79,9 +79,8 @@
                    </a>                  
                </div>
 
-              @auth
-                @include('layouts.doctor._doctor-content-navbar')
-              @endauth
+               @include('layouts.doctor._doctor-content-navbar')
+               
            </div> 
         </div>
         <!-- end container fluid -->
@@ -115,6 +114,8 @@
       @include('auth.partials.doctor-login-modal')
 
     @endif
+  @else
+    @include('auth.partials.registration-login-modal')
   @endauth
 
     {{-- @include('layouts.admin.admin-scripts') --}}

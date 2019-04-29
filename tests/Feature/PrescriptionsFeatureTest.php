@@ -110,7 +110,7 @@ class PrescriptionsFeatureTest extends TestCase
             ->actingAs($this->doc_user)
             ->get(route('prescriptions.show', $this->prescription))
             ->assertStatus(200)
-            ->assertSee($this->prescription->doctor->name)
+            ->assertSee($this->prescription->user->name)
             ->assertSee($this->prescription->usage)
             ->assertSee($this->prescription->comment)
             ;
