@@ -40,6 +40,7 @@
 
         <!-- Sidebar Header -->
         <div class="sidebar-header ">
+          @auth
             <div class="avatar">
                 <img src="{{ Auth::user()->is_authenticated_doctor ? Auth::user()->doctor->avatar : Auth::user()->avatar }}" height="50" class="rounded-circle" alt="{{ Auth::user()->name}} avatar"> 
                 <span class="online-status online mx-1"></span> {{ Auth::user()->name }}
@@ -48,6 +49,12 @@
                 <img src="{{ Auth::user()->is_authenticated_doctor ? Auth::user()->doctor->avatar : Auth::user()->avatar }}" height="50" class="rounded-circle" alt="{{ Auth::user()->name}} avatar">
                 <span class="online-status online"></span>
             </div>
+          @else
+            <div class="avatar">
+                <img src="{{ $doctor->avatar }}" height="50" class="rounded-circle" alt="{{ $doctor->name}} avatar"> 
+                <span class="online-status online mx-1"></span> {{ $doctor->name }}
+            </div>
+          @endauth
         </div>
         
         @include('layouts.doctor._doctor-left-sidebar')
@@ -72,7 +79,9 @@
                    </a>                  
                </div>
 
-               @include('layouts.doctor._doctor-content-navbar')
+              @auth
+                @include('layouts.doctor._doctor-content-navbar')
+              @endauth
            </div> 
         </div>
         <!-- end container fluid -->
@@ -100,12 +109,13 @@
     </section>
   </div>
   <!-- end wrapper -->
-  
+  @auth
     @if (Auth::user()->isStaff() && ! Auth::user()->isAuthenticatedStaff())
 
       @include('auth.partials.doctor-login-modal')
 
     @endif
+  @endauth
 
     {{-- @include('layouts.admin.admin-scripts') --}}
     @include('layouts.redesign.scripts') 
