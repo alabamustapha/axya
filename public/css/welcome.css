@@ -2722,14 +2722,7 @@ i.fas {
 
 #main-footer-override { margin-left: 0; }
 
-#main-footer-override > .container { margin-left: 250px; }
-
-@media (max-width: 768px) {
-  #main-footer-override > .container { margin-left: 65px; }
-}
-@media (max-width: 480px) {
-  #main-footer-override > .container { margin-left: 0px; }
-}
+#main-footer-override > .container { margin-left: 0px; }
 
 .sub-online-status {
     display: inline-block;
@@ -2985,3 +2978,18 @@ ul.nav-treeview > li.nav-item {
   font-size: 90%;
 }
 
+@media (max-width: 567px) {
+  .doc-ratings .info-side .name {
+    font-size: 90%;
+    font-weight: bold;
+  }
+
+  .doc-ratings .info-side .occupation {
+    font-size: 85%;
+  }
+
+  .doc-ratings .info-side .location {
+    font-size: 80%;
+  }
+}
+@media(max-width:567px){.doc-ratings.info-side.name{font-size:90%;font-weight:bold;}.doc-ratings.info-side.occupation{font-size:85%;}.doc-ratings.info-side.location{font-size:80%;}}

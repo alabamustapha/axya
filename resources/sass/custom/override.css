@@ -263,3 +263,19 @@ i.fas {
     background: linear-gradient(to bottom, white, black);
     animation-timing-function: linear;
 }
+
+/* Welcome page */
+@media (max-width: 567px) {
+  .doc-ratings .info-side .name {
+    font-size: 90%;
+    font-weight: bold;
+  }
+
+  .doc-ratings .info-side .occupation {
+    font-size: 85%;
+  }
+
+  .doc-ratings .info-side .location {
+    font-size: 80%;
+  }
+}

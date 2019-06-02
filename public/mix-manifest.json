@@ -1,3 +1,5 @@
 {
-    "/js/vendors.js": "/js/vendors.js"
+    "/js/vendors.js": "/js/vendors.js",
+    "/js/admin.js": "/js/admin.js",
+    "/js/custom.js": "/js/custom.js"
 }

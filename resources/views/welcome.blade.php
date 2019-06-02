@@ -13,7 +13,7 @@
 
     <!-- Styles -->
     @if (app()->environment('local'))
-        <link rel="stylesheet" href="{{asset('css/welcome.css')}}">
+        <link rel="stylesheet" href="{{asset('css/welcome.min.css')}}">
     @else
         <link rel="stylesheet" href="{{asset('css/welcome.min.css')}}">
     @endif
@@ -145,25 +145,28 @@
         
                     <!-- Doctors rating section -->
                     <div class="page-content p-0">
-                        <div class="doc-ratings ">
+                        <div class="doc-ratings table-responsive-sm">
                             @foreach ($doctors as $i => $doctor)
                                 <div class="d-r {{(($i % 2) == 0) ? 'bg-dark':'bg-theme-blue'}}">
                                     <div class="img-side">
                                         <img src="{{$doctor->avatar}}" class="{{-- img-fluid  --}}rounded-circle" height="70" alt="">
                                     </div>
-                                    <div class="info-side">
+                                    <div class="info-side d-block">
                                         <div class="row{{-- info-side --}}">
-                                            <div class="col-sm-8{{-- doc --}}" >
-                                                <span class="d-block h2 text-truncate" title="{{$doctor->name}}">
+                                            <div class="col-sm-8{{-- doc --}}" >                                                
+                                                <div class="name h2 d-block text-truncate" title="{{$doctor->name}}">
                                                     <a class="text-white" href="{{route('doctors.show', $doctor)}}">{{$doctor->name}}</a>
-                                                </span>
-                                                <span class="d-block occupation text-truncate">
-                                                    <a class="text-light h5" href="{{route('specialties.show', $doctor->specialty)}}" title="{{$doctor->specialty->name}}">{{$doctor->specialty->name}}</a>
-                                                </span>
-                                                <span class="d-block text-white text-small text-truncate" title="{{$doctor->location}}">
+                                                </div>
+
+                                                <div class=" text-truncate">
+                                                    <a class="occupation d-block text-light h5" href="{{route('specialties.show', $doctor->specialty)}}" title="{{$doctor->specialty->name}}">{{$doctor->specialty->name}}</a>
+                                                </div>
+
+                                                <div class="location text-white text-small d-block text-truncate" title="{{$doctor->location}}">
                                                     <span>{{$doctor->location}}</span>
-                                                </span>
+                                                </div>
                                             </div>
+
                                             <div class="col-sm-4{{-- ratings --}}">
                                                 <span>
                                                   @php
@@ -267,7 +270,7 @@
 
             </main>
 
-            <footer id="main-footer-override" class="{{-- main-footer  --}}bg-dark" style="padding: 4rem 1rem; font-size: 1rem;">
+            <footer id="{{-- main-footer-override --}}" class="{{-- main-footer  --}}bg-dark" style="padding: 4rem 1rem; font-size: 1rem;">
                 <div class="container">
                     <div class="footer-copyright  text-theme-blue">
 
